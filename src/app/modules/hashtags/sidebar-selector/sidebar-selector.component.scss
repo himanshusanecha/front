@@ -56,9 +56,10 @@ m-hashtags--sidebar-selector {
       padding: 0;
       list-style: none;
 
-      > li {
+      > li, li m-hashtagsSidebarSelector__item {
         display: flex;
         align-items: center;
+        width: 100%;
         margin-bottom: 8px;
 
         @media screen and (max-width: 480px) {
@@ -118,6 +119,11 @@ m-hashtags--sidebar-selector {
       text-align: right;
     }
 
+    .m-hashtagsSidebarSelectorItem__input {
+        margin-left: -9px;
+        width: calc(100% + 18px);
+    }
+
     .m-hashtagsSidebarSelectorList__addInput {
       flex-grow: 1;
       appearance: none;
@@ -128,6 +134,8 @@ m-hashtags--sidebar-selector {
       font-family: inherit;
       font-size: 12px;
       line-height: 24px;
+      outline: 0;
+      font-weight: 500;
 
       &::placeholder {
         color: #aaaaaa;
