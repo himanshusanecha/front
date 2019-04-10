@@ -9,7 +9,7 @@
   class="m-hashtagsSidebarSelectorList__visibility"
   [class.m-hashtagsSidebarSelectorList__visibility--visible]="!disabled && currentHashtag === hashtag.value"
   (click)="hashtagVisibilityChange(hashtag)"
-><i class="material-icons">visibility</i></a>
+><i class="material-icons" title="Focus">visibility</i></a>
 
 <span class="m-hashtagsSidebarSelectorList__switch">
   <m-switch
@@ -17,5 +17,6 @@
     [mModel]="hashtag.selected"
     (mModelChange)="toggleHashtag(hashtag)"
     labelPosition="left"
+    title="Preferred feed"
   ></m-switch>
 </span>

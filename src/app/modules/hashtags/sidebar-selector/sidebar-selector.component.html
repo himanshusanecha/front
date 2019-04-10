@@ -23,7 +23,7 @@
   [class.m-hashtags--sidebar-selector--expanded]="compact && showExtendedList"
 >
   <div class="m-hashtagsSidebarSelector__header">
-    <h3 i18n>Hashtags</h3>
+    <h3 i18n>Preferred</h3>
 
     <span class="m-hashtagsSidebarSelector__SwitchComponent">
       <span
@@ -31,7 +31,16 @@
         class="m-hashtagsSidebarSelectorSwitchComponent__Overlay"
         (click)="switchAttempt.next()"
       ></span>
-      <m-switch [(mModel)]="preferred" (change)="preferredChange()" [disabled]="disabled" labelPosition="left" i18n>Preferred</m-switch>
+      <m-switch
+        [mModel]="!preferred && !currentHashtag"
+        (mModelChange)="preferred = !$event"
+        (change)="preferredChange()"
+        [disabled]="disabled"
+        labelPosition="left"
+        i18n
+        >
+        Show all
+      </m-switch>
     </span>
   </div>
 
@@ -81,29 +90,19 @@
         ><i class="material-icons">close</i></a>
       </li>
 
+      <ng-container *ngIf="showSuggested">
       <div class="m-hashtagsSidebarSelector__header"
         *ngIf="!loading"
         style="margin-top: 12px;"
         >
         <h3>
-          Suggested 
+          <ng-container *ngIf="showTrending; else showTrendingHeader">Trending</ng-container>
+          <ng-template #showTrendingHeader>Suggested</ng-template>
         </h3>
 
-        <span class="m-hashtagsSidebarSelector__SwitchComponent">
-          <span
-            *ngIf="disabled"
-            class="m-hashtagsSidebarSelectorSwitchComponent__Overlay"
-            (click)="switchAttempt.next()"
-          ></span>
-          <m-switch
-            [mModel]="showTrending"
-            (change)="toggleTrending()"
-            [disabled]="disabled"
-            labelPosition="left"
-            i18n
-            >
-            Trending
-          </m-switch>
+        <span (click)="toggleTrending()" class="m-hashtagsSidebarSelector__toggleTrending">
+          <ng-container *ngIf="showTrending; else showTrendingText">Suggested</ng-container>
+	      <ng-template #showTrendingText>Trending</ng-template>
         </span>
       </div> 
 
@@ -117,11 +116,15 @@
           (toggleHashtag)="toggleHashtag($event)"
         ></m-hashtagsSidebarSelector__item>
       </li>
+      </ng-container>
     </ul>
 
     <a (click)="toggleSuggested()" *ngIf="!loading" class="m-hashtagsSidebarSelector__showMoreLink">
       <ng-container *ngIf="showSuggested; else showLabel" i18n>Hide</ng-container>
-      <ng-template #showLabel i18n>Show</ng-template>
+      <ng-template #showLabel i18n>Show
+        <ng-container *ngIf="showTrending; else showSuggestedHiddenText">trending</ng-container>
+        <ng-template #showSuggestedHiddenText>suggested</ng-template>
+      </ng-template>
     </a>
   </div>
 </div>

@@ -45,6 +45,13 @@ m-hashtags--sidebar-selector {
 
   }
 
+  .m-hashtagsSidebarSelector__toggleTrending {
+    font-size: 9px;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+  }
+
   .m-hashtagsSidebarSelector__spinner {
     margin: 16px 0;
     text-align: center;
@@ -121,6 +128,7 @@ m-hashtags--sidebar-selector {
 
     .m-hashtagsSidebarSelectorItem__input {
         margin-left: -9px;
+        padding-top: 4px;
         width: calc(100% + 18px);
     }
 
