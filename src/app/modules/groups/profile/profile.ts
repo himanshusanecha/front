@@ -10,7 +10,7 @@ import { MindsTitle } from '../../../services/ux/title';
 import { Session } from '../../../services/session';
 import { SocketsService } from '../../../services/sockets';
 
-import { GroupsProfileFeed } from './feed/feed';
+import { GroupsProfileLegacyFeed } from './feed/legacy';
 import { ContextService } from '../../../services/context.service';
 import { Client } from '../../../services/api';
 import { HashtagsSelectorComponent } from '../../hashtags/selector/selector.component';
@@ -49,12 +49,7 @@ export class GroupsProfile {
   socketRoomName: string;
   newConversationMessages: boolean = false;
 
-  isSorting: boolean;
-  algorithm: string = 'top';
-  period: string = '7d';
-  customType: string = 'activities';
-
-  @ViewChild('feed') private feed: GroupsProfileFeed;
+  @ViewChild('feed') private feed: GroupsProfileLegacyFeed;
   @ViewChild('hashtagsSelector') hashtagsSelector: HashtagsSelectorComponent;
 
   private reviewCountInterval: any;
@@ -167,28 +162,6 @@ export class GroupsProfile {
     }
   }
 
-  onOutletActivation(component) {
-    setTimeout(() => {
-      this.isSorting = Boolean(component && component.isSorting);
-
-      if (this.isSorting) {
-        if (component.algorithm) {
-          this.algorithm = component.algorithm;
-        }
-
-        if (component.period) {
-          this.period = component.period;
-        }
-
-        if (component.customType) {
-          this.customType = component.customType;
-        }
-      } else {
-        this.algorithm = 'latest';
-      }
-    }, 0);
-  }
-
   async load() {
     this.resetMarkers();
     this.error = "";
@@ -205,9 +178,13 @@ export class GroupsProfile {
     if (this.updateMarkersSubscription)
       this.updateMarkersSubscription.unsubscribe();
 
-    this.updateMarkersSubscription = this.updateMarkers.getByEntityGuid(this.guid).subscribe(marker => {
+    this.updateMarkersSubscription = this.updateMarkers.getByEntityGuid(this.guid).subscribe((marker => {
       if (!marker)
         return;
+
+      this.group.hasGathering = marker && marker.entity_guid == this.group.guid
+        && marker.marker == 'gathering-heartbeat'
+        && marker.updated_timestamp > (Date.now() / 1000) - 60;
 
       let hasMarker =
         (marker.read_timestamp < marker.updated_timestamp)
@@ -216,7 +193,7 @@ export class GroupsProfile {
 
       if (hasMarker)
         this.resetMarkers();
-    });
+    }).bind(this));
 
     // Check for comment updates
     this.joinCommentsSocketRoom();
@@ -425,49 +402,6 @@ export class GroupsProfile {
   toggleConversations() {
     this.showRight = !this.showRight;
     localStorage.setItem('groups:conversations:minimized', (!this.showRight).toString());
-  }
-
-  setSort(algorithm: string, period: string | null, customType: string | null) {
-    if (algorithm === 'latest') {
-      // Cassandra listing.
-      // TODO: Remove when ElasticSearch is fully implemented
-      this.algorithm = algorithm;
-      this.period = null;
-      this.customType = customType;
-
-      let filter = '';
-
-      switch (customType) {
-        case 'images':
-          filter = 'image';
-          break;
-
-        case 'videos':
-          filter = 'video';
-          break;
-      }
-
-      this.router.navigate(['/groups/profile', this.group.guid, 'feed', filter]);
-      return;
-    }
-
-    this.algorithm = algorithm;
-    this.period = period;
-    this.customType = customType;
-
-    let route: any[] = [ '/groups/profile', this.group.guid, 'sort', algorithm ];
-    const params: any = {};
-
-    if (period) {
-      params.period = period;
-    }
-
-    if (customType && customType !== 'activities') {
-      params.type = customType;
-    }
-
-    route.push(params);
-    return this.router.navigate(route);
   }
 
   detectChanges() {
