@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('login', (canary) => {
-  cy.visit('/');
+  cy.visit('/login');
 
   cy.get('.m-btn--login').click();
 
@@ -33,7 +33,6 @@ Cypress.Commands.add('login', (canary) => {
   cy.get('minds-form-login .m-login-box .mdl-cell:last-child input').type(Cypress.env().password);
 
   cy.get('minds-form-login .m-btn--login').click();
-
 });
 
 Cypress.Commands.add('uploadFile', (selector, fileName, type = '') => {
