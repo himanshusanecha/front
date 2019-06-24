@@ -2,19 +2,16 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   Output,
   Renderer,
-  ViewChild,
 } from '@angular/core';
 
 import { Client } from '../../../services/api/client';
 import { Session } from '../../../services/session';
 import { Upload } from '../../../services/api/upload';
 import { AttachmentService } from '../../../services/attachment';
-import { Textarea } from '../../../common/components/editors/textarea.component';
 import { SocketsService } from '../../../services/sockets';
 
 @Component({
@@ -122,35 +119,46 @@ export class CommentPosterComponent {
     this.attachment.resetRich();
   }
 
-  uploadAttachment(file: HTMLInputElement, e?: any) {
+  async uploadFile(file: HTMLInputElement, event) {
+    if (file.value) { // this prevents IE from executing this code twice
+      try {
+        await this.uploadAttachment(file);
+
+        file.value = null;
+      } catch (e) {
+        file.value = null;
+      }
+    }
+    this.detectChanges();
+  }
+
+  async uploadAttachment(file: HTMLInputElement | File) {
     this.canPost = false;
     this.triedToPost = false;
 
     this.attachment.setHidden(true);
     this.attachment.setContainer(this.entity);
-    this.attachment.upload(file, this.detectChanges.bind(this))
+    this.detectChanges();
+
+    return this.attachment.upload(file, this.detectChanges.bind(this))
       .then(guid => {
         this.canPost = true;
         this.triedToPost = false;
-        file.value = null;
         this.detectChanges();
       })
       .catch(e => {
         console.error(e);
         this.canPost = true;
         this.triedToPost = false;
-        file.value = null;
         this.detectChanges();
       });
-
-    this.detectChanges();
   }
 
   removeAttachment(file: HTMLInputElement) {
     this.canPost = false;
     this.triedToPost = false;
 
-    this.attachment.remove(file).then(() => {
+    this.attachment.remove().then(() => {
       this.canPost = true;
       this.triedToPost = false;
       file.value = '';

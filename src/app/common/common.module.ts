@@ -99,6 +99,7 @@ import { BlockListService } from "./services/block-list.service";
 import { SettingsService } from "../modules/settings/settings.service";
 import { ThemeService } from "./services/theme.service";
 import { HorizontalInfiniteScroll } from "./components/infinite-scroll/horizontal-infinite-scroll.component";
+import { AttachmentPasteDirective } from "./directives/paste/attachment-paste.directive";
 
 @NgModule({
   imports: [
@@ -192,6 +193,8 @@ import { HorizontalInfiniteScroll } from "./components/infinite-scroll/horizonta
     SwitchComponent,
 
     FeaturedContentComponent,
+
+    AttachmentPasteDirective,
   ],
   exports: [
     MINDS_PIPES,
@@ -275,6 +278,7 @@ import { HorizontalInfiniteScroll } from "./components/infinite-scroll/horizonta
     SwitchComponent,
     NSFWSelectorComponent,
     FeaturedContentComponent,
+    AttachmentPasteDirective,
   ],
   providers: [
     {

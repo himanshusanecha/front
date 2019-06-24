@@ -17,6 +17,7 @@
                   (keyup)="getPostPreview(content)"
                   (keypress)="keypress($event)"
                   [placeholder]="conversation ? 'Enter your message' : 'Enter your comment'"
+                  (onFilePaste)="uploadAttachment($event)"
                 ></minds-textarea>
             </form>
 
@@ -29,7 +30,7 @@
 
               <div class="attachment-button" [ngClass]="{ 'mdl-color-text--amber-500': attachment.hasFile() }">
                 <i class="material-icons">attachment</i>
-                <input type="file" id="file" #file name="attachment" (change)="uploadAttachment(file, $event)"/>
+                <input type="file" id="file" #file name="attachment" (change)="uploadFile(file, $event)"/>
               </div>
 
               <a class="m-mature-button"

@@ -463,7 +463,7 @@ export class CommentsListComponent {
     this.canPost = false;
     this.triedToPost = false;
 
-    this.attachment.remove(file).then(() => {
+    this.attachment.remove().then(() => {
       this.canPost = true;
       this.triedToPost = false;
       file.value = '';

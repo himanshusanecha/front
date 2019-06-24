@@ -194,38 +194,46 @@ export class PosterComponent {
       });
   }
 
-  uploadAttachment(file: HTMLInputElement, event) {
+  async uploadFile(file: HTMLInputElement, event) {
     if (file.value) { // this prevents IE from executing this code twice
-      this.canPost = false;
-      this.inProgress = true;
-      this.errorMessage = null;
+      try {
+        await this.uploadAttachment(file);
 
-      this.attachment.upload(file)
-        .then(guid => {
-          this.inProgress = false;
-          this.canPost = true;
-          if (this.attachment.isPendingDelete()) {
-            this.removeAttachment(file);
-          }
-          file.value = null;
-        })
-        .catch(e => {
-          if (e && e.message) {
-            this.errorMessage = e.message;
-          }
-          this.inProgress = false;
-          this.canPost = true;
-          file.value = null;
-          this.attachment.reset();
-        });
+        file.value = null;
+      } catch (e) {
+        file.value = null;
+      }
     }
+  }
+
+  async uploadAttachment(file: HTMLInputElement | File) {
+    this.canPost = false;
+    this.inProgress = true;
+    this.errorMessage = null;
+
+    return this.attachment.upload(file)
+      .then(guid => {
+        this.inProgress = false;
+        this.canPost = true;
+        if (this.attachment.isPendingDelete()) {
+          this.removeAttachment(file);
+        }
+      })
+      .catch(e => {
+        if (e && e.message) {
+          this.errorMessage = e.message;
+        }
+        this.inProgress = false;
+        this.canPost = true;
+        this.attachment.reset();
+      });
   }
 
   removeRichEmbed() {
     this.attachment.reset();
   }
 
-  removeAttachment(file: HTMLInputElement) {
+  removeAttachment(file: HTMLInputElement|File) {
     if (this.inProgress) {
       this.attachment.abort();
       this.canPost = true;
@@ -240,10 +248,9 @@ export class PosterComponent {
 
     this.errorMessage = '';
 
-    this.attachment.remove(file).then(() => {
+    this.attachment.remove().then(() => {
       this.inProgress = false;
       this.canPost = true;
-      file.value = '';
     }).catch(e => {
       console.error(e);
       this.inProgress = false;
