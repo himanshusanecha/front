@@ -119,14 +119,14 @@ export class CommentPosterComponent {
     this.attachment.resetRich();
   }
 
-  async uploadFile(file: HTMLInputElement, event) {
-    if (file.value) { // this prevents IE from executing this code twice
+  async uploadFile(fileInput: HTMLInputElement, event) {
+    if (fileInput.value) { // this prevents IE from executing this code twice
       try {
-        await this.uploadAttachment(file);
+        await this.uploadAttachment(fileInput);
 
-        file.value = null;
+        fileInput.value = null;
       } catch (e) {
-        file.value = null;
+        fileInput.value = null;
       }
     }
     this.detectChanges();
@@ -154,14 +154,14 @@ export class CommentPosterComponent {
       });
   }
 
-  removeAttachment(file: HTMLInputElement) {
+  removeAttachment(fileInput: HTMLInputElement) {
     this.canPost = false;
     this.triedToPost = false;
 
     this.attachment.remove().then(() => {
       this.canPost = true;
       this.triedToPost = false;
-      file.value = '';
+      fileInput.value = null;
     }).catch(e => {
       console.error(e);
       this.canPost = true;
