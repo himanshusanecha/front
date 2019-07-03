@@ -66,7 +66,7 @@ export class Textarea implements OnChanges {
   }
 
   paste(e: any) {
-    // e.preventDefault();
+    e.preventDefault();
 
     let text;
 
