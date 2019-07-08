@@ -26,7 +26,7 @@ export class CommentButton implements OnInit, OnDestroy {
 
   object;
   protected activityChangedSubscription: Subscription;
-  protected allowComments = true;
+  public allowComments = true;
 
   constructor(
     public client: Client,
