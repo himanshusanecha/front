@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Client } from '../../../services/api';
@@ -11,7 +11,9 @@ import { MindsBlogEntity } from '../../../interfaces/entities';
 import { AttachmentService } from '../../../services/attachment';
 import { ContextService } from '../../../services/context.service';
 import { optimizedResize } from '../../../utils/optimized-resize';
+import { ActivityService } from '../../../common/services/activity.service';
 
+ 
 @Component({
   moduleId: module.id,
   selector: 'm-blog-view',
@@ -19,7 +21,8 @@ import { optimizedResize } from '../../../utils/optimized-resize';
   host: {
     'class': 'm-blog'
   },
-  templateUrl: 'view.html'
+  templateUrl: 'view.html',
+  providers: [ActivityService]
 })
 
 export class BlogView {
@@ -40,7 +43,10 @@ export class BlogView {
 
   scroll_listener;
 
-  menuOptions: Array<string> = ['edit', 'follow', 'feature', 'delete', 'report', 'subscribe', 'set-explicit', 'remove-explicit', 'rating'];
+  menuOptions: Array<string> = ['edit', 'follow', 'feature',
+    'delete', 'report', 'subscribe',
+    'set-explicit', 'remove-explicit', 'rating',
+    'allow-comments', 'disable-comments'];
 
   @ViewChild('lockScreen', { read: ElementRef, static: false }) lockScreen;
 
@@ -55,7 +61,9 @@ export class BlogView {
     public attachment: AttachmentService,
     private context: ContextService,
     public analytics: AnalyticsService,
-    public analyticsService: AnalyticsService
+    public analyticsService: AnalyticsService,
+    protected activityService: ActivityService,
+    private cd: ChangeDetectorRef,
   ) {
     this.minds = window.Minds;
     this.element = _element.nativeElement;
@@ -130,6 +138,14 @@ export class BlogView {
         break;
       case 'remove-explicit':
         this.setExplicit(false);
+        break;
+      case 'allow-comments':
+        this.blog.allow_comments = true;
+        this.activityService.triggerChange('allow-comments', this.blog);
+        break;
+      case 'disable-comments':
+        this.blog.allow_comments = false;
+        this.activityService.triggerChange('disable-comments', this.blog);
         break;
     }
   }

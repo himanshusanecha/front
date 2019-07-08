@@ -15,6 +15,8 @@ import { sessionMock } from '../../../../tests/session-mock.spec';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BlockListService } from '../../services/block-list.service';
+import { ActivityService } from '../../services/activity.service';
+import { activityServiceMock } from '../../../../tests/activity-service-mock.spec';
 /* tslint:disable */
 
 /* Mock section */
@@ -94,6 +96,7 @@ describe('PostMenuComponent', () => {
         { provide: Client, useValue: clientMock },
         { provide: Session, useValue: sessionMock },
         { provide: OverlayModalService, useValue: overlayModalServiceMock },
+        { provide: ActivityService, useValue: activityServiceMock },
         BlockListService,
       ],
       schemas: [
@@ -134,5 +137,23 @@ describe('PostMenuComponent', () => {
     comp.unBlock();
     fixture.detectChanges();
     expect(clientMock.delete.calls.mostRecent().args[0]).toEqual('api/v1/block/1');
+  });
+
+  it('should allow comments', () => {
+    spyOn(comp.optionSelected, 'emit');
+
+    comp.allowComments(true);
+    expect(comp.optionSelected.emit).toHaveBeenCalledWith('allow-comments');
+    expect(activityServiceMock.toggleAllowComments).toHaveBeenCalledWith(comp.entity, true);
+    expect(comp.entity.allow_comments).toEqual(true);
+  });
+
+  it('should disable comments', () => {
+    spyOn(comp.optionSelected, 'emit');
+
+    comp.allowComments(false);
+    expect(comp.optionSelected.emit).toHaveBeenCalledWith('disable-comments');
+    expect(activityServiceMock.toggleAllowComments).toHaveBeenCalledWith(comp.entity, false);
+    expect(comp.entity.allow_comments).toEqual(false);
   });
 });

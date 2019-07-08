@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Renderer,
-  ViewChild
+  ViewChild,
+  OnInit,
+  OnDestroy
 } from '@angular/core';
 
 import { Client } from '../../../services/api/client';
@@ -9,6 +11,8 @@ import { Upload } from '../../../services/api/upload';
 import { AttachmentService } from '../../../services/attachment';
 import { Textarea } from '../../../common/components/editors/textarea.component';
 import { SocketsService } from '../../../services/sockets';
+import { ActivityService } from '../../../common/services/activity.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   moduleId: module.id,
@@ -20,12 +24,13 @@ import { SocketsService } from '../../../services/sockets';
       provide: AttachmentService,
       useFactory: AttachmentService._,
       deps: [Session, Client, Upload]
-    }
+    },
+    ActivityService
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CommentsListComponent {
+export class CommentsListComponent implements OnInit, OnDestroy {
 
   minds;
   object;
@@ -61,7 +66,8 @@ export class CommentsListComponent {
   socketSubscriptions: any = {
     comment: null
   };
-
+  allowComments = true;
+  activityChangedSubscription: Subscription;
   error: string;
 
   @Input() conversation: boolean = false;
@@ -81,7 +87,8 @@ export class CommentsListComponent {
     public attachment: AttachmentService,
     public sockets: SocketsService,
     private renderer: Renderer,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    protected activityService: ActivityService,
   ) {
     this.minds = window.Minds;
   }
@@ -89,19 +96,26 @@ export class CommentsListComponent {
   set _object(value: any) {
     this.object = value;
     this.guid = this.object.guid;
-    if (this.object.entity_guid)
+    if (this.object.entity_guid) {
       this.guid = this.object.entity_guid;
+    }
     this.parent = this.object;
+    this.allowComments = this.object['allow_comments'];
   }
 
   set _reversed(value: boolean) {
-    if (value)
+    if (value) {
       this.reversed = true;
-    else
+    } else {
       this.reversed = false;
+    }
   }
 
   ngOnInit() {
+    this.activityChangedSubscription = this.activityService.activityChanged.subscribe((payload) => {
+      this.allowComments = payload.entity['allow_comments'];
+      this.detectChanges();
+    });
     this.load(true, !this.focusedCommentGuid);
     this.listen();
   }
@@ -276,6 +290,10 @@ export class CommentsListComponent {
       if (this.socketSubscriptions[sub]) {
         this.socketSubscriptions[sub].unsubscribe();
       }
+    }
+
+    if (this.activityChangedSubscription) {
+      this.activityChangedSubscription.unsubscribe();
     }
   }
 

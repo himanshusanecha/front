@@ -27,6 +27,7 @@ export interface MindsBlogEntity {
   time_published?: number;
   access_id?: number;
   license?: string;
+  allow_comments: boolean;
 }
 
 export interface Message {

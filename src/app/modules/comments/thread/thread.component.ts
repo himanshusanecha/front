@@ -8,6 +8,8 @@ import {
   Output,
   Renderer,
   ViewChild,
+  OnInit,
+  OnDestroy
 } from '@angular/core';
 
 import { Client } from '../../../services/api/client';
@@ -18,6 +20,10 @@ import { Textarea } from '../../../common/components/editors/textarea.component'
 import { SocketsService } from '../../../services/sockets';
 import { CommentsService } from '../comments.service';
 import { BlockListService } from "../../../common/services/block-list.service";
+import { ActivityService } from '../../../common/services/activity.service';
+import { Subscription } from 'rxjs';
+import { TouchSequence } from 'selenium-webdriver';
+
 
 @Component({
   selector: 'm-comments__thread',
@@ -26,7 +32,7 @@ import { BlockListService } from "../../../common/services/block-list.service";
   providers: [ CommentsService ],
 })
 
-export class CommentsThreadComponent {
+export class CommentsThreadComponent implements OnInit, OnDestroy {
 
   minds;
   @Input() parent;
@@ -60,14 +66,17 @@ export class CommentsThreadComponent {
   socketSubscriptions: any = {
     comment: null
   };
-  
+  activityChangedSubscription: Subscription;
+  allowComments = true;
+
   constructor(
     public session: Session,
     private commentsService: CommentsService,
     public sockets: SocketsService,
     private renderer: Renderer,
     protected blockListService: BlockListService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    protected activityService: ActivityService
   ) {
     this.minds = window.Minds;
   }
@@ -75,6 +84,17 @@ export class CommentsThreadComponent {
   ngOnInit() {
     this.load(true);
     this.listen();
+    this.allowComments = this.entity['allow_comments'];
+    this.activityChangedSubscription = this.activityService.activityChanged.subscribe((payload) => {
+      this.allowComments = payload.entity['allow_comments'];
+      this.detectChanges();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.activityChangedSubscription) {
+      this.activityChangedSubscription.unsubscribe();
+    }
   }
 
   get guid(): string {
@@ -273,8 +293,6 @@ export class CommentsThreadComponent {
   }
 
   onPosted({ comment, index }) {
-    console.log('onPosted called');
-    console.log(comment, index);
     this.comments[index] = comment;
     this.detectChanges();
   }

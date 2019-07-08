@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
@@ -10,19 +10,23 @@ import { RecommendedService } from '../components/video/recommended.service';
 import { AttachmentService } from '../../../services/attachment';
 import { ContextService } from '../../../services/context.service';
 import { MindsTitle } from '../../../services/ux/title';
+import { ActivityService } from '../../../common/services/activity.service';
 
 @Component({
   moduleId: module.id,
   selector: 'm-media--view',
   templateUrl: 'view.component.html',
-  providers: [{
-    provide: RecommendedService,
-    useFactory: RecommendedService._,
-    deps: [Client]
-  }],
+  providers: [
+    {
+      provide: RecommendedService,
+      useFactory: RecommendedService._,
+      deps: [Client]
+    },
+    ActivityService
+  ],
 })
 
-export class MediaViewComponent {
+export class MediaViewComponent implements OnInit, OnDestroy {
 
   minds = window.Minds;
   guid: string;
@@ -32,11 +36,16 @@ export class MediaViewComponent {
   deleteToggle: boolean = false;
 
   theaterMode: boolean = false;
+  allowComments = true;
 
-  menuOptions: Array<string> = ['edit', 'follow', 'feature', 'delete', 'report', 'set-explicit', 'subscribe', 'remove-explicit', 'rating'];
+  menuOptions: Array<string> = ['edit', 'follow', 'feature',
+    'delete', 'report', 'set-explicit',
+    'subscribe', 'remove-explicit', 'rating',
+    'allow-comments', 'disable-comments'];
 
   paramsSubscription: Subscription;
   queryParamsSubscription$: Subscription;
+  activityChangedSubscription: Subscription;
   focusedCommentGuid: string = '';
 
   constructor(
@@ -47,7 +56,8 @@ export class MediaViewComponent {
     public route: ActivatedRoute,
     public attachment: AttachmentService,
     public context: ContextService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    protected activityService: ActivityService
   ) { }
 
   ngOnInit() {
@@ -66,11 +76,19 @@ export class MediaViewComponent {
         window.scrollTo(0, 500);
       }
     });
+
+    this.activityChangedSubscription = this.activityService.activityChanged.subscribe((payload) => {
+      this.allowComments = payload.entity['allow_comments'];
+      this.detectChanges();
+    });
   }
 
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
     this.queryParamsSubscription$.unsubscribe();
+    if (this.activityChangedSubscription) {
+      this.activityChangedSubscription.unsubscribe();
+    }
   }
 
   load(refresh: boolean = false) {
@@ -87,7 +105,7 @@ export class MediaViewComponent {
         }
         if (response.entity) {
           this.entity = response.entity;
-
+          this.allowComments = this.entity['allow_comments'];
           switch (this.entity.subtype) {
             case 'video':
               this.context.set('object:video');
@@ -160,7 +178,14 @@ export class MediaViewComponent {
       case 'remove-explicit':
         this.setExplicit(false);
         break;
-
+      case 'allow-comments':
+        this.entity.allow_comments = true;
+        this.activityService.triggerChange('allow_comments', this.entity);
+        break;
+      case 'disable-comments':
+        this.entity.allow_comments = false;
+        this.activityService.triggerChange('allow_comments', this.entity);
+        break;
     }
   }
 
@@ -174,6 +199,18 @@ export class MediaViewComponent {
         this.entity.mature = !!this.entity.mature;
         this.detectChanges();
       });
+  }
+
+  canShowComments() {
+    if (!this.entity.guid) {
+      return false;
+    }
+    //Don't show comments on albums
+    if (this.entity.subtype === 'album') {
+      return false;
+    }
+    return (this.entity['comments:count'] >= 1
+      || this.allowComments);
   }
 
   private detectChanges() {

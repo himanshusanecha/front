@@ -9,6 +9,9 @@ import {
   OnChanges,
   Input,
   ElementRef,
+  OnInit,
+  OnDestroy,
+  AfterViewInit
 } from '@angular/core';
 
 import { Session } from '../../../services/session';
@@ -20,8 +23,9 @@ import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { ReportCreatorComponent } from '../../report/creator/creator.component';
 import { CommentsListComponent } from '../list/list.component';
 import { TimeDiffService } from '../../../services/timediff.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from "rxjs/operators";
+import { ActivityService } from '../../../common/services/activity.service';
 
 @Component({
   selector: 'm-comment',
@@ -44,7 +48,7 @@ import { map } from "rxjs/operators";
   ],
 })
 
-export class CommentComponentV2 implements OnChanges {
+export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterViewInit {
 
   comment: any;
   editing: boolean = false;
@@ -77,6 +81,9 @@ export class CommentComponentV2 implements OnChanges {
   translationInProgress: boolean;
   translateToggle: boolean = false;
   commentAge$: Observable<number>;
+  canReply = true;
+  activityChangedSubscription: Subscription;
+
   @Input() canEdit: boolean = false;
   @Input() canDelete: boolean = false;
 
@@ -91,13 +98,18 @@ export class CommentComponentV2 implements OnChanges {
     private overlayModal: OverlayModalService,
     private cd: ChangeDetectorRef,
     private timeDiffService: TimeDiffService,
-    private el: ElementRef
+    private el: ElementRef,
+    protected activityService: ActivityService
   ) {}
 
   ngOnInit() {
     this.commentAge$ = this.timeDiffService.source.pipe(map(secondsElapsed => {
       return (this.comment.time_created - secondsElapsed) * 1000;
     }));
+    this.canReply = this.entity['allow_comments'];
+    this.activityChangedSubscription = this.activityService.activityChanged.subscribe((payload) => {
+      this.canReply = payload.entity['allow_comments'];
+  });
   }
 
   ngAfterViewInit() {
@@ -106,6 +118,12 @@ export class CommentComponentV2 implements OnChanges {
       setTimeout(() => {
         window.scrollBy(0, -200);
       }, 10);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.activityChangedSubscription) {
+      this.activityChangedSubscription.unsubscribe();
     }
   }
 
