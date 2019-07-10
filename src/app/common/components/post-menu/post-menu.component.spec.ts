@@ -16,7 +16,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BlockListService } from '../../services/block-list.service';
 import { ActivityService } from '../../services/activity.service';
+import { FeaturesService } from '../../../services/features.service';
 import { activityServiceMock } from '../../../../tests/activity-service-mock.spec';
+import { featuresServiceMock } from '../../../../tests/features-service-mock.spec';
 /* tslint:disable */
 
 /* Mock section */
@@ -97,6 +99,7 @@ describe('PostMenuComponent', () => {
         { provide: Session, useValue: sessionMock },
         { provide: OverlayModalService, useValue: overlayModalServiceMock },
         { provide: ActivityService, useValue: activityServiceMock },
+        { provide: FeaturesService, useValue: featuresServiceMock },
         BlockListService,
       ],
       schemas: [
@@ -108,6 +111,7 @@ describe('PostMenuComponent', () => {
 
   // synchronous beforeEach
   beforeEach(() => {
+    featuresServiceMock.mock('allow-comments-toggle', true);
     fixture = TestBed.createComponent(PostMenuComponent);
 
     comp = fixture.componentInstance;
@@ -115,8 +119,9 @@ describe('PostMenuComponent', () => {
     comp.entity = {};
     // comp.opened = true;
     comp.entity.ownerObj = { guid: '1' };
-     comp.cardMenuHandler();
+    comp.cardMenuHandler();
     fixture.detectChanges();
+    
   });
 
   it('should have dropdown', () => {

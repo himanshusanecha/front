@@ -7,7 +7,7 @@ import { MindsUser } from '../../../interfaces/entities';
 import { SignupModalService } from '../../../modules/modals/signup/service';
 import { BlockListService } from '../../services/block-list.service';
 import { ActivityService } from '../../../common/services/activity.service';
-
+import { FeaturesService } from '../../../services/features.service';
 
 type Option =
   'edit'
@@ -70,7 +70,7 @@ export class PostMenuComponent implements OnInit {
     public signupModal: SignupModalService,
     protected blockListService: BlockListService,
     protected activityService: ActivityService,
-  ) {
+    public featuresService: FeaturesService) {
     this.initCategories();
   }
 
@@ -83,6 +83,7 @@ export class PostMenuComponent implements OnInit {
         label: window.Minds.categories[category],
       });
     }
+    console.log("Working!");
   }
 
   cardMenuHandler() {
