@@ -18,6 +18,7 @@ import { BlockListService } from '../../services/block-list.service';
 import { ActivityService } from '../../services/activity.service';
 import { FeaturesService } from '../../../services/features.service';
 import { activityServiceMock } from '../../../../tests/activity-service-mock.spec';
+import { storageMock } from '../../../../tests/storage-mock.spec';
 import { featuresServiceMock } from '../../../../tests/features-service-mock.spec';
 /* tslint:disable */
 
@@ -100,7 +101,11 @@ describe('PostMenuComponent', () => {
         { provide: OverlayModalService, useValue: overlayModalServiceMock },
         { provide: ActivityService, useValue: activityServiceMock },
         { provide: FeaturesService, useValue: featuresServiceMock },
-        BlockListService,
+        { provide: Storage, useValue: storageMock },
+        { provide: BlockListService, useFactory: () => {
+            return BlockListService._(clientMock, sessionMock, storageMock);
+          }
+        }
       ],
       schemas: [
         NO_ERRORS_SCHEMA,

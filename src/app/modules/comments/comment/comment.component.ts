@@ -36,11 +36,7 @@ import { ActivityService } from '../../../common/services/activity.service';
   },
   templateUrl: 'comment.component.html',
   providers: [
-    {
-        provide: AttachmentService,
-        useFactory: AttachmentService._,
-        deps: [Session, Client, Upload]
-    },
+    AttachmentService,
     {
       provide: CommentsListComponent,
       useValue: forwardRef(() => CommentsListComponent),
@@ -104,7 +100,7 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
 
   ngOnInit() {
     this.commentAge$ = this.timeDiffService.source.pipe(map(secondsElapsed => {
-      return (this.comment.time_created - secondsElapsed) * 1000;
+      return (this.comment.time_created - secondsElapsed * 0.01) * 1000;
     }));
     this.canReply = this.entity['allow_comments'];
     this.activityChangedSubscription = this.activityService.activityChanged.subscribe((payload) => {
