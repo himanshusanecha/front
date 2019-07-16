@@ -37,13 +37,13 @@ export class RevenueOptionsComponent {
 
   getSettings() {
     this.inProgress = true;
-    this.client.get('api/v1/monetization/settings')
-      .then(({ bank, country }) => {
+    this.client.get('api/v2/wallet/usd/settings')
+      .then(({ account }) => {
         this.inProgress = false;
-        this.payoutMethod.country = country;
-        this.form.controls.country.setValue(country);
-        if (bank.last4) {
-          this.payoutMethod.account = bank;
+        this.payoutMethod.country = account.country;
+        this.form.controls.country.setValue(account.country);
+        if (account.bankAccount.last4) {
+          this.payoutMethod.account = account.bankAccount;
         }
         this.detectChanges();
       });

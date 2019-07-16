@@ -35,6 +35,8 @@ import { WalletUSDComponent } from './usd/usd.component';
 import { WalletUSDEarningsComponent } from './usd/earnings.component';
 import { WalletUSDPayoutsComponent } from './usd/payouts.component';
 import { WalletUSDSettingsComponent } from './usd/settings.component';
+import { WalletUSDOnboardingComponent } from './usd/onboarding/onboarding.component';
+import { WalletUSDTermsComponent } from './usd/terms.component';
 import { WalletTokenWithdrawLedgerComponent } from './tokens/withdraw/ledger/ledger.component';
 import { WalletTokenAddressesComponent } from './tokens/addresses/addresses.component';
 import { TokenOnboardingModule } from './tokens/onboarding/onboarding.module';
@@ -72,6 +74,7 @@ const walletRoutes : Routes = [
           { path: 'earnings', component: WalletUSDEarningsComponent },
           { path: 'payouts', component: WalletUSDPayoutsComponent },
           { path: 'settings', component: WalletUSDSettingsComponent },
+          { path: 'onboarding', component: WalletUSDOnboardingComponent },
         ] 
       },
       { path: 'wire', component: WalletWireComponent },
@@ -122,6 +125,8 @@ const walletRoutes : Routes = [
     WalletUSDEarningsComponent,
     WalletUSDPayoutsComponent,
     WalletUSDSettingsComponent,
+    WalletUSDOnboardingComponent,
+    WalletUSDTermsComponent,
     WalletTokenAddressesComponent,
     WalletTokenContributionsOverviewComponent,
     WalletTokenContributionsChartComponent,
@@ -138,8 +143,9 @@ const walletRoutes : Routes = [
     WalletToggleComponent,
     WalletFlyoutComponent,
     WalletBalanceUSDComponent,
+    WalletBalanceTokensComponent,
   ],
-  entryComponents: [ WalletComponent ]
+  entryComponents: [ WalletComponent, WalletUSDTermsComponent ]
 })
 
 export class WalletModule {}
