@@ -68,6 +68,7 @@ export interface MindsUser {
   is_mature?: boolean;
   mature_lock?: boolean;
   tags?: Array<string>;
+  toaster_notifications?: boolean;
 }
 
 export interface MindsGroup {

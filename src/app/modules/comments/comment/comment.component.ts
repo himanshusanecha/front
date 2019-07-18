@@ -82,6 +82,7 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
 
   @Input() canEdit: boolean = false;
   @Input() canDelete: boolean = false;
+  @Input() hideToolbar: boolean = false;
 
   @Output() onReply = new EventEmitter();
 
