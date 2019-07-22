@@ -74,7 +74,7 @@ export class CommentsThreadComponent implements OnInit {
     private renderer: Renderer,
     protected blockListService: BlockListService,
     private cd: ChangeDetectorRef,
-    protected activityService: ActivityService
+    public activityService: ActivityService
   ) {
     this.minds = window.Minds;
   }

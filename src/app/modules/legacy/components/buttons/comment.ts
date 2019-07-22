@@ -27,7 +27,7 @@ export class CommentButton implements OnInit, OnDestroy {
 
   constructor(
     public client: Client,
-    protected activityService: ActivityService,
+    public activityService: ActivityService,
     protected cd: ChangeDetectorRef) {
   }
 

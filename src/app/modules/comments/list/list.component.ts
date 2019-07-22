@@ -85,7 +85,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     public sockets: SocketsService,
     private renderer: Renderer,
     private cd: ChangeDetectorRef,
-    protected activityService: ActivityService,
+    public activityService: ActivityService,
   ) {
     this.minds = window.Minds;
   }
