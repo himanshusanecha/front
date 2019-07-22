@@ -32,7 +32,7 @@ import { TouchSequence } from 'selenium-webdriver';
   providers: [ CommentsService ],
 })
 
-export class CommentsThreadComponent implements OnInit, OnDestroy {
+export class CommentsThreadComponent implements OnInit {
 
   minds;
   @Input() parent;
@@ -66,8 +66,6 @@ export class CommentsThreadComponent implements OnInit, OnDestroy {
   socketSubscriptions: any = {
     comment: null
   };
-  activityChangedSubscription: Subscription;
-  allowComments = true;
 
   constructor(
     public session: Session,
@@ -84,17 +82,6 @@ export class CommentsThreadComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.load(true);
     this.listen();
-    this.allowComments = this.entity['allow_comments'];
-    this.activityChangedSubscription = this.activityService.activityChanged.subscribe((payload) => {
-      this.allowComments = payload.entity['allow_comments'];
-      this.detectChanges();
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.activityChangedSubscription) {
-      this.activityChangedSubscription.unsubscribe();
-    }
   }
 
   get guid(): string {
@@ -214,7 +201,8 @@ export class CommentsThreadComponent implements OnInit, OnDestroy {
 
       const parent_path = this.parent.child_path || "0:0:0";
 
-      let scrolledToBottom = this.scrollView.nativeElement.scrollTop + this.scrollView.nativeElement.clientHeight >= this.scrollView.nativeElement.scrollHeight;
+      const scrolledToBottom = this.scrollView.nativeElement.scrollTop 
+        + this.scrollView.nativeElement.clientHeight >= this.scrollView.nativeElement.scrollHeight;
 
       try {
         let comment: any = await this.commentsService.single({
@@ -311,10 +299,6 @@ export class CommentsThreadComponent implements OnInit, OnDestroy {
     this.comments[i].replies_count--;
     this.detectChanges();
     return true;
-  }
-
-  ngOnChanges(changes) {
-  //  console.log('[comment:list]: on changes', changes);
   }
 
 }

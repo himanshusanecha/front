@@ -24,7 +24,7 @@ import { ReportCreatorComponent } from '../../report/creator/creator.component';
 import { CommentsListComponent } from '../list/list.component';
 import { TimeDiffService } from '../../../services/timediff.service';
 import { Observable, Subscription } from 'rxjs';
-import { map } from "rxjs/operators";
+import { map } from 'rxjs/operators';
 import { ActivityService } from '../../../common/services/activity.service';
 
 @Component({
@@ -78,7 +78,6 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
   translateToggle: boolean = false;
   commentAge$: Observable<number>;
   canReply = true;
-  activityChangedSubscription: Subscription;
 
   @Input() canEdit: boolean = false;
   @Input() canDelete: boolean = false;
@@ -103,11 +102,8 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
     this.commentAge$ = this.timeDiffService.source.pipe(map(secondsElapsed => {
       return (this.comment.time_created - secondsElapsed * 0.01) * 1000;
     }));
-    this.canReply = this.entity['allow_comments'];
-    this.activityChangedSubscription = this.activityService.activityChanged.subscribe((payload) => {
-      this.canReply = payload.entity['allow_comments'];
-  });
   }
+
 
   ngAfterViewInit() {
     if (this.comment.focused) {
@@ -118,16 +114,13 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
     }
   }
 
-  ngOnDestroy() {
-    if (this.activityChangedSubscription) {
-      this.activityChangedSubscription.unsubscribe();
-    }
-  }
+  ngOnDestroy() {}
 
   @Input('comment')
   set _comment(value: any) {
-    if (!value)
+    if (!value) {
       return;
+    }
     this.comment = value;
     this.attachment.load(this.comment);
 
@@ -139,7 +132,9 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
   }
 
   saveEnabled() {
-    return !this.inProgress && this.canPost && ((this.comment.description && this.comment.description.trim() !== '') || this.attachment.has());
+    return !this.inProgress
+      && this.canPost
+      && ((this.comment.description && this.comment.description.trim() !== '') || this.attachment.has());
   }
 
   save() {
@@ -149,7 +144,7 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
       return;
     }
 
-    let data = this.attachment.exportMeta();
+    const data = this.attachment.exportMeta();
     data['comment'] = this.comment.description;
 
     this.editing = false;

@@ -151,9 +151,7 @@ describe('PostMenuComponent', () => {
 
   it('should allow comments', () => {
     spyOn(comp.optionSelected, 'emit');
-
     comp.allowComments(true);
-    expect(comp.optionSelected.emit).toHaveBeenCalledWith('allow-comments');
     expect(activityServiceMock.toggleAllowComments).toHaveBeenCalledWith(comp.entity, true);
     expect(comp.entity.allow_comments).toEqual(true);
   });
@@ -162,7 +160,6 @@ describe('PostMenuComponent', () => {
     spyOn(comp.optionSelected, 'emit');
 
     comp.allowComments(false);
-    expect(comp.optionSelected.emit).toHaveBeenCalledWith('disable-comments');
     expect(activityServiceMock.toggleAllowComments).toHaveBeenCalledWith(comp.entity, false);
     expect(comp.entity.allow_comments).toEqual(false);
   });

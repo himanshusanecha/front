@@ -70,16 +70,4 @@ describe('Blog view component', () => {
     comp.blog = blog;
     fixture.detectChanges();
   });
-
-  it('should_allow_comments', () => {
-    comp.menuOptionSelected('allow-comments');
-    expect(activityServiceMock.triggerChange).toHaveBeenCalledWith('allow-comments', comp.blog);
-    expect(comp.blog.allow_comments = true);
-  });
-
-  it('should_disable_comments', () => {
-    comp.menuOptionSelected('disable-comments');
-    expect(activityServiceMock.triggerChange).toHaveBeenCalledWith('disable-comments', comp.blog);
-    expect(comp.blog.allow_comments = false);
-  });
-})
+});

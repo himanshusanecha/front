@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
+import { Component, ElementRef, ViewChild, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Client } from '../../../services/api';
@@ -25,7 +25,7 @@ import { ActivityService } from '../../../common/services/activity.service';
   providers: [ActivityService]
 })
 
-export class BlogView {
+export class BlogView implements OnInit, OnDestroy {
 
   minds;
   guid: string;
@@ -46,7 +46,7 @@ export class BlogView {
   menuOptions: Array<string> = ['edit', 'follow', 'feature',
     'delete', 'report', 'subscribe',
     'set-explicit', 'remove-explicit', 'rating',
-    'allow-comments', 'disable-comments'];
+    'allow-comments'];
 
   @ViewChild('lockScreen', { read: ElementRef, static: false }) lockScreen;
 
@@ -77,7 +77,7 @@ export class BlogView {
   }
 
   isVisible() {
-    //listens every 0.6 seconds
+    // listens every 0.6 seconds
     this.scroll_listener = this.scroll.listen((e) => {
       const bounds = this.element.getBoundingClientRect();
       if (bounds.top < this.scroll.view.clientHeight && bounds.top + bounds.height > this.scroll.view.clientHeight) {
@@ -121,8 +121,9 @@ export class BlogView {
   }
 
   ngOnDestroy() {
-    if (this.scroll_listener)
+    if (this.scroll_listener) {
       this.scroll.unListen(this.scroll_listener);
+    }
   }
 
   menuOptionSelected(option: string) {
@@ -139,14 +140,6 @@ export class BlogView {
       case 'remove-explicit':
         this.setExplicit(false);
         break;
-      case 'allow-comments':
-        this.blog.allow_comments = true;
-        this.activityService.triggerChange('allow-comments', this.blog);
-        break;
-      case 'disable-comments':
-        this.blog.allow_comments = false;
-        this.activityService.triggerChange('disable-comments', this.blog);
-        break;
     }
   }
 
@@ -160,8 +153,9 @@ export class BlogView {
   }
 
   calculateLockScreenHeight() {
-    if (!this.lockScreen) 
+    if (!this.lockScreen) {
       return;
+    }
     const lockScreenOverlay = this.lockScreen.nativeElement.querySelector('.m-wire--lock-screen');
     if (lockScreenOverlay) {
       const rect = lockScreenOverlay.getBoundingClientRect();

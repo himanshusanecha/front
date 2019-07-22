@@ -28,8 +28,7 @@ type Option =
   | 'unsubscribe'
   | 'rating'
   | 'block'
-  | 'allow-comments'
-  | 'disable-comments';
+  | 'allow-comments';
 
 @Component({
   moduleId: module.id,
@@ -83,7 +82,6 @@ export class PostMenuComponent implements OnInit {
         label: window.Minds.categories[category],
       });
     }
-    console.log("Working!");
   }
 
   cardMenuHandler() {
@@ -336,16 +334,11 @@ export class PostMenuComponent implements OnInit {
     this.entity.nsfw = nsfw;
   }
 
-  onAllowCommentsSelected(areAllowed: boolean) {
-    this.entity.allow_comments = areAllowed;
-    this.selectOption(areAllowed ? 'allow-comments' : 'disable-comments');
-  }
-
   async allowComments(areAllowed: boolean) {
-    this.onAllowCommentsSelected(areAllowed);
+    this.entity.allow_comments = areAllowed;
     const result = await this.activityService.toggleAllowComments(this.entity, areAllowed);
     if (result !== areAllowed) {
-      this.onAllowCommentsSelected(result);
+      this.entity.allow_comments = result;
     }
   }
 

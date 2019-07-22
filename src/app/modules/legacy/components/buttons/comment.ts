@@ -2,17 +2,16 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestro
 
 import { Client } from '../../../../services/api';
 import { ActivityService } from '../../../../common/services/activity.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'minds-button-comment',
   inputs: ['_object: object'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <a [ngClass]="{'selected': object['comments:count'] > 0 }">
-      <i class="material-icons" *ngIf="allowComments">chat_bubble</i>
-      <i class="material-icons" 
-        *ngIf="!allowComments"
+      <i class="material-icons" *ngIf="(activityService.allowComment$ | async) === true">chat_bubble</i>
+      <i class="material-icons"
+        *ngIf="(activityService.allowComment$ | async) === false"
         title="Comments have been disabled for this post"
         i18n-title="@@COMMENTS__DISABLED">
         speaker_notes_off
@@ -25,8 +24,6 @@ import { Subscription } from 'rxjs';
 export class CommentButton implements OnInit, OnDestroy {
 
   object;
-  protected activityChangedSubscription: Subscription;
-  public allowComments = true;
 
   constructor(
     public client: Client,
@@ -34,23 +31,13 @@ export class CommentButton implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef) {
   }
 
-  ngOnInit() {
-    this.activityChangedSubscription = this.activityService.activityChanged.subscribe((payload) => {
-      this.object = payload.entity;
-      this.allowComments = this.object['allow_comments'];
-      this.cd.detectChanges();
-    });
-  }
+  ngOnInit() {}
 
-  ngOnDestroy() {
-    if (this.activityChangedSubscription) {
-      this.activityChangedSubscription.unsubscribe();
-    }
-  }
+  ngOnDestroy() { }
 
   set _object(value: any) {
     this.object = value;
-    this.allowComments = this.object['allow_comments'];
+    this.activityService.allowComment$.next(this.object.allow_comments);
   }
 
 }

@@ -45,7 +45,6 @@ export class MediaViewComponent implements OnInit, OnDestroy {
 
   paramsSubscription: Subscription;
   queryParamsSubscription$: Subscription;
-  activityChangedSubscription: Subscription;
   focusedCommentGuid: string = '';
 
   constructor(
@@ -76,19 +75,11 @@ export class MediaViewComponent implements OnInit, OnDestroy {
         window.scrollTo(0, 500);
       }
     });
-
-    this.activityChangedSubscription = this.activityService.activityChanged.subscribe((payload) => {
-      this.allowComments = payload.entity['allow_comments'];
-      this.detectChanges();
-    });
   }
 
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
     this.queryParamsSubscription$.unsubscribe();
-    if (this.activityChangedSubscription) {
-      this.activityChangedSubscription.unsubscribe();
-    }
   }
 
   load(refresh: boolean = false) {
@@ -180,11 +171,11 @@ export class MediaViewComponent implements OnInit, OnDestroy {
         break;
       case 'allow-comments':
         this.entity.allow_comments = true;
-        this.activityService.triggerChange('allow_comments', this.entity);
+        this.activityService.toggleAllowComments(this.entity, true);
         break;
       case 'disable-comments':
         this.entity.allow_comments = false;
-        this.activityService.triggerChange('allow_comments', this.entity);
+        this.activityService.toggleAllowComments(this.entity, false);
         break;
     }
   }
@@ -209,8 +200,7 @@ export class MediaViewComponent implements OnInit, OnDestroy {
     if (this.entity.subtype === 'album') {
       return false;
     }
-    return (this.entity['comments:count'] >= 1
-      || this.allowComments);
+    return (this.entity['comments:count'] >= 1);
   }
 
   private detectChanges() {

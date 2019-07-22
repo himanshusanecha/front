@@ -1,29 +1,24 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Client } from '../../services/api/client';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class ActivityService {
 
-  activityChanged: EventEmitter<{attribute: string, entity: any}> = new EventEmitter<{attribute: string, entity: any}>();
+  public allowComment$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor(
     private client: Client
   ) {}
 
-  triggerChange(attribute: string, entity: any) {
-    this.activityChanged.emit({
-      'attribute': attribute,
-      'entity': entity
-    });
-  }
-
-  async toggleAllowComments(entity: any, areAllowed: boolean) {
+  public async toggleAllowComments(entity: any, areAllowed: boolean) {
     const payload = {
       allowed: areAllowed
     };
-    const oldValue = entity.allowComments;
+    const oldValue = entity['allow_comments'];
     try {
       await this.client.post(`api/v2/permissions/comments/${entity.guid}`, payload);
+      this.allowComment$.next(areAllowed);
       return areAllowed;
     } catch (ex) {
       console.error('Error posting activity comment permissions', ex);

@@ -94,18 +94,18 @@ export class Activity implements OnInit {
         return ['edit', 'translate', 'share',
           'follow', 'feature', 'delete',
           'report', 'set-explicit', 'block',
-          'rating', 'allow-comments', 'disable-comments'];
+          'rating', 'allow-comments'];
       } else {
         return ['edit', 'translate', 'share',
           'follow', 'feature', 'delete',
           'report', 'set-explicit', 'block',
-          'rating', 'allow-comments', 'disable-comments'];
+          'rating', 'allow-comments'];
       }
     } else {
       return ['view', 'translate', 'share',
         'follow', 'feature', 'report',
         'set-explicit', 'block', 'rating',
-        'allow-comments', 'disable-comments'];
+        'allow-comments'];
     }
   }
 
@@ -354,20 +354,12 @@ export class Activity implements OnInit {
       case 'translate':
         this.translateToggle = true;
         break;
-      case 'allow-comments':
-        this.activity.allow_comments = true;
-        this.activityService.triggerChange('allow_comments', this.activity);
-        break;
-      case 'disable-comments':
-        this.activity.allow_comments = false;
-        this.activityService.triggerChange('allow_comments', this.activity);
-        break;
     }
     this.detectChanges();
   }
 
   setExplicit(value: boolean) {
-    let oldValue = this.activity.mature,
+    const oldValue = this.activity.mature,
       oldMatureVisibility = this.activity.mature_visibility;
 
     this.activity.mature = value;
