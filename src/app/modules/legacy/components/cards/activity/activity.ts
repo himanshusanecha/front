@@ -25,6 +25,7 @@ import { BlockListService } from "../../../../../common/services/block-list.serv
 import { ActivityAnalyticsOnViewService } from "./activity-analytics-on-view.service";
 import { NewsfeedService } from "../../../../newsfeed/services/newsfeed.service";
 import { ClientMetaService } from "../../../../../common/services/client-meta.service";
+import { AutocompleteSuggestionsService } from "../../../../suggestions/services/autocomplete-suggestions.service";
 import { ActivityService } from '../../../../../common/services/activity.service';
 
 @Component({
@@ -124,6 +125,7 @@ export class Activity implements OnInit {
     protected activityAnalyticsOnViewService: ActivityAnalyticsOnViewService,
     protected newsfeedService: NewsfeedService,
     protected clientMetaService: ClientMetaService,
+    public suggestions: AutocompleteSuggestionsService,
     protected activityService: ActivityService,
     @SkipSelf() injector: Injector,
     elementRef: ElementRef,
