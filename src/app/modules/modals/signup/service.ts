@@ -20,7 +20,6 @@ export class SignupModalService {
   }
 
   constructor(private router: Router, public scroll: ScrollService) {
-    console.log('modal service constructed');
     this.initOnScroll();
   }
 

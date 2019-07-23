@@ -1,0 +1,96 @@
+.m-overlayModal--media {
+  @include m-theme(){
+    background-color: rgba(themed($m-black-always), 0.95);
+  }
+  width: 95%; // TODO OJM
+  // min-width: px;
+}
+
+.m-media-modal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .m-media-modal__mediaWrapper {
+    position: relative;
+    &:hover {
+      .m-media-modal__mediaOverlay{
+        > * {
+          display: block;
+        }
+      }
+      .m-media-modal__mediaOverlayTop{
+        @include m-theme(){
+          background: linear-gradient(rgba(themed($m-black-always),0.4), transparent);
+        }
+      }
+      .m-media-modal__mediaOverlayBottom {
+        @include m-theme(){
+          background: linear-gradient(transparent, rgba(themed($m-black-always),0.4));
+        }
+      }
+    }
+
+    .m-media-modal__mediaOverlay {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 15%;
+      padding: $minds-padding;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .m-media-modal__mediaOverlayTop {
+      top: 0;
+
+      > * {
+        cursor: pointer;
+        display: none;
+        font-size: 24px;
+      }
+
+      .m-media-modal__mediaTitle {
+        @include m-theme(){
+          color: themed($m-white-always);
+        }
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .m-media-modal__expandButton {
+        @include m-theme(){
+          color: themed($m-grey-100);
+        }
+        &:hover {
+          @include m-theme(){
+            color: themed($m-white);
+          }
+        }
+      }
+    }
+
+    .m-media-modal__mediaOverlayBottom {
+      bottom: 0;
+      display: flex;
+      align-items: flex-end;
+
+      &:hover {
+        > * {
+          cursor: pointer;
+          // font-size: 18px;
+        }
+      }
+    }
+  }
+  // see .m-group--conversation
+  .m-media-modal__contentWrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    @include m-theme(){
+      background-color: themed($m-white);
+    }
+  }
+}

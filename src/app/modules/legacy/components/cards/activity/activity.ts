@@ -11,11 +11,13 @@ import {
   Injector,
 } from '@angular/core';
 
+import { Location } from '@angular/common';
 import { Client } from '../../../../../services/api';
 import { Session } from '../../../../../services/session';
 import { AttachmentService } from '../../../../../services/attachment';
 import { TranslationService } from '../../../../../services/translation';
 import { OverlayModalService } from '../../../../../services/ux/overlay-modal';
+import { MediaModalComponent } from '../../../../media/modal/modal.component';
 import { BoostCreatorComponent } from '../../../../boost/creator/creator.component';
 import { WireCreatorComponent } from '../../../../wire/creator/creator.component';
 import { MindsVideoComponent } from '../../../../media/components/video/video.component';
@@ -109,6 +111,7 @@ export class Activity implements OnInit {
     private cd: ChangeDetectorRef,
     private entitiesService: EntitiesService,
     private router: Router,
+    private location: Location,
     protected blockListService: BlockListService,
     protected activityAnalyticsOnViewService: ActivityAnalyticsOnViewService,
     protected newsfeedService: NewsfeedService,
@@ -147,13 +150,13 @@ export class Activity implements OnInit {
     this.activityAnalyticsOnViewService.setEntity(this.activity);
 
     if (
-      this.activity.custom_type == 'batch' 
-      && this.activity.custom_data 
+      this.activity.custom_type == 'batch'
+      && this.activity.custom_data
       && this.activity.custom_data[0].src
     ) {
       this.activity.custom_data[0].src = this.activity.custom_data[0].src.replace(this.minds.site_url, this.minds.cdn_url);
     }
-    
+
     if (!this.activity.message) {
       this.activity.message = '';
     }
@@ -414,5 +417,21 @@ export class Activity implements OnInit {
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
+  }
+
+  async showMediaModal() {
+    console.log(this.activity);
+
+    const mediaModal = this.overlayModal.create(MediaModalComponent, this.activity, {
+      class: 'm-overlayModal--media'
+    });
+
+    this.location.go(`/media/${this.activity.entity_guid}?view=modal`);
+
+    mediaModal.onDidDismiss(() => {
+      this.location.back();
+    });
+
+    mediaModal.present();
   }
 }
