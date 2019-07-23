@@ -11,7 +11,7 @@ import { TokenContractService } from '../../blockchain/contracts/token-contract.
 import { MindsUser } from '../../../interfaces/entities';
 import { Router } from '@angular/router';
 
-export type PayloadType = 'onchain' | 'offchain' | 'creditcard';
+export type PayloadType = 'onchain' | 'offchain' | 'usd' | 'eth';
 
 export class VisibleWireError extends Error {
   visible: boolean = true;
@@ -244,7 +244,7 @@ export class WireCreatorComponent {
 
     this.wire.payload = null;
 
-    if (payloadType === 'onchain') {
+    if (payloadType === 'onchain' || payloadType === 'eth') {
       this.setOnchainNoncePayload('');
     }
 
@@ -416,10 +416,10 @@ export class WireCreatorComponent {
         }
         break;
 
-      case 'creditcard':
-        if (!this.wire.payload) {
-          throw new Error('Payment method not processed.');
-        }
+      case 'usd':
+        //if (!this.wire.payload) {
+        //  throw new Error('Payment method not processed.');
+        //}
         break;
     }
 
@@ -514,4 +514,21 @@ export class WireCreatorComponent {
       this.inProgress = false;
     }
   }
+
+  get canRecur(): boolean {
+    switch (this.wire.payloadType) {
+      case 'onchain':
+      case 'offchain':
+      case 'usd':
+        return true;
+    }
+    return false;
+  }
+
+  setUsdPaymentMethod(paymentMethodId) {
+    this.wire.payload = {
+      paymentMethodId: paymentMethodId,
+    };
+  }
+
 }

@@ -8,10 +8,14 @@ import { ModalsModule } from '../modals/modals.module';
 
 import { PayWall } from './paywall/paywall.component';
 import { PaywallCancelButton } from './paywall/paywall-cancel.component';
+import { PaymentsNewCard } from './new-card/new-card.component';
+import { PaymentsSelectCard } from './select-card/select-card.component';
 
 @NgModule({
   imports: [
     NgCommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     CheckoutModule,
     ModalsModule
@@ -19,11 +23,18 @@ import { PaywallCancelButton } from './paywall/paywall-cancel.component';
   declarations: [
     PayWall,
     PaywallCancelButton,
+    PaymentsNewCard,
+    PaymentsSelectCard,
   ],
   exports: [
     PayWall,
     PaywallCancelButton,
-  ]
+    PaymentsNewCard,
+    PaymentsSelectCard,
+  ],
+  entryComponents: [
+    PaymentsNewCard,
+  ],
 })
 export class PaymentsModule {
 }
