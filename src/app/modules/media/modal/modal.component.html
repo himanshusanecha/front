@@ -1,6 +1,7 @@
 <div class="m-mediaModal mdl-shadow--4dp">
   <div class="m-mediaModal__theater">
     <!-- Media: image -->
+    <!-- This is the element that goes into fullscreen -->
     <div class="m-mediaModal__stage m-mediaModal__stage--image" *ngIf="entity.modal_subtype === 'image'">
       <img [src]="entity.thumbnail" (load)="inProgress = !inProgress"/>
       <div class="mdl-spinner mdl-js-spinner is-active" [mdl] *ngIf="inProgress"></div>
@@ -67,7 +68,7 @@
       </div>
     </div>
     <!-- Comments -->
-    <div class="m-mediaModal__commentsWrapper" *ngIf="entity.guid && !isFullScreen">
+    <div class="m-mediaModal__commentsWrapper" *ngIf="entity.guid">
       <m-comments__tree [entity]="entity"></m-comments__tree>
     </div>
   </div>
