@@ -11,8 +11,6 @@ import { RecommendedService } from '../components/video/recommended.service';
 import { AttachmentService } from '../../../services/attachment';
 import { ContextService } from '../../../services/context.service';
 import { MindsTitle } from '../../../services/ux/title';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { MediaModalComponent } from '../modal/modal.component';
 
 @Component({
   moduleId: module.id,
@@ -41,7 +39,6 @@ export class MediaViewComponent {
   paramsSubscription: Subscription;
   queryParamsSubscription$: Subscription;
   focusedCommentGuid: string = '';
-  isModal: boolean = false;
 
   constructor(
     public session: Session,
@@ -53,7 +50,6 @@ export class MediaViewComponent {
     public context: ContextService,
     private cd: ChangeDetectorRef,
     private location: Location,
-    private overlayModal: OverlayModalService,
   ) { }
 
   ngOnInit() {
@@ -71,11 +67,6 @@ export class MediaViewComponent {
       if (this.focusedCommentGuid) {
         window.scrollTo(0, 500);
       }
-
-      if ( params.get('view')  === 'modal' ) {
-        this.isModal = true;
-      }
-
     });
   }
 
@@ -115,10 +106,6 @@ export class MediaViewComponent {
           if (this.entity.title) {
             this.title.setTitle(this.entity.title);
           }
-        }
-
-        if (this.isModal) {
-          this.showMediaModal();
         }
 
         this.detectChanges();
@@ -194,19 +181,6 @@ export class MediaViewComponent {
   private detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
-  }
-
-  async showMediaModal() {
-    const mediaModal = this.overlayModal.create(MediaModalComponent, this.entity, {
-      class: 'm-overlayModal--media'
-    });
-
-    mediaModal.onDidDismiss(() => {
-      // TODO OJM prevent going back to modal when user clicks browser back button after closing modal
-      this.location.go(`/media/${this.guid}`);
-    });
-
-    mediaModal.present();
   }
 
 }

@@ -1,56 +1,87 @@
-.m-overlayModal--media {
-  @include m-theme(){
-    background-color: rgba(themed($m-black-always), 0.95);
-  }
-  width: 95%; // TODO OJM
-  // min-width: px;
+.minds-avatar-hovercard {
+  z-index: 9999999 !important;
 }
 
-.m-media-modal {
+.m-overlay-modal.m-overlayModal--media {
+  padding:0px;
+  max-width:95%;
+  z-index: 9999998;
+
+}
+
+m-media--modal {
+  // display: block;
+  // position: relative;
+}
+
+.m-mediaModal {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: stretch;
 
-  .m-media-modal__mediaWrapper {
+
+  .m-mediaModal__theater {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
+    @include m-theme(){
+      background-color: rgba(themed($m-black-always), 0.95);
+    }
+    overflow: hidden; // .????
+
     &:hover {
-      .m-media-modal__mediaOverlay{
-        > * {
-          display: block;
-        }
+      .m-mediaModal__stageOverlay{
+        opacity: 1;
       }
-      .m-media-modal__mediaOverlayTop{
-        @include m-theme(){
-          background: linear-gradient(rgba(themed($m-black-always),0.4), transparent);
-        }
+    }
+
+
+    .m-mediaModal__stage {
+
+      img{
+        max-width:100%;
+        height:auto;
       }
-      .m-media-modal__mediaOverlayBottom {
+      m-video{
         @include m-theme(){
-          background: linear-gradient(transparent, rgba(themed($m-black-always),0.4));
+          background-color: themed($m-black-always);
+        }
+        video{
+          max-width:100%;
+          height:100%;
         }
       }
     }
 
-    .m-media-modal__mediaOverlay {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 15%;
-      padding: $minds-padding;
+    .m-mediaModal__stageOverlay {
       display: flex;
       justify-content: space-between;
-    }
-
-    .m-media-modal__mediaOverlayTop {
+      position: absolute;
+      left: 0;
       top: 0;
-
-      > * {
-        cursor: pointer;
-        display: none;
-        font-size: 24px;
+      width: 100%;
+      height: 70px;
+      padding: $minds-padding * 2;
+      opacity: 0;
+      transition: opacity 500ms cubic-bezier(.22, 1, .33, 1);
+      box-sizing: border-box;
+      font-size: 24px;
+      @include m-theme(){
+        background: linear-gradient(rgba(themed($m-black-always),0.5), transparent);
       }
 
-      .m-media-modal__mediaTitle {
+      &:hover {
+        cursor: pointer;
+      }
+
+      .m-mediaModal__stageOverlayTitle {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
         @include m-theme(){
           color: themed($m-white-always);
         }
@@ -59,38 +90,235 @@
         }
       }
 
-      .m-media-modal__expandButton {
+      // TODO OJM fullscreen styles e.g. .myClass:not(:fullscreen)
+      .m-mediaModal__fullscreenButton {
+        font-size: 28px;
         @include m-theme(){
-          color: themed($m-grey-100);
+          color: themed($m-white-always);
+        }
+        .m-tooltip--bubble {
+          right: 8px;
         }
         &:hover {
-          @include m-theme(){
-            color: themed($m-white);
-          }
-        }
-      }
-    }
-
-    .m-media-modal__mediaOverlayBottom {
-      bottom: 0;
-      display: flex;
-      align-items: flex-end;
-
-      &:hover {
-        > * {
-          cursor: pointer;
-          // font-size: 18px;
+          // TODO OJM: add --active class on hover and transform: scale(1.2)?
+          // i {
+          //   font-size:32px;
+          // }
         }
       }
     }
   }
-  // see .m-group--conversation
-  .m-media-modal__contentWrapper {
+
+  // * Content  ********************************************
+
+  // TODO OJM see .m-group--conversation
+  .m-mediaModal__contentWrapper {
     display: flex;
     flex-direction: column;
+    width: calc(33% - 12px); //1/3rd of screen
+    // width: 300px;
     min-width: 300px;
+    // TODO OJM add a vh fallback
+    height: 96vh;
+    padding: 16px;
+    font-family: 'Roboto', Helvetica, sans-serif;
+
     @include m-theme(){
       background-color: themed($m-white);
+    }
+
+    .m-mediaModal__ownerBlock {
+      padding: 0;
+
+      strong {
+        vertical-align: middle;
+        letter-spacing: 0.25px;
+        text-rendering: optimizeLegibility;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 500;
+      }
+      .m-ownerBlock__channelLink, .m-ownerBlock__groupLink {
+        text-decoration: none;
+      }
+
+      .m-ownerBlock__permalink {
+        font-weight: 500;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: .75px;
+        text-rendering: optimizeLegibility;
+        text-overflow: unset;
+        white-space: pre-wrap;
+        line-height: 18px;
+        -webkit-font-smoothing: antialiased;
+        @include m-theme(){
+          color: themed($m-grey-400);
+        }
+
+        > * {
+          padding-right: 8px;
+        }
+
+        &:hover {
+          .m-ownerBlock__permalinkDate {
+            text-decoration: underline;
+          }
+        }
+
+        .m-ownerBlock__permalinkFlag {
+          text-transform: uppercase;
+          padding: 0 8px 0 0 ;
+          letter-spacing: 0.5px;
+          font-weight: 700;
+          font-size: 11px;
+          line-height: 1;
+          @include m-theme(){
+            color: themed($m-grey-400);
+          }
+        }
+
+        .m-ownerBlock__permalinkFlag--boosted {
+          display: inline-block;
+          width: auto;
+          vertical-align: middle;
+
+          i {
+            font-size: 18px;
+            position: relative;
+            vertical-align: middle;
+          }
+
+          a {
+            vertical-align: middle;
+            @include m-theme(){
+              color: themed($m-grey-400);
+            }
+          }
+
+          &.m-ownerBlock__permalinkFlag--onchain {
+            @include m-theme(){
+              color: themed($m-blue);
+            }
+            a {
+              @include m-theme(){
+                color: themed($m-blue);
+              }
+            }
+          }
+        }
+      }
+
+    }
+    .m-mediaModal__actionButtonsWrapper {
+      .m-mediaModal__actionButtonsRow {
+        display: flex;
+        justify-content: space-around;
+        padding-top: 16px;
+      }
+      minds-button-boost {
+        button {
+          margin-top: 8px;
+        }
+      }
+    }
+
+      // * Comments  ********************************************
+
+    .m-mediaModal__commentsWrapper {
+      padding-top: $minds-padding;
+      @include m-theme(){
+        border-top: 1px solid themed($m-grey-100);
+      }
+
+      display: block;
+      margin-bottom: 0;
+      flex: 1;
+
+
+
+      m-comments__tree {
+        height: 100%;
+        // height: calc(100vh - 45px);
+        position: relative;
+        padding: 0 0 24px;
+        margin: 0;
+        flex-direction: column;
+        box-sizing: border-box;
+        width: 100%;
+
+
+        m-comments__thread {
+          height: 100%;
+          // height: calc(100vh - 45px);
+          position: relative;
+          margin: 0;
+          flex-direction: column;
+          box-sizing: border-box;
+
+
+          .m-comments__thread {
+            overflow-y: auto;
+            max-height: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+
+            .minds-avatar {
+              width: 36px;
+              height: 36px;
+            }
+
+            .m-comment-attachment .item-image {
+              img, minds-video {
+                max-width: 50%;
+              }
+            }
+
+
+          }
+          .minds-comment {
+            padding: 8px 0px;
+
+            .mdl-card__menu {
+              display: none;
+            }
+
+            &:hover .mdl-card__menu {
+              display: block;
+            }
+
+            .m-comment-attachment .m-rich-embed{
+              max-width: 63%;
+              .m-blurb {
+                display: block;
+              }
+            }
+          }
+
+          .minds-comment-post {
+            flex-shrink: 0;
+          }
+
+          .post-preview {
+            width: 63%;
+            height: auto;
+
+            .attachment-preview {
+              height: 140px;
+              object-fit: cover;
+            }
+          }
+
+          .minds-comments-container {
+            overflow-y: visible;
+            height: auto;
+            max-height: none;
+          }
+
+        }
+      }
     }
   }
 }

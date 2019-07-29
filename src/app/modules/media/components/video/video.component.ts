@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { MindsVideoProgressBar } from './progress-bar/progress-bar.component';
 import { MindsVideoVolumeSlider } from './volume-slider/volume-slider.component';
 
@@ -7,6 +8,7 @@ import { ScrollService } from '../../../../services/ux/scroll';
 import { MindsPlayerInterface } from './players/player.interface';
 import { WebtorrentService } from '../../../webtorrent/webtorrent.service';
 import { SOURCE_CANDIDATE_PICK_ZIGZAG, SourceCandidates } from './source-candidates';
+import isMobile from '../../../../helpers/is-mobile';
 
 @Component({
   selector: 'm-video',
@@ -24,6 +26,7 @@ export class MindsVideoComponent {
   @Input() poster: string = '';
 
   @Output('finished') finished: EventEmitter<any> = new EventEmitter();
+  @Output() triggerMediaModal: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('progressBar', { static: false }) progressBar: MindsVideoProgressBar;
   @ViewChild('volumeSlider', { static: false }) volumeSlider: MindsVideoVolumeSlider;
@@ -70,6 +73,7 @@ export class MindsVideoComponent {
     public client: Client,
     protected webtorrent: WebtorrentService,
     protected cd: ChangeDetectorRef,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -321,6 +325,16 @@ export class MindsVideoComponent {
         this.src.unshift(...this.src.splice(srcI, 1));
       }
     }
+  }
+
+  requestMediaModal() {
+    this.playerRef.pause();
+    // Mobile users go to media page instead of modal
+    if (isMobile()) {
+      this.router.navigate([`/media/${this.guid}`]);
+    }
+
+    this.triggerMediaModal.emit();
   }
 
   detectChanges() {

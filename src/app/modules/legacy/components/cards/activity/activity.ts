@@ -27,6 +27,7 @@ import { BlockListService } from "../../../../../common/services/block-list.serv
 import { ActivityAnalyticsOnViewService } from "./activity-analytics-on-view.service";
 import { NewsfeedService } from "../../../../newsfeed/services/newsfeed.service";
 import { ClientMetaService } from "../../../../../common/services/client-meta.service";
+import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
   moduleId: module.id,
@@ -419,19 +420,19 @@ export class Activity implements OnInit {
     this.cd.detectChanges();
   }
 
-  async showMediaModal() {
-    console.log(this.activity);
+  showMediaModal(subtype: string) {
+    // Mobile users go to media page instead of modal
+    if (isMobile()) {
+      this.router.navigate([`/media/${this.activity.entity_guid}`]);
+    }
 
-    const mediaModal = this.overlayModal.create(MediaModalComponent, this.activity, {
+    this.activity.modal_source_url = this.router.url;
+
+    // 'image' or 'video'
+    this.activity.modal_subtype = subtype;
+
+    this.overlayModal.create(MediaModalComponent, this.activity, {
       class: 'm-overlayModal--media'
-    });
-
-    this.location.go(`/media/${this.activity.entity_guid}?view=modal`);
-
-    mediaModal.onDidDismiss(() => {
-      this.location.back();
-    });
-
-    mediaModal.present();
+    }).present();
   }
 }

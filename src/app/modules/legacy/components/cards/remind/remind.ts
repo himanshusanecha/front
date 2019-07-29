@@ -1,8 +1,13 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
+import { Router } from "@angular/router";
 
 import { Client } from '../../../../../services/api';
 import { Session } from '../../../../../services/session';
 import { AttachmentService } from '../../../../../services/attachment';
+import { OverlayModalService } from '../../../../../services/ux/overlay-modal';
+import { MediaModalComponent } from '../../../../media/modal/modal.component';
+
+import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
   moduleId: module.id,
@@ -37,7 +42,9 @@ export class Remind {
     public session: Session,
     public client: Client,
     public attachment: AttachmentService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private overlayModal: OverlayModalService,
+    private router: Router,
   ) {
     this.hideTabs = true;
   }
@@ -65,8 +72,8 @@ export class Remind {
     this.activity.boosted = this.boosted;
 
     if (
-      this.activity.custom_type == 'batch' 
-      && this.activity.custom_data 
+      this.activity.custom_type == 'batch'
+      && this.activity.custom_data
       && this.activity.custom_data[0].src
     ) {
       this.activity.custom_data[0].src = this.activity.custom_data[0].src.replace(this.minds.site_url, this.minds.cdn_url);
@@ -119,4 +126,21 @@ export class Remind {
   togglePin() { /* NOOP */ }
 
   menuOptionSelected(e) { /* NOOP */ }
+
+  showMediaModal(subtype: string) {
+
+    // Mobile users go to media page instead of modal
+    if (isMobile()) {
+      this.router.navigate([`/media/${this.activity.entity_guid}`]);
+    }
+
+    this.activity.modal_source_url = this.router.url;
+
+     // 'image' or 'video'
+    this.activity.modal_subtype = subtype;
+
+    this.overlayModal.create(MediaModalComponent, this.activity, {
+      class: 'm-overlayModal--media'
+    }).present();
+  }
 }

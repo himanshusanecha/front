@@ -3,7 +3,7 @@
 }
 .m-pin-button {
   overflow: visible;
-  
+
   .m-tooltip--bubble {
     width:100px;
   }
@@ -28,6 +28,12 @@ minds-activity {
       @include m-theme(){
         background-color: themed($m-black-always);
       }
+    }
+  }
+
+  .m-activity--image-link {
+    &:hover {
+      cursor: pointer;
     }
   }
 
