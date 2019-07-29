@@ -28,6 +28,8 @@ import { ActivityAnalyticsOnViewService } from "./activity-analytics-on-view.ser
 import { NewsfeedService } from "../../../../newsfeed/services/newsfeed.service";
 import { ClientMetaService } from "../../../../../common/services/client-meta.service";
 import isMobile from '../../../../../helpers/is-mobile';
+import { AutocompleteSuggestionsService } from "../../../../suggestions/services/autocomplete-suggestions.service";
+import { ActivityService } from '../../../../../common/services/activity.service';
 
 @Component({
   moduleId: module.id,
@@ -37,7 +39,7 @@ import isMobile from '../../../../../helpers/is-mobile';
   },
   inputs: ['object', 'commentsToggle', 'focusedCommentGuid', 'visible', 'canDelete', 'showRatingToggle'],
   outputs: ['_delete: delete', 'commentsOpened', 'onViewed'],
-  providers: [ ClientMetaService, ActivityAnalyticsOnViewService ],
+  providers: [ ClientMetaService, ActivityAnalyticsOnViewService, ActivityService ],
   templateUrl: 'activity.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -54,6 +56,7 @@ export class Activity implements OnInit {
   translateToggle: boolean = false;
   translateEvent: EventEmitter<any> = new EventEmitter();
   showBoostOptions: boolean = false;
+  allowComments = true;
   @Input() boost: boolean = false;
   @Input('boost-toggle')
   @Input() showBoostMenuOptions: boolean = false;
@@ -92,12 +95,21 @@ export class Activity implements OnInit {
   get menuOptions(): Array<string> {
     if (!this.activity || !this.activity.ephemeral) {
       if (this.showBoostMenuOptions)  {
-        return ['edit', 'translate', 'share', 'follow', 'feature', 'delete', 'report', 'set-explicit', 'block', 'rating'];
+        return ['edit', 'translate', 'share',
+          'follow', 'feature', 'delete',
+          'report', 'set-explicit', 'block',
+          'rating', 'allow-comments'];
       } else {
-        return ['edit', 'translate', 'share', 'follow', 'feature', 'delete', 'report', 'set-explicit', 'block', 'rating'];
+        return ['edit', 'translate', 'share',
+          'follow', 'feature', 'delete',
+          'report', 'set-explicit', 'block',
+          'rating', 'allow-comments'];
       }
     } else {
-      return ['view', 'translate', 'share', 'follow', 'feature', 'report', 'set-explicit', 'block', 'rating']
+      return ['view', 'translate', 'share',
+        'follow', 'feature', 'report',
+        'set-explicit', 'block', 'rating',
+        'allow-comments'];
     }
   }
 
@@ -117,6 +129,8 @@ export class Activity implements OnInit {
     protected activityAnalyticsOnViewService: ActivityAnalyticsOnViewService,
     protected newsfeedService: NewsfeedService,
     protected clientMetaService: ClientMetaService,
+    public suggestions: AutocompleteSuggestionsService,
+    protected activityService: ActivityService,
     @SkipSelf() injector: Injector,
     elementRef: ElementRef,
   ) {
@@ -172,6 +186,8 @@ export class Activity implements OnInit {
       this.translationService.isTranslatable(this.activity) ||
       (this.activity.remind_object && this.translationService.isTranslatable(this.activity.remind_object))
     );
+
+    this.allowComments = this.activity.allow_comments;
   }
 
   getOwnerIconTime() {
@@ -250,6 +266,9 @@ export class Activity implements OnInit {
   }*/
 
   openComments() {
+    if (!this.shouldShowComments()) {
+      return;
+    }
     this.commentsToggle = !this.commentsToggle;
     this.commentsOpened.emit(this.commentsToggle);
   }
@@ -342,10 +361,11 @@ export class Activity implements OnInit {
         this.translateToggle = true;
         break;
     }
+    this.detectChanges();
   }
 
   setExplicit(value: boolean) {
-    let oldValue = this.activity.mature,
+    const oldValue = this.activity.mature,
       oldMatureVisibility = this.activity.mature_visibility;
 
     this.activity.mature = value;
@@ -413,6 +433,16 @@ export class Activity implements OnInit {
 
   isPending(activity) {
     return activity && activity.pending && activity.pending !== '0';
+  }
+
+  /**
+   * If an activity allow
+   */
+  shouldShowComments() {
+    return (
+      this.activity.allow_comments
+      || this.activity['comments:count'] >= 0
+    );
   }
 
   detectChanges() {
