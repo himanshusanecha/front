@@ -1,23 +1,30 @@
 <div class="m-mediaModal mdl-shadow--4dp">
-  <div class="m-mediaModal__theater">
+  <!-- This is the element that goes into fullscreen -->
+  <!-- <div class="m-mediaModal__theater"> -->
     <!-- Media: image -->
-    <!-- This is the element that goes into fullscreen -->
-    <div class="m-mediaModal__stage m-mediaModal__stage--image" *ngIf="entity.modal_subtype === 'image'">
+    <div class="m-mediaModal__theater m-mediaModal__theater--image" *ngIf="entity.modal_subtype === 'image'">
       <img [src]="entity.thumbnail" (load)="inProgress = !inProgress"/>
       <div class="mdl-spinner mdl-js-spinner is-active" [mdl] *ngIf="inProgress"></div>
-      <div class="m-mediaModal__stageOverlay">
-        <a class="m-mediaModal__stageOverlayTitle" [routerLink]="['/media', entity.entity_guid]">{{title}}</a>
-        <div class="m-mediaModal__fullscreenButton" (click)="toggleFullscreen()">
-          <m-tooltip *ngIf="!isFullscreen" [anchor]="right" icon="fullscreen">Fullscreen</m-tooltip>
-          <m-tooltip *ngIf="isFullscreen" [anchor]="right" icon="fullscreen_exit">Exit fullscreen</m-tooltip>
+      <div class="m-mediaModal__theaterOverlay">
+        <a class="m-mediaModal__theaterOverlayTitle" [routerLink]="['/media', entity.entity_guid]">{{title}}</a>
+        <div class="m-mediaModal__fullscreenButton"
+          (click)="toggleFullscreen()"
+          (mouseenter)="hovering=true"
+          (mouseleave)="hovering=false"
+          [class.m-mediaModal__fullscreenButton--active]="hovering"
+          >
+          <i *ngIf="!isFullscreen" class="material-icons">fullscreen</i>
+          <i *ngIf="isFullscreen" class="material-icons">fullscreen_exit</i>
+          <!-- <m-tooltip *ngIf="!isFullscreen" [anchor]="right" icon="fullscreen">Fullscreen</m-tooltip>
+          <m-tooltip *ngIf="isFullscreen" [anchor]="right" icon="fullscreen_exit">Exit fullscreen</m-tooltip> -->
         </div>
       </div>
     </div>
     <!-- Media: video -->
-    <div class="m-mediaModal__stage m-mediaModal__stage--video" *ngIf="entity.modal_subtype === 'video'">
-      <!-- TODO OJM video stage with no full screen -->
+    <div class="m-mediaModal__theater m-mediaModal__theater--video" *ngIf="entity.modal_subtype === 'video'">
+      <!-- TODO OJM video theater with no full screen -->
     </div>
-  </div>
+  <!-- </div> -->
   <div class="m-mediaModal__contentWrapper">
     <!-- Owner block -->
     <div class="m-mediaModal__ownerBlock m-owner-block">
@@ -53,10 +60,6 @@
     </div>
     <!-- Action buttons -->
     <div class="m-mediaModal__actionButtonsWrapper">
-      <!-- <minds-button-boost *ngIf="entity.subtype != 'album'"
-        class="m-media-content--button-boost"
-        [object]="entity"
-      ></minds-button-boost> -->
       <div class="m-mediaModal__actionButtonsRow m-action-tabs">
         <m-wire-button *ngIf="session.getLoggedInUser().guid != entity.owner_guid"
           [object]="entity"

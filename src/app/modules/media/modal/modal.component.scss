@@ -1,5 +1,5 @@
 .minds-avatar-hovercard {
-  z-index: 9999999 !important;
+  z-index: 9999999;
 }
 
 .m-overlay-modal.m-overlayModal--media {
@@ -19,44 +19,46 @@ m-media--modal {
   flex-direction: row;
   justify-content: flex-start;
   align-items: stretch;
+  border: 1px solid salmon;
+  max-height: 100%;
+  max-height: 98vh;
 
 
   .m-mediaModal__theater {
+    border: 1px solid gold;
     flex: 1 1 auto;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    width: 100%;
+    overflow: hidden; // .????
     @include m-theme(){
       background-color: rgba(themed($m-black-always), 0.95);
     }
-    overflow: hidden; // .????
 
     &:hover {
-      .m-mediaModal__stageOverlay{
+      .m-mediaModal__theaterOverlay{
         opacity: 1;
       }
     }
 
-
-    .m-mediaModal__stage {
-
-      img{
-        max-width:100%;
-        height:auto;
+    img{
+      object-fit: contain;
+      flex: 1;
+      overflow: hidden;
+    }
+    m-video{
+      @include m-theme(){
+        background-color: themed($m-black-always);
       }
-      m-video{
-        @include m-theme(){
-          background-color: themed($m-black-always);
-        }
-        video{
-          max-width:100%;
-          height:100%;
-        }
+      video{
+        max-width:100%;
+        height:100%;
       }
     }
 
-    .m-mediaModal__stageOverlay {
+    .m-mediaModal__theaterOverlay {
       display: flex;
       justify-content: space-between;
       position: absolute;
@@ -77,10 +79,11 @@ m-media--modal {
         cursor: pointer;
       }
 
-      .m-mediaModal__stageOverlayTitle {
+      .m-mediaModal__theaterOverlayTitle {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-decoration: none;
 
         @include m-theme(){
           color: themed($m-white-always);
@@ -96,9 +99,16 @@ m-media--modal {
         @include m-theme(){
           color: themed($m-white-always);
         }
-        .m-tooltip--bubble {
-          right: 8px;
+        transition: transform 200ms linear;
+
+        // .m-tooltip--bubble {
+        //   right: 8px;
+        // }
+
+        &.m-mediaModal__fullscreenButton--active {
+          transform: scale(1.2);
         }
+
         &:hover {
           // TODO OJM: add --active class on hover and transform: scale(1.2)?
           // i {
@@ -113,13 +123,15 @@ m-media--modal {
 
   // TODO OJM see .m-group--conversation
   .m-mediaModal__contentWrapper {
+    border: 1px solid green;
     display: flex;
     flex-direction: column;
     width: calc(33% - 12px); //1/3rd of screen
     // width: 300px;
     min-width: 300px;
-    // TODO OJM add a vh fallback
-    height: 96vh;
+
+    height: 100%; // TODO check this vh fallback
+    height: 90vh;
     padding: 16px;
     font-family: 'Roboto', Helvetica, sans-serif;
 
@@ -268,6 +280,7 @@ m-media--modal {
             .minds-avatar {
               width: 36px;
               height: 36px;
+              margin-left: 0;
             }
 
             .m-comment-attachment .item-image {

@@ -17,8 +17,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   boosted: boolean;
   inProgress: boolean = true;
   isFullscreen: boolean = false;
-  isVideo: boolean = false;
   navigatedAway: boolean = false;
+  hovering: boolean = false; // Used for fullscreen button transformation
 
   routerSubscription: Subscription;
 
@@ -38,13 +38,13 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     console.log(this.entity);
     this.entity.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.entity_guid}/xlarge`;
     this.boosted = this.entity.boosted || this.entity.p2p_boosted;
-    this.isVideo = this.entity.subtype === 'video' ? true : false; // image || video
     this.title = this.entity.message ? this.entity.message : `${this.entity.ownerObj.name}'s post`;
 
     // Change the url to point to media page so user can easily share link
+    // (but don't actually redirect)
     this.location.replaceState(`/media/${this.entity.entity_guid}`);
 
-    // Handle redirects
+    // When user clicks a link from inside the modal
     this.routerSubscription = this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
 
@@ -63,6 +63,46 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     });
   }
+
+
+  // @HostListener('window:beforeunload', ['$event'])
+  //  onWindowClose(event: any): void {
+  //   // Do something
+
+  //    event.preventDefault();
+  //    event.returnValue = false;
+
+  // }
+
+
+  // Hijack browser refresh so it doesn't go to faux media page url
+  // @HostListener('window:beforeunload', ['$event'])
+  // onBeforeUnload(event) {
+  //   console.log('***rfeeeresh');
+  //   event.preventDefault();
+  //   console.log('default prevented');
+
+
+  //   // Fix browser history so browser refresh doesn't go to media page
+  //   this.location.replaceState(this.entity.modal_source_url);
+
+
+  //   // event.returnValue = ''; // Required for chrome
+
+  //   // Then do the refresh
+  //   // window.location.reload();
+
+  //   // Prevent browser popup reload confirmation dialog
+  //   return;
+  // }
+
+  // // TEMP
+  // hoverCheck(state: string) {
+  //   console.log('*** ' + state);
+  // }
+
+
+
 
   // TODO OJM is there a better way to get this?
   getOwnerIconTime() {
@@ -98,7 +138,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   toggleFullscreen() {
-    const elem = document.querySelector('.m-mediaModal__stage');
+    const elem = document.querySelector('.m-mediaModal__theater');
 
     // If fullscreen is not already enabled
     if (!document['fullscreenElement'] && !document['webkitFullScreenElement'] && !document['mozFullScreenElement'] && !document['msFullscreenElement']) {
