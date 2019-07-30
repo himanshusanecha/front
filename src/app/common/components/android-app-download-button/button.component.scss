@@ -1,8 +1,10 @@
 .m-androidApp__download {
   box-sizing: border-box;
-  border: 2px solid rgba(255,255,255,0.6);
   border-radius: 8px;
-  background: #111;
+  @include m-theme(){
+    border: 2px solid rgba(themed($m-white), 0.6);
+    background: rgba(themed($m-grey-950), 0.7);
+  }
 
   display: block;
   position: relative;
