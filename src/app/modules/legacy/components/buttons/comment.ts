@@ -31,9 +31,7 @@ export class CommentButton implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef) {
   }
 
-  ngOnInit() {
-    console.log('comment button init');
-  }
+  ngOnInit() { }
 
   ngOnDestroy() { }
 
