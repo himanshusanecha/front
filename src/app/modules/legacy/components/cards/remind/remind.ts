@@ -3,11 +3,13 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter, In
 import { Client } from '../../../../../services/api';
 import { Session } from '../../../../../services/session';
 import { AttachmentService } from '../../../../../services/attachment';
+import { ActivityService } from '../../../../../common/services/activity.service';
 
 @Component({
   moduleId: module.id,
   selector: 'minds-remind',
   inputs: ['object', '_events: events'],
+  providers: [ActivityService],
   templateUrl: '../activity/activity.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
