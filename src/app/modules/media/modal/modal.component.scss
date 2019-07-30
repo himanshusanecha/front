@@ -19,13 +19,11 @@ m-media--modal {
   flex-direction: row;
   justify-content: flex-start;
   align-items: stretch;
-  border: 1px solid salmon;
   max-height: 100%;
   max-height: 98vh;
 
 
   .m-mediaModal__theater {
-    border: 1px solid gold;
     flex: 1 1 auto;
     display: flex;
     justify-content: center;
@@ -95,25 +93,31 @@ m-media--modal {
 
       // TODO OJM fullscreen styles e.g. .myClass:not(:fullscreen)
       .m-mediaModal__fullscreenButton {
-        font-size: 28px;
         @include m-theme(){
           color: themed($m-white-always);
         }
-        transition: transform 200ms linear;
+        transition: transform 150ms ease;
+
 
         // .m-tooltip--bubble {
         //   right: 8px;
         // }
 
+
         &.m-mediaModal__fullscreenButton--active {
-          transform: scale(1.2);
+          .m-mediaModal__fullscreenIcon--enable {
+            transform: scale(1.2);
+          }
+          .m-mediaModal__fullscreenIcon--disable {
+            transform: scale(0.83);
+          }
         }
 
-        &:hover {
-          // TODO OJM: add --active class on hover and transform: scale(1.2)?
-          // i {
-          //   font-size:32px;
-          // }
+        .m-mediaModal__fullscreenIcon--disable {
+          font-size: 28px;
+        }
+        .m-mediaModal__fullscreenIcon--disable {
+          font-size: 34px;
         }
       }
     }
@@ -121,16 +125,15 @@ m-media--modal {
 
   // * Content  ********************************************
 
-  // TODO OJM see .m-group--conversation
   .m-mediaModal__contentWrapper {
-    border: 1px solid green;
+    // border: 1px solid green;
     display: flex;
     flex-direction: column;
     width: calc(33% - 12px); //1/3rd of screen
     // width: 300px;
     min-width: 300px;
 
-    height: 100%; // TODO check this vh fallback
+    height: 100%;
     height: 90vh;
     padding: 16px;
     font-family: 'Roboto', Helvetica, sans-serif;

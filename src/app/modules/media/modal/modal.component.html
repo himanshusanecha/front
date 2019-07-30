@@ -13,10 +13,8 @@
           (mouseleave)="hovering=false"
           [class.m-mediaModal__fullscreenButton--active]="hovering"
           >
-          <i *ngIf="!isFullscreen" class="material-icons">fullscreen</i>
-          <i *ngIf="isFullscreen" class="material-icons">fullscreen_exit</i>
-          <!-- <m-tooltip *ngIf="!isFullscreen" [anchor]="right" icon="fullscreen">Fullscreen</m-tooltip>
-          <m-tooltip *ngIf="isFullscreen" [anchor]="right" icon="fullscreen_exit">Exit fullscreen</m-tooltip> -->
+          <i *ngIf="!isFullscreen" class="material-icons m-mediaModal__fullscreenIcon--enable">fullscreen</i>
+          <i *ngIf="isFullscreen" class="material-icons m-mediaModal__fullscreenIcon--disable">fullscreen_exit</i>
         </div>
       </div>
     </div>
@@ -72,7 +70,17 @@
     </div>
     <!-- Comments -->
     <div class="m-mediaModal__commentsWrapper" *ngIf="entity.guid">
-      <m-comments__tree [entity]="entity"></m-comments__tree>
+      <m-comments__tree
+        *ngIf="group?.guid"
+        class="m-group__chat"
+        [limit]="24"
+        [entity]="entity"
+        [conversation]="true"
+        [canDelete]="group['is:moderator'] || group['is:creator']"
+        [readonly]="!group['is:member']"
+        [scrollable]="true"
+      >
+      </m-comments__tree>
     </div>
   </div>
 </div>
