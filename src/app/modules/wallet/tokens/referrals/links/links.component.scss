@@ -137,12 +137,6 @@
       }
     }
 
-    .m-referralsLinks__shareButton {
-      @include m-theme(){
-        background-color: themed($m-blue);
-      }
-    }
-
     .m-referralsLinks__shareButton--twitter {
       @include m-theme() {
         background-color: themed($m-twitter);
