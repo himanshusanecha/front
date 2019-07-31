@@ -1,85 +1,84 @@
-<m-modal [open]="open" (closed)="close($event)">
-
-    <div class="mdl-card__supporting-text">
-      <!-- <input class="" value="{{url}}" (click)="copy($event)"/> -->
-      <div class="m-share__copyableLink m-border" [class.focused]="urlFocused"
-        (click)="applyFocus(urlEl, 'url')"
-      >
-        <input class="m-share__copyableLinkText"
-          [class.recentlyCopied]="urlRecentlyCopied"
-          readonly tabindex="-1"
-          (focus)="urlFocused"
-          (focusout)="urlFocused = false"
-          value="{{url}}" #urlEl>
-        <div (click)="copyToClipboard(urlEl, 'url')" class="m-share__copyableLinkButton">
-          <div *ngIf="!urlRecentlyCopied" i18n="@@M_REFERRALS__LINKS_COPY_ACTION">Copy</div>
-          <div *ngIf="urlRecentlyCopied" i18n="@@M_REFERRALS__LINKS_COPY_STATE">Copied</div>
-        </div>
-      </div>
+<h3 i18n="@@M_SHARE__HEADER">Share what's on your Mind</h3>
+<div class="m-share__copyableLinkContainer">
+  <div class="m-share__copyableLink m-border" [class.focused]="shareUrlFocused"
+    (click)="applyFocus(shareUrlEl)"
+  >
+  <input class="m-share__copyableLinkText"
+      [ngClass]="{ 'recentlyCopied': shareUrlRecentlyCopied, 'm-share__copyableLinkText--flashing': flashing }"
+      readonly tabindex="-1"
+      (focus)="shareUrlFocused"
+      (focusout)="shareUrlFocused = false"
+      value="{{shareUrl}}" #shareUrlEl>
+    <div (click)="copyToClipboard(shareUrlEl)" class="m-share__copyableLinkButton">
+      <div *ngIf="!shareUrlRecentlyCopied" i18n="@@M_SHARE__LINK_COPY_ACTION">Copy</div>
+      <div *ngIf="shareUrlRecentlyCopied" i18n="@@M_SHARE__LINK_COPY_STATE">Copied</div>
     </div>
+  </div>
+</div>
 
-    <div class="m-share__buttons">
-      <button i18n-title="@@M_SHARE__BUTTON_TWITTER" title="Twitter"
-        class="m-share__button m-share__button--twitter"
-        (click)="openTwitter()"
-      >
-        <img [src]="minds.cdn_assets_url + 'assets/icons/twitter.svg'">
-      </button>
+<div class="m-share__referrerParamCheckboxContainer" *ngIf="session.isLoggedIn()">
+  <input type="checkbox" checked
+    id="referrer-param"
+    name="referrer-param"
+    (click)="toggleReferrerParam()"
+  />
+  <label for="referrer-param">
+    <span i18n="@@M_SHARE__REFERRER_PARAM_CHECKBOX_LABEL">
+      Include referral code
+    </span>
+  </label>
+  <m-tooltip [anchor]="left" icon="help" i18n="@@M_SHARE__REFERRER_PARAM_CHECKBOX_TOOLTIP">
+      Use your referral code to earn tokens for referring new users to Minds. Learn more at the
+      <a [routerLink]="['/wallet/tokens/referrals']" target="_blank">Referrals Console</a>
+      <i class="material-icons m-share__newWindowIcon">open_in_new</i>
+  </m-tooltip>
+</div>
 
-      <button i18n-title="@@M_SHARE__BUTTON_FACEBOOK" title="Facebook"
-        class="m-share__button m-share__button--facebook"
-        (click)="openFacebook()"
-      >
-        <img [src]="minds.cdn_assets_url + 'assets/icons/facebook.svg'">
-      </button>
+<div class="m-share__buttonsContainer">
+  <div class="m-share__buttons">
+    <button i18n-title="@@M_SHARE__BUTTON_TWITTER" title="Twitter"
+      class="m-share__button m-share__button--twitter"
+      (click)="openTwitter()"
+    >
+      <img [src]="minds.cdn_assets_url + 'assets/icons/twitter.svg'">
+    </button>
 
-      <button i18n-title="@@M_SHARE__BUTTON_MESSENGER" title="Messenger"
-        class="m-share__button m-share__button--messenger"
-        *ngIf="isMobileOrTablet()"
-        (click)="openMessenger()"
-      >
-        <img [src]="minds.cdn_assets_url + 'assets/icons/messenger.svg'">
-      </button>
+    <button i18n-title="@@M_SHARE__BUTTON_FACEBOOK" title="Facebook"
+      class="m-share__button m-share__button--facebook"
+      (click)="openFacebook()"
+    >
+      <img [src]="minds.cdn_assets_url + 'assets/icons/facebook.svg'">
+    </button>
 
-      <button i18n-title="@@M_SHARE__BUTTON_Whatsapp" title="Whatsapp"
-        class="m-share__button m-share__button--whatsapp"
-        *ngIf="isMobileOrTablet()"
-        (click)="openWhatsapp()"
-      >
-        <img [src]="minds.cdn_assets_url + 'assets/icons/whatsapp.svg'">
-      </button>
+    <button i18n-title="@@M_SHARE__BUTTON_MESSENGER" title="Messenger"
+      class="m-share__button m-share__button--messenger"
+      *ngIf="isMobileOrTablet()"
+      (click)="openMessenger()"
+    >
+      <img [src]="minds.cdn_assets_url + 'assets/icons/messenger.svg'">
+    </button>
 
-      <button i18n-title="@@M_SHARE__BUTTON_SMS" title="SMS"
-        class="m-share__button m-share__button--sms"
-        *ngIf="isMobile()"
-        (click)="openSMS()"
-      >
-        <img [src]="minds.cdn_assets_url + 'assets/icons/sms.svg'">
-      </button>
+    <button i18n-title="@@M_SHARE__BUTTON_Whatsapp" title="Whatsapp"
+      class="m-share__button m-share__button--whatsapp"
+      *ngIf="isMobileOrTablet()"
+      (click)="openWhatsapp()"
+    >
+      <img [src]="minds.cdn_assets_url + 'assets/icons/whatsapp.svg'">
+    </button>
 
-      <button i18n-title="@@M_SHARE__BUTTON_EMAIL" title="Email"
-        class="m-share__button m-share__button--email"
-        (click)= "openEmail()"
-      >
-        <img [src]="minds.cdn_assets_url + 'assets/icons/email.svg'">
-      </button>
-      <!-- <button class="mdl-button mdl-button--raised mdl-color-text--white m-social-share-fb"
-        (click)="openWindow('https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl + '&display=popup&ref=plugin&src=share_button')">
-        <ng-container i18n="@@MODALS__SHARE__ON_FACEBOOK">Share on Facebook</ng-container>
-      </button>
-      <button class="mdl-button mdl-button--raised mdl-color-text--white m-social-share-twitter"
-        (click)="openWindow('https://twitter.com/intent/tweet?text=Shared%20via%20Minds.com&tw_p=tweetbutton&url=' + encodedUrl)">
-        <ng-container i18n="@@MODALS__SHARE__ON_TWITTER">Share on Twitter</ng-container>
-      </button> -->
-    </div>
+    <button i18n-title="@@M_SHARE__BUTTON_SMS" title="SMS"
+      class="m-share__button m-share__button--sms"
+      *ngIf="isMobile()"
+      (click)="openSMS()"
+    >
+      <img [src]="minds.cdn_assets_url + 'assets/icons/sms.svg'">
+    </button>
 
-    <div class="m-modal-share-embed" *ngIf="embedCode">
-      <span class="m-modal-share-embed__label mdl-color-text--blue-grey-300">
-        <ng-container i18n="@@M__COMMON__EMBED_INTO_WEBSITE">Embed into your website:</ng-container>
-      </span>
-      <div>
-        <textarea (click)="copy($event)" readonly>{{ embedCode }}</textarea>
-      </div>
-    </div>
-
-  </m-modal>
+    <button i18n-title="@@M_SHARE__BUTTON_EMAIL" title="Email"
+      class="m-share__button m-share__button--email"
+      (click)= "openEmail()"
+    >
+      <img [src]="minds.cdn_assets_url + 'assets/icons/email.svg'">
+    </button>
+  </div>
+</div>
