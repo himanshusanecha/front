@@ -30,7 +30,7 @@
         [playCount]="entity['play:count']"
         [torrent]="[{ res: '360', key: entity.custom_data.guid + '/360.mp4' }]"
         #player>
-        <video-ads [player]="player" *ngIf="activity.monetized"></video-ads>
+        <video-ads [player]="player" *ngIf="entity.monetized"></video-ads>
       </m-video>
     </div>
   <!-- </div> -->
