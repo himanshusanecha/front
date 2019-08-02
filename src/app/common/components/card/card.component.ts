@@ -7,7 +7,8 @@ import {
   Type,
   ChangeDetectorRef,
   ComponentRef,
-  ElementRef
+  ElementRef,
+  Injector
 } from '@angular/core';
 
 import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
@@ -43,7 +44,8 @@ export class MindsCard implements AfterViewInit {
   private initialized: boolean = false;
 
   constructor(
-    private _componentFactoryResolver: ComponentFactoryResolver
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    private _injector: Injector
   ) { }
 
   @Input('object') set _object(value: any) {
@@ -120,7 +122,7 @@ export class MindsCard implements AfterViewInit {
 
     viewContainerRef.clear();
 
-    this.componentRef = viewContainerRef.createComponent(componentFactory);
+    this.componentRef = viewContainerRef.createComponent(componentFactory, undefined, this._injector);
     this.componentInstance = this.componentRef.instance;
     this.anchorRef = viewContainerRef.element;
 
