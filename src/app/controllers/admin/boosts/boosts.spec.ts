@@ -75,7 +75,7 @@ class RejectionReasonModalMock {
   @Input() noButton: string;
 }
 
-describe('AdminBoosts', () => {
+fdescribe('AdminBoosts', () => {
 
   let comp: AdminBoosts;
   let fixture: ComponentFixture<AdminBoosts>;
