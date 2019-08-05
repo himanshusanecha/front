@@ -8,7 +8,8 @@ import {
   ChangeDetectorRef,
   ComponentRef,
   ElementRef,
-  Injector
+  Injector,
+  SkipSelf
 } from '@angular/core';
 
 import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
@@ -20,7 +21,7 @@ import { ImageCard } from '../../../modules/legacy/components/cards/object/image
 import { VideoCard } from '../../../modules/legacy/components/cards/object/video/video';
 import { AlbumCard } from '../../../modules/legacy/components/cards/object/album/album';
 import { BlogCard } from '../../../modules/blogs/card/card';
-import { CommentComponentV2 } from "../../../modules/comments/comment/comment.component";
+import { CommentComponentV2 } from '../../../modules/comments/comment/comment.component';
 
 @Component({
   selector: 'minds-card',
@@ -45,7 +46,8 @@ export class MindsCard implements AfterViewInit {
 
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
-    private _injector: Injector
+
+    @SkipSelf() private _injector: Injector
   ) { }
 
   @Input('object') set _object(value: any) {
