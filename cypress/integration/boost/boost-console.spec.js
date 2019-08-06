@@ -1,5 +1,3 @@
-import { notDeepEqual } from "assert";
-
 context('Boost Console', () => {
   const postContent = "Test boost, please reject..." + Math.random().toString(36);
 
@@ -58,8 +56,8 @@ context('Boost Console', () => {
     cy.wait(2000);
 
     cy.get('#boost-actions')
-    .first()
-    .click();
+      .first()
+      .click();
     cy.wait(5000);
     
     cy.get('.m-boost--creator-section-amount input')
