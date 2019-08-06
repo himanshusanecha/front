@@ -833,22 +833,10 @@
 
 // Creator Rewards component
 
-.m-wire--creator-rewards {
-  display: block;
-  //border-left: 1px solid rgba(0, 0, 0, 0.2);
-  //padding: ($minds-padding * 3) 0 ($minds-padding * 3) 60px;
-  font-family: inherit;
-  font-weight: 200;
+.m-wire--creator-rewards, .m-wireCreator__rewardSelector {
+  
   @include m-theme(){
     color: themed($m-grey-700);
-  }
-
-  @media screen and (max-width: $max-mobile) {
-    position: initial;
-    max-width: none;
-    border: none;
-    padding: 0 ($minds-padding * 2);
-    margin: ($minds-padding * 2) 0;
   }
 
   .m-wire--creator-rewards--title {
@@ -872,11 +860,8 @@
     }
   }
 
-  .m-wire--creator-rewards--list {
+  m-wirecreator__rewards {
     //max-width: 360px;
-    display: flex;
-    flex-direction: row;
-    list-style: none;
     margin: 0;
     padding: 0;
     @include m-theme(){
@@ -908,13 +893,19 @@
       letter-spacing: 2.5px;
     }
 
-    .m-wire--creator-rewards--description p {
+    .m-wire--creator-rewards--description {
+      padding: $minds-padding;
+      > * {
+        display: inline;
+      }  
+      p {
       font-family: 'Roboto';
       padding: 0;
       margin: 4px 0;
       line-height: 1.1;
       font-size: 12px;
       font-weight: 400;
+      }
     }
   }
 }
@@ -969,3 +960,9 @@
     }
   }
 }
+
+.m-wireCreator__rewardSelector {
+  margin-right: 64px;
+  margin-bottom: 16px;
+}
+

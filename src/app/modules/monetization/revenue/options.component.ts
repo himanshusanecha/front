@@ -37,7 +37,7 @@ export class RevenueOptionsComponent {
 
   getSettings() {
     this.inProgress = true;
-    this.client.get('api/v2/wallet/usd/settings')
+    this.client.get('api/v2/payments/stripe/connect')
       .then(({ account }) => {
         this.inProgress = false;
         this.payoutMethod.country = account.country;
@@ -55,7 +55,7 @@ export class RevenueOptionsComponent {
     this.editing = false;
     this.detectChanges();
 
-    this.client.post('api/v1/monetization/settings', this.form.value)
+    this.client.post('api/v2/payments/stripe/connect/bank', this.form.value)
       .then((response: any) => {
         this.inProgress = false;
         this.getSettings();
@@ -70,7 +70,7 @@ export class RevenueOptionsComponent {
   leave() {
     this.leaving = true;
     this.detectChanges();
-    this.client.delete('api/v1/monetization/settings/account')
+    this.client.delete('api/v2/payments/stripe/connect')
       .then((response: any) => {
         (<any>window).Minds.user.merchant = [];
         this.router.navigate(['/newsfeed']);

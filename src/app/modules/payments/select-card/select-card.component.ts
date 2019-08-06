@@ -24,7 +24,7 @@ import { Session } from '../../../services/session';
 export class PaymentsSelectCard {
 
   minds = (<any>window).Minds;
-  @Output() selected: EventEmitter<void> = new EventEmitter();
+  @Output() selected: EventEmitter<string> = new EventEmitter();
   paymentMethodId: string = '';
   paymentMethods = [];
 

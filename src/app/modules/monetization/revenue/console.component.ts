@@ -24,7 +24,7 @@ export class RevenueConsoleComponent {
   }
 
   ngOnInit() {
-    if (!this.session.getLoggedInUser().merchant) {
+    if (!this.session.getLoggedInUser().merchant || this.session.getLoggedInUser().merchant.deleted) {
       this.router.navigate(['/wallet/usd/onboarding']);
     }
   }

@@ -11,7 +11,7 @@ import { TokenContractService } from '../../blockchain/contracts/token-contract.
 import { MindsUser } from '../../../interfaces/entities';
 import { Router } from '@angular/router';
 
-export type PayloadType = 'onchain' | 'offchain' | 'usd' | 'eth';
+export type PayloadType = 'onchain' | 'offchain' | 'usd' | 'eth' | 'erc20' | 'btc';
 
 export class VisibleWireError extends Error {
   visible: boolean = true;
@@ -39,7 +39,7 @@ export class WireCreatorComponent {
     amount: 1,
     payloadType: 'onchain',
     guid: null,
-    recurring: false,
+    recurring: true,
 
     // Payment
     payload: null
@@ -224,7 +224,7 @@ export class WireCreatorComponent {
 
   setDefaults() {
     this.wire.amount = 1;
-    this.wire.recurring = false;
+    this.wire.recurring = true;
     let payloadType = localStorage.getItem('preferred-payment-method');
     if (['onchain', 'offchain'].indexOf(payloadType) === -1) {
       payloadType = 'offchain';
@@ -529,6 +529,20 @@ export class WireCreatorComponent {
     this.wire.payload = {
       paymentMethodId: paymentMethodId,
     };
+  }
+
+  setTier(reward) {
+    if (!reward)
+      return;
+    this.wire.amount = reward.amount;
+    switch (reward.currency) {
+      case 'tokens':
+        this.wire.payloadType = 'offchain';
+        break;
+      default:
+        this.wire.payloadType = reward.currency;
+    }
+    console.log('setting tier with', this.wire.amount, this.wire.payloadType);
   }
 
 }

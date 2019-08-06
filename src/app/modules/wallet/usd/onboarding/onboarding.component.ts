@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from '../../../../services/api';
 
 import { requiredFor, optionalFor } from './onboarding.validators';
@@ -28,6 +29,7 @@ export class WalletUSDOnboardingComponent implements OnInit {
     private fb: FormBuilder,
     private client: Client,
     private cd: ChangeDetectorRef,
+    private router: Router,
     protected overlayModal: OverlayModalService,
   ) { }
 
@@ -90,7 +92,7 @@ export class WalletUSDOnboardingComponent implements OnInit {
     }
   }
 
-  onboard() {
+  async onboard() {
     if (this.inProgress) {
       return;
     }
@@ -98,22 +100,25 @@ export class WalletUSDOnboardingComponent implements OnInit {
     this.inProgress = true;
     this.error = '';
 
-    this.client.post('api/v2/wallet/usd/onboarding', this.form.value)
-      .then((response: any) => {
-        this.inProgress = false;
+    try {
+      const response = <any>await this.client.post('api/v2/wallet/usd/onboarding', this.form.value)
+      this.inProgress = false;
 
-        if (!this.minds.user.programs)
-          this.minds.user.programs = [];
-        this.minds.user.programs.push('affiliate');
+      if (!this.minds.user.programs)
+        this.minds.user.programs = [];
+      this.minds.user.programs.push('affiliate');
 
-        this.completed.emit(response);
-        this.detectChanges();
-      })
-      .catch((e) => {
-        this.inProgress = false;
-        this.error = e.message;
-        this.detectChanges();
-      });
+      this.minds.user.merchant = {
+        'id': response.account.id,
+        'service': 'stripe',
+      };
+
+      this.router.navigate(['/wallet/usd/']);
+    } catch(e) {
+      this.inProgress = false;
+      this.error = e.message;
+      this.detectChanges();
+    }
   }
 
   update() {

@@ -10,7 +10,7 @@ import { Session } from '../../../services/session';
   template: `
     <button class="m-btn m-btn--action m-btn--slim m-wire-button" (click)="wire()">
         <i class="ion-icon ion-flash"></i>
-        <span>Donate</span>
+        <span>Wire</span>
     </button>
   `
 })

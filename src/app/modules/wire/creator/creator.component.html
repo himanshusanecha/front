@@ -14,18 +14,28 @@
     </div>
   </div>
 
-  <m-wire--creator-rewards
-    [rewards]="owner?.wire_rewards"
-    [type]="tokens"
-    [amount]="wire.amount"
-    (selectAmount)="setAmount($event)"
-    [channel]="owner"
-    [sums]="sums"
-  ></m-wire--creator-rewards>
-
   <section class="m-wire--creator-section-row">
     <!-- Amount -->
     <section class="m-wire--creator-section">
+
+      <div class="m-wireCreator__rewardSelector" *ngIf="owner.wire_rewards?.rewards && (owner.wire_rewards.rewards['tokens'] || owner.wire_rewards.rewards['money'])">
+        <h3 class="m-wire--creator-section-title--small">
+          <ng-container i18n="@@WIRE__CREATOR__AMOUNT_TITLE_HOW_MANY_TOKENS">
+            Pick a subscriptions tier 
+          </ng-container>
+        </h3>
+
+        <m-wireCreator__rewards
+          [rewards]="owner?.wire_rewards"
+          [amount]="wire.amount"
+          (selectReward)="setTier($event)"
+          [currency]="wire.payloadType"
+          [channel]="owner"
+          [sums]="sums"
+        ></m-wireCreator__rewards>
+      </div>
+
+     <!-- Amount -->
       <h3 class="m-wire--creator-section-title--small">
         <ng-container i18n="@@WIRE__CREATOR__AMOUNT_TITLE_HOW_MANY_TOKENS">
           How much do you want to send?
@@ -53,7 +63,7 @@
           <span i18n="tokens input|@@M__COMMON__TOKENS_INPUT" *ngIf="wire.payloadType === 'usd'">USD</span>
           <span i18n="tokens input|@@M__COMMON__TOKENS_INPUT" *ngIf="wire.payloadType === 'eth'">ETH</span>
           <span i18n="tokens input|@@M__COMMON__TOKENS_INPUT" *ngIf="wire.payloadType === 'btc'">BTC</span>
-          <span i18n="tokens input|@@M__COMMON__TOKENS_INPUT" *ngIf="wire.payloadType === 'money'">ERC-20</span>
+          <span i18n="tokens input|@@M__COMMON__TOKENS_INPUT" *ngIf="wire.payloadType === 'erc20'">ERC-20</span>
           <ul *ngIf="false">
             <li>USD</li>
             <li>ETH</li>
