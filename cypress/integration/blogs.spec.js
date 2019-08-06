@@ -6,7 +6,7 @@ context('Blogs', () => {
       .should('eq', `/newsfeed/subscriptions`);
   })
 
-  it('should not be able to create a new blog if no title or banner are specified', () => {
+ it('should not be able to create a new blog if no title or banner are specified', () => {
     cy.visit('/blog/edit/new');
 
     cy.get('.m-button--submit').click();
@@ -46,17 +46,11 @@ context('Blogs', () => {
     cy.wait(1000);
 
     cy.server();
-    cy.route("POST", "**/api/v1/blog/new").as("newBlog");
+    cy.route("POST", "**!/api/v1/blog/new").as("newBlog");
 
     cy.get('.m-button--submit').click({ force: true }); // TODO: Investigate why disabled flag is being detected
 
-    cy.wait('@newBlog', { requestTimeout: 2000 }).then((xhr) => {
-      expect(xhr.status).to.equal(200);
-      expect(xhr.response.body).to.deep.equal({
-        status: 'error',
-        message: 'Please ensure your channel has an avatar before creating a blog'
-      });
-    });
+    cy.get('h1.m-blog--edit--error').contains('Error: Please ensure your channel has an avatar before creating a blog');
   });
 
   it('should be able to create a new blog', () => {
