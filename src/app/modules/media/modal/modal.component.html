@@ -27,7 +27,7 @@
             [style.width]="mediaWidth + 'px'"
             [style.height]="mediaHeight + 'px'"
           >
-            <img [src]="entity.thumbnail"
+            <img [src]="thumbnail"
               (load)="inProgress = !inProgress"
 
               [style.height]="entity.height + 'px'"
@@ -62,7 +62,7 @@
             <div class="m-mediaModal__overlayTitleWrapper">
               <!-- TITLE -->
               <span class="m-mediaModal__overlayTitle m-mediaModal__overlayTitle--notFullscreen" *ngIf="!isFullscreen">
-                <a [routerLink]="['/media', entity.entity_guid]">{{entity.title}}</a>
+                <a [routerLink]="['/media', entity.entity_guid]">{{title}}</a>
               </span>
               <!-- TITLE: FULLSCREEN -->
               <span class="m-mediaModal__overlayTitle m-mediaModal__overlayTitle--fullscreen" *ngIf="isFullscreen">
@@ -71,7 +71,7 @@
                   <span title={{entity.ownerObj.name}}>{{entity.ownerObj.name}}</span>
                 </a>
                 <div class="m-mediaModal__overlayTitleSeparator"></div>
-                <a [routerLink]="['/media', entity.entity_guid]">{{entity.title}}</a>
+                <a [routerLink]="['/media', entity.entity_guid]">{{title}}</a>
               </span>
             </div>
             <!-- FULLSCREEN BUTTON -->

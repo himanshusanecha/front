@@ -3,10 +3,12 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output,
   ViewChild
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { MindsPlayerInterface } from './player.interface';
 import { WebtorrentService } from '../../../../webtorrent/webtorrent.service';
 import { Client } from '../../../../../services/api/client';
 import base64ToBlob from '../../../../../helpers/base64-to-blob';
+import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
   moduleId: module.id,
@@ -20,6 +22,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
   @Input() muted: boolean = false;
   @Input() poster: string = '';
   @Input() autoplay: boolean = false;
+  @Input() guid: string;
 
   src: string;
   @Input('src') set _src(src: string) {
@@ -38,6 +41,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
   @Output() onPause: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onEnd: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onError: EventEmitter<{ player, e }> = new EventEmitter();
+  @Output() triggerMediaModal: EventEmitter<any> = new EventEmitter();
 
   initialized: boolean = false;
   loading: boolean = false;
@@ -61,6 +65,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
     protected cd: ChangeDetectorRef,
     protected client: Client,
     protected webtorrent: WebtorrentService,
+    private router: Router,
   ) { }
 
   protected _emitPlay = () => this.onPlay.emit(this.getPlayer());
@@ -352,5 +357,12 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
       this.loading = false;
       this.torrentReady = false;
     }
+  }
+  requestMediaModal() {
+    // Mobile users go to media page instead of modal
+    if (isMobile()) {
+      this.router.navigate([`/media/${this.guid}`]);
+    }
+    this.triggerMediaModal.emit();
   }
 }

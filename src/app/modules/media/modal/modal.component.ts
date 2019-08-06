@@ -48,6 +48,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   maxHeight: number;
   minStageHeight: number;
 
+  title: string = '';
+  thumbnail: string = '';
+  boosted: boolean = false;
+
   isOpen: boolean = false; // Used for backdrop click detection hack
   isOpenTimeout: any = null; // Used for backdrop click detection hack
 
@@ -74,16 +78,16 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     // this.isTablet = isMobileOrTablet() && !isMobile();
 
-    this.entity.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.entity_guid}/xlarge`;
-    this.entity.boosted = this.entity.boosted || this.entity.p2p_boosted;
+    this.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.entity_guid}/xlarge`;
+    this.boosted = this.entity.boosted || this.entity.p2p_boosted;
 
     // Set title
     if ( !this.entity.title ) {
       if ( !this.entity.message ) {
         // ? is there ever a case where there is a message but no title?
-        this.entity.title = `${this.entity.ownerObj.name}'s post`;
+        this.title = `${this.entity.ownerObj.name}'s post`;
       } else {
-        this.entity.title = this.entity.message;
+        this.title = this.entity.message;
       }
     }
 

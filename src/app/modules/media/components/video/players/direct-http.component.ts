@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output,
   ViewChild
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { MindsPlayerInterface } from './player.interface';
+import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
   moduleId: module.id,
@@ -16,6 +18,7 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
   @Input() muted: boolean = false;
   @Input() poster: string = '';
   @Input() autoplay: boolean = false;
+  @Input() guid: string;
 
   src: string;
   @Input('src') set _src(src: string) {
@@ -35,13 +38,14 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
   @Output() onPause: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onEnd: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onError: EventEmitter<{ player: HTMLVideoElement, e }> = new EventEmitter();
+  @Output() triggerMediaModal: EventEmitter<any> = new EventEmitter();
 
   loading: boolean = false;
 
   constructor(
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    private router: Router,
   ) { }
-
   protected _emitPlay = () => this.onPlay.emit(this.getPlayer());
   protected _emitPause = () => this.onPause.emit(this.getPlayer());
   protected _emitEnd = () => this.onEnd.emit(this.getPlayer());
@@ -169,5 +173,13 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
+  }
+
+  requestMediaModal() {
+    // Mobile users go to media page instead of modal
+    if (isMobile()) {
+      this.router.navigate([`/media/${this.guid}`]);
+    }
+    this.triggerMediaModal.emit();
   }
 }
