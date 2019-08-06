@@ -41,6 +41,7 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
   @Output() triggerMediaModal: EventEmitter<any> = new EventEmitter();
 
   loading: boolean = false;
+  isModal: boolean = false;
 
   constructor(
     protected cd: ChangeDetectorRef,
@@ -82,6 +83,7 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
     player.addEventListener('canplaythrough', this._canPlayThrough);
 
     this.loading = true;
+    this.isModal = document.body.classList.contains('m-overlay-modal--shown');
   }
 
   ngOnDestroy() {
@@ -176,6 +178,11 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
   }
 
   requestMediaModal() {
+    // Don't reopen modal if you're already on it
+    if ( this.isModal ) {
+      this.toggle();
+    }
+
     // Mobile users go to media page instead of modal
     if (isMobile()) {
       this.router.navigate([`/media/${this.guid}`]);

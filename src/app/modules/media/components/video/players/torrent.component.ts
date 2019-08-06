@@ -45,6 +45,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
 
   initialized: boolean = false;
   loading: boolean = false;
+  isModal: boolean = false;
 
   protected torrentId: string;
   protected torrentReady: boolean = false;
@@ -137,6 +138,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
     player.addEventListener('canplaythrough', this._canPlayThrough);
 
     this.infoTimer$ = setInterval(this._refreshInfo, 1000);
+    this.isModal = document.body.classList.contains('m-overlay-modal--shown');
   }
 
   ngAfterViewInit() {
@@ -359,6 +361,11 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
     }
   }
   requestMediaModal() {
+    // Don't reopen modal if you're already on it
+    if ( this.isModal ) {
+      this.toggle();
+    }
+
     // Mobile users go to media page instead of modal
     if (isMobile()) {
       this.router.navigate([`/media/${this.guid}`]);
