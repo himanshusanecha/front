@@ -328,7 +328,10 @@ export class MindsVideoComponent {
   }
 
   requestMediaModal() {
-    this.playerRef.pause();
+    // TODO OJM
+    // this should be triggered on play
+
+    // this.playerRef.pause(); //no need anymore
     // Mobile users go to media page instead of modal
     if (isMobile()) {
       this.router.navigate([`/media/${this.guid}`]);
