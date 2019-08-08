@@ -34,7 +34,7 @@ export class FeaturedContentComponent implements OnInit {
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected cd: ChangeDetectorRef,
     protected clientMetaService: ClientMetaService,
-    @SkipSelf() injector: Injector,
+    @SkipSelf() protected injector: Injector,
   ) {
     this.clientMetaService
       .inherit(injector)
@@ -76,7 +76,7 @@ export class FeaturedContentComponent implements OnInit {
     if (component) {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
 
-      const componentRef: ComponentRef<any> = this.dynamicHost.viewContainerRef.createComponent(componentFactory);
+      const componentRef: ComponentRef<any> = this.dynamicHost.viewContainerRef.createComponent(componentFactory, void 0, this.injector);
       injector.call(this, componentRef, this.entity);
     }
   }
