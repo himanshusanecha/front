@@ -22,12 +22,14 @@ import { VideoCard } from '../../../modules/legacy/components/cards/object/video
 import { AlbumCard } from '../../../modules/legacy/components/cards/object/album/album';
 import { BlogCard } from '../../../modules/blogs/card/card';
 import { CommentComponentV2 } from '../../../modules/comments/comment/comment.component';
+import { ActivityService } from '../../services/activity.service';
 
 @Component({
   selector: 'minds-card',
   template: `
     <ng-template dynamic-host></ng-template>
-  `
+  `,
+  providers: [ActivityService],
 })
 export class MindsCard implements AfterViewInit {
   @ViewChild(DynamicHostDirective, { static: true }) cardHost: DynamicHostDirective;
@@ -46,8 +48,7 @@ export class MindsCard implements AfterViewInit {
 
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
-
-    @SkipSelf() private _injector: Injector
+    private _injector: Injector
   ) { }
 
   @Input('object') set _object(value: any) {
