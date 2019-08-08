@@ -1,12 +1,10 @@
-import { Subscriber } from "rxjs";
-
 context('Subscription', () => {
 
   const user = 'minds';
-  const subscribeButton = 'minds-button-subscribe > button'
+  const subscribeButton = 'minds-button-subscribe > button';
   const messageButton = 'm-messenger--channel-button > button';
   const userDropdown = 'minds-button-user-dropdown > button';
-  const unsubscribeOption = 'minds-button-user-dropdown > ul > li:nth-child(4)'
+  const unsubscribeOption = 'minds-button-user-dropdown > ul > li:nth-child(4)';
 
   beforeEach(()=> {
     cy.login(true);
