@@ -71,7 +71,7 @@ context('Comment Threads', () => {
     cy.get(commentContent(2)).contains(testMessage[2]);
   });
 
-  xit('should allow a user to post a tier 3 comment', () => {
+  it('should allow a user to post a tier 3 comment', () => {
     //expand top comment, then top reply button.
     cy.get(commentButton(2)).click();
     cy.get(replyButton(2)).click();
