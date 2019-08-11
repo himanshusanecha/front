@@ -50,6 +50,8 @@ export class PosterComponent {
 
   protected resizeSubject: Subject<number> = new Subject<number>();
 
+  protected publishDate: any;
+
   constructor(
     public session: Session,
     public client: Client,
@@ -271,5 +273,9 @@ export class PosterComponent {
 
   onNSWFSelections(reasons: Array<{ value, label, selected}>) {
     this.attachment.setNSFW(reasons); 
+  }
+
+  onPublishDateChange(newDate){
+    this.publishDate = newDate;
   }
 }

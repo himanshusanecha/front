@@ -314,13 +314,15 @@ m-hashtags-selector {
     }
 
     .material-icons.m-posterActionBar__Icon,
-    .m-posterActionBar__IconAndLabel i.material-icons {
+    .m-posterActionBar__IconAndLabel i.material-icons,
+    .m-poster-date-selector--input > i {
       font-size: 20px;
       transform: rotate(0.03deg) translateY(-1px); // Jagged lines hack
     }
 
     .m-posterActionBar__Label,
-    .m-posterActionBar__IconAndLabel > span {
+    .m-posterActionBar__IconAndLabel > span,
+    .m-poster-date-selector--input > span {
       font-size: 12px;
       font-family: 'Roboto', sans-serif;
       text-transform: uppercase;

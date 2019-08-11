@@ -68,6 +68,8 @@ export class BlogEdit {
   @ViewChild('thresholdInput', { static: false }) thresholdInput: WireThresholdInputComponent;
   @ViewChild('hashtagsSelector', { static: false }) hashtagsSelector: HashtagsSelectorComponent;
 
+  protected publishDate: any;
+
   constructor(
     public session: Session,
     public client: Client,
@@ -322,5 +324,9 @@ export class BlogEdit {
     } else {
       this.blog.categories.splice(this.blog.categories.indexOf(category.id), 1);
     }
+  }
+
+  onPublishDateChange(newDate){
+    this.publishDate = newDate;
   }
 }

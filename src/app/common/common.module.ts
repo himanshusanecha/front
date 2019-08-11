@@ -101,6 +101,7 @@ import { SettingsService } from "../modules/settings/settings.service";
 import { ThemeService } from "./services/theme.service";
 import { HorizontalInfiniteScroll } from "./components/infinite-scroll/horizontal-infinite-scroll.component";
 import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/links/links.component';
+import { PosterDateSelectorComponent } from './components/poster-date-selector/poster-date-selector.component';
 
 @NgModule({
   imports: [
@@ -194,6 +195,8 @@ import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/link
     SwitchComponent,
 
     FeaturedContentComponent,
+
+    PosterDateSelectorComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -277,6 +280,8 @@ import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/link
     SwitchComponent,
     NSFWSelectorComponent,
     FeaturedContentComponent,
+
+    PosterDateSelectorComponent
   ],
   providers: [
     {

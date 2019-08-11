@@ -84,6 +84,8 @@
           (validThreshold)="validThreshold = $event"
         ></m-wire-threshold-input>
 
+        <m-poster-date-selector [date]="publishDate" (dateChange)="onPublishDateChange($event)"></m-poster-date-selector>
+
         <button
           type="submit"
           class="m-posterActionBar__PostButton"

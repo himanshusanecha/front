@@ -119,6 +119,7 @@
     </ng-container>
 
     <m-wire-threshold-input [(threshold)]="activity.wire_threshold" [(enabled)]="activity.paywall"></m-wire-threshold-input>
+    <m-poster-date-selector [date]="publishDate" (dateChange)="onPublishDateChange($event)"></m-poster-date-selector>
     <button class="mdl-button mdl-button--raised mdl-color--blue-grey-100" (click)="messageEdit.value = activity.message; editing=false;" i18n="@@M__ACTION__CANCEL">Cancel</button>
     <button class="mdl-button mdl-button--colored mdl-button--raised" (click)="activity.message = messageEdit.value; save();" i18n="@@M__ACTION__SAVE">Save</button>
   </div>

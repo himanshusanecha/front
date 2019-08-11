@@ -101,6 +101,8 @@ export class Activity implements OnInit {
 
   @ViewChild('player', { static: false }) player: MindsVideoComponent;
 
+  protected publishDate: any;
+
   constructor(
     public session: Session,
     public client: Client,
@@ -435,5 +437,9 @@ export class Activity implements OnInit {
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
+  }
+
+  onPublishDateChange(newDate){
+    this.publishDate = newDate;
   }
 }
