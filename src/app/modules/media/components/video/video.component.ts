@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
-// import { Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MindsVideoProgressBar } from './progress-bar/progress-bar.component';
 import { MindsVideoVolumeSlider } from './volume-slider/volume-slider.component';
 
@@ -8,7 +8,7 @@ import { ScrollService } from '../../../../services/ux/scroll';
 import { MindsPlayerInterface } from './players/player.interface';
 import { WebtorrentService } from '../../../webtorrent/webtorrent.service';
 import { SOURCE_CANDIDATE_PICK_ZIGZAG, SourceCandidates } from './source-candidates';
-// import isMobile from '../../../../helpers/is-mobile';
+import isMobile from '../../../../helpers/is-mobile';
 
 @Component({
   selector: 'm-video',
@@ -24,9 +24,14 @@ export class MindsVideoComponent {
   @Input() log: string | number;
   @Input() muted: boolean = false;
   @Input() poster: string = '';
+  @Input() isModal: boolean = false;
 
   @Output('finished') finished: EventEmitter<any> = new EventEmitter();
-  // @Output() triggerMediaModal: EventEmitter<any> = new EventEmitter();
+
+  @Output() videoMetadataLoaded: EventEmitter<any> = new EventEmitter();
+  @Output() videoLoaded: EventEmitter<any> = new EventEmitter();
+  @Output() videoCanPlay: EventEmitter<any> = new EventEmitter();
+  @Output() requestedMediaModal: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('progressBar', { static: false }) progressBar: MindsVideoProgressBar;
   @ViewChild('volumeSlider', { static: false }) volumeSlider: MindsVideoVolumeSlider;
@@ -55,6 +60,7 @@ export class MindsVideoComponent {
   playedOnce: boolean = false;
   playCount: number = -1;
   playCountDisabled: boolean = false;
+  modalHover: boolean = false;
 
   current: { type: 'torrent' | 'direct-http', src: string };
   protected candidates: SourceCandidates = new SourceCandidates();
@@ -73,7 +79,7 @@ export class MindsVideoComponent {
     public client: Client,
     protected webtorrent: WebtorrentService,
     protected cd: ChangeDetectorRef,
-    // private router: Router,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -163,6 +169,9 @@ export class MindsVideoComponent {
   }
 
   onMouseLeave() {
+    if (this.modalHover) {
+      return;
+    }
     this.progressBar.stopSeeker();
     this.progressBar.disableKeyControls();
   }
@@ -226,6 +235,23 @@ export class MindsVideoComponent {
 
   toggle() {
     this.playerRef.toggle();
+  }
+
+  loadedMetadata() {
+    const dimensions = {
+      'width' : this.playerRef.getPlayer().videoWidth,
+      'height' : this.playerRef.getPlayer().videoHeight
+    };
+
+    this.videoMetadataLoaded.emit({dimensions: dimensions});
+  }
+
+  loadedData() {
+    this.videoLoaded.emit();
+  }
+
+  onCanPlay() {
+    this.videoCanPlay.emit();
   }
 
   // Sources
@@ -327,21 +353,23 @@ export class MindsVideoComponent {
     }
   }
 
-  // requestMediaModal() {
-  //   // this.playerRef.pause(); //no need anymore
-  //   // Mobile users go to media page instead of modal
-  //   if (isMobile()) {
-  //     this.router.navigate([`/media/${this.guid}`]);
-  //   }
+  requestMediaModal() {
+    // Don't reopen modal if you're already on it
+    if (this.isModal) {
+      this.toggle();
+    }
+    //  Mobile users go to media page instead of modal
+    if (isMobile()) {
+      this.router.navigate([`/media/${this.guid}`]);
+    }
 
-  //   this.triggerMediaModal.emit();
-  // }
+    this.requestedMediaModal.emit();
+  }
 
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }
 
 export { VideoAds } from './ads.component';

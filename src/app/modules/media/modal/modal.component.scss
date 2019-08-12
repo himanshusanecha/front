@@ -9,9 +9,9 @@ m-overlay-modal {
   }
 
   .m-overlay-modal.m-overlayModal--media {
-    min-width: 1060px; // ! Need to output this to parent
+    // min-width: 1060px; // should output this to parent
     min-height: 100%;
-    position: fixed; //should be absolute?
+    position: fixed; //? should be absolute?
     top: 0;
     right: 0;
     left: 0;
@@ -48,28 +48,25 @@ m-overlay-modal {
       vertical-align: middle;
       width: 100%;
 
-      .m-mediaModal__exoWrapper {
+      .m-mediaModal__wrapper {
         position: static;
         margin: 20px;
         display:inline-block;
         text-align: left;
 
-        .m-mediaModal__wrapper {
+        .m-mediaModal__theater {
           position: relative;
           @include m-theme(){
             box-shadow: 0 12px 24px rgba(themed($m-black-always), 0.3);
           }
-          // .m-mediaModal { // has inline width/height
-
-          // }
+          // .m-mediaModal {} // has inline width/height
         }
       }
     }
   }
 }
 
-.m-mediaModal__loadingPanel {
-  .mdl-spinner {
+.m-mediaModal__loadingPanel .mdl-spinner {
     position: absolute;
     top:  unquote("-webkit-calc(50% - 14px)");
     left: unquote("-webkit-calc(50% - 14px)");
@@ -77,7 +74,6 @@ m-overlay-modal {
     left:    unquote("-moz-calc(50% - 14px)");
     top:          unquote("calc(50% - 14px)");
     left:         unquote("calc(50% - 14px)");
-  }
 }
 
 .m-mediaModal__stageWrapper { // Has inline width/line-height
@@ -95,13 +91,17 @@ m-overlay-modal {
     .m-mediaModal__overlayContainer {
       opacity: 1;
     }
+    .minds-video-bar-full {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 }
 
 .m-mediaModal__stage {
   display: flex;
   align-items:center;
-  font-size:0;
+  font-size: 0;
   height: 100%;
   min-height: 402px;
   position: relative;
@@ -109,27 +109,55 @@ m-overlay-modal {
   width: 100%;
 }
 
-.m-mediaModal__imageWrapper { // Has inline width/height
+.m-mediaModal__mediaWrapper { // Has inline width/height
   display: inline-block;
   margin: 0 auto;
   vertical-align: middle;
 
-  img { // Has inline width/height
+  img, m-video { // Has inline width/height
     display: inline-block;
     max-height: 100%;
     max-width: 100%;
     vertical-align: top;
   }
 
-}
+  m-video {
+    position: static;
 
-.m-mediaModal__videoWrapper {
-  // TODO - this was from fb
-  //  bottom: 40px;
-  // overflow: hidden;
-  // position: absolute;
-  // top: 40px;
-  // width: 100%;
+    .minds-video-bar-full  {
+      visibility: hidden;
+      display: flex;
+      opacity: 0;
+      transition: opacity .3s;
+
+      .m-video--progress-bar {
+        padding-right: 0;
+      }
+
+      .m-video--volume-control-wrapper {
+        margin-right: 16px;
+      }
+    }
+    .minds-video-play-icon {
+      transform: none;
+      width: auto;
+      top:  unquote("-webkit-calc(50% - 50px)");
+      left: unquote("-webkit-calc(50% - 50px)");
+      top:     unquote("-moz-calc(50% - 50px)");
+      left:    unquote("-moz-calc(50% - 50px)");
+      top:          unquote("calc(50% - 50px)");
+      left:         unquote("calc(50% - 50px)");
+    }
+    m-video--progress-bar {
+      .seeker-ball {
+        top: 4px;
+      }
+      .progress-bar {
+        margin-right: 8px;
+      }
+    }
+  }
+
 }
 
 .m-mediaModal__overlayContainer {
@@ -155,13 +183,13 @@ m-overlay-modal {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-right: 36px;
-  cursor: pointer;
   @include m-theme(){
     color: themed($m-white-always);
   }
 
   .m-mediaModal__overlayTitle {
     text-decoration: none;
+    cursor: pointer;
 
     > * {
       &:not(.m-mediaModal__overlayTitleSeparator) {

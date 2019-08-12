@@ -2,9 +2,7 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output,
   ViewChild
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { MindsPlayerInterface } from './player.interface';
-import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
   moduleId: module.id,
@@ -38,19 +36,24 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
   @Output() onPause: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onEnd: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onError: EventEmitter<{ player: HTMLVideoElement, e }> = new EventEmitter();
-  @Output() triggerMediaModal: EventEmitter<any> = new EventEmitter();
+  @Output() onCanPlay: EventEmitter<any> = new EventEmitter();
+  @Output() onLoadedMetadata: EventEmitter<any> = new EventEmitter();
+  @Output() onLoadedData: EventEmitter<any> = new EventEmitter();
+  @Output() requestedMediaModal: EventEmitter<any> = new EventEmitter();
 
   loading: boolean = false;
-  isModal: boolean = false;
 
   constructor(
     protected cd: ChangeDetectorRef,
-    private router: Router,
   ) { }
+
   protected _emitPlay = () => this.onPlay.emit(this.getPlayer());
   protected _emitPause = () => this.onPause.emit(this.getPlayer());
   protected _emitEnd = () => this.onEnd.emit(this.getPlayer());
   protected _emitError = e => this.onError.emit({ player: this.getPlayer(), e });
+  protected _emitCanPlay = () => this.onCanPlay.emit(this.getPlayer());
+  protected _emitLoadedMetadata = () => this.onLoadedMetadata.emit(this.getPlayer());
+  protected _emitLoadedData = () => this.onLoadedData.emit(this.getPlayer());
 
   protected _canPlayThrough = () => {
     this.loading = false;
@@ -58,7 +61,7 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
   };
 
   protected _dblClick = () => {
-    this.requestFullScreen();
+    this.requestedMediaModal.emit();
   };
 
   protected _onPlayerError = e => {
@@ -81,9 +84,11 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
     player.addEventListener('ended', this._emitEnd);
     player.addEventListener('error', this._onPlayerError);
     player.addEventListener('canplaythrough', this._canPlayThrough);
+    player.addEventListener('canplay', this._emitCanPlay);
+    player.addEventListener('loadedmetadata', this._emitLoadedMetadata);
+    player.addEventListener('loadeddata', this._emitLoadedData);
 
     this.loading = true;
-    this.isModal = document.body.classList.contains('m-overlay-modal--shown');
   }
 
   ngOnDestroy() {
@@ -96,6 +101,9 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
       player.removeEventListener('ended', this._emitEnd);
       player.removeEventListener('error', this._onPlayerError);
       player.removeEventListener('canplaythrough', this._canPlayThrough);
+      player.removeEventListener('canplay', this._emitCanPlay);
+      player.removeEventListener('loadedmetadata', this._emitLoadedMetadata);
+      player.removeEventListener('loadeddata', this._emitLoadedData);
     }
   }
 
@@ -172,21 +180,13 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
     return {};
   }
 
+  requestMediaModal() {
+    this.requestedMediaModal.emit();
+  }
+
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
 
-  requestMediaModal() {
-    // Don't reopen modal if you're already on it
-    if ( this.isModal ) {
-      this.toggle();
-    }
-
-    // Mobile users go to media page instead of modal
-    if (isMobile()) {
-      this.router.navigate([`/media/${this.guid}`]);
-    }
-    this.triggerMediaModal.emit();
-  }
 }

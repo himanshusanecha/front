@@ -11,7 +11,6 @@ import {
   Injector,
 } from '@angular/core';
 
-import { Location } from '@angular/common';
 import { Client } from '../../../../../services/api';
 import { Session } from '../../../../../services/session';
 import { AttachmentService } from '../../../../../services/attachment';
@@ -113,7 +112,6 @@ export class Activity implements OnInit {
     private cd: ChangeDetectorRef,
     private entitiesService: EntitiesService,
     private router: Router,
-    private location: Location,
     protected blockListService: BlockListService,
     protected activityAnalyticsOnViewService: ActivityAnalyticsOnViewService,
     protected newsfeedService: NewsfeedService,
@@ -436,12 +434,11 @@ export class Activity implements OnInit {
     this.activity.mature_visibility = !this.activity.mature_visibility;
   }
 
-  detectChanges() {
-    this.cd.markForCheck();
-    this.cd.detectChanges();
+  setVideoDimensions($event) {
+    this.activity.custom_data.dimensions = $event.dimensions;
   }
 
-  showMediaModal(subtype: string) {
+  showMediaModal() {
     // Mobile users go to media page instead of modal
     if (isMobile()) {
       this.router.navigate([`/media/${this.activity.entity_guid}`]);
@@ -449,11 +446,14 @@ export class Activity implements OnInit {
 
     this.activity.modal_source_url = this.router.url;
 
-    // 'image' or 'video'
-    this.activity.modal_subtype = subtype;
-
     this.overlayModal.create(MediaModalComponent, this.activity, {
       class: 'm-overlayModal--media'
     }).present();
+
+  }
+
+  detectChanges() {
+    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 }
