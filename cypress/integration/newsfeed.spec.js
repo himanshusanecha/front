@@ -47,7 +47,7 @@ context('Newsfeed', () => {
 
     cy.wait(1000);
 
-    cy.get('.m-posterActionBar__PostButton').click({ force: true });
+    cy.get('.m-posterActionBar__PostButton').click();
 
     cy.wait(300);
 
