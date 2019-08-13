@@ -7,9 +7,10 @@ import { DatePipe } from '@angular/common';
   template: `
     <div class="m-poster-date-selector--input" [class.selected]="hasDateSelected()" mdl-datetime-picker [date]="date" (dateChange)="onDateChange($event)">
       <input type="text" [ngModel]="date | date:dateFormat" (ngModelChange)="onDateChange($event)" [hidden]="true">
-      <i class="material-icons">date_range</i>
+      <m-tooltip icon="date_range"> {{date || 'now'}} </m-tooltip>
       <span></span>
     </div>
+    
   `,
   providers: [DatePipe]
 })

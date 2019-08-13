@@ -25,7 +25,10 @@ m-poster-date-selector {
       vertical-align: middle;
       cursor: pointer;
     }
+  }
 
-}
+  m-tooltip .m-tooltip--bubble {
+    width: 125px;
+  }
 
 }
