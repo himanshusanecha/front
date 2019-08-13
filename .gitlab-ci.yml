@@ -53,7 +53,7 @@ e2e:base:
   allow_failure: true #manual inspection in case of timeouts
 
 e2e:chrome:
-  image: cypress/browsers:chrome67
+  image: cypress/browsers:chrome69
   stage: test:e2e
   variables:
     CYPRESS_INSTALL_BINARY: 3.4.1
