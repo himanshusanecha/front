@@ -96,6 +96,7 @@ export class MDLMock {}
   exportAs: 'Textarea'
 })
 
+
 class TextareaMock {
 
   @Input('mModel') model: string = '';
@@ -237,6 +238,7 @@ describe('BlogEdit', () => {
           inputs: ['tags', 'alignLeft'],
           outputs: ['tagsChange', 'tagsAdded', 'tagsRemoved'],
         }),
+        MockComponent({ selector: 'm-poster-date-selector', inputs: ['date', 'dateFormat'], outputs: ['dateChange'] }),
         BlogEdit,
         MDLMock
       ], // declare the test component

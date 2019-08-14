@@ -50,7 +50,7 @@ export class PosterComponent {
 
   protected resizeSubject: Subject<number> = new Subject<number>();
 
-  protected publication_date: any;
+  protected time_created: any;
 
   constructor(
     public session: Session,
@@ -171,7 +171,7 @@ export class PosterComponent {
       return;
     }
 
-    this.meta.publication_date = this.publication_date || null;
+    this.meta.time_created = this.time_created || null;
 
     this.errorMessage = "";
 
@@ -187,7 +187,7 @@ export class PosterComponent {
         this.attachment.reset();
         this.meta = { wire_threshold: null };
         this.inProgress = false;
-        this.publication_date = null;
+        this.time_created = null;
       })
       .catch((e) => {
         this.inProgress = false;
@@ -278,7 +278,7 @@ export class PosterComponent {
     this.attachment.setNSFW(reasons); 
   }
 
-  onPublicationDateChange(newDate){
-    this.publication_date = newDate;
+  onTimeCreatedChange(newDate){
+    this.time_created = newDate;
   }
 }
