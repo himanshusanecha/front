@@ -26,8 +26,8 @@ import { BlockListService } from "../../../../../common/services/block-list.serv
 import { ActivityAnalyticsOnViewService } from "./activity-analytics-on-view.service";
 import { NewsfeedService } from "../../../../newsfeed/services/newsfeed.service";
 import { ClientMetaService } from "../../../../../common/services/client-meta.service";
-import isMobile from '../../../../../helpers/is-mobile';
 import { AutocompleteSuggestionsService } from "../../../../suggestions/services/autocomplete-suggestions.service";
+import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
   moduleId: module.id,
@@ -439,8 +439,10 @@ export class Activity implements OnInit {
   }
 
   showMediaModal() {
-    // Mobile users go to media page instead of modal
-    if (isMobile()) {
+    console.log('888 activity.ts showMediaModal called');
+
+    // Mobile (not tablet) users go to media page instead of modal
+    if (isMobile() && Math.min(screen.width, screen.height) < 768) {
       this.router.navigate([`/media/${this.activity.entity_guid}`]);
     }
 
@@ -449,7 +451,6 @@ export class Activity implements OnInit {
     this.overlayModal.create(MediaModalComponent, this.activity, {
       class: 'm-overlayModal--media'
     }).present();
-
   }
 
   detectChanges() {

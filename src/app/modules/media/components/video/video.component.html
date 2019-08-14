@@ -10,10 +10,10 @@
     (onPause)="onPause()"
     (onEnd)="onEnd()"
     (onError)="onError()"
-    (onCanPlay)="onCanPlay()"
+    (onCanPlayThrough)="onCanPlayThrough()"
     (onLoadedMetadata)="loadedMetadata()"
-    (onLoadedData)="loadedData()"
     (requestedMediaModal)="requestMediaModal()"
+    (click)="requestMediaModal()"
     #player
   ></m-video--direct-http-player>
 
@@ -28,15 +28,15 @@
     (onPause)="onPause()"
     (onEnd)="onEnd()"
     (onError)="onError()"
-    (onCanPlay)="onCanPlay()"
+    (onCanPlayThrough)="onCanPlayThrough()"
     (onLoadedMetadata)="loadedMetadata()"
-    (onLoadedData)="loadedData()"
     (requestedMediaModal)="requestMediaModal()"
+    (click)="requestMediaModal()"
     #player
   ></m-video--torrent-player>
 
   <ng-container *ngIf="playerRef">
-    <i *ngIf="!playerRef.isPlaying() && !playerRef.isLoading()"
+    <i *ngIf="!playerRef.isPlaying() && !playerRef.isLoading() || isActivity && metadataLoaded"
       class="material-icons minds-video-play-icon"
       (click)="requestMediaModal()"
     >play_circle_outline</i>
@@ -50,7 +50,7 @@
       <span i18n="@@MEDIA__VIDEO__TRANSCODING_NOTICE">{{transcodingError}}</span>
     </div>
 
-    <div class="minds-video-bar-full">
+    <div class="minds-video-bar-full" [@fadeAnimation]="showControls ? 'in' : 'out'">
       <i class="material-icons"
         (click)="playerRef.toggle()"
       >{{ playerRef.isPlaying() || playerRef.isLoading() ? 'pause' : 'play_arrow' }}</i>

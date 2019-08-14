@@ -135,16 +135,13 @@ export class Remind {
     this.onMatureVisibilityChange.emit();
   }
 
-  showMediaModal(subtype: string) {
-    // Mobile users go to media page instead of modal
-    if (isMobile()) {
+  showMediaModal() {
+    // Mobile (not tablet) users go to media page instead of modal
+    if (isMobile() && Math.min(screen.width, screen.height) < 768) {
       this.router.navigate([`/media/${this.activity.entity_guid}`]);
     }
 
     this.activity.modal_source_url = this.router.url;
-
-     // 'image' or 'video'
-    this.activity.modal_subtype = subtype;
 
     this.overlayModal.create(MediaModalComponent, this.activity, {
       class: 'm-overlayModal--media'

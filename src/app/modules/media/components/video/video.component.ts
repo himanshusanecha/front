@@ -1,5 +1,6 @@
-import { Component, ElementRef, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, ElementRef, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MindsVideoProgressBar } from './progress-bar/progress-bar.component';
 import { MindsVideoVolumeSlider } from './volume-slider/volume-slider.component';
 
@@ -17,20 +18,35 @@ import isMobile from '../../../../helpers/is-mobile';
     '(mouseleave)': 'onMouseLeave()'
   },
   templateUrl: 'video.component.html',
+  animations: [
+    trigger('fadeAnimation', [
+      state('in', style({
+        visibility: 'visible',
+        opacity: 1
+      })),
+      state('out', style({
+        visibility: 'hidden',
+        opacity: 0
+      })),
+      transition('in <=> out', [
+        animate('300ms ease-in')
+      ]),
+    ]),
+  ],
 })
-export class MindsVideoComponent {
+export class MindsVideoComponent implements OnDestroy {
 
   @Input() guid: string | number;
   @Input() log: string | number;
   @Input() muted: boolean = false;
   @Input() poster: string = '';
+  @Input() isActivity: boolean = false;
   @Input() isModal: boolean = false;
 
   @Output('finished') finished: EventEmitter<any> = new EventEmitter();
 
   @Output() videoMetadataLoaded: EventEmitter<any> = new EventEmitter();
-  @Output() videoLoaded: EventEmitter<any> = new EventEmitter();
-  @Output() videoCanPlay: EventEmitter<any> = new EventEmitter();
+  @Output() videoCanPlayThrough: EventEmitter<any> = new EventEmitter();
   @Output() requestedMediaModal: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('progressBar', { static: false }) progressBar: MindsVideoProgressBar;
@@ -60,7 +76,10 @@ export class MindsVideoComponent {
   playedOnce: boolean = false;
   playCount: number = -1;
   playCountDisabled: boolean = false;
-  modalHover: boolean = false;
+  stageHover: boolean = false;
+  showControls: boolean = false;
+  stopSeekerTimeout: any = null;
+  metadataLoaded: boolean = false;
 
   current: { type: 'torrent' | 'direct-http', src: string };
   protected candidates: SourceCandidates = new SourceCandidates();
@@ -164,16 +183,27 @@ export class MindsVideoComponent {
   }
 
   onMouseEnter() {
+    if (this.isActivity) {
+      return;
+    }
+
     this.progressBar.getSeeker();
     this.progressBar.enableKeyControls();
+    this.showControls = true;
   }
 
   onMouseLeave() {
-    if (this.modalHover) {
+    if (this.stageHover || this.isActivity) {
       return;
     }
-    this.progressBar.stopSeeker();
+
+    clearTimeout(this.stopSeekerTimeout);
+    this.stopSeekerTimeout = setTimeout(() => {
+      this.progressBar.stopSeeker();
+    }, 300);
+
     this.progressBar.disableKeyControls();
+    this.showControls = false;
   }
 
   selectedQuality(quality) {
@@ -223,6 +253,10 @@ export class MindsVideoComponent {
   ngOnDestroy() {
     if (this.scroll_listener)
       this.scroll.unListen(this.scroll_listener);
+
+    if (this.stopSeekerTimeout) {
+      clearTimeout(this.stopSeekerTimeout);
+    }
   }
 
   pause() {
@@ -242,16 +276,12 @@ export class MindsVideoComponent {
       'width' : this.playerRef.getPlayer().videoWidth,
       'height' : this.playerRef.getPlayer().videoHeight
     };
-
+    this.metadataLoaded = true;
     this.videoMetadataLoaded.emit({dimensions: dimensions});
   }
 
-  loadedData() {
-    this.videoLoaded.emit();
-  }
-
-  onCanPlay() {
-    this.videoCanPlay.emit();
+  onCanPlayThrough() {
+    this.videoCanPlayThrough.emit();
   }
 
   // Sources
@@ -314,7 +344,7 @@ export class MindsVideoComponent {
   // Qualities
 
   updateAvailableQualities() {
-    let qualities = [];
+    const qualities = [];
 
     if (this.src && this.src.length) {
       this.src.forEach(item => qualities.push(item.res));
@@ -354,12 +384,14 @@ export class MindsVideoComponent {
   }
 
   requestMediaModal() {
-    // Don't reopen modal if you're already on it
+
     if (this.isModal) {
       this.toggle();
+      return;
     }
-    //  Mobile users go to media page instead of modal
-    if (isMobile()) {
+
+    //  Mobile (not tablet) users go to media page instead of modal
+    if (isMobile() && Math.min(screen.width, screen.height) < 768) {
       this.router.navigate([`/media/${this.guid}`]);
     }
 

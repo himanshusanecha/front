@@ -180,5 +180,4 @@ export class MediaViewComponent {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

@@ -7,30 +7,45 @@ import { Session } from '../../../services/session';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { AnalyticsService } from '../../../services/analytics';
 import { MindsVideoComponent } from '../components/video/video.component';
+import isMobileOrTablet from '../../../helpers/is-mobile-or-tablet';
 
 @Component({
   selector: 'm-media--modal',
   templateUrl: 'modal.component.html',
   animations: [
-    // Fade in media when done loading
-    trigger('simpleFadeAnimation', [
+    // Fade in media
+    trigger('slowFadeAnimation', [
       state('in', style({opacity: 1})),
       transition(':enter', [
         style({opacity: 0}),
         animate(800)
-      ])
-    ])
+      ]),
+      transition(':leave',
+        animate(800, style({opacity: 0})))
+    ]),
+    // Fade in overlays and controls
+    trigger('fastFadeAnimation', [
+      state('in', style({opacity: 1})),
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(300)
+      ]),
+      transition(':leave',
+        animate(300, style({opacity: 0})))
+    ]),
   ]
 })
 
 export class MediaModalComponent implements OnInit, OnDestroy {
   minds = window.Minds;
   entity: any = {};
-  inProgress: boolean = true;
-
-  isFullscreen: boolean = false;
+  isLoading: boolean = true;
   navigatedAway: boolean = false;
   fullscreenHovering: boolean = false; // Used for fullscreen button transformation
+
+  isTablet: boolean = false;
+  isFullscreen: boolean = false;
+  isVideo: boolean = false; // Otherwise it's an image
 
   screenWidth: number;
   screenHeight: number;
@@ -40,19 +55,24 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   mediaWidth: number;
   mediaHeight: number;
   contentWidth: number;
-  stageWidthPaddingThreshold: number;
   maxStageWidth: number;
   maxHeight: number;
   minStageHeight: number;
   minStageWidth: number;
 
+  padding: number = 20; // 20px on each side
+
   title: string = '';
   thumbnail: string = '';
   boosted: boolean = false;
+  ownerIconTime: string = '';
 
   // Used for backdrop click detection hack
   isOpen: boolean = false;
   isOpenTimeout: any = null;
+
+  showOverlay: boolean = false;
+  tabletOverlayTimeout: any = null;
 
   routerSubscription: Subscription;
 
@@ -62,7 +82,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.entity.height = 0;
   }
 
-
+  // Used to make sure video progress bar seeker / hover works
   @ViewChild( MindsVideoComponent, { static: false }) videoComponent: MindsVideoComponent;
 
   constructor(
@@ -79,8 +99,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     // Prevent dismissal of modal when it's just been opened
     this.isOpenTimeout = setTimeout(() => this.isOpen = true, 50);
 
-    this.analyticsService.send('pageview', {url: `/media/${this.entity.entity_guid}?ismodal=true`});
-
     this.boosted = this.entity.boosted || this.entity.p2p_boosted;
 
     // Set title
@@ -94,9 +112,29 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.title = this.entity.title;
     }
 
+    // Set ownerIconTime
+    const session = this.session.getLoggedInUser();
+    if (session && session.guid === this.entity.ownerObj.guid) {
+      this.ownerIconTime =  session.icontime;
+    } else {
+      this.ownerIconTime = this.entity.ownerObj.icontime;
+    }
+
+    this.isTablet = isMobileOrTablet() && Math.min(screen.width, screen.height) >= 768;
+
+    this.isVideo = this.entity.custom_type === 'video';
+
+    this.analyticsService.send('pageview', {url: `/media/${this.entity.entity_guid}?ismodal=true`});
+
+    // * LOCATION & ROUTING * -----------------------------------------------------------------------------------
     // Change the url to point to media page so user can easily share link
     // (but don't actually redirect)
-    this.location.replaceState(`/media/${this.entity.entity_guid}`);
+
+    // Note: not doing this for mobile browsers
+    // because they fire a NavigationStart event on location.replaceState
+    if ( !this.isTablet ) {
+      this.location.replaceState(`/media/${this.entity.entity_guid}`);
+    }
 
     // When user clicks a link from inside the modal
     this.routerSubscription = this.router.events.subscribe((event: Event) => {
@@ -105,43 +143,46 @@ export class MediaModalComponent implements OnInit, OnDestroy {
         if (!this.navigatedAway) {
           this.navigatedAway = true;
 
-          // Fix browser history so back button doesn't go to media page
-          this.location.replaceState(this.entity.modal_source_url);
+          if (!this.isTablet) {
+            // Fix browser history so back button doesn't go to media page
+            this.location.replaceState(this.entity.modal_source_url);
 
-          // Go to the intended destination
-          this.router.navigate([event.url]);
-
-          this.dismissModal();
+            // Go to the intended destination
+            this.router.navigate([event.url]);
+          }
+          this.overlayModal.dismiss();
         }
       }
-
     });
 
-    // TO DO? handle giant screens by setting max on screenwidth and height and window size?
+    // * DIMENSION CALCULATIONS * ---------------------------------------------------------------------
 
-    // Set fixed dimensions (i.e. those that don't change when window changes)
-    this.screenWidth = screen.width;
-    this.screenHeight = screen.height;
-    this.contentWidth = Math.max(Math.round(this.screenWidth * 0.25), 300);
-    this.minStageHeight = Math.round((this.screenHeight * 0.6) - 20);
-    this.maxHeight = Math.round(this.screenHeight * 0.8);
-    this.stageWidthPaddingThreshold = this.screenWidth * 0.4 + 44;
-    this.minStageWidth = this.stageWidthPaddingThreshold + 40;
+    this.initDimensions();
 
-    if (this.entity.custom_type === 'batch') {
+    if (!this.isVideo) {
       // Image
       this.entity.width = this.entity.custom_data[0].width;
       this.entity.height = this.entity.custom_data[0].height;
       this.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.entity_guid}/xlarge`;
     } else {
-      // Video
       this.entity.width = this.entity.custom_data.dimensions.width;
       this.entity.height = this.entity.custom_data.dimensions.height;
       this.thumbnail = this.entity.custom_data.thumbnail_src; // Not currently used
     }
 
     this.entity.aspectRatio = this.entity.width / this.entity.height;
+
     this.calculateDimensions();
+  }
+
+  initDimensions() {
+    // Set fixed dimensions (i.e. those that don't change when window changes)
+    this.screenWidth = screen.width;
+    this.screenHeight = screen.height;
+    this.contentWidth = Math.max(Math.round(this.screenWidth * 0.25), 300);
+    this.minStageHeight = Math.round((this.screenHeight * 0.6) - this.padding);
+    this.maxHeight = Math.round(this.screenHeight * 0.8);
+    this.minStageWidth = Math.round(this.screenWidth * 0.4 + 4 + (this.padding * 4));
   }
 
   // Recalculate height/width when window resizes
@@ -151,6 +192,12 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     }
 
   calculateDimensions() {
+
+    if (this.isTablet) {
+      // Re-initialize for tablet in case orientation changed
+      this.initDimensions();
+    }
+
     const windowWidth: number = window.innerWidth;
     const windowHeight: number = window.innerHeight;
 
@@ -161,12 +208,14 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.setHeights();
 
       // After heights are set, check that scaled width isn't too wide or narrow
-      this.maxStageWidth = Math.max(windowWidth - this.contentWidth - 40, this.minStageWidth);
+      this.maxStageWidth = Math.max(windowWidth - this.contentWidth - (this.padding * 2), this.minStageWidth);
+
       if ( this.mediaWidth >= this.maxStageWidth ) {
         // Too wide :(
+
         this.rescaleHeightsForMaxWidth();
-      } else if ( this.mediaWidth > this.stageWidthPaddingThreshold ) {
-        // Not too wide and not too narrow :)
+      } else if ( this.mediaWidth > (this.minStageWidth - (this.padding * 2)) ) {
+        // Not too wide or too narrow :)
         this.stageWidth = this.mediaWidth;
       } else {
         // Too narrow :(
@@ -179,7 +228,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
       // If black stage background is visible on top/bottom, each strip should be at least 20px high
       const heightDiff = this.stageHeight - this.mediaHeight;
-      if ( 0 < heightDiff && heightDiff <= 40){
+      if ( 0 < heightDiff && heightDiff <= this.padding * 2){
+        // console.log('*** black vertical strips ');
         this.stageHeight += 40;
       }
 
@@ -217,6 +267,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
 
   setHeights() {
+
     // Set mediaHeight as tall as stage but no larger than intrinsic height
     if (this.entity.height >= this.stageHeight) {
       // Fit media inside stage
@@ -245,12 +296,13 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     // shrink vertically until it hits minStageHeight
 
     // When window is narrower than this, start to shrink height
-    const verticalShrinkWidthThreshold = this.mediaWidth + this.contentWidth + 82;
+    const verticalShrinkWidthThreshold = this.mediaWidth + this.contentWidth + (this.padding * 4) + 2;
 
     const widthDiff = verticalShrinkWidthThreshold - windowWidth;
     // Is window narrow enough to start shrinking vertically?
     if ( widthDiff >= 1 ) {
-      // What mediaHeight would be if it shrunk proportionally to difference in width?
+
+      // What mediaHeight would be if it shrunk proportionally to difference in width
       const mediaHeightPreview = Math.round((this.mediaWidth - widthDiff) / this.entity.aspectRatio);
 
       // Shrink media if mediaHeight is still above min
@@ -273,6 +325,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     return Math.round(this.mediaHeight * this.entity.aspectRatio);
   }
 
+
+  // * FULLSCREEN * --------------------------------------------------------------------------------
   // Listen for fullscreen change event in case user enters/exits full screen without clicking button
   @HostListener('document:fullscreenchange', ['$event'])
   @HostListener('document:webkitfullscreenchange', ['$event'])
@@ -327,53 +381,96 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.isFullscreen = false;
   }
 
-  // Make sure progress bar updates when video controls are visible
-  onMouseEnterStage() {
-    this.videoComponent.modalHover = true;
-    this.videoComponent.onMouseEnter();
-  }
 
-  // Stop updating progress bar when controls aren't visible
-  onMouseLeaveStage() {
-    this.videoComponent.modalHover = false;
-    this.videoComponent.onMouseLeave();
-  }
-
-  getOwnerIconTime() {
-    const session = this.session.getLoggedInUser();
-    if (session && session.guid === this.entity.ownerObj.guid) {
-      return session.icontime;
-    } else {
-      return this.entity.ownerObj.icontime;
-    }
-  }
+  // * MODAL DISMISSAL * --------------------------------------------------------------------------
 
   // Dismiss modal when backdrop is clicked and modal is open
-  @HostListener('document:click', ['$event']) clickedBackdrop($event){
+  @HostListener('document:click', ['$event'])
+  clickedBackdrop($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
     if (this.isOpen) {
-      this.dismissModal();
+      this.overlayModal.dismiss();
     }
   }
 
-  // Don't dismiss modal when clicking somewhere other than backdrop
+  // Don't dismiss modal if click somewhere other than backdrop
   clickedModal($event) {
-    $event.preventDefault();
+    // $event.preventDefault();
     $event.stopPropagation();
   }
 
-  dismissModal() {
-    this.overlayModal.dismiss();
+
+  // * OVERLAY & VIDEO CONTROLS * -------------------------------------------------------------------------
+
+  // Show overlay and video controls
+  onMouseEnterStage() {
+    this.showOverlay = true;
+
+    if (this.isVideo) {
+      // Make sure progress bar seeker is updating when video controls are visible
+      this.videoComponent.stageHover = true;
+      this.videoComponent.onMouseEnter();
+    }
+  }
+
+  // Hide overlay and video controls
+  onMouseLeaveStage() {
+    this.showOverlay = false;
+
+    if (this.isVideo) {
+      // Stop updating progress bar seeker when controls aren't visible
+      this.videoComponent.stageHover = false;
+      this.videoComponent.onMouseLeave();
+    }
+  }
+
+  togglePlay() {
+    this.videoComponent.playerRef.toggle();
+  }
+
+  // * TABLETS ONLY: SHOW OVERLAY & VIDEO CONTROLS * -------------------------------------------
+
+  // Briefly display title overlay and video controls for 3 secs when finished loading and stage touch
+  showOverlays() {
+    this.onMouseEnterStage();
+
+    if (this.tabletOverlayTimeout) {
+      clearTimeout(this.tabletOverlayTimeout);
+    }
+
+    this.tabletOverlayTimeout = setTimeout(() => {
+      this.onMouseLeaveStage();
+    }, 3000);
+  }
+
+  // * UTILITY * --------------------------------------------------------------------------
+
+  isLoaded() {
+    this.isLoading = false;
+
+    if ( this.isTablet ) {
+      this.showOverlays();
+    }
   }
 
   ngOnDestroy() {
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+
     if (this.isOpenTimeout) {
       clearTimeout(this.isOpenTimeout);
+    }
+
+    if (this.tabletOverlayTimeout) {
+      clearTimeout(this.tabletOverlayTimeout);
     }
 
     // If the modal was closed without a redirect, replace media page url
     // with original source url and fix browser history so back button
     // doesn't go to media page
-    if (!this.navigatedAway) {
+    if (!this.isTablet && !this.navigatedAway) {
       this.location.replaceState(this.entity.modal_source_url);
     }
   }

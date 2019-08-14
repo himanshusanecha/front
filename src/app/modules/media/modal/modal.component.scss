@@ -9,9 +9,9 @@ m-overlay-modal {
   }
 
   .m-overlay-modal.m-overlayModal--media {
-    // min-width: 1060px; // should output this to parent
+    // min-width: 1060px; // should be dynamic and output to parent
     min-height: 100%;
-    position: fixed; //? should be absolute?
+    position: fixed; //? absolute ?
     top: 0;
     right: 0;
     left: 0;
@@ -31,7 +31,7 @@ m-overlay-modal {
       transition: opacity 1s cubic-bezier(.23, 1, .32, 1);
       padding: 4px;
       @include m-theme(){
-        background-color: transparent;
+        background-color: rgba(themed($m-white-always), 0);
         color: themed($m-grey-300);
       }
       i.material-icons {
@@ -81,20 +81,11 @@ m-overlay-modal {
   float: left;
   height: 100%;
   min-height: 480px;
-  position:relative;
-  text-align:center;
+  position: relative;
+  text-align: center;
   @include m-theme(){
     background-color: rgba(themed($m-black-always), 0.9);
-  }
-
-  &:hover {
-    .m-mediaModal__overlayContainer {
-      opacity: 1;
-    }
-    .minds-video-bar-full {
-      visibility: visible;
-      opacity: 1;
-    }
+    // box-shadow: 0 0 8px rgba(themed($m-black-always), 0.3);
   }
 }
 
@@ -114,7 +105,7 @@ m-overlay-modal {
   margin: 0 auto;
   vertical-align: middle;
 
-  img, m-video { // Has inline width/height
+  .m-mediaModal__media--image, m-video { // Has inline width/height
     display: inline-block;
     max-height: 100%;
     max-width: 100%;
@@ -125,10 +116,6 @@ m-overlay-modal {
     position: static;
 
     .minds-video-bar-full  {
-      visibility: hidden;
-      display: flex;
-      opacity: 0;
-      transition: opacity .3s;
 
       .m-video--progress-bar {
         padding-right: 0;
@@ -161,7 +148,6 @@ m-overlay-modal {
 }
 
 .m-mediaModal__overlayContainer {
-  opacity: 0;
   left: 0;
   line-height: 1.28;
   padding: 24px 24px 16px 24px;
@@ -169,7 +155,6 @@ m-overlay-modal {
   right: 0;
   text-align: left;
   top: 0;
-  transition: opacity .3s;
   @include m-theme(){
     background: linear-gradient(rgba(themed($m-black-always), .5), rgba(themed($m-black-always),0));
     color: themed($m-white-always);
@@ -256,7 +241,7 @@ m-overlay-modal {
     @include m-theme(){
       color: themed($m-white-always);
     }
-    transition: transform 200ms ease-in;
+    transition: transform 200ms cubic-bezier(.23, 1, .32, 1);
 
     .m-mediaModal__fullscreenIcon--enable {
       font-size: 30px;
