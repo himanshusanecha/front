@@ -101,7 +101,7 @@ export class Activity implements OnInit {
 
   @ViewChild('player', { static: false }) player: MindsVideoComponent;
 
-  protected publishDate: any;
+  protected publication_date: any;
 
   constructor(
     public session: Session,
@@ -172,6 +172,8 @@ export class Activity implements OnInit {
       this.translationService.isTranslatable(this.activity) ||
       (this.activity.remind_object && this.translationService.isTranslatable(this.activity.remind_object))
     );
+
+    this.publication_date = this.activity.publication_date || null;
   }
 
   getOwnerIconTime() {
@@ -193,6 +195,7 @@ export class Activity implements OnInit {
     console.log('trying to save your changes to the server', this.activity);
     this.editing = false;
     this.activity.edited = true;
+    this.activity.publication_date = this.publication_date || null;
 
     let data = this.activity;
     if (this.attachment.has()) {
@@ -439,7 +442,7 @@ export class Activity implements OnInit {
     this.cd.detectChanges();
   }
 
-  onPublishDateChange(newDate){
-    this.publishDate = newDate;
+  onPublicationDateChange(newDate){
+    this.publication_date = newDate;
   }
 }

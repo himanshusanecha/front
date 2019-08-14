@@ -68,7 +68,7 @@ export class BlogEdit {
   @ViewChild('thresholdInput', { static: false }) thresholdInput: WireThresholdInputComponent;
   @ViewChild('hashtagsSelector', { static: false }) hashtagsSelector: HashtagsSelectorComponent;
 
-  protected publishDate: any;
+  protected publication_date: any;
 
   constructor(
     public session: Session,
@@ -201,6 +201,8 @@ export class BlogEdit {
 
           if (!this.blog.license)
             this.blog.license = '';
+
+          this.publication_date = response.blog.publication_date || null;
         }
       });
   }
@@ -246,6 +248,8 @@ export class BlogEdit {
       blog.mature = blog.mature ? 1: 0;
       blog.monetization = blog.monetization ? 1: 0;
       blog.monetized = blog.monetized ? 1: 0;
+      blog.publication_date = this.publication_date || null;
+
       this.editing = false;
       this.inProgress = true;
       this.canSave = false;
@@ -254,6 +258,7 @@ export class BlogEdit {
           .then((response: any) => {
             this.inProgress = false;
             this.canSave = true;
+            this.publication_date = null;
 
             if (response.status !== 'success') {
               this.error = response.message;
@@ -326,7 +331,7 @@ export class BlogEdit {
     }
   }
 
-  onPublishDateChange(newDate){
-    this.publishDate = newDate;
+  onPublicationDateChange(newDate){
+    this.publication_date = newDate;
   }
 }
