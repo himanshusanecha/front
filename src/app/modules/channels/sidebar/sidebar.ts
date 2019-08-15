@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Client, Upload } from '../../../services/api';
 import { Session } from '../../../services/session';
 import { MindsUser } from '../../../interfaces/entities';
 import { Tag } from '../../hashtags/types/tag';
-import { ChannelOnboardingService } from "../../onboarding/channel/onboarding.service";
+import { ChannelOnboardingService } from '../../onboarding/channel/onboarding.service';
 import { Storage } from '../../../services/storage';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { ReferralsLinksComponent } from '../../wallet/tokens/referrals/links/links.component';
+import { FeaturesService } from '../../../services/features.service';
 
 @Component({
   moduleId: module.id,
@@ -30,7 +31,7 @@ export class ChannelSidebar {
 
   @Output() changeEditing = new EventEmitter<boolean>();
 
-  //@todo make a re-usable city selection module to avoid duplication here
+  // @todo make a re-usable city selection module to avoid duplication here
   cities: Array<any> = [];
 
   constructor(
@@ -40,12 +41,14 @@ export class ChannelSidebar {
       public onboardingService: ChannelOnboardingService,
       protected storage: Storage,
       private overlayModal: OverlayModalService,
+      public featuresService: FeaturesService,
   ) {
-    if (onboardingService && onboardingService.onClose)
+    if (onboardingService && onboardingService.onClose) {
       onboardingService.onClose.subscribe(progress => {
         this.onboardingProgress = -1;
         this.checkProgress();
       });
+    }
   }
 
   ngOnInit() {

@@ -30,6 +30,7 @@ import { IfFeatureDirective } from "../../common/directives/if-feature.directive
 import { FeaturesService } from "../../services/features.service";
 import { featuresServiceMock } from "../../../tests/features-service-mock.spec";
 import { BlockListService } from '../../common/services/block-list.service';
+import { ChannelMode } from '../../interfaces/entities';
 
 describe('ChannelComponent', () => {
 
@@ -122,7 +123,8 @@ describe('ChannelComponent', () => {
       username: 'username',
       icontime: 11111,
       subscribers_count: 182,
-      impressions: 18200
+      impressions: 18200,
+      mode: ChannelMode.PUBLIC,
     };
     comp.editing = false;
     fixture.detectChanges();

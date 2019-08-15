@@ -29,6 +29,9 @@ import { featuresServiceMock } from '../../../../tests/features-service-mock.spe
 import { IfFeatureDirective } from "../../../common/directives/if-feature.directive";
 import { overlayModalServiceMock } from '../../../../tests/overlay-modal-service-mock.spec';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { ChannelMode, MindsUser } from '../../../interfaces/entities';
+import { ifStmt } from '@angular/compiler/src/output/output_ast';
+import { ChannelModulesComponent } from '../modules/modules';
 
 describe('ChannelSidebar', () => {
 
@@ -91,6 +94,10 @@ describe('ChannelSidebar', () => {
           inputs: ['title', 'type', 'channel', 'linksTo', 'size'],
           outputs: [],
         }),
+        MockComponent({
+          selector: 'm-channel-mode-selector',
+          inputs: ['user']
+        }),
         IfFeatureDirective,
       ],
       imports: [
@@ -139,7 +146,8 @@ describe('ChannelSidebar', () => {
       city: 'awasa',
       icontime: 11111,
       subscribers_count: 182,
-      impressions: 18200
+      impressions: 18200,
+      mode: ChannelMode.PUBLIC,
     };
     comp.editing = false;
     uploadMock.response[`api/v1/channel/avatar`] = {
@@ -316,4 +324,9 @@ describe('ChannelSidebar', () => {
     expect(comp.changeEditing.next).toHaveBeenCalled();
   });
 
+  it('should set a channel to public', () => {
+    featuresServiceMock.mock('permissions', true);
+    fixture.detectChanges();
+    expect(comp.user.mode).toEqual(ChannelMode.PUBLIC);
+  });
 });

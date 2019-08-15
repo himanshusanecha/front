@@ -34,8 +34,14 @@ export interface Message {
 }
 
 export interface KeyVal {
-	key: string;
-	value: any;
+  key: string;
+  value: any;
+}
+
+export enum ChannelMode {
+  PUBLIC = 0,
+  MODERATED = 1,
+  CLOSED = 2
 }
 
 export interface MindsUser {
@@ -68,6 +74,7 @@ export interface MindsUser {
   mature_lock?: boolean;
   tags?: Array<string>;
   toaster_notifications?: boolean;
+  mode: ChannelMode;
 }
 
 export interface MindsGroup {
