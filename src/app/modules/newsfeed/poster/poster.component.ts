@@ -171,7 +171,7 @@ export class PosterComponent {
       return;
     }
 
-    this.meta.time_created = this.time_created || null;
+    this.meta.time_created = this.time_created || Math.floor(+Date.now() / 1000);
 
     this.errorMessage = "";
 

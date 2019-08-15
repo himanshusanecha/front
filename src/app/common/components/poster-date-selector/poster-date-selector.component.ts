@@ -23,6 +23,8 @@ export class PosterDateSelectorComponent {
 
   onDateChange(newDate) {
     this.date = newDate;
+    newDate = new Date(newDate).getTime();
+    newDate = Math.floor(+newDate / 1000);
     this.dateChange.emit(newDate);
   }
 

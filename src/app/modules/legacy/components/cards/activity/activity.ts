@@ -173,7 +173,7 @@ export class Activity implements OnInit {
       (this.activity.remind_object && this.translationService.isTranslatable(this.activity.remind_object))
     );
 
-    this.time_created = this.activity.time_created || null;
+    this.time_created = this.activity.time_created || Date.now();
   }
 
   getOwnerIconTime() {
@@ -195,7 +195,7 @@ export class Activity implements OnInit {
     console.log('trying to save your changes to the server', this.activity);
     this.editing = false;
     this.activity.edited = true;
-    this.activity.time_created = this.time_created || null;
+    this.activity.time_created = this.time_created || Math.floor(+Date.now() / 1000);
 
     let data = this.activity;
     if (this.attachment.has()) {

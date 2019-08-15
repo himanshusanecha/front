@@ -202,7 +202,7 @@ export class BlogEdit {
           if (!this.blog.license)
             this.blog.license = '';
 
-          this.time_created = response.blog.time_created || null;
+          this.time_created = response.blog.time_created || Math.floor(+Date.now() / 1000);
         }
       });
   }
@@ -248,7 +248,7 @@ export class BlogEdit {
       blog.mature = blog.mature ? 1: 0;
       blog.monetization = blog.monetization ? 1: 0;
       blog.monetized = blog.monetized ? 1: 0;
-      blog.time_created = this.time_created || null;
+      blog.time_created = this.time_created || Math.floor(+Date.now() / 1000);
 
       this.editing = false;
       this.inProgress = true;
