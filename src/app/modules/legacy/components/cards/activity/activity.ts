@@ -89,6 +89,8 @@ export class Activity implements OnInit {
 
   blockedUsers: string[] = [];
 
+  videoDimensions: Array<any> = null;
+
   get menuOptions(): Array<string> {
     if (!this.activity || !this.activity.ephemeral) {
       if (this.showBoostMenuOptions)  {
@@ -102,6 +104,7 @@ export class Activity implements OnInit {
   }
 
   @ViewChild('player', { static: false }) player: MindsVideoComponent;
+  @ViewChild('batchImage', { static: false }) batchImage: ElementRef;
 
   constructor(
     public session: Session,
@@ -151,7 +154,7 @@ export class Activity implements OnInit {
     this.activityAnalyticsOnViewService.setEntity(this.activity);
 
     if (
-      this.activity.custom_type == 'batch'
+      this.activity.custom_type === 'batch'
       && this.activity.custom_data
       && this.activity.custom_data[0].src
     ) {
@@ -435,15 +438,28 @@ export class Activity implements OnInit {
   }
 
   setVideoDimensions($event) {
-    this.activity.custom_data.dimensions = $event.dimensions;
+    this.videoDimensions = $event.dimensions;
+  }
+
+  setImageDimensions() {
+    const img: HTMLImageElement = this.batchImage.nativeElement;
+    this.activity.custom_data[0].width = img.naturalWidth;
+    this.activity.custom_data[0].height = img.naturalHeight;
   }
 
   showMediaModal() {
-    console.log('888 activity.ts showMediaModal called');
-
     // Mobile (not tablet) users go to media page instead of modal
     if (isMobile() && Math.min(screen.width, screen.height) < 768) {
       this.router.navigate([`/media/${this.activity.entity_guid}`]);
+    }
+
+    if (this.activity.custom_type === 'video') {
+      this.activity.custom_data.dimensions = this.videoDimensions;
+    } else { // Image
+      // Set image dimensions if they're not already there
+      if (!this.activity.custom_data[0].width || !this.activity.custom_data[0].height ) {
+        this.setImageDimensions();
+      }
     }
 
     this.activity.modal_source_url = this.router.url;

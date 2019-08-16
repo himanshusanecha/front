@@ -47,7 +47,7 @@ export class MindsVideoComponent implements OnDestroy {
 
   @Output() videoMetadataLoaded: EventEmitter<any> = new EventEmitter();
   @Output() videoCanPlayThrough: EventEmitter<any> = new EventEmitter();
-  @Output() requestedMediaModal: EventEmitter<any> = new EventEmitter();
+  @Output() mediaModalRequested: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('progressBar', { static: false }) progressBar: MindsVideoProgressBar;
   @ViewChild('volumeSlider', { static: false }) volumeSlider: MindsVideoVolumeSlider;
@@ -285,7 +285,6 @@ export class MindsVideoComponent implements OnDestroy {
   }
 
   // Sources
-
   async fallback() {
     this.candidates.setAsBlacklisted(this.current.type, this.current.src);
     const success = this.pickNextBestSource();
@@ -383,8 +382,13 @@ export class MindsVideoComponent implements OnDestroy {
     }
   }
 
-  requestMediaModal() {
+  // Prevent extra toggles from bubbling up when click control bar that overlays player
+  controlBarToggle($event) {
+    $event.stopPropagation();
+    this.toggle();
+  }
 
+  requestMediaModal() {
     if (this.isModal) {
       this.toggle();
       return;
@@ -395,7 +399,7 @@ export class MindsVideoComponent implements OnDestroy {
       this.router.navigate([`/media/${this.guid}`]);
     }
 
-    this.requestedMediaModal.emit();
+    this.mediaModalRequested.emit();
   }
 
   detectChanges() {

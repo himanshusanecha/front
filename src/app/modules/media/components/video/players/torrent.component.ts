@@ -41,7 +41,6 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
   @Output() onError: EventEmitter<{ player, e }> = new EventEmitter();
   @Output() onCanPlayThrough: EventEmitter<any> = new EventEmitter();
   @Output() onLoadedMetadata: EventEmitter<any> = new EventEmitter();
-  @Output() requestedMediaModal: EventEmitter<any> = new EventEmitter();
 
   initialized: boolean = false;
   loading: boolean = false;
@@ -365,7 +364,4 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
     }
   }
 
-  requestMediaModal() {
-    this.requestedMediaModal.emit();
-  }
 }

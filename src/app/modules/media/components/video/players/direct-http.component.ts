@@ -38,7 +38,6 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
   @Output() onError: EventEmitter<{ player: HTMLVideoElement, e }> = new EventEmitter();
   @Output() onCanPlayThrough: EventEmitter<any> = new EventEmitter();
   @Output() onLoadedMetadata: EventEmitter<any> = new EventEmitter();
-  @Output() requestedMediaModal: EventEmitter<any> = new EventEmitter();
 
   loading: boolean = false;
 
@@ -59,10 +58,6 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
     this._emitCanPlayThrough();
   };
 
-  protected _dblClick = () => {
-    this.requestedMediaModal.emit();
-  };
-
   protected _onPlayerError = e => {
     if (!e.target.error && (e.target.networkState !== HTMLMediaElement.NETWORK_NO_SOURCE)) {
       // Poster error
@@ -77,7 +72,6 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
 
   ngOnInit() {
     const player = this.getPlayer();
-    player.addEventListener('dblclick', this._dblClick);
     player.addEventListener('playing', this._emitPlay);
     player.addEventListener('pause', this._emitPause);
     player.addEventListener('ended', this._emitEnd);
@@ -92,7 +86,6 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
     const player = this.getPlayer();
 
     if (player) {
-      player.removeEventListener('dblclick', this._dblClick);
       player.removeEventListener('playing', this._emitPlay);
       player.removeEventListener('pause', this._emitPause);
       player.removeEventListener('ended', this._emitEnd);
@@ -173,10 +166,6 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
 
   getInfo() {
     return {};
-  }
-
-  requestMediaModal() {
-    this.requestedMediaModal.emit();
   }
 
   detectChanges() {

@@ -1,4 +1,14 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
+
 import { Router } from "@angular/router";
 
 import { Client } from '../../../../../services/api';
@@ -37,8 +47,11 @@ export class Remind {
   isTranslatable: boolean = false;
   menuOptions: any = [];
   canDelete: boolean = false;
+  videoDimensions: Array<any> = null;
 
   @Output('matureVisibilityChange') onMatureVisibilityChange: EventEmitter<any> = new EventEmitter<any>();
+
+  @ViewChild('batchImage', { static: false }) batchImage: ElementRef;
 
   constructor(
     public session: Session,
@@ -135,10 +148,29 @@ export class Remind {
     this.onMatureVisibilityChange.emit();
   }
 
+  setVideoDimensions($event) {
+    this.videoDimensions = $event.dimensions;
+  }
+
+  setImageDimensions() {
+    const img: HTMLImageElement = this.batchImage.nativeElement;
+    this.activity.custom_data[0].width = img.naturalWidth;
+    this.activity.custom_data[0].height = img.naturalHeight;
+  }
+
   showMediaModal() {
     // Mobile (not tablet) users go to media page instead of modal
     if (isMobile() && Math.min(screen.width, screen.height) < 768) {
       this.router.navigate([`/media/${this.activity.entity_guid}`]);
+    }
+
+    if (this.activity.custom_type === 'video') {
+      this.activity.custom_data.dimensions = this.videoDimensions;
+    } else { // Image
+      // Set image dimensions if they're not already there
+      if (!this.activity.custom_data[0].width || !this.activity.custom_data[0].height ) {
+        this.setImageDimensions();
+      }
     }
 
     this.activity.modal_source_url = this.router.url;

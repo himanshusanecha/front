@@ -6,7 +6,7 @@
       [style.width]="modalWidth + 'px'"
       [style.height]="stageHeight + 'px'"
     >
-      <!-- The stageWrapper is the element xthat goes into fullscreen -->
+      <!-- The stageWrapper is the element that goes into fullscreen -->
       <div class="m-mediaModal__stageWrapper"
         [style.width]="stageWidth + 'px'"
         [style.line-height]="stageHeight + 'px'"
@@ -20,10 +20,7 @@
         </div>
 
         <!-- MEDIA STAGE -->
-        <div class="m-mediaModal__stage"
-          [@slowFadeAnimation]="'in'"
-        >
-
+        <div class="m-mediaModal__stage" @slowFadeAnimation>
           <!-- MEDIA: IMAGE -->
           <div class="m-mediaModal__mediaWrapper m-mediaModal__mediaWrapper--image"
             *ngIf="!isVideo"
@@ -56,7 +53,6 @@
               [playCount]="entity['play:count']"
               [torrent]="[{ res: '360', key: entity.custom_data.guid + '/360.mp4' }]"
               (videoCanPlayThrough)="isLoaded()"
-              (click)="togglePlay()"
             >
               <video-ads [player]="player" *ngIf="entity.monetized"></video-ads>
             </m-video>
@@ -65,7 +61,7 @@
           <!-- OVERLAY -->
           <div class="m-mediaModal__overlayContainer"
             *ngIf="showOverlay"
-            [@fastFadeAnimation]="'in'"
+            @fastFadeAnimation
           >
             <div class="m-mediaModal__overlayTitleWrapper">
               <!-- TITLE -->

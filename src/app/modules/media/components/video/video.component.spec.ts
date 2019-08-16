@@ -20,6 +20,8 @@ import { TooltipComponent } from '../../../../common/components/tooltip/tooltip.
 import { WebtorrentService } from '../../../webtorrent/webtorrent.service';
 import { webtorrentServiceMock } from '../../../../../tests/webtorrent-service-mock.spec';
 import { MindsPlayerInterface } from './players/player.interface';
+import { MediaModalComponent } from '../../modal/modal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'm-video--direct-http-player',
@@ -29,6 +31,7 @@ class MindsVideoDirectHttpPlayerMock implements MindsPlayerInterface {
   @Input() muted: boolean;
   @Input() poster: string;
   @Input() autoplay: boolean;
+  @Input() guid: string;
   @Input() src: string;
 
   @Output() onPlay: EventEmitter<HTMLVideoElement> = new EventEmitter();
@@ -70,6 +73,7 @@ class MindsVideoTorrentPlayerMock implements MindsPlayerInterface {
   @Input() muted: boolean;
   @Input() poster: string;
   @Input() autoplay: boolean;
+  @Input() guid: string;
   @Input() src: string;
 
   @Output() onPlay: EventEmitter<HTMLVideoElement> = new EventEmitter();
@@ -132,6 +136,7 @@ export class MindsVideoProgressBarMock {
   }
 
   bindToElement() {}
+  enableKeyControls() {}
 }
 
 @Directive({
@@ -164,6 +169,7 @@ describe('MindsVideo', () => {
         FormsModule,
         RouterTestingModule,
         NgCommonModule,
+        BrowserAnimationsModule,
       ],
       providers: [
         { provide: ScrollService, useValue: scrollServiceMock },
@@ -194,6 +200,8 @@ describe('MindsVideo', () => {
     // video.src = 'thisisavideo.mp4';
     const video = new HTMLVideoElementMock();
     comp.playerRef.getPlayer = () => <any>video;
+    comp.isActivity = false;
+    comp.showControls = true;
 
     fixture.detectChanges(); // re-render
 
@@ -214,103 +222,103 @@ describe('MindsVideo', () => {
     jasmine.clock().uninstall();
   });
 
-  // it('should have a Play icon and a Control bar', () => {
-  //   const playIcon = fixture.debugElement.query(By.css('.minds-video-play-icon'));
-  //   const videoBar = fixture.debugElement.query(By.css('.minds-video-bar-full'));
-  //   expect(playIcon).not.toBeNull();
-  //   expect(videoBar).not.toBeNull();
-  // });
+  it('should have a Play icon and a Control bar', () => {
+    const playIcon = fixture.debugElement.query(By.css('.minds-video-play-icon'));
+    const videoBar = fixture.debugElement.query(By.css('.minds-video-bar-full'));
+    expect(playIcon).not.toBeNull();
+    expect(videoBar).not.toBeNull();
+  });
 
-  // it('On hover Control bar should be visible', () => {
-  //   expect(comp.playerRef.getPlayer()).not.toBeNull();
-  //   comp.playerRef.getPlayer().dispatchEvent(new Event('hover'));
-  //   const videoBar = fixture.debugElement.query(By.css('.minds-video-bar-full'));
-  //   expect(videoBar.nativeElement.hasAttribute('hidden')).toEqual(false);
-  //   const quality = fixture.debugElement.query(By.css('m-video--quality-selector'));
-  //   const volume = fixture.debugElement.query(By.css('m-video--volume-slider'));
-  //   const progressBar = fixture.debugElement.query(By.css('m-video--progress-bar'));
-  //   expect(progressBar).not.toBeNull();
-  //   expect(quality).toBeNull();
-  //   expect(volume).not.toBeNull();
-  // });
+  it('On mouse enter Control bar should be visible', () => {
+    expect(comp.playerRef.getPlayer()).not.toBeNull();
+    comp.onMouseEnter();
+    const videoBar = fixture.debugElement.query(By.css('.minds-video-bar-full'));
+    expect(videoBar.nativeElement.hasAttribute('hidden')).toEqual(false);
+    const quality = fixture.debugElement.query(By.css('m-video--quality-selector'));
+    const volume = fixture.debugElement.query(By.css('m-video--volume-slider'));
+    const progressBar = fixture.debugElement.query(By.css('m-video--progress-bar'));
+    expect(progressBar).not.toBeNull();
+    expect(quality).toBeNull();
+    expect(volume).not.toBeNull();
+  });
 
-  // it('Should call counter', () => {
-  //   const video = fixture.debugElement.query(By.css('video'));
-  //   comp.playCountDisabled = false;
-  //   comp.playCount = -1;
-  //   comp.log = '1';
-  //   fixture.detectChanges();
-  //   const calls = clientMock.get['calls'];
-  //   expect(calls.mostRecent().args[0]).toEqual('api/v1/analytics/@counter/play/1');
-  // });
+  it('Should call counter', () => {
+    const video = fixture.debugElement.query(By.css('video'));
+    comp.playCountDisabled = false;
+    comp.playCount = -1;
+    comp.log = '1';
+    fixture.detectChanges();
+    const calls = clientMock.get['calls'];
+    expect(calls.mostRecent().args[0]).toEqual('api/v1/analytics/@counter/play/1');
+  });
 
-  // it('If error loading then try to confirm that is being transcoded', fakeAsync(() => {
-  //   fixture.detectChanges();
-  //   comp.onError();
-  //   jasmine.clock().tick(100);
-  //   fixture.detectChanges();
-  //   const calls = clientMock.get['calls'];
-  //   expect(calls.mostRecent().args[0]).toEqual('api/v1/media/transcoding/1');
-  // }));
+  it('If error loading then try to confirm that is being transcoded', fakeAsync(() => {
+    fixture.detectChanges();
+    comp.onError();
+    jasmine.clock().tick(100);
+    fixture.detectChanges();
+    const calls = clientMock.get['calls'];
+    expect(calls.mostRecent().args[0]).toEqual('api/v1/media/transcoding/1');
+  }));
 
-  // it('should set muted', () => {
-  //   comp.muted = true;
-  //   fixture.detectChanges();
-  //   expect(comp.muted).toEqual(true);
-  // });
+  it('should set muted', () => {
+    comp.muted = true;
+    fixture.detectChanges();
+    expect(comp.muted).toEqual(true);
+  });
 
-  // it('should sets _autoplay', () => {
-  //   comp._autoplay = false;
-  //   fixture.detectChanges();
-  //   expect(comp.autoplay).toEqual(false);
-  // });
+  it('should sets _autoplay', () => {
+    comp._autoplay = false;
+    fixture.detectChanges();
+    expect(comp.autoplay).toEqual(false);
+  });
 
-  // it('should set src', () => {
-  //   comp._src = [];
-  //   fixture.detectChanges();
-  //   expect(comp.src).toEqual([]);
-  // });
+  it('should set src', () => {
+    comp._src = [];
+    fixture.detectChanges();
+    expect(comp.src).toEqual([]);
+  });
 
   // it('should set loop', () => {
   //   comp.loop = true;
   //   fixture.detectChanges();
   //   expect(comp.loop).toEqual(true);
   // });
-  //
+
   // it('should sets visibleplay', () => {
   //   comp.visibleplay = false;
   //   fixture.detectChanges();
   //   expect(comp.visibleplay).toEqual(false);
   // });
 
-  // it('should sets _playCount', () => {
-  //   comp._playCount = 70;
-  //   fixture.detectChanges();
-  //   expect(comp.playCount).toEqual(70);
-  // });
+  it('should sets _playCount', () => {
+    comp._playCount = 70;
+    fixture.detectChanges();
+    expect(comp.playCount).toEqual(70);
+  });
 
-  // it('should sets _playCount in 0', () => {
-  //   comp._playCount = false;
-  //   fixture.detectChanges();
-  //   expect(comp.playCountDisabled).toEqual(true);
-  // });
+  it('should sets _playCount in 0', () => {
+    comp._playCount = false;
+    fixture.detectChanges();
+    expect(comp.playCountDisabled).toEqual(true);
+  });
 
-  // it('Should Select Quality, reloading and playing', fakeAsync(() => {
-  //   comp._src = [];
-  //   comp._torrent = [];
-  //   fixture.detectChanges();
+  it('Should Select Quality, reloading and playing', fakeAsync(() => {
+    comp._src = [];
+    comp._torrent = [];
+    fixture.detectChanges();
 
-  //   comp.playerRef.getPlayer().currentTime = 39;
-  //   spyOn(comp.playerRef, 'resumeFromTime').and.stub();
-  //   spyOn(comp, 'reorderSourcesBasedOnQuality').and.callThrough();
-  //   spyOn(comp, 'changeSources').and.callThrough();
-  //   comp.selectedQuality('360');
-  //   jasmine.clock().tick(100);
-  //   jasmine.clock().tick(100);
-  //   expect(comp.playerRef.resumeFromTime).toHaveBeenCalled();
-  //   expect(comp.reorderSourcesBasedOnQuality).toHaveBeenCalled();
-  //   expect(comp.changeSources).toHaveBeenCalled();
-  // }));
+    comp.playerRef.getPlayer().currentTime = 39;
+    spyOn(comp.playerRef, 'resumeFromTime').and.stub();
+    spyOn(comp, 'reorderSourcesBasedOnQuality').and.callThrough();
+    spyOn(comp, 'changeSources').and.callThrough();
+    comp.selectedQuality('360');
+    jasmine.clock().tick(100);
+    jasmine.clock().tick(100);
+    expect(comp.playerRef.resumeFromTime).toHaveBeenCalled();
+    expect(comp.reorderSourcesBasedOnQuality).toHaveBeenCalled();
+    expect(comp.changeSources).toHaveBeenCalled();
+  }));
 
   // it('should set is visible', () => {
   //   comp.playerRef.getPlayer().getBoundingClientRect = () => {

@@ -42,7 +42,7 @@ import { MindsVideoComponent } from '../../components/video/video.component';
         [torrent]="[{ res: '720', key: object.guid + '/720.mp4' }, { res: '360', key: object.guid + '/360.mp4' }]"
         [log]="object.guid"
         [playCount]="false"
-        (click)="togglePlay()"
+        (click)="togglePlay($event)"
         #player>
         <video-ads [player]="player" *ngIf="object.monetized"></video-ads>
 
@@ -140,7 +140,7 @@ export class MediaTheatreComponent {
     this.timerSubscribe.unsubscribe();
   }
 
-  togglePlay() {
+  togglePlay($event) {
     this.videoComponent.toggle();
   }
 

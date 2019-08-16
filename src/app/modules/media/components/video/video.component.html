@@ -12,8 +12,7 @@
     (onError)="onError()"
     (onCanPlayThrough)="onCanPlayThrough()"
     (onLoadedMetadata)="loadedMetadata()"
-    (requestedMediaModal)="requestMediaModal()"
-    (click)="requestMediaModal()"
+    (click)="isModal ? toggle() : requestMediaModal()"
     #player
   ></m-video--direct-http-player>
 
@@ -30,15 +29,14 @@
     (onError)="onError()"
     (onCanPlayThrough)="onCanPlayThrough()"
     (onLoadedMetadata)="loadedMetadata()"
-    (requestedMediaModal)="requestMediaModal()"
-    (click)="requestMediaModal()"
+    (click)="isModal ? toggle() : requestMediaModal()"
     #player
   ></m-video--torrent-player>
 
   <ng-container *ngIf="playerRef">
     <i *ngIf="!playerRef.isPlaying() && !playerRef.isLoading() || isActivity && metadataLoaded"
       class="material-icons minds-video-play-icon"
-      (click)="requestMediaModal()"
+      (click)="isModal ? toggle() : requestMediaModal()"
     >play_circle_outline</i>
     <ng-content></ng-content>
 
@@ -52,7 +50,7 @@
 
     <div class="minds-video-bar-full" [@fadeAnimation]="showControls ? 'in' : 'out'">
       <i class="material-icons"
-        (click)="playerRef.toggle()"
+        (click)="controlBarToggle($event)"
       >{{ playerRef.isPlaying() || playerRef.isLoading() ? 'pause' : 'play_arrow' }}</i>
       <ng-template #loadingSpinner>
         <div class="mdl-spinner mdl-js-spinner is-active" [mdl]></div>

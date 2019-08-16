@@ -13,25 +13,25 @@ import isMobileOrTablet from '../../../helpers/is-mobile-or-tablet';
   selector: 'm-media--modal',
   templateUrl: 'modal.component.html',
   animations: [
-    // Fade in media
+    // Fade media in/out
     trigger('slowFadeAnimation', [
-      state('in', style({opacity: 1})),
       transition(':enter', [
-        style({opacity: 0}),
-        animate(800)
+        style({ opacity: 0 }),
+        animate('800ms', style({ opacity: 1 })),
       ]),
-      transition(':leave',
-        animate(800, style({opacity: 0})))
+      transition(':leave', [
+        animate('800ms', style({ opacity: 0 }))
+      ])
     ]),
-    // Fade in overlays and controls
+    // Fade overlay in/out
     trigger('fastFadeAnimation', [
-      state('in', style({opacity: 1})),
       transition(':enter', [
-        style({opacity: 0}),
-        animate(300)
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
       ]),
-      transition(':leave',
-        animate(300, style({opacity: 0})))
+      transition(':leave', [
+        animate('300ms', style({ opacity: 0 }))
+      ])
     ]),
   ]
 })
@@ -47,19 +47,18 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   isFullscreen: boolean = false;
   isVideo: boolean = false; // Otherwise it's an image
 
-  screenWidth: number;
-  screenHeight: number;
   modalWidth: number;
   stageWidth: number;
   stageHeight: number;
   mediaWidth: number;
   mediaHeight: number;
-  contentWidth: number;
+
   maxStageWidth: number;
   maxHeight: number;
-  minStageHeight: number;
-  minStageWidth: number;
+  minStageHeight: number = 520;
+  minStageWidth: number = 660;
 
+  contentWidth: number = 360;
   padding: number = 20; // 20px on each side
 
   title: string = '';
@@ -95,7 +94,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     // Prevent dismissal of modal when it's just been opened
     this.isOpenTimeout = setTimeout(() => this.isOpen = true, 50);
 
@@ -129,12 +127,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     // * LOCATION & ROUTING * -----------------------------------------------------------------------------------
     // Change the url to point to media page so user can easily share link
     // (but don't actually redirect)
+    this.location.replaceState(`/media/${this.entity.entity_guid}`);
 
-    // Note: not doing this for mobile browsers
-    // because they fire a NavigationStart event on location.replaceState
-    if ( !this.isTablet ) {
-      this.location.replaceState(`/media/${this.entity.entity_guid}`);
-    }
 
     // When user clicks a link from inside the modal
     this.routerSubscription = this.router.events.subscribe((event: Event) => {
@@ -143,21 +137,18 @@ export class MediaModalComponent implements OnInit, OnDestroy {
         if (!this.navigatedAway) {
           this.navigatedAway = true;
 
-          if (!this.isTablet) {
-            // Fix browser history so back button doesn't go to media page
-            this.location.replaceState(this.entity.modal_source_url);
+          // Fix browser history so back button doesn't go to media page
+          this.location.replaceState(this.entity.modal_source_url);
 
-            // Go to the intended destination
-            this.router.navigate([event.url]);
-          }
+          // Go to the intended destination
+          this.router.navigate([event.url]);
+
           this.overlayModal.dismiss();
         }
       }
     });
 
     // * DIMENSION CALCULATIONS * ---------------------------------------------------------------------
-
-    this.initDimensions();
 
     if (!this.isVideo) {
       // Image
@@ -171,48 +162,24 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     }
 
     this.entity.aspectRatio = this.entity.width / this.entity.height;
-
     this.calculateDimensions();
   }
 
-  initDimensions() {
-    // Set fixed dimensions (i.e. those that don't change when window changes)
-    this.screenWidth = screen.width;
-    this.screenHeight = screen.height;
-    this.contentWidth = Math.max(Math.round(this.screenWidth * 0.25), 300);
-    this.minStageHeight = Math.round((this.screenHeight * 0.6) - this.padding);
-    this.maxHeight = Math.round(this.screenHeight * 0.8);
-    this.minStageWidth = Math.round(this.screenWidth * 0.4 + 4 + (this.padding * 4));
-  }
-
-  // Recalculate height/width when window resizes
+  // Re-calculate height/width when window resizes
   @HostListener('window:resize', ['$resizeEvent'])
     onResize(resizeEvent) {
       this.calculateDimensions();
     }
 
   calculateDimensions() {
-
-    if (this.isTablet) {
-      // Re-initialize for tablet in case orientation changed
-      this.initDimensions();
-    }
-
-    const windowWidth: number = window.innerWidth;
-    const windowHeight: number = window.innerHeight;
-
     if ( !this.isFullscreen ) {
-
-      // Set heights as tall as possible
-      this.setStageHeightWithinRange(window.innerHeight);
-      this.setHeights();
+      this.setHeightsAsTallAsPossible();
 
       // After heights are set, check that scaled width isn't too wide or narrow
-      this.maxStageWidth = Math.max(windowWidth - this.contentWidth - (this.padding * 2), this.minStageWidth);
+      this.maxStageWidth = Math.max(window.innerWidth - this.contentWidth - (this.padding * 2), this.minStageWidth);
 
       if ( this.mediaWidth >= this.maxStageWidth ) {
         // Too wide :(
-
         this.rescaleHeightsForMaxWidth();
       } else if ( this.mediaWidth > (this.minStageWidth - (this.padding * 2)) ) {
         // Not too wide or too narrow :)
@@ -221,19 +188,20 @@ export class MediaModalComponent implements OnInit, OnDestroy {
         // Too narrow :(
         // If black stage background is visible on left/right, each strip should be at least 20px wide
         this.stageWidth = this.minStageWidth;
-
         // Continue to resize height after reaching min width
-        this.handleNarrowWindow(window.innerWidth);
+        this.handleNarrowWindow();
       }
 
       // If black stage background is visible on top/bottom, each strip should be at least 20px high
       const heightDiff = this.stageHeight - this.mediaHeight;
-      if ( 0 < heightDiff && heightDiff <= this.padding * 2){
-        // console.log('*** black vertical strips ');
+      if ( 0 < heightDiff && heightDiff <= this.padding * 2) {
         this.stageHeight += 40;
       }
 
     } else { // isFullscreen
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
       this.stageWidth = windowWidth;
       this.stageHeight = windowHeight;
 
@@ -247,35 +215,32 @@ export class MediaModalComponent implements OnInit, OnDestroy {
         this.mediaHeight = this.scaleHeight();
       }
     }
+
+    if (this.isVideo) {
+      this.entity.height = this.mediaHeight;
+      this.entity.width = this.mediaWidth;
+    }
+
     this.modalWidth = this.stageWidth + this.contentWidth;
   }
 
 
-  setStageHeightWithinRange(windowHeight) {
-  // Initialize stageHeight as % of windowHeight
-  this.stageHeight = Math.round(windowHeight * 0.94);
+  setHeightsAsTallAsPossible() {
+    this.maxHeight = window.innerHeight - (this.padding * 2);
 
-  // Ensure stageHeight is not taller than max (a % of screenHeight)
-  this.stageHeight = Math.min(this.stageHeight, this.maxHeight);
-
-  // Ensure stageHeight is not shorter than min (a % of screenHeight)
-  this.stageHeight = Math.max(this.stageHeight, this.minStageHeight);
-
-  // Scale width according to aspect ratio
-  this.mediaWidth = this.scaleWidth();
-  }
-
-
-  setHeights() {
+    // Ensure stageHeight is not shorter than min (a % of screenHeight)
+    // Initialize stageHeight to be as tall as possible and not smaller than minimum
+    this.stageHeight = Math.max(this.maxHeight, this.minStageHeight);
 
     // Set mediaHeight as tall as stage but no larger than intrinsic height
-    if (this.entity.height >= this.stageHeight) {
-      // Fit media inside stage
-      this.mediaHeight = this.stageHeight;
-    } else {
-      // Media is shorter than stage
+    if (!this.isVideo && this.entity.height < this.stageHeight) {
+      // Image is shorter than stage; scale down stage
       this.mediaHeight = this.entity.height;
-      this.stageHeight = this.minStageHeight;
+      this.stageHeight = Math.max(this.mediaHeight, this.minStageHeight);
+    } else {
+      // Image is taller than stage; scale it down so it fits inside stage
+      // All videos should be as tall as possible but not taller than stage
+      this.mediaHeight = this.stageHeight;
     }
 
     // Scale width according to aspect ratio
@@ -291,14 +256,15 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.stageHeight = Math.max(this.mediaHeight, this.minStageHeight);
   }
 
-  handleNarrowWindow(windowWidth) {
+  handleNarrowWindow() {
     // When at minStageWidth and windowWidth falls below threshold,
     // shrink vertically until it hits minStageHeight
 
     // When window is narrower than this, start to shrink height
-    const verticalShrinkWidthThreshold = this.mediaWidth + this.contentWidth + (this.padding * 4) + 2;
+    const verticalShrinkWidthThreshold = this.mediaWidth + this.contentWidth + (this.padding * 4); // + 2;
 
-    const widthDiff = verticalShrinkWidthThreshold - windowWidth;
+    const widthDiff = verticalShrinkWidthThreshold - window.innerWidth;
+
     // Is window narrow enough to start shrinking vertically?
     if ( widthDiff >= 1 ) {
 
@@ -396,10 +362,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   // Don't dismiss modal if click somewhere other than backdrop
   clickedModal($event) {
-    // $event.preventDefault();
     $event.stopPropagation();
   }
-
 
   // * OVERLAY & VIDEO CONTROLS * -------------------------------------------------------------------------
 
@@ -423,10 +387,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.videoComponent.stageHover = false;
       this.videoComponent.onMouseLeave();
     }
-  }
-
-  togglePlay() {
-    this.videoComponent.playerRef.toggle();
   }
 
   // * TABLETS ONLY: SHOW OVERLAY & VIDEO CONTROLS * -------------------------------------------
@@ -470,7 +430,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     // If the modal was closed without a redirect, replace media page url
     // with original source url and fix browser history so back button
     // doesn't go to media page
-    if (!this.isTablet && !this.navigatedAway) {
+    if (!this.navigatedAway) {
       this.location.replaceState(this.entity.modal_source_url);
     }
   }
