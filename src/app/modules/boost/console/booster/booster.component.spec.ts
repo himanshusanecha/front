@@ -19,40 +19,6 @@ describe('BoostConsoleBooster', () => {
 
   let comp: BoostConsoleBooster;
   let fixture: ComponentFixture<BoostConsoleBooster>;
-  // const feedsService = {
-  //     clear() { return this },
-  //     setEndpoint(str: string) { return this },
-  //     setLimit(int: number) { return this },
-  //     fetch() { return this },
-  //     feed()
-  //       pipe: this,
-  //     },
-  // }
-
-  // const feedsService = {
-  //   feed: new BehaviorSubject([Promise.resolve('testing')]),
-  //   clear() {
-  //      of( { response: false }, { response: false }, { response: true } )
-  //   },
-  //   response() { return {'response': true } },
-  //   setEndpoint(str) { return this }, //chainable
-  //   setLimit(limit) { return this }, //chainable
-  //   fetch() { return this } //chainable
-  // };
-
-  // let feedsService = { //new function () {
-  //   response: null,
-  //   callFake: this, //chainable
-  
-  //   clear: jasmine.createSpy('clear').and.callFake(callFake),
-  //   this.setEndpoint = jasmine.createSpy('setEndpoint').and.callFake(callFake);
-  //   this.setLimit = jasmine.createSpy('setLimit').and.callFake(callFake);
-  //   this.fetch = jasmine.createSpy('fetch').and.callFake(callFake);
-  //   this.feed = {
-  //     pipe: jasmine.createSpy('pipe').and.callFake((fn) => Promise.resolve(fn))
-  //   }
-  // };
-  
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -112,7 +78,6 @@ describe('BoostConsoleBooster', () => {
   });
 
   it('should have loaded the lists', () => {
-    // expect(comp.ownerFeedsService).toBeDefined();
     expect(comp.ownerFeedsService).toBeDefined();
   });
 
@@ -138,9 +103,9 @@ describe('BoostConsoleBooster', () => {
     expect(title.nativeElement.textContent).toContain("You have no content yet. Why don't you post something?");
 
 
-    const poster = fixture.debugElement.query(By.css('.m-boost-console-booster--content div:last-child'));
+    const poster = fixture.debugElement.query(By.css('.m-boost-console-booster--content > div:nth-child(3)'));
     expect(poster).not.toBeNull();
-    expect(poster.nativeElement.hidden).toBeFalsy();
+    expect(poster.nativeElement.hasAttribute('hidden')).toEqual(true);
   });
 
 });

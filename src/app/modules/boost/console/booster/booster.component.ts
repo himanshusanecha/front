@@ -21,7 +21,7 @@ export class BoostConsoleBooster {
   media: any[] = [];
 
   @Input('type') type: BoostConsoleType;
-  feed;
+  feed$;
   componentRef;
   componentInstance: PosterComponent;
 
@@ -67,7 +67,7 @@ export class BoostConsoleBooster {
       .setLimit(12)
       .fetch();
 
-    this.feed = this.ownerFeedsService.feed.pipe(
+    this.feed$ = this.ownerFeedsService.feed.pipe(
       merge(this.personalFeedsService.feed)
     );
 
@@ -90,7 +90,8 @@ export class BoostConsoleBooster {
   }
 
   async haveMoreData() {
-    return this.ownerFeedsService.inProgress || this.personalFeedsService.inProgress;
+    return this.ownerFeedsService.inProgress
+      || this.personalFeedsService.inProgress;
   }
 
   detectChanges() {
