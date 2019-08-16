@@ -77,7 +77,7 @@ describe('BoostConsoleBooster', () => {
   });
 
   it('should have loaded the lists', () => {
-    expect(comp.ownerFeedsService).toBeDefined();
+    expect(comp.feed$).toBeDefined();
   });
 
   it('should have a title', () => {
