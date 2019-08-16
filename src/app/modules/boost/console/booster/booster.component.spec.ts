@@ -13,7 +13,6 @@ import { Session } from '../../../../services/session';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 import { FeedsService } from '../../../../common/services/feeds.service';
-import { BehaviorSubject } from 'rxjs';
 
 describe('BoostConsoleBooster', () => {
 
@@ -72,7 +71,7 @@ describe('BoostConsoleBooster', () => {
       fixture.whenStable()
         .then(() => {
           fixture.detectChanges();
-          done()
+          done();
         });
     }
   });
@@ -101,7 +100,6 @@ describe('BoostConsoleBooster', () => {
     const title = fixture.debugElement.query(By.css('.m-boost-console-booster--content h3'));
     expect(title).not.toBeNull();
     expect(title.nativeElement.textContent).toContain("You have no content yet. Why don't you post something?");
-
 
     const poster = fixture.debugElement.query(By.css('.m-boost-console-booster--content > div:nth-child(3)'));
     expect(poster).not.toBeNull();

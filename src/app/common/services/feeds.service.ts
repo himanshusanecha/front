@@ -33,14 +33,17 @@ export type FeedsServiceGetResponse = {
   next?: number
 };
 
+/**
+ * Enables the grabbing of data through observable feeds.
+ */
 @Injectable()
 export class FeedsService {
 
   limit: BehaviorSubject<number> = new BehaviorSubject(12);
   offset: BehaviorSubject<number> = new BehaviorSubject(0);
-  pageSize: Observable<number>;  
+  pageSize: Observable<number>;
   pagingToken: string = '';
-  canFetchMore: boolean = true; 
+  canFetchMore: boolean = true;
   endpoint: string = '';
   params: any = { sync: 1 };
   castToActivities: boolean = false;
@@ -85,16 +88,28 @@ export class FeedsService {
     );
   }
 
+  /**
+   * Sets the endpoint for this instance.
+   * @param { string } endpoint - the endpoint for this instance. For example `api/v1/entities/owner`.
+   */
   setEndpoint(endpoint: string): FeedsService {
     this.endpoint = endpoint;
     return this;
   }
 
+  /**
+   * Sets the limit to be returned per next() call.
+   * @param { number } limit - the limit to retrieve.
+   */
   setLimit(limit: number): FeedsService {
     this.limit.next(limit);
     return this;
   }
 
+  /**
+   * Sets parameters to be used.
+   * @param { Object } params - parameters to be used.
+   */
   setParams(params): FeedsService {
     this.params = params;
     if (!params.sync) {
@@ -103,16 +118,27 @@ export class FeedsService {
     return this;
   }
 
+  /**
+   * Sets the offset of the request
+   * @param { number } offset - the offset of the request.
+   */
   setOffset(offset: number): FeedsService {
     this.offset.next(offset);
     return this;
   }
 
+  /**
+   * Sets castToActivities
+   * @param { boolean } cast - whether or not to set as_activities to true.
+   */
   setCastToActivities(cast: boolean): FeedsService {
     this.castToActivities = cast;
     return this;
   }
 
+  /**
+   * Fetches the data.
+   */
   fetch(): FeedsService {
     if (!this.offset.getValue())
       this.inProgress.next(true);
@@ -140,6 +166,9 @@ export class FeedsService {
     return this;
   }
 
+  /**
+   * To be called upload loading more data
+   */
   loadMore(): FeedsService {
     if (!this.inProgress.getValue()) {
       this.setOffset(this.limit.getValue() + this.offset.getValue());
@@ -148,6 +177,9 @@ export class FeedsService {
     return this;
   }
 
+  /**
+   * To clear data.
+   */
   clear(): FeedsService {
     this.offset.next(0);
     this.pagingToken = '';

@@ -6,6 +6,7 @@ import { Client } from '../../../../services/api';
 import { Session } from '../../../../services/session';
 import { PosterComponent } from '../../../newsfeed/poster/poster.component';
 import { merge } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   moduleId: module.id,
@@ -20,10 +21,11 @@ export class BoostConsoleBooster {
   posts: any[] = [];
   media: any[] = [];
 
-  @Input('type') type: BoostConsoleType;
-  feed$;
+  feed$: Observable<BehaviorSubject<Object>[]>;
   componentRef;
   componentInstance: PosterComponent;
+
+  @Input('type') type: BoostConsoleType;
 
   @ViewChild('poster', { read: ViewContainerRef, static: false }) poster: ViewContainerRef;
 
@@ -33,11 +35,13 @@ export class BoostConsoleBooster {
     private route: ActivatedRoute,
     public ownerFeedsService: FeedsService,
     public personalFeedsService: FeedsService,
-
     private _componentFactoryResolver: ComponentFactoryResolver,
     private cd: ChangeDetectorRef,
   ) { }
 
+  /**
+   * subscribes to route parent url and loads component.
+   */
   ngOnInit() {
     this.route.parent.url.subscribe(segments => {
       this.type = <BoostConsoleType>segments[0].path;
@@ -45,7 +49,11 @@ export class BoostConsoleBooster {
     });
   }
 
-  async load(refresh?: boolean) {
+  /**
+   * Loads the infinite feed, merging two pipelines into one.
+   * @param { boolean } refresh - is the state refreshing?
+   */
+  load(refresh?: boolean) {
     if (!refresh) {
       return;
     }
@@ -74,12 +82,19 @@ export class BoostConsoleBooster {
     this.inProgress = false;
   }
 
+  /**
+   * To be called by infinite-feed to load more data from two pipes.
+   */
   loadNext() {
    this.loadFeed(this.ownerFeedsService);
    this.loadFeed(this.personalFeedsService);
   }
 
-  loadFeed(feed) {
+  /**
+   * Reloads an individual feed.
+   * @param feed - the feed to reload.
+   */
+  loadFeed(feed: FeedsService) {
     if (feed.canFetchMore
       && !feed.inProgress.getValue()
       && feed.offset.getValue()
@@ -89,11 +104,17 @@ export class BoostConsoleBooster {
     feed.loadMore();
   }
 
-  async haveMoreData() {
-    return this.ownerFeedsService.inProgress
-      || this.personalFeedsService.inProgress;
+  /**
+   * If both have more data
+   */
+  haveMoreData() {
+    return ((!this.ownerFeedsService.inProgress && this.ownerFeedsService.hasMore)
+      || (!this.personalFeedsService.inProgress && this.personalFeedsService.hasMore));
   }
 
+  /**
+   * Detects changes if view is not destroyed.
+   */
   detectChanges() {
     if (!(this.cd as ViewRef).destroyed) {
       this.cd.markForCheck();
@@ -101,6 +122,9 @@ export class BoostConsoleBooster {
     }
   }
 
+  /**
+   * Detaches change detector on destroy
+   */
   ngOnDestroy() {
     this.cd.detach();
   }
