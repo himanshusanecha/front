@@ -1,9 +1,10 @@
 context('Topbar', () => {
   beforeEach(() => {
-    cy.login(true);
-
-    cy.location('pathname', { timeout: 30000 })
-      .should('eq', '/newsfeed/subscriptions');
+    if (cy.getCookie('minds_sess') === null) {
+      cy.login(true);
+      cy.location('pathname', { timeout: 30000 })
+        .should('eq', `/newsfeed/subscriptions`);
+    }
   })
 
   it("clicking on the dropdown on the right should allow to go to the user's channel", () => {

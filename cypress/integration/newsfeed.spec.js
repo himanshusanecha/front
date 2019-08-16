@@ -1,9 +1,10 @@
 context('Newsfeed', () => {
   beforeEach(() => {
-    cy.login(true);
-
-    cy.location('pathname', { timeout: 30000 })
-      .should('eq', '/newsfeed/subscriptions');
+    if (cy.getCookie('minds_sess') === null) {
+      cy.login(true);
+      cy.location('pathname', { timeout: 30000 })
+        .should('eq', `/newsfeed/subscriptions`);
+    }
   })
 
   it('should post an activity picking hashtags from the dropdown', () => {

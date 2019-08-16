@@ -1,11 +1,12 @@
 // import 'cypress-file-upload';
 
 context('Blogs', () => {
-  beforeEach(() => {
-    cy.login(true);
-
-    cy.location('pathname', { timeout: 30000 })
-      .should('eq', `/newsfeed/subscriptions`);
+  before(() => {
+    if (cy.getCookie('minds_sess') === null) {
+      cy.login(true);
+      cy.location('pathname', { timeout: 30000 })
+        .should('eq', `/newsfeed/subscriptions`);
+    }
   })
 
  it('should not be able to create a new blog if no title or banner are specified', () => {

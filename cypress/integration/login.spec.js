@@ -1,5 +1,6 @@
 context('Login', () => {
   beforeEach(() => {
+    cy.clearCookies();
     cy.visit('/')
   })
 

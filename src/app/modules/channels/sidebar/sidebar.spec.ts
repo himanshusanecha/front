@@ -29,7 +29,7 @@ import { featuresServiceMock } from '../../../../tests/features-service-mock.spe
 import { IfFeatureDirective } from "../../../common/directives/if-feature.directive";
 import { overlayModalServiceMock } from '../../../../tests/overlay-modal-service-mock.spec';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { ChannelMode, MindsUser } from '../../../interfaces/entities';
+import { ChannelMode } from '../../../interfaces/entities';
 import { ifStmt } from '@angular/compiler/src/output/output_ast';
 import { ChannelModulesComponent } from '../modules/modules';
 
@@ -96,7 +96,7 @@ describe('ChannelSidebar', () => {
         }),
         MockComponent({
           selector: 'm-channel-mode-selector',
-          inputs: ['user']
+          inputs: ['user', 'enabled']
         }),
         IfFeatureDirective,
       ],
@@ -136,6 +136,7 @@ describe('ChannelSidebar', () => {
     jasmine.clock().install();
     fixture = TestBed.createComponent(ChannelSidebar);
     featuresServiceMock.mock('es-feeds', false);
+    featuresServiceMock.mock('permissions', true);
     clientMock.response = {};
     uploadMock.response = {};
     comp = fixture.componentInstance;
@@ -325,7 +326,6 @@ describe('ChannelSidebar', () => {
   });
 
   it('should set a channel to public', () => {
-    featuresServiceMock.mock('permissions', true);
     fixture.detectChanges();
     expect(comp.user.mode).toEqual(ChannelMode.PUBLIC);
   });

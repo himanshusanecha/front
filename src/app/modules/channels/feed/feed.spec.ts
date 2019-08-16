@@ -25,6 +25,7 @@ import { ScrollService } from '../../../services/ux/scroll';
 import { FeaturesService } from '../../../services/features.service';
 import { featuresServiceMock } from '../../../../tests/features-service-mock.spec';
 import { FeedsService } from '../../../common/services/feeds.service';
+import { ChannelMode } from '../../../interfaces/entities';
 
 describe('ChannelFeed', () => {
 
@@ -90,7 +91,8 @@ describe('ChannelFeed', () => {
         icontime: 11111, 
         subscribers_count:182, 
         impressions:18200, 
-        pinned_posts: ['a', 'b', 'c']
+        pinned_posts: ['a', 'b', 'c'],
+        mode: ChannelMode.PUBLIC
     };
     comp.feed = [ {guid: 'aaaa'}, {guid: 'aaaa'}, {guid: 'aaaa'}, {guid: 'aaaa'}];
     comp.openWireModal = false;

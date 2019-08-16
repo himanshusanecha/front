@@ -36,7 +36,7 @@ describe('ChannelComponent', () => {
 
   let comp: ChannelComponent;
   let fixture: ComponentFixture<ChannelComponent>;
-  
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
