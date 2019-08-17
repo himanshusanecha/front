@@ -129,7 +129,8 @@
                     <strong>({{entity.containerObj.name}})</strong>
                   </a>
                   <!-- PERMALINK -->
-                  <a [routerLink]="['/newsfeed', entity.guid]" class="permalink m-ownerBlock__permalink" *ngIf="entity.guid && !entity.remind_object">
+                  <!-- <a [routerLink]="['/newsfeed', entity.guid]" class="permalink m-ownerBlock__permalink" *ngIf="entity.guid && !entity.remind_object"> -->
+                  <a [routerLink]="['/newsfeed', entity.guid]" class="permalink m-ownerBlock__permalink" *ngIf="entity.guid">
                     <span class="m-ownerBlock__permalinkDate">{{entity.time_created * 1000 | date:'medium'}}</span>
                     <span *ngIf="entity.edited" class="m-ownerBlock__permalinkFlag m-ownerBlock__permalinkFlag--edited" i18n="@@M__COMMON__EDITED">edited</span>
                     <div *ngIf="boosted"
@@ -141,6 +142,7 @@
                       <a i18n="@@MINDS__CARDS__entity__BOOSTED_LABEL_ONCHAIN" [hidden]="!entity.boosted_onchain" [routerLink]="['/token']">Boosted Onchain</a>
                     </div>
                   </a>
+
                 </div>
               </div>
               <!-- ACTION BUTTONS -->

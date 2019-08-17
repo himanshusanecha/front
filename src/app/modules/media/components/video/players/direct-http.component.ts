@@ -16,7 +16,7 @@ export class MindsVideoDirectHttpPlayer implements OnInit, OnDestroy, MindsPlaye
   @Input() muted: boolean = false;
   @Input() poster: string = '';
   @Input() autoplay: boolean = false;
-  @Input() guid: string;
+  @Input() guid: string | number;
 
   src: string;
   @Input('src') set _src(src: string) {

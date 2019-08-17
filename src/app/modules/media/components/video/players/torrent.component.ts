@@ -20,7 +20,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
   @Input() muted: boolean = false;
   @Input() poster: string = '';
   @Input() autoplay: boolean = false;
-  @Input() guid: string;
+  @Input() guid: string | number;
 
   src: string;
   @Input('src') set _src(src: string) {

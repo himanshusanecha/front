@@ -163,6 +163,9 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     this.entity.aspectRatio = this.entity.width / this.entity.height;
     this.calculateDimensions();
+
+
+    console.log(this.entity);
   }
 
   // Re-calculate height/width when window resizes
@@ -228,7 +231,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   setHeightsAsTallAsPossible() {
     this.maxHeight = window.innerHeight - (this.padding * 2);
 
-    // Ensure stageHeight is not shorter than min (a % of screenHeight)
     // Initialize stageHeight to be as tall as possible and not smaller than minimum
     this.stageHeight = Math.max(this.maxHeight, this.minStageHeight);
 

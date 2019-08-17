@@ -457,7 +457,7 @@ export class Activity implements OnInit {
       this.activity.custom_data.dimensions = this.videoDimensions;
     } else { // Image
       // Set image dimensions if they're not already there
-      if (!this.activity.custom_data[0].width || !this.activity.custom_data[0].height ) {
+      if (this.activity.custom_data[0].width === '0' || this.activity.custom_data[0].height === '0') {
         this.setImageDimensions();
       }
     }
