@@ -20,12 +20,13 @@
         </div>
 
         <!-- MEDIA STAGE -->
-        <div class="m-mediaModal__stage" @slowFadeAnimation>
+        <div class="m-mediaModal__stage">
           <!-- MEDIA: IMAGE -->
           <div class="m-mediaModal__mediaWrapper m-mediaModal__mediaWrapper--image"
             *ngIf="!isVideo"
             [style.width]="mediaWidth + 'px'"
             [style.height]="mediaHeight + 'px'"
+            [@slowFadeAnimation]="isLoading ? 'out' : 'in'"
           >
             <img class="m-mediaModal__media--image"
               [src]="thumbnail"
@@ -53,6 +54,7 @@
               [playCount]="entity['play:count']"
               [torrent]="[{ res: '360', key: entity.custom_data.guid + '/360.mp4' }]"
               (videoCanPlayThrough)="isLoaded()"
+              [@slowFadeAnimation]="isLoading ? 'out' : 'in'"
             >
               <video-ads [player]="player" *ngIf="entity.monetized"></video-ads>
             </m-video>
@@ -129,8 +131,7 @@
                     <strong>({{entity.containerObj.name}})</strong>
                   </a>
                   <!-- PERMALINK -->
-                  <!-- <a [routerLink]="['/newsfeed', entity.guid]" class="permalink m-ownerBlock__permalink" *ngIf="entity.guid && !entity.remind_object"> -->
-                  <a [routerLink]="['/newsfeed', entity.guid]" class="permalink m-ownerBlock__permalink" *ngIf="entity.guid">
+                  <a [routerLink]="['/newsfeed', permalinkGuid]" class="permalink m-ownerBlock__permalink">
                     <span class="m-ownerBlock__permalinkDate">{{entity.time_created * 1000 | date:'medium'}}</span>
                     <span *ngIf="entity.edited" class="m-ownerBlock__permalinkFlag m-ownerBlock__permalinkFlag--edited" i18n="@@M__COMMON__EDITED">edited</span>
                     <div *ngIf="boosted"

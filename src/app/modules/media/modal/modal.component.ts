@@ -13,15 +13,17 @@ import isMobileOrTablet from '../../../helpers/is-mobile-or-tablet';
   selector: 'm-media--modal',
   templateUrl: 'modal.component.html',
   animations: [
-    // Fade media in/out
+    // Fade media in after load
     trigger('slowFadeAnimation', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('800ms', style({ opacity: 1 })),
+      state('in', style({
+        opacity: 1
+      })),
+      state('out', style({
+        opacity: 0
+      })),
+      transition('in <=> out', [
+        animate('600ms')
       ]),
-      transition(':leave', [
-        animate('800ms', style({ opacity: 0 }))
-      ])
     ]),
     // Fade overlay in/out
     trigger('fastFadeAnimation', [
@@ -65,6 +67,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   thumbnail: string = '';
   boosted: boolean = false;
   ownerIconTime: string = '';
+  permalinkGuid: string = '';
 
   // Used for backdrop click detection hack
   isOpen: boolean = false;
@@ -118,6 +121,13 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.ownerIconTime = this.entity.ownerObj.icontime;
     }
 
+    this.permalinkGuid = this.entity.guid ? this.entity.guid : this.entity.entity_guid;
+
+    // Allow comment tree to work
+    if (!this.entity.guid) {
+      this.entity.guid = this.entity.entity_guid;
+    }
+
     this.isTablet = isMobileOrTablet() && Math.min(screen.width, screen.height) >= 768;
 
     this.isVideo = this.entity.custom_type === 'video';
@@ -164,6 +174,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.entity.aspectRatio = this.entity.width / this.entity.height;
     this.calculateDimensions();
 
+    // ! TEMP
 
     console.log(this.entity);
   }
