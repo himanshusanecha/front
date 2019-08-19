@@ -10,9 +10,11 @@ context('Wire', () => {
   const sendButton = '.m-wire--creator-section--last > div > button';
   const modal = 'm-overlay-modal > div.m-overlay-modal';
 
-  beforeEach(() => {
-    cy.login();
-    cy.wait(2000);
+  before(() => {
+    if (cy.getCookie('minds_sess') === null) {
+      cy.login();
+      cy.wait(2000);
+    }
   });
 
   it('should allow a user to send a wire to another user', () => {

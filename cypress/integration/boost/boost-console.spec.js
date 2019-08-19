@@ -1,16 +1,18 @@
 context('Boost Console', () => {
   const postContent = "Test boost, please reject..." + Math.random().toString(36);
 
+  before(() => {
+    if (cy.getCookie('minds_sess') === null) {
+      cy.login(true); 
+      cy.wait(5000);
+    }
+  });
+
   beforeEach(() => {
-    cy.login(true); 
-    cy.wait(5000);
-  
     cy.visit('/newsfeed/subscriptions');  
     cy.wait(3000);
-
     cy.location('pathname', { timeout: 30000 })
       .should('eq', `/newsfeed/subscriptions`);
-    
     newBoost(postContent, 100);
   });
   

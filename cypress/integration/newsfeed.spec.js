@@ -1,5 +1,5 @@
 context('Newsfeed', () => {
-  beforeEach(() => {
+  before(() => {
     if (cy.getCookie('minds_sess') === null) {
       cy.login(true);
       cy.location('pathname', { timeout: 30000 })

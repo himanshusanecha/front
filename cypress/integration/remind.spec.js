@@ -2,12 +2,15 @@ context('Remind', () => {
 
   const remindText = 'remind test text';
 
+  before(() => {
+    if (cy.getCookie('minds_sess') === null) {
+      cy.login(true);
+      cy.location('pathname', { timeout: 30000 })
+        .should('eq', `/newsfeed/subscriptions`);
+    }
+  });
+
   beforeEach(() => {
-    cy.login(true);
-
-    cy.location('pathname', { timeout: 30000 })
-      .should('eq', `/newsfeed/subscriptions`);
-
     //nav to channel
     cy.get('.m-v2-topbar__Top minds-avatar div')
       .click();

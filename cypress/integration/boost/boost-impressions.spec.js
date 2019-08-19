@@ -1,10 +1,16 @@
 context('Boost Impressions', () => {
   
-  beforeEach(() => {
-    cy.login(true);
+  before(() => {
+    if (cy.getCookie('minds_sess') === null) {
+      cy.login(true);
+    }
+  });
 
+  beforeEach(() => {
+    cy.visit('/newsfeed/subscriptions');  
+    cy.wait(3000);
     cy.location('pathname', { timeout: 30000 })
-      .should('eq', '/newsfeed/subscriptions');
+      .should('eq', `/newsfeed/subscriptions`);
   });
 
   it('should register views on scroll', () => {
@@ -42,14 +48,14 @@ context('Boost Impressions', () => {
     });
   });
 
-  it('should register views on boost rotate backward', () => {
+  it.only('should register views on boost rotate backward', () => {
     //stub endpoint
     cy.server();
     cy.route("POST", "**/api/v2/analytics/views/boost/*").as("analytics");
     cy.wait(3000);
 
     //rotate forward and wait to trigger analytics
-    cy.get('m-newsfeed--boost-rotator > div > ul > li:nth-child(1) > i')
+    cy.get('m-newsfeed--boost-rotator > .m-boost-rotator-tabs > li:nth-child(1) > i')
       .click();
     cy.wait(3000);
     

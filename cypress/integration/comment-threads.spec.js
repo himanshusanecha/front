@@ -34,7 +34,10 @@ context('Comment Threads', () => {
 
   before(() => {
     //make a post new.
-    login();
+    if (cy.getCookie('minds_sess') === null) {
+      login();
+    }
+
     cy.post('test post');
     
     //manually sign-out.

@@ -1,11 +1,11 @@
 context('Topbar', () => {
-  beforeEach(() => {
+  before(() => {
     if (cy.getCookie('minds_sess') === null) {
       cy.login(true);
       cy.location('pathname', { timeout: 30000 })
         .should('eq', `/newsfeed/subscriptions`);
     }
-  })
+  });
 
   it("clicking on the dropdown on the right should allow to go to the user's channel", () => {
     // open the menu
@@ -16,7 +16,7 @@ context('Topbar', () => {
       .click();
 
     cy.location('pathname').should('eq', `/${Cypress.env().username}`);
-  })
+  });
 
   it('clicking on the dropdown on the right should allow to go to settings', () => {
     // open the menu
@@ -27,7 +27,7 @@ context('Topbar', () => {
       .click();
 
     cy.location('pathname').should('eq', '/settings/general');
-  })
+  });
 
   it('clicking on the dropdown on the right should allow to go to the boost console', () => {
     // open the menu
@@ -39,7 +39,7 @@ context('Topbar', () => {
 
     // TOFIX: no boost redirects to create
     // cy.location('pathname').should('eq', '/boost/console/newsfeed/history');
-  })
+  });
 
   it('clicking on the dropdown on the right should allow to go to the boost console', () => {
     // open the menu
@@ -50,7 +50,7 @@ context('Topbar', () => {
       .click();
 
     cy.location('pathname').should('eq', '/help');
-  })
+  });
 
   it('clicking on the dropdown on the right should redirect to /canary', () => {
     // open the menu
@@ -61,7 +61,7 @@ context('Topbar', () => {
       .click();
 
     cy.location('pathname').should('eq', '/canary');
-  })
+  });
 
   it('clicking on the dropdown on the right should allow to toggle Dark Mode', () => {
     // open the menu
@@ -80,7 +80,7 @@ context('Topbar', () => {
       .click();
 
     cy.get('body.m-theme__light').should('be.visible');
-  })
+  });
 
   it('clicking on the bulb on the topbar should redirect to /newsfeed/subscriptions', () => {
     cy.get('.m-v2-topbarNavItem__Logo img').should('be.visible');
@@ -88,7 +88,7 @@ context('Topbar', () => {
     cy.get('.m-v2-topbarNavItem__Logo').click();
 
     cy.location('pathname').should('eq', '/newsfeed/subscriptions');
-  })
+  });
 
   it('clicking on the bell should open the notifications dropdown, and allow to view all notifications by redirecting to /notifications', () => {
     cy.get('.m-v2-topbar__UserMenu m-notifications--flyout').should('not.be.visible');
@@ -103,5 +103,5 @@ context('Topbar', () => {
       .click();
 
     cy.location('pathname').should('eq', '/notifications');
-  })
+  });
 })

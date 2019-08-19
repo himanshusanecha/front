@@ -5,11 +5,7 @@ context('Channel', () => {
       cy.location('pathname', { timeout: 30000 })
         .should('eq', `/newsfeed/subscriptions`);
     }
-    cy.visit('/minds');
-  })
-
-  beforeEach(function () {
-    Cypress.Cookies.preserveOnce('minds_sess', 'mwa', 'XSRF-TOKEN');
+    cy.visit(`/${Cypress.env().username}`);
   })
 
   it('should change channel mode to public', () => {
