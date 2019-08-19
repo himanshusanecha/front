@@ -4,6 +4,7 @@ import { WireContractService } from '../blockchain/contracts/wire-contract.servi
 import { TokenContractService } from '../blockchain/contracts/token-contract.service';
 import { Web3WalletService } from '../blockchain/web3-wallet.service';
 import { WireStruc } from './creator/creator.component';
+import { BTCService } from '../payments/btc/btc.service';
 
 @Injectable()
 export class WireService {
@@ -13,7 +14,8 @@ export class WireService {
     private client: Client,
     private wireContract: WireContractService,
     private tokenContract: TokenContractService,
-    private web3Wallet: Web3WalletService
+    private web3Wallet: Web3WalletService,
+    private btcService: BTCService,
   ) { }
 
   async submitWire(wire: WireStruc) {
@@ -80,6 +82,14 @@ export class WireService {
 
       case 'offchain':
         payload = { method: 'offchain', address: 'offchain' };
+        break;
+
+      case 'btc':
+        this.btcService.showModal({
+          amount: wire.amount,
+          address: wire.payload.receiver,
+        });
+        return;
         break;
     }
 

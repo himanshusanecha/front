@@ -9,7 +9,7 @@
       </div>
 
       <p class="m-wire-creator--subtext" i18n="@@WIRE__CREATOR__WIRE_NOTICE_TOKENS">
-        <b>Support <span>@</span>{{owner.username}}</b> by sending them Minds Tokens, ETH or USD. Once you send them the amount listed in the tiers, you can receive rewards if they are offered. Otherwise, it's a donation.
+        <b>Support <span>@</span>{{owner.username}}</b> by sending them Minds Tokens, ETH, BTC or USD. Once you send them the amount listed in the tiers, you can receive rewards if they are offered (Tokens & USD only). Otherwise, it's a donation.
       </p>
     </div>
   </div>
@@ -166,6 +166,21 @@
               <span i18n="@@M__COMMON__ONCHAIN">ETH</span>
               <m-tooltip icon="help" i18n="@@WIRE__CREATOR__OFFCHAIN_TOOLTIP">
                 You can send ETH to this user, however it will not recur. 
+              </m-tooltip>
+            </h5>
+          </div>
+          <span class="m-wire--creator-selector--selected-label" i18n="@@M__COMMON__SELECTED">Selected</span>
+        </li>
+        <li
+         (click)="setPayloadType('btc')"
+         [class.m-wire--creator-selector--highlight]="!wire.payloadType || wire.payloadType === 'btc'"
+        >
+         <div class="m-wire--creator-selector-type">
+            <img [src]="minds.cdn_assets_url + '/assets/marketing/btc.svg'" style="margin-left: -12px">
+            <h5>
+              <span i18n="@@M__COMMON__ONCHAIN">BTC</span>
+              <m-tooltip icon="help" i18n="@@WIRE__CREATOR__OFFCHAIN_TOOLTIP">
+                You can send BTC to this user, however it will not recur. 
               </m-tooltip>
             </h5>
           </div>

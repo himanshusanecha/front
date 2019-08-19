@@ -248,6 +248,10 @@ export class WireCreatorComponent {
       this.setOnchainNoncePayload('');
     }
 
+    if (payloadType === 'btc') {
+      this.setBtcNoncePayload('');
+    }
+
     localStorage.setItem('preferred-payment-method', payloadType);
 
     this.roundAmount();
@@ -267,6 +271,10 @@ export class WireCreatorComponent {
    */
   setOnchainNoncePayload(address: string) {
     return this.setNoncePayload({ receiver: this.owner.eth_wallet, address })
+  }
+
+  setBtcNoncePayload(address: string) {
+    return this.setNoncePayload({ receiver: this.owner.btc_address, address });
   }
 
   /**
@@ -421,6 +429,11 @@ export class WireCreatorComponent {
         //  throw new Error('Payment method not processed.');
         //}
         break;
+      case 'btc':
+        if (!this.wire.payload.receiver) {
+            throw new VisibleWireError('This channel has not configured their Bitcoin address yet');
+        }
+        break;
     }
 
     if (!this.wire.guid) {
@@ -517,7 +530,7 @@ export class WireCreatorComponent {
 
   get canRecur(): boolean {
     switch (this.wire.payloadType) {
-      case 'onchain':
+      //case 'onchain':
       case 'offchain':
       case 'usd':
         return true;
