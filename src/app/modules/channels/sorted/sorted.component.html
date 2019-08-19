@@ -6,14 +6,20 @@
 
 <div class="minds-list">
   <div>
-    <m-sort-selector
-      class="m-channel--sorted__SortSelector m-border"
-      [allowedAlgorithms]="false"
-      [allowedPeriods]="false"
-      [allowedCustomTypes]="['activities', 'images', 'videos', 'blogs']"
-      [customType]="type"
-      (onChange)="setFilter($event.customType)"
-    ></m-sort-selector>
+    <div class="mindsList__tools m-border">
+      <div class="mindsListTools__scheduled">
+        <i class="material-icons">date_range</i>
+        <span>scheduled: 10</span>
+      </div>
+      <m-sort-selector
+        class="m-channel--sorted__SortSelector"
+        [allowedAlgorithms]="false"
+        [allowedPeriods]="false"
+        [allowedCustomTypes]="['activities', 'images', 'videos', 'blogs']"
+        [customType]="type"
+        (onChange)="setFilter($event.customType)"
+      ></m-sort-selector>
+    </div>
 
     <m-onboarding-feed
       *ngIf="isOwner()"
