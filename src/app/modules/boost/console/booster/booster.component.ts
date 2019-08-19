@@ -23,7 +23,7 @@ export class BoostConsoleBooster {
   /* poster component */
   @ViewChild('poster', { read: ViewContainerRef, static: false }) poster: ViewContainerRef;
 
-  inProgress: boolean = false;
+  inProgress: boolean = true;
   loaded: boolean = false;
   feed$: Observable<BehaviorSubject<Object>[]>;
   componentRef;
@@ -77,7 +77,7 @@ export class BoostConsoleBooster {
     this.feed$ = this.feedsService.feed;
     this.inProgress = false;
     this.loaded = true;
-    this.feed$.subscribe(feed => this.noContent = feed.length ? false : true);
+    this.feed$.subscribe(feed => this.noContent = feed.length > 0);
   }
 
   /**
@@ -115,7 +115,7 @@ export class BoostConsoleBooster {
    */
   loadPoster() {
     this.feedsService.feed.subscribe(feed => {
-      if (feed.length > 0) {
+      if (feed.length > 0 && !this.inProgress && this.loaded) {
         try {
           this.poster.clear();
           this.componentRef.clear();
