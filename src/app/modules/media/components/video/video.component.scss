@@ -5,7 +5,11 @@
  m-video{
   position: relative;
   display:block;
-  cursor:pointer;
+
+  &.clickable {
+    cursor:pointer;
+  }
+
   &:hover {
     .minds-video-play-icon {
       opacity: 1;

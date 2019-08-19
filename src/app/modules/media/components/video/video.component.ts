@@ -15,7 +15,8 @@ import isMobile from '../../../../helpers/is-mobile';
   selector: 'm-video',
   host: {
     '(mouseenter)': 'onMouseEnter()',
-    '(mouseleave)': 'onMouseLeave()'
+    '(mouseleave)': 'onMouseLeave()',
+    '[class.clickable]':'canPlayThrough'
   },
   templateUrl: 'video.component.html',
   animations: [
@@ -80,6 +81,7 @@ export class MindsVideoComponent implements OnDestroy {
   showControls: boolean = false;
   stopSeekerTimeout: any = null;
   metadataLoaded: boolean = false;
+  canPlayThrough: boolean = false;
 
   current: { type: 'torrent' | 'direct-http', src: string };
   protected candidates: SourceCandidates = new SourceCandidates();
@@ -281,6 +283,7 @@ export class MindsVideoComponent implements OnDestroy {
   }
 
   onCanPlayThrough() {
+    this.canPlayThrough = true;
     this.videoCanPlayThrough.emit();
   }
 
@@ -389,6 +392,10 @@ export class MindsVideoComponent implements OnDestroy {
   }
 
   requestMediaModal() {
+    if (!this.canPlayThrough) {
+      return;
+    }
+
     if (this.isModal) {
       this.toggle();
       return;
