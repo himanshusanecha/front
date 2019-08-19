@@ -70,6 +70,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   ownerIconTime: string = '';
   permalinkGuid: string = '';
   hasMessage: boolean = true;
+  message: string = '';
 
   // Used for backdrop click detection hack
   isOpen: boolean = false;
@@ -105,18 +106,18 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.boosted = this.entity.boosted || this.entity.p2p_boosted;
 
     // Set title
-    if ( !this.entity.title ) {
-      if ( !this.entity.message ) {
+    if (!this.entity.title) {
+      if (!this.entity.message) {
         this.title = `${this.entity.ownerObj.name}'s post`;
+        this.hasMessage = false;
       } else {
         this.title = this.entity.message;
       }
     } else {
       this.title = this.entity.title;
-      this.hasMessage = false;
     }
 
-    this.entity.message = this.hasMessage ? this.title : null;
+    this.message = this.hasMessage ? this.title : null;
 
     // Set ownerIconTime
     const session = this.session.getLoggedInUser();
@@ -178,10 +179,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     this.aspectRatio = this.entity.width / this.entity.height;
     this.calculateDimensions();
-
-    // ! TEMP
-
-    console.log(this.entity);
   }
 
   // Re-calculate height/width when window resizes
@@ -409,7 +406,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   // * TABLETS ONLY: SHOW OVERLAY & VIDEO CONTROLS * -------------------------------------------
 
-  // Briefly display title overlay and video controls for 3 secs when finished loading and stage touch
+  // Briefly display title overlay and video controls when finished loading and stage touch
   showOverlays() {
     this.onMouseEnterStage();
 

@@ -27,6 +27,7 @@ import { ActivityAnalyticsOnViewService } from "./activity-analytics-on-view.ser
 import { NewsfeedService } from "../../../../newsfeed/services/newsfeed.service";
 import { ClientMetaService } from "../../../../../common/services/client-meta.service";
 import { AutocompleteSuggestionsService } from "../../../../suggestions/services/autocomplete-suggestions.service";
+import { FeaturesService } from '../../../../../services/features.service';
 import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
@@ -119,6 +120,7 @@ export class Activity implements OnInit {
     protected activityAnalyticsOnViewService: ActivityAnalyticsOnViewService,
     protected newsfeedService: NewsfeedService,
     protected clientMetaService: ClientMetaService,
+    protected featuresService: FeaturesService,
     public suggestions: AutocompleteSuggestionsService,
     @SkipSelf() injector: Injector,
     elementRef: ElementRef,
@@ -448,25 +450,29 @@ export class Activity implements OnInit {
   }
 
   showMediaModal() {
-    // Mobile (not tablet) users go to media page instead of modal
-    if (isMobile() && Math.min(screen.width, screen.height) < 768) {
+    if (this.featuresService.has('media-modal')) {
+      // Mobile (not tablet) users go to media page instead of modal
+      if (isMobile() && Math.min(screen.width, screen.height) < 768) {
+        this.router.navigate([`/media/${this.activity.entity_guid}`]);
+      }
+
+      if (this.activity.custom_type === 'video') {
+        this.activity.custom_data.dimensions = this.videoDimensions;
+      } else { // Image
+        // Set image dimensions if they're not already there
+        if (this.activity.custom_data[0].width === '0' || this.activity.custom_data[0].height === '0') {
+          this.setImageDimensions();
+        }
+      }
+
+      this.activity.modal_source_url = this.router.url;
+
+      this.overlayModal.create(MediaModalComponent, this.activity, {
+        class: 'm-overlayModal--media'
+      }).present();
+    } else {
       this.router.navigate([`/media/${this.activity.entity_guid}`]);
     }
-
-    if (this.activity.custom_type === 'video') {
-      this.activity.custom_data.dimensions = this.videoDimensions;
-    } else { // Image
-      // Set image dimensions if they're not already there
-      if (this.activity.custom_data[0].width === '0' || this.activity.custom_data[0].height === '0') {
-        this.setImageDimensions();
-      }
-    }
-
-    this.activity.modal_source_url = this.router.url;
-
-    this.overlayModal.create(MediaModalComponent, this.activity, {
-      class: 'm-overlayModal--media'
-    }).present();
   }
 
   detectChanges() {
