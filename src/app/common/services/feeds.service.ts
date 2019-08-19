@@ -140,9 +140,9 @@ export class FeedsService {
    * Fetches the data.
    */
   fetch(): FeedsService {
-    if (!this.offset.getValue())
+    if (!this.offset.getValue()) {
       this.inProgress.next(true);
-  
+    }
     this.client.get(this.endpoint, {
       ...this.params, 
       ...{ 
@@ -151,9 +151,12 @@ export class FeedsService {
         from_timestamp: this.pagingToken,
       }})
       .then((response: any) => {
-        if (!this.offset.getValue())
+        if (!this.offset.getValue()) {
           this.inProgress.next(false);
-  
+        }
+        if(!response.entities && response.activity) {
+          response.entities = response.activity;
+        }
         if (response.entities.length) {
           this.rawFeed.next(this.rawFeed.getValue().concat(response.entities));
           this.pagingToken = response['load-next'];
@@ -161,8 +164,7 @@ export class FeedsService {
           this.canFetchMore = false;
         }
       })
-      .catch(err => {
-      });
+      .catch(e => console.log(e));
     return this;
   }
 

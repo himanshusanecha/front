@@ -4,8 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { BoostConsoleBooster } from './booster.component';
-import { clientMock, } from '../../../../../tests/client-mock.spec';
-import { feedsServiceMock } from '../../../../../tests/feed-service-mock.spec';
+import { clientMock } from '../../../../../tests/client-mock.spec';
 import { sessionMock } from '../../../../../tests/session-mock.spec';
 import { MockComponent, MockDirective } from '../../../../utils/mock';
 import { Client } from '../../../../services/api';
@@ -13,6 +12,8 @@ import { Session } from '../../../../services/session';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 import { FeedsService } from '../../../../common/services/feeds.service';
+import { feedsServiceMock } from '../../../../../tests/feed-service-mock.spec';
+import { BehaviorSubject } from 'rxjs';
 
 describe('BoostConsoleBooster', () => {
 
@@ -41,28 +42,8 @@ describe('BoostConsoleBooster', () => {
 
   beforeEach((done) => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 2;
-
     fixture = TestBed.createComponent(BoostConsoleBooster);
-
     comp = fixture.componentInstance;
-
-    // feedsService.response = {};
-    feedsServiceMock.response['api/v1/newsfeed/personal'] = {
-      status: 'success',
-      activity: [
-        { guid: '123' },
-        { guid: '456' },
-      ]
-    };
-
-    feedsServiceMock.response['api/v1/entities/owner'] = {
-      status: 'success',
-      entities: [
-        { guid: '789' },
-        { guid: '101112' },
-      ]
-    };
-
     fixture.detectChanges();
 
     if (fixture.isStable()) {
@@ -77,7 +58,7 @@ describe('BoostConsoleBooster', () => {
   });
 
   it('should have loaded the lists', () => {
-    expect(comp.feed$).toBeDefined();
+    expect(comp.feed$).not.toBeFalsy();
   });
 
   it('should have a title', () => {
@@ -93,9 +74,10 @@ describe('BoostConsoleBooster', () => {
   });
 
   it("should have a poster if the user hasn't posted anything yet", () => {
+    comp.feed$ = of([]);
     fixture.detectChanges();
-    comp.posts = [];
-    fixture.detectChanges();
+
+    comp.feed$.subscribe(feed => expect(feed.length).toBe(0));
 
     const title = fixture.debugElement.query(By.css('.m-boost-console-booster--content h3'));
     expect(title).not.toBeNull();
@@ -103,7 +85,20 @@ describe('BoostConsoleBooster', () => {
 
     const poster = fixture.debugElement.query(By.css('.m-boost-console-booster--content > div:nth-child(3)'));
     expect(poster).not.toBeNull();
-    expect(poster.nativeElement.hasAttribute('hidden')).toEqual(true);
+  });
+
+  it("should not have a poster if the user has posted content", () => {
+    comp.feed$ = of([BehaviorSubject.create({id: 1}), BehaviorSubject.create({id: 2})]);
+    fixture.detectChanges();
+
+    comp.feed$.subscribe(feed => expect(feed.length).toBe(2));
+
+    const title = fixture.debugElement.query(By.css('.m-boost-console-booster--content h3'));
+    expect(title).toBeDefined();
+    expect(title.nativeElement.textContent).toContain("You have no content yet. Why don't you post something?");
+
+    const poster = fixture.debugElement.query(By.css('.m-boost-console-booster--content > div:nth-child(3)'));
+    expect(poster).toBeDefined();
   });
 
 });
