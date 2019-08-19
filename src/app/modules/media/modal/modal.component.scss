@@ -489,6 +489,10 @@ m-overlay-modal {
   }
 }
 
+.m-mediaModal__message a {
+  text-decoration: none;
+}
+
 .m-mediaModal__actionButtonsWrapper {
   .m-mediaModal__actionButtonsRow {
     display: flex;

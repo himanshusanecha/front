@@ -49,6 +49,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   isFullscreen: boolean = false;
   isVideo: boolean = false; // Otherwise it's an image
 
+  aspectRatio: number;
   modalWidth: number;
   stageWidth: number;
   stageHeight: number;
@@ -68,6 +69,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   boosted: boolean = false;
   ownerIconTime: string = '';
   permalinkGuid: string = '';
+  hasMessage: boolean = true;
 
   // Used for backdrop click detection hack
   isOpen: boolean = false;
@@ -98,7 +100,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Prevent dismissal of modal when it's just been opened
-    this.isOpenTimeout = setTimeout(() => this.isOpen = true, 50);
+    this.isOpenTimeout = setTimeout(() => this.isOpen = true, 20);
 
     this.boosted = this.entity.boosted || this.entity.p2p_boosted;
 
@@ -111,7 +113,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       }
     } else {
       this.title = this.entity.title;
+      this.hasMessage = false;
     }
+
+    this.entity.message = this.hasMessage ? this.title : null;
 
     // Set ownerIconTime
     const session = this.session.getLoggedInUser();
@@ -171,7 +176,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.thumbnail = this.entity.custom_data.thumbnail_src; // Not currently used
     }
 
-    this.entity.aspectRatio = this.entity.width / this.entity.height;
+    this.aspectRatio = this.entity.width / this.entity.height;
     this.calculateDimensions();
 
     // ! TEMP
@@ -282,7 +287,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     if ( widthDiff >= 1 ) {
 
       // What mediaHeight would be if it shrunk proportionally to difference in width
-      const mediaHeightPreview = Math.round((this.mediaWidth - widthDiff) / this.entity.aspectRatio);
+      const mediaHeightPreview = Math.round((this.mediaWidth - widthDiff) / this.aspectRatio);
 
       // Shrink media if mediaHeight is still above min
       if (mediaHeightPreview > this.minStageHeight) {
@@ -298,10 +303,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   scaleHeight() {
-    return Math.round(this.mediaWidth / this.entity.aspectRatio);
+    return Math.round(this.mediaWidth / this.aspectRatio);
   }
   scaleWidth() {
-    return Math.round(this.mediaHeight * this.entity.aspectRatio);
+    return Math.round(this.mediaHeight * this.aspectRatio);
   }
 
 

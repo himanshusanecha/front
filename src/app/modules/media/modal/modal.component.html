@@ -143,21 +143,29 @@
                       <a i18n="@@MINDS__CARDS__entity__BOOSTED_LABEL_ONCHAIN" [hidden]="!entity.boosted_onchain" [routerLink]="['/token']">Boosted Onchain</a>
                     </div>
                   </a>
-
                 </div>
+              </div>
+              <!-- MESSAGE -->
+              <div class="m-mediaModal__message mdl-card__supporting-text"
+                m-read-more *ngIf="hasMessage"
+                [maxHeightAllowed]="136"
+              >
+                <span class="m-mature-message-content" [innerHtml]="entity.message | tags">
+                </span>
+                <m-read-more--button></m-read-more--button>
               </div>
               <!-- ACTION BUTTONS -->
               <div class="m-mediaModal__actionButtonsWrapper">
-                  <div class="m-mediaModal__actionButtonsRow m-action-tabs">
-                    <m-wire-button *ngIf="session.getLoggedInUser().guid != entity.owner_guid"
-                      [object]="entity"
-                      (done)="wireSubmitted($event)"
-                    ></m-wire-button>
-                    <minds-button-thumbs-up [object]="entity"></minds-button-thumbs-up>
-                    <minds-button-thumbs-down [object]="entity"></minds-button-thumbs-down>
-                    <minds-button-remind [object]="entity"></minds-button-remind>
-                  </div>
+                <div class="m-mediaModal__actionButtonsRow m-action-tabs">
+                  <m-wire-button *ngIf="session.getLoggedInUser().guid != entity.owner_guid"
+                    [object]="entity"
+                    (done)="wireSubmitted($event)"
+                  ></m-wire-button>
+                  <minds-button-thumbs-up [object]="entity"></minds-button-thumbs-up>
+                  <minds-button-thumbs-down [object]="entity"></minds-button-thumbs-down>
+                  <minds-button-remind [object]="entity"></minds-button-remind>
                 </div>
+              </div>
 
               <!-- COMMENTS -->
               <div class="m-mediaModal__comments" *ngIf="entity.guid">
