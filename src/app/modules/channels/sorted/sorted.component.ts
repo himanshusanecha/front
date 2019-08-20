@@ -64,6 +64,8 @@ export class ChannelSortedComponent implements OnInit {
 
   initialized: boolean = false;
 
+  seeScheduled: boolean = false;
+
   @ViewChild('poster', { static: false }) protected poster: PosterComponent;
 
   constructor(
@@ -96,10 +98,15 @@ export class ChannelSortedComponent implements OnInit {
 
     this.detectChanges();
 
+    let endpoint = 'api/v2/feeds/container';
+    if (this.seeScheduled) {
+      endpoint = 'api/v2/channel/scheduled';
+    }
+
     try {
 
       this.feedsService
-        .setEndpoint(`api/v2/feeds/container/${this.channel.guid}/${this.type}`)
+        .setEndpoint(`${endpoint}/${this.channel.guid}/${this.type}`)
         .setLimit(12)
         .fetch();
 
@@ -172,5 +179,10 @@ export class ChannelSortedComponent implements OnInit {
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
+  }
+
+  toggleScheduled() {
+    this.seeScheduled = !this.seeScheduled;
+    this.load(true);
   }
 }

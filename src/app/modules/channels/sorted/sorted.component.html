@@ -7,8 +7,8 @@
 <div class="minds-list">
   <div>
     <div class="mindsList__tools m-border">
-      <div class="mindsListTools__scheduled">
-        <i class="material-icons">date_range</i>
+      <div class="mindsListTools__scheduled" (click)="toggleScheduled()" [class.selected]="seeScheduled">
+        <m-tooltip icon="date_range"> See Scheduled Activities </m-tooltip>
         <span>scheduled: 10</span>
       </div>
       <m-sort-selector
