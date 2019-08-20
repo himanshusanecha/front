@@ -3,11 +3,15 @@ context('Channel', () => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+       return cy.login(true);
       }
     });
     cy.visit(`/${Cypress.env().username}`);
-  })
+  });
+
+  beforeEach(()=> {
+    cy.preserveCookies();
+  });
 
   it('should change channel mode to public', () => {
     cy.get('.m-channel-mode-selector--dropdown')

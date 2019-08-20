@@ -24,22 +24,27 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-// Staging requires cookie to be set
-Cypress.Cookies.defaults({
-  whitelist: 'staging'
-});
-
 Cypress.Commands.add('login', (canary) => {
+  
   cy.setCookie('staging', "1"); // Run in stagin mode. Note: does not impact review sites
 
   cy.visit('/login');
 
-  cy.get('.m-btn--login').click();
+  cy.server();
+  cy.route("POST", "/api/v1/authenticate").as("postLogin");
 
   cy.get('minds-form-login .m-login-box .mdl-cell:first-child input').type(Cypress.env().username);
   cy.get('minds-form-login .m-login-box .mdl-cell:last-child input').type(Cypress.env().password);
-
   cy.get('minds-form-login .m-btn--login').click();
+
+  cy.wait('@postLogin').then((xhr) => {
+    expect(xhr.status).to.equal(200);
+    expect(xhr.response.body.status).to.equal('success');
+  });
+});
+
+Cypress.Commands.add('preserveCookies', () => {
+  Cypress.Cookies.preserveOnce('staging', 'minds_sess', 'mwa', 'XSRF-TOKEN');
 });
 
 Cypress.Commands.add('uploadFile', (selector, fileName, type = '') => {

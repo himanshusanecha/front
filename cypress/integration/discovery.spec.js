@@ -3,12 +3,16 @@ context('Discovery', () => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+        return cy.login(true);
       }
     });
     cy.visit('/newsfeed/global/top');
   });
   
+  beforeEach(()=> {
+    cy.preserveCookies();
+  });
+
   it('should allow a user to post on the discovery page', () => {
     cy.post("test!!");
   });

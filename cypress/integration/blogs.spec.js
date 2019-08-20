@@ -2,12 +2,17 @@
 
 context('Blogs', () => {
   before(() => {
+    cy.clearCookies();
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+        return cy.login(true);
       }
     });
+  });
+
+  beforeEach(()=> {
+    cy.preserveCookies();
   });
 
   it('should not be able to create a new blog if no title or banner are specified', () => {

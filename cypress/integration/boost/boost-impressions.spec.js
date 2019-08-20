@@ -4,12 +4,16 @@ context('Boost Impressions', () => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+        return cy.login(true);
       }
     });
     cy.visit('/newsfeed/subscriptions');  
     cy.location('pathname', { timeout: 30000 })
       .should('eq', `/newsfeed/subscriptions`);
+  });
+
+  beforeEach(()=> {
+    cy.preserveCookies();
   });
 
   it('should register views on scroll', () => {

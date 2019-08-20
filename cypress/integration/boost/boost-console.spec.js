@@ -5,13 +5,14 @@ context('Boost Console', () => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+        return cy.login(true);
       }
     });
     
   });
 
   beforeEach(() => {
+    cy.preserveCookies();
     cy.visit('/newsfeed/subscribed');
     newBoost(postContent, 100);
   });
