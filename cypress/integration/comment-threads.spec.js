@@ -76,8 +76,7 @@ context('Comment Threads', () => {
   it('should allow a user to post a tier 3 comment', () => {
     cy.get('minds-activity:nth-child(1)')
       .find('m-comments__tree m-comments__thread m-comment')
-      .find('m-comments__thread m-comment:nth-child(2)')
-      .find('.m-comment__toolbar > div > span').last().click();
+      .find('m-comments__thread m-comment:nth-child(2) .m-comment__toolbar > div > span').last().click();
 
     //expand top comment, then top reply button.
     // cy.get(replyButton(1)).click();
