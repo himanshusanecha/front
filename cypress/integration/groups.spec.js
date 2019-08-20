@@ -3,10 +3,14 @@ context('Groups', () => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+        return cy.login(true);
       }
     });
-  })
+  });
+
+  beforeEach(()=> {
+    cy.preserveCookies();
+  });
 
   it('should create and edit a group', () => {
 
@@ -60,7 +64,9 @@ context('Groups', () => {
 
   it('should be able to toggle conversation and comment on it', () => {
 
-    cy.get('m-group--sidebar-markers li:nth-child(3)').contains('test group').click();
+    cy.get("m-group--sidebar-markers li:contains('test group')")
+      .first()
+      .click();
 
 
     // toggle the conversation

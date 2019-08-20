@@ -3,9 +3,13 @@ context('Topbar', () => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+        return cy.login(true);
       }
     });
+  });
+
+  beforeEach(()=> {
+    cy.preserveCookies();
   });
 
   it("clicking on the dropdown on the right should allow to go to the user's channel", () => {

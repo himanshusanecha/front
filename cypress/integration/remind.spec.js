@@ -6,12 +6,13 @@ context('Remind', () => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+        return cy.login(true);
       }
     });
   });
 
   beforeEach(() => {
+    cy.preserveCookies();
     //nav to channel
     cy.get('.m-v2-topbar__Top minds-avatar div')
       .click();

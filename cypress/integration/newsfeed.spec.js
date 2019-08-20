@@ -3,10 +3,14 @@ context('Newsfeed', () => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+        return cy.login(true);
       }
     });
   })
+
+  beforeEach(()=> {
+    cy.preserveCookies();
+  });
 
   it('should post an activity picking hashtags from the dropdown', () => {
     cy.get('minds-newsfeed-poster').should('be.visible');
