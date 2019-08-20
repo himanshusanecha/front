@@ -37,7 +37,7 @@ context('Comment Threads', () => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
-        cy.login(true);
+        return cy.login(true);
       }
     });
 
@@ -74,12 +74,13 @@ context('Comment Threads', () => {
   });
 
   it('should allow a user to post a tier 3 comment', () => {
-    //expand top comment, then top reply button.
-    cy.get(replyButton(1)).click();
-    cy.wait(1000);
+    cy.get('minds-activity:nth-child(1)')
+      .find('m-comments__tree m-comments__thread m-comment')
+      .find('m-comments__thread m-comment:nth-child(2)')
+      .find('.m-comment__toolbar > div > span').last().click();
 
-    //there are two reply buttons now, use the last one.
-    cy.get(replyButton(1)).last().click();
+    //expand top comment, then top reply button.
+    // cy.get(replyButton(1)).click();
     cy.wait(1000);
     
     //check the comments.
