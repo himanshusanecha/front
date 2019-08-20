@@ -11,10 +11,12 @@ context('Wire', () => {
   const modal = 'm-overlay-modal > div.m-overlay-modal';
 
   before(() => {
-    if (cy.getCookie('minds_sess') === null) {
-      cy.login();
-      cy.wait(2000);
-    }
+    cy.getCookie('minds_sess')
+    .then((sessionCookie) => {
+      if (sessionCookie === null) {
+        cy.login(true);
+      }
+    });
   });
 
   it('should allow a user to send a wire to another user', () => {

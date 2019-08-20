@@ -2,14 +2,15 @@
 
 context('Blogs', () => {
   before(() => {
-    if (cy.getCookie('minds_sess') === null) {
-      cy.login(true);
-      cy.location('pathname', { timeout: 30000 })
-        .should('eq', `/newsfeed/subscriptions`);
-    }
-  })
+    cy.getCookie('minds_sess')
+    .then((sessionCookie) => {
+      if (sessionCookie === null) {
+        cy.login(true);
+      }
+    });
+  });
 
- it('should not be able to create a new blog if no title or banner are specified', () => {
+  it('should not be able to create a new blog if no title or banner are specified', () => {
     cy.visit('/blog/edit/new');
 
     cy.get('.m-button--submit').click();
@@ -108,11 +109,6 @@ context('Blogs', () => {
     cy.get('.m-mature-info a span').contains('Mature content');
 
     cy.get('.m-button--submit').click({ force: true }); // TODO: Investigate why disabled flag is being detected
-    cy.clock();
-
-    cy.clock().then((clock) => { clock.tick(1000); });
-
-    cy.wait(1000);
 
     cy.location('pathname', { timeout: 30000 })
       .should('contains', `/${Cypress.env().username}/blog`);

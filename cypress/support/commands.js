@@ -61,8 +61,14 @@ Cypress.Commands.add('uploadFile', (selector, fileName, type = '') => {
 });
 
 Cypress.Commands.add('post', (message) => {
+  cy.server();
+  cy.route("POST", '**/v1/newsfeed**').as('postActivity');
   cy.get('m-text-input--autocomplete-container textarea').type(message);
   cy.get('.m-posterActionBar__PostButton').click();
+  cy.wait('@postActivity').then((xhr) => {
+    expect(xhr.status).to.equal(200);
+    expect(xhr.response.body.status).to.deep.equal("success");
+  });
 });
 
 function b64toBlob(b64Data, contentType, sliceSize = 512) {

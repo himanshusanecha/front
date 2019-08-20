@@ -1,19 +1,19 @@
 context('Discovery', () => {
   before(() => {
-    if (cy.getCookie('minds_sess') === null) {
-      cy.login(true);
-      cy.location('pathname', { timeout: 30000 })
-        .should('eq', `/newsfeed/subscriptions`);
-    }
+    cy.getCookie('minds_sess')
+    .then((sessionCookie) => {
+      if (sessionCookie === null) {
+        cy.login(true);
+      }
+    });
+    cy.visit('/newsfeed/global/top');
   });
   
   it('should allow a user to post on the discovery page', () => {
-    cy.visit('/newsfeed/global/top');
     cy.post("test!!");
   });
 
   it('should be able to filter by hot', () => {
-    cy.visit('/newsfeed/global/top');
     cy.get('.m-sort-selector--algorithm-dropdown ul > li:nth-child(1)')
       .click()
       .should('have.css', 'color', 'rgb(70, 144, 223)'); // selected color
@@ -22,7 +22,6 @@ context('Discovery', () => {
   });
 
   it('should be able to filter by top', () => {
-    cy.visit('/newsfeed/global/hot');
     cy.get('.m-sort-selector--algorithm-dropdown ul > li:nth-child(2)')
       .click()
       .should('have.css', 'color', 'rgb(70, 144, 223)'); // selected color
@@ -30,12 +29,9 @@ context('Discovery', () => {
   }); 
 
   it('should be able to filter by time in the top feed', () => {
-    cy.visit('/newsfeed/global/top');
-
     cy.get('.m-sort-selector--period-dropdown').click();
     cy.get('.m-sort-selector--period-dropdown ul > li:nth-child(5)').click();
     cy.url().should('include', '=1y');
-
 
     cy.get('.m-sort-selector--period-dropdown').click();
     cy.get('.m-sort-selector--period-dropdown ul > li:nth-child(4)').click();
@@ -55,7 +51,6 @@ context('Discovery', () => {
   });
 
   it('should filter by latest', () => {
-    cy.visit('/newsfeed/global/hot');
     cy.get('.m-sort-selector--algorithm-dropdown ul > li:nth-child(3)')
       .click()
       .should('have.css', 'color', 'rgb(70, 144, 223)'); // selected color
@@ -64,28 +59,24 @@ context('Discovery', () => {
   }); 
 
   it('should filter by image', () => {
-    cy.visit('/newsfeed/global/hot');
     cy.get('.m-sort-selector--custom-type-dropdown').click();
     cy.get('.m-sort-selector--custom-type-dropdown ul > li:nth-child(2)').click();
     cy.url().should('include', '=images');
   }); 
   
   it('should filter by video', () => {
-    cy.visit('/newsfeed/global/hot');
     cy.get('.m-sort-selector--custom-type-dropdown').click();
     cy.get('.m-sort-selector--custom-type-dropdown ul > li:nth-child(3)').click();
     cy.url().should('include', '=videos');
   }); 
   
   it('should filter by blog', () => {
-    cy.visit('/newsfeed/global/hot');
     cy.get('.m-sort-selector--custom-type-dropdown').click();
     cy.get('.m-sort-selector--custom-type-dropdown ul > li:nth-child(4)').click();
     cy.url().should('include', '=blog');
   }); 
   
   it('should filter by channels', () => {
-    cy.visit('/newsfeed/global/hot');
     cy.get('.m-sort-selector--custom-type-dropdown').click();
     cy.get('.m-sort-selector--custom-type-dropdown ul > li:nth-child(5)').click();
     cy.url().should('include', '=channels');
@@ -118,11 +109,13 @@ context('Discovery', () => {
   });  
 
   it('should allow the user to filter by a single hashtag', () => {
+    cy.visit('/newsfeed/global/top');
     cy.get('.m-hashtagsSidebarSelector__list > ul > li:nth-child(1) .m-hashtagsSidebarSelectorList__visibility > i')
       .click(); // Will fail on non-configured users
   });
 
   it('should allow the user to turn off single hashtag filter and view all posts', () => {
+    cy.visit('/newsfeed/global/top');
     cy.get('.m-hashtagsSidebarSelector__list > ul > li:nth-child(1) .m-hashtagsSidebarSelectorList__visibility > i')
       .click();
   })

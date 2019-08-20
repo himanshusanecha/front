@@ -1,10 +1,11 @@
 context('Groups', () => {
   before(() => {
-    if (cy.getCookie('minds_sess') === null) {
-      cy.login(true);
-      cy.location('pathname', { timeout: 30000 })
-        .should('eq', `/newsfeed/subscriptions`);
-    }
+    cy.getCookie('minds_sess')
+    .then((sessionCookie) => {
+      if (sessionCookie === null) {
+        cy.login(true);
+      }
+    });
   })
 
   it('should create and edit a group', () => {

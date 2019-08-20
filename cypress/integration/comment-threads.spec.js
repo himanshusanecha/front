@@ -34,71 +34,68 @@ context('Comment Threads', () => {
 
   before(() => {
     //make a post new.
-    if (cy.getCookie('minds_sess') === null) {
-      login();
-    }
+    cy.getCookie('minds_sess')
+    .then((sessionCookie) => {
+      if (sessionCookie === null) {
+        cy.login(true);
+      }
+    });
+
+    cy.visit('/newsfeed/subscriptions');  
+    cy.location('pathname', { timeout: 30000 })
+      .should('eq', `/newsfeed/subscriptions`);
 
     cy.post('test post');
-    
-    //manually sign-out.
-    cy.get(hamburgerMenu).click();
-    cy.get(logoutButton).click();
+    cy.get(commentButton(1)).click();
+
   });
 
-  after(() => {
+  /*after(() => {
     //delete the post
     cy.wait(1000);
     cy.get(postMenu).click();
     cy.get(deletePostOption).click();
     cy.get(deletePostButton).click();
-  });
-
-  beforeEach(() => {
-    login();
-    cy.wait(2000);
-  });
+  });*/
 
   it('should allow a user to post a tier 1 comment', () => {
-    cy.get(commentButton(2)).click();
-    cy.get(commentInput(2)).type(testMessage[1]);
+    cy.get(commentInput(1)).type(testMessage[1]);
     cy.get(postCommentButton).click();
-    cy.get(commentContent(2)).contains(testMessage[1]);
+    cy.get(commentContent(1)).contains(testMessage[1]);
   });
 
   it('should allow a user to post a tier 2 comment', () => {
     //expand top comment, then top reply button.
-    cy.get(commentButton(2)).click();
-    cy.get(replyButton(2)).click();
-    cy.get(commentInput(2)).first().type(testMessage[2]);
+  
+    cy.get(replyButton(1)).click();
+    cy.get(commentInput(1)).first().type(testMessage[2]);
     cy.get(postCommentButton).first().click();
-    cy.get(commentContent(2)).contains(testMessage[2]);
+    cy.get(commentContent(1)).contains(testMessage[2]);
   });
 
   it('should allow a user to post a tier 3 comment', () => {
     //expand top comment, then top reply button.
-    cy.get(commentButton(2)).click();
-    cy.get(replyButton(2)).click();
+    cy.get(replyButton(1)).click();
     cy.wait(1000);
 
     //there are two reply buttons now, use the last one.
-    cy.get(replyButton(2)).last().click();
+    cy.get(replyButton(1)).last().click();
     cy.wait(1000);
     
     //check the comments.
-    cy.get(commentInput(2)).first().type(testMessage[3]);
+    cy.get(commentInput(1)).first().type(testMessage[3]);
     cy.get(postCommentButton).first().click();
-    cy.get(commentContent(2)).contains(testMessage[3]);
+    cy.get(commentContent(1)).contains(testMessage[3]);
   });
 
   it('should allow the user to vote up and down comments', () => {
     
     //expand top comment, then top reply button.
-    cy.get(commentButton(2)).click();
-    cy.get(replyButton(2)).click();
+    cy.get(replyButton(1)).click();
     cy.wait(1000);
 
     //there are two reply buttons now, use the last one.
-    cy.get(replyButton(2)).last().click();
+    cy.get(replyButton(1)).last().click();
     cy.wait(1000);
   
     //click thumbs up and down
@@ -112,12 +109,4 @@ context('Comment Threads', () => {
       .each((counter) => expect(counter.context.innerHTML).to.eql('1'));
   });
 
-  function login() {
-    cy.login(true);
-
-    cy.location('pathname', { timeout: 30000 })
-      .should('eq', `/newsfeed/subscriptions`);
-
-    cy.get(channelButton).click();  
-  }
 })
