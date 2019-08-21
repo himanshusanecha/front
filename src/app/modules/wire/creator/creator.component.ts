@@ -508,7 +508,10 @@ export class WireCreatorComponent {
         }
       }
 
-      let { done } = await this.wireService.submitWire(this.wire);
+      let { done } = await this.wireService.submitWire({
+        ...this.wire,
+        ...{ recurring: this.wire.recurring && this.canRecur }, // Override when we can't recur but don't change component boolean
+      });
 
       if (done) {
         this.success = true;
