@@ -25,6 +25,7 @@ import { ProGroupTileComponent } from "./channel/tiles/group/group-tile.componen
 import { ProUnsubscribeModalComponent } from './channel/unsubscribe-modal/modal.component';
 import { ProCategoriesComponent } from "./channel/categories/categories.component";
 import { BlogView } from "../blogs/view/view";
+import { MediaModalComponent } from "../media/modal/modal.component";
 
 const routes: Routes = [
   {
@@ -126,6 +127,7 @@ export const STANDALONE_ROUTES = [
     ProChannelComponent
   ],
   entryComponents: [
+    MediaModalComponent,
     ProChannelListModal,
     ProUnsubscribeModalComponent,
     BlogView,

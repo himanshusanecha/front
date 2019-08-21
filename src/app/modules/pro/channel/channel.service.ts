@@ -9,8 +9,18 @@ import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { BlogView } from "../../blogs/view/view";
 import { Session } from '../../../services/session';
 import { ActivatedRoute } from '@angular/router';
+import { MediaModalComponent } from "../../media/modal/modal.component";
 
-export type RouterLinkToType = 'home' | 'all' | 'feed' | 'videos' | 'images' | 'articles' | 'communities' | 'donate' | 'signup';
+export type RouterLinkToType =
+  'home'
+  | 'all'
+  | 'feed'
+  | 'videos'
+  | 'images'
+  | 'articles'
+  | 'communities'
+  | 'donate'
+  | 'signup';
 
 @Injectable()
 export class ProChannelService {
@@ -179,11 +189,35 @@ export class ProChannelService {
         break;
       case 'object:image':
       case 'object:video':
-        modalServiceContext.create(ProContentModalComponent, entity, {
+        modalServiceContext.create(MediaModalComponent, this.asActivity(entity), {
           class: 'm-overlayModal--media'
         }).present();
         break;
     }
+  }
+
+  /**
+   * generates an activity from an image or video
+   * @param entity
+   */
+  private asActivity(entity: any) {
+    let obj = {
+      ...entity,
+      custom_type: entity.subtype,
+    };
+
+    console.warn('entity', entity);
+    if (entity.subtype === 'video') {
+      obj.custom_data = {
+        ...entity,
+        width: 0,
+        height: 0
+      };
+    } else {
+      obj.custom_data = [entity];
+    }
+
+    return obj;
   }
 
   getEntityTaxonomy(entity) {
