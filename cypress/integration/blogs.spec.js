@@ -20,8 +20,6 @@ context('Blogs', () => {
 
     cy.get('.m-button--submit').click();
 
-    cy.wait(100);
-
     cy.get('.m-blog--edit--error').contains('Error: You must provide a title');
 
 
@@ -59,8 +57,6 @@ context('Blogs', () => {
     cy.visit(`/${Cypress.env().username}`);
 
     cy.get('.m-channel--name .minds-button-edit button:first-child').click();
-
-    cy.wait(100);
 
     cy.uploadFile('.minds-avatar input[type=file]', '../fixtures/avatar.jpeg', 'image/jpg');
 
@@ -113,7 +109,24 @@ context('Blogs', () => {
     cy.get('.m-mature-info a').click();
     cy.get('.m-mature-info a span').contains('Mature content');
 
+    cy.server();
+    cy.route("POST", "**/api/v1/blog/new").as("postBlog");
+    cy.route("GET", "**/api/v1/blog/**").as("getBlog");
+
     cy.get('.m-button--submit').click({ force: true }); // TODO: Investigate why disabled flag is being detected
+
+    cy.wait('@postBlog').then((xhr) => {
+      cy.log(xhr);
+      expect(xhr.status).to.equal(200);
+      expect(xhr.response.body.status).to.equal("success");
+    });
+
+    cy.wait('@getBlog').then((xhr) => {
+      cy.log(xhr);
+      expect(xhr.status).to.equal(200);
+      expect(xhr.response.body.status).to.equal("success");
+      expect(xhr.response.body).to.have.property("blog");
+    });
 
     cy.location('pathname')
       .should('contains', `/${Cypress.env().username}/blog`);
