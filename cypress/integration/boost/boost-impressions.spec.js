@@ -8,7 +8,7 @@ context('Boost Impressions', () => {
       }
     });
     cy.visit('/newsfeed/subscriptions');  
-    cy.location('pathname', { timeout: 30000 })
+    cy.location('pathname')
       .should('eq', `/newsfeed/subscriptions`);
   });
 
@@ -41,7 +41,7 @@ context('Boost Impressions', () => {
       .click();
     
     //assert
-    cy.wait('@analytics', { requestTimeout: 5000 }).then((xhr) => {
+    cy.wait('@analytics').then((xhr) => {
       expect(xhr.status).to.equal(200);
       expect(xhr.response.body.status).to.deep.equal("success");
     });
@@ -51,7 +51,7 @@ context('Boost Impressions', () => {
       .click();
     
     //assert
-    cy.wait('@analytics', { requestTimeout: 5000 }).then((xhr) => {
+    cy.wait('@analytics').then((xhr) => {
       expect(xhr.status).to.equal(200);
       expect(xhr.response.body.status).to.deep.equal("success");
     });

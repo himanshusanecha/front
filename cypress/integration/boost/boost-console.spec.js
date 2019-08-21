@@ -41,7 +41,7 @@ context('Boost Console', () => {
 
   function navToConsole() {
     cy.visit('/boost/console/newsfeed/history');  
-    cy.location('pathname', { timeout: 30000 })
+    cy.location('pathname')
       .should('eq', `/boost/console/newsfeed/history`);
   }
 
@@ -60,7 +60,7 @@ context('Boost Console', () => {
     cy.get('m-overlay-modal > div.m-overlay-modal > m-boost--creator button')
       .click();
 
-    cy.wait('@boostPost', { requestTimeout: 5000 }).then((xhr) => {
+    cy.wait('@boostPost').then((xhr) => {
       cy.log(xhr);
       expect(xhr.status).to.equal(200);
       expect(xhr.response.body.status).to.deep.equal("success");

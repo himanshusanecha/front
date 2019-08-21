@@ -36,7 +36,7 @@ context('Comment Threads', () => {
     });
 
     cy.visit('/newsfeed/subscriptions');  
-    cy.location('pathname', { timeout: 30000 })
+    cy.location('pathname')
       .should('eq', `/newsfeed/subscriptions`);
 
     cy.post('test post');

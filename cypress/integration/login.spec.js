@@ -18,7 +18,7 @@ context('Login', () => {
 
     cy.get('minds-form-login .m-btn--login').click();
 
-    cy.location('pathname', { timeout: 10000 })
+    cy.location('pathname')
       .should('eq', '/newsfeed/subscriptions');
   })
 

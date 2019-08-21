@@ -115,7 +115,7 @@ context('Blogs', () => {
 
     cy.get('.m-button--submit').click({ force: true }); // TODO: Investigate why disabled flag is being detected
 
-    cy.location('pathname', { timeout: 30000 })
+    cy.location('pathname')
       .should('contains', `/${Cypress.env().username}/blog`);
 
     cy.get('.m-blog--title').contains('Title');

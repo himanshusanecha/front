@@ -37,7 +37,6 @@ context('Groups', () => {
 
     cy.get('.m-groups-save > button').contains('Create').click();
 
-    cy.wait(1000);
 
     cy.get('.m-groupInfo__name').contains('test');
     cy.get('.m-groupInfo__description').contains('This is a test');
@@ -90,9 +89,9 @@ context('Groups', () => {
   })
 
   it('should post an activity inside the group and record the view when scrolling', () => {
-    cy.get('m-group--sidebar-markers li:nth-child(3)').contains('test group').click();
-
-    cy.wait(1000);
+    cy.get("m-group--sidebar-markers li:contains('test group')")
+      .first()
+      .click();
 
     cy.server();
     cy.route("POST", "**/api/v2/analytics/views/activity/*").as("view");
@@ -100,8 +99,6 @@ context('Groups', () => {
     cy.get('minds-newsfeed-poster textarea').type('This is a post');
 
     cy.get('.m-posterActionBar__PostButton').click();
-
-    cy.wait(500);
 
     // the activity should show that it was posted in this group
     cy.get('.minds-list minds-activity .body a:nth-child(2)').contains('(test group)');
@@ -113,11 +110,9 @@ context('Groups', () => {
 
     cy.get('.m-posterActionBar__PostButton').click();
 
-    cy.wait(200);
-
     cy.scrollTo(0, '20px');
 
-    cy.wait('@view', { requestTimeout: 2000 }).then((xhr) => {
+    cy.wait('@view').then((xhr) => {
       expect(xhr.status).to.equal(200);
       expect(xhr.response.body).to.deep.equal({ status: 'success' });
     });
@@ -125,8 +120,6 @@ context('Groups', () => {
 
   it('should delete a group', () => {
     cy.get('m-group--sidebar-markers li:nth-child(3)').contains('test group').click();
-
-    cy.wait(1000);
 
     // cleanup
     cy.get('minds-groups-settings-button > button').click();

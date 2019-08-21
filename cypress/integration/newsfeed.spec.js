@@ -215,7 +215,7 @@ context('Newsfeed', () => {
 
     cy.scrollTo(0, '20px');
 
-    cy.wait('@view', { requestTimeout: 2000 }).then((xhr) => {
+    cy.wait('@view').then((xhr) => {
       expect(xhr.status).to.equal(200);
       expect(xhr.response.body).to.deep.equal({ status: 'success' });
     });

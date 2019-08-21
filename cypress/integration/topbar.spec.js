@@ -38,20 +38,17 @@ context('Topbar', () => {
     // open the menu
     cy.get('m-user-menu .m-user-menu__Anchor').click();
 
-    cy.get('m-user-menu .m-user-menu__Dropdown li')
-      .contains('Boost Console')
+    cy.get("m-user-menu .m-user-menu__Dropdown li:contains('Boost Console')")
       .click();
 
-    // TOFIX: no boost redirects to create
-    // cy.location('pathname').should('eq', '/boost/console/newsfeed/history');
+    cy.location('pathname').should('contain', '/boost/console/newsfeed/');
   });
 
-  it('clicking on the dropdown on the right should allow to go to the boost console', () => {
+  it('clicking on the dropdown on the right should allow to go to the help desk', () => {
     // open the menu
     cy.get('m-user-menu .m-user-menu__Anchor').click();
 
-    cy.get('m-user-menu .m-user-menu__Dropdown li')
-      .contains('Help Desk')
+    cy.get("m-user-menu .m-user-menu__Dropdown li:contains('Help Desk')")
       .click();
 
     cy.location('pathname').should('eq', '/help');
@@ -61,8 +58,7 @@ context('Topbar', () => {
     // open the menu
     cy.get('m-user-menu .m-user-menu__Anchor').click();
 
-    cy.get('m-user-menu .m-user-menu__Dropdown li')
-      .contains('Canary')
+    cy.get("m-user-menu .m-user-menu__Dropdown li:contains('Canary')")
       .click();
 
     cy.location('pathname').should('eq', '/canary');
@@ -74,8 +70,7 @@ context('Topbar', () => {
 
     cy.get('body.m-theme__light').should('be.visible');
 
-    cy.get('m-user-menu .m-user-menu__Dropdown li')
-      .contains('Dark Mode')
+    cy.get("m-user-menu .m-user-menu__Dropdown li:contains('Dark Mode')")
       .click();
 
     cy.get('body.m-theme__dark').should('be.visible');
@@ -85,6 +80,8 @@ context('Topbar', () => {
       .click();
 
     cy.get('body.m-theme__light').should('be.visible');
+
+    cy.get('m-user-menu .m-user-menu__Anchor').click({ force: true });
   });
 
   it('clicking on the bulb on the topbar should redirect to /newsfeed/subscriptions', () => {
