@@ -14,6 +14,7 @@ import { Session } from "../../../services/session";
 import { PosterComponent } from "../../newsfeed/poster/poster.component";
 import { SortedService } from "./sorted.service";
 import { ClientMetaService } from "../../../common/services/client-meta.service";
+import { Client } from "../../../services/api";
 
 @Component({
   selector: 'm-channel--sorted',
@@ -68,6 +69,8 @@ export class ChannelSortedComponent implements OnInit {
 
   @ViewChild('poster', { static: false }) protected poster: PosterComponent;
 
+  scheduledCount: number = 0;
+
   constructor(
     public feedsService: FeedsService,
     protected service: SortedService,
@@ -75,6 +78,7 @@ export class ChannelSortedComponent implements OnInit {
     protected clientMetaService: ClientMetaService,
     @SkipSelf() injector: Injector,
     protected cd: ChangeDetectorRef,
+    public client: Client
   ) {
     this.clientMetaService
       .inherit(injector)
@@ -109,6 +113,8 @@ export class ChannelSortedComponent implements OnInit {
         .setEndpoint(`${endpoint}/${this.channel.guid}/${this.type}`)
         .setLimit(12)
         .fetch();
+
+      this.getScheduledCount();
 
     } catch (e) {
       console.error('ChannelsSortedComponent.load', e);
@@ -184,5 +190,12 @@ export class ChannelSortedComponent implements OnInit {
   toggleScheduled() {
     this.seeScheduled = !this.seeScheduled;
     this.load(true);
+  }
+
+  async getScheduledCount() {
+    const url = `api/v2/channel/scheduled/${this.channel.guid}/count`;
+    const response: any = await this.client.get(url);
+    this.scheduledCount = response.count;
+    this.detectChanges();
   }
 }

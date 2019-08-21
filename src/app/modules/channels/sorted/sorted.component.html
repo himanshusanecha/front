@@ -9,7 +9,7 @@
     <div class="mindsList__tools m-border">
       <div class="mindsListTools__scheduled" (click)="toggleScheduled()" [class.selected]="seeScheduled">
         <m-tooltip icon="date_range"> See Scheduled Activities </m-tooltip>
-        <span>scheduled: 10</span>
+        <span>scheduled: {{scheduledCount}}</span>
       </div>
       <m-sort-selector
         class="m-channel--sorted__SortSelector"
