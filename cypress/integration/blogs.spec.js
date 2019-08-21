@@ -31,26 +31,6 @@ context('Blogs', () => {
     cy.get('.m-blog--edit--error').contains('Error: You must upload a banner');
   })
 
-  // TODO: remove the x when we run tests in new users each time
-  xit("should not be able to create a new blog if the channel doesn't have an avatar", () => {
-    cy.visit('/blog/edit/new');
-
-    cy.uploadFile('minds-banner #file', '../fixtures/international-space-station-1776401_1920.jpg', 'image/jpg');
-
-    cy.get('minds-textarea .m-editor').type('Title');
-
-    cy.get('m-inline-editor .medium-editor-element').type('Content\n');
-
-    cy.wait(1000);
-
-    cy.server();
-    cy.route("POST", "**!/api/v1/blog/new").as("newBlog");
-
-    cy.get('.m-button--submit').click({ force: true }); // TODO: Investigate why disabled flag is being detected
-
-    cy.get('h1.m-blog--edit--error').contains('Error: Please ensure your channel has an avatar before creating a blog');
-  });
-
   it('should be able to create a new blog', () => {
 
     // upload avatar first
