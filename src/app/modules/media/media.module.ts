@@ -21,6 +21,7 @@ import { MediaEditComponent } from './edit/edit.component';
 import { MediaTheatreComponent } from './view/views/theatre.component';
 import { MediaGridComponent } from './view/views/grid.component';
 import { MediaViewRecommendedComponent } from './view/recommended/recommended.component';
+import { MediaModalComponent } from './modal/modal.component';
 import { ThumbnailSelectorComponent } from './components/thumbnail-selector.component';
 import { CommentsModule } from '../comments/comments.module';
 import { HashtagsModule } from '../hashtags/hashtags.module';
@@ -69,6 +70,7 @@ const routes: Routes = [
     MediaGridComponent,
     MediaViewRecommendedComponent,
     ThumbnailSelectorComponent,
+    MediaModalComponent,
   ],
   entryComponents: [
     MediaVideosListComponent,
@@ -76,6 +78,7 @@ const routes: Routes = [
     MediaEditComponent,
     MediaViewComponent,
     ProContentModalComponent,
+    MediaModalComponent,
   ]
 })
 
