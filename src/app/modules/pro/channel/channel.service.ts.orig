@@ -9,6 +9,7 @@ import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { BlogView } from "../../blogs/view/view";
 import { Session } from '../../../services/session';
 import { ActivatedRoute } from '@angular/router';
+<<<<<<< HEAD
 import { MediaModalComponent } from "../../media/modal/modal.component";
 
 export type RouterLinkToType =
@@ -21,6 +22,10 @@ export type RouterLinkToType =
   | 'communities'
   | 'donate'
   | 'signup';
+=======
+
+export type RouterLinkToType = 'home' | 'all' | 'feed' | 'videos' | 'images' | 'articles' | 'groups' | 'donate' | 'login';
+>>>>>>> upstream/epic/minds-pro
 
 @Injectable()
 export class ProChannelService {

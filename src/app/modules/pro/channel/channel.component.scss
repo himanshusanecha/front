@@ -205,9 +205,10 @@ m-pro--channel {
   }
 
   a.m-proChannelTopbar__navItem {
+    cursor: pointer;
     text-decoration: none;
-    padding: 16px;
-    font-size: 18px;
+    padding: 8px;
+    font-size: 13px;
 
     text-transform: uppercase;
     letter-spacing: 0.1em;
