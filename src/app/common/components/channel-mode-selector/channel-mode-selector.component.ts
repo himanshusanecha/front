@@ -36,7 +36,6 @@ export class ChannelModeSelectorComponent implements AfterViewInit {
    */
   public setChannelMode(mode: ChannelMode) {
     if (!this.enabled) {
-      console.log(`Enabled: ${this.enabled}`)
       return;
     }
     this.user.mode = mode;
