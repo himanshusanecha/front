@@ -1,3 +1,5 @@
+import 'cypress-file-upload';
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -48,21 +50,13 @@ Cypress.Commands.add('preserveCookies', () => {
 });
 
 Cypress.Commands.add('uploadFile', (selector, fileName, type = '') => {
-  cy.get(selector).then((subject) => {
-    cy.fixture(fileName, 'base64').then((content) => {
-      const el = subject[0];
-      const blob = b64toBlob(content, type);
-      cy.window().then((win) => {
-        const testFile = new win.File([blob], fileName, { type });
-        const dataTransfer = new DataTransfer();
-
-        dataTransfer.items.add(testFile);
-        el.files = dataTransfer.files;
-        return cy.wrap(subject).trigger('change', {force: true});
-      });
-    });
+  cy.fixture(fileName).then((content) => {
+    console.log("Content", fileName);
+    cy.get(selector).upload({
+      fileContent: content, 
+      fileName: fileName, 
+      mimeType: type });
   });
-  // cy.get(selector).trigger('change', { force: true });
 });
 
 Cypress.Commands.add('post', (message) => {
