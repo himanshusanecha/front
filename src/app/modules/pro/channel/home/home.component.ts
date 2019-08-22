@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ProChannelService } from '../channel.service';
 import { OverlayModalService } from '../../../../services/ux/overlay-modal';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'm-pro--channel-home',
@@ -22,6 +23,7 @@ export class ProChannelHomeComponent implements OnInit {
   moreData: boolean = true;
 
   constructor(
+    protected router: Router,
     protected channelService: ProChannelService,
     protected modalService: OverlayModalService,
     protected cd: ChangeDetectorRef,
@@ -33,7 +35,7 @@ export class ProChannelHomeComponent implements OnInit {
   }
 
   async load() {
-    const MAX_FEATURED_CONTENT = 19; // 1 + 2 + (4 * 4)
+    const MAX_FEATURED_CONTENT = 17; // 1 + (8 * 2)
 
     this.inProgress = true;
     this.featuredContent = [];
@@ -72,6 +74,10 @@ export class ProChannelHomeComponent implements OnInit {
 
   onContentClick(entity: any) {
     return this.channelService.open(entity, this.modalService);
+  }
+
+  navigateToCategory(tag) {
+    this.router.navigate(this.channelService.getRouterLink('all', { hashtag: tag }));
   }
 
   get settings() {
