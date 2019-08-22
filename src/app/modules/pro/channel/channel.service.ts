@@ -8,7 +8,6 @@ import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { BlogView } from "../../blogs/view/view";
 import { Session } from '../../../services/session';
 import { ActivatedRoute } from '@angular/router';
-import { MediaModalComponent } from "../../media/modal/modal.component";
 
 export type RouterLinkToType =
   'home'

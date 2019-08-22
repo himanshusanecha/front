@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import isMobile from "../../../../../helpers/is-mobile";
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MediaModalComponent } from "../../../../media/modal/modal.component";
 import { FeaturesService } from "../../../../../services/features.service";
 import { OverlayModalService } from "../../../../../services/ux/overlay-modal";
@@ -8,7 +7,12 @@ import { Router } from "@angular/router";
 @Component({
   selector: 'm-pro--channel-tile',
   template: `
-    <img [src]="entity.thumbnail_src" *ngIf="getType(entity) === 'object:image'; else videoBlock">
+    <img
+      [src]="entity.thumbnail_src"
+      (click)="showMediaModal()"
+      *ngIf="getType(entity) === 'object:image'; else videoBlock"
+      #img
+    >
 
     <ng-template #videoBlock>
       <m-video
@@ -35,6 +39,7 @@ import { Router } from "@angular/router";
 
 export class ProTileComponent {
   @Input() entity: any;
+  @ViewChild('img', { static: false }) img: ElementRef;
 
   videoDimensions: Array<any> = null;
 
@@ -89,11 +94,9 @@ export class ProTileComponent {
         activity.custom_data.dimensions = this.videoDimensions;
       } else { // Image
         // Set image dimensions if they're not already there
-        if (activity.custom_data[0].width === '0' || activity.custom_data[0].height === '0') {
-          // const img: HTMLImageElement = this.batchImage.nativeElement;
-          // this.activity.custom_data[0].width = img.naturalWidth;
-          // this.activity.custom_data[0].height = img.naturalHeight;
-        }
+        const img: HTMLImageElement = this.img.nativeElement;
+        activity.custom_data[0].width = img.naturalWidth;
+        activity.custom_data[0].height = img.naturalHeight;
       }
 
       activity.modal_source_url = this.router.url;
@@ -117,7 +120,6 @@ export class ProTileComponent {
       custom_type: entity.subtype,
     };
 
-    console.warn('entity', entity);
     if (entity.subtype === 'video') {
       obj.custom_data = {
         ...entity,
