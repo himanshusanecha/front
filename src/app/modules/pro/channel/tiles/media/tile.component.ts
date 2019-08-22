@@ -3,6 +3,7 @@ import { MediaModalComponent } from "../../../../media/modal/modal.component";
 import { FeaturesService } from "../../../../../services/features.service";
 import { OverlayModalService } from "../../../../../services/ux/overlay-modal";
 import { Router } from "@angular/router";
+import toMockActivity from "../../util/mock-activity";
 
 @Component({
   selector: 'm-pro--channel-tile',
@@ -83,7 +84,7 @@ export class ProTileComponent {
   }
 
   showMediaModal() {
-    const activity = this.asActivity(this.entity);
+    const activity = toMockActivity(this.entity);
     if (this.featuresService.has('media-modal')) {
       // Mobile (not tablet) users go to media page instead of modal
       // if (isMobile() && Math.min(screen.width, screen.height) < 768) {
@@ -107,33 +108,6 @@ export class ProTileComponent {
     } else {
       this.router.navigate([`/media/${activity.entity_guid}`]);
     }
-  }
-
-  /**
-   * generates an activity from an image or video
-   * @param entity
-   */
-  private asActivity(entity: any) {
-    let obj = {
-      ...entity,
-      entity_guid: entity.guid,
-      custom_type: entity.subtype,
-    };
-
-    if (entity.subtype === 'video') {
-      obj.custom_data = {
-        ...entity,
-        dimensions: this.videoDimensions
-      };
-    } else {
-      obj.custom_data = [{
-        ...entity,
-        width: 0,
-        height: 0
-      }];
-    }
-
-    return obj;
   }
 
 }
