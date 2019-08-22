@@ -28,7 +28,7 @@ export class PosterComponent {
   meta: any = {
     message : '',
     wire_threshold: null,
-    time_created: Math.floor(+Date.now() / 1000)
+    time_created: Math.floor(Date.now() / 1000)
   };
   tags = [];  
   minds = window.Minds;
@@ -172,7 +172,7 @@ export class PosterComponent {
       return;
     }
 
-    this.meta.time_created = this.meta.time_created || Math.floor(+Date.now() / 1000);
+    this.meta.time_created = this.meta.time_created || Math.floor(Date.now() / 1000);
 
     this.errorMessage = "";
 

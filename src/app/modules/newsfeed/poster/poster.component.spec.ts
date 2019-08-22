@@ -70,9 +70,18 @@ describe('PosterComponent', () => {
           inputs: ['threshold', 'disabled', 'enabled'],
           outputs: ['thresholdChange']
         }),
-        MockComponent({ selector: 'minds-rich-embed', inputs: ['src', 'preview', 'maxheight', 'cropimage'] }),
-        MockComponent({ selector: 'm-poster-date-selector', inputs: ['date', 'dateFormat'], outputs: ['dateChange'] }),
-        MockComponent({ selector: 'm-tooltip', template: '<ng-content></ng-content>' }),
+        MockComponent({
+          selector: 'minds-rich-embed',
+          inputs: ['src', 'preview', 'maxheight', 'cropimage']
+        }),
+        MockComponent({
+          selector: 'm-poster-date-selector',
+          inputs: ['date', 'dateFormat'],
+          outputs: ['dateChange'] }),
+        MockComponent({
+          selector: 'm-tooltip',
+          template: '<ng-content></ng-content>'
+        }),
         DropdownComponent,
         TagsInput,
         HashtagsSelectorComponent,

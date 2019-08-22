@@ -65,7 +65,7 @@ export class ChannelSortedComponent implements OnInit {
 
   initialized: boolean = false;
 
-  seeScheduled: boolean = false;
+  viewScheduled: boolean = false;
 
   @ViewChild('poster', { static: false }) protected poster: PosterComponent;
 
@@ -103,7 +103,7 @@ export class ChannelSortedComponent implements OnInit {
     this.detectChanges();
 
     let endpoint = 'api/v2/feeds/container';
-    if (this.seeScheduled) {
+    if (this.viewScheduled) {
       endpoint = 'api/v2/channel/scheduled';
     }
 
@@ -188,7 +188,7 @@ export class ChannelSortedComponent implements OnInit {
   }
 
   toggleScheduled() {
-    this.seeScheduled = !this.seeScheduled;
+    this.viewScheduled = !this.viewScheduled;
     this.load(true);
   }
 

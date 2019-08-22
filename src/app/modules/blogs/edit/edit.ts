@@ -32,7 +32,7 @@ export class BlogEdit {
     guid: 'new',
     title: '',
     description: '<p><br></p>',
-    time_created: Math.floor(+Date.now() / 1000),
+    time_created: Math.floor(Date.now() / 1000),
     access_id: 2,
     tags: [],
     license: 'attribution-sharealike-cc',
@@ -202,7 +202,7 @@ export class BlogEdit {
           if (!this.blog.license)
             this.blog.license = '';
 
-          this.blog.time_created = response.blog.time_created || Math.floor(+Date.now() / 1000);
+          this.blog.time_created = response.blog.time_created || Math.floor(Date.now() / 1000);
         }
       });
   }
@@ -248,7 +248,7 @@ export class BlogEdit {
       blog.mature = blog.mature ? 1: 0;
       blog.monetization = blog.monetization ? 1: 0;
       blog.monetized = blog.monetized ? 1: 0;
-      blog.time_created = blog.time_created || Math.floor(+Date.now() / 1000);
+      blog.time_created = blog.time_created || Math.floor(Date.now() / 1000);
 
       this.editing = false;
       this.inProgress = true;

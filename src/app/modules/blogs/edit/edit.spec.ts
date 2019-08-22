@@ -238,7 +238,11 @@ describe('BlogEdit', () => {
           inputs: ['tags', 'alignLeft'],
           outputs: ['tagsChange', 'tagsAdded', 'tagsRemoved'],
         }),
-        MockComponent({ selector: 'm-poster-date-selector', inputs: ['date', 'dateFormat'], outputs: ['dateChange'] }),
+        MockComponent({
+          selector: 'm-poster-date-selector',
+          inputs: ['date', 'dateFormat'],
+          outputs: ['dateChange'] 
+        }),
         BlogEdit,
         MDLMock
       ], // declare the test component

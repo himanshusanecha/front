@@ -6,8 +6,8 @@
 
 <div class="minds-list">
   <div>
-    <div class="mindsList__tools m-border">
-      <div class="mindsListTools__scheduled" (click)="toggleScheduled()" [class.selected]="seeScheduled">
+    <div class="m-mindsList__tools m-border">
+      <div class="m-mindsListTools__scheduled" (click)="toggleScheduled()" [class.selected]="viewScheduled">
         <m-tooltip icon="date_range"> See Scheduled Activities </m-tooltip>
         <span>scheduled: {{scheduledCount}}</span>
       </div>
