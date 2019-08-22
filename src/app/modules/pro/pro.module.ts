@@ -16,7 +16,6 @@ import { ProSettingsComponent } from './settings/settings.component';
 import { ProChannelFooterComponent } from './channel/footer/footer.component';
 import { LegacyModule } from "../legacy/legacy.module";
 import { WireModule } from "../wire/wire.module";
-import { ProContentModalComponent } from "./channel/content-modal/modal.component";
 import { VideoModule } from "../media/components/video/video.module";
 import { ProChannelListModal } from './channel/list-modal/list-modal.component';
 import { ProChannelHomeComponent } from './channel/home/home.component';
@@ -102,7 +101,6 @@ export const STANDALONE_ROUTES = [
     ProSettingsComponent,
     ProSubscriptionComponent,
     ProTileComponent,
-    ProContentModalComponent,
     ProChannelHomeComponent,
     ProCategoriesComponent,
     ProChannelListModal,

@@ -4,7 +4,6 @@ import { MindsUser } from '../../../interfaces/entities';
 import { Client } from '../../../services/api/client';
 import { EntitiesService } from '../../../common/services/entities.service';
 import normalizeUrn from '../../../helpers/normalize-urn';
-import { ProContentModalComponent } from './content-modal/modal.component';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { BlogView } from "../../blogs/view/view";
 import { Session } from '../../../services/session';
@@ -18,9 +17,9 @@ export type RouterLinkToType =
   | 'videos'
   | 'images'
   | 'articles'
-  | 'communities'
+  | 'groups'
   | 'donate'
-  | 'signup';
+  | 'login';
 
 @Injectable()
 export class ProChannelService {
@@ -187,37 +186,7 @@ export class ProChannelService {
       case 'object:blog':
         modalServiceContext.create(BlogView, entity).present();
         break;
-      case 'object:image':
-      case 'object:video':
-        modalServiceContext.create(MediaModalComponent, this.asActivity(entity), {
-          class: 'm-overlayModal--media'
-        }).present();
-        break;
     }
-  }
-
-  /**
-   * generates an activity from an image or video
-   * @param entity
-   */
-  private asActivity(entity: any) {
-    let obj = {
-      ...entity,
-      custom_type: entity.subtype,
-    };
-
-    console.warn('entity', entity);
-    if (entity.subtype === 'video') {
-      obj.custom_data = {
-        ...entity,
-        width: 0,
-        height: 0
-      };
-    } else {
-      obj.custom_data = [entity];
-    }
-
-    return obj;
   }
 
   getEntityTaxonomy(entity) {
