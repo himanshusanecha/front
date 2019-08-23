@@ -70,7 +70,7 @@ context('Comment Threads', () => {
     cy.get(postCommentButton)
       .first()
       .click();
-    cy.get(commentContent).contains(testMessage[2])
+    cy.get(commentContent).contains(testMessage[2]);
     
 
     //Add the third level of comments

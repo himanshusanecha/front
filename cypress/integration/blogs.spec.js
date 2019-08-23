@@ -96,13 +96,11 @@ context('Blogs', () => {
     cy.get('.m-button--submit').click({ force: true }); // TODO: Investigate why disabled flag is being detected
 
     cy.wait('@postBlog').then((xhr) => {
-      cy.log(xhr);
       expect(xhr.status).to.equal(200);
       expect(xhr.response.body.status).to.equal("success");
     });
 
     cy.wait('@getBlog').then((xhr) => {
-      cy.log(xhr);
       expect(xhr.status).to.equal(200);
       expect(xhr.response.body.status).to.equal("success");
       expect(xhr.response.body).to.have.property("blog");

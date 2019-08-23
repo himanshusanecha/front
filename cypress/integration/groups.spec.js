@@ -14,6 +14,9 @@ context('Groups', () => {
 
   it('should create and edit a group', () => {
 
+    cy.server();
+    cy.route("POST", "**/api/v1/groups/group*").as("postGroup");
+
     cy.get('m-group--sidebar-markers li:first-child').contains('New group').click();
 
     cy.location('pathname').should('eq', '/groups/create');
@@ -37,6 +40,10 @@ context('Groups', () => {
 
     cy.get('.m-groups-save > button').contains('Create').click();
 
+    cy.wait('@postCreate').then((xhr) => {
+      expect(xhr.status).to.equal(200);
+      expect(xhr.response.body).to.equal({ status: 'success' });
+    });
 
     cy.get('.m-groupInfo__name').contains('test');
     cy.get('.m-groupInfo__description').contains('This is a test');
@@ -77,8 +84,6 @@ context('Groups', () => {
     // comment
     cy.get('minds-groups-profile-conversation m-comments__tree minds-textarea .m-editor').type('lvl 1 comment');
     cy.get('minds-groups-profile-conversation m-comments__tree a.m-post-button').click();
-
-    cy.wait(500);
 
     // comment should appear on the list
     cy.get('minds-groups-profile-conversation m-comments__tree > m-comments__thread .m-commentBubble__message').contains('lvl 1 comment');
