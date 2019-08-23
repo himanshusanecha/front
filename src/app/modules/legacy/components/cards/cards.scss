@@ -99,7 +99,7 @@ minds-card-user, .minds-banner-card{
 
   minds-button-subscribe, minds-button-boost{
     position: absolute;
-    margin: -34px 0 0 130px;
+    margin: -38px 0 0 130px;
     //z-index:999;
   }
 
@@ -190,7 +190,7 @@ minds-card-image, minds-card-video {
         max-width: calc(100% - 62px);
         vertical-align: middle;
         letter-spacing: 0.25px;
-        font-family: 'Roboto';
+        font-family: 'Roboto', Helvetica, sans-serif;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
         overflow: hidden;
@@ -199,7 +199,7 @@ minds-card-image, minds-card-video {
 
       .permalink {
         text-decoration: none;
-        font-family: 'Roboto';
+        font-family: 'Roboto', Helvetica, sans-serif;
         text-transform: uppercase;
         letter-spacing: 0.75px;
         text-rendering: optimizeLegibility;
@@ -278,7 +278,7 @@ minds-activity.mdl-card, minds-activity, minds-activity-preview{
   .mdl-card__supporting-text{
     width:100%;
     box-sizing: border-box;
-    font-family: Roboto;
+    font-family: 'Roboto', Helvetica, sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     @include m-theme(){
@@ -380,7 +380,7 @@ minds-activity.mdl-card, minds-activity, minds-activity-preview{
     .minds-block .minds-body a {
       //span {
       //  vertical-align: middle;
-      //  font-family: 'Roboto';
+      //  font-family: 'Roboto', Helvetica, sans-serif;
       //  text-rendering: optimizeLegibility;
       //  letter-spacing: 0.75px;
       //  -webkit-font-smoothing: antialiased;

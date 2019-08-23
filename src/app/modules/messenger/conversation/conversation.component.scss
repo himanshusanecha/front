@@ -46,7 +46,6 @@
       &.odd{
         text-align:left;
         .m-messenger--conversation-message-bubble{
-          //color:#FFF !important;
           @include m-theme(){
             background-color: themed($m-blue-grey-100) !important;
           }
@@ -113,7 +112,7 @@
       vertical-align: middle;
       padding: 8px;
       line-height: 1em;
-      font-family: minds_emoji, 'Roboto';
+      font-family: minds_emoji, 'Roboto', Helvetica, sans-serif;
     }
     i{
       width: 24px;

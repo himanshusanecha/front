@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { filter, first, map, switchMap } from 'rxjs/operators';
+import { filter, first, map, switchMap, mergeMap, skip, take } from 'rxjs/operators';
 import { FeedsService } from "../../services/feeds.service";
 
 @Injectable()
@@ -11,21 +11,32 @@ export class FeaturedContentService {
     protected feedsService: FeedsService,
   ) {
     this.feedsService
-      .setLimit(50)
+      .setLimit(12)
       .setOffset(0)
       .setEndpoint('api/v2/boost/feed')
       .fetch();
   }
 
   async fetch() {
+    if (this.offset >= this.feedsService.rawFeed.getValue().length) {
+      this.offset = -1;
+    }
+    // Refetch every 2 calls, if not loading
+    if (this.offset % 2 && !this.feedsService.inProgress.getValue()) {
+      this.feedsService.clear();
+      this.feedsService.fetch();
+    }
     return await this.feedsService.feed
       .pipe(
         filter(feed => feed.length > 0),
         first(),
-        map(feed => feed[this.offset++]),
+        mergeMap(feed => feed),
+        skip(this.offset++),
+        take(1),
         switchMap(async entity => {
-          if (!entity)
+          if (!entity) {
             return false;
+          }
           return await entity.pipe(first()).toPromise();
         }),
       ).toPromise();
