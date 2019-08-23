@@ -14,5 +14,6 @@ export let feedsServiceMock = {
   response() { return {'response': true } },
   setEndpoint(str) { return this }, //chainable
   setLimit(limit) { return this },
+  setParams(params) { return this },
   fetch() { return this },
 };
