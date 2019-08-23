@@ -9,7 +9,7 @@
       </div>
 
       <p class="m-wire-creator--subtext" i18n="@@WIRE__CREATOR__WIRE_NOTICE_TOKENS">
-        <b>Support <span>@</span>{{owner.username}}</b> by sending them Minds Tokens, ETH, BTC or USD. Once you send them the amount listed in the tiers, you can receive rewards if they are offered (Tokens & USD only). Otherwise, it's a donation.
+      <b>Support <span>@</span>{{owner.username}}</b> by sending them Minds Tokens<ng-container *mIfFeature="'wire-multi-currency'">, ETH, BTC or USD</ng-container>. Once you send them the amount listed in the tiers, you can receive rewards if they are offered<ng-container *mIfFeature="'wire-multi-currency'"> (Tokens & USD only)</ng-container>. Otherwise, it's a donation.
       </p>
     </div>
   </div>
@@ -144,8 +144,9 @@
       <li
          (click)="setPayloadType('usd')"
          [class.m-wire--creator-selector--highlight]="!wire.payloadType || wire.payloadType === 'usd'"
+         *mIfFeature="'wire-multi-currency'"
         >
-         <div class="m-wire--creator-selector-type">
+          <div class="m-wire--creator-selector-type">
             <i class="material-icons">attach_money</i>
             <h5>
               <span i18n="@@M__COMMON__ONCHAIN">USD</span>
@@ -159,8 +160,9 @@
         <li
          (click)="setPayloadType('eth')"
          [class.m-wire--creator-selector--highlight]="!wire.payloadType || wire.payloadType === 'eth'"
+         *mIfFeature="'wire-multi-currency'"
         >
-         <div class="m-wire--creator-selector-type">
+          <div class="m-wire--creator-selector-type">
             <img [src]="minds.cdn_assets_url + '/assets/marketing/ethereum_logo.png'" style="margin-left: -12px">
             <h5>
               <span i18n="@@M__COMMON__ONCHAIN">ETH</span>
@@ -174,8 +176,9 @@
         <li
          (click)="setPayloadType('btc')"
          [class.m-wire--creator-selector--highlight]="!wire.payloadType || wire.payloadType === 'btc'"
+         *mIfFeature="'wire-multi-currency'"
         >
-         <div class="m-wire--creator-selector-type">
+          <div class="m-wire--creator-selector-type">
             <img [src]="minds.cdn_assets_url + '/assets/marketing/btc.svg'" style="margin-left: -12px">
             <h5>
               <span i18n="@@M__COMMON__ONCHAIN">BTC</span>

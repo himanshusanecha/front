@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+import { FeaturesService } from '../../../../services/features.service';
 import { WireRewardsType, WireRewardsStruc, WireRewardsTiers } from '../../interfaces/wire.interfaces';
 
 @Component({
@@ -19,6 +20,10 @@ export class WireCreatorRewardsComponent {
   @Output() selectCurrency: EventEmitter<string> = new EventEmitter(true);
   @Output('selectReward') selectRewardEvt: EventEmitter<any> = new EventEmitter(true);
 
+  constructor(
+    private featuresService: FeaturesService,
+  ) { }
+
   selectReward(reward): void {
     this.selectRewardEvt.next(reward);
     // this.selectAmount.next(reward.amount);
@@ -27,9 +32,13 @@ export class WireCreatorRewardsComponent {
 
   get selectedReward() {
     const methods = [
-      { method: 'money', currency: 'usd' },
       { method: 'tokens', currency: 'offchain' },
     ];
+
+    if (this.featuresService.has('wire-multi-currency')) {
+      methods.push({ method: 'money', currency: 'usd' });
+    }
+
     for (const method of methods) {
       const match = this.findReward();
       if (match) {
