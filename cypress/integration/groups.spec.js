@@ -40,9 +40,9 @@ context('Groups', () => {
 
     cy.get('.m-groups-save > button').contains('Create').click();
 
-    cy.wait('@postCreate').then((xhr) => {
+    cy.wait('@postGroup').then((xhr) => {
       expect(xhr.status).to.equal(200);
-      expect(xhr.response.body).to.equal({ status: 'success' });
+      expect(xhr.response.body.status).to.equal('success');
     });
 
     cy.get('.m-groupInfo__name').contains('test');
