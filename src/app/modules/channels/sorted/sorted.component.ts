@@ -104,7 +104,7 @@ export class ChannelSortedComponent implements OnInit {
 
     let endpoint = 'api/v2/feeds/container';
     if (this.viewScheduled) {
-      endpoint = 'api/v2/channel/scheduled';
+      endpoint = 'api/v2/feeds/scheduled';
     }
 
     try {
@@ -193,7 +193,7 @@ export class ChannelSortedComponent implements OnInit {
   }
 
   async getScheduledCount() {
-    const url = `api/v2/channel/scheduled/${this.channel.guid}/count`;
+    const url = `api/v2/feeds/scheduled/${this.channel.guid}/count`;
     const response: any = await this.client.get(url);
     this.scheduledCount = response.count;
     this.detectChanges();
