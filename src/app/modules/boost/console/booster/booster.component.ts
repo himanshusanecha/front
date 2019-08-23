@@ -23,11 +23,12 @@ export class BoostConsoleBooster {
   /* poster component */
   @ViewChild('poster', { read: ViewContainerRef, static: false }) poster: ViewContainerRef;
 
-  inProgress: boolean = true;
-  loaded: boolean = false;
+  minds: Minds = window.Minds;
   feed$: Observable<BehaviorSubject<Object>[]>;
   componentRef;
   componentInstance: PosterComponent;
+  inProgress: boolean = true;
+  loaded: boolean = false;
   noContent: boolean = true;
 
   constructor(
@@ -70,8 +71,9 @@ export class BoostConsoleBooster {
       .setEndpoint(
         this.type === 'content'
           ? 'api/v1/entities/owner'
-          : 'api/v1/newsfeed/personal'
+          : `api/v2/feeds/container/${this.minds.user.guid}/activities`
       )
+      .setParams({sync: true})
       .setLimit(12)
       .fetch();
     this.feed$ = this.feedsService.feed;
