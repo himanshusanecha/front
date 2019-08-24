@@ -45,7 +45,7 @@ import { MindsVideoComponent } from '../../components/video/video.component';
         #player>
         <video-ads [player]="player" *ngIf="object.monetized"></video-ads>
 
-        </m-video>
+      </m-video>
 
     </div>
     <i class="material-icons right"
