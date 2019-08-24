@@ -42,11 +42,10 @@ import { MindsVideoComponent } from '../../components/video/video.component';
         [torrent]="[{ res: '720', key: object.guid + '/720.mp4' }, { res: '360', key: object.guid + '/360.mp4' }]"
         [log]="object.guid"
         [playCount]="false"
-        (click)="togglePlay($event)"
         #player>
         <video-ads [player]="player" *ngIf="object.monetized"></video-ads>
 
-      </m-video>
+        </m-video>
 
     </div>
     <i class="material-icons right"
