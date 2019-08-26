@@ -38,6 +38,60 @@ context('Newsfeed', () => {
     cy.get('.minds-list > minds-activity:first-child m-post-menu m-modal-confirm .mdl-button--colored').click();
   })
 
+  it('should post an activity picking a scheduled date', () => {
+    cy.get('minds-newsfeed-poster').should('be.visible');
+
+    cy.get('minds-newsfeed-poster textarea').type('This is a post');
+
+    // set scheduled date
+    cy.get('.m-poster-date-selector--input').click();
+    cy.get('td.c-datepicker__day-body.c-datepicker__day--selected + td').click();
+    cy.get('a.c-btn.c-btn--flat.js-ok').click();
+
+    // get setted date to compare
+    let scheduledDate;
+    cy.get('div.m-poster-date-selector--input div.m-tooltip--bubble')
+      .invoke('text').then((text) => {
+        scheduledDate = text;
+      });
+
+    cy.get('.m-posterActionBar__PostButton').click();
+
+    cy.wait(100);
+
+    // compare setted date with time_created
+    cy.get('.minds-list > minds-activity:first-child div.mdl-card__supporting-text > div.body > a.permalink > span')
+      .invoke('text').then((text) => {
+        const time_created = new Date(text).getTime();
+        scheduledDate = new Date(scheduledDate).getTime();
+        expect(scheduledDate).to.equal(time_created);
+      });
+      
+    // cleanup
+    cy.get('.minds-list > minds-activity:first-child m-post-menu .minds-more').click();
+    cy.get('.minds-list > minds-activity:first-child m-post-menu .minds-dropdown-menu .mdl-menu__item:nth-child(4)').click();
+    cy.get('.minds-list > minds-activity:first-child m-post-menu m-modal-confirm .mdl-button--colored').click();
+  })
+
+  it('should list scheduled activies', () => {
+    cy.server();
+    cy.route("GET", '**/api/v2/feeds/scheduled/**/count?').as("scheduledCount");
+    cy.route("GET", '**/api/v2/feeds/scheduled/**/activities?**').as("scheduledActivities");
+
+    cy.visit(`/${Cypress.env().username}`);
+
+    cy.wait('@scheduledCount', { requestTimeout: 2000 }).then((xhr) => {
+      expect(xhr.status).to.equal(200, 'feeds/scheduled/**/count request status');
+    });
+
+    cy.get('div.m-mindsListTools__scheduled').click();
+
+    cy.wait('@scheduledActivities', { requestTimeout: 2000 }).then((xhr) => {
+      expect(xhr.status).to.equal(200, 'feeds/scheduled/**/activities request status');
+    });
+
+  })
+
   it('should post an activity with an image attachment', () => {
     cy.get('minds-newsfeed-poster').should('be.visible');
 
