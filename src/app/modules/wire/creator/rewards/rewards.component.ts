@@ -66,9 +66,13 @@ export class WireCreatorRewardsComponent {
   @Input('rewards') set _rewards(rewards) {
     this.rewards = [];
     const methodsMap = [
-      { method: 'money', currency: 'usd' },
       { method: 'tokens', currency: 'tokens' },
     ];
+
+    if (this.featuresService.has('wire-multi-currency')) {
+      methodsMap.push({ method: 'money', currency: 'usd' });
+    }
+
     for (const { method, currency } of methodsMap) {
       for (const reward of rewards.rewards[method]) {
         this.rewards.push({
