@@ -31,6 +31,8 @@ lint:
   script:
     - npm i -g prettier
     - prettier --check "src/**/*.ts"
+    - prettier --check "src/**/*.scss"
+    - prettier --check "src/**/*.html"
 
 e2e:chrome:
   image: cypress/browsers:chrome67
