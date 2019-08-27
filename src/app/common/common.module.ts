@@ -102,6 +102,7 @@ import { ThemeService } from "./services/theme.service";
 import { HorizontalInfiniteScroll } from "./components/infinite-scroll/horizontal-infinite-scroll.component";
 import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/links/links.component';
 import { PosterDateSelectorComponent } from './components/poster-date-selector/poster-date-selector.component';
+import { ShareModalComponent } from '../modules/modals/share/share';
 
 @NgModule({
   imports: [
@@ -323,6 +324,7 @@ import { PosterDateSelectorComponent } from './components/poster-date-selector/p
   entryComponents: [
     NotificationsToasterComponent,
     ReferralsLinksComponent,
+    ShareModalComponent,
   ]
 })
 
