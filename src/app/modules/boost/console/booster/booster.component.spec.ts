@@ -88,7 +88,7 @@ describe('BoostConsoleBooster', () => {
     expect(poster).not.toBeNull();
   });
 
-  it("should not have a poster if the user has posted content", () => {
+  it('should not have a poster if the user has posted content', () => {
     comp.feed$ = of([BehaviorSubject.create({id: 1}), BehaviorSubject.create({id: 2})]);
     fixture.detectChanges();
 

@@ -27,9 +27,9 @@ export class BoostConsoleBooster {
   feed$: Observable<BehaviorSubject<Object>[]>;
   componentRef;
   componentInstance: PosterComponent;
-  inProgress: boolean = true;
-  loaded: boolean = false;
-  noContent: boolean = true;
+  inProgress = true;
+  loaded = false;
+  noContent = true;
 
   constructor(
     public client: Client,
@@ -70,7 +70,7 @@ export class BoostConsoleBooster {
     this.feedsService
       .setEndpoint(
         this.type === 'content'
-          ? 'api/v1/entities/owner'
+          ? `api/v2/feeds/container/${this.minds.user.guid}/channels`
           : `api/v2/feeds/container/${this.minds.user.guid}/activities`
       )
       .setParams({sync: true})
