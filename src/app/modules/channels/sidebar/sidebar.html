@@ -14,7 +14,7 @@
     </div>
     <span class="minds-button-edit" (click)="toggleEditing()" *ngIf="session.getLoggedInUser().guid == user.guid">
       <button class="material-icons" [hidden]="editing">edit</button>
-      <button class="material-icons minds-button-edit--done" [hidden]="!editing">done</button>    
+      <button class="material-icons m-channel-button-edit--done" [hidden]="!editing">done</button>    
     </span>
     <minds-button-user-dropdown [(user)]="user" *ngIf="session.getLoggedInUser().guid != user.guid"></minds-button-user-dropdown>
   </div>
