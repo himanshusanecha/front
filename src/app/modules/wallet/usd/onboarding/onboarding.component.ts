@@ -101,7 +101,7 @@ export class WalletUSDOnboardingComponent implements OnInit {
     this.error = '';
 
     try {
-      const response = <any>await this.client.post('api/v2/wallet/usd/onboarding', this.form.value)
+      const response = <any>await this.client.put('api/v2/wallet/usd/account', this.form.value)
       this.inProgress = false;
 
       if (!this.minds.user.programs)
@@ -129,7 +129,7 @@ export class WalletUSDOnboardingComponent implements OnInit {
     this.inProgress = true;
     this.error = '';
 
-    this.client.post('api/v2/wallet/usd/update', this.form.value)
+    this.client.post('api/v2/wallet/usd/account', this.form.value)
       .then((response: any) => {
         this.inProgress = false;
         this.completed.emit(response);
