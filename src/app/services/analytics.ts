@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Client } from './api/client';
+import { Inject, Injectable } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
+import { Client } from "./api/client";
 
 @Injectable()
 export class AnalyticsService {
@@ -10,34 +10,36 @@ export class AnalyticsService {
     return new AnalyticsService(router, client);
   }
 
-  constructor(@Inject(Router) public router: Router, @Inject(Client) public client: Client) {
+  constructor(
+    @Inject(Router) public router: Router,
+    @Inject(Client) public client: Client
+  ) {
     this.onRouterInit();
 
-    this.router.events.subscribe((navigationState) => {
+    this.router.events.subscribe(navigationState => {
       if (navigationState instanceof NavigationEnd) {
         try {
           this.onRouteChanged(navigationState.urlAfterRedirects);
         } catch (e) {
-          console.error('Minds: router hook(AnalyticsService)', e);
+          console.error("Minds: router hook(AnalyticsService)", e);
         }
       }
     });
   }
 
   async send(type: string, fields: any = {}, entityGuid: string = null) {
-    if (type === 'pageview') {
-      this.client.post('api/v2/mwa/pv', fields);
+    if (type === "pageview") {
+      this.client.post("api/v2/mwa/pv", fields);
     } else {
-      this.client.post('api/v1/analytics', { type, fields, entityGuid });
+      this.client.post("api/v1/analytics", { type, fields, entityGuid });
     }
   }
 
-  async onRouterInit() {
-  }
+  async onRouterInit() {}
 
   onRouteChanged(path) {
     if (!this.defaultPrevented) {
-      this.send('pageview', { 
+      this.send("pageview", {
         url: path,
         referrer: document.referrer
       });
@@ -53,6 +55,4 @@ export class AnalyticsService {
   wasDefaultPrevented() {
     return this.defaultPrevented;
   }
-
-
 }

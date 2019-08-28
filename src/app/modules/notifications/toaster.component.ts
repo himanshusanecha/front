@@ -1,9 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { DynamicHostDirective } from '../../common/directives/dynamic-host.directive';
-import { NotificationService } from './notification.service';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewChild
+} from "@angular/core";
+import { DynamicHostDirective } from "../../common/directives/dynamic-host.directive";
+import { NotificationService } from "./notification.service";
 
 @Component({
-  selector: 'm-notifications--toaster',
+  selector: "m-notifications--toaster",
   template: `
     <div class="m-notifications--toaster" *ngIf="notifications">
       <minds-notification
@@ -19,13 +26,13 @@ import { NotificationService } from './notification.service';
 export class NotificationsToasterComponent implements OnInit {
   notifications: Array<any> = [];
 
-  @ViewChild(DynamicHostDirective, { static: false }) host: DynamicHostDirective;
+  @ViewChild(DynamicHostDirective, { static: false })
+  host: DynamicHostDirective;
 
   constructor(
     public notification: NotificationService,
     protected cd: ChangeDetectorRef
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.listenForNotifications();
@@ -33,7 +40,7 @@ export class NotificationsToasterComponent implements OnInit {
 
   listenForNotifications() {
     this.notification.onReceive.subscribe((notification: any) => {
-      if(this.isToasterDisabled()) return;
+      if (this.isToasterDisabled()) return;
 
       this.notifications.unshift(notification);
       this.detectChanges();

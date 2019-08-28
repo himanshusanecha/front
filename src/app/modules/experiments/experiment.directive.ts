@@ -1,21 +1,19 @@
-import { 
-    Input,
-    Directive,
-    EventEmitter,
-    ElementRef,
-    ViewContainerRef,
-    TemplateRef,
-} from '@angular/core';
+import {
+  Input,
+  Directive,
+  EventEmitter,
+  ElementRef,
+  ViewContainerRef,
+  TemplateRef
+} from "@angular/core";
 
-import { ExperimentsService } from './experiments.service';
+import { ExperimentsService } from "./experiments.service";
 
 @Directive({
-  selector: '[mExperiment]',
+  selector: "[mExperiment]"
 })
-
 export class ExperimentDirective {
-  
-  @Input('mExperiment') mExperimentId;
+  @Input("mExperiment") mExperimentId;
   @Input() mExperimentBucket;
 
   constructor(
@@ -25,21 +23,22 @@ export class ExperimentDirective {
   ) {}
 
   async ngOnInit() {
+    if (this.mExperimentBucket === "base")
+      //load the base first
+      this._viewContainer.createEmbeddedView(this._templateRef);
 
-    if (this.mExperimentBucket === 'base') //load the base first
-        this._viewContainer.createEmbeddedView(this._templateRef);
-
-    if (await this._service.shouldRender({ 
+    if (
+      await this._service.shouldRender({
         experimentId: this.mExperimentId,
         bucketId: this.mExperimentBucket
-    })) {
-      console.log('clearing');
+      })
+    ) {
+      console.log("clearing");
       this._viewContainer.clear();
       this._viewContainer.createEmbeddedView(this._templateRef);
-    } else {    
-      console.log('clearing');
+    } else {
+      console.log("clearing");
       this._viewContainer.clear();
     }
   }
-
 }

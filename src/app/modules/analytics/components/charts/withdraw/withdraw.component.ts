@@ -1,13 +1,26 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from "@angular/core";
 import { Client } from "../../../../../services/api/client";
 import { timespanOption } from "../timespanOption";
 import { removeCurrentUnits } from "../../../util";
 
 @Component({
-  selector: 'm-analyticscharts__withdraw',
+  selector: "m-analyticscharts__withdraw",
   template: `
     <div class="m-chart" #chartContainer>
-      <div class="mdl-spinner mdl-js-spinner is-active" [mdl] *ngIf="inProgress"></div>
+      <div
+        class="mdl-spinner mdl-js-spinner is-active"
+        [mdl]
+        *ngIf="inProgress"
+      ></div>
 
       <m-graph
         [data]="data"
@@ -17,11 +30,10 @@ import { removeCurrentUnits } from "../../../util";
     </div>
   `
 })
-
 export class WithdrawChartComponent implements OnInit {
   @Output() loaded: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
 
-  @ViewChild('chartContainer', { static: true }) chartContainer: ElementRef;
+  @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;
 
   timespan: timespanOption;
   init: boolean = false;
@@ -32,37 +44,35 @@ export class WithdrawChartComponent implements OnInit {
     width: 0,
     height: 0,
     font: {
-      family: 'Roboto'
+      family: "Roboto"
     },
     titlefont: {
-      family: 'Roboto',
+      family: "Roboto",
       size: 24,
-      weight: 'bold'
+      weight: "bold"
     },
     xaxis: {
-      type: '-',
+      type: "-"
     },
     yaxis: {
-      type: 'log',
-      dtick: 1,
+      type: "log",
+      dtick: 1
     },
     margin: {
       t: 16,
       b: 32,
-      l: 32,
-    }, 
+      l: 32
+    }
   };
 
-  @Input('timespan') set _timespan(value: timespanOption) {
+  @Input("timespan") set _timespan(value: timespanOption) {
     this.timespan = value;
     if (this.init) {
       this.getData();
     }
   }
 
-  constructor(private client: Client) {
-
-  }
+  constructor(private client: Client) {}
 
   ngOnInit() {
     this.applyDimensions();
@@ -71,19 +81,21 @@ export class WithdrawChartComponent implements OnInit {
   }
 
   async getData() {
-    const response: any = await this.client.get(`api/v2/analytics/withdraw`, { timespan: this.timespan });
+    const response: any = await this.client.get(`api/v2/analytics/withdraw`, {
+      timespan: this.timespan
+    });
     const [data, current] = removeCurrentUnits(response.data);
     this.data = data;
 
     this.loaded.emit(current);
   }
 
-  @HostListener('window:resize')
+  @HostListener("window:resize")
   applyDimensions() {
     this.layout = {
       ...this.layout,
       width: this.chartContainer.nativeElement.clientWidth,
-      height: this.chartContainer.nativeElement.clientHeight - 35,
+      height: this.chartContainer.nativeElement.clientHeight - 35
     };
   }
 }

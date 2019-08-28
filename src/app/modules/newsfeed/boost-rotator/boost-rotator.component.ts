@@ -1,16 +1,24 @@
-import { ChangeDetectorRef, Component, ElementRef, Injector, QueryList, SkipSelf, ViewChildren } from '@angular/core';
-import { first } from 'rxjs/operators';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Injector,
+  QueryList,
+  SkipSelf,
+  ViewChildren
+} from "@angular/core";
+import { first } from "rxjs/operators";
 
-import { ScrollService } from '../../../services/ux/scroll';
-import { Client } from '../../../services/api';
-import { Storage } from '../../../services/storage';
-import { Session } from '../../../services/session';
-import { Router } from '@angular/router';
-import { MindsUser } from '../../../interfaces/entities';
-import { Activity } from '../../../modules/legacy/components/cards/activity/activity';
-import { NewsfeedService } from '../services/newsfeed.service';
-import { NewsfeedBoostService } from '../newsfeed-boost.service';
-import { SettingsService } from '../../settings/settings.service';
+import { ScrollService } from "../../../services/ux/scroll";
+import { Client } from "../../../services/api";
+import { Storage } from "../../../services/storage";
+import { Session } from "../../../services/session";
+import { Router } from "@angular/router";
+import { MindsUser } from "../../../interfaces/entities";
+import { Activity } from "../../../modules/legacy/components/cards/activity/activity";
+import { NewsfeedService } from "../services/newsfeed.service";
+import { NewsfeedBoostService } from "../newsfeed-boost.service";
+import { SettingsService } from "../../settings/settings.service";
 import { FeaturesService } from "../../../services/features.service";
 import { BoostedContentService } from "../../../common/services/boosted-content.service";
 import { FeedsService } from "../../../common/services/feeds.service";
@@ -18,25 +26,20 @@ import { ClientMetaService } from "../../../common/services/client-meta.service"
 
 @Component({
   moduleId: module.id,
-  selector: 'm-newsfeed--boost-rotator',
+  selector: "m-newsfeed--boost-rotator",
   host: {
-    '(window:blur)': 'inActive()',
-    '(window:focus)': 'active()',
-    '(mouseover)': 'mouseOver()',
-    '(mouseout)': 'mouseOut()'
+    "(window:blur)": "inActive()",
+    "(window:focus)": "active()",
+    "(mouseover)": "mouseOver()",
+    "(mouseout)": "mouseOut()"
   },
-  inputs: ['interval', 'channel'],
-  providers: [
-    ClientMetaService,
-    FeedsService,
-  ],
-  templateUrl: 'boost-rotator.component.html',
+  inputs: ["interval", "channel"],
+  providers: [ClientMetaService, FeedsService],
+  templateUrl: "boost-rotator.component.html"
 })
-
 export class NewsfeedBoostRotatorComponent {
-
   boosts: Array<any> = [];
-  offset: string = '';
+  offset: string = "";
   inProgress: boolean = false;
   moreData: boolean = true;
   rotator;
@@ -57,7 +60,7 @@ export class NewsfeedBoostRotatorComponent {
 
   subscriptions: Array<any>;
 
-  @ViewChildren('activities') activities: QueryList<Activity>;
+  @ViewChildren("activities") activities: QueryList<Activity>;
 
   constructor(
     public session: Session,
@@ -73,19 +76,22 @@ export class NewsfeedBoostRotatorComponent {
     protected featuresService: FeaturesService,
     public feedsService: FeedsService,
     protected clientMetaService: ClientMetaService,
-    @SkipSelf() injector: Injector,
+    @SkipSelf() injector: Injector
   ) {
-
     this.subscriptions = [
-      this.settingsService.ratingChanged.subscribe((event) => this.onRatingChanged(event)),
-      this.service.enableChanged.subscribe((event) => this.onEnableChanged(event)),
-      this.service.pauseChanged.subscribe((event) => this.onPauseChanged(event)),
-      this.service.explicitChanged.subscribe((event) => this.onExplicitChanged(event))
+      this.settingsService.ratingChanged.subscribe(event =>
+        this.onRatingChanged(event)
+      ),
+      this.service.enableChanged.subscribe(event =>
+        this.onEnableChanged(event)
+      ),
+      this.service.pauseChanged.subscribe(event => this.onPauseChanged(event)),
+      this.service.explicitChanged.subscribe(event =>
+        this.onExplicitChanged(event)
+      )
     ];
 
-    this.clientMetaService
-      .inherit(injector)
-      .setMedium('boost-rotator');
+    this.clientMetaService.inherit(injector).setMedium("boost-rotator");
   }
 
   ngOnInit() {
@@ -93,17 +99,17 @@ export class NewsfeedBoostRotatorComponent {
     this.plus = this.session.getLoggedInUser().plus;
     this.disabled = !this.service.isBoostEnabled();
     this.load();
-    this.scroll_listener = this.scroll.listenForView().subscribe(() => this.isVisible());
+    this.scroll_listener = this.scroll
+      .listenForView()
+      .subscribe(() => this.isVisible());
 
     this.paused = this.service.isBoostPaused();
 
     this.feedsService.feed.subscribe(async boosts => {
-      if (!boosts.length)
-        return;
+      if (!boosts.length) return;
       this.boosts = [];
       for (const boost of boosts) {
-        if (boost)
-          this.boosts.push(await boost.pipe(first()).toPromise());
+        if (boost) this.boosts.push(await boost.pipe(first()).toPromise());
       }
       if (this.currentPosition >= this.boosts.length) {
         this.currentPosition = 0;
@@ -116,17 +122,15 @@ export class NewsfeedBoostRotatorComponent {
 
   load() {
     try {
-
       this.feedsService
-        .setEndpoint('api/v2/boost/feed')
+        .setEndpoint("api/v2/boost/feed")
         .setParams({
           rating: this.rating,
-          rotator: 1,
+          rotator: 1
         })
         .setLimit(12)
         .setOffset(0)
         .fetch();
-        
     } catch (e) {
       if (e && e.message) {
         console.warn(e);
@@ -138,13 +142,13 @@ export class NewsfeedBoostRotatorComponent {
     this.inProgress = false;
     return true;
   }
-  
+
   onExplicitChanged(value: boolean) {
     this.load();
   }
 
   onPauseChanged(value: boolean) {
-    console.warn('on pause changed');
+    console.warn("on pause changed");
     this.paused = value;
   }
 
@@ -160,11 +164,10 @@ export class NewsfeedBoostRotatorComponent {
   }
 
   start() {
-    if (this.rotator)
-      window.clearInterval(this.rotator);
+    if (this.rotator) window.clearInterval(this.rotator);
 
     this.running = true;
-    this.rotator = setInterval((e) => {
+    this.rotator = setInterval(e => {
       if (!this.windowFocused) {
         return;
       }
@@ -181,10 +184,9 @@ export class NewsfeedBoostRotatorComponent {
     const bounds = this.element.nativeElement.getBoundingClientRect();
     if (bounds.top > 0) {
       //console.log('[rotator]: in view', this.rotator);
-      if (!this.running)
-        this.start();
+      if (!this.running) this.start();
     } else {
-      console.log('[rotator]: out of view', this.rotator);
+      console.log("[rotator]: out of view", this.rotator);
       if (this.running) {
         this.running = false;
         window.clearInterval(this.rotator);
@@ -194,17 +196,35 @@ export class NewsfeedBoostRotatorComponent {
 
   recordImpression(position: number, force: boolean) {
     //ensure was seen for at least 1 second
-    if ((Date.now() > this.lastTs + 1000 || force) && this.boosts[position] && this.boosts[position].boosted_guid) {
-      this.newsfeedService.recordView(this.boosts[position], true, this.channel, this.clientMetaService.build({
-        position: position + 1,
-        campaign: this.boosts[position].urn,
-      }));
+    if (
+      (Date.now() > this.lastTs + 1000 || force) &&
+      this.boosts[position] &&
+      this.boosts[position].boosted_guid
+    ) {
+      this.newsfeedService.recordView(
+        this.boosts[position],
+        true,
+        this.channel,
+        this.clientMetaService.build({
+          position: position + 1,
+          campaign: this.boosts[position].urn
+        })
+      );
 
-      console.log('Boost rotator recording impressions for ' + position + ' ' + this.boosts[position].boosted_guid, this.windowFocused);
+      console.log(
+        "Boost rotator recording impressions for " +
+          position +
+          " " +
+          this.boosts[position].boosted_guid,
+        this.windowFocused
+      );
     }
     this.lastTs = Date.now();
     if (this.boosts[position] && this.boosts[position].boosted_guid)
-      window.localStorage.setItem('boost-rotator-offset', this.boosts[position].boosted_guid);
+      window.localStorage.setItem(
+        "boost-rotator-offset",
+        this.boosts[position].boosted_guid
+      );
   }
 
   active() {
@@ -245,7 +265,7 @@ export class NewsfeedBoostRotatorComponent {
         this.feedsService.fetch();
         this.feedsService.loadMore();
         this.currentPosition++;
-      } catch(e) {
+      } catch (e) {
         this.currentPosition = 0;
       }
     } else {
@@ -265,13 +285,11 @@ export class NewsfeedBoostRotatorComponent {
   }
 
   ngOnDestroy() {
-    if (this.rotator)
-      window.clearInterval(this.rotator);
+    if (this.rotator) window.clearInterval(this.rotator);
     this.scroll.unListen(this.scroll_listener);
 
     for (let subscription of this.subscriptions) {
       subscription.unsubscribe();
     }
   }
-
 }

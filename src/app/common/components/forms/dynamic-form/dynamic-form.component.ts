@@ -1,32 +1,46 @@
-import { Component, OnInit, Input, AfterViewChecked , OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  Input,
+  AfterViewChecked,
+  OnChanges,
+  SimpleChanges
+} from "@angular/core";
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from "@angular/forms";
 
 @Component({
-  selector: 'm-dynamic-form',
-  templateUrl: './dynamic-form.component.html',
-  styleUrls: ['./dynamic-form.component.scss']
+  selector: "m-dynamic-form",
+  templateUrl: "./dynamic-form.component.html",
+  styleUrls: ["./dynamic-form.component.scss"]
 })
-export class DynamicFormComponent implements OnInit, AfterViewChecked , OnChanges {
+export class DynamicFormComponent
+  implements OnInit, AfterViewChecked, OnChanges {
   @Input() fields;
   form: FormGroup;
   fieldDefinitions;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.updateFields();
   }
 
   private updateFields() {
-    this.fieldDefinitions =
-      Object.keys(this.fields)
-        .map(prop => {
-          return Object.assign({}, { key: prop} , this.fields[prop]);
-        });
+    this.fieldDefinitions = Object.keys(this.fields).map(prop => {
+      return Object.assign({}, { key: prop }, this.fields[prop]);
+    });
 
     const formGroup = {};
     for (const prop of Object.keys(this.fields)) {
-      formGroup[prop] = new FormControl(this.fields[prop].value || '', this.mapValidators(this.fields[prop].validation));
+      formGroup[prop] = new FormControl(
+        this.fields[prop].value || "",
+        this.mapValidators(this.fields[prop].validation)
+      );
     }
 
     this.form = new FormGroup(formGroup);
@@ -48,13 +62,13 @@ export class DynamicFormComponent implements OnInit, AfterViewChecked , OnChange
     if (validators) {
       for (const validation of Object.keys(validators)) {
         switch (validation) {
-          case 'required':
+          case "required":
             formValidators.push(Validators.required);
             break;
-          case 'min':
+          case "min":
             formValidators.push(Validators.min(validators[validation]));
             break;
-          case 'max':
+          case "max":
             formValidators.push(Validators.max(validators[validation]));
             break;
         }

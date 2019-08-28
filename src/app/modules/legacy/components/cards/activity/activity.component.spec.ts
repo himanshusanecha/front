@@ -1,39 +1,51 @@
 ///<reference path="../../../../../../../node_modules/@types/jasmine/index.d.ts"/>
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, DebugElement, Directive, EventEmitter, Input, Output, NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  Component,
+  DebugElement,
+  Directive,
+  EventEmitter,
+  Input,
+  Output,
+  NO_ERRORS_SCHEMA
+} from "@angular/core";
 
-import { Activity } from './activity';
-import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
-import { clientMock } from '../../../../../../tests/client-mock.spec';
-import { sessionMock } from '../../../../../../tests/session-mock.spec';
-import { Client } from '../../../../../services/api/client';
-import { Session } from '../../../../../services/session';
-import { MaterialMock } from '../../../../../../tests/material-mock.spec';
-import { scrollServiceMock } from '../../../../../../tests/scroll-service-mock.spec';
-import { ScrollService } from '../../../../../services/ux/scroll';
-import { AttachmentService } from '../../../../../services/attachment';
-import { attachmentServiceMock } from '../../../../../../tests/attachment-service-mock.spec';
-import { translationServiceMock } from '../../../../../../tests/translation-service-mock.spec';
-import { TranslationService } from '../../../../../services/translation';
-import { overlayModalServiceMock } from '../../../../../../tests/overlay-modal-service-mock.spec';
-import { OverlayModalService } from '../../../../../services/ux/overlay-modal';
-import { TagsPipe } from '../../../../../common/pipes/tags';
-import { MindsRichEmbed } from '../../../../../common/components/rich-embed/rich-embed';
-import { DomainPipe } from '../../../../../common/pipes/domain';
-import { AbbrPipe } from '../../../../../common/pipes/abbr';
-import { ChannelBadgesComponent } from '../../../../../common/components/badges/badges.component';
-import { TooltipComponentMock } from '../../../../../mocks/common/components/tooltip/tooltip.component';
-import { TokenPipe } from '../../../../../common/pipes/token.pipe';
-import { ExcerptPipe } from '../../../../../common/pipes/excerpt';
-import { NewsfeedService } from '../../../../newsfeed/services/newsfeed.service';
+import { Activity } from "./activity";
+import { FormsModule } from "@angular/forms";
+import { RouterTestingModule } from "@angular/router/testing";
+import { By } from "@angular/platform-browser";
+import { clientMock } from "../../../../../../tests/client-mock.spec";
+import { sessionMock } from "../../../../../../tests/session-mock.spec";
+import { Client } from "../../../../../services/api/client";
+import { Session } from "../../../../../services/session";
+import { MaterialMock } from "../../../../../../tests/material-mock.spec";
+import { scrollServiceMock } from "../../../../../../tests/scroll-service-mock.spec";
+import { ScrollService } from "../../../../../services/ux/scroll";
+import { AttachmentService } from "../../../../../services/attachment";
+import { attachmentServiceMock } from "../../../../../../tests/attachment-service-mock.spec";
+import { translationServiceMock } from "../../../../../../tests/translation-service-mock.spec";
+import { TranslationService } from "../../../../../services/translation";
+import { overlayModalServiceMock } from "../../../../../../tests/overlay-modal-service-mock.spec";
+import { OverlayModalService } from "../../../../../services/ux/overlay-modal";
+import { TagsPipe } from "../../../../../common/pipes/tags";
+import { MindsRichEmbed } from "../../../../../common/components/rich-embed/rich-embed";
+import { DomainPipe } from "../../../../../common/pipes/domain";
+import { AbbrPipe } from "../../../../../common/pipes/abbr";
+import { ChannelBadgesComponent } from "../../../../../common/components/badges/badges.component";
+import { TooltipComponentMock } from "../../../../../mocks/common/components/tooltip/tooltip.component";
+import { TokenPipe } from "../../../../../common/pipes/token.pipe";
+import { ExcerptPipe } from "../../../../../common/pipes/excerpt";
+import { NewsfeedService } from "../../../../newsfeed/services/newsfeed.service";
 import { EntitiesService } from "../../../../../common/services/entities.service";
 import { entitiesServiceMock } from "../../../../../../tests/entities-service-mock.spec";
-import { MockComponent, MockDirective, MockService } from '../../../../../utils/mock';
-import { IfFeatureDirective } from '../../../../../common/directives/if-feature.directive';
-import { NSFWSelectorConsumerService } from '../../../../../common/components/nsfw-selector/nsfw-selector.service';
-import { FeaturesService } from '../../../../../services/features.service';
+import {
+  MockComponent,
+  MockDirective,
+  MockService
+} from "../../../../../utils/mock";
+import { IfFeatureDirective } from "../../../../../common/directives/if-feature.directive";
+import { NSFWSelectorConsumerService } from "../../../../../common/components/nsfw-selector/nsfw-selector.service";
+import { FeaturesService } from "../../../../../services/features.service";
 import { BlockListService } from "../../../../../common/services/block-list.service";
 import { ClientMetaService } from "../../../../../common/services/client-meta.service";
 import { clientMetaServiceMock } from "../../../../../../tests/client-meta-service-mock.spec";
@@ -42,22 +54,21 @@ import { AutocompleteSuggestionsService } from "../../../../suggestions/services
 /* tslint:disable */
 // START MOCKS
 @Component({
-  selector: 'm-wire--lock-screen',
-  template: ''
+  selector: "m-wire--lock-screen",
+  template: ""
 })
 export class WireLockScreenComponentMock {
   @Input() entity: any;
-  @Output('entityChange') update: EventEmitter<any> = new EventEmitter<any>();
+  @Output("entityChange") update: EventEmitter<any> = new EventEmitter<any>();
 }
 
 @Component({
-  selector: 'm-translate',
-  inputs: ['_open: open', '_entity: entity', '_translateEvent: translateEvent'],
-  outputs: ['onTranslateInit', 'onTranslate', 'onTranslateError'],
-  exportAs: 'translate',
-  template: ''
+  selector: "m-translate",
+  inputs: ["_open: open", "_entity: entity", "_translateEvent: translateEvent"],
+  outputs: ["onTranslateInit", "onTranslate", "onTranslateError"],
+  exportAs: "translate",
+  template: ""
 })
-
 export class TranslateMock {
   onTranslateInit: EventEmitter<any> = new EventEmitter();
   onTranslate: EventEmitter<any> = new EventEmitter();
@@ -75,135 +86,114 @@ export class TranslateMock {
 
   translation = {
     translated: false,
-    target: '',
+    target: "",
     error: false,
-    message: '',
-    title: '',
-    description: '',
-    source: ''
+    message: "",
+    title: "",
+    description: "",
+    source: ""
   };
 
-  set _entity(value: any) {
-  }
+  set _entity(value: any) {}
 
-  select(language: string) {
-  }
+  select(language: string) {}
 
-  translate($event: any = {}) {
-  }
+  translate($event: any = {}) {}
 }
 
 @Component({
-  selector: 'm-wire-threshold-input',
-  template: ''
+  selector: "m-wire-threshold-input",
+  template: ""
 })
 export class WireThresholdInputComponentMock {
   threshold: any;
 
-  @Input('enabled') enabled: boolean = false;
+  @Input("enabled") enabled: boolean = false;
 
-  @Input('threshold')
-  set _threshold(threshold: any) {
-  }
+  @Input("threshold")
+  set _threshold(threshold: any) {}
 
-  @Output('thresholdChange') thresholdChangeEmitter: EventEmitter<any> = new EventEmitter<any>();
+  @Output("thresholdChange") thresholdChangeEmitter: EventEmitter<
+    any
+  > = new EventEmitter<any>();
 
-  toggle() {
-  }
+  toggle() {}
 
-  setType(type: any) {
-  }
+  setType(type: any) {}
 }
 
 @Component({
-  selector: 'minds-newsfeed-poster',
-  inputs: ['_container_guid: containerGuid', 'accessId', 'message'],
-  outputs: ['load'],
-  template: ''
+  selector: "minds-newsfeed-poster",
+  inputs: ["_container_guid: containerGuid", "accessId", "message"],
+  outputs: ["load"],
+  template: ""
 })
-
 export class PosterMock {
   load: EventEmitter<any> = new EventEmitter();
 
-  set accessId(access_id: any) {
-  }
+  set accessId(access_id: any) {}
 
-  set message(value: any) {
-  }
+  set message(value: any) {}
 
-  post() {
-  }
+  post() {}
 
-  uploadAttachment(file: HTMLInputElement, event) {
-  }
+  uploadAttachment(file: HTMLInputElement, event) {}
 
-  removeAttachment(file: HTMLInputElement) {
-  }
+  removeAttachment(file: HTMLInputElement) {}
 
-  getPostPreview(message) {
-  }
+  getPostPreview(message) {}
 }
 
 @Component({
-  selector: 'm-video',
-  template: ''
+  selector: "m-video",
+  template: ""
 })
 export class VideoComponentMock {
-  @Input('thumbnail') thumbnail: string;
-  @Input('muted') muted: boolean;
-  @Input('loop') loop: boolean;
+  @Input("thumbnail") thumbnail: string;
+  @Input("muted") muted: boolean;
+  @Input("loop") loop: boolean;
 
-  @Input('analyticsGuid') analyticsGuid: any;
+  @Input("analyticsGuid") analyticsGuid: any;
 
-  @Input('preview')
-  set _preview(value) {
-  }
+  @Input("preview")
+  set _preview(value) {}
 
-  @Input('previewPlayback')
-  set _previewPlayback(value) {
-  }
+  @Input("previewPlayback")
+  set _previewPlayback(value) {}
 
-  @Input('src')
-  set _src(value: string | any[]) {
-  }
+  @Input("src")
+  set _src(value: string | any[]) {}
 
-  @Input('torrent')
-  set _torrent(value: string | any[]) {
-  }
+  @Input("torrent")
+  set _torrent(value: string | any[]) {}
 
-  @Input('autoplay')
-  set _autoplay(value: any) {
-  }
+  @Input("autoplay")
+  set _autoplay(value: any) {}
 
-  @Input('poster') poster: any;
-  @Input('guid') guid: any;
-  @Input('playCount') playCount: any;
+  @Input("poster") poster: any;
+  @Input("guid") guid: any;
+  @Input("playCount") playCount: any;
 
-  listen() {
-  }
+  listen() {}
 
-  unListen() {
-  }
+  unListen() {}
 
-  trigger(type: string, ev: Event) {
-  }
+  trigger(type: string, ev: Event) {}
 
-  exitFullScreen() {
-  }
-
+  exitFullScreen() {}
 }
 
 @Component({
-  selector: 'video-ads',
-  template: ''
+  selector: "video-ads",
+  template: ""
 })
 export class VideoAdsMock {
   @Input() player;
 }
 
 @Component({
-  selector: 'm-post-menu',
-  template: ''
+  selector: "m-post-menu",
+  template: ""
 })
 export class PostMenuComponentMock {
   @Input() entity;
@@ -214,8 +204,8 @@ export class PostMenuComponentMock {
 }
 
 @Component({
-  selector: 'minds-remind',
-  template: ''
+  selector: "minds-remind",
+  template: ""
 })
 export class RemindMock {
   @Input() object;
@@ -225,8 +215,8 @@ export class RemindMock {
 }
 
 @Component({
-  selector: 'minds-button-thumbs-up',
-  template: ''
+  selector: "minds-button-thumbs-up",
+  template: ""
 })
 export class ThumbsUpButtonMock {
   @Input() object;
@@ -234,8 +224,8 @@ export class ThumbsUpButtonMock {
 }
 
 @Component({
-  selector: 'minds-button-thumbs-down',
-  template: ''
+  selector: "minds-button-thumbs-down",
+  template: ""
 })
 export class ThumbsDownButtonMock {
   @Input() object;
@@ -243,8 +233,8 @@ export class ThumbsDownButtonMock {
 }
 
 @Component({
-  selector: 'minds-button-comment',
-  template: ''
+  selector: "minds-button-comment",
+  template: ""
 })
 export class ButtonCommentMock {
   @Input() object;
@@ -252,16 +242,16 @@ export class ButtonCommentMock {
 }
 
 @Component({
-  selector: 'minds-button-remind',
-  template: ''
+  selector: "minds-button-remind",
+  template: ""
 })
 export class ButtonRemindMock {
   @Input() object;
 }
 
 @Component({
-  selector: 'minds-comments',
-  template: ''
+  selector: "minds-comments",
+  template: ""
 })
 export class MindsCommentsMock {
   @Input() object;
@@ -271,16 +261,16 @@ export class MindsCommentsMock {
 }
 
 @Component({
-  selector: 'm-wire-button',
-  template: ''
+  selector: "m-wire-button",
+  template: ""
 })
 export class WireButtonMock {
   @Input() object;
 }
 
 @Component({
-  selector: 'm-modal-share',
-  template: ''
+  selector: "m-modal-share",
+  template: ""
 })
 export class ModalShareMock {
   @Input() open;
@@ -290,8 +280,8 @@ export class ModalShareMock {
 }
 
 @Component({
-  selector: 'm-modal-report',
-  template: ''
+  selector: "m-modal-report",
+  template: ""
 })
 export class ModalReportMock {
   @Input() open;
@@ -300,8 +290,8 @@ export class ModalReportMock {
 }
 
 @Component({
-  selector: 'm-modal-confirm',
-  template: ''
+  selector: "m-modal-confirm",
+  template: ""
 })
 export class ModalConfirmMock {
   @Input() open;
@@ -312,97 +302,85 @@ export class ModalConfirmMock {
 }
 
 @Directive({
-  selector: '[hovercard]',
-  inputs: ['_hovercard: hovercard', '_hovercardAnchor: hovercardAnchor'],
+  selector: "[hovercard]",
+  inputs: ["_hovercard: hovercard", "_hovercardAnchor: hovercardAnchor"],
   host: {
-    '(mouseenter)': 'show()',
-    '(mouseleave)': 'hide()',
-    '(click)': 'hideForcefully()'
+    "(mouseenter)": "show()",
+    "(mouseleave)": "hide()",
+    "(click)": "hideForcefully()"
   }
 })
 export class HovercardMock {
-  set _hovercard(value: any) {
-  }
+  set _hovercard(value: any) {}
 
-  set _hovercardAnchor(value: any) {
-  }
+  set _hovercardAnchor(value: any) {}
 
-  show() {
-  }
+  show() {}
 
-  hide() {
-  }
+  hide() {}
 
-  hideForcefully() {
-  }
+  hideForcefully() {}
 }
 
 @Component({
-  selector: 'm-read-more--button',
-  template: ''
+  selector: "m-read-more--button",
+  template: ""
 })
-
-export class ReadMoreButtonComponentMock {
-}
+export class ReadMoreButtonComponentMock {}
 
 @Component({
-  selector: 'm--crypto-token-symbol',
-  template: ''
+  selector: "m--crypto-token-symbol",
+  template: ""
 })
-class CryptoTokenSymbolMock { }
+class CryptoTokenSymbolMock {}
 
 @Directive({
-  selector: '[autoGrow]',
-  inputs: ['autoGrow', '_model: ngModel'],
+  selector: "[autoGrow]",
+  inputs: ["autoGrow", "_model: ngModel"],
   host: {
-    '(keydown)': 'grow()',
-    '(paste)': 'grow()',
-    '(change)': 'grow()',
-    '(ngModelChange)': 'grow()'
+    "(keydown)": "grow()",
+    "(paste)": "grow()",
+    "(change)": "grow()",
+    "(ngModelChange)": "grow()"
   }
 })
-
-
 export class AutoGrowMock {
   autoGrow: any;
 
-  set _model(value: any) {
-  }
+  set _model(value: any) {}
 
-  grow() {
-  }
+  grow() {}
 }
 
 @Component({
-  selector: 'm-post-menu',
-  template: '',
-  inputs: [ 'entity', 'canDelete', 'isTranslatable', 'options' ]
+  selector: "m-post-menu",
+  template: "",
+  inputs: ["entity", "canDelete", "isTranslatable", "options"]
 })
-
-export class PostMenuMock {
-}
+export class PostMenuMock {}
 
 @Component({
-  selector: 'm-safe-toggle',
-  template: ''
+  selector: "m-safe-toggle",
+  template: ""
 })
 export class SafeToggleComponentMock {
-  @Input('entity') entity: any;
-  @Output('entityChange') entityChange: EventEmitter<any> = new EventEmitter<any>();
+  @Input("entity") entity: any;
+  @Output("entityChange") entityChange: EventEmitter<any> = new EventEmitter<
+    any
+  >();
 }
 // END MOCKS
 
-describe('Activity', () => {
-
+describe("Activity", () => {
   let comp: Activity;
   let fixture: ComponentFixture<Activity>;
   const defaultActivity = {
     ownerObj: {
-      username: 'minds'
+      username: "minds"
     },
     wire_threshold: {
-      type: 'points',
-      min: '10'
+      type: "points",
+      min: "10"
     },
     wire_totals: {
       points: 10,
@@ -411,21 +389,29 @@ describe('Activity', () => {
     },
     impressions: 100,
     paywall: true,
-    message: 'test'
+    message: "test"
   };
 
   function getActivityMetrics(): DebugElement {
-    return fixture.debugElement.query(By.css('.impressions-tag.m-activity--metrics'));
+    return fixture.debugElement.query(
+      By.css(".impressions-tag.m-activity--metrics")
+    );
   }
 
   function getActivityMetric(i: number): DebugElement {
-    return fixture.debugElement.query(By.css(`.m-activity--metrics .m-activity--metrics-metric:nth-child(${i}) > span`));
+    return fixture.debugElement.query(
+      By.css(
+        `.m-activity--metrics .m-activity--metrics-metric:nth-child(${i}) > span`
+      )
+    );
   }
 
-  let NSFWSelectorServiceMock:any = MockService(NSFWSelectorConsumerService, {});
+  let NSFWSelectorServiceMock: any = MockService(
+    NSFWSelectorConsumerService,
+    {}
+  );
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [
         TagsPipe,
@@ -460,28 +446,26 @@ describe('Activity', () => {
         Activity,
         TokenPipe,
         SafeToggleComponentMock,
-        MockComponent({ 
-          selector: 'm-nsfw-selector',
-          inputs: [ 'selected' ],
-          outputs: [ 'selected'],
+        MockComponent({
+          selector: "m-nsfw-selector",
+          inputs: ["selected"],
+          outputs: ["selected"]
         }),
         MockComponent({
-          selector: 'm-poster-date-selector', 
-          inputs: ['date', 'dateFormat'], 
-          outputs: ['dateChange'] }),
-        MockDirective({
-          selector: '[mIfFeature]',
-          inputs: [ 'mIfFeature' ],
+          selector: "m-poster-date-selector",
+          inputs: ["date", "dateFormat"],
+          outputs: ["dateChange"]
         }),
         MockDirective({
-          selector: '[mIfFeatureElse]',
-          inputs: [ 'mIfFeatureElse' ],
+          selector: "[mIfFeature]",
+          inputs: ["mIfFeature"]
         }),
+        MockDirective({
+          selector: "[mIfFeatureElse]",
+          inputs: ["mIfFeatureElse"]
+        })
       ], // declare the test component
-      imports: [
-        RouterTestingModule,
-        FormsModule/*, CommonModule*/
-      ],
+      imports: [RouterTestingModule, FormsModule /*, CommonModule*/],
       providers: [
         { provide: Client, useValue: clientMock },
         { provide: Session, useValue: sessionMock },
@@ -493,25 +477,24 @@ describe('Activity', () => {
         { provide: ClientMetaService, useValue: clientMetaServiceMock },
         {
           provide: NSFWSelectorConsumerService,
-          useValue: NSFWSelectorServiceMock,
+          useValue: NSFWSelectorServiceMock
         },
         {
           provide: FeaturesService,
-          useValue: MockService(FeaturesService),
+          useValue: MockService(FeaturesService)
         },
         NewsfeedService,
         {
           provide: BlockListService,
-          useValue: MockService(BlockListService),
+          useValue: MockService(BlockListService)
         },
         {
           provide: AutocompleteSuggestionsService,
-          useValue: MockService(AutocompleteSuggestionsService),
+          useValue: MockService(AutocompleteSuggestionsService)
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();  // compile template and css
+    }).compileComponents(); // compile template and css
   }));
 
   // synchronous beforeEach
@@ -525,17 +508,19 @@ describe('Activity', () => {
     comp.detectChanges();
   });
 
-  it('should show m-wire--lock-screen if activity.paywall == true', () => {
-    expect(fixture.debugElement.query(By.css('m-wire--lock-screen'))).not.toBeNull();
+  it("should show m-wire--lock-screen if activity.paywall == true", () => {
+    expect(
+      fixture.debugElement.query(By.css("m-wire--lock-screen"))
+    ).not.toBeNull();
   });
-  it('shouldn\'t show m-wire--lock-screen if activity.paywall == false', () => {
+  it("shouldn't show m-wire--lock-screen if activity.paywall == false", () => {
     const activity = {
       ownerObj: {
-        username: 'minds'
+        username: "minds"
       },
       wire_threshold: {
-        type: 'points',
-        min: '10'
+        type: "points",
+        min: "10"
       },
       wire_totals: {
         points: 10,
@@ -543,26 +528,28 @@ describe('Activity', () => {
         tokens: 1
       },
       impressions: 100,
-      paywall: false,
+      paywall: false
     };
     comp.activity = activity;
 
     fixture.detectChanges();
     comp.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('m-wire--lock-screen'))).toBeNull();
+    expect(
+      fixture.debugElement.query(By.css("m-wire--lock-screen"))
+    ).toBeNull();
   });
 
-  it('should have activity metrics', () => {
+  it("should have activity metrics", () => {
     expect(getActivityMetrics()).toBeDefined();
   });
 
-  it('activity metrics should have token metric', () => {
+  it("activity metrics should have token metric", () => {
     let tokens = getActivityMetric(1);
     expect(tokens).not.toBeNull();
     expect(tokens.nativeElement.textContent).toContain(1);
   });
-  it('activity metrics should have views metric', () => {
+  it("activity metrics should have views metric", () => {
     let views = getActivityMetric(2);
     expect(views).not.toBeNull();
     expect(views.nativeElement.textContent).toContain(100);

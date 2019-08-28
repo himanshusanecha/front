@@ -5,7 +5,7 @@ export class InMemoryStorageService {
   protected entries: { [key: string]: any } = {};
 
   get(key: string): null | any {
-    if (typeof this.entries[key] === 'undefined') {
+    if (typeof this.entries[key] === "undefined") {
       return null;
     }
 
@@ -18,7 +18,7 @@ export class InMemoryStorageService {
   }
 
   destroy(key: string): this {
-    if (typeof this.entries[key] === 'undefined') {
+    if (typeof this.entries[key] === "undefined") {
       return this;
     }
 

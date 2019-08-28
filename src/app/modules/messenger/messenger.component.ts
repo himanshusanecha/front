@@ -1,26 +1,23 @@
-import { Component, Injector, ViewChild } from '@angular/core';
+import { Component, Injector, ViewChild } from "@angular/core";
 
-import { SocketsService } from '../../services/sockets';
-import { Storage } from '../../services/storage';
-import { Client } from '../../services/api';
-import { Session } from '../../services/session';
+import { SocketsService } from "../../services/sockets";
+import { Storage } from "../../services/storage";
+import { Client } from "../../services/api";
+import { Session } from "../../services/session";
 
-import { MessengerConversationDockpanesService } from './dockpanes/dockpanes.component';
-import { MessengerEncryptionService } from './encryption/encryption.service';
-import { MessengerSounds } from './sounds/service';
+import { MessengerConversationDockpanesService } from "./dockpanes/dockpanes.component";
+import { MessengerEncryptionService } from "./encryption/encryption.service";
+import { MessengerSounds } from "./sounds/service";
 
-import { MessengerUserlist } from './userlist/userlist.component';
-import { MessengerSetupChat } from './setup/setup.component';
-
+import { MessengerUserlist } from "./userlist/userlist.component";
+import { MessengerSetupChat } from "./setup/setup.component";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-messenger',
-  templateUrl: 'messenger.component.html'
+  selector: "m-messenger",
+  templateUrl: "messenger.component.html"
 })
-
 export class Messenger {
-
   encryption = this.injector.get(MessengerEncryptionService);
   sounds = new MessengerSounds();
 
@@ -29,15 +26,15 @@ export class Messenger {
   minds: Minds = window.Minds;
   storage: Storage = new Storage();
 
-  @ViewChild('userList', { static: true }) userList: MessengerUserlist;
-  @ViewChild('setupChat', { static: false }) setupChat: MessengerSetupChat;
+  @ViewChild("userList", { static: true }) userList: MessengerUserlist;
+  @ViewChild("setupChat", { static: false }) setupChat: MessengerSetupChat;
 
   constructor(
     public session: Session,
     public client: Client,
     public sockets: SocketsService,
     private injector: Injector
-  ) { }
+  ) {}
 
   ngAfterViewInit() {
     // @todo: get rid of this ugly global window hack
@@ -47,7 +44,7 @@ export class Messenger {
   }
 
   ngOnDestroy() {
-    (<any>window).openMessengerWindow = function () {
+    (<any>window).openMessengerWindow = function() {
       return;
     };
   }
@@ -59,6 +56,5 @@ export class Messenger {
       this.setupChat.openPane();
     }
   }
-
 }
-export { MessengerConversation } from './conversation/conversation.component';
+export { MessengerConversation } from "./conversation/conversation.component";

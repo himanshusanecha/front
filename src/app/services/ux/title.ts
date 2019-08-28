@@ -1,17 +1,16 @@
-import { Title } from '@angular/platform-browser';
+import { Title } from "@angular/platform-browser";
 
 export class MindsTitle {
-
   private counter: number;
-  private sep = ' | ';
-  private default_title = 'Minds';
-  private text: string = '';
+  private sep = " | ";
+  private default_title = "Minds";
+  private text: string = "";
 
   static _(title: Title) {
     return new MindsTitle(title);
   }
 
-  constructor(public title: Title) { }
+  constructor(public title: Title) {}
 
   setTitle(value: string, join = true) {
     let title;
@@ -27,11 +26,9 @@ export class MindsTitle {
     this.applyTitle();
   }
 
-
   setCounter(value: number) {
     this.counter = value;
     this.applyTitle();
-
   }
 
   applyTitle() {
@@ -40,7 +37,5 @@ export class MindsTitle {
     } else {
       this.title.setTitle(this.text);
     }
-
   }
-
 }

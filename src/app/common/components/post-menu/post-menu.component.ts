@@ -1,41 +1,46 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Session } from '../../../services/session';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { Client } from '../../../services/api/client';
-import { ReportCreatorComponent } from '../../../modules/report/creator/creator.component';
-import { MindsUser } from '../../../interfaces/entities';
-import { SignupModalService } from '../../../modules/modals/signup/service';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from "@angular/core";
+import { Session } from "../../../services/session";
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { Client } from "../../../services/api/client";
+import { ReportCreatorComponent } from "../../../modules/report/creator/creator.component";
+import { MindsUser } from "../../../interfaces/entities";
+import { SignupModalService } from "../../../modules/modals/signup/service";
 import { BlockListService } from "../../services/block-list.service";
-import { ShareModalComponent } from '../../../modules/modals/share/share';
-
+import { ShareModalComponent } from "../../../modules/modals/share/share";
 
 type Option =
-  'edit'
-  | 'view'
-  | 'translate'
-  | 'share'
-  | 'follow'
-  | 'unfollow'
-  | 'feature'
-  | 'unfeature'
-  | 'delete'
-  | 'report'
-  | 'set-explicit'
-  | 'remove-explicit'
-  | 'monetize'
-  | 'unmonetize'
-  | 'subscribe'
-  | 'unsubscribe'
-  | 'rating'
-  | 'block';
+  | "edit"
+  | "view"
+  | "translate"
+  | "share"
+  | "follow"
+  | "unfollow"
+  | "feature"
+  | "unfeature"
+  | "delete"
+  | "report"
+  | "set-explicit"
+  | "remove-explicit"
+  | "monetize"
+  | "unmonetize"
+  | "subscribe"
+  | "unsubscribe"
+  | "rating"
+  | "block";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-post-menu',
-  templateUrl: 'post-menu.component.html',
+  selector: "m-post-menu",
+  templateUrl: "post-menu.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class PostMenuComponent {
   @Input() entity: any;
   @Input() options: Array<Option>;
@@ -45,7 +50,7 @@ export class PostMenuComponent {
   @Input() askForCategoriesWhenFeaturing: boolean = false;
   @Input() user: any;
 
-  featuredCategory: string = 'not-selected';
+  featuredCategory: string = "not-selected";
 
   asyncFollow: boolean = false;
   asyncFollowInProgress: boolean = false;
@@ -65,7 +70,7 @@ export class PostMenuComponent {
     private cd: ChangeDetectorRef,
     private overlayModal: OverlayModalService,
     public signupModal: SignupModalService,
-    protected blockListService: BlockListService,
+    protected blockListService: BlockListService
   ) {
     this.initCategories();
   }
@@ -74,7 +79,7 @@ export class PostMenuComponent {
     for (let category in window.Minds.categories) {
       this.categories.push({
         id: category,
-        label: window.Minds.categories[category],
+        label: window.Minds.categories[category]
       });
     }
   }
@@ -93,12 +98,13 @@ export class PostMenuComponent {
     this.asyncFollowInProgress = true;
     this.detectChanges();
 
-    this.client.get(`api/v2/notifications/follow/${this.entity.guid}`)
+    this.client
+      .get(`api/v2/notifications/follow/${this.entity.guid}`)
       .then((response: any) => {
         this.asyncFollowInProgress = false;
         this.asyncFollow = true;
 
-        this.entity['is:following'] = !!response.postSubscription.following;
+        this.entity["is:following"] = !!response.postSubscription.following;
         this.detectChanges();
       })
       .catch(e => {
@@ -108,44 +114,46 @@ export class PostMenuComponent {
   }
 
   follow() {
-    this.entity['is:following'] = true;
+    this.entity["is:following"] = true;
 
-    this.client.put(`api/v2/notifications/follow/${this.entity.guid}`)
+    this.client
+      .put(`api/v2/notifications/follow/${this.entity.guid}`)
       .then((response: any) => {
         if (response.done) {
-          this.entity['is:following'] = true;
+          this.entity["is:following"] = true;
           this.detectChanges();
           return;
         }
 
-        throw new Error('E_NOT_DONE');
+        throw new Error("E_NOT_DONE");
       })
       .catch(e => {
-        this.entity['is:following'] = false;
+        this.entity["is:following"] = false;
         this.detectChanges();
       });
 
-    this.selectOption('follow');
+    this.selectOption("follow");
   }
 
   unfollow() {
-    this.entity['is:following'] = false;
+    this.entity["is:following"] = false;
 
-    this.client.delete(`api/v2/notifications/follow/${this.entity.guid}`)
+    this.client
+      .delete(`api/v2/notifications/follow/${this.entity.guid}`)
       .then((response: any) => {
         if (response.done) {
-          this.entity['is:following'] = false;
+          this.entity["is:following"] = false;
           this.detectChanges();
           return;
         }
 
-        throw new Error('E_NOT_DONE');
+        throw new Error("E_NOT_DONE");
       })
       .catch(e => {
-        this.entity['is:following'] = true;
+        this.entity["is:following"] = true;
         this.detectChanges();
       });
-    this.selectOption('unfollow');
+    this.selectOption("unfollow");
   }
 
   asyncBlockFetch() {
@@ -157,7 +165,8 @@ export class PostMenuComponent {
     this.detectChanges();
 
     //Owner
-    this.client.get(`api/v1/block/${this.entity.ownerObj.guid}`)
+    this.client
+      .get(`api/v1/block/${this.entity.ownerObj.guid}`)
       .then((response: any) => {
         this.asyncBlockInProgress = false;
         this.asyncBlock = response.blocked;
@@ -170,33 +179,35 @@ export class PostMenuComponent {
   }
 
   unBlock() {
-    this.client.delete('api/v1/block/' + this.entity.ownerObj.guid, {})
+    this.client
+      .delete("api/v1/block/" + this.entity.ownerObj.guid, {})
       .then((response: any) => {
         this.asyncBlock = false;
         this.detectChanges();
 
         this.blockListService.remove(`${this.entity.ownerObj.guid}`);
       })
-      .catch((e) => {
+      .catch(e => {
         this.asyncBlock = true;
         this.detectChanges();
       });
-    this.selectOption('block');
+    this.selectOption("block");
   }
 
   block() {
-    this.client.put('api/v1/block/' + this.entity.ownerObj.guid, {})
+    this.client
+      .put("api/v1/block/" + this.entity.ownerObj.guid, {})
       .then((response: any) => {
         this.asyncBlock = true;
         this.detectChanges();
 
         this.blockListService.add(`${this.entity.ownerObj.guid}`);
       })
-      .catch((e) => {
+      .catch(e => {
         this.asyncBlock = false;
         this.detectChanges();
       });
-    this.selectOption('block');
+    this.selectOption("block");
   }
 
   feature() {
@@ -206,89 +217,96 @@ export class PostMenuComponent {
     }
     this.entity.featured = true;
 
-    this.client.put('api/v1/admin/feature/' + this.entity.guid + '/' + this.featuredCategory)
+    this.client
+      .put(
+        "api/v1/admin/feature/" + this.entity.guid + "/" + this.featuredCategory
+      )
       .catch(() => {
         this.entity.featured = false;
         this.detectChanges();
       });
-    this.selectOption('feature');
+    this.selectOption("feature");
   }
 
   unFeature() {
     this.entity.featured = false;
 
-    this.client.delete('api/v1/admin/feature/' + this.entity.guid)
-      .catch(() => {
-        this.entity.featured = true;
-        this.detectChanges();
-      });
-    this.selectOption('unfeature');
+    this.client.delete("api/v1/admin/feature/" + this.entity.guid).catch(() => {
+      this.entity.featured = true;
+      this.detectChanges();
+    });
+    this.selectOption("unfeature");
   }
 
   delete() {
     this.deleteToggle = false;
-    this.selectOption('delete');
+    this.selectOption("delete");
   }
 
   report() {
-    console.warn(this.user, this.entity, this.session.getLoggedInUser().guid, this.entity.ownerObj.guid);
-    this.overlayModal.create(ReportCreatorComponent, this.entity)
-      .present();
-    this.selectOption('report');
+    console.warn(
+      this.user,
+      this.entity,
+      this.session.getLoggedInUser().guid,
+      this.entity.ownerObj.guid
+    );
+    this.overlayModal.create(ReportCreatorComponent, this.entity).present();
+    this.selectOption("report");
   }
 
   setExplicit(explicit: boolean) {
-    this.selectOption(explicit ? 'set-explicit': 'remove-explicit');
+    this.selectOption(explicit ? "set-explicit" : "remove-explicit");
   }
 
   monetize() {
-    if (this.entity.monetized)
-      return this.unMonetize();
+    if (this.entity.monetized) return this.unMonetize();
 
     this.entity.monetized = true;
 
-    this.client.put('api/v1/monetize/' + this.entity.guid, {})
-      .catch((e) => {
-        this.entity.monetized = false;
-      });
+    this.client.put("api/v1/monetize/" + this.entity.guid, {}).catch(e => {
+      this.entity.monetized = false;
+    });
   }
 
   unMonetize() {
     this.entity.monetized = false;
-    this.client.delete('api/v1/monetize/' + this.entity.guid, {})
-      .catch((e) => {
-        this.entity.monetized = true;
-      });
+    this.client.delete("api/v1/monetize/" + this.entity.guid, {}).catch(e => {
+      this.entity.monetized = true;
+    });
   }
 
   subscribe() {
     if (!this.session.isLoggedIn()) {
-      this.signupModal.setSubtitle('You need to have a channel in order to subscribe').open();
+      this.signupModal
+        .setSubtitle("You need to have a channel in order to subscribe")
+        .open();
       return false;
     }
 
     this.user.subscribed = true;
-    this.client.post('api/v1/subscribe/' + this.user.guid, {})
+    this.client
+      .post("api/v1/subscribe/" + this.user.guid, {})
       .then((response: any) => {
         if (response && response.error) {
-          throw 'error';
+          throw "error";
         }
 
         this.user.subscribed = true;
       })
-      .catch((e) => {
+      .catch(e => {
         this.user.subscribed = false;
-        alert('You can\'t subscribe to this user.');
+        alert("You can't subscribe to this user.");
       });
   }
 
   unSubscribe() {
     this.user.subscribed = false;
-    this.client.delete('api/v1/subscribe/' + this.user.guid, {})
+    this.client
+      .delete("api/v1/subscribe/" + this.user.guid, {})
       .then((response: any) => {
         this.user.subscribed = false;
       })
-      .catch((e) => {
+      .catch(e => {
         this.user.subscribed = true;
       });
   }
@@ -304,32 +322,33 @@ export class PostMenuComponent {
     this.featureToggle = false;
   }
 
-
   detectChanges() {
     this.cd.markForCheck();
   }
 
   setRating(rating: number) {
-    this.client.post(`api/v1/admin/rating/${this.entity.guid}/${rating}`, {})
+    this.client
+      .post(`api/v1/admin/rating/${this.entity.guid}/${rating}`, {})
       .then((response: any) => {
         this.entity.rating = rating;
         this.detectChanges();
       });
-    this.selectOption('rating');
+    this.selectOption("rating");
   }
 
-  onNSFWSelected(reasons: Array<{ label, value, selected}>) {
+  onNSFWSelected(reasons: Array<{ label; value; selected }>) {
     const nsfw = reasons.map(reason => reason.value);
     this.client.post(`api/v2/admin/nsfw/${this.entity.guid}`, { nsfw });
     this.entity.nsfw = nsfw;
   }
 
   openShareModal() {
-    this.overlayModal.create(ShareModalComponent, this.entity.url, {
-      class: 'm-overlay-modal--medium m-overlayModal__share'
-    }).present();
+    this.overlayModal
+      .create(ShareModalComponent, this.entity.url, {
+        class: "m-overlay-modal--medium m-overlayModal__share"
+      })
+      .present();
 
-    this.selectOption('share');
+    this.selectOption("share");
   }
-
 }

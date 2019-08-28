@@ -1,30 +1,28 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { BoostPublisherPayoutsComponent } from './payouts.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
-import { Session } from '../../../../services/session';
-import { sessionMock } from '../../../../../tests/session-mock.spec';
-import { clientMock } from '../../../../../tests/client-mock.spec';
-import { MockDirective } from '../../../../utils/mock';
-import { Client } from '../../../../services/api/client';
-import { DebugElement } from '@angular/core';
+import { BoostPublisherPayoutsComponent } from "./payouts.component";
+import { ReactiveFormsModule } from "@angular/forms";
+import { RouterTestingModule } from "@angular/router/testing";
+import { By } from "@angular/platform-browser";
+import { Session } from "../../../../services/session";
+import { sessionMock } from "../../../../../tests/session-mock.spec";
+import { clientMock } from "../../../../../tests/client-mock.spec";
+import { MockDirective } from "../../../../utils/mock";
+import { Client } from "../../../../services/api/client";
+import { DebugElement } from "@angular/core";
 
-describe('BoostPublisherPayoutsComponent', () => {
-
+describe("BoostPublisherPayoutsComponent", () => {
   let comp: BoostPublisherPayoutsComponent;
   let fixture: ComponentFixture<BoostPublisherPayoutsComponent>;
 
   function getButton(): DebugElement {
-    return fixture.debugElement.query(By.css('button'));
+    return fixture.debugElement.query(By.css("button"));
   }
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [
-        MockDirective({ selector: '[mdl]', inputs: ['mdl'] }),
+        MockDirective({ selector: "[mdl]", inputs: ["mdl"] }),
         BoostPublisherPayoutsComponent
       ],
       imports: [RouterTestingModule, ReactiveFormsModule],
@@ -32,11 +30,10 @@ describe('BoostPublisherPayoutsComponent', () => {
         { provide: Session, useValue: sessionMock },
         { provide: Client, useValue: clientMock }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
-  beforeEach((done) => {
+  beforeEach(done => {
     jasmine.clock().uninstall();
     jasmine.clock().install();
     fixture = TestBed.createComponent(BoostPublisherPayoutsComponent);
@@ -52,7 +49,6 @@ describe('BoostPublisherPayoutsComponent', () => {
         done();
       });
     }
-
   });
 
   afterEach(() => {
@@ -65,15 +61,15 @@ describe('BoostPublisherPayoutsComponent', () => {
     const button = getButton();
 
     expect(button).not.toBeNull();
-    expect(button.nativeElement.textContent).toContain('Request a payout');
+    expect(button.nativeElement.textContent).toContain("Request a payout");
   });
 
-  it('should request a payout', () => {
+  it("should request a payout", () => {
     const button = getButton();
 
-    const url = 'api/v1/payout';
+    const url = "api/v1/payout";
 
-    clientMock.response[url] = { status: 'success' };
+    clientMock.response[url] = { status: "success" };
 
     button.nativeElement.click();
 
@@ -83,5 +79,4 @@ describe('BoostPublisherPayoutsComponent', () => {
     expect(clientMock.post).toHaveBeenCalled();
     expect(clientMock.post.calls.mostRecent().args[0]).toBe(url);
   });
-
 });

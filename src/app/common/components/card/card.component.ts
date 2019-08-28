@@ -8,27 +8,28 @@ import {
   ChangeDetectorRef,
   ComponentRef,
   ElementRef
-} from '@angular/core';
+} from "@angular/core";
 
-import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
+import { DynamicHostDirective } from "../../directives/dynamic-host.directive";
 
-import { UserCard } from '../../../modules/legacy/components/cards/user/user';
-import { Activity } from '../../../modules/legacy/components/cards/activity/activity';
-import { GroupsCard } from '../../../modules/groups/card/card';
-import { ImageCard } from '../../../modules/legacy/components/cards/object/image/image';
-import { VideoCard } from '../../../modules/legacy/components/cards/object/video/video';
-import { AlbumCard } from '../../../modules/legacy/components/cards/object/album/album';
-import { BlogCard } from '../../../modules/blogs/card/card';
+import { UserCard } from "../../../modules/legacy/components/cards/user/user";
+import { Activity } from "../../../modules/legacy/components/cards/activity/activity";
+import { GroupsCard } from "../../../modules/groups/card/card";
+import { ImageCard } from "../../../modules/legacy/components/cards/object/image/image";
+import { VideoCard } from "../../../modules/legacy/components/cards/object/video/video";
+import { AlbumCard } from "../../../modules/legacy/components/cards/object/album/album";
+import { BlogCard } from "../../../modules/blogs/card/card";
 import { CommentComponentV2 } from "../../../modules/comments/comment/comment.component";
 
 @Component({
-  selector: 'minds-card',
+  selector: "minds-card",
   template: `
     <ng-template dynamic-host></ng-template>
   `
 })
 export class MindsCard implements AfterViewInit {
-  @ViewChild(DynamicHostDirective, { static: true }) cardHost: DynamicHostDirective;
+  @ViewChild(DynamicHostDirective, { static: true })
+  cardHost: DynamicHostDirective;
 
   object: any = {};
   type: string;
@@ -37,20 +38,18 @@ export class MindsCard implements AfterViewInit {
   componentInstance: any;
   anchorRef: ElementRef;
 
-  cssClasses: string = '';
+  cssClasses: string = "";
   flags: any = {};
 
   private initialized: boolean = false;
 
-  constructor(
-    private _componentFactoryResolver: ComponentFactoryResolver
-  ) { }
+  constructor(private _componentFactoryResolver: ComponentFactoryResolver) {}
 
-  @Input('object') set _object(value: any) {
+  @Input("object") set _object(value: any) {
     const oldType = this.type;
 
     this.object = value ? value : {};
-    this.type = `${this.object.type || ''}/${this.object.subtype || ''}`;
+    this.type = `${this.object.type || ""}/${this.object.subtype || ""}`;
 
     if (this.initialized) {
       if (!this.componentInstance || this.type !== oldType) {
@@ -61,15 +60,15 @@ export class MindsCard implements AfterViewInit {
     }
   }
 
-  @Input('hostClass') set _hostClass(value: string) {
-    this.cssClasses = value || '';
+  @Input("hostClass") set _hostClass(value: string) {
+    this.cssClasses = value || "";
 
     if (this.initialized) {
       this.updateClasses();
     }
   }
 
-  @Input('flags') set _flags(value: any) {
+  @Input("flags") set _flags(value: any) {
     this.flags = value || {};
 
     if (this.initialized) {
@@ -87,21 +86,21 @@ export class MindsCard implements AfterViewInit {
       return null;
     }
 
-    if (object.type === 'user') {
+    if (object.type === "user") {
       return UserCard;
-    } else if (object.type === 'activity') {
+    } else if (object.type === "activity") {
       return Activity;
-    } else if (object.type === 'group') {
+    } else if (object.type === "group") {
       return GroupsCard;
-    } else if (object.subtype === 'image') {
+    } else if (object.subtype === "image") {
       return ImageCard;
-    } else if (object.subtype === 'video') {
+    } else if (object.subtype === "video") {
       return VideoCard;
-    } else if (object.subtype === 'blog') {
+    } else if (object.subtype === "blog") {
       return BlogCard;
-    } else if (object.subtype === 'album') {
+    } else if (object.subtype === "album") {
       return AlbumCard;
-    } else if (object.type === 'comment') {
+    } else if (object.type === "comment") {
       return CommentComponentV2;
     }
 
@@ -115,7 +114,9 @@ export class MindsCard implements AfterViewInit {
       return;
     }
 
-    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(componentClass),
+    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(
+        componentClass
+      ),
       viewContainerRef = this.cardHost.viewContainerRef;
 
     viewContainerRef.clear();
@@ -133,20 +134,23 @@ export class MindsCard implements AfterViewInit {
       return;
     }
 
-    if (this.object.type === 'group') {
+    if (this.object.type === "group") {
       (<GroupsCard>this.componentInstance).group = this.object;
-    } else if (this.object.subtype === 'blog') {
+    } else if (this.object.subtype === "blog") {
       (<BlogCard>this.componentInstance)._blog = this.object;
-    } else if (this.object.type === 'comment') {
-      const commentComp: CommentComponentV2 = <CommentComponentV2>this.componentInstance;
+    } else if (this.object.type === "comment") {
+      const commentComp: CommentComponentV2 = <CommentComponentV2>(
+        this.componentInstance
+      );
       commentComp.comment = this.object;
       commentComp.canEdit = false;
       commentComp.hideToolbar = this.flags.hideTabs || true;
     } else {
       this.componentInstance.object = this.object;
 
-      if (this.object.type === 'activity') {
-        (<Activity>this.componentInstance).hideTabs = this.flags.hideTabs || false;
+      if (this.object.type === "activity") {
+        (<Activity>this.componentInstance).hideTabs =
+          this.flags.hideTabs || false;
       }
     }
 

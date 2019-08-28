@@ -1,8 +1,7 @@
-import { Client } from '../../../services/api';
-import { Storage } from '../../../services/storage';
+import { Client } from "../../../services/api";
+import { Storage } from "../../../services/storage";
 
 export class MessengerEncryptionService {
-
   public reKeying: boolean = false;
 
   private on: boolean = false;
@@ -12,21 +11,21 @@ export class MessengerEncryptionService {
     return new MessengerEncryptionService(client, new Storage());
   }
 
-  constructor(public client: Client, public storage: Storage) {
-  }
+  constructor(public client: Client, public storage: Storage) {}
 
   isOn(): boolean {
     //if(!this.on){
-    this.on = !!this.storage.get('encryption-unlocked');
+    this.on = !!this.storage.get("encryption-unlocked");
     //}
     return this.on;
   }
 
   unlock(password: string) {
     return new Promise((resolve, reject) => {
-      this.client.post('api/v2/messenger/keys/unlock', { password: password })
+      this.client
+        .post("api/v2/messenger/keys/unlock", { password: password })
         .then((response: any) => {
-          this.storage.set('encryption-unlocked', true);
+          this.storage.set("encryption-unlocked", true);
           this.on = true;
           resolve();
         })
@@ -46,9 +45,13 @@ export class MessengerEncryptionService {
 
   doSetup(password: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.client.post('api/v2/messenger/keys/setup', { password: password, download: false })
+      this.client
+        .post("api/v2/messenger/keys/setup", {
+          password: password,
+          download: false
+        })
         .then((response: any) => {
-          this.storage.set('encryption-unlocked', true);
+          this.storage.set("encryption-unlocked", true);
           this.setup = true;
           this.on = true;
           resolve();
@@ -61,9 +64,13 @@ export class MessengerEncryptionService {
 
   rekey(password: string) {
     return new Promise((resolve, reject) => {
-      this.client.post('api/v2/messenger/keys/setup', { password: password, download: false })
+      this.client
+        .post("api/v2/messenger/keys/setup", {
+          password: password,
+          download: false
+        })
         .then((response: any) => {
-          this.storage.set('encryption-unlocked', true);
+          this.storage.set("encryption-unlocked", true);
           this.setup = true;
           this.on = true;
           this.reKeying = false;
@@ -76,8 +83,7 @@ export class MessengerEncryptionService {
   }
 
   logout() {
-    this.storage.destroy('encryption-unlocked');
+    this.storage.destroy("encryption-unlocked");
     this.on = false;
   }
-
 }

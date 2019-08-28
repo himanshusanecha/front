@@ -1,22 +1,25 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { Client } from '../../../services/api/client';
+import { EventEmitter, Injectable } from "@angular/core";
+import { Client } from "../../../services/api/client";
 
 type Hashtag = {
-  value: string, selected: boolean
+  value: string;
+  selected: boolean;
 };
 
 @Injectable()
 export class TopbarHashtagsService {
-  selectionChange: EventEmitter<{ hashtag: Hashtag, emitter: any }> = new EventEmitter<{ hashtag: Hashtag, emitter: any }>();
+  selectionChange: EventEmitter<{
+    hashtag: Hashtag;
+    emitter: any;
+  }> = new EventEmitter<{ hashtag: Hashtag; emitter: any }>();
 
-  constructor(private client: Client) {
-  }
+  constructor(private client: Client) {}
 
   async load(limit: number, opts: any = {}) {
     const response: any = await this.client.get(`api/v2/hashtags/suggested`, {
       limit: limit,
-      trending: opts.trending ? 1 : '',
-      defaults: opts.defaults ? 1 : '',
+      trending: opts.trending ? 1 : "",
+      defaults: opts.defaults ? 1 : ""
     });
 
     return response.tags.sort(this._sortHashtags);
@@ -25,8 +28,8 @@ export class TopbarHashtagsService {
   async loadAll(opts: any = {}) {
     const response: any = await this.client.get(`api/v2/hashtags/suggested`, {
       limit: opts.softLimit,
-      trending: opts.trending ? 1 : '',
-      defaults: opts.defaults ? 1 : '',
+      trending: opts.trending ? 1 : "",
+      defaults: opts.defaults ? 1 : ""
     });
 
     return response.tags.sort(this._sortHashtags);
@@ -42,7 +45,7 @@ export class TopbarHashtagsService {
     }
 
     // By type
-    const typeOrder = ['default', 'trending', 'implicit', 'user']; // Reversed, first ones are less relevant
+    const typeOrder = ["default", "trending", "implicit", "user"]; // Reversed, first ones are less relevant
     const aTypeWeight = typeOrder.findIndex(type => a.type === type);
     const bTypeWeight = typeOrder.findIndex(type => b.type === type);
 
@@ -73,7 +76,7 @@ export class TopbarHashtagsService {
   cleanupHashtag(hashtag: string) {
     const regex = /\w*/gm;
     let m;
-    let result = '';
+    let result = "";
 
     while ((m = regex.exec(hashtag)) !== null) {
       // This is necessary to avoid infinite loops with zero-width matches

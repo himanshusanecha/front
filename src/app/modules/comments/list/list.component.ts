@@ -1,20 +1,32 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Renderer,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Renderer,
   ViewChild
-} from '@angular/core';
+} from "@angular/core";
 
-import { Client } from '../../../services/api/client';
-import { Session } from '../../../services/session';
-import { Upload } from '../../../services/api/upload';
-import { AttachmentService } from '../../../services/attachment';
-import { Textarea } from '../../../common/components/editors/textarea.component';
-import { SocketsService } from '../../../services/sockets';
+import { Client } from "../../../services/api/client";
+import { Session } from "../../../services/session";
+import { Upload } from "../../../services/api/upload";
+import { AttachmentService } from "../../../services/attachment";
+import { Textarea } from "../../../common/components/editors/textarea.component";
+import { SocketsService } from "../../../services/sockets";
 
 @Component({
   moduleId: module.id,
-  selector: 'minds-comments',
-  inputs: ['_object : object', '_reversed : reversed', 'limit', 'focusOnInit', 'scrollable'],
-  templateUrl: 'list.component.html',
+  selector: "minds-comments",
+  inputs: [
+    "_object : object",
+    "_reversed : reversed",
+    "limit",
+    "focusOnInit",
+    "scrollable"
+  ],
+  templateUrl: "list.component.html",
   providers: [
     {
       provide: AttachmentService,
@@ -24,31 +36,29 @@ import { SocketsService } from '../../../services/sockets';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class CommentsListComponent {
-
   minds;
   object;
-  guid: string = '';
+  guid: string = "";
   parent: any;
   @Input() parentGuid = 0;
-  @Input() focusedCommentGuid: string = '';
+  @Input() focusedCommentGuid: string = "";
   comments: Array<any> = [];
-  content = '';
+  content = "";
   reversed: boolean = false;
 
   focusOnInit: boolean = false;
   scrollable: boolean = false;
-  @ViewChild('message', { static: false }) textareaControl: Textarea;
-  @ViewChild('scrollArea', { static: true }) scrollView: ElementRef;
+  @ViewChild("message", { static: false }) textareaControl: Textarea;
+  @ViewChild("scrollArea", { static: true }) scrollView: ElementRef;
 
   editing: boolean = false;
 
   showModal: boolean = false;
 
   limit: number = 12;
-  earlierToken: string = '';
-  laterToken: string = '';
+  earlierToken: string = "";
+  laterToken: string = "";
   descendingInProgress: boolean = false;
   ascendingInProgress: boolean = false;
   canPost: boolean = true;
@@ -89,16 +99,13 @@ export class CommentsListComponent {
   set _object(value: any) {
     this.object = value;
     this.guid = this.object.guid;
-    if (this.object.entity_guid)
-      this.guid = this.object.entity_guid;
+    if (this.object.entity_guid) this.guid = this.object.entity_guid;
     this.parent = this.object;
   }
 
   set _reversed(value: boolean) {
-    if (value)
-      this.reversed = true;
-    else
-      this.reversed = false;
+    if (value) this.reversed = true;
+    else this.reversed = false;
   }
 
   ngOnInit() {
@@ -108,11 +115,11 @@ export class CommentsListComponent {
 
   load(refresh = false, descending = true) {
     if (refresh) {
-      this.earlierToken = '';
-      this.laterToken = '';
-      this.moreDescendingData = descending || this.focusedCommentGuid !== '';
-      this.moreAscendingData = !descending || this.focusedCommentGuid !== '';
-      this.moreAscendingData = this.focusedCommentGuid !== '';
+      this.earlierToken = "";
+      this.laterToken = "";
+      this.moreDescendingData = descending || this.focusedCommentGuid !== "";
+      this.moreAscendingData = !descending || this.focusedCommentGuid !== "";
+      this.moreAscendingData = this.focusedCommentGuid !== "";
       this.comments = [];
 
       if (this.socketRoomName) {
@@ -121,11 +128,14 @@ export class CommentsListComponent {
       this.socketRoomName = void 0;
     }
 
-    if ((this.ascendingInProgress && !descending) || (this.descendingInProgress && descending)) {
+    if (
+      (this.ascendingInProgress && !descending) ||
+      (this.descendingInProgress && descending)
+    ) {
       return;
     }
 
-    this.error = '';
+    this.error = "";
     if (descending) {
       this.descendingInProgress = true;
     } else {
@@ -133,17 +143,17 @@ export class CommentsListComponent {
     }
     this.detectChanges();
 
-    const parent_path = this.parent.child_path || "0:0:0"; 
+    const parent_path = this.parent.child_path || "0:0:0";
 
-    this.client.get(`api/v1/comments/${this.guid}/0/${parent_path}`, {
-      limit: refresh ? 5 : this.limit, 
-      token: descending ? this.earlierToken : this.laterToken,
-      offset: this.focusedCommentGuid || '',
-      include_offset: !this.focusedCommentGuid == descending,
-      descending: descending,
-    })
+    this.client
+      .get(`api/v1/comments/${this.guid}/0/${parent_path}`, {
+        limit: refresh ? 5 : this.limit,
+        token: descending ? this.earlierToken : this.laterToken,
+        offset: this.focusedCommentGuid || "",
+        include_offset: !this.focusedCommentGuid == descending,
+        descending: descending
+      })
       .then((response: any) => {
-      
         if (!this.socketRoomName && response.socketRoomName) {
           this.socketRoomName = response.socketRoomName;
           this.joinSocketRoom();
@@ -179,7 +189,7 @@ export class CommentsListComponent {
         this.detectChanges();
 
         if (refresh) {
-          this.commentsScrollEmitter.emit('bottom');
+          this.commentsScrollEmitter.emit("bottom");
         }
 
         if (this.earlierToken && this.scrollView) {
@@ -189,12 +199,12 @@ export class CommentsListComponent {
         }
 
         if (descending) {
-          this.earlierToken = response['load-previous'];
+          this.earlierToken = response["load-previous"];
           if (!this.earlierToken) {
             this.moreDescendingData = false;
           }
         } else {
-          this.laterToken = response['load-previous'];
+          this.laterToken = response["load-previous"];
           if (!this.laterToken) {
             this.moreAscendingData = false;
           }
@@ -202,13 +212,13 @@ export class CommentsListComponent {
 
         this.detectChanges();
       })
-      .catch((e) => {
+      .catch(e => {
         if (descending) {
           this.descendingInProgress = false;
         } else {
           this.ascendingInProgress = false;
         }
-        this.error = (e && e.message) || 'There was an error';
+        this.error = (e && e.message) || "There was an error";
         this.detectChanges();
       });
   }
@@ -239,7 +249,8 @@ export class CommentsListComponent {
     this.overscrollAmount += deltaY;
 
     this.overscrollTimer = setTimeout(() => {
-      if (this.overscrollAmount < -75) { //75px
+      if (this.overscrollAmount < -75) {
+        //75px
         this.autoloadPrevious();
       }
 
@@ -280,42 +291,52 @@ export class CommentsListComponent {
   }
 
   listen() {
-    this.socketSubscriptions.comment = this.sockets.subscribe('comment', (entity_guid, owner_guid, guid) => {
-      if (entity_guid !== this.guid) {
-        return;
+    this.socketSubscriptions.comment = this.sockets.subscribe(
+      "comment",
+      (entity_guid, owner_guid, guid) => {
+        if (entity_guid !== this.guid) {
+          return;
+        }
+
+        if (
+          this.session.isLoggedIn() &&
+          owner_guid === this.session.getLoggedInUser().guid
+        ) {
+          return;
+        }
+
+        const parent_path = this.parent.child_path || "0:0:0";
+
+        this.client
+          .get(`api/v1/comments/${this.guid}/${guid}/${parent_path}`, {
+            limit: 1,
+            reversed: false,
+            descending: true
+          })
+          .then((response: any) => {
+            if (!response.comments || response.comments.length === 0) {
+              return;
+            }
+
+            // if the list is scrolled to the bottom
+            let scrolledToBottom =
+              this.scrollView.nativeElement.scrollTop +
+                this.scrollView.nativeElement.clientHeight >=
+              this.scrollView.nativeElement.scrollHeight;
+
+            if (response.comments[0]._guid == guid)
+              this.comments.push(response.comments[0]);
+
+            this.detectChanges();
+
+            if (scrolledToBottom) {
+              this.commentsScrollEmitter.emit("bottom");
+            }
+          });
       }
+    );
 
-      if (this.session.isLoggedIn() && owner_guid === this.session.getLoggedInUser().guid) {
-        return;
-      }
-
-      const parent_path = this.parent.child_path || "0:0:0";
-
-      this.client.get(`api/v1/comments/${this.guid}/${guid}/${parent_path}`, { 
-          limit: 1,
-          reversed: false,
-          descending: true,
-        })
-        .then((response: any) => {
-          if (!response.comments || response.comments.length === 0) {
-            return;
-          }
-
-          // if the list is scrolled to the bottom
-          let scrolledToBottom = this.scrollView.nativeElement.scrollTop + this.scrollView.nativeElement.clientHeight >= this.scrollView.nativeElement.scrollHeight;
-
-          if (response.comments[0]._guid == guid)
-            this.comments.push(response.comments[0]);
-
-          this.detectChanges();
-
-          if (scrolledToBottom) {
-            this.commentsScrollEmitter.emit('bottom');
-          }
-        });
-    });
-
-    this.sockets.subscribe('reply', (guid) => {
+    this.sockets.subscribe("reply", guid => {
       for (let i = 0; i < this.comments.length; i++) {
         if (this.comments[i]._guid == guid) {
           this.comments[i].replies_count++;
@@ -324,38 +345,48 @@ export class CommentsListComponent {
       }
     });
 
-    this.sockets.subscribe('vote', (guid, owner_guid, direction) => {
-      if (this.session.isLoggedIn() && owner_guid === this.session.getLoggedInUser().guid) {
+    this.sockets.subscribe("vote", (guid, owner_guid, direction) => {
+      if (
+        this.session.isLoggedIn() &&
+        owner_guid === this.session.getLoggedInUser().guid
+      ) {
         return;
       }
-      let key = 'thumbs:' + direction + ':count';
+      let key = "thumbs:" + direction + ":count";
       for (let i = 0; i < this.comments.length; i++) {
-         if (this.comments[i]._guid == guid) {
-           this.comments[i][key]++;
-           this.detectChanges();
-         }
-       }
-       //this.comments = this.comments.slice(0);
-       this.detectChanges();
-     });
+        if (this.comments[i]._guid == guid) {
+          this.comments[i][key]++;
+          this.detectChanges();
+        }
+      }
+      //this.comments = this.comments.slice(0);
+      this.detectChanges();
+    });
 
-     this.sockets.subscribe('vote:cancel', (guid, owner_guid, direction) => {
-       if (this.session.isLoggedIn() && owner_guid === this.session.getLoggedInUser().guid) {
-         return;
-       }
-       let key = 'thumbs:' + direction + ':count';
-       for (let i = 0; i < this.comments.length; i++) {
-         if (this.comments[i]._guid == guid) {
-           this.comments[i][key]--;
-           this.detectChanges();
-         }
-       }
-     }); 
-  
+    this.sockets.subscribe("vote:cancel", (guid, owner_guid, direction) => {
+      if (
+        this.session.isLoggedIn() &&
+        owner_guid === this.session.getLoggedInUser().guid
+      ) {
+        return;
+      }
+      let key = "thumbs:" + direction + ":count";
+      for (let i = 0; i < this.comments.length; i++) {
+        if (this.comments[i]._guid == guid) {
+          this.comments[i][key]--;
+          this.detectChanges();
+        }
+      }
+    });
   }
 
   postEnabled() {
-    return !this.descendingInProgress && !this.ascendingInProgress && this.canPost && ((this.content && this.content.trim() !== '') || this.attachment.has());
+    return (
+      !this.descendingInProgress &&
+      !this.ascendingInProgress &&
+      this.canPost &&
+      ((this.content && this.content.trim() !== "") || this.attachment.has())
+    );
   }
 
   keypress(e: KeyboardEvent) {
@@ -371,7 +402,11 @@ export class CommentsListComponent {
       return;
     }
 
-    if (this.descendingInProgress || this.ascendingInProgress || !this.postEnabled()) {
+    if (
+      this.descendingInProgress ||
+      this.ascendingInProgress ||
+      !this.postEnabled()
+    ) {
       this.triedToPost = true;
       this.detectChanges();
 
@@ -381,36 +416,42 @@ export class CommentsListComponent {
     this.content = this.content.trim();
 
     let data = this.attachment.exportMeta();
-    data['comment'] = this.content;
-    data['parent_path'] = this.parent.child_path || '0:0:0';
+    data["comment"] = this.content;
+    data["parent_path"] = this.parent.child_path || "0:0:0";
 
-    let newLength = this.comments.push({ // Optimistic
-      description: this.content,
-      guid: 0,
-      ownerObj: this.session.getLoggedInUser(),
-      owner_guid: this.session.getLoggedInUser().guid,
-      time_created: Date.now() / 1000,
-      type: 'comment',
-    }), currentIndex = newLength - 1;
+    let newLength = this.comments.push({
+        // Optimistic
+        description: this.content,
+        guid: 0,
+        ownerObj: this.session.getLoggedInUser(),
+        owner_guid: this.session.getLoggedInUser().guid,
+        time_created: Date.now() / 1000,
+        type: "comment"
+      }),
+      currentIndex = newLength - 1;
 
     this.attachment.reset();
-    this.content = '';
+    this.content = "";
 
     this.detectChanges();
 
-    this.commentsScrollEmitter.emit('bottom');
+    this.commentsScrollEmitter.emit("bottom");
 
     try {
-      let response: any = await this.client.post('api/v1/comments/' + this.guid, data);
+      let response: any = await this.client.post(
+        "api/v1/comments/" + this.guid,
+        data
+      );
       this.comments[currentIndex] = response.comment;
     } catch (e) {
-      this.comments[currentIndex].error = (e && e.message) || 'There was an error';
-      console.error('Error posting', e);
+      this.comments[currentIndex].error =
+        (e && e.message) || "There was an error";
+      console.error("Error posting", e);
     }
 
     this.detectChanges();
 
-    this.commentsScrollEmitter.emit('bottom');
+    this.commentsScrollEmitter.emit("bottom");
   }
 
   isLoggedIn() {
@@ -419,7 +460,6 @@ export class CommentsListComponent {
       this.detectChanges();
     }
   }
-
 
   delete(index: number) {
     this.comments.splice(index, 1);
@@ -443,7 +483,8 @@ export class CommentsListComponent {
 
     this.attachment.setHidden(true);
     this.attachment.setContainer(this.object);
-    this.attachment.upload(file)
+    this.attachment
+      .upload(file)
       .then(guid => {
         this.canPost = true;
         this.triedToPost = false;
@@ -463,15 +504,18 @@ export class CommentsListComponent {
     this.canPost = false;
     this.triedToPost = false;
 
-    this.attachment.remove(file).then(() => {
-      this.canPost = true;
-      this.triedToPost = false;
-      file.value = '';
-    }).catch(e => {
-      console.error(e);
-      this.canPost = true;
-      this.triedToPost = false;
-    });
+    this.attachment
+      .remove(file)
+      .then(() => {
+        this.canPost = true;
+        this.triedToPost = false;
+        file.value = "";
+      })
+      .catch(e => {
+        console.error(e);
+        this.canPost = true;
+        this.triedToPost = false;
+      });
 
     this.detectChanges();
   }
@@ -500,10 +544,12 @@ export class CommentsListComponent {
   }
 
   getAvatar() {
-    if(this.session.isLoggedIn()) {
-      return `${this.minds.cdn_url}icon/${this.session.getLoggedInUser().guid}/small/${this.session.getLoggedInUser().icontime}`;
+    if (this.session.isLoggedIn()) {
+      return `${this.minds.cdn_url}icon/${
+        this.session.getLoggedInUser().guid
+      }/small/${this.session.getLoggedInUser().icontime}`;
     } else {
-      return `${this.minds.cdn_assets_url}assets/avatars/default-small.png`
+      return `${this.minds.cdn_assets_url}assets/avatars/default-small.png`;
     }
   }
 
@@ -513,7 +559,6 @@ export class CommentsListComponent {
   }
 
   ngOnChanges(changes) {
-  //  console.log('[comment:list]: on changes', changes);
+    //  console.log('[comment:list]: on changes', changes);
   }
-
 }

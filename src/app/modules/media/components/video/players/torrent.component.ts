@@ -1,29 +1,38 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
   ViewChild
-} from '@angular/core';
-import { MindsPlayerInterface } from './player.interface';
-import { WebtorrentService } from '../../../../webtorrent/webtorrent.service';
-import { Client } from '../../../../../services/api/client';
-import base64ToBlob from '../../../../../helpers/base64-to-blob';
+} from "@angular/core";
+import { MindsPlayerInterface } from "./player.interface";
+import { WebtorrentService } from "../../../../webtorrent/webtorrent.service";
+import { Client } from "../../../../../services/api/client";
+import base64ToBlob from "../../../../../helpers/base64-to-blob";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-video--torrent-player',
-  templateUrl: 'torrent.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: "m-video--torrent-player",
+  templateUrl: "torrent.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy, MindsPlayerInterface {
-  @ViewChild('player', { static: true }) player: ElementRef;
+export class MindsVideoTorrentPlayer
+  implements OnInit, AfterViewInit, OnDestroy, MindsPlayerInterface {
+  @ViewChild("player", { static: true }) player: ElementRef;
 
   @Input() muted: boolean = false;
-  @Input() poster: string = '';
+  @Input() poster: string = "";
   @Input() autoplay: boolean = false;
   @Input() guid: string | number;
 
   src: string;
-  @Input('src') set _src(src: string) {
+  @Input("src") set _src(src: string) {
     this.src = src;
 
     if (this.initialized) {
@@ -38,7 +47,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
   @Output() onPlay: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onPause: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onEnd: EventEmitter<HTMLVideoElement> = new EventEmitter();
-  @Output() onError: EventEmitter<{ player, e }> = new EventEmitter();
+  @Output() onError: EventEmitter<{ player; e }> = new EventEmitter();
   @Output() onCanPlayThrough: EventEmitter<any> = new EventEmitter();
   @Output() onLoadedMetadata: EventEmitter<any> = new EventEmitter();
 
@@ -55,7 +64,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
     ul: 0,
     dl: 0,
     ulspeed: 0,
-    dlspeed: 0,
+    dlspeed: 0
   };
   protected infoTimer$: any;
 
@@ -64,15 +73,18 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
   constructor(
     protected cd: ChangeDetectorRef,
     protected client: Client,
-    protected webtorrent: WebtorrentService,
-  ) { }
+    protected webtorrent: WebtorrentService
+  ) {}
 
   protected _emitPlay = () => this.onPlay.emit(this.getPlayer());
   protected _emitPause = () => this.onPause.emit(this.getPlayer());
   protected _emitEnd = () => this.onEnd.emit(this.getPlayer());
-  protected _emitError = e => this.onError.emit({ player: this.getPlayer(), e});
-  protected _emitCanPlayThrough = () => this.onCanPlayThrough.emit(this.getPlayer());
-  protected _emitLoadedMetadata = () => this.onLoadedMetadata.emit(this.getPlayer());
+  protected _emitError = e =>
+    this.onError.emit({ player: this.getPlayer(), e });
+  protected _emitCanPlayThrough = () =>
+    this.onCanPlayThrough.emit(this.getPlayer());
+  protected _emitLoadedMetadata = () =>
+    this.onLoadedMetadata.emit(this.getPlayer());
 
   protected _canPlayThrough = () => {
     this.loading = false;
@@ -100,14 +112,18 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
   };
 
   protected _refreshInfo = () => {
-    if (!this.torrentId || !this.torrentReady || !this.webtorrent.get(this.torrentId)) {
+    if (
+      !this.torrentId ||
+      !this.torrentReady ||
+      !this.webtorrent.get(this.torrentId)
+    ) {
       this.torrentInfo = {
         progress: 0,
         peers: 0,
         ul: 0,
         dl: 0,
         ulspeed: 0,
-        dlspeed: 0,
+        dlspeed: 0
       };
     } else {
       const torrent = this.webtorrent.get(this.torrentId);
@@ -118,7 +134,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
         ul: torrent.uploaded,
         dl: torrent.downloaded,
         ulspeed: torrent.uploadSpeed,
-        dlspeed: torrent.downloadSpeed,
+        dlspeed: torrent.downloadSpeed
       };
     }
 
@@ -127,15 +143,15 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit() {
     const player = this.getPlayer();
-    player.addEventListener('playing', this._emitPlay);
-    player.addEventListener('pause', this._emitPause);
-    player.addEventListener('ended', this._emitEnd);
-    player.addEventListener('error', this._onPlayerError);
-    player.addEventListener('canplaythrough', this._canPlayThrough);
-    player.addEventListener('loadedmetadata', this._emitLoadedMetadata);
+    player.addEventListener("playing", this._emitPlay);
+    player.addEventListener("pause", this._emitPause);
+    player.addEventListener("ended", this._emitEnd);
+    player.addEventListener("error", this._onPlayerError);
+    player.addEventListener("canplaythrough", this._canPlayThrough);
+    player.addEventListener("loadedmetadata", this._emitLoadedMetadata);
 
     this.infoTimer$ = setInterval(this._refreshInfo, 1000);
-    this.isModal = document.body.classList.contains('m-overlay-modal--shown');
+    this.isModal = document.body.classList.contains("m-overlay-modal--shown");
   }
 
   ngAfterViewInit() {
@@ -156,12 +172,12 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
     const player = this.getPlayer();
 
     if (player) {
-      player.removeEventListener('playing', this._emitPlay);
-      player.removeEventListener('pause', this._emitPause);
-      player.removeEventListener('ended', this._emitEnd);
-      player.removeEventListener('error', this._onPlayerError);
-      player.removeEventListener('canplaythrough', this._canPlayThrough);
-      player.removeEventListener('loadedmetadata', this._emitLoadedMetadata);
+      player.removeEventListener("playing", this._emitPlay);
+      player.removeEventListener("pause", this._emitPause);
+      player.removeEventListener("ended", this._emitEnd);
+      player.removeEventListener("error", this._onPlayerError);
+      player.removeEventListener("canplaythrough", this._canPlayThrough);
+      player.removeEventListener("loadedmetadata", this._emitLoadedMetadata);
     }
   }
 
@@ -197,7 +213,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
     const player = this.getPlayer();
 
     if (player.paused) {
-      this.play()
+      this.play();
     } else {
       this.pause();
     }
@@ -275,7 +291,9 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
     let infoHash;
     let webSeed;
     try {
-      const response: any = await this.client.get(`api/v2/media/magnet/${this.src}`);
+      const response: any = await this.client.get(
+        `api/v2/media/magnet/${this.src}`
+      );
 
       torrentFile = base64ToBlob(response.encodedTorrent);
       infoHash = response.infoHash;
@@ -284,7 +302,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
       this.loading = false;
       this.detectChanges();
 
-      console.error('[TorrentVideo] Magnet download', e);
+      console.error("[TorrentVideo] Magnet download", e);
       this._emitError(e);
 
       return;
@@ -301,7 +319,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
       this.loading = false;
       this.detectChanges();
 
-      const file = torrent.files.find(file => file.name.endsWith('.mp4'));
+      const file = torrent.files.find(file => file.name.endsWith(".mp4"));
 
       if (!file) {
         this.loading = false;
@@ -310,8 +328,8 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
         this.webtorrent.remove(this.torrentId);
         this.torrentId = void 0;
 
-        console.error('[TorrentVideo] Video file not found');
-        this._emitError('E_NO_FILE');
+        console.error("[TorrentVideo] Video file not found");
+        this._emitError("E_NO_FILE");
         return;
       }
 
@@ -323,7 +341,7 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
           this.webtorrent.remove(this.torrentId);
           this.torrentId = void 0;
 
-          console.error('[TorrentVideo] Video render', err);
+          console.error("[TorrentVideo] Video render", err);
           this._emitError(err);
           return;
         }
@@ -339,12 +357,11 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
           this.resumeFromTime(time);
         }
       });
-
     } catch (e) {
       this.loading = false;
       this.detectChanges();
 
-      console.error('[TorrentVideo] Webtorrent general error', e);
+      console.error("[TorrentVideo] Webtorrent general error", e);
       this._emitError(e);
     }
   }
@@ -357,5 +374,4 @@ export class MindsVideoTorrentPlayer implements OnInit, AfterViewInit, OnDestroy
       this.torrentReady = false;
     }
   }
-
 }

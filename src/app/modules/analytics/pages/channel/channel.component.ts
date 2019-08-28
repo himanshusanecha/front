@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'm-analytics__channel',
-  templateUrl: 'channel.component.html'
+  selector: "m-analytics__channel",
+  templateUrl: "channel.component.html"
 })
-
-export class ChannelAnalyticsComponent {
-
-}
+export class ChannelAnalyticsComponent {}

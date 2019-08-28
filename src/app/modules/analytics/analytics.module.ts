@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 
-import * as PlotlyJS from 'plotly.js/dist/plotly.js';
-import { PlotlyModule } from 'angular-plotly.js';
+import * as PlotlyJS from "plotly.js/dist/plotly.js";
+import { PlotlyModule } from "angular-plotly.js";
 
 import { AdminAnalyticsComponent } from "./pages/admin/admin.component";
 import { CommonModule } from "../../common/common.module";
@@ -54,23 +54,26 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
 const routes: Routes = [
   {
-    path: 'analytics', component: AnalyticsComponent,
+    path: "analytics",
+    component: AnalyticsComponent,
     children: [
-      { path: '', redirectTo: 'channel', pathMatch: 'full' },
+      { path: "", redirectTo: "channel", pathMatch: "full" },
       {
-        path: 'channel', component: ChannelAnalyticsComponent,
+        path: "channel",
+        component: ChannelAnalyticsComponent,
         children: [
-          { path: '', redirectTo: 'activity', pathMatch: 'full' },
-          { path: 'activity', component: ChannelGeneralAnalyticsComponent },
-          { path: 'reach', component: ChannelReachAnalyticsComponent }
+          { path: "", redirectTo: "activity", pathMatch: "full" },
+          { path: "activity", component: ChannelGeneralAnalyticsComponent },
+          { path: "reach", component: ChannelReachAnalyticsComponent }
         ]
       },
       {
-        path: 'admin', component: AdminAnalyticsComponent,
+        path: "admin",
+        component: AdminAnalyticsComponent,
         children: [
-          { path: '', redirectTo: 'network', pathMatch: 'full' },
-          { path: 'network', component: SiteNetworkActivityAnalyticsComponent },
-          { path: 'token', component: SiteTokenTransactionsAnalyticsComponent },
+          { path: "", redirectTo: "network", pathMatch: "full" },
+          { path: "network", component: SiteNetworkActivityAnalyticsComponent },
+          { path: "token", component: SiteTokenTransactionsAnalyticsComponent }
           // { path: 'plus', component: OffChainBoostsCardComponent},
         ]
       }
@@ -83,13 +86,13 @@ const routes: Routes = [
     NgCommonModule,
     CommonModule,
     RouterModule.forChild(routes),
-    PlotlyModule,
+    PlotlyModule
   ],
   exports: [
     AdminAnalyticsComponent,
     PostsChartComponent,
     ActiveUsersChartComponent,
-    AnalyticsCardComponent,
+    AnalyticsCardComponent
   ],
   declarations: [
     AnalyticsCardComponent,
@@ -134,9 +137,8 @@ const routes: Routes = [
     EngagementCardComponent,
     PageviewsChartComponent,
     PageviewsCardComponent,
-    Graph,
+    Graph
   ],
-  providers: [],
+  providers: []
 })
-export class AnalyticsModule {
-}
+export class AnalyticsModule {}

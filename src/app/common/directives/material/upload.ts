@@ -1,13 +1,11 @@
-import { Directive, ElementRef } from '@angular/core';
-import { Material as MaterialService } from '../../../services/ui';
+import { Directive, ElementRef } from "@angular/core";
+import { Material as MaterialService } from "../../../services/ui";
 
 @Directive({
-  selector: '[mdlUpload]',
-  inputs: ['mdlUpload', 'progress']
+  selector: "[mdlUpload]",
+  inputs: ["mdlUpload", "progress"]
 })
-
 export class MaterialUpload {
-
   mdlUpload: any;
   private element: any;
 
@@ -24,8 +22,7 @@ export class MaterialUpload {
       this.element.MaterialProgress.setProgress(value);
     else
       setTimeout(() => {
-        this.element.MaterialProgress.setProgress(value)
+        this.element.MaterialProgress.setProgress(value);
       });
   }
-
 }

@@ -1,11 +1,9 @@
-
-import { TokenIntroductionOnboardingComponent } from './introduction/introduction.component';
-import { TokenRewardsOnboardingComponent } from './rewards/rewards.component';
-import { TokenOnChainOnboardingComponent } from './onchain/onchain.component';
-import { TokenCompletedOnboardingComponent } from './completed/completed.component';
+import { TokenIntroductionOnboardingComponent } from "./introduction/introduction.component";
+import { TokenRewardsOnboardingComponent } from "./rewards/rewards.component";
+import { TokenOnChainOnboardingComponent } from "./onchain/onchain.component";
+import { TokenCompletedOnboardingComponent } from "./completed/completed.component";
 
 export class TokenOnboardingService {
-
   slides = [
     TokenIntroductionOnboardingComponent,
     TokenRewardsOnboardingComponent,
@@ -27,5 +25,4 @@ export class TokenOnboardingService {
   get slide(): any {
     return this.slides[this.currentSlide];
   }
-
 }

@@ -2,42 +2,42 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, Input,
+  ElementRef,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild,
   Output,
-  EventEmitter,
-} from '@angular/core';
-import { Client } from '../../../services/api/client';
-import { MindsTitle } from '../../../services/ux/title';
-import { WireCreatorComponent } from '../../wire/creator/creator.component';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { BlockchainTdeBuyComponent } from '../tde-buy/tde-buy.component';
-import { Session } from '../../../services/session';
-import { Web3WalletService } from '../web3-wallet.service';
-import { TokenDistributionEventService } from '../contracts/token-distribution-event.service';
-import isMobile from '../../../helpers/is-mobile';
-import * as BN from 'bn.js';
+  EventEmitter
+} from "@angular/core";
+import { Client } from "../../../services/api/client";
+import { MindsTitle } from "../../../services/ux/title";
+import { WireCreatorComponent } from "../../wire/creator/creator.component";
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { BlockchainTdeBuyComponent } from "../tde-buy/tde-buy.component";
+import { Session } from "../../../services/session";
+import { Web3WalletService } from "../web3-wallet.service";
+import { TokenDistributionEventService } from "../contracts/token-distribution-event.service";
+import isMobile from "../../../helpers/is-mobile";
+import * as BN from "bn.js";
 
 @Component({
-  selector: 'm-blockchain__eth-modal',
-  templateUrl: 'eth-modal.component.html',
+  selector: "m-blockchain__eth-modal",
+  templateUrl: "eth-modal.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlockchainEthModalComponent implements OnInit {
-
   @Input() rate = 1;
   @Output() close: EventEmitter<boolean> = new EventEmitter(true);
 
-  error: string = '';
+  error: string = "";
   usd: number = 40;
   hasMetamask: boolean = true; // True by default
 
   constructor(
     private web3Wallet: Web3WalletService,
-    private cd: ChangeDetectorRef,
-  ) { }
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     // grab latest ETH rate
@@ -45,7 +45,7 @@ export class BlockchainEthModalComponent implements OnInit {
   }
 
   async detectMetamask() {
-    this.hasMetamask = !await this.web3Wallet.isLocal();
+    this.hasMetamask = !(await this.web3Wallet.isLocal());
     this.detectChanges();
   }
 
@@ -57,7 +57,7 @@ export class BlockchainEthModalComponent implements OnInit {
   }
 
   get eth(): number {
-    return this.usd / this.ethRate; 
+    return this.usd / this.ethRate;
   }
 
   setEth(eth) {
@@ -65,23 +65,23 @@ export class BlockchainEthModalComponent implements OnInit {
   }
 
   async buy() {
-    this.error = '';
+    this.error = "";
     this.detectChanges();
 
     if (!this.hasMetamask) {
-      this.error = 'You need to install metamask';
+      this.error = "You need to install metamask";
       this.detectChanges();
       return;
     }
 
     if (this.usd > 40) {
       this.usd = 40;
-      this.error = 'You can not purchase more than $40';
+      this.error = "You can not purchase more than $40";
       this.detectChanges();
       return;
     }
 
-    let win = window.open('/checkout?usd=' + this.usd);
+    let win = window.open("/checkout?usd=" + this.usd);
     this.close.next(true);
   }
 
@@ -93,5 +93,4 @@ export class BlockchainEthModalComponent implements OnInit {
   isMobile() {
     return isMobile();
   }
-
 }

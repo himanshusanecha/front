@@ -1,32 +1,33 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from "@angular/core";
 
-import { Client } from '../../../common/api/client.service';
+import { Client } from "../../../common/api/client.service";
 
 @Component({
-  selector: 'm-affiliate--marketing',
-  templateUrl: 'marketing.component.html',
+  selector: "m-affiliate--marketing",
+  templateUrl: "marketing.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class AffiliateMarketingComponent {
-
   minds = window.Minds;
   user = window.Minds.user;
   showOnboarding: boolean = false;
-  link: string = '';
+  link: string = "";
 
   constructor(private client: Client, private cd: ChangeDetectorRef) {
     if (this.user)
-      this.link = this.minds.site_url + 'register;referrer=' + this.user.username;
+      this.link =
+        this.minds.site_url + "register;referrer=" + this.user.username;
   }
 
   isAffiliate() {
-    if (!this.user)
-      return false;
+    if (!this.user) return false;
 
     for (let program of this.user.programs) {
-      if (program === 'affiliate')
-        return true;
+      if (program === "affiliate") return true;
     }
 
     return false;
@@ -37,17 +38,16 @@ export class AffiliateMarketingComponent {
       this.showOnboarding = true;
       return;
     }
-    this.user.programs.push('affiliate');
-    this.client.put('api/v1/monetization/affiliates');
+    this.user.programs.push("affiliate");
+    this.client.put("api/v1/monetization/affiliates");
     this.detectChanges();
   }
 
   onboardCompleted(response) {
-
     this.user.merchant = {
       id: response.id,
-      service: 'stripe',
-      status: 'awaiting-document',
+      service: "stripe",
+      status: "awaiting-document",
       exclusive: {
         enabled: true,
         amount: 10
@@ -64,5 +64,4 @@ export class AffiliateMarketingComponent {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

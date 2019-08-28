@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Client } from '../../../services/api/client';
-import { Session } from '../../../services/session';
-import { MindsTitle } from '../../../services/ux/title';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Client } from "../../../services/api/client";
+import { Session } from "../../../services/session";
+import { MindsTitle } from "../../../services/ux/title";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'm-helpdesk--questions',
-  templateUrl: 'questions.component.html'
+  selector: "m-helpdesk--questions",
+  templateUrl: "questions.component.html"
 })
-
 export class QuestionsComponent implements OnInit {
-
   question: any = {};
 
   minds: Minds = window.Minds;
@@ -20,13 +18,12 @@ export class QuestionsComponent implements OnInit {
     public session: Session,
     public router: Router,
     private route: ActivatedRoute,
-    private title: MindsTitle,
-  ) {
-  }
+    private title: MindsTitle
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.load(params['uuid']);
+      this.load(params["uuid"]);
     });
   }
 
@@ -34,7 +31,9 @@ export class QuestionsComponent implements OnInit {
     this.question = {};
 
     try {
-      const response: any = await this.client.get(`api/v2/helpdesk/questions/question/${uuid}`);
+      const response: any = await this.client.get(
+        `api/v2/helpdesk/questions/question/${uuid}`
+      );
       this.question = response.question;
       this.title.setTitle(this.question.question);
     } catch (e) {
@@ -42,19 +41,23 @@ export class QuestionsComponent implements OnInit {
     }
   }
 
-  hasVoted(direction: 'up' | 'down') {
+  hasVoted(direction: "up" | "down") {
     return this.question[`thumb_${direction}`] === true;
   }
 
-  async castVote(direction: 'up' | 'down') {
+  async castVote(direction: "up" | "down") {
     const key = `thumb_${direction}`;
     this.question[key] = !this.question[key];
 
     try {
       if (this.question[key]) {
-        await this.client.put(`api/v2/helpdesk/questions/${this.question.uuid}/${direction}`);
+        await this.client.put(
+          `api/v2/helpdesk/questions/${this.question.uuid}/${direction}`
+        );
       } else {
-        await this.client.delete(`api/v2/helpdesk/questions/${this.question.uuid}/${direction}`);
+        await this.client.delete(
+          `api/v2/helpdesk/questions/${this.question.uuid}/${direction}`
+        );
       }
     } catch (e) {
       console.error(e);
@@ -64,13 +67,14 @@ export class QuestionsComponent implements OnInit {
 
   async delete() {
     try {
-      if (confirm('Are you sure to delete ' + this.question['uuid'])) {
-        await this.client.delete(`api/v2/admin/helpdesk/questions/${this.question['uuid']}`);
-        this.router.navigate(['/help']);
+      if (confirm("Are you sure to delete " + this.question["uuid"])) {
+        await this.client.delete(
+          `api/v2/admin/helpdesk/questions/${this.question["uuid"]}`
+        );
+        this.router.navigate(["/help"]);
       }
     } catch (e) {
       console.error(e);
     }
   }
-
 }

@@ -1,17 +1,23 @@
-import { Component, Injector, OnDestroy, OnInit, SkipSelf } from "@angular/core";
+import {
+  Component,
+  Injector,
+  OnDestroy,
+  OnInit,
+  SkipSelf
+} from "@angular/core";
 import { GroupsService } from "../../groups-service";
 import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { ClientMetaService } from "../../../../common/services/client-meta.service";
 
 @Component({
-  selector: 'm-group-profile__feed',
-  providers: [ ClientMetaService ],
-  templateUrl: 'feed.component.html',
+  selector: "m-group-profile__feed",
+  providers: [ClientMetaService],
+  templateUrl: "feed.component.html"
 })
 export class GroupProfileFeedComponent implements OnInit, OnDestroy {
   group: any;
-  type: string = 'activities';
+  type: string = "activities";
 
   group$: Subscription;
   param$: Subscription;
@@ -20,12 +26,12 @@ export class GroupProfileFeedComponent implements OnInit, OnDestroy {
     protected service: GroupsService,
     protected route: ActivatedRoute,
     protected clientMetaService: ClientMetaService,
-    @SkipSelf() injector: Injector,
+    @SkipSelf() injector: Injector
   ) {
     this.clientMetaService
       .inherit(injector)
-      .setSource('feed/group')
-      .setMedium('feed');
+      .setSource("feed/group")
+      .setMedium("feed");
   }
 
   ngOnInit() {
@@ -34,7 +40,7 @@ export class GroupProfileFeedComponent implements OnInit, OnDestroy {
     });
 
     this.param$ = this.route.params.subscribe(params => {
-      this.type = params['filter'] || 'activities';
+      this.type = params["filter"] || "activities";
     });
   }
 

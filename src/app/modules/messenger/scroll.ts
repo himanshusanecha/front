@@ -1,15 +1,13 @@
-import { Directive, ElementRef, EventEmitter } from '@angular/core';
-import { Observable, fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Directive, ElementRef, EventEmitter } from "@angular/core";
+import { Observable, fromEvent } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 
 @Directive({
-  selector: '[minds-messenger-scroll]',
-  inputs: ['emitter', 'moreData'],
-  outputs: ['previous', 'next']
+  selector: "[minds-messenger-scroll]",
+  inputs: ["emitter", "moreData"],
+  outputs: ["previous", "next"]
 })
-
 export class MessengerScrollDirective {
-
   previous = new EventEmitter();
   next = new EventEmitter();
   scroll: Observable<any>;
@@ -18,7 +16,7 @@ export class MessengerScrollDirective {
 
   constructor(public _element: ElementRef) {
     this.element = _element.nativeElement;
-    this.scroll = fromEvent(this.element, 'scroll');
+    this.scroll = fromEvent(this.element, "scroll");
   }
 
   set emitter(emitter: any) {
@@ -32,22 +30,19 @@ export class MessengerScrollDirective {
   }
 
   ngOnInit() {
-    this.scroll
-      .pipe(debounceTime(100))
-      .subscribe(() => {
+    this.scroll.pipe(debounceTime(100)).subscribe(() => {
+      if (!this.moreData) return;
 
-        if (!this.moreData)
-          return;
+      if (this.element.scrollTop <= 12) {
+        this.previous.next(true);
+      }
 
-        if (this.element.scrollTop <= 12) {
-          this.previous.next(true);
-        }
-
-        if (this.element.scrollTop + this.element.clientHeight >= this.element.scrollHeight - 12) {
-          this.next.next(true);
-        }
-
-      });
+      if (
+        this.element.scrollTop + this.element.clientHeight >=
+        this.element.scrollHeight - 12
+      ) {
+        this.next.next(true);
+      }
+    });
   }
-
 }

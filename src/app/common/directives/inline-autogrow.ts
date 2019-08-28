@@ -1,14 +1,20 @@
-import { Directive, EventEmitter, ElementRef, Input, HostBinding, HostListener } from '@angular/core';
+import {
+  Directive,
+  EventEmitter,
+  ElementRef,
+  Input,
+  HostBinding,
+  HostListener
+} from "@angular/core";
 
 @Directive({
-  selector: '[inlineAutoGrow]'
+  selector: "[inlineAutoGrow]"
 })
 export class InlineAutoGrow {
-
   _element: HTMLInputElement;
   timeout: any;
 
-  @HostBinding('style.boxSizing') boxSizing: string = 'content-box';
+  @HostBinding("style.boxSizing") boxSizing: string = "content-box";
 
   constructor(element: ElementRef) {
     this._element = element.nativeElement;
@@ -18,23 +24,23 @@ export class InlineAutoGrow {
     });
   }
 
-  @HostListener('keydown') onKeyDown() {
+  @HostListener("keydown") onKeyDown() {
     this.grow();
   }
 
-  @HostListener('paste') onPaste() {
+  @HostListener("paste") onPaste() {
     this.grow();
   }
 
-  @HostListener('change') onChange() {
+  @HostListener("change") onChange() {
     this.grow();
   }
 
-  @HostListener('ngModelChange') onNgModelChange() {
+  @HostListener("ngModelChange") onNgModelChange() {
     this.grow();
   }
 
-  @Input('ngModel') set _model(value: any) {
+  @Input("ngModel") set _model(value: any) {
     this.grow();
   }
 
@@ -45,8 +51,8 @@ export class InlineAutoGrow {
     }
 
     this.timeout = setTimeout(() => {
-      this._element.style.width = '0';
-      this._element.style.width = this._element.scrollWidth + 'px';
+      this._element.style.width = "0";
+      this._element.style.width = this._element.scrollWidth + "px";
     });
   }
 }

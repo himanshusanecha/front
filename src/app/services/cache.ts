@@ -1,5 +1,4 @@
 export class CacheService {
-
   private storage = {};
 
   static _() {
@@ -12,11 +11,10 @@ export class CacheService {
   }
 
   public get(key: string) {
-    if (typeof this.storage[key] === 'undefined') {
+    if (typeof this.storage[key] === "undefined") {
       return;
     }
 
     return this.storage[key];
   }
-
 }

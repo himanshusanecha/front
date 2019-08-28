@@ -1,14 +1,12 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef } from "@angular/core";
 
 @Directive({
-  selector: '[mdlSlider]',
-  inputs: ['mdlSlider', 'ngModel', 'value']
+  selector: "[mdlSlider]",
+  inputs: ["mdlSlider", "ngModel", "value"]
 })
-
 export class MaterialSliderMock {
-
   mdlSlider: any;
-  value: string = '0';
+  value: string = "0";
 
   private element: any;
 
@@ -17,11 +15,13 @@ export class MaterialSliderMock {
   }
 
   set ngModel(value) {
-    if (value === Number.POSITIVE_INFINITY || value === Number.NEGATIVE_INFINITY) {
+    if (
+      value === Number.POSITIVE_INFINITY ||
+      value === Number.NEGATIVE_INFINITY
+    ) {
       return;
     }
 
     this.value = value;
   }
-
 }

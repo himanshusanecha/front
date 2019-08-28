@@ -1,41 +1,56 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter } from "@angular/core";
 
-import { Client } from '../../../services/api';
+import { Client } from "../../../services/api";
 
 @Component({
-  selector: 'm-channel--carousel',
-  inputs: ['_banners: banners', '_editMode: editMode'],
-  outputs: ['done_event: done', 'delete_event: delete'],
+  selector: "m-channel--carousel",
+  inputs: ["_banners: banners", "_editMode: editMode"],
+  outputs: ["done_event: done", "delete_event: delete"],
   template: `
-    <i class="material-icons left" (click)="prev()" [hidden]="banners.length <= 1">keyboard_arrow_left</i>
+    <i
+      class="material-icons left"
+      (click)="prev()"
+      [hidden]="banners.length <= 1"
+      >keyboard_arrow_left</i
+    >
     <div *ngFor="let banner of banners; let i = index">
       <minds-banner
         [src]="banner.src"
         [top]="banner.top_offset"
         [overlay]="true"
-        [ngClass]="{'is-hidden': i != index, 'edit-mode': editing}"
+        [ngClass]="{ 'is-hidden': i != index, 'edit-mode': editing }"
         [editMode]="editing"
         [done]="done"
         (added)="added($event, i)"
-        ></minds-banner>
+      ></minds-banner>
 
-        <div class="delete-button" (click)="delete(i)" [hidden]="i != index || !editing"
-          title="Delete image from current banner carousel slide"
+      <div
+        class="delete-button"
+        (click)="delete(i)"
+        [hidden]="i != index || !editing"
+        title="Delete image from current banner carousel slide"
+      >
+        <button
+          class="mdl-button mdl-button--raised mdl-button--colored material-icons"
         >
-          <button class="mdl-button mdl-button--raised mdl-button--colored material-icons">delete</button>
-        </div>
+          delete
+        </button>
       </div>
-    <i class="material-icons right" (click)="next()" [hidden]="banners.length <= 1">keyboard_arrow_right</i>
+    </div>
+    <i
+      class="material-icons right"
+      (click)="next()"
+      [hidden]="banners.length <= 1"
+      >keyboard_arrow_right</i
+    >
   `
 })
-
 export class CarouselComponent {
-
   minds: Minds = window.Minds;
   banners: Array<any> = [];
 
   editing: boolean = false;
-  src: string = '';
+  src: string = "";
   modified: Array<any> = []; //all banners should be exported to here on the done event, and sent to parent
 
   done_event = new EventEmitter();
@@ -67,10 +82,10 @@ export class CarouselComponent {
    * If the parent set edit mode
    */
   set _editMode(value: boolean) {
-    console.log('[carousel]: edit mode event received');
+    console.log("[carousel]: edit mode event received");
     //was in edit more, now settings not in edit more
     if (this.editing && !value) {
-      console.log('[carousel]: edit mode ended');
+      console.log("[carousel]: edit mode ended");
       this._done();
       return;
     }
@@ -79,13 +94,12 @@ export class CarouselComponent {
     if (!this.editing) {
       return;
     }
-    console.log('[carousel]: edit mode enabled');
+    console.log("[carousel]: edit mode enabled");
     this.rotate = false;
     this.done = false;
     var blank_banner = false;
     for (var i in this.banners) {
-      if (!this.banners[i].src)
-        blank_banner = true;
+      if (!this.banners[i].src) blank_banner = true;
     }
     if (!blank_banner) {
       this.banners.push({
@@ -99,18 +113,14 @@ export class CarouselComponent {
    */
   added(value: any, index) {
     console.log(this.banners[index].guid, value.file);
-    if (!this.banners[index].guid && !value.file)
-      return; //this is our 'add new' post
+    if (!this.banners[index].guid && !value.file) return; //this is our 'add new' post
 
     //detect if we have changed
     var changed = false;
-    if (value.top !== this.banners[index].top)
-      changed = false;
-    if (value.file)
-      changed = true;
+    if (value.top !== this.banners[index].top) changed = false;
+    if (value.file) changed = true;
 
-    if (!changed)
-      return;
+    if (!changed) return;
 
     if (!this.banners[index].src) {
       this.banners[index].src = value.file;
@@ -139,7 +149,7 @@ export class CarouselComponent {
   _done() {
     this.editing = false; //this should update each banner (I'd prefer even driven but change detection works..)
     this.done = true;
-    console.log('[carousel]: received done event');
+    console.log("[carousel]: received done event");
     //after one second?
     setTimeout(() => {
       this.done_event.next(this.modified);
@@ -147,8 +157,7 @@ export class CarouselComponent {
 
       let blank_banner: any = false;
       for (var i in this.banners) {
-        if (!this.banners[i].src)
-          blank_banner = i;
+        if (!this.banners[i].src) blank_banner = i;
       }
 
       if (blank_banner !== false) {
@@ -160,32 +169,25 @@ export class CarouselComponent {
 
   prev() {
     var max = this.banners.length - 1;
-    if (this.index === 0)
-      this.index = max;
-    else
-      this.index--;
-    this.run();//resets the carousel
+    if (this.index === 0) this.index = max;
+    else this.index--;
+    this.run(); //resets the carousel
   }
 
   next() {
     var max = this.banners.length - 1;
-    if (this.index >= max)
-      this.index = 0;
-    else
-      this.index++;
-    this.run();//resets the carousel
+    if (this.index >= max) this.index = 0;
+    else this.index++;
+    this.run(); //resets the carousel
   }
 
   run() {
-    if (this.rotate_timeout)
-      clearTimeout(this.rotate_timeout);
+    if (this.rotate_timeout) clearTimeout(this.rotate_timeout);
     this.rotate_timeout = setTimeout(() => {
       if (this.rotate) {
         var max = this.banners.length - 1;
-        if (this.index >= max)
-          this.index = 0;
-        else
-          this.index++;
+        if (this.index >= max) this.index = 0;
+        else this.index++;
       }
       this.run();
     }, this.interval);
@@ -194,5 +196,4 @@ export class CarouselComponent {
   ngOnDestroy() {
     clearTimeout(this.rotate_timeout);
   }
-
 }

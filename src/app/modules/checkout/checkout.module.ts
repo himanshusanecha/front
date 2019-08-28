@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule as NgCommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { CommonModule as NgCommonModule } from "@angular/common";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
-import { CommonModule } from '../../common/common.module';
+import { CommonModule } from "../../common/common.module";
 
-import { CardInput } from './card/card';
-import { StripeCheckout } from './stripe-checkout';
-import { BlockchainModule } from '../blockchain/blockchain.module';
-import { BlockchainCheckoutComponent } from './blockchain-checkout.component';
+import { CardInput } from "./card/card";
+import { StripeCheckout } from "./stripe-checkout";
+import { BlockchainModule } from "../blockchain/blockchain.module";
+import { BlockchainCheckoutComponent } from "./blockchain-checkout.component";
 
 @NgModule({
   imports: [
@@ -15,18 +15,9 @@ import { BlockchainCheckoutComponent } from './blockchain-checkout.component';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    BlockchainModule,
+    BlockchainModule
   ],
-  declarations: [
-    CardInput,
-    StripeCheckout,
-    BlockchainCheckoutComponent
-  ],
-  exports: [
-    CardInput,
-    StripeCheckout,
-    BlockchainCheckoutComponent
-  ]
+  declarations: [CardInput, StripeCheckout, BlockchainCheckoutComponent],
+  exports: [CardInput, StripeCheckout, BlockchainCheckoutComponent]
 })
-export class CheckoutModule {
-}
+export class CheckoutModule {}

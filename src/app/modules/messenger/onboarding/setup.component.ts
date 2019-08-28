@@ -1,24 +1,23 @@
-import { 
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
   Output,
-  EventEmitter,
-} from '@angular/core';
-import { Router } from '@angular/router';
+  EventEmitter
+} from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Client } from '../../../services/api/client';
-import { Session } from '../../../services/session';
-import { MessengerEncryptionService } from '../encryption/encryption.service';
+import { Client } from "../../../services/api/client";
+import { Session } from "../../../services/session";
+import { MessengerEncryptionService } from "../encryption/encryption.service";
 
 @Component({
-  selector: 'm-messenger--onboarding--setup',
-  templateUrl: 'setup.component.html',
+  selector: "m-messenger--onboarding--setup",
+  templateUrl: "setup.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessengerOnboardingSetupComponent {
-
   @Input() skippable: boolean = true;
   @Output() next: EventEmitter<any> = new EventEmitter();
 
@@ -33,22 +32,20 @@ export class MessengerOnboardingSetupComponent {
     protected cd: ChangeDetectorRef,
     protected session: Session,
     protected router: Router,
-    private encryption: MessengerEncryptionService,
-  ) { 
-
-  }
+    private encryption: MessengerEncryptionService
+  ) {}
 
   setup() {
-    if (this.inProgress)
-      return;
+    if (this.inProgress) return;
     this.inProgress = true;
-    this.encryption.doSetup(this.password2)
+    this.encryption
+      .doSetup(this.password2)
       .then(() => {
         this.next.next(true);
         this.inProgress = false;
       })
       .catch(() => {
-        this.error = 'Sorry, there was a problem.';
+        this.error = "Sorry, there was a problem.";
         this.inProgress = false;
       });
 
@@ -59,5 +56,4 @@ export class MessengerOnboardingSetupComponent {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

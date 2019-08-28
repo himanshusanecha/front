@@ -1,27 +1,34 @@
-import { Component, ElementRef, ChangeDetectorRef, EventEmitter, Renderer, ViewChild, Injector } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ChangeDetectorRef,
+  EventEmitter,
+  Renderer,
+  ViewChild,
+  Injector
+} from "@angular/core";
 
-import { Client } from '../../../services/api';
-import { Session } from '../../../services/session';
-import { Storage } from '../../../services/storage';
-import { SocketsService } from '../../../services/sockets';
+import { Client } from "../../../services/api";
+import { Session } from "../../../services/session";
+import { Storage } from "../../../services/storage";
+import { SocketsService } from "../../../services/sockets";
 
-import { MessengerEncryptionService } from '../encryption/encryption.service';
+import { MessengerEncryptionService } from "../encryption/encryption.service";
 
-import { MessengerConversationDockpanesService } from '../dockpanes/dockpanes.service';
-import { MessengerSounds } from '../sounds/service';
+import { MessengerConversationDockpanesService } from "../dockpanes/dockpanes.service";
+import { MessengerSounds } from "../sounds/service";
 import { BlockListService } from "../../../common/services/block-list.service";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-messenger--conversation',
+  selector: "m-messenger--conversation",
   host: {
-    '(window:focus)': 'onFocus($event)',
-    '(window:blur)': 'onBlur($event)'
+    "(window:focus)": "onFocus($event)",
+    "(window:blur)": "onBlur($event)"
   },
-  inputs: ['conversation'],
-  templateUrl: 'conversation.component.html'
+  inputs: ["conversation"],
+  templateUrl: "conversation.component.html"
 })
-
 export class MessengerConversation {
   minds: Minds = window.Minds;
 
@@ -33,18 +40,18 @@ export class MessengerConversation {
   conversation;
   participants: Array<any> = [];
   messages: Array<any> = [];
-  offset: string = '';
+  offset: string = "";
   open: boolean = false;
   inProgress: boolean = false;
   live: boolean = true;
 
   scrollEmitter: EventEmitter<any> = new EventEmitter();
 
-  message: string = '';
+  message: string = "";
   showMessages: boolean = true; //TODO: find a better way to work out if encryption has been set
   blockingActionInProgress: boolean = false;
 
-  chatNotice: string = '';
+  chatNotice: string = "";
 
   socketSubscriptions = {
     pushConversationMessage: null,
@@ -74,7 +81,7 @@ export class MessengerConversation {
     private renderer: Renderer,
     public encryption: MessengerEncryptionService,
     public dockpanes: MessengerConversationDockpanesService,
-    protected blockListService: BlockListService,
+    protected blockListService: BlockListService
   ) {
     this.buildTabId();
   }
@@ -99,18 +106,20 @@ export class MessengerConversation {
   }
 
   load(opts: any = {}) {
-
-    opts = (<any>Object).assign({
-      limit: 12,
-    }, opts);
+    opts = (<any>Object).assign(
+      {
+        limit: 12
+      },
+      opts
+    );
 
     let scrollView = opts.container;
     delete opts.container;
 
-    if (!opts.finish)
-      this.inProgress = true;
+    if (!opts.finish) this.inProgress = true;
 
-    this.client.get('api/v2/messenger/conversations/' + this.conversation.guid, opts)
+    this.client
+      .get("api/v2/messenger/conversations/" + this.conversation.guid, opts)
       .then((response: any) => {
         this.inProgress = false;
         if (!response.messages) {
@@ -127,13 +136,14 @@ export class MessengerConversation {
             response.messages.pop();
           }
           this.messages = response.messages.concat(this.messages);
-          this.offset = response['load-previous'];
+          this.offset = response["load-previous"];
 
           this.cd.detectChanges();
-          scrollView.scrollTop = scrollTop + scrollView.scrollHeight - scrollHeight;
+          scrollView.scrollTop =
+            scrollTop + scrollView.scrollHeight - scrollHeight;
         } else {
           this.messages = response.messages;
-          this.offset = response['load-previous'];
+          this.offset = response["load-previous"];
           this.scrollEmitter.next(true);
         }
 
@@ -152,67 +162,75 @@ export class MessengerConversation {
 
   listen() {
     if (this.conversation.socketRoomName) {
-
       this.sockets.join(this.conversation.socketRoomName);
 
-      this.socketSubscriptions.pushConversationMessage = this.sockets.subscribe('pushConversationMessage', (guid, message) => {
-        if (guid !== this.conversation.guid)
-          return;
+      this.socketSubscriptions.pushConversationMessage = this.sockets.subscribe(
+        "pushConversationMessage",
+        (guid, message) => {
+          if (guid !== this.conversation.guid) return;
 
-        let fromSelf = false;
+          let fromSelf = false;
 
-        if (this.session.getLoggedInUser().guid === message.ownerObj.guid) {
-          if (this.tabId === message.tabId) {
-            return;
+          if (this.session.getLoggedInUser().guid === message.ownerObj.guid) {
+            if (this.tabId === message.tabId) {
+              return;
+            }
+
+            fromSelf = true;
           }
 
-          fromSelf = true;
+          this.load({ limit: 1, finish: message.guid });
+
+          if (!fromSelf) {
+            this.invalid = false;
+
+            if (!this.focused && document.title.indexOf("\u2022") === -1)
+              document.title = "\u2022 " + document.title;
+
+            this.sounds.play("new");
+          }
         }
+      );
 
-        this.load({ limit: 1, finish: message.guid });
+      this.socketSubscriptions.clearConversation = this.sockets.subscribe(
+        "clearConversation",
+        (guid, actor) => {
+          if (guid !== this.conversation.guid) return;
 
-        if (!fromSelf) {
+          this.messages = [];
+          this.chatNotice = `${actor.name} cleared chat history`;
           this.invalid = false;
-
-          if (!this.focused && document.title.indexOf('\u2022') === -1)
-            document.title = '\u2022 ' + document.title;
-
-          this.sounds.play('new');
         }
-      });
+      );
 
-      this.socketSubscriptions.clearConversation = this.sockets.subscribe('clearConversation', (guid, actor) => {
-        if (guid !== this.conversation.guid)
-          return;
-
-        this.messages = [];
-        this.chatNotice = `${actor.name} cleared chat history`;
-        this.invalid = false;
-
-      });
-
-      this.socketSubscriptions.block = this.sockets.subscribe('block', (guid) => {
-        if (!this.hasParticipant(guid))
-          return;
+      this.socketSubscriptions.block = this.sockets.subscribe("block", guid => {
+        if (!this.hasParticipant(guid)) return;
 
         this.blocked = true;
       });
 
-      this.socketSubscriptions.unblock = this.sockets.subscribe('unblock', (guid) => {
-        if (!this.hasParticipant(guid))
-          return;
+      this.socketSubscriptions.unblock = this.sockets.subscribe(
+        "unblock",
+        guid => {
+          if (!this.hasParticipant(guid)) return;
 
-        this.blocked = false;
-      });
+          this.blocked = false;
+        }
+      );
 
-      this.socketSubscriptions.connect = this.sockets.subscribe('connect', () => {
-        this.live = true;
-      });
+      this.socketSubscriptions.connect = this.sockets.subscribe(
+        "connect",
+        () => {
+          this.live = true;
+        }
+      );
 
-      this.socketSubscriptions.disconnect = this.sockets.subscribe('disconnect', () => {
-        this.live = false;
-      });
-
+      this.socketSubscriptions.disconnect = this.sockets.subscribe(
+        "disconnect",
+        () => {
+          this.live = false;
+        }
+      );
     }
   }
 
@@ -231,23 +249,30 @@ export class MessengerConversation {
   send(e) {
     e.preventDefault();
 
-    if (this.blocked || !this.message
-      || this.message.split(/\r\n|\r|\n/).length >= 10) { //not more than 10 return characters.
+    if (
+      this.blocked ||
+      !this.message ||
+      this.message.split(/\r\n|\r|\n/).length >= 10
+    ) {
+      //not more than 10 return characters.
       return;
     }
 
-    let newLength = this.messages.push({ // Optimistic
-      optimisticGuess: true,
-      owner: this.session.getLoggedInUser(),
-      message: this.message,
-      time_created: Math.floor(Date.now() / 1000)
-    }), currentIndex = newLength - 1;
+    let newLength = this.messages.push({
+        // Optimistic
+        optimisticGuess: true,
+        owner: this.session.getLoggedInUser(),
+        message: this.message,
+        time_created: Math.floor(Date.now() / 1000)
+      }),
+      currentIndex = newLength - 1;
 
-    this.client.post('api/v2/messenger/conversations/' + this.conversation.guid, {
-      message: this.message,
-      encrypt: true,
-      tabId: this.tabId
-    })
+    this.client
+      .post("api/v2/messenger/conversations/" + this.conversation.guid, {
+        message: this.message,
+        encrypt: true,
+        tabId: this.tabId
+      })
       .then((response: any) => {
         if (response.message) {
           this.messages[currentIndex] = response.message;
@@ -260,15 +285,19 @@ export class MessengerConversation {
         setTimeout(() => this.scrollEmitter.next(true), 50);
       })
       .catch(e => {
-        console.error('Error while reading conversation', e);
+        console.error("Error while reading conversation", e);
       });
 
-    this.message = '';
+    this.message = "";
     this.scrollEmitter.next(true);
   }
 
   deleteHistory() {
-    if (!confirm('All messages will be deleted for all parties. You cannot UNDO this action. Are you sure?')) {
+    if (
+      !confirm(
+        "All messages will be deleted for all parties. You cannot UNDO this action. Are you sure?"
+      )
+    ) {
       // TODO: Maybe a non-process-blocking popup?
       return;
     }
@@ -276,12 +305,13 @@ export class MessengerConversation {
     this.messages = []; // Optimistic
     this.blockingActionInProgress = true;
 
-    this.client.delete('api/v2/messenger/conversations/' + this.conversation.guid, {})
+    this.client
+      .delete("api/v2/messenger/conversations/" + this.conversation.guid, {})
       .then((response: any) => {
         this.blockingActionInProgress = false;
       })
       .catch(e => {
-        console.error('Error when deleting history', e);
+        console.error("Error when deleting history", e);
         this.blockingActionInProgress = false;
       });
   }
@@ -292,7 +322,9 @@ export class MessengerConversation {
     }
 
     if (!this.blocked) {
-      if (!confirm('This action will block all parties site-wide. Are you sure?')) {
+      if (
+        !confirm("This action will block all parties site-wide. Are you sure?")
+      ) {
         // TODO: Maybe a non-process-blocking popup?
         return;
       }
@@ -319,7 +351,7 @@ export class MessengerConversation {
         this.blocked = newState;
       })
       .catch(e => {
-        console.error('Error when toggling block on participants', e);
+        console.error("Error when toggling block on participants", e);
         this.blockingActionInProgress = false;
       });
   }
@@ -331,13 +363,15 @@ export class MessengerConversation {
 
     this.invited = true;
     this.invitable.forEach(participant => {
-      this.client.put(`api/v2/messenger/conversations/invite/${participant.guid}`);
+      this.client.put(
+        `api/v2/messenger/conversations/invite/${participant.guid}`
+      );
     });
   }
 
   onFocus(e) {
     this.focused = true;
-    if (document.title.indexOf('\u2022') === 0) {
+    if (document.title.indexOf("\u2022") === 0) {
       document.title = document.title.substr(1);
     }
   }

@@ -1,31 +1,30 @@
-import { NgModule } from '@angular/core';
-import { CommonModule as NgCommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { CommonModule as NgCommonModule } from "@angular/common";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { RouterModule, Routes } from "@angular/router";
 
-import { Client } from '../../services/api';
-import { SocketsService } from '../../services/sockets';
-import { Session } from '../../services/session';
-import { MindsTitle } from '../../services/ux/title';
+import { Client } from "../../services/api";
+import { SocketsService } from "../../services/sockets";
+import { Session } from "../../services/session";
+import { MindsTitle } from "../../services/ux/title";
 
-import { CommonModule } from '../../common/common.module';
+import { CommonModule } from "../../common/common.module";
 
-import { NotificationsFlyoutComponent } from './flyout.component';
-import { NotificationsTopbarToggleComponent } from './toggle.component';
-import { NotificationComponent } from './notification.component';
-import { NotificationsComponent } from './notifications.component';
+import { NotificationsFlyoutComponent } from "./flyout.component";
+import { NotificationsTopbarToggleComponent } from "./toggle.component";
+import { NotificationComponent } from "./notification.component";
+import { NotificationsComponent } from "./notifications.component";
 
-import { NotificationService } from './notification.service';
-import { NotificationsToasterComponent } from './toaster.component';
-
+import { NotificationService } from "./notification.service";
+import { NotificationsToasterComponent } from "./toaster.component";
 
 @NgModule({
   imports: [
     NgCommonModule,
     CommonModule,
     RouterModule.forChild([
-      { path: 'notifications/:filter', component: NotificationsComponent },
-      { path: 'notifications', component: NotificationsComponent }
+      { path: "notifications/:filter", component: NotificationsComponent },
+      { path: "notifications", component: NotificationsComponent }
     ])
   ],
   declarations: [
@@ -33,13 +32,13 @@ import { NotificationsToasterComponent } from './toaster.component';
     NotificationsComponent,
     NotificationComponent,
     NotificationsTopbarToggleComponent,
-    NotificationsToasterComponent,
+    NotificationsToasterComponent
   ],
   providers: [
     {
       provide: NotificationService,
       useFactory: NotificationService._,
-      deps: [ Session, Client, SocketsService, MindsTitle ]
+      deps: [Session, Client, SocketsService, MindsTitle]
     }
   ],
   exports: [
@@ -47,9 +46,7 @@ import { NotificationsToasterComponent } from './toaster.component';
     NotificationsComponent,
     NotificationComponent,
     NotificationsTopbarToggleComponent,
-    NotificationsToasterComponent,
+    NotificationsToasterComponent
   ]
 })
-
-export class NotificationModule {
-}
+export class NotificationModule {}

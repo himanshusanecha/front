@@ -1,28 +1,35 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit
+} from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Client } from '../../../../services/api/client';
-import { Session } from '../../../../services/session';
+import { Client } from "../../../../services/api/client";
+import { Session } from "../../../../services/session";
 
 @Component({
-  selector: 'm-wallet-token--overview',
-  templateUrl: 'overview.component.html',
+  selector: "m-wallet-token--overview",
+  templateUrl: "overview.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WalletTokenContributionsOverviewComponent implements OnInit, OnDestroy {
+export class WalletTokenContributionsOverviewComponent
+  implements OnInit, OnDestroy {
   constructor(
     protected client: Client,
     protected cd: ChangeDetectorRef,
     public session: Session,
-    protected router: Router,
-  ) { }
+    protected router: Router
+  ) {}
 
   overview = {
     nextPayout: null,
     currentReward: null,
     yourContribution: null,
     totalNetworkContribution: null,
-    yourShare: null,
+    yourShare: null
   };
 
   protected updateTimer$;
@@ -38,7 +45,9 @@ export class WalletTokenContributionsOverviewComponent implements OnInit, OnDest
 
   async load() {
     try {
-      const result: any = await this.client.get(`api/v2/blockchain/contributions/overview`);
+      const result: any = await this.client.get(
+        `api/v2/blockchain/contributions/overview`
+      );
 
       this.overview.nextPayout = result.nextPayout;
       this.overview.currentReward = result.currentReward;

@@ -1,39 +1,44 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { Client } from '../../../services/api';
-import { Session } from '../../../services/session';
-import { REASONS } from '../../../services/list-options';
+import {
+  Component,
+  Input,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef
+} from "@angular/core";
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { Client } from "../../../services/api";
+import { Session } from "../../../services/session";
+import { REASONS } from "../../../services/list-options";
 import { EventEmitter } from "@angular/core";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-report--creator',
-  templateUrl: 'creator.component.html'
+  selector: "m-report--creator",
+  templateUrl: "creator.component.html"
 })
-
 export class ReportCreatorComponent implements AfterViewInit {
-
   subject = {
     value: null,
-    hasMore: false,
+    hasMore: false
   };
   subReason = {
-    value: null,
+    value: null
   };
 
-  note: string = '';
-  guid: string = '';
+  note: string = "";
+  guid: string = "";
 
   initialized: boolean = false;
   inProgress: boolean = false;
 
   success: boolean = false;
-  error: string = '';
+  error: string = "";
   subjects = REASONS;
 
   next: boolean = false;
 
-  @Input('object') set data(object) {
+  @Input("object") set data(object) {
     this.guid = object ? object.guid : null;
   }
 
@@ -47,8 +52,8 @@ export class ReportCreatorComponent implements AfterViewInit {
     public session: Session,
     private _changeDetectorRef: ChangeDetectorRef,
     private overlayModal: OverlayModalService,
-    private client: Client,
-  ) { }
+    private client: Client
+  ) {}
 
   ngAfterViewInit() {
     this._changeDetectorRef.detectChanges();
@@ -62,10 +67,7 @@ export class ReportCreatorComponent implements AfterViewInit {
       return false;
       //throw new Error('You cannot report this.');
     }
-    if (this.subject.hasMore 
-      && this.next
-      && !this.subReason.value
-    ) {
+    if (this.subject.hasMore && this.next && !this.subReason.value) {
       return false;
     }
     return true;
@@ -86,7 +88,7 @@ export class ReportCreatorComponent implements AfterViewInit {
    * Shows visible report errors
    */
   showErrors() {
-    this.error = '';
+    this.error = "";
 
     try {
       this.validate();
@@ -122,7 +124,7 @@ export class ReportCreatorComponent implements AfterViewInit {
         entity_guid: this.guid,
         reason_code: this.subject.value,
         note: this.note,
-        sub_reason_code: this.subReason.value,
+        sub_reason_code: this.subReason.value
       });
 
       this.inProgress = false;
@@ -133,12 +135,16 @@ export class ReportCreatorComponent implements AfterViewInit {
       }
 
       if (this._opts && this._opts.onReported) {
-        this._opts.onReported(this.guid, this.subject.value, this.subReason.value);
+        this._opts.onReported(
+          this.guid,
+          this.subject.value,
+          this.subReason.value
+        );
       }
     } catch (e) {
       this.inProgress = false;
       //this.overlayModal.dismiss();\
-      alert('There was an error sending your report.');
+      alert("There was an error sending your report.");
       alert(e.message ? e.message : e);
     }
   }

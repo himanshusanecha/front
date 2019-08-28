@@ -1,4 +1,8 @@
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from "@angular/router";
+import {
+  ActivatedRouteSnapshot,
+  CanDeactivate,
+  RouterStateSnapshot
+} from "@angular/router";
 import { Injectable } from "@angular/core";
 import { GroupsProfile } from "../profile";
 import { Observable } from "rxjs";

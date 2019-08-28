@@ -1,19 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule as NgCommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { CommonModule as NgCommonModule } from "@angular/common";
+import { RouterModule, Routes } from "@angular/router";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { CommonModule } from '../../../../common/common.module';
-import { BlockchainModule } from '../../../blockchain/blockchain.module';
-import { PlusModule } from '../../../plus/plus.module';
+import { CommonModule } from "../../../../common/common.module";
+import { BlockchainModule } from "../../../blockchain/blockchain.module";
+import { PlusModule } from "../../../plus/plus.module";
 
-import { TokenOnboardingComponent } from './onboarding.component';
-import { TokenIntroductionOnboardingComponent } from './introduction/introduction.component';
-import { TokenRewardsOnboardingComponent } from './rewards/rewards.component';
-import { TokenOnChainOnboardingComponent } from './onchain/onchain.component';
-import { TokenCompletedOnboardingComponent } from './completed/completed.component';
-import { TokenOnboardingVideoComponent } from './video.component';
-import { TokenOnboardingService } from './onboarding.service';
+import { TokenOnboardingComponent } from "./onboarding.component";
+import { TokenIntroductionOnboardingComponent } from "./introduction/introduction.component";
+import { TokenRewardsOnboardingComponent } from "./rewards/rewards.component";
+import { TokenOnChainOnboardingComponent } from "./onchain/onchain.component";
+import { TokenCompletedOnboardingComponent } from "./completed/completed.component";
+import { TokenOnboardingVideoComponent } from "./video.component";
+import { TokenOnboardingService } from "./onboarding.service";
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { TokenOnboardingService } from './onboarding.service';
     CommonModule,
     BlockchainModule,
     RouterModule,
-    PlusModule,
+    PlusModule
   ],
   declarations: [
     TokenOnboardingComponent,
@@ -31,26 +31,25 @@ import { TokenOnboardingService } from './onboarding.service';
     TokenRewardsOnboardingComponent,
     TokenOnChainOnboardingComponent,
     TokenCompletedOnboardingComponent,
-    TokenOnboardingVideoComponent,
+    TokenOnboardingVideoComponent
   ],
   exports: [
     TokenOnboardingComponent,
     TokenRewardsOnboardingComponent,
-    TokenOnChainOnboardingComponent,
+    TokenOnChainOnboardingComponent
   ],
   entryComponents: [
     TokenIntroductionOnboardingComponent,
     TokenIntroductionOnboardingComponent,
     TokenRewardsOnboardingComponent,
     TokenOnChainOnboardingComponent,
-    TokenOnboardingComponent,
+    TokenOnboardingComponent
   ],
   providers: [
     {
       provide: TokenOnboardingService,
-      useClass: TokenOnboardingService,
-    },
+      useClass: TokenOnboardingService
+    }
   ]
 })
-
 export class TokenOnboardingModule {}

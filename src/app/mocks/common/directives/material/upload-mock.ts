@@ -1,19 +1,13 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef } from "@angular/core";
 
 @Directive({
-  selector: '[mdlUpload]',
-  inputs: ['mdlUpload', 'progress']
+  selector: "[mdlUpload]",
+  inputs: ["mdlUpload", "progress"]
 })
-
 export class MaterialUploadMock {
-  constructor(_element: ElementRef) {
-  }
+  constructor(_element: ElementRef) {}
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
 
-  set progress(value: number) {
-
-  }
-
+  set progress(value: number) {}
 }

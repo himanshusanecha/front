@@ -1,22 +1,26 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
   ViewChild
-} from '@angular/core';
-import { Client } from '../../../services/api/client';
-import { MindsTitle } from '../../../services/ux/title';
-import { WireCreatorComponent } from '../../wire/creator/creator.component';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { BlockchainTdeBuyComponent } from '../tde-buy/tde-buy.component';
+} from "@angular/core";
+import { Client } from "../../../services/api/client";
+import { MindsTitle } from "../../../services/ux/title";
+import { WireCreatorComponent } from "../../wire/creator/creator.component";
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { BlockchainTdeBuyComponent } from "../tde-buy/tde-buy.component";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-blockchain--marketing',
-  templateUrl: 'marketing.component.html',
+  selector: "m-blockchain--marketing",
+  templateUrl: "marketing.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlockchainMarketingComponent implements OnInit, OnDestroy {
-
-  tdeStats: { tokens, raised, remaining };
+  tdeStats: { tokens; raised; remaining };
 
   isPledgeApproved: boolean = false;
   inProgress: boolean = false;
@@ -32,12 +36,12 @@ export class BlockchainMarketingComponent implements OnInit, OnDestroy {
     protected changeDetectorRef: ChangeDetectorRef,
     protected title: MindsTitle,
     protected overlayModal: OverlayModalService
-  ) { }
+  ) {}
 
   ngOnInit() {
     //this.poll();
 
-    this.title.setTitle('The Minds Token');
+    this.title.setTitle("The Minds Token");
     this.updatePledgeConfirmation();
   }
 
@@ -49,7 +53,7 @@ export class BlockchainMarketingComponent implements OnInit, OnDestroy {
         this.tdeStats = result.stats;
         this.detectChanges();
       } catch (e) {
-        console.error('[TDE Stats]', e);
+        console.error("[TDE Stats]", e);
       }
     };
 
@@ -62,9 +66,12 @@ export class BlockchainMarketingComponent implements OnInit, OnDestroy {
     this.detectChanges();
 
     try {
-      const response: any = await this.client.get('api/v2/blockchain/pledges', { brief: 1 });
+      const response: any = await this.client.get("api/v2/blockchain/pledges", {
+        brief: 1
+      });
 
-      this.isPledgeApproved = response.pledge && response.pledge.status === 'approved';
+      this.isPledgeApproved =
+        response.pledge && response.pledge.status === "approved";
     } catch (e) {
       console.error(e);
     }
@@ -85,14 +92,18 @@ export class BlockchainMarketingComponent implements OnInit, OnDestroy {
   }
 
   showBuy() {
-    const creator = this.overlayModal.create(BlockchainTdeBuyComponent, {}, {
-      onComplete: (payload: any = {}) => {
-        if (payload.changeAmount) {
-          this.isPledgeApproved = false;
-          this.detectChanges();
+    const creator = this.overlayModal.create(
+      BlockchainTdeBuyComponent,
+      {},
+      {
+        onComplete: (payload: any = {}) => {
+          if (payload.changeAmount) {
+            this.isPledgeApproved = false;
+            this.detectChanges();
+          }
         }
       }
-    });
+    );
     creator.present();
   }
 

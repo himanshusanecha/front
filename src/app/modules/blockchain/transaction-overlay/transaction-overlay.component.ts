@@ -6,42 +6,42 @@ import {
   HostBinding,
   HostListener,
   OnInit
-} from '@angular/core';
-import * as ethAccount from 'ethjs-account';
-import * as Eth from 'ethjs';
-import * as BN from 'bn.js';
+} from "@angular/core";
+import * as ethAccount from "ethjs-account";
+import * as Eth from "ethjs";
+import * as BN from "bn.js";
 
-import { TransactionOverlayService } from './transaction-overlay.service';
-import { TokenContractService } from '../contracts/token-contract.service';
-import { Router } from '@angular/router';
-import { Web3WalletService } from '../web3-wallet.service';
-import { GetMetamaskComponent } from '../metamask/getmetamask.component';
+import { TransactionOverlayService } from "./transaction-overlay.service";
+import { TokenContractService } from "../contracts/token-contract.service";
+import { Router } from "@angular/router";
+import { Web3WalletService } from "../web3-wallet.service";
+import { GetMetamaskComponent } from "../metamask/getmetamask.component";
 
 @Component({
   moduleId: module.id,
-  selector: 'm--blockchain--transaction-overlay',
-  templateUrl: 'transaction-overlay.component.html',
+  selector: "m--blockchain--transaction-overlay",
+  templateUrl: "transaction-overlay.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TransactionOverlayComponent implements OnInit {
-  @HostBinding('hidden') _isHidden: boolean = true;
+  @HostBinding("hidden") _isHidden: boolean = true;
 
-  message: string = '';
+  message: string = "";
   comp: number;
 
   minds: Minds = window.Minds;
 
-  data: { unlock, tx, extras } = {
+  data: { unlock; tx; extras } = {
     unlock: {
-      privateKey: '',
+      privateKey: "",
       secureMode: true
     },
-    tx: { },
-    extras: { },
+    tx: {},
+    extras: {}
   };
 
-  balance: string = '0';
-  ethBalance: string = '0';
+  balance: string = "0";
+  ethBalance: string = "0";
 
   droppingKeyFile: boolean = false;
 
@@ -57,8 +57,8 @@ export class TransactionOverlayComponent implements OnInit {
     protected cd: ChangeDetectorRef,
     protected token: TokenContractService,
     protected web3Wallet: Web3WalletService,
-    protected router: Router,
-  ) { }
+    protected router: Router
+  ) {}
 
   ngOnInit() {
     this.service.setComponent(this);
@@ -68,7 +68,12 @@ export class TransactionOverlayComponent implements OnInit {
     return this._isHidden;
   }
 
-  show(comp: number, message: string = '', defaultTxObject: Object = null, extras = {}): EventEmitter<any> {
+  show(
+    comp: number,
+    message: string = "",
+    defaultTxObject: Object = null,
+    extras = {}
+  ): EventEmitter<any> {
     this.message = message;
     this.comp = comp;
     this.reset();
@@ -85,7 +90,7 @@ export class TransactionOverlayComponent implements OnInit {
   }
 
   hide() {
-    this.message = '';
+    this.message = "";
     this.comp = void 0;
     this.reset();
     this.droppingKeyFile = false;
@@ -97,11 +102,11 @@ export class TransactionOverlayComponent implements OnInit {
   reset() {
     this.data = {
       unlock: {
-        privateKey: '',
+        privateKey: "",
         secureMode: true
       },
-      tx: { },
-      extras: { },
+      tx: {},
+      extras: {}
     };
   }
 
@@ -113,11 +118,11 @@ export class TransactionOverlayComponent implements OnInit {
 
     this.data.tx = Object.assign({}, tx);
 
-    if (typeof this.data.tx.gasPrice !== 'undefined') {
-      this.data.tx.gasPrice = Eth.fromWei(this.data.tx.gasPrice, 'Gwei');
+    if (typeof this.data.tx.gasPrice !== "undefined") {
+      this.data.tx.gasPrice = Eth.fromWei(this.data.tx.gasPrice, "Gwei");
     }
 
-    if (typeof this.data.tx.gas === 'undefined') {
+    if (typeof this.data.tx.gas === "undefined") {
       this.data.tx.gas = 0;
     }
   }
@@ -129,7 +134,7 @@ export class TransactionOverlayComponent implements OnInit {
 
     let tx = Object.assign({}, this.data.tx);
 
-    tx.gasPrice = Eth.toWei(tx.gasPrice, 'Gwei');
+    tx.gasPrice = Eth.toWei(tx.gasPrice, "Gwei");
 
     return tx;
   }
@@ -144,7 +149,7 @@ export class TransactionOverlayComponent implements OnInit {
     try {
       let privateKey = this.data.unlock.privateKey;
 
-      if (privateKey.substr(0, 2) !== '0x') {
+      if (privateKey.substr(0, 2) !== "0x") {
         privateKey = `0x${privateKey}`;
       }
 
@@ -163,7 +168,7 @@ export class TransactionOverlayComponent implements OnInit {
 
     let privateKey = this.data.unlock.privateKey;
 
-    if (privateKey.substr(0, 2) !== '0x') {
+    if (privateKey.substr(0, 2) !== "0x") {
       privateKey = `0x${privateKey}`;
     }
 
@@ -175,7 +180,7 @@ export class TransactionOverlayComponent implements OnInit {
     this.hide();
   }
 
-  @HostListener('dragover', ['$event'])
+  @HostListener("dragover", ["$event"])
   keyDragOver(e: any) {
     if (this.comp !== this.COMP_UNLOCK) {
       return;
@@ -185,7 +190,7 @@ export class TransactionOverlayComponent implements OnInit {
     this.droppingKeyFile = true;
   }
 
-  @HostListener('dragleave', ['$event'])
+  @HostListener("dragleave", ["$event"])
   keyDragLeave(e: any) {
     if (this.comp !== this.COMP_UNLOCK) {
       return;
@@ -198,7 +203,7 @@ export class TransactionOverlayComponent implements OnInit {
     }
   }
 
-  @HostListener('drop', ['$event'])
+  @HostListener("drop", ["$event"])
   keyDropFile(e: any) {
     if (this.comp !== this.COMP_UNLOCK) {
       return;
@@ -208,28 +213,28 @@ export class TransactionOverlayComponent implements OnInit {
     e.stopPropagation();
     this.droppingKeyFile = false;
 
-    const transfer = (e.dataTransfer || (<any>e).originalEvent.dataTransfer);
+    const transfer = e.dataTransfer || (<any>e).originalEvent.dataTransfer;
 
     if (!transfer) {
-      console.warn('no transfer object');
+      console.warn("no transfer object");
       return;
     }
 
     const file = transfer.files[0];
 
     if (!file) {
-      console.warn('file cannot be read');
+      console.warn("file cannot be read");
       return;
     }
 
     switch (file.type) {
-      case 'text/csv':
+      case "text/csv":
         // MetaMask
         this.loadKeyFromCSV(file);
         break;
 
-      case 'application/json':
-      case '':
+      case "application/json":
+      case "":
         // Keystore JSON
         this.loadKeyFromJSON(file);
         break;
@@ -243,7 +248,7 @@ export class TransactionOverlayComponent implements OnInit {
       let privateKey = e.target.result.trim();
 
       try {
-        if (privateKey.substr(0, 2) !== '0x') {
+        if (privateKey.substr(0, 2) !== "0x") {
           privateKey = `0x${privateKey}`;
         }
 
@@ -251,20 +256,25 @@ export class TransactionOverlayComponent implements OnInit {
           this.data.unlock.privateKey = privateKey;
           this.detectChanges();
         }
-      } catch (e) { }
+      } catch (e) {}
     };
 
     reader.readAsText(file);
   }
 
   loadKeyFromJSON(file: File) {
-    throw new Error('Not implemented');
+    throw new Error("Not implemented");
   }
 
   //
 
   validateTxObject() {
-    return this.data.tx && this.data.tx.gasPrice && this.data.tx.gas && this.data.tx.from;
+    return (
+      this.data.tx &&
+      this.data.tx.gasPrice &&
+      this.data.tx.gas &&
+      this.data.tx.from
+    );
   }
 
   approve() {
@@ -280,17 +290,19 @@ export class TransactionOverlayComponent implements OnInit {
   async checkTokenBalance(passedTokenDelta) {
     const tokenDelta = new BN(passedTokenDelta);
 
-    if (tokenDelta.gte('0') || !this.data.tx.from) {
+    if (tokenDelta.gte("0") || !this.data.tx.from) {
       return;
     }
 
     try {
-      const balance = new BN((await this.token.balanceOf(this.data.tx.from))[0]);
+      const balance = new BN(
+        (await this.token.balanceOf(this.data.tx.from))[0]
+      );
 
       this.balance = balance.toString(10);
 
-      if (balance.add(tokenDelta).lt('0')) {
-        this.reject('Not enough tokens to complete this transaction');
+      if (balance.add(tokenDelta).lt("0")) {
+        this.reject("Not enough tokens to complete this transaction");
       }
     } catch (e) {
       console.error(e);
@@ -300,7 +312,7 @@ export class TransactionOverlayComponent implements OnInit {
   async getEthBalance() {
     try {
       const balance = await this.web3Wallet.getBalance(this.data.tx.from);
-      this.ethBalance = balance ? balance : '0';
+      this.ethBalance = balance ? balance : "0";
     } catch (e) {
       console.error(e);
     }

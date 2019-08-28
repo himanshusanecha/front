@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'm-analyticssite__networkactivity',
+  selector: "m-analyticssite__networkactivity",
   template: `
     <m-analyticsoffchainboosts__card></m-analyticsoffchainboosts__card>
     <m-analyticsonchainboosts__card></m-analyticsonchainboosts__card>
@@ -18,7 +18,4 @@ import { Component } from '@angular/core';
     <m-analyticsrewards__card></m-analyticsrewards__card>
   `
 })
-
-export class SiteTokenTransactionsAnalyticsComponent {
-
-}
+export class SiteTokenTransactionsAnalyticsComponent {}

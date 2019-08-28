@@ -1,10 +1,9 @@
-import { NewsfeedBoostService } from './newsfeed-boost.service';
-import { clientMock } from '../../../tests/client-mock.spec';
-import { sessionMock } from '../../../tests/session-mock.spec';
-import { fakeAsync } from '@angular/core/testing';
+import { NewsfeedBoostService } from "./newsfeed-boost.service";
+import { clientMock } from "../../../tests/client-mock.spec";
+import { sessionMock } from "../../../tests/session-mock.spec";
+import { fakeAsync } from "@angular/core/testing";
 
-describe('NewsfeedBoostService', () => {
-
+describe("NewsfeedBoostService", () => {
   let service: NewsfeedBoostService;
 
   beforeEach(() => {
@@ -14,11 +13,11 @@ describe('NewsfeedBoostService', () => {
     sessionMock.user.boost_autorotate = true;
   });
 
-  it('should be instantiated', () => {
+  it("should be instantiated", () => {
     expect(service).toBeTruthy();
   });
 
-  it('should disable boosts by default if user is plus and has boosts disabled', () => {
+  it("should disable boosts by default if user is plus and has boosts disabled", () => {
     sessionMock.user.plus = true;
     sessionMock.user.disabled_boost = true;
     service = new NewsfeedBoostService(sessionMock, clientMock);
@@ -26,7 +25,7 @@ describe('NewsfeedBoostService', () => {
     expect(service.enabled).toBeFalsy();
   });
 
-  it('should disable boosts autorotate if user has that option disabled', () => {
+  it("should disable boosts autorotate if user has that option disabled", () => {
     sessionMock.user.boost_autorotate = false;
     service = new NewsfeedBoostService(sessionMock, clientMock);
 
@@ -36,9 +35,9 @@ describe('NewsfeedBoostService', () => {
   it("should set the user's explicit rating", fakeAsync(() => {
     sessionMock.user.mature = false;
 
-    const url = 'api/v1/settings/1000';
+    const url = "api/v1/settings/1000";
 
-    clientMock.response[url] = { 'status': 'success' };
+    clientMock.response[url] = { status: "success" };
 
     service.setExplicit(true);
 
@@ -54,12 +53,12 @@ describe('NewsfeedBoostService', () => {
     });
   }));
 
-  it('should toggle boost pause', fakeAsync(() => {
+  it("should toggle boost pause", fakeAsync(() => {
     expect(service.isBoostPaused()).toBeFalsy();
 
-    const url = 'api/v1/settings';
+    const url = "api/v1/settings";
 
-    clientMock.post[url] = { 'status': 'success' };
+    clientMock.post[url] = { status: "success" };
 
     service.togglePause();
 
@@ -69,14 +68,16 @@ describe('NewsfeedBoostService', () => {
 
     expect(clientMock.post).toHaveBeenCalled();
     expect(clientMock.post.calls.mostRecent().args[0]).toBe(url);
-    expect(clientMock.post.calls.mostRecent().args[1]).toEqual({ boost_autorotate: !service.isBoostPaused() });
+    expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
+      boost_autorotate: !service.isBoostPaused()
+    });
   }));
 
-  it('should hide boosts', fakeAsync(()=> {
+  it("should hide boosts", fakeAsync(() => {
     sessionMock.user.disabled_boost = false;
 
-    const url = 'api/v1/plus/boost';
-    clientMock.response[url] = { 'status': 'success'};
+    const url = "api/v1/plus/boost";
+    clientMock.response[url] = { status: "success" };
 
     service.hideBoost();
 
@@ -89,11 +90,11 @@ describe('NewsfeedBoostService', () => {
     expect(clientMock.put.calls.mostRecent().args[0]).toBe(url);
   }));
 
-  it('should show boosts', fakeAsync(()=> {
+  it("should show boosts", fakeAsync(() => {
     expect(sessionMock.user.disabled_boost).toBeTruthy();
 
-    const url = 'api/v1/plus/boost';
-    clientMock.response[url] = { 'status': 'success'};
+    const url = "api/v1/plus/boost";
+    clientMock.response[url] = { status: "success" };
 
     service.showBoost();
 

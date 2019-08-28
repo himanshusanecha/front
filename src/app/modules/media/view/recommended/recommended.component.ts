@@ -1,20 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
 
-import { RecommendedService } from '../../components/video/recommended.service';
+import { RecommendedService } from "../../components/video/recommended.service";
 
-import { Client } from '../../../../services/api';
+import { Client } from "../../../../services/api";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-media--recommended',
-  templateUrl: 'recommended.component.html'
+  selector: "m-media--recommended",
+  templateUrl: "recommended.component.html"
 })
 export class MediaViewRecommendedComponent {
   @Input() limit: string | number;
 
-  @Input('opts') set _opts({ current, next, channel, type }) {
-    this.current = current || '';
-    this.next = next || '';
+  @Input("opts") set _opts({ current, next, channel, type }) {
+    this.current = current || "";
+    this.next = next || "";
     this.channel = channel;
     this.type = type;
 
@@ -33,7 +33,7 @@ export class MediaViewRecommendedComponent {
   private initialized: boolean = false;
   private loaded: boolean = false;
 
-  constructor(private service: RecommendedService) { }
+  constructor(private service: RecommendedService) {}
 
   ngOnInit() {
     this.initialized = true;
@@ -47,17 +47,18 @@ export class MediaViewRecommendedComponent {
 
     this.loaded = true;
 
-    this.service.getRecommended(this.type, this.channel, {
+    this.service
+      .getRecommended(this.type, this.channel, {
         current: this.current,
         next: this.next,
         limit: this.limit
-      }).then((entities) => {
+      })
+      .then(entities => {
         if (!entities) {
           this.entities = [];
           return;
         }
         this.entities = entities;
       });
-      
   }
 }

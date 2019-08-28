@@ -1,28 +1,25 @@
-import { Component } from '@angular/core';
-import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from "@angular/core";
+import { Location } from "@angular/common";
+import { ActivatedRoute } from "@angular/router";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { Client } from '../../../services/api';
+import { Client } from "../../../services/api";
 
 @Component({
   moduleId: module.id,
-  selector: 'minds-admin-payouts',
-  templateUrl: 'payouts.component.html',
+  selector: "minds-admin-payouts",
+  templateUrl: "payouts.component.html"
 })
-
 export class AdminPayouts {
-
   payouts: any[] = [];
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = '';
+  offset: string = "";
   reviewing: number | null = null;
 
-  constructor(public client: Client, private route: ActivatedRoute) {
-  }
+  constructor(public client: Client, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.load();
@@ -35,7 +32,11 @@ export class AdminPayouts {
 
     this.inProgress = true;
 
-    this.client.get(`api/v1/admin/monetization/payouts/queue`, { limit: 50, offset: this.offset })
+    this.client
+      .get(`api/v1/admin/monetization/payouts/queue`, {
+        limit: 50,
+        offset: this.offset
+      })
       .then((response: any) => {
         if (!response.payouts) {
           this.inProgress = false;
@@ -46,8 +47,8 @@ export class AdminPayouts {
         this.payouts.push(...response.payouts);
         this.inProgress = false;
 
-        if (response['load-next']) {
-          this.offset = response['load-next'];
+        if (response["load-next"]) {
+          this.offset = response["load-next"];
         } else {
           this.moreData = false;
         }
@@ -66,14 +67,15 @@ export class AdminPayouts {
   }
 
   pay(index) {
-    if (!window.confirm('Payment has no UNDO. Proceed?')) {
+    if (!window.confirm("Payment has no UNDO. Proceed?")) {
       return;
     }
 
     this.inProgress = true;
     this.reviewing = null;
 
-    this.client.post(`api/v1/admin/monetization/payouts/${this.payouts[index].guid}`)
+    this.client
+      .post(`api/v1/admin/monetization/payouts/${this.payouts[index].guid}`)
       .then(response => {
         this.removeFromList(index);
         this.inProgress = false;

@@ -1,19 +1,24 @@
 import { Injectable } from "@angular/core";
-import { filter, first, map, switchMap, mergeMap, skip, take } from 'rxjs/operators';
+import {
+  filter,
+  first,
+  map,
+  switchMap,
+  mergeMap,
+  skip,
+  take
+} from "rxjs/operators";
 import { FeedsService } from "../../services/feeds.service";
 
 @Injectable()
 export class FeaturedContentService {
-
   offset: number = -1;
 
-  constructor(
-    protected feedsService: FeedsService,
-  ) {
+  constructor(protected feedsService: FeedsService) {
     this.feedsService
       .setLimit(12)
       .setOffset(0)
-      .setEndpoint('api/v2/boost/feed')
+      .setEndpoint("api/v2/boost/feed")
       .fetch();
   }
 
@@ -38,7 +43,8 @@ export class FeaturedContentService {
             return false;
           }
           return await entity.pipe(first()).toPromise();
-        }),
-      ).toPromise();
+        })
+      )
+      .toPromise();
   }
 }

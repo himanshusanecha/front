@@ -1,8 +1,8 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {Client} from '../../services/api/client';
-import {Session} from '../../services/session';
-import { BehaviorSubject, ReplaySubject, interval } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { EventEmitter, Injectable } from "@angular/core";
+import { Client } from "../../services/api/client";
+import { Session } from "../../services/session";
+import { BehaviorSubject, ReplaySubject, interval } from "rxjs";
+import { startWith } from "rxjs/operators";
 
 export type JitsiConfig = {
   roomName: string;
@@ -14,14 +14,12 @@ export class VideoChatService {
   static heartBeatIntervalSeconds = 5;
 
   isActive: boolean;
-  activate$: EventEmitter<JitsiConfig | false> = new EventEmitter<JitsiConfig | false>();
+  activate$: EventEmitter<JitsiConfig | false> = new EventEmitter<
+    JitsiConfig | false
+  >();
   heartBeatSubscription;
 
-  constructor(
-    private client: Client,
-    private session: Session
-  ) {
-  }
+  constructor(private client: Client, private session: Session) {}
 
   async activate(entity: any) {
     if (this.isActive) {
@@ -37,15 +35,15 @@ export class VideoChatService {
         roomName: roomName
       });
 
-      if (this.heartBeatSubscription)
-        this.heartBeatSubscription.unsubscribe();
+      if (this.heartBeatSubscription) this.heartBeatSubscription.unsubscribe();
 
-      this.heartBeatSubscription = interval(VideoChatService.heartBeatIntervalSeconds * 1000)
+      this.heartBeatSubscription = interval(
+        VideoChatService.heartBeatIntervalSeconds * 1000
+      )
         .pipe(startWith(0))
         .subscribe(() => this.heartBeat(entity.guid));
-
     } catch (e) {
-      console.error('Error trying to open video chat.');
+      console.error("Error trying to open video chat.");
       console.error(e);
     }
   }
@@ -53,8 +51,7 @@ export class VideoChatService {
   deactivate() {
     this.isActive = false;
     this.activate$.emit(false);
-    if (this.heartBeatSubscription)
-      this.heartBeatSubscription.unsubscribe();
+    if (this.heartBeatSubscription) this.heartBeatSubscription.unsubscribe();
   }
 
   public async heartBeat(key: string) {
@@ -62,7 +59,9 @@ export class VideoChatService {
   }
 
   private async getRoomName(entity: any) {
-    const response: any = await this.client.get(`api/v2/video/room/${entity.guid}`);
+    const response: any = await this.client.get(
+      `api/v2/video/room/${entity.guid}`
+    );
     return response.room;
   }
 }

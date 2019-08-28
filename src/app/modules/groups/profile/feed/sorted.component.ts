@@ -15,17 +15,14 @@ import { GroupsService } from "../../groups-service";
 import { Observable } from "rxjs";
 
 @Component({
-  selector: 'm-group-profile-feed__sorted',
-  providers: [
-    SortedService,
-    FeedsService,
-  ],
-  templateUrl: 'sorted.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: "m-group-profile-feed__sorted",
+  providers: [SortedService, FeedsService],
+  templateUrl: "sorted.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupProfileFeedSortedComponent {
   group: any;
-  @Input('group') set _group(group: any) {
+  @Input("group") set _group(group: any) {
     if (group === this.group) {
       return;
     }
@@ -37,8 +34,8 @@ export class GroupProfileFeedSortedComponent {
     }
   }
 
-  type: string = 'activities'
-  @Input('type') set _type(type: string) {
+  type: string = "activities";
+  @Input("type") set _type(type: string) {
     if (type === this.type) {
       return;
     }
@@ -55,13 +52,13 @@ export class GroupProfileFeedSortedComponent {
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: any = '';
+  offset: any = "";
 
   initialized: boolean = false;
 
   kicking: any;
 
-  @ViewChild('poster', { static: false }) protected poster: PosterComponent;
+  @ViewChild("poster", { static: false }) protected poster: PosterComponent;
 
   constructor(
     protected service: GroupsService,
@@ -70,9 +67,8 @@ export class GroupProfileFeedSortedComponent {
     protected session: Session,
     protected router: Router,
     protected client: Client,
-    protected cd: ChangeDetectorRef,
-  ) {
-  }
+    protected cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.initialized = true;
@@ -91,14 +87,12 @@ export class GroupProfileFeedSortedComponent {
     this.detectChanges();
 
     try {
-      
       this.feedsService
         .setEndpoint(`api/v2/feeds/container/${this.group.guid}/${this.type}`)
         .setLimit(12)
         .fetch();
-  
     } catch (e) {
-      console.error('GroupProfileFeedSortedComponent.loadFeed', e);
+      console.error("GroupProfileFeedSortedComponent.loadFeed", e);
     }
 
     this.inProgress = false;
@@ -106,9 +100,10 @@ export class GroupProfileFeedSortedComponent {
   }
 
   loadMore() {
-    if (this.feedsService.canFetchMore
-      && !this.feedsService.inProgress.getValue()
-      && this.feedsService.offset.getValue()
+    if (
+      this.feedsService.canFetchMore &&
+      !this.feedsService.inProgress.getValue() &&
+      this.feedsService.offset.getValue()
     ) {
       this.feedsService.fetch(); // load the next 150 in the background
     }
@@ -116,9 +111,9 @@ export class GroupProfileFeedSortedComponent {
   }
 
   setFilter(type: string) {
-    const route = ['/groups/profile', this.group.guid, 'feed'];
+    const route = ["/groups/profile", this.group.guid, "feed"];
 
-    if (type !== 'activities') {
+    if (type !== "activities") {
       route.push(type);
     }
 
@@ -126,12 +121,11 @@ export class GroupProfileFeedSortedComponent {
   }
 
   isMember() {
-    return this.session.isLoggedIn() &&
-      this.group['is:member'];
+    return this.session.isLoggedIn() && this.group["is:member"];
   }
 
   isActivityFeed() {
-    return this.type === 'activities';
+    return this.type === "activities";
   }
 
   prepend(activity: any) {
@@ -148,8 +142,8 @@ export class GroupProfileFeedSortedComponent {
     };
 
     this.feedsService.rawFeed.next([
-      ... [ feedItem ],
-      ... this.feedsService.rawFeed.getValue()
+      ...[feedItem],
+      ...this.feedsService.rawFeed.getValue()
     ]);
 
     this.detectChanges();
@@ -183,7 +177,7 @@ export class GroupProfileFeedSortedComponent {
     const progress = this.poster.attachment.getUploadProgress();
 
     if (progress > 0 && progress < 100) {
-      return confirm('Your file is still uploading. Are you sure?');
+      return confirm("Your file is still uploading. Are you sure?");
     }
 
     return true;

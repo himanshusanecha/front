@@ -1,40 +1,38 @@
-import { Component, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, ViewChild } from "@angular/core";
+import { Subscription } from "rxjs";
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { Client, Upload } from '../../../services/api';
-import { MindsTitle } from '../../../services/ux/title';
-import { Navigation as NavigationService } from '../../../services/navigation';
-import { Storage } from '../../../services/storage';
-import { ContextService } from '../../../services/context.service';
-import { PosterComponent } from '../poster/poster.component';
+import { Client, Upload } from "../../../services/api";
+import { MindsTitle } from "../../../services/ux/title";
+import { Navigation as NavigationService } from "../../../services/navigation";
+import { Storage } from "../../../services/storage";
+import { ContextService } from "../../../services/context.service";
+import { PosterComponent } from "../poster/poster.component";
 import { FeaturesService } from "../../../services/features.service";
 import { FeedsService } from "../../../common/services/feeds.service";
 
 @Component({
-  selector: 'm-newsfeed--boost',
-  templateUrl: 'boost.component.html'
+  selector: "m-newsfeed--boost",
+  templateUrl: "boost.component.html"
 })
-
 export class NewsfeedBoostComponent {
-
   newsfeed: Array<Object>;
   prepended: Array<any> = [];
-  offset: string = '';
+  offset: string = "";
   exclude: string[] = [];
   showBoostRotator: boolean = true;
   inProgress: boolean = false;
   moreData: boolean = true;
   minds;
 
-  message: string = '';
+  message: string = "";
 
   paramsSubscription: Subscription;
 
   boostFeed: boolean = false;
 
-  @ViewChild('poster', { static: false }) private poster: PosterComponent;
+  @ViewChild("poster", { static: false }) private poster: PosterComponent;
 
   constructor(
     public client: Client,
@@ -46,18 +44,17 @@ export class NewsfeedBoostComponent {
     private storage: Storage,
     private context: ContextService,
     protected featuresService: FeaturesService,
-    public feedsService: FeedsService,
+    public feedsService: FeedsService
   ) {
-    this.title.setTitle('Boost Newsfeed');
+    this.title.setTitle("Boost Newsfeed");
   }
 
   ngOnInit() {
-
     this.load(true);
     this.minds = window.Minds;
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params['ts']) {
+      if (params["ts"]) {
         this.showBoostRotator = false;
         this.load(true);
         setTimeout(() => {
@@ -66,7 +63,7 @@ export class NewsfeedBoostComponent {
       }
     });
 
-    this.context.set('activity');
+    this.context.set("activity");
   }
 
   ngOnDestroy() {
@@ -74,17 +71,16 @@ export class NewsfeedBoostComponent {
   }
 
   async load(refresh: boolean = false) {
-    if (this.inProgress)
-      return false;
+    if (this.inProgress) return false;
 
     if (refresh) {
       this.feedsService.clear();
     }
 
     this.feedsService
-      .setEndpoint('api/v2/boost/feed')
+      .setEndpoint("api/v2/boost/feed")
       .setParams({
-        boostfeed: true,
+        boostfeed: true
       })
       .setLimit(6)
       .setOffset(0)
@@ -92,13 +88,14 @@ export class NewsfeedBoostComponent {
   }
 
   loadNext() {
-    if (this.feedsService.canFetchMore
-      && !this.feedsService.inProgress.getValue()
-      && this.feedsService.offset.getValue()
+    if (
+      this.feedsService.canFetchMore &&
+      !this.feedsService.inProgress.getValue() &&
+      this.feedsService.offset.getValue()
     ) {
       this.feedsService.fetch(); // load the next 150 in the background
     }
-    this.feedsService.loadMore(); 
+    this.feedsService.loadMore();
   }
 
   delete(activity) {
@@ -115,8 +112,5 @@ export class NewsfeedBoostComponent {
         return;
       }
     }
-
   }
-
 }
-

@@ -1,18 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { GetMetamaskComponent } from './getmetamask.component';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { GetMetamaskComponent } from "./getmetamask.component";
 
-describe('GetMetamaskComponent', () => {
+describe("GetMetamaskComponent", () => {
   let comp: GetMetamaskComponent;
   let fixture: ComponentFixture<GetMetamaskComponent>;
 
-  beforeEach(async(() => { 
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-        declarations: [GetMetamaskComponent]
+      declarations: [GetMetamaskComponent]
     }).compileComponents();
   }));
 
-  beforeEach((done) => {
+  beforeEach(done => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 2;
 
     fixture = TestBed.createComponent(GetMetamaskComponent);
@@ -24,38 +24,48 @@ describe('GetMetamaskComponent', () => {
     if (fixture.isStable()) {
       done();
     } else {
-      fixture.whenStable()
-        .then(() => {
-          fixture.detectChanges();
-          done();
-        });
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        done();
+      });
     }
   });
 
-  it('should have a title', () => {
-    const title = fixture.debugElement.query(By.css('.m-get-metamask--title'));
+  it("should have a title", () => {
+    const title = fixture.debugElement.query(By.css(".m-get-metamask--title"));
     expect(title).not.toBeNull();
   });
 
-  it('should raise a create address event', () => {
-    spyOn(comp.actioned, 'emit').and.callThrough();
-    const link = fixture.debugElement.query(By.css('.m-get-metamask--create-link'));
+  it("should raise a create address event", () => {
+    spyOn(comp.actioned, "emit").and.callThrough();
+    const link = fixture.debugElement.query(
+      By.css(".m-get-metamask--create-link")
+    );
     link.nativeElement.click();
-    expect(comp.actioned.emit).toHaveBeenCalledWith(GetMetamaskComponent.ACTION_CREATE);
+    expect(comp.actioned.emit).toHaveBeenCalledWith(
+      GetMetamaskComponent.ACTION_CREATE
+    );
   });
 
-  it('should raise an provide address event', () => {
-    spyOn(comp.actioned, 'emit').and.callThrough();
-    const link = fixture.debugElement.query(By.css('.m-get-metamask--provide-link'));
+  it("should raise an provide address event", () => {
+    spyOn(comp.actioned, "emit").and.callThrough();
+    const link = fixture.debugElement.query(
+      By.css(".m-get-metamask--provide-link")
+    );
     link.nativeElement.click();
-    expect(comp.actioned.emit).toHaveBeenCalledWith(GetMetamaskComponent.ACTION_UNLOCK);
+    expect(comp.actioned.emit).toHaveBeenCalledWith(
+      GetMetamaskComponent.ACTION_UNLOCK
+    );
   });
 
-
-  it('should raise a cancel', () => {
-    spyOn(comp.actioned, 'emit').and.callThrough();
-    const link = fixture.debugElement.query(By.css('.m-get-metamask--cancel-btn'));
+  it("should raise a cancel", () => {
+    spyOn(comp.actioned, "emit").and.callThrough();
+    const link = fixture.debugElement.query(
+      By.css(".m-get-metamask--cancel-btn")
+    );
     link.nativeElement.click();
-    expect(comp.actioned.emit).toHaveBeenCalledWith(GetMetamaskComponent.ACTION_CANCEL);
+    expect(comp.actioned.emit).toHaveBeenCalledWith(
+      GetMetamaskComponent.ACTION_CANCEL
+    );
   });
 });

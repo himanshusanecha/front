@@ -13,13 +13,13 @@
  * ```
  */
 export default function autobind() {
-  return function (...args) {
+  return function(...args) {
     if (args.length === 1) {
       return boundClass(args[0]);
     } else {
       return boundMethod(args[0], args[1], args[2]);
     }
-  }
+  };
 }
 
 /**
@@ -29,27 +29,31 @@ function boundClass(target) {
   // (Using reflect to get all keys including symbols)
   let keys;
   // Use Reflect if exists
-  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
+  if (typeof Reflect !== "undefined" && typeof Reflect.ownKeys === "function") {
     keys = Reflect.ownKeys(target.prototype);
   } else {
     keys = Object.getOwnPropertyNames(target.prototype);
     // use symbols if support is provided
-    if (typeof Object.getOwnPropertySymbols === 'function') {
+    if (typeof Object.getOwnPropertySymbols === "function") {
       keys = keys.concat(Object.getOwnPropertySymbols(target.prototype));
     }
   }
 
   keys.forEach(key => {
     // Ignore special case target method
-    if (key === 'constructor') {
+    if (key === "constructor") {
       return;
     }
 
     let descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
 
     // Only methods need binding
-    if (typeof descriptor.value === 'function') {
-      Object.defineProperty(target.prototype, key, boundMethod(target, key, descriptor));
+    if (typeof descriptor.value === "function") {
+      Object.defineProperty(
+        target.prototype,
+        key,
+        boundMethod(target, key, descriptor)
+      );
     }
   });
   return target;
@@ -63,8 +67,10 @@ function boundClass(target) {
 function boundMethod(target, key, descriptor) {
   let fn = descriptor.value;
 
-  if (typeof fn !== 'function') {
-    throw new Error(`@autobind decorator can only be applied to methods not: ${typeof fn}`);
+  if (typeof fn !== "function") {
+    throw new Error(
+      `@autobind decorator can only be applied to methods not: ${typeof fn}`
+    );
   }
 
   // In IE11 calling Object.defineProperty has a side-effect of evaluating the
@@ -75,7 +81,11 @@ function boundMethod(target, key, descriptor) {
   return {
     configurable: true,
     get() {
-      if (definingProperty || this === target.prototype || this.hasOwnProperty(key)) {
+      if (
+        definingProperty ||
+        this === target.prototype ||
+        this.hasOwnProperty(key)
+      ) {
         return this.hasOwnProperty(key) ? this[key] : fn;
       }
 

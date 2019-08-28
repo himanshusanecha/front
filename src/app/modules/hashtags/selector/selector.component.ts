@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Tag } from '../types/tag';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Tag } from "../types/tag";
 
 @Component({
-  selector: 'm-hashtags-selector',
-  templateUrl: 'selector.component.html',
+  selector: "m-hashtags-selector",
+  templateUrl: "selector.component.html"
 })
 export class HashtagsSelectorComponent {
   @Input() alignLeft: boolean = false;
@@ -11,12 +11,18 @@ export class HashtagsSelectorComponent {
 
   tagsValues: Tag[] = [];
 
-  @Input() buttonClass: string = 'm-btn m-btn--slim m-btn m-btn--with-icon';
-  @Input() labelPosition: 'left' | 'right' = 'left';
+  @Input() buttonClass: string = "m-btn m-btn--slim m-btn m-btn--with-icon";
+  @Input() labelPosition: "left" | "right" = "left";
 
-  @Output('tagsChange') tagsChange: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output('tagsAdded') tagsAdded: EventEmitter<Tag[]> = new EventEmitter<Tag[]>();
-  @Output('tagsRemoved') tagsRemoved: EventEmitter<Tag[]> = new EventEmitter<Tag[]>();
+  @Output("tagsChange") tagsChange: EventEmitter<string[]> = new EventEmitter<
+    string[]
+  >();
+  @Output("tagsAdded") tagsAdded: EventEmitter<Tag[]> = new EventEmitter<
+    Tag[]
+  >();
+  @Output("tagsRemoved") tagsRemoved: EventEmitter<Tag[]> = new EventEmitter<
+    Tag[]
+  >();
 
   parseTags(message) {
     const regex = /(^|\s||)#(\w+)/gim;
@@ -29,7 +35,7 @@ export class HashtagsSelectorComponent {
         value: match[2],
         index: match.index,
         length: match.length,
-        checked: true,
+        checked: true
       });
     }
 
@@ -43,7 +49,7 @@ export class HashtagsSelectorComponent {
   }
 
   // Set the tags from the upstream
-  @Input('tags') set _tags(tags) {
+  @Input("tags") set _tags(tags) {
     let different = false;
     if (tags.length !== this.tags.length) {
       different = true;
@@ -55,8 +61,7 @@ export class HashtagsSelectorComponent {
         }
       }
     }
-    if (!different)
-      return;
+    if (!different) return;
 
     this.tags = tags.map(tag => {
       return { value: tag, selected: true };
@@ -69,7 +74,9 @@ export class HashtagsSelectorComponent {
     const added: Tag[] = [];
 
     // get removed elements
-    let difference = this.tags.filter((item) => tags.findIndex((i) => i.value === item.value) === -1);
+    let difference = this.tags.filter(
+      item => tags.findIndex(i => i.value === item.value) === -1
+    );
 
     for (let tag of difference) {
       removed.push(tag);
@@ -82,7 +89,9 @@ export class HashtagsSelectorComponent {
     }
 
     // get added elements
-    let difference2 = tags.filter((item) => this.tags.findIndex((i) => i.value === item.value) === -1);
+    let difference2 = tags.filter(
+      item => this.tags.findIndex(i => i.value === item.value) === -1
+    );
 
     for (let tag of difference2) {
       this.tags.push(tag);
@@ -95,7 +104,7 @@ export class HashtagsSelectorComponent {
 
     this.extractValues();
 
-    this.tagsChange.emit(this.tags.map((item) => item.value));
+    this.tagsChange.emit(this.tags.map(item => item.value));
   }
 
   private extractValues() {

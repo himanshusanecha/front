@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { TransactionOverlayService } from './transaction-overlay/transaction-overlay.service';
-import randomString from '../../helpers/random-string';
-import asyncSleep from '../../helpers/async-sleep';
-import * as ethSigner from 'ethjs-signer';
-import * as ethAccount from 'ethjs-account';
+import { Injectable } from "@angular/core";
+import { TransactionOverlayService } from "./transaction-overlay/transaction-overlay.service";
+import randomString from "../../helpers/random-string";
+import asyncSleep from "../../helpers/async-sleep";
+import * as ethSigner from "ethjs-signer";
+import * as ethAccount from "ethjs-account";
 
 const SECURE_MODE_TIMEOUT = 60 * 1000; // 1 minute
 
@@ -23,7 +23,7 @@ export class LocalWalletService {
 
   signTransaction(rawTx: any, cb: Function) {
     if (!this.privateKey) {
-      throw new Error('No Account Private Key');
+      throw new Error("No Account Private Key");
     }
 
     return cb(null, this.sign(rawTx, this.privateKey));
@@ -49,8 +49,11 @@ export class LocalWalletService {
     }
 
     try {
-      const { privateKey, secureMode } = await this.transactionOverlay.waitForAccountUnlock(),
-      account = ethAccount.privateToAccount(privateKey).address;
+      const {
+          privateKey,
+          secureMode
+        } = await this.transactionOverlay.waitForAccountUnlock(),
+        account = ethAccount.privateToAccount(privateKey).address;
 
       this.privateKey = privateKey;
       this.account = account;
@@ -82,7 +85,7 @@ export class LocalWalletService {
   }
 
   async create(fast = true) {
-    let entropy = '';
+    let entropy = "";
 
     if (fast) {
       entropy = randomString(64);

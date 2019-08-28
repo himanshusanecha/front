@@ -1,52 +1,50 @@
-import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable } from "rxjs";
 
-import { MindsTitle } from '../../../services/ux/title';
-import { ACCESS, LICENSES } from '../../../services/list-options';
-import { Client, Upload } from '../../../services/api';
-import { Session } from '../../../services/session';
-import { InlineEditorComponent } from '../../../common/components/editors/inline-editor.component';
-import { WireThresholdInputComponent } from '../../wire/threshold-input/threshold-input.component';
-import { HashtagsSelectorComponent } from '../../hashtags/selector/selector.component';
-import { Tag } from '../../hashtags/types/tag';
+import { MindsTitle } from "../../../services/ux/title";
+import { ACCESS, LICENSES } from "../../../services/list-options";
+import { Client, Upload } from "../../../services/api";
+import { Session } from "../../../services/session";
+import { InlineEditorComponent } from "../../../common/components/editors/inline-editor.component";
+import { WireThresholdInputComponent } from "../../wire/threshold-input/threshold-input.component";
+import { HashtagsSelectorComponent } from "../../hashtags/selector/selector.component";
+import { Tag } from "../../hashtags/types/tag";
 import { InMemoryStorageService } from "../../../services/in-memory-storage.service";
 import { DialogService } from "../../../common/services/confirm-leave-dialog.service";
 
 @Component({
   moduleId: module.id,
-  selector: 'minds-blog-edit',
+  selector: "minds-blog-edit",
   host: {
-    'class': 'm-blog'
+    class: "m-blog"
   },
-  templateUrl: 'edit.html'
+  templateUrl: "edit.html"
 })
-
 export class BlogEdit {
-
   minds = window.Minds;
 
   guid: string;
   blog: any = {
-    guid: 'new',
-    title: '',
-    description: '<p><br></p>',
+    guid: "new",
+    title: "",
+    description: "<p><br></p>",
     time_created: Math.floor(Date.now() / 1000),
     access_id: 2,
     tags: [],
-    license: 'attribution-sharealike-cc',
-    fileKey: 'header',
+    license: "attribution-sharealike-cc",
+    fileKey: "header",
     mature: 0,
     monetized: 0,
     published: 0,
     wire_threshold: null,
     custom_meta: {
-      title: '',
-      description: '',
-      author: ''
+      title: "",
+      description: "",
+      author: ""
     },
-    slug: ''
+    slug: ""
   };
   banner: any;
   banner_top: number = 0;
@@ -55,18 +53,21 @@ export class BlogEdit {
   canSave: boolean = true;
   inProgress: boolean = false;
   validThreshold: boolean = true;
-  error: string = '';
+  error: string = "";
   pendingUploads: string[] = [];
-  categories: { id, label, selected }[];
+  categories: { id; label; selected }[];
 
   licenses = LICENSES;
   access = ACCESS;
   existingBanner: boolean;
 
   paramsSubscription: Subscription;
-  @ViewChild('inlineEditor', { static: false }) inlineEditor: InlineEditorComponent;
-  @ViewChild('thresholdInput', { static: false }) thresholdInput: WireThresholdInputComponent;
-  @ViewChild('hashtagsSelector', { static: false }) hashtagsSelector: HashtagsSelectorComponent;
+  @ViewChild("inlineEditor", { static: false })
+  inlineEditor: InlineEditorComponent;
+  @ViewChild("thresholdInput", { static: false })
+  thresholdInput: WireThresholdInputComponent;
+  @ViewChild("hashtagsSelector", { static: false })
+  hashtagsSelector: HashtagsSelectorComponent;
 
   protected time_created: any;
 
@@ -78,51 +79,60 @@ export class BlogEdit {
     public route: ActivatedRoute,
     public title: MindsTitle,
     protected inMemoryStorageService: InMemoryStorageService,
-    private dialogService: DialogService,
+    private dialogService: DialogService
   ) {
     this.getCategories();
 
-    window.addEventListener('attachment-preview-loaded', (event: CustomEvent) => {
-      this.pendingUploads.push(event.detail.timestamp);
-    });
-    window.addEventListener('attachment-upload-finished', (event: CustomEvent) => {
-      this.pendingUploads.splice(this.pendingUploads.findIndex((value) => {
-        return value === event.detail.timestamp;
-      }), 1);
-    });
+    window.addEventListener(
+      "attachment-preview-loaded",
+      (event: CustomEvent) => {
+        this.pendingUploads.push(event.detail.timestamp);
+      }
+    );
+    window.addEventListener(
+      "attachment-upload-finished",
+      (event: CustomEvent) => {
+        this.pendingUploads.splice(
+          this.pendingUploads.findIndex(value => {
+            return value === event.detail.timestamp;
+          }),
+          1
+        );
+      }
+    );
   }
 
   ngOnInit() {
     if (!this.session.isLoggedIn()) {
-      this.router.navigate(['/login']);
+      this.router.navigate(["/login"]);
       return;
     }
 
-    this.title.setTitle('New Blog');
+    this.title.setTitle("New Blog");
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params['guid']) {
-        this.guid = params['guid'];
+      if (params["guid"]) {
+        this.guid = params["guid"];
 
         this.blog = {
-          guid: 'new',
-          title: '',
-          description: '<p><br></p>',
+          guid: "new",
+          title: "",
+          description: "<p><br></p>",
           access_id: 2,
-          category: '',
-          license: '',
-          fileKey: 'header',
+          category: "",
+          license: "",
+          fileKey: "header",
           mature: 0,
           monetized: 0,
           published: 0,
           wire_threshold: null,
           custom_meta: {
-            title: '',
-            description: '',
-            author: ''
+            title: "",
+            description: "",
+            author: ""
           },
-          slug: '',
-          tags: [],
+          slug: "",
+          tags: []
         };
 
         this.banner = void 0;
@@ -132,18 +142,20 @@ export class BlogEdit {
         this.canSave = true;
         this.existingBanner = false;
 
-        if (this.guid !== 'new') {
+        if (this.guid !== "new") {
           this.load();
         } else {
-          const description: string = this.inMemoryStorageService.once('newBlogContent');
+          const description: string = this.inMemoryStorageService.once(
+            "newBlogContent"
+          );
 
           if (description) {
             let htmlDescription = description
-              .replace(/&/g, '&amp;')
-              .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;')
-              .replace(/"/g, '&quot;')
-              .replace(/\n+/g, '</p><p>');
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/\n+/g, "</p><p>");
 
             this.blog.description = `<p>${htmlDescription}</p>`;
           }
@@ -157,7 +169,7 @@ export class BlogEdit {
       return true;
     }
 
-    return this.dialogService.confirm('Discard changes?');
+    return this.dialogService.confirm("Discard changes?");
   }
 
   ngOnDestroy() {
@@ -177,55 +189,50 @@ export class BlogEdit {
       });
     }
 
-    this.categories.sort((a, b) => a.label > b.label ? 1: -1);
+    this.categories.sort((a, b) => (a.label > b.label ? 1 : -1));
   }
 
   load() {
-    this.client.get('api/v1/blog/' + this.guid, {})
-      .then((response: any) => {
-        if (response.blog) {
-          this.blog = response.blog;
-          this.guid = response.blog.guid;
-          this.title.setTitle(this.blog.title);
+    this.client.get("api/v1/blog/" + this.guid, {}).then((response: any) => {
+      if (response.blog) {
+        this.blog = response.blog;
+        this.guid = response.blog.guid;
+        this.title.setTitle(this.blog.title);
 
-          if(this.blog.thumbnail_src)
-            this.existingBanner = true;
-          //this.hashtagsSelector.setTags(this.blog.tags);
-          // draft
-          if (!this.blog.published && response.blog.draft_access_id) {
-            this.blog.access_id = response.blog.draft_access_id;
-          }
-
-          if (!this.blog.category)
-            this.blog.category = '';
-
-          if (!this.blog.license)
-            this.blog.license = '';
-
-          this.blog.time_created = response.blog.time_created || Math.floor(Date.now() / 1000);
+        if (this.blog.thumbnail_src) this.existingBanner = true;
+        //this.hashtagsSelector.setTags(this.blog.tags);
+        // draft
+        if (!this.blog.published && response.blog.draft_access_id) {
+          this.blog.access_id = response.blog.draft_access_id;
         }
-      });
+
+        if (!this.blog.category) this.blog.category = "";
+
+        if (!this.blog.license) this.blog.license = "";
+
+        this.blog.time_created =
+          response.blog.time_created || Math.floor(Date.now() / 1000);
+      }
+    });
   }
 
   onTagsChange(tags: string[]) {
     this.blog.tags = tags;
   }
 
-  onTagsAdded(tags: Tag[]) {
-  }
+  onTagsAdded(tags: Tag[]) {}
 
-  onTagsRemoved(tags: Tag[]) {
-  }
+  onTagsRemoved(tags: Tag[]) {}
 
   validate() {
-    this.error = '';
+    this.error = "";
 
     if (!this.blog.description) {
-      this.error = 'error:no-description';
+      this.error = "error:no-description";
       return false;
     }
     if (!this.blog.title) {
-      this.error = 'error:no-title';
+      this.error = "error:no-title";
       return false;
     }
 
@@ -233,50 +240,54 @@ export class BlogEdit {
   }
 
   save() {
-    if (!this.canSave)
-      return;
+    if (!this.canSave) return;
 
-    if (!this.validate())
-      return;
+    if (!this.validate()) return;
 
-    this.error = '';
+    this.error = "";
 
     this.inlineEditor.prepareForSave().then(() => {
       const blog = Object.assign({}, this.blog);
 
       // only allowed props
-      blog.mature = blog.mature ? 1: 0;
-      blog.monetization = blog.monetization ? 1: 0;
-      blog.monetized = blog.monetized ? 1: 0;
+      blog.mature = blog.mature ? 1 : 0;
+      blog.monetization = blog.monetization ? 1 : 0;
+      blog.monetized = blog.monetized ? 1 : 0;
       blog.time_created = blog.time_created || Math.floor(Date.now() / 1000);
 
       this.editing = false;
       this.inProgress = true;
       this.canSave = false;
-      this.check_for_banner().then(() => {
-        this.upload.post('api/v1/blog/' + this.guid, [this.banner], blog)
-          .then((response: any) => {
-            this.inProgress = false;
-            this.canSave = true;
-            this.blog.time_created = null;
+      this.check_for_banner()
+        .then(() => {
+          this.upload
+            .post("api/v1/blog/" + this.guid, [this.banner], blog)
+            .then((response: any) => {
+              this.inProgress = false;
+              this.canSave = true;
+              this.blog.time_created = null;
 
-            if (response.status !== 'success') {
-              this.error = response.message;
-              return;
-            }
-            this.router.navigate(response.route ? ['/' + response.route]: ['/blog/view', response.guid]);
-          })
-          .catch((e) => {
-            this.canSave = true;
-            this.inProgress = false;
-          });
-      })
+              if (response.status !== "success") {
+                this.error = response.message;
+                return;
+              }
+              this.router.navigate(
+                response.route
+                  ? ["/" + response.route]
+                  : ["/blog/view", response.guid]
+              );
+            })
+            .catch(e => {
+              this.canSave = true;
+              this.inProgress = false;
+            });
+        })
         .catch(() => {
-          this.error = 'error:no-banner';
+          this.error = "error:no-banner";
           this.inProgress = false;
           this.canSave = true;
         });
-    })
+    });
   }
 
   add_banner(banner: any) {
@@ -286,20 +297,15 @@ export class BlogEdit {
 
   //this is a nasty hack because people don't want to click save on a banner ;@
   check_for_banner() {
-    if (!this.banner)
-      this.banner_prompt = true;
+    if (!this.banner) this.banner_prompt = true;
     return new Promise((resolve, reject) => {
-
-      if (this.banner)
-        return resolve(true);
+      if (this.banner) return resolve(true);
 
       setTimeout(() => {
         this.banner_prompt = false;
 
-        if (this.banner || this.existingBanner)
-          return resolve(true);
-        else
-          return reject(false);
+        if (this.banner || this.existingBanner) return resolve(true);
+        else return reject(false);
       }, 100);
     });
   }
@@ -309,7 +315,7 @@ export class BlogEdit {
       return;
     }
 
-    this.blog.monetized = this.blog.monetized ? 0: 1;
+    this.blog.monetized = this.blog.monetized ? 0 : 1;
   }
 
   checkMonetized() {
@@ -320,8 +326,8 @@ export class BlogEdit {
 
   onCategoryClick(category) {
     category.selected = !category.selected;
-    if (!this.blog.hasOwnProperty('categories') || !this.blog.categories) {
-      this.blog['categories'] = [];
+    if (!this.blog.hasOwnProperty("categories") || !this.blog.categories) {
+      this.blog["categories"] = [];
     }
 
     if (category.selected) {
@@ -331,7 +337,7 @@ export class BlogEdit {
     }
   }
 
-  onTimeCreatedChange(newDate){
+  onTimeCreatedChange(newDate) {
     this.blog.time_created = newDate;
   }
 }

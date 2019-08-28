@@ -1,27 +1,24 @@
-import { Component } from '@angular/core';
-import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from "@angular/core";
+import { Location } from "@angular/common";
+import { ActivatedRoute } from "@angular/router";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { Client } from '../../../services/api';
+import { Client } from "../../../services/api";
 
 @Component({
   moduleId: module.id,
-  selector: 'minds-admin-monetization',
-  templateUrl: 'monetization.html',
+  selector: "minds-admin-monetization",
+  templateUrl: "monetization.html"
 })
-
 export class AdminMonetization {
-
   entities: any[] = [];
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = '';
+  offset: string = "";
 
-  constructor(public client: Client, private route: ActivatedRoute) {
-  }
+  constructor(public client: Client, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.load();
@@ -34,7 +31,8 @@ export class AdminMonetization {
 
     this.inProgress = true;
 
-    this.client.get(`api/v1/admin/paywall/review`, { limit: 12, offset: this.offset })
+    this.client
+      .get(`api/v1/admin/paywall/review`, { limit: 12, offset: this.offset })
       .then((response: any) => {
         if (!response.entities) {
           this.inProgress = false;
@@ -44,8 +42,8 @@ export class AdminMonetization {
 
         this.entities.push(...response.entities);
 
-        if (response['load-next']) {
-          this.offset = response['load-next'];
+        if (response["load-next"]) {
+          this.offset = response["load-next"];
         } else {
           this.moreData = false;
         }
@@ -62,17 +60,21 @@ export class AdminMonetization {
   }
 
   deMonetize(entity: any, index: number) {
-
-    this.client.post(`api/v1/admin/paywall/${entity.guid}/demonetize`, {})
+    this.client
+      .post(`api/v1/admin/paywall/${entity.guid}/demonetize`, {})
       .then((response: any) => {
-        if (response.status !== 'success') {
-          alert('There was a problem demonetizing this content. Please try again.');
+        if (response.status !== "success") {
+          alert(
+            "There was a problem demonetizing this content. Please try again."
+          );
           return;
         }
         this.removeFromList(index);
       })
       .catch(e => {
-        alert('There was a problem demonetizing this content. Please try again.');
+        alert(
+          "There was a problem demonetizing this content. Please try again."
+        );
       });
   }
 }

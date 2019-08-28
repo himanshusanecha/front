@@ -1,112 +1,131 @@
 ///<reference path="../../../../../../node_modules/@types/jasmine/index.d.ts"/>
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Component, DebugElement, EventEmitter, Input } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick
+} from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Component, DebugElement, EventEmitter, Input } from "@angular/core";
+import { By } from "@angular/platform-browser";
+import { FormsModule } from "@angular/forms";
 
-import { MaterialMock } from '../../../../../tests/material-mock.spec';
-import { BoostCreatorPaymentMethodsComponent } from './payment-methods.component';
-import { Web3WalletService } from '../../../blockchain/web3-wallet.service';
-import { Client } from '../../../../services/api/client';
-import { clientMock } from '../../../../../tests/client-mock.spec';
-import { BoostService } from '../../boost.service';
-import { TokenContractService } from '../../../blockchain/contracts/token-contract.service';
-import { tokenContractServiceMock } from '../../../../../tests/token-contract-service-mock.spec';
-import { TooltipComponentMock } from '../../../../mocks/common/components/tooltip/tooltip.component';
-import { AddressExcerptPipe } from '../../../../common/pipes/address-excerpt';
-import { TokenPipe } from '../../../../common/pipes/token.pipe';
-import { localWalletServiceMock } from '../../../../../tests/local-wallet-service-mock.spec';
-import { LocalWalletService } from '../../../blockchain/local-wallet.service';
-import { transactionOverlayServiceMock } from '../../../../../tests/transaction-overlay-service-mock.spec';
-import { TransactionOverlayService } from '../../../blockchain/transaction-overlay/transaction-overlay.service';
+import { MaterialMock } from "../../../../../tests/material-mock.spec";
+import { BoostCreatorPaymentMethodsComponent } from "./payment-methods.component";
+import { Web3WalletService } from "../../../blockchain/web3-wallet.service";
+import { Client } from "../../../../services/api/client";
+import { clientMock } from "../../../../../tests/client-mock.spec";
+import { BoostService } from "../../boost.service";
+import { TokenContractService } from "../../../blockchain/contracts/token-contract.service";
+import { tokenContractServiceMock } from "../../../../../tests/token-contract-service-mock.spec";
+import { TooltipComponentMock } from "../../../../mocks/common/components/tooltip/tooltip.component";
+import { AddressExcerptPipe } from "../../../../common/pipes/address-excerpt";
+import { TokenPipe } from "../../../../common/pipes/token.pipe";
+import { localWalletServiceMock } from "../../../../../tests/local-wallet-service-mock.spec";
+import { LocalWalletService } from "../../../blockchain/local-wallet.service";
+import { transactionOverlayServiceMock } from "../../../../../tests/transaction-overlay-service-mock.spec";
+import { TransactionOverlayService } from "../../../blockchain/transaction-overlay/transaction-overlay.service";
 
-import { OverlayModalService } from '../../../../services/ux/overlay-modal';
-import { overlayModalServiceMock } from '../../../../../tests/overlay-modal-service-mock.spec';
+import { OverlayModalService } from "../../../../services/ux/overlay-modal";
+import { overlayModalServiceMock } from "../../../../../tests/overlay-modal-service-mock.spec";
 
 /* tslint:disable */
 @Component({
-  selector: 'minds-payments-stripe-checkout',
-  outputs: ['inputed', 'done'],
-  template: ''
+  selector: "minds-payments-stripe-checkout",
+  outputs: ["inputed", "done"],
+  template: ""
 })
 export class StripeCheckoutMock {
-  inputed: EventEmitter<any> = new EventEmitter;
-  done: EventEmitter<any> = new EventEmitter;
+  inputed: EventEmitter<any> = new EventEmitter();
+  done: EventEmitter<any> = new EventEmitter();
 
   @Input() amount: number = 0;
   @Input() merchant_guid;
-  @Input() gateway: string = 'merchants';
+  @Input() gateway: string = "merchants";
 
-  @Input('useMDLStyling') useMDLStyling: boolean = true;
+  @Input("useMDLStyling") useMDLStyling: boolean = true;
 
   @Input() useCreditCard: boolean = true;
   @Input() useBitcoin: boolean = false;
 }
 
+@Component({
+  selector: "m--crypto-token-symbol",
+  template: ""
+})
+class CryptoTokenSymbolMock {}
 
 @Component({
-  selector: 'm--crypto-token-symbol',
-  template: ''
+  selector: "m-checkout--blockchain",
+  template: ""
 })
-class CryptoTokenSymbolMock {
-}
+class BlockchainCheckoutMock {}
 
-@Component({
-  selector: 'm-checkout--blockchain',
-  template: ''
-})
-class BlockchainCheckoutMock {
-}
-
-let web3WalletServiceMock = new function () {
-  this.wallets = ['0x123', '0x1234'];
+let web3WalletServiceMock = new (function() {
+  this.wallets = ["0x123", "0x1234"];
   this.balance = 127000000000000000000;
-  this.onChainInterfaceLabel = 'Metamask';
+  this.onChainInterfaceLabel = "Metamask";
   this.unavailable = false;
   this.locked = false;
 
-  this.isUnavailable = jasmine.createSpy('isUnavailable').and.callFake(async () => {
-    return this.unavailable;
-  });
+  this.isUnavailable = jasmine
+    .createSpy("isUnavailable")
+    .and.callFake(async () => {
+      return this.unavailable;
+    });
 
-  this.unlock = jasmine.createSpy('unlock').and.callFake(async () => {
+  this.unlock = jasmine.createSpy("unlock").and.callFake(async () => {
     return this.locked;
   });
 
-  this.ready = jasmine.createSpy('ready').and.callFake(async () => {
+  this.ready = jasmine.createSpy("ready").and.callFake(async () => {
     return true;
   });
 
-  this.getWallets = jasmine.createSpy('getWallets').and.callFake(async () => {
+  this.getWallets = jasmine.createSpy("getWallets").and.callFake(async () => {
     return this.wallets;
   });
-  this.getCurrentWallet = jasmine.createSpy('getCurrentWallet').and.callFake(async () => {
-    return this.wallets[0]
-  });
-  this.getBalance = jasmine.createSpy('getBalance').and.callFake(async () => {
+  this.getCurrentWallet = jasmine
+    .createSpy("getCurrentWallet")
+    .and.callFake(async () => {
+      return this.wallets[0];
+    });
+  this.getBalance = jasmine.createSpy("getBalance").and.callFake(async () => {
     return this.balance;
   });
 
-  this.getOnChainInterfaceLabel = jasmine.createSpy('getOnChainInterfaceLabel').and.callFake(() => {
-    return this.onChainInterfaceLabel ? this.onChainInterfaceLabel: 'Metamask';
-  });
-};
+  this.getOnChainInterfaceLabel = jasmine
+    .createSpy("getOnChainInterfaceLabel")
+    .and.callFake(() => {
+      return this.onChainInterfaceLabel
+        ? this.onChainInterfaceLabel
+        : "Metamask";
+    });
+})();
 
-describe('BoostCreatorPaymentMethodsComponent', () => {
+describe("BoostCreatorPaymentMethodsComponent", () => {
   let comp: BoostCreatorPaymentMethodsComponent;
   let fixture: ComponentFixture<BoostCreatorPaymentMethodsComponent>;
 
   function getPaymentOption(i: 1 | 2 | 3): DebugElement {
-    return fixture.debugElement.query(By.css(`ul.m-boost--creator-selector > li:nth-child(${i})`));
+    return fixture.debugElement.query(
+      By.css(`ul.m-boost--creator-selector > li:nth-child(${i})`)
+    );
   }
 
   function getPaymentOptionTitle(i: 1 | 2 | 3): DebugElement {
-    return fixture.debugElement.query(By.css(`ul.m-boost--creator-selector > li:nth-child(${i}) h5 span`));
+    return fixture.debugElement.query(
+      By.css(`ul.m-boost--creator-selector > li:nth-child(${i}) h5 span`)
+    );
   }
 
   function getPaymentOptionBalance(i: 1 | 2): DebugElement {
-    return fixture.debugElement.query(By.css(`ul.m-boost--creator-selector > li:nth-child(${i}) span.m-boost--creator-selector--description`));
+    return fixture.debugElement.query(
+      By.css(
+        `ul.m-boost--creator-selector > li:nth-child(${i}) span.m-boost--creator-selector--description`
+      )
+    );
   }
 
   beforeEach(async(() => {
@@ -118,15 +137,15 @@ describe('BoostCreatorPaymentMethodsComponent', () => {
         TokenPipe,
         BoostCreatorPaymentMethodsComponent
       ],
-      imports: [
-        RouterTestingModule,
-        FormsModule
-      ],
+      imports: [RouterTestingModule, FormsModule],
       providers: [
         { provide: Client, useValue: clientMock },
         BoostService,
         { provide: Web3WalletService, useValue: web3WalletServiceMock },
-        { provide: TransactionOverlayService, useValue: transactionOverlayServiceMock },
+        {
+          provide: TransactionOverlayService,
+          useValue: transactionOverlayServiceMock
+        },
         { provide: LocalWalletService, useValue: localWalletServiceMock },
         { provide: TokenContractService, useValue: tokenContractServiceMock },
         { provide: OverlayModalService, useValue: overlayModalServiceMock }
@@ -134,7 +153,7 @@ describe('BoostCreatorPaymentMethodsComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach((done) => {
+  beforeEach(done => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 10;
     jasmine.clock().uninstall();
     jasmine.clock().install();
@@ -144,18 +163,18 @@ describe('BoostCreatorPaymentMethodsComponent', () => {
     // Set up mock HTTP client
     clientMock.response = {};
 
-    clientMock.response['api/v2/blockchain/wallet/balance'] = {
-      'status': 'success',
-      'addresses': [
-        { 'address': '0xonchain', 'balance': 500000000000000000000 }, // onchain
-        { 'address': '0xoffchain', 'balance': 7000000000000000000 } // offchain
+    clientMock.response["api/v2/blockchain/wallet/balance"] = {
+      status: "success",
+      addresses: [
+        { address: "0xonchain", balance: 500000000000000000000 }, // onchain
+        { address: "0xoffchain", balance: 7000000000000000000 } // offchain
       ]
     };
 
     comp.boost = {
       amount: 1000,
       currency: null,
-      type: 'newsfeed',
+      type: "newsfeed",
 
       // General
       categories: [],
@@ -182,56 +201,65 @@ describe('BoostCreatorPaymentMethodsComponent', () => {
   });
 
   afterEach(() => {
-
     jasmine.clock().uninstall();
   });
 
-  it('should have a list of two payment options', () => {
+  it("should have a list of two payment options", () => {
     expect(getPaymentOption(1)).not.toBeNull();
     expect(getPaymentOption(2)).not.toBeNull();
     //expect(getPaymentOption(3)).not.toBeNull();
   });
 
-  it('should an onchain payment option', () => {
-    expect(getPaymentOptionTitle(1).nativeElement.textContent).toContain('OnChain');
+  it("should an onchain payment option", () => {
+    expect(getPaymentOptionTitle(1).nativeElement.textContent).toContain(
+      "OnChain"
+    );
   });
 
-  it('clicking on the onchain payment option should set the currency to onchain', () => {
+  it("clicking on the onchain payment option should set the currency to onchain", () => {
     getPaymentOption(1).nativeElement.click();
     fixture.detectChanges();
 
-    expect(getPaymentOptionTitle(1).nativeElement.textContent).toContain('OnChain');
-    expect(comp.boost.currency).toBe('onchain');
+    expect(getPaymentOptionTitle(1).nativeElement.textContent).toContain(
+      "OnChain"
+    );
+    expect(comp.boost.currency).toBe("onchain");
   });
 
-  it('clicking on the offchain payment option should set the currency to offchain', () => {
+  it("clicking on the offchain payment option should set the currency to offchain", () => {
     getPaymentOption(2).nativeElement.click();
     fixture.detectChanges();
 
-    expect(getPaymentOptionTitle(2).nativeElement.textContent).toContain('OffChain');
-    expect(comp.boost.currency).toBe('offchain');
+    expect(getPaymentOptionTitle(2).nativeElement.textContent).toContain(
+      "OffChain"
+    );
+    expect(comp.boost.currency).toBe("offchain");
   });
 
-  xit('clicking on the creditcard payment option should set the currency to usd', () => {
+  xit("clicking on the creditcard payment option should set the currency to usd", () => {
     getPaymentOption(3).nativeElement.click();
     fixture.detectChanges();
 
-    expect(getPaymentOptionTitle(3).nativeElement.textContent).toContain('Credit Card');
-    expect(comp.boost.currency).toBe('usd');
+    expect(getPaymentOptionTitle(3).nativeElement.textContent).toContain(
+      "Credit Card"
+    );
+    expect(comp.boost.currency).toBe("usd");
   });
 
-  xit('on p2p, clicking on the creditcard payment option should set the currency to creditcard', () => {
-    comp.boost.type = 'p2p';
+  xit("on p2p, clicking on the creditcard payment option should set the currency to creditcard", () => {
+    comp.boost.type = "p2p";
     fixture.detectChanges();
 
     getPaymentOption(3).nativeElement.click();
     fixture.detectChanges();
 
-    expect(getPaymentOptionTitle(3).nativeElement.textContent).toContain('Credit Card');
-    expect(comp.boost.currency).toBe('creditcard');
+    expect(getPaymentOptionTitle(3).nativeElement.textContent).toContain(
+      "Credit Card"
+    );
+    expect(comp.boost.currency).toBe("creditcard");
   });
 
-  it('both the onchain and the offchain payment option should show the current balance', () => {
+  it("both the onchain and the offchain payment option should show the current balance", () => {
     fixture.detectChanges();
     expect(getPaymentOptionBalance(1).nativeElement.textContent).toContain(500);
     expect(getPaymentOptionBalance(2).nativeElement.textContent).toContain(7);

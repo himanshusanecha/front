@@ -1,21 +1,21 @@
-import { Component, Inject, Input, ChangeDetectorRef } from '@angular/core';
-import { Location } from '@angular/common';
-import { Session } from '../../../services/session';
-import { Client, Upload } from '../../../services/api';
-import { RecentService } from '../../../services/ux/recent';
-import { ContextService, ContextServiceResponse } from '../../../services/context.service';
-
+import { Component, Inject, Input, ChangeDetectorRef } from "@angular/core";
+import { Location } from "@angular/common";
+import { Session } from "../../../services/session";
+import { Client, Upload } from "../../../services/api";
+import { RecentService } from "../../../services/ux/recent";
+import {
+  ContextService,
+  ContextServiceResponse
+} from "../../../services/context.service";
 
 @Component({
-  selector: 'm-search--bar-suggestions',
-  templateUrl: 'suggestions.component.html'
+  selector: "m-search--bar-suggestions",
+  templateUrl: "suggestions.component.html"
 })
-
 export class SearchBarSuggestionsComponent {
-
   suggestions: Array<any> = [];
   recent: any[];
-  q: string = '';
+  q: string = "";
   currentContext: ContextServiceResponse;
   @Input() active: boolean;
   @Input() disabled: boolean = false;
@@ -29,16 +29,16 @@ export class SearchBarSuggestionsComponent {
     public recentService: RecentService,
     private context: ContextService,
     private cd: ChangeDetectorRef
-  ) { }
+  ) {}
 
-  @Input('q') set _q(value: string) {
+  @Input("q") set _q(value: string) {
     if (this.searchTimeout) {
       clearTimeout(this.searchTimeout);
     }
 
-    this.q = value || '';
+    this.q = value || "";
 
-    if (!value || this.location.path().indexOf('/search') === 0) {
+    if (!value || this.location.path().indexOf("/search") === 0) {
       this.loadRecent();
       this.currentContext = null;
       this.suggestions = [];
@@ -51,7 +51,7 @@ export class SearchBarSuggestionsComponent {
       this.loadRecent();
 
       try {
-        const response: any = await this.client.get('api/v2/search/suggest', {
+        const response: any = await this.client.get("api/v2/search/suggest", {
           q: value,
           limit: 4
         });
@@ -69,7 +69,7 @@ export class SearchBarSuggestionsComponent {
 
   loadRecent() {
     if (this.session.getLoggedInUser()) {
-      this.recent = this.recentService.fetch('recent', 6);
+      this.recent = this.recentService.fetch("recent", 6);
     }
   }
 
@@ -86,5 +86,4 @@ export class SearchBarSuggestionsComponent {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

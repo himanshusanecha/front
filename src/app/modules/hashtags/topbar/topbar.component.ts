@@ -7,32 +7,34 @@ import {
   ChangeDetectorRef,
   HostListener,
   ViewChild
-} from '@angular/core';
-import { Client } from '../../../services/api/client';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { HashtagsSelectorModalComponent } from '../hashtag-selector-modal/hashtags-selector.component';
-import { TopbarHashtagsService } from '../service/topbar.service';
-import { Subscription } from 'rxjs';
-import { DropdownComponent } from '../../../common/components/dropdown/dropdown.component';
+} from "@angular/core";
+import { Client } from "../../../services/api/client";
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { HashtagsSelectorModalComponent } from "../hashtag-selector-modal/hashtags-selector.component";
+import { TopbarHashtagsService } from "../service/topbar.service";
+import { Subscription } from "rxjs";
+import { DropdownComponent } from "../../../common/components/dropdown/dropdown.component";
 
 type Hashtag = {
-  value: string, selected: boolean
+  value: string;
+  selected: boolean;
 };
 
 @Component({
-  selector: 'm-topbar--hashtags',
-  templateUrl: 'topbar.component.html'
+  selector: "m-topbar--hashtags",
+  templateUrl: "topbar.component.html"
 })
 export class TopbarHashtagsComponent implements OnInit {
-
   hashtags: Hashtag[] = [];
-  @Output() selectionChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() selectionChange: EventEmitter<boolean> = new EventEmitter<
+    boolean
+  >();
   all: boolean = false;
-  @Input('enabled') enabled: boolean = true;
+  @Input("enabled") enabled: boolean = true;
 
   showMenu: boolean = false;
 
-  @ViewChild('dropdown', { static: false }) dropdown: DropdownComponent;
+  @ViewChild("dropdown", { static: false }) dropdown: DropdownComponent;
 
   private selectionChangeSubscription: Subscription;
 
@@ -40,25 +42,26 @@ export class TopbarHashtagsComponent implements OnInit {
     public overlayModal: OverlayModalService,
     public service: TopbarHashtagsService,
     private cd: ChangeDetectorRef
-  ) {
-  }
+  ) {}
 
   async ngOnInit() {
     await this.load();
 
-    this.selectionChangeSubscription = this.service.selectionChange.subscribe(({ hashtag, emitter }) => {
-      //if (emitter === this)
-      //  return;
-      const tag = this.hashtags.find((item) => item.value === hashtag.value);
-      if (tag) {
-        tag.selected = hashtag.selected;
-      } else if (hashtag.selected) {
-        // if it's not in the collection AND it's a selection, then add it
-        this.hashtags = [hashtag, ...this.hashtags.slice(0, 5)];
+    this.selectionChangeSubscription = this.service.selectionChange.subscribe(
+      ({ hashtag, emitter }) => {
+        //if (emitter === this)
+        //  return;
+        const tag = this.hashtags.find(item => item.value === hashtag.value);
+        if (tag) {
+          tag.selected = hashtag.selected;
+        } else if (hashtag.selected) {
+          // if it's not in the collection AND it's a selection, then add it
+          this.hashtags = [hashtag, ...this.hashtags.slice(0, 5)];
+        }
+        this.cd.markForCheck();
+        this.cd.detectChanges();
       }
-      this.cd.markForCheck();
-      this.cd.detectChanges();
-    });
+    );
 
     this.detectWidth();
   }
@@ -106,7 +109,7 @@ export class TopbarHashtagsComponent implements OnInit {
 
     if (this.all) {
       this.disableAll();
-      const selected = this.hashtags.find((item) => item.value === hashtag.value);
+      const selected = this.hashtags.find(item => item.value === hashtag.value);
       if (selected.selected) {
         return;
       }
@@ -122,12 +125,17 @@ export class TopbarHashtagsComponent implements OnInit {
       this.dropdown.toggle();
     }
 
-    if (this.all)
-      this.disableAll();
+    if (this.all) this.disableAll();
 
-    this.overlayModal.create(HashtagsSelectorModalComponent, {}, {
-      class: 'm-overlay-modal--hashtag-selector m-overlay-modal--medium-large'
-    })
+    this.overlayModal
+      .create(
+        HashtagsSelectorModalComponent,
+        {},
+        {
+          class:
+            "m-overlay-modal--hashtag-selector m-overlay-modal--medium-large"
+        }
+      )
       .onDidDismiss(() => {
         this.selectionChange.emit(this.all);
 
@@ -136,7 +144,7 @@ export class TopbarHashtagsComponent implements OnInit {
       .present();
   }
 
-  @HostListener('window:resize') detectWidth() {
+  @HostListener("window:resize") detectWidth() {
     this.showMenu = window.innerWidth < 1200;
   }
 }

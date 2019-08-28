@@ -1,9 +1,9 @@
-import { MindsUser, MindsGroup } from './entities';
+import { MindsUser, MindsGroup } from "./entities";
 
 /*
-* Minds response object
-*/
-export interface MindsResponse { }
+ * Minds response object
+ */
+export interface MindsResponse {}
 
 export interface MindsChannelResponse extends MindsResponse {
   status: string;
@@ -17,17 +17,16 @@ export interface MindsBlogResponse extends MindsResponse {
 
 export interface MindsBlogListResponse extends MindsResponse {
   blogs: Array<any>;
-  entities: Array<any>
-  'load-next': string;
+  entities: Array<any>;
+  "load-next": string;
   pageToken?: boolean;
 }
-
 
 export interface MindsUserConversationResponse extends MindsResponse {
   publickeys: any;
   messages: Array<any>;
-  'load-previous': string;
-  'load-next': string;
+  "load-previous": string;
+  "load-next": string;
 }
 
 export interface MindsGatheringsSearchResponse extends MindsResponse {
@@ -40,7 +39,7 @@ export interface MindsKeysResponse extends MindsResponse {
 
 export interface MindsConversationResponse extends MindsResponse {
   conversations: Array<any>;
-  'load-next': string;
+  "load-next": string;
 }
 
 export interface MindsGroupResponse extends MindsResponse {
@@ -49,7 +48,7 @@ export interface MindsGroupResponse extends MindsResponse {
 
 export interface MindsGroupListResponse extends MindsResponse {
   groups: Array<any>;
-  'load-next': string;
+  "load-next": string;
   pageToken?: boolean;
 }
 

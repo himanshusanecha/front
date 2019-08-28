@@ -1,19 +1,18 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from "@angular/core";
 
-import { Client } from '../../../services/api';
+import { Client } from "../../../services/api";
 
 @Component({
-  selector: 'm-group--members-module',
+  selector: "m-group--members-module",
   host: {
-    'class': 'm-group--members mdl-card mdl-shadow--2dp',
-    '[hidden]': 'members.length == 0'
+    class: "m-group--members mdl-card mdl-shadow--2dp",
+    "[hidden]": "members.length == 0"
   },
-  templateUrl: 'members.html'
+  templateUrl: "members.html"
 })
-
 export class GroupsMembersModuleComponent {
-members: Array<any> = [];
-  @ViewChild('el', { static: true }) el;
+  members: Array<any> = [];
+  @ViewChild("el", { static: true }) el;
 
   group: any;
   limit: number = 21;
@@ -21,10 +20,9 @@ members: Array<any> = [];
 
   inProgress: boolean = false;
 
-  constructor(public client: Client) {
-  }
+  constructor(public client: Client) {}
 
-  @Input('group') set _group(value: any) {
+  @Input("group") set _group(value: any) {
     this.group = value;
     this.load();
     this.el.nativeElement.scrollIntoView();
@@ -33,7 +31,8 @@ members: Array<any> = [];
   load() {
     this.inProgress = true;
 
-    this.client.get(`api/v1/groups/membership/${this.group.guid}`, { limit: this.limit })
+    this.client
+      .get(`api/v1/groups/membership/${this.group.guid}`, { limit: this.limit })
       .then((response: any) => {
         if (!response.members) {
           return false;
@@ -42,7 +41,7 @@ members: Array<any> = [];
         this.members = response.members;
         this.inProgress = false;
       })
-      .catch((e) => {
+      .catch(e => {
         this.inProgress = false;
       });
   }

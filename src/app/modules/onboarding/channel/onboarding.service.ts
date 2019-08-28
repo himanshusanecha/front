@@ -7,13 +7,12 @@ import { Client } from "../../../services/api/client";
 import { Session } from "../../../services/session";
 
 export class ChannelOnboardingService {
-
   slides = [
     TopicsOnboardingComponent,
     SubscriptionsOnboardingComponent,
     // GroupsOnboardingComponent,
     ChannelSetupOnboardingComponent,
-    TokenRewardsOnboardingComponent,
+    TokenRewardsOnboardingComponent
   ];
 
   currentSlide: number = 0;
@@ -36,25 +35,21 @@ export class ChannelOnboardingService {
     return new ChannelOnboardingService(client, session);
   }
 
-  constructor(
-      private client: Client,
-      private session: Session,
-  ) {
-    this.session.userEmitter.subscribe((v) => {
+  constructor(private client: Client, private session: Session) {
+    this.session.userEmitter.subscribe(v => {
       if (!v) {
         this.reset();
       }
     });
-
   }
 
   async checkProgress() {
-    if (!this.session.isLoggedIn())
-      return;
+    if (!this.session.isLoggedIn()) return;
     try {
-      const response: any = await this.client.get('api/v2/onboarding/progress');
+      const response: any = await this.client.get("api/v2/onboarding/progress");
 
-      this.completedPercentage = response.completed_items.length * 100 / response.all_items.length;
+      this.completedPercentage =
+        (response.completed_items.length * 100) / response.all_items.length;
       this.completedItems = response.completed_items;
       this.showOnboarding = response.show_onboarding;
     } catch (e) {
@@ -64,7 +59,7 @@ export class ChannelOnboardingService {
 
   async showModal(force: boolean = false) {
     if (!force) {
-      const status = localStorage.getItem('already_onboarded');
+      const status = localStorage.getItem("already_onboarded");
 
       if (status !== null) {
         return false;
@@ -80,16 +75,15 @@ export class ChannelOnboardingService {
     }
 
     if (force) {
-      localStorage.setItem('already_onboarded', '1');
+      localStorage.setItem("already_onboarded", "1");
       return true;
     } else if (this.showOnboarding) {
-      localStorage.setItem('already_onboarded', '1');
+      localStorage.setItem("already_onboarded", "1");
       return true;
     }
 
     return false;
   }
-
 
   previous() {
     if (this.currentSlide === 0) {
@@ -110,7 +104,8 @@ export class ChannelOnboardingService {
     }
 
     // first time onboarding
-    if (this.completedItems.length === 1) { // empty is 1 because username is always there from the beginning
+    if (this.completedItems.length === 1) {
+      // empty is 1 because username is always there from the beginning
       this.currentSlide++;
     } else {
       //here we just go to the next slide with incomplete stuff
@@ -149,5 +144,4 @@ export class ChannelOnboardingService {
     this.currentSlide = 0;
     this.completed = false;
   }
-
 }

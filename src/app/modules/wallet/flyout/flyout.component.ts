@@ -1,17 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Client } from '../../../services/api';
-import { BlockchainService } from '../../blockchain/blockchain.service';
-import { WalletService } from '../../../services/wallet';
+import { Client } from "../../../services/api";
+import { BlockchainService } from "../../blockchain/blockchain.service";
+import { WalletService } from "../../../services/wallet";
 
 @Component({
-  selector: 'm-wallet--flyout',
-  templateUrl: 'flyout.component.html'
+  selector: "m-wallet--flyout",
+  templateUrl: "flyout.component.html"
 })
-
 export class WalletFlyoutComponent {
-
   address: string;
   balance: any = {
     points: -1,
@@ -19,7 +17,7 @@ export class WalletFlyoutComponent {
     tokens: -1
   };
 
-  @Output('close') closeEvt: EventEmitter<any> = new EventEmitter();
+  @Output("close") closeEvt: EventEmitter<any> = new EventEmitter();
 
   showAnnouncement = true;
 
@@ -27,17 +25,15 @@ export class WalletFlyoutComponent {
     private router: Router,
     public client: Client,
     public wallet: WalletService,
-    public blockchain: BlockchainService,
-  ) {
-
-  }
+    public blockchain: BlockchainService
+  ) {}
 
   ngOnInit() {
     this.loadBalances();
   }
 
   setUpCryptoWallet() {
-    this.router.navigate(['/wallet/crypto/overview', { auto: 1 }]);
+    this.router.navigate(["/wallet/crypto/overview", { auto: 1 }]);
     this.address = void 0;
   }
 
@@ -56,5 +52,4 @@ export class WalletFlyoutComponent {
     const tokens = await this.blockchain.getBalance(true);
     this.balance.tokens = tokens;
   }
-
 }

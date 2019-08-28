@@ -1,32 +1,30 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { MindsTitle } from '../../services/ux/title';
-import { Client } from '../../services/api';
-import { Session } from '../../services/session';
-import { ContextService } from '../../services/context.service';
-import { HashtagsSelectorModalComponent } from '../hashtags/hashtag-selector-modal/hashtags-selector.component';
-import { OverlayModalService } from '../../services/ux/overlay-modal';
+import { MindsTitle } from "../../services/ux/title";
+import { Client } from "../../services/api";
+import { Session } from "../../services/session";
+import { ContextService } from "../../services/context.service";
+import { HashtagsSelectorModalComponent } from "../hashtags/hashtag-selector-modal/hashtags-selector.component";
+import { OverlayModalService } from "../../services/ux/overlay-modal";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-blog--list',
-  templateUrl: 'list.component.html'
+  selector: "m-blog--list",
+  templateUrl: "list.component.html"
 })
-
 export class BlogListComponent {
-
   minds;
 
-  offset: string = '';
+  offset: string = "";
   moreData: boolean = true;
   inProgress: boolean = false;
   entities_0: Array<any> = [];
   entities_1: Array<any> = [];
-  filter: string = 'featured';
-  _filter2: string = '';
+  filter: string = "featured";
+  _filter2: string = "";
   paramsSubscription: Subscription;
   rating: number = 1; //show safe by default
   all: boolean = false;
@@ -38,51 +36,50 @@ export class BlogListComponent {
     public title: MindsTitle,
     private context: ContextService,
     public session: Session,
-    private overlayModal: OverlayModalService,
-  ) {
-  }
+    private overlayModal: OverlayModalService
+  ) {}
 
   ngOnInit() {
-    this.title.setTitle('Blogs');
+    this.title.setTitle("Blogs");
     this.minds = window.Minds;
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      this.filter = params['filter'];
+      this.filter = params["filter"];
 
       switch (this.filter) {
-        case 'network':
-          this.filter = 'network';
+        case "network":
+          this.filter = "network";
           break;
-        case 'trending':
-          this.title.setTitle('Trending Blogs');
+        case "trending":
+          this.title.setTitle("Trending Blogs");
           break;
-        case 'top':
-          this.router.navigate(['/newsfeed/global/top', { 'type': 'blogs' }]);
+        case "top":
+          this.router.navigate(["/newsfeed/global/top", { type: "blogs" }]);
 
           // if (!this.session.isLoggedIn()) {
           //   this.router.navigate(['/login']);
           // }
           // this.filter = 'trending';
           break;
-        case 'suggested':
+        case "suggested":
           if (!this.session.isLoggedIn()) {
-            this.router.navigate(['/login']);
+            this.router.navigate(["/login"]);
           }
-          this.filter = 'trending';
-        case 'featured':
-          this.title.setTitle('Blogs');
+          this.filter = "trending";
+        case "featured":
+          this.title.setTitle("Blogs");
           break;
-        case 'all':
+        case "all":
           break;
-        case 'owner':
+        case "owner":
           break;
-        case 'my':
+        case "my":
           this._filter2 = this.session.getLoggedInUser().guid;
-          this.filter = 'owner';
+          this.filter = "owner";
           break;
         default:
           this._filter2 = this.filter;
-          this.filter = 'owner';
+          this.filter = "owner";
       }
 
       this.inProgress = false;
@@ -95,7 +92,7 @@ export class BlogListComponent {
 
       this.load(true);
     });
-    this.context.set('object:blog');
+    this.context.set("object:blog");
   }
 
   ngOnDestroy() {
@@ -108,11 +105,10 @@ export class BlogListComponent {
   }
 
   load(refresh: boolean = false) {
-    if (this.inProgress)
-      return false;
+    if (this.inProgress) return false;
 
     if (refresh) {
-      this.offset = '';
+      this.offset = "";
       this.moreData = true;
       this.entities_0 = [];
       this.entities_1 = [];
@@ -121,38 +117,37 @@ export class BlogListComponent {
     this.inProgress = true;
     let endpoint;
 
-    if (this.filter === 'trending') {
-      endpoint = 'api/v2/entities/suggested/blogs';
-      if (this.all)
-        endpoint += '/all';
+    if (this.filter === "trending") {
+      endpoint = "api/v2/entities/suggested/blogs";
+      if (this.all) endpoint += "/all";
     } else {
-      endpoint = 'api/v1/blog/' + this.filter + '/' + this._filter2;
+      endpoint = "api/v1/blog/" + this.filter + "/" + this._filter2;
     }
-    this.client.get(endpoint, {
-      limit: 12,
-      offset: this.offset,
-      rating: this.rating,
-    })
+    this.client
+      .get(endpoint, {
+        limit: 12,
+        offset: this.offset,
+        rating: this.rating
+      })
       .then((response: any) => {
-
         if (!response.entities || !response.entities.length) {
           this.moreData = false;
           this.inProgress = false;
 
-          if (this.filter == 'trending' && !this.offset)
+          if (this.filter == "trending" && !this.offset)
             this.openHashtagsSelector();
           return false;
         }
 
         this.pushToColumns(response.entities);
 
-        this.offset = response['load-next'];
+        this.offset = response["load-next"];
         if (!this.offset) {
           this.moreData = false;
         }
         this.inProgress = false;
       })
-      .catch((e) => {
+      .catch(e => {
         this.inProgress = false;
       });
   }
@@ -173,12 +168,19 @@ export class BlogListComponent {
   }
 
   openHashtagsSelector() {
-    this.overlayModal.create(HashtagsSelectorModalComponent, {}, {
-      class: 'm-overlay-modal--hashtag-selector m-overlay-modal--medium-large',
-      onSelected: () => {
-        this.load(true); //refresh list
-      },
-    }).present();
+    this.overlayModal
+      .create(
+        HashtagsSelectorModalComponent,
+        {},
+        {
+          class:
+            "m-overlay-modal--hashtag-selector m-overlay-modal--medium-large",
+          onSelected: () => {
+            this.load(true); //refresh list
+          }
+        }
+      )
+      .present();
   }
 
   pushToColumns(blogs) {
@@ -202,9 +204,8 @@ export class BlogListComponent {
       }
     }
   }
-
 }
 
-export { BlogView } from './view/view';
-export { BlogViewInfinite } from './view/infinite';
-export { BlogEdit } from './edit/edit';
+export { BlogView } from "./view/view";
+export { BlogViewInfinite } from "./view/infinite";
+export { BlogEdit } from "./edit/edit";

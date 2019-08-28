@@ -1,35 +1,33 @@
-import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { MindsTitle } from '../../../services/ux/title';
-import { Client } from '../../../services/api';
-import { Session } from '../../../services/session';
-import { ContextService } from '../../../services/context.service';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { ModalPosterComponent } from '../../newsfeed/poster/poster-modal.component';
-import { HashtagsSelectorModalComponent } from '../../hashtags/hashtag-selector-modal/hashtags-selector.component';
-import { FeaturesService } from '../../../services/features.service';
+import { MindsTitle } from "../../../services/ux/title";
+import { Client } from "../../../services/api";
+import { Session } from "../../../services/session";
+import { ContextService } from "../../../services/context.service";
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { ModalPosterComponent } from "../../newsfeed/poster/poster-modal.component";
+import { HashtagsSelectorModalComponent } from "../../hashtags/hashtag-selector-modal/hashtags-selector.component";
+import { FeaturesService } from "../../../services/features.service";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-media--videos-list',
-  templateUrl: 'list.component.html'
+  selector: "m-media--videos-list",
+  templateUrl: "list.component.html"
 })
-
 export class MediaVideosListComponent {
-
-  filter: string = 'featured';
-  owner: string = '';
+  filter: string = "featured";
+  owner: string = "";
   entities: Array<Object> = [];
   moreData: boolean = true;
-  offset: string | number = '';
+  offset: string | number = "";
   inProgress: boolean = false;
   rating: number = 1; //safe by default
   all: boolean = false;
 
-  city: string = '';
+  city: string = "";
   cities: Array<any> = [];
   nearby: boolean = false;
   hasNearby: boolean = false;
@@ -45,54 +43,55 @@ export class MediaVideosListComponent {
     private context: ContextService,
     public session: Session,
     private overlayModal: OverlayModalService,
-    protected featuresService: FeaturesService,
-  ) {
-  }
+    protected featuresService: FeaturesService
+  ) {}
 
   ngOnInit() {
-    this.title.setTitle('Videos');
+    this.title.setTitle("Videos");
 
-    this.paramsSubscription = this.route.params.subscribe((params) => {
-      if (params['filter']) {
-        this.filter = params['filter'];
-        this.owner = '';
+    this.paramsSubscription = this.route.params.subscribe(params => {
+      if (params["filter"]) {
+        this.filter = params["filter"];
+        this.owner = "";
 
         switch (this.filter) {
-          case 'all':
+          case "all":
             break;
-          case 'network':
-            this.filter = 'network';
+          case "network":
+            this.filter = "network";
             break;
-          case 'top':
-            this.router.navigate(['/newsfeed/global/top', { 'type': 'videos' }]);
+          case "top":
+            this.router.navigate(["/newsfeed/global/top", { type: "videos" }]);
 
             // this.filter = 'trending';
             // if (!this.session.isLoggedIn()) {
             //   this.router.navigate(['/login']);
             // }
             break;
-          case 'suggested':
+          case "suggested":
             if (!this.session.isLoggedIn()) {
-              this.router.navigate(['/login']);
+              this.router.navigate(["/login"]);
             }
-            this.filter = 'trending';
+            this.filter = "trending";
             break;
-          case 'my':
-            this.filter = 'owner';
+          case "my":
+            this.filter = "owner";
             this.owner = this.session.getLoggedInUser().username;
             break;
           // case 'owner': // This case never worked
           default:
             this.owner = this.filter;
-            this.filter = 'owner';
+            this.filter = "owner";
         }
 
-        if (this.featuresService.has('es-feeds') && this.filter === 'owner') {
-          this.router.navigate(['/', this.owner, 'images'], { replaceUrl: true });
+        if (this.featuresService.has("es-feeds") && this.filter === "owner") {
+          this.router.navigate(["/", this.owner, "images"], {
+            replaceUrl: true
+          });
         }
       }
 
-      this.context.set('object:video');
+      this.context.set("object:video");
 
       this.inProgress = false;
       this.moreData = true;
@@ -106,9 +105,14 @@ export class MediaVideosListComponent {
   }
 
   showPoster() {
-    const creator = this.overlayModal.create(ModalPosterComponent, {}, {
-      class: 'm-overlay-modal--no-padding m-overlay-modal--top m-overlay-modal--medium m-overlay-modal--overflow'
-    });
+    const creator = this.overlayModal.create(
+      ModalPosterComponent,
+      {},
+      {
+        class:
+          "m-overlay-modal--no-padding m-overlay-modal--top m-overlay-modal--medium m-overlay-modal--overflow"
+      }
+    );
     creator.present();
   }
 
@@ -122,55 +126,50 @@ export class MediaVideosListComponent {
   }
 
   load(refresh: boolean = false) {
-
-    if (this.inProgress)
-      return false;
+    if (this.inProgress) return false;
 
     if (refresh) {
-      this.offset = '';
+      this.offset = "";
       this.entities = [];
     }
 
     this.inProgress = true;
 
     let endpoint;
-    if (this.filter === 'trending') {
-      endpoint = 'api/v2/entities/suggested/videos';
-      if (this.all)
-        endpoint += '/all';
+    if (this.filter === "trending") {
+      endpoint = "api/v2/entities/suggested/videos";
+      if (this.all) endpoint += "/all";
     } else {
-      endpoint = 'api/v1/entities/' + this.filter + '/videos/' + this.owner;
+      endpoint = "api/v1/entities/" + this.filter + "/videos/" + this.owner;
     }
 
-    this.client.get(endpoint, {
-      limit: 12,
-      offset: this.offset,
-      rating: this.rating,
-    })
+    this.client
+      .get(endpoint, {
+        limit: 12,
+        offset: this.offset,
+        rating: this.rating
+      })
       .then((data: any) => {
         if (!data.entities || !data.entities.length) {
           this.moreData = false;
           this.inProgress = false;
 
-          if (this.filter === 'trending')
-            this.openHashtagsSelector();
+          if (this.filter === "trending") this.openHashtagsSelector();
           return false;
         }
 
         if (refresh) {
           this.entities = data.entities;
         } else {
-          if (this.offset)
-            data.entities.shift();
+          if (this.offset) data.entities.shift();
           this.entities = this.entities.concat(data.entities);
         }
 
-        this.offset = data['load-next'];
-        if (!this.offset)
-          this.moreData = false;
+        this.offset = data["load-next"];
+        if (!this.offset) this.moreData = false;
         this.inProgress = false;
       })
-      .catch((e) => {
+      .catch(e => {
         this.inProgress = false;
       });
   }
@@ -191,12 +190,18 @@ export class MediaVideosListComponent {
   }
 
   openHashtagsSelector() {
-    this.overlayModal.create(HashtagsSelectorModalComponent, {}, {
-      class: 'm-overlay-modal--hashtag-selector m-overlay-modal--medium-large',
-      onSelected: () => {
-        this.load(true); //refresh list
-      },
-    }).present();
+    this.overlayModal
+      .create(
+        HashtagsSelectorModalComponent,
+        {},
+        {
+          class:
+            "m-overlay-modal--hashtag-selector m-overlay-modal--medium-large",
+          onSelected: () => {
+            this.load(true); //refresh list
+          }
+        }
+      )
+      .present();
   }
-
 }

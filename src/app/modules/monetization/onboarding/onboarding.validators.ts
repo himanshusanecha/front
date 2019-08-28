@@ -1,16 +1,19 @@
-import { ValidatorFn, AbstractControl } from '@angular/forms';
+import { ValidatorFn, AbstractControl } from "@angular/forms";
 
 const _isCountry = (currentCountry, countries: string[]) => {
   return countries.indexOf(currentCountry) > -1;
 };
 
-export function requiredFor(countryCodes: string[], { ignore = false }: { ignore?: boolean } = {}): ValidatorFn {
+export function requiredFor(
+  countryCodes: string[],
+  { ignore = false }: { ignore?: boolean } = {}
+): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     if (ignore) {
       return null;
     }
 
-    const country = control.root.get('country');
+    const country = control.root.get("country");
 
     if (!country) {
       return { required: true };
@@ -26,13 +29,16 @@ export function requiredFor(countryCodes: string[], { ignore = false }: { ignore
   };
 }
 
-export function optionalFor(countryCodes: string[], { ignore = false }: { ignore?: boolean } = {}): ValidatorFn {
+export function optionalFor(
+  countryCodes: string[],
+  { ignore = false }: { ignore?: boolean } = {}
+): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     if (ignore) {
       return null;
     }
 
-    const country = control.root.get('country');
+    const country = control.root.get("country");
 
     if (!country) {
       return { required: true };

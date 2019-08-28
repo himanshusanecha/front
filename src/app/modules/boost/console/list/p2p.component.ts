@@ -1,32 +1,31 @@
-import { Component, Input } from '@angular/core';
-import { BoostConsoleFilter } from '../console.component';
+import { Component, Input } from "@angular/core";
+import { BoostConsoleFilter } from "../console.component";
 
-import { BoostService } from '../../boost.service';
-import { Router } from '@angular/router';
+import { BoostService } from "../../boost.service";
+import { Router } from "@angular/router";
 
 @Component({
   moduleId: module.id,
   providers: [BoostService],
-  selector: 'm-boost-console-p2p',
-  templateUrl: 'p2p.component.html'
+  selector: "m-boost-console-p2p",
+  templateUrl: "p2p.component.html"
 })
 export class BoostConsoleP2PListComponent {
-
   initialized: boolean = false;
   inProgress: boolean = false;
 
-  filter: string = '';
+  filter: string = "";
   boosts: any[] = [];
-  offset = '';
+  offset = "";
   moreData = true;
 
-  error: string = '';
+  error: string = "";
 
-  constructor(public service: BoostService, public router: Router) { }
+  constructor(public service: BoostService, public router: Router) {}
 
-  @Input('filter') set _filter(filter: BoostConsoleFilter) {
-    if (filter !== 'inbox' && filter !== 'outbox') {
-      this.router.navigate(['/boost/console/offers/history/inbox']);
+  @Input("filter") set _filter(filter: BoostConsoleFilter) {
+    if (filter !== "inbox" && filter !== "outbox") {
+      this.router.navigate(["/boost/console/offers/history/inbox"]);
     }
     this.filter = filter;
 
@@ -49,13 +48,14 @@ export class BoostConsoleP2PListComponent {
 
     if (refresh) {
       this.boosts = [];
-      this.offset = '';
+      this.offset = "";
       this.moreData = true;
     }
 
-    this.service.load('peer', this.filter, {
-      offset: this.offset
-    })
+    this.service
+      .load("peer", this.filter, {
+        offset: this.offset
+      })
       .then(({ boosts, loadNext }) => {
         this.inProgress = false;
 
@@ -71,7 +71,7 @@ export class BoostConsoleP2PListComponent {
       .catch(e => {
         this.inProgress = false;
         this.moreData = false;
-        this.error = (e && e.message) || '';
+        this.error = (e && e.message) || "";
       });
   }
 }

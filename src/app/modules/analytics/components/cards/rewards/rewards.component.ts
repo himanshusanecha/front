@@ -1,25 +1,23 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from "@angular/core";
 import { AnalyticsCardComponent } from "../card/card.component";
 import { Client } from "../../../../../services/api/client";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'm-analyticsrewards__card',
-  templateUrl: 'rewards.component.html'
+  selector: "m-analyticsrewards__card",
+  templateUrl: "rewards.component.html"
 })
-
 export class RewardsCardComponent {
-  @ViewChild('card', { static: true }) card: AnalyticsCardComponent;
+  @ViewChild("card", { static: true }) card: AnalyticsCardComponent;
 
   subscription: Subscription;
 
   avgTransactions: number = 0;
   avgRewardedTokens: number = 0;
 
-  currents: { name: string, value: number }[];
+  currents: { name: string; value: number }[];
 
-  constructor(private client: Client) {
-  }
+  constructor(private client: Client) {}
 
   ngOnInit() {
     this.getAvgData();
@@ -35,8 +33,8 @@ export class RewardsCardComponent {
 
   private async getAvgData() {
     try {
-      const response: any = await this.client.get('api/v2/analytics/rewards', {
-        key: 'avg',
+      const response: any = await this.client.get("api/v2/analytics/rewards", {
+        key: "avg",
         timespan: this.card.selectedOption
       });
 

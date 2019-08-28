@@ -1,19 +1,23 @@
-import { Component, ElementRef, ChangeDetectorRef, EventEmitter, Injector } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ChangeDetectorRef,
+  EventEmitter,
+  Injector
+} from "@angular/core";
 
-import { Client } from '../../../services/api';
-import { Session } from '../../../services/session';
-import { Storage } from '../../../services/storage';
+import { Client } from "../../../services/api";
+import { Session } from "../../../services/session";
+import { Storage } from "../../../services/storage";
 
-import { MessengerConversationDockpanesService } from '../dockpanes/dockpanes.service';
+import { MessengerConversationDockpanesService } from "../dockpanes/dockpanes.service";
 
 @Component({
-  selector: 'm-messenger--channel-button',
-  templateUrl: 'channel-button.component.html',
-  inputs: ['user']
+  selector: "m-messenger--channel-button",
+  templateUrl: "channel-button.component.html",
+  inputs: ["user"]
 })
-
 export class MessengerChannelButton {
-
   minds: Minds = window.Minds;
 
   user: any;
@@ -21,9 +25,8 @@ export class MessengerChannelButton {
   constructor(
     public session: Session,
     public client: Client,
-    public dockpanes: MessengerConversationDockpanesService,
-  ) {
-  }
+    public dockpanes: MessengerConversationDockpanesService
+  ) {}
 
   chat() {
     let conversation = this.buildConversation();
@@ -40,8 +43,7 @@ export class MessengerChannelButton {
 
   private permutate() {
     let participants = [this.user.guid, this.session.getLoggedInUser().guid];
-    participants.sort((a, b) => a < b ? -1 : 1);
-    return participants.join(':');
+    participants.sort((a, b) => (a < b ? -1 : 1));
+    return participants.join(":");
   }
-
 }

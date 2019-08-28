@@ -13,16 +13,17 @@ import { NotificationsToasterComponent } from "../../../modules/notifications/to
 import { ThemeService } from "../../../common/services/theme.service";
 
 @Component({
-  selector: 'm-v2-topbar',
-  templateUrl: 'v2-topbar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: "m-v2-topbar",
+  templateUrl: "v2-topbar.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class V2TopbarComponent implements OnInit, OnDestroy {
   minds = window.Minds;
   timeout;
   isTouchScreen = false;
 
-  @ViewChild(DynamicHostDirective, { static: true }) notificationsToasterHost: DynamicHostDirective;
+  @ViewChild(DynamicHostDirective, { static: true })
+  notificationsToasterHost: DynamicHostDirective;
 
   componentRef;
   componentInstance: NotificationsToasterComponent;
@@ -32,8 +33,7 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     private themeService: ThemeService,
     protected componentFactoryResolver: ComponentFactoryResolver
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.loadComponent();
@@ -45,7 +45,9 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   }
 
   loadComponent() {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(NotificationsToasterComponent),
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+        NotificationsToasterComponent
+      ),
       viewContainerRef = this.notificationsToasterHost.viewContainerRef;
 
     viewContainerRef.clear();
@@ -82,5 +84,4 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
       clearTimeout(this.timeout);
     }
   }
-
 }

@@ -1,13 +1,26 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from "@angular/core";
 import { Client } from "../../../../../services/api/client";
 import { timespanOption } from "../timespanOption";
 import { removeCurrentUnits } from "../../../util";
 
 @Component({
-  selector: 'm-analyticscharts__activeusers',
+  selector: "m-analyticscharts__activeusers",
   template: `
     <div class="m-chart" #chartContainer>
-      <div class="mdl-spinner mdl-js-spinner is-active" [mdl] *ngIf="inProgress"></div>
+      <div
+        class="mdl-spinner mdl-js-spinner is-active"
+        [mdl]
+        *ngIf="inProgress"
+      ></div>
 
       <m-graph
         [data]="data"
@@ -17,16 +30,15 @@ import { removeCurrentUnits } from "../../../util";
     </div>
   `
 })
-
 export class ActiveUsersChartComponent implements OnInit {
   @Input() total: boolean = false;
   @Output() loaded: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
 
   timespan: timespanOption;
 
-  @ViewChild('chartContainer', { static: true }) chartContainer: ElementRef;
+  @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;
 
-  @Input('timespan') set _timespan(value: timespanOption) {
+  @Input("timespan") set _timespan(value: timespanOption) {
     this.timespan = value;
 
     if (this.init) {
@@ -41,32 +53,30 @@ export class ActiveUsersChartComponent implements OnInit {
   layout: any = {
     width: 0,
     height: 0,
-    title: '',
+    title: "",
     font: {
-      family: 'Roboto'
+      family: "Roboto"
     },
     titlefont: {
-      family: 'Roboto',
+      family: "Roboto",
       size: 24,
-      weight: 'bold'
+      weight: "bold"
     },
     xaxis: {
-      type: '-',
+      type: "-"
     },
     yaxis: {
-      type: 'log',
+      type: "log",
       dtick: 1
     },
     margin: {
       t: 16,
       b: 32,
-      l: 32,
-    },
+      l: 32
+    }
   };
 
-  constructor(private client: Client) {
-
-  }
+  constructor(private client: Client) {}
 
   ngOnInit() {
     this.applyDimensions();
@@ -75,12 +85,15 @@ export class ActiveUsersChartComponent implements OnInit {
   }
 
   async getData() {
-    let url = 'api/v2/analytics/' + (this.total ? 'totalpageviews' : 'activeusers');
+    let url =
+      "api/v2/analytics/" + (this.total ? "totalpageviews" : "activeusers");
 
     this.inProgress = true;
 
     try {
-      const response: any = await this.client.get(url, { timespan: this.timespan });
+      const response: any = await this.client.get(url, {
+        timespan: this.timespan
+      });
       const [data, current] = removeCurrentUnits(response.data);
       this.data = data;
 
@@ -92,12 +105,12 @@ export class ActiveUsersChartComponent implements OnInit {
     this.inProgress = false;
   }
 
-  @HostListener('window:resize')
+  @HostListener("window:resize")
   applyDimensions() {
     this.layout = {
       ...this.layout,
       width: this.chartContainer.nativeElement.clientWidth,
-      height: this.chartContainer.nativeElement.clientHeight - 35,
+      height: this.chartContainer.nativeElement.clientHeight - 35
     };
   }
 }

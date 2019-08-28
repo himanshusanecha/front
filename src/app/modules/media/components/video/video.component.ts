@@ -1,64 +1,87 @@
-import { Component, ElementRef, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef, OnDestroy, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-import { MindsVideoProgressBar } from './progress-bar/progress-bar.component';
-import { MindsVideoVolumeSlider } from './volume-slider/volume-slider.component';
+import {
+  Component,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ChangeDetectorRef,
+  OnDestroy,
+  HostListener
+} from "@angular/core";
+import { Router } from "@angular/router";
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from "@angular/animations";
+import { MindsVideoProgressBar } from "./progress-bar/progress-bar.component";
+import { MindsVideoVolumeSlider } from "./volume-slider/volume-slider.component";
 
-import { Client } from '../../../../services/api';
-import { ScrollService } from '../../../../services/ux/scroll';
-import { MindsPlayerInterface } from './players/player.interface';
-import { WebtorrentService } from '../../../webtorrent/webtorrent.service';
-import { SOURCE_CANDIDATE_PICK_ZIGZAG, SourceCandidates } from './source-candidates';
-import { FeaturesService } from '../../../../services/features.service';
-import isMobile from '../../../../helpers/is-mobile';
+import { Client } from "../../../../services/api";
+import { ScrollService } from "../../../../services/ux/scroll";
+import { MindsPlayerInterface } from "./players/player.interface";
+import { WebtorrentService } from "../../../webtorrent/webtorrent.service";
+import {
+  SOURCE_CANDIDATE_PICK_ZIGZAG,
+  SourceCandidates
+} from "./source-candidates";
+import { FeaturesService } from "../../../../services/features.service";
+import isMobile from "../../../../helpers/is-mobile";
 
 @Component({
-  selector: 'm-video',
+  selector: "m-video",
   host: {
-    '(mouseenter)': 'onMouseEnter()',
-    '(mouseleave)': 'onMouseLeave()',
-    '[class.clickable]':'metadataLoaded'
+    "(mouseenter)": "onMouseEnter()",
+    "(mouseleave)": "onMouseLeave()",
+    "[class.clickable]": "metadataLoaded"
   },
-  templateUrl: 'video.component.html',
+  templateUrl: "video.component.html",
   animations: [
-    trigger('fadeAnimation', [
-      state('in', style({
-        visibility: 'visible',
-        opacity: 1
-      })),
-      state('out', style({
-        visibility: 'hidden',
-        opacity: 0
-      })),
-      transition('in <=> out', [
-        animate('300ms ease-in')
-      ]),
-    ]),
-  ],
+    trigger("fadeAnimation", [
+      state(
+        "in",
+        style({
+          visibility: "visible",
+          opacity: 1
+        })
+      ),
+      state(
+        "out",
+        style({
+          visibility: "hidden",
+          opacity: 0
+        })
+      ),
+      transition("in <=> out", [animate("300ms ease-in")])
+    ])
+  ]
 })
 export class MindsVideoComponent implements OnDestroy {
-
   @Input() guid: string | number;
   @Input() log: string | number;
   @Input() muted: boolean = false;
-  @Input() poster: string = '';
+  @Input() poster: string = "";
   @Input() isActivity: boolean = false;
   @Input() isModal: boolean = false;
   // @Input() isTheatre: boolean = false;
 
-
-  @Output('finished') finished: EventEmitter<any> = new EventEmitter();
+  @Output("finished") finished: EventEmitter<any> = new EventEmitter();
 
   @Output() videoMetadataLoaded: EventEmitter<any> = new EventEmitter();
   @Output() videoCanPlayThrough: EventEmitter<any> = new EventEmitter();
   @Output() mediaModalRequested: EventEmitter<any> = new EventEmitter();
 
-  @ViewChild('progressBar', { static: false }) progressBar: MindsVideoProgressBar;
-  @ViewChild('volumeSlider', { static: false }) volumeSlider: MindsVideoVolumeSlider;
-  @ViewChild('player', { static: false }) playerRef: MindsPlayerInterface;
+  @ViewChild("progressBar", { static: false })
+  progressBar: MindsVideoProgressBar;
+  @ViewChild("volumeSlider", { static: false })
+  volumeSlider: MindsVideoVolumeSlider;
+  @ViewChild("player", { static: false }) playerRef: MindsPlayerInterface;
 
   src: any[];
-  @Input('src') set _src(src) {
+  @Input("src") set _src(src) {
     this.src = src;
 
     if (this.initialized) {
@@ -67,7 +90,7 @@ export class MindsVideoComponent implements OnDestroy {
   }
 
   torrent: any[];
-  @Input('torrent') set _torrent(torrent) {
+  @Input("torrent") set _torrent(torrent) {
     this.torrent = torrent;
 
     if (this.initialized) {
@@ -88,7 +111,7 @@ export class MindsVideoComponent implements OnDestroy {
   isFullscreen: boolean = false;
   isMobile: boolean = false;
 
-  current: { type: 'torrent' | 'direct-http', src: string };
+  current: { type: "torrent" | "direct-http"; src: string };
   protected candidates: SourceCandidates = new SourceCandidates();
 
   torrentInfo: boolean = false;
@@ -97,7 +120,7 @@ export class MindsVideoComponent implements OnDestroy {
   protected initialized: boolean = false;
 
   private availableQualities: string[] = [];
-  private currentQuality: string = '';
+  private currentQuality: string = "";
   transcodingError = null;
 
   constructor(
@@ -107,7 +130,7 @@ export class MindsVideoComponent implements OnDestroy {
     protected cd: ChangeDetectorRef,
     protected featuresService: FeaturesService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.torrentEnabled = this.webtorrent.isEnabled();
@@ -121,7 +144,8 @@ export class MindsVideoComponent implements OnDestroy {
     }
 
     if (!this.playCountDisabled && this.log && this.playCount === -1) {
-      this.client.get(`api/v1/analytics/@counter/play/${this.log}`)
+      this.client
+        .get(`api/v1/analytics/@counter/play/${this.log}`)
         .then((response: any) => {
           if (!response.data) {
             return;
@@ -137,15 +161,18 @@ export class MindsVideoComponent implements OnDestroy {
   }
 
   autoplay: boolean = false;
-  @Input('autoplay') set _autoplay(value: boolean) {
-    if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+  @Input("autoplay") set _autoplay(value: boolean) {
+    if (
+      navigator.userAgent.match(/iPhone/i) ||
+      navigator.userAgent.match(/iPod/i)
+    ) {
       this.autoplay = false;
     } else {
       this.autoplay = value;
     }
   }
 
-  @Input('playCount') set _playCount(value: any) {
+  @Input("playCount") set _playCount(value: any) {
     if (!value && value !== 0) {
       if (value === false) {
         this.playCountDisabled = true;
@@ -156,8 +183,8 @@ export class MindsVideoComponent implements OnDestroy {
     this.playCount = value;
   }
 
-  onError({ player, e }: { player?, e? } = {}) {
-    console.error('Received error when trying to reproduce video', e, player);
+  onError({ player, e }: { player?; e? } = {}) {
+    console.error("Received error when trying to reproduce video", e, player);
 
     setTimeout(() => this.fallback(), 0);
   }
@@ -170,10 +197,10 @@ export class MindsVideoComponent implements OnDestroy {
     this.sendFinished();
   }
 
-  onPause() { }
+  onPause() {}
 
-  sendFinished(){
-    this.finished.emit( true );
+  sendFinished() {
+    this.finished.emit(true);
   }
 
   addViewCount() {
@@ -181,20 +208,19 @@ export class MindsVideoComponent implements OnDestroy {
       return;
     }
 
-    this.client.put('api/v1/analytics/play/' + this.log)
-      .then(() => {
-        if (!this.playCountDisabled) {
-          this.playCount++;
-        }
-      });
+    this.client.put("api/v1/analytics/play/" + this.log).then(() => {
+      if (!this.playCountDisabled) {
+        this.playCount++;
+      }
+    });
     this.playedOnce = true;
   }
 
   onMouseEnter() {
-    if (this.isActivity && this.featuresService.has('media-modal')) {
+    if (this.isActivity && this.featuresService.has("media-modal")) {
       return;
     }
-    if (this.videoMetadataLoaded){
+    if (this.videoMetadataLoaded) {
       this.progressBar.getSeeker();
       this.progressBar.enableKeyControls();
       this.showControls = true;
@@ -202,7 +228,10 @@ export class MindsVideoComponent implements OnDestroy {
   }
 
   onMouseLeave() {
-    if (this.featuresService.has('media-modal') && (this.stageHover || this.isActivity)) {
+    if (
+      this.featuresService.has("media-modal") &&
+      (this.stageHover || this.isActivity)
+    ) {
       return;
     }
 
@@ -260,8 +289,7 @@ export class MindsVideoComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.scroll_listener)
-      this.scroll.unListen(this.scroll_listener);
+    if (this.scroll_listener) this.scroll.unListen(this.scroll_listener);
 
     if (this.stopSeekerTimeout) {
       clearTimeout(this.stopSeekerTimeout);
@@ -282,11 +310,11 @@ export class MindsVideoComponent implements OnDestroy {
 
   loadedMetadata() {
     const dimensions = {
-      'width' : this.playerRef.getPlayer().videoWidth,
-      'height' : this.playerRef.getPlayer().videoHeight
+      width: this.playerRef.getPlayer().videoWidth,
+      height: this.playerRef.getPlayer().videoHeight
     };
     this.metadataLoaded = true;
-    this.videoMetadataLoaded.emit({dimensions: dimensions});
+    this.videoMetadataLoaded.emit({ dimensions: dimensions });
   }
 
   onCanPlayThrough() {
@@ -301,7 +329,9 @@ export class MindsVideoComponent implements OnDestroy {
 
     if (!success) {
       try {
-        let response: any = await this.client.get(`api/v1/media/transcoding/${this.guid}`);
+        let response: any = await this.client.get(
+          `api/v1/media/transcoding/${this.guid}`
+        );
         this.transcoding = response.transcoding;
       } catch (e) {
         this.transcodingError = e.error;
@@ -322,12 +352,12 @@ export class MindsVideoComponent implements OnDestroy {
 
     if (this.torrent && this.torrentEnabled) {
       const sources = this.torrent.map(s => s.key);
-      this.candidates.setSource('torrent', sources);
+      this.candidates.setSource("torrent", sources);
     }
 
     if (this.src) {
       const sources = this.src.map(s => s.uri);
-      this.candidates.setSource('direct-http', sources);
+      this.candidates.setSource("direct-http", sources);
     }
 
     this.updateAvailableQualities();
@@ -335,7 +365,10 @@ export class MindsVideoComponent implements OnDestroy {
   }
 
   pickNextBestSource() {
-    const bestSource = this.candidates.pick([ 'torrent', 'direct-http' ], SOURCE_CANDIDATE_PICK_ZIGZAG);
+    const bestSource = this.candidates.pick(
+      ["torrent", "direct-http"],
+      SOURCE_CANDIDATE_PICK_ZIGZAG
+    );
 
     if (!bestSource) {
       // Keep the last player active
@@ -375,7 +408,9 @@ export class MindsVideoComponent implements OnDestroy {
   reorderSourcesBasedOnQuality() {
     // Torrent
     if (this.torrent && this.torrent.length > 0) {
-      const torrentI: number = this.torrent.findIndex(s => s.res === this.currentQuality);
+      const torrentI: number = this.torrent.findIndex(
+        s => s.res === this.currentQuality
+      );
 
       if (torrentI > -1) {
         this.torrent.unshift(...this.torrent.splice(torrentI, 1));
@@ -384,7 +419,9 @@ export class MindsVideoComponent implements OnDestroy {
 
     // Src
     if (this.src && this.src.length > 0) {
-      const srcI: number = this.src.findIndex(s => s.res === this.currentQuality);
+      const srcI: number = this.src.findIndex(
+        s => s.res === this.currentQuality
+      );
 
       if (srcI > -1) {
         this.src.unshift(...this.src.splice(srcI, 1));
@@ -409,7 +446,7 @@ export class MindsVideoComponent implements OnDestroy {
       return;
     }
 
-    if (this.isActivity && this.featuresService.has('media-modal')){
+    if (this.isActivity && this.featuresService.has("media-modal")) {
       this.mediaModalRequested.emit();
       return;
     }
@@ -422,17 +459,19 @@ export class MindsVideoComponent implements OnDestroy {
     this.cd.detectChanges();
   }
 
-    // * FULLSCREEN * --------------------------------------------------------------------------------
+  // * FULLSCREEN * --------------------------------------------------------------------------------
   // Listen for fullscreen change event in case user enters/exits full screen without clicking button
-  @HostListener('document:fullscreenchange', ['$event'])
-  @HostListener('document:webkitfullscreenchange', ['$event'])
-  @HostListener('document:mozfullscreenchange', ['$event'])
-  @HostListener('document:MSFullscreenChange', ['$event'])
+  @HostListener("document:fullscreenchange", ["$event"])
+  @HostListener("document:webkitfullscreenchange", ["$event"])
+  @HostListener("document:mozfullscreenchange", ["$event"])
+  @HostListener("document:MSFullscreenChange", ["$event"])
   onFullscreenChange(event) {
-    if ( !document.fullscreenElement &&
-      !document['webkitFullscreenElement'] &&
-      !document['mozFullScreenElement'] &&
-      !document['msFullscreenElement'] ) {
+    if (
+      !document.fullscreenElement &&
+      !document["webkitFullscreenElement"] &&
+      !document["mozFullScreenElement"] &&
+      !document["msFullscreenElement"]
+    ) {
       this.isFullscreen = false;
     } else {
       this.isFullscreen = true;
@@ -442,41 +481,41 @@ export class MindsVideoComponent implements OnDestroy {
   toggleFullscreen($event) {
     // This will only work on the main video on a media page (not comment attachments)
     // TODO: make this work on pages with more than one m-video (i.e. feeds)
-    const elem = document.querySelector('m-video');
+    const elem = document.querySelector("m-video");
 
     // If fullscreen is not already enabled
-    if ( !document['fullscreenElement'] &&
-      !document['webkitFullscreenElement'] &&
-      !document['mozFullScreenElement'] &&
-      !document['msFullscreenElement'] ) {
-
-        // Request full screen
+    if (
+      !document["fullscreenElement"] &&
+      !document["webkitFullscreenElement"] &&
+      !document["mozFullScreenElement"] &&
+      !document["msFullscreenElement"]
+    ) {
+      // Request full screen
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
-      } else if (elem['webkitRequestFullscreen']) {
-        elem['webkitRequestFullscreen']();
-      } else if (elem['mozRequestFullScreen']) {
-        elem['mozRequestFullScreen']();
-      } else if (elem['msRequestFullscreen']) {
-        elem['msRequestFullscreen']();
+      } else if (elem["webkitRequestFullscreen"]) {
+        elem["webkitRequestFullscreen"]();
+      } else if (elem["mozRequestFullScreen"]) {
+        elem["mozRequestFullScreen"]();
+      } else if (elem["msRequestFullscreen"]) {
+        elem["msRequestFullscreen"]();
       }
       this.isFullscreen = true;
       return;
     }
 
     // If fullscreen is already enabled, exit it
-    if ( document.exitFullscreen ) {
+    if (document.exitFullscreen) {
       document.exitFullscreen();
-    } else if (document['webkitExitFullscreen']) {
-      document['webkitExitFullscreen']();
-    } else if (document['mozCancelFullScreen']) {
-      document['mozCancelFullScreen']();
-    } else if (document['msExitFullscreen']) {
-      document['msExitFullscreen']();
+    } else if (document["webkitExitFullscreen"]) {
+      document["webkitExitFullscreen"]();
+    } else if (document["mozCancelFullScreen"]) {
+      document["mozCancelFullScreen"]();
+    } else if (document["msExitFullscreen"]) {
+      document["msExitFullscreen"]();
     }
     this.isFullscreen = false;
   }
-
 }
 
-export { VideoAds } from './ads.component';
+export { VideoAds } from "./ads.component";

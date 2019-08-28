@@ -1,44 +1,61 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ElementRef,
+  ViewChild,
+  OnInit
+} from "@angular/core";
 
-import { WireThresholdStruc, WireRewardsType } from '../interfaces/wire.interfaces';
-import { WireTypeLabels } from '../wire';
-import { Session } from '../../../services/session';
+import {
+  WireThresholdStruc,
+  WireRewardsType
+} from "../interfaces/wire.interfaces";
+import { WireTypeLabels } from "../wire";
+import { Session } from "../../../services/session";
 
 @Component({
-  selector: 'm-wire-threshold-input',
-  templateUrl: 'threshold-input.component.html'
+  selector: "m-wire-threshold-input",
+  templateUrl: "threshold-input.component.html"
 })
 export class WireThresholdInputComponent implements OnInit {
   threshold: WireThresholdStruc;
 
-  @Input('threshold') set _threshold(threshold: WireThresholdStruc) {
+  @Input("threshold") set _threshold(threshold: WireThresholdStruc) {
     this.threshold = threshold;
 
     if (!this.threshold) {
       this.threshold = {
-        type: 'tokens',
+        type: "tokens",
         min: 0
       };
     }
   }
 
-  @Input('disabled') disabled: boolean = false;
+  @Input("disabled") disabled: boolean = false;
 
-  @Input() buttonClass: string = 'm-btn m-btn--slim m-btn m-btn--with-icon';
-  @Input() labelPosition: 'left' | 'right' = 'left';
+  @Input() buttonClass: string = "m-btn m-btn--slim m-btn m-btn--with-icon";
+  @Input() labelPosition: "left" | "right" = "left";
 
-  @Output('thresholdChange') thresholdChangeEmitter: EventEmitter<WireThresholdStruc> = new EventEmitter<WireThresholdStruc>();
-  @Output('validThreshold') validThresholdEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output("thresholdChange") thresholdChangeEmitter: EventEmitter<
+    WireThresholdStruc
+  > = new EventEmitter<WireThresholdStruc>();
+  @Output("validThreshold") validThresholdEmitter: EventEmitter<
+    boolean
+  > = new EventEmitter<boolean>();
 
   //REMOVE SOON.. this doesn't do anything
-  @Input('enabled') legacyEnabled: boolean = false;
-  @Output('enabledChange') enabledChangeEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input("enabled") legacyEnabled: boolean = false;
+  @Output("enabledChange") enabledChangeEmitter: EventEmitter<
+    boolean
+  > = new EventEmitter<boolean>();
 
   typeLabels = WireTypeLabels;
 
-  @ViewChild('minAmountInput', { static: true }) minAmountInput: ElementRef;
+  @ViewChild("minAmountInput", { static: true }) minAmountInput: ElementRef;
 
-  constructor(public session: Session) { }
+  constructor(public session: Session) {}
 
   ngOnInit() {
     this.validThresholdEmitter.emit(this.validate());
@@ -50,10 +67,15 @@ export class WireThresholdInputComponent implements OnInit {
 
   get rewards() {
     const user = this.session.getLoggedInUser();
-    if (!user)
-      return [];
-    if (user.wire_rewards && user.wire_rewards.rewards && user.wire_rewards.rewards.tokens)
-      return <{ amount: number, description: string}[]>user.wire_rewards.rewards.tokens;
+    if (!user) return [];
+    if (
+      user.wire_rewards &&
+      user.wire_rewards.rewards &&
+      user.wire_rewards.rewards.tokens
+    )
+      return <{ amount: number; description: string }[]>(
+        user.wire_rewards.rewards.tokens
+      );
     return [];
   }
 
@@ -65,7 +87,7 @@ export class WireThresholdInputComponent implements OnInit {
   }
 
   setMinAmount(value: string) {
-    let cleanValue = parseFloat(value.replace(/,/g, '.'));
+    let cleanValue = parseFloat(value.replace(/,/g, "."));
 
     if (cleanValue) {
       // allow 3 decimals only
@@ -83,7 +105,7 @@ export class WireThresholdInputComponent implements OnInit {
       return true;
     }
 
-    return !!(this.threshold.type && (this.threshold.min > 0));
+    return !!(this.threshold.type && this.threshold.min > 0);
   }
 
   focusInput() {
@@ -95,14 +117,14 @@ export class WireThresholdInputComponent implements OnInit {
   }
 
   selectTier(tier) {
-    this.threshold.min = <number> parseInt(tier.amount);
+    this.threshold.min = <number>parseInt(tier.amount);
     this._emitChange();
   }
 
   // Internal
 
   private _emitChange() {
-    this.thresholdChangeEmitter.emit(this.enabled ? this.threshold: null);
+    this.thresholdChangeEmitter.emit(this.enabled ? this.threshold : null);
     this.enabledChangeEmitter.emit(this.enabled);
     this.validThresholdEmitter.emit(this.validate());
   }

@@ -1,9 +1,8 @@
-import { Inject } from '@angular/core';
-import { Client } from './api';
-import { Storage } from './storage';
+import { Inject } from "@angular/core";
+import { Client } from "./api";
+import { Storage } from "./storage";
 
 export class TranslationService {
-
   private defaultLanguage: string;
   private languagesReady: Promise<any>;
 
@@ -15,13 +14,15 @@ export class TranslationService {
     @Inject(Client) private clientService: Client,
     @Inject(Storage) private storage: Storage
   ) {
-    this.defaultLanguage = 'en'; // TODO: Set to get translated names (when i18n is in place)
+    this.defaultLanguage = "en"; // TODO: Set to get translated names (when i18n is in place)
     this.load();
   }
 
   getLanguages(): Promise<any> {
     if (!this.languagesReady) {
-      let cached = this.storage.get(`translation:languages:${this.defaultLanguage}`);
+      let cached = this.storage.get(
+        `translation:languages:${this.defaultLanguage}`
+      );
 
       if (cached) {
         cached = JSON.parse(cached);
@@ -30,13 +31,17 @@ export class TranslationService {
       if (cached && cached.length > 0) {
         this.languagesReady = Promise.resolve(cached);
       } else {
-        this.languagesReady = this.clientService.get(`api/v1/translation/languages`, { target: this.defaultLanguage })
+        this.languagesReady = this.clientService
+          .get(`api/v1/translation/languages`, { target: this.defaultLanguage })
           .then((response: any) => {
             if (!response.languages) {
-              throw new Error('No languages array');
+              throw new Error("No languages array");
             }
 
-            this.storage.set(`translation:languages:${this.defaultLanguage}`, JSON.stringify(response.languages));
+            this.storage.set(
+              `translation:languages:${this.defaultLanguage}`,
+              JSON.stringify(response.languages)
+            );
             this.storage.set(`translation:userDefault`, response.userDefault);
 
             return response.languages;
@@ -49,46 +54,44 @@ export class TranslationService {
   }
 
   getUserDefaultLanguage(): Promise<any> {
-    return this.getLanguages()
-      .then(() => {
-        let lang = this.storage.get(`translation:userDefault`);
+    return this.getLanguages().then(() => {
+      let lang = this.storage.get(`translation:userDefault`);
 
-        if (lang === 'null') {
-          // Some users have the default language cache tainted
-          lang = null;
-        }
+      if (lang === "null") {
+        // Some users have the default language cache tainted
+        lang = null;
+      }
 
-        return lang;
-      });
+      return lang;
+    });
   }
 
   purgeLanguagesCache() {
     this.languagesReady = void 0;
-    this.storage.set(`translation:languages:${this.defaultLanguage}`, '');
+    this.storage.set(`translation:languages:${this.defaultLanguage}`, "");
     this.storage.set(`translation:userDefault`, null);
   }
 
   getLanguageName(query: string): Promise<string> {
     if (!query) {
-      return Promise.resolve('None');
+      return Promise.resolve("None");
     }
 
-    return this.getLanguages()
-      .then((languages: any[]) => {
-        let result: string = 'Unknown';
+    return this.getLanguages().then((languages: any[]) => {
+      let result: string = "Unknown";
 
-        languages.forEach((language: any) => {
-          if (language.language === query) {
-            result = language.name;
-          }
-        });
-
-        return result;
+      languages.forEach((language: any) => {
+        if (language.language === query) {
+          result = language.name;
+        }
       });
+
+      return result;
+    });
   }
 
   isTranslatable(entity): boolean {
-    if (typeof entity !== 'object') {
+    if (typeof entity !== "object") {
       return false;
     }
 
@@ -97,16 +100,14 @@ export class TranslationService {
     }
 
     // Message should exist and have content
-    if (typeof entity.message !== 'undefined' && entity.message) {
+    if (typeof entity.message !== "undefined" && entity.message) {
       return true;
-    } else if (entity.type === 'comment' && entity.description) {
+    } else if (entity.type === "comment" && entity.description) {
       return true;
     } else if (
       entity.custom_type &&
-      (
-        (typeof entity.title !== 'undefined' && entity.title) ||
-        (typeof entity.blurb !== 'undefined' && entity.blurb)
-      )
+      ((typeof entity.title !== "undefined" && entity.title) ||
+        (typeof entity.blurb !== "undefined" && entity.blurb))
     ) {
       return true;
     }
@@ -115,7 +116,8 @@ export class TranslationService {
   }
 
   translate(guid, language): Promise<any> {
-    return this.clientService.get(`api/v1/translation/translate/${guid}`, { target: language })
+    return this.clientService
+      .get(`api/v1/translation/translate/${guid}`, { target: language })
       .then((response: any) => {
         // Optimistically set default language
         if (!this.storage.get(`translation:userDefault`)) {
@@ -126,8 +128,11 @@ export class TranslationService {
           this.purgeLanguagesCache();
         }
 
-        if (!response.translation || Object.keys(response.translation).length == 0) {
-          throw new Error('No translation available');
+        if (
+          !response.translation ||
+          Object.keys(response.translation).length == 0
+        ) {
+          throw new Error("No translation available");
         }
 
         return response.translation;
@@ -137,5 +142,4 @@ export class TranslationService {
   private load() {
     this.getLanguages(); // Initial caching
   }
-
 }

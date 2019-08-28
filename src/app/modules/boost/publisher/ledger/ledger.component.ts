@@ -1,13 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { Client } from '../../../../services/api/client';
-import { Session } from '../../../../services/session';
-import { BoostConsoleFilter } from '../../console/console.component';
+import { Component, Input } from "@angular/core";
+import { Client } from "../../../../services/api/client";
+import { Session } from "../../../../services/session";
+import { BoostConsoleFilter } from "../../console/console.component";
 
 @Component({
-  selector: 'm-boost-publisher--ledger',
-  templateUrl: 'ledger.component.html'
+  selector: "m-boost-publisher--ledger",
+  templateUrl: "ledger.component.html"
 })
-
 export class BoostPublisherLedgerComponent {
   _filter: BoostConsoleFilter;
 
@@ -18,11 +17,7 @@ export class BoostPublisherLedgerComponent {
   inProgress: boolean = false;
   rows: Array<any> = [];
 
-  constructor(
-    private client: Client,
-    public session: Session
-  ) {
-  }
+  constructor(private client: Client, public session: Session) {}
 
   ngOnInit() {
     const d = new Date();
@@ -33,9 +28,7 @@ export class BoostPublisherLedgerComponent {
     this.endDate = d.toISOString();
   }
 
-  loadList(refresh: boolean) {
-    
-  }
+  loadList(refresh: boolean) {}
 
   onStartDateChange(newDate) {
     this.startDate = newDate;
@@ -46,5 +39,4 @@ export class BoostPublisherLedgerComponent {
     this.endDate = newDate;
     this.loadList(true);
   }
-
 }

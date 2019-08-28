@@ -3,15 +3,15 @@
  */
 import { EventEmitter } from "@angular/core";
 
-export let sessionMock = new function () {
+export let sessionMock = new (function() {
   this.user = {
-    guid: '1000',
+    guid: "1000",
     admin: true,
     is_admin: true,
     plus: false,
     disabled_boost: false,
-    username: 'test',
-    show_boosts: true,
+    username: "test",
+    show_boosts: true
   };
   this.loggedIn = true;
   this.isAdmin = () => {
@@ -28,7 +28,7 @@ export let sessionMock = new function () {
     return this.loggedIn;
   };
 
-  this.login = jasmine.createSpy('login');
+  this.login = jasmine.createSpy("login");
 
-  this.logout = jasmine.createSpy('logout');
-};
+  this.logout = jasmine.createSpy("logout");
+})();

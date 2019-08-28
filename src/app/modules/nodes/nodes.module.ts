@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 
-import { NodesMarketingComponent } from './marketing/marketing.component';
-import { RouterModule, Routes } from '@angular/router';
-import { CommonModule as NgCommonModule } from '@angular/common';
-import { CommonModule } from '../../common/common.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NodesMarketingComponent } from "./marketing/marketing.component";
+import { RouterModule, Routes } from "@angular/router";
+import { CommonModule as NgCommonModule } from "@angular/common";
+import { CommonModule } from "../../common/common.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 const routes: Routes = [
   {
-    path: 'nodes',
-    component: NodesMarketingComponent,
+    path: "nodes",
+    component: NodesMarketingComponent
   }
 ];
 
@@ -19,17 +19,10 @@ const routes: Routes = [
     NgCommonModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
-  declarations: [
-    NodesMarketingComponent
-  ],
-  exports: [
-    NodesMarketingComponent
-  ],
-  entryComponents: [
-    NodesMarketingComponent,
-  ]
+  declarations: [NodesMarketingComponent],
+  exports: [NodesMarketingComponent],
+  entryComponents: [NodesMarketingComponent]
 })
-export class NodesMarketingModule {
-}
+export class NodesMarketingModule {}

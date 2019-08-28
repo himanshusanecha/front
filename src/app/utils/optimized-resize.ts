@@ -8,7 +8,6 @@ class OptimizedResize {
 
   // fired on resize event
   private resize() {
-
     if (!this.running) {
       this.running = true;
 
@@ -18,13 +17,11 @@ class OptimizedResize {
         setTimeout(this.runCallbacks.bind(this), 66);
       }
     }
-
   }
 
   // run the actual callbacks
   private runCallbacks() {
-
-    this.callbacks.forEach((callback) => {
+    this.callbacks.forEach(callback => {
       callback();
     });
 
@@ -33,17 +30,15 @@ class OptimizedResize {
 
   // adds callback to loop
   private addCallback(callback) {
-
     if (callback) {
       this.callbacks.push(callback);
     }
-
   }
 
   // public method to add additional callback
   public add(callback) {
     if (!this.callbacks.length) {
-      window.addEventListener('resize', this.resize.bind(this));
+      window.addEventListener("resize", this.resize.bind(this));
     }
     this.addCallback(callback);
   }

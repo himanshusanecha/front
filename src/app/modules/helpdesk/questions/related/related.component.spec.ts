@@ -1,35 +1,33 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterTestingModule } from "@angular/router/testing";
 
-import { CommonModule } from '@angular/common';
-import { By } from '@angular/platform-browser';
-import { RelatedQuestionsComponent } from './related.component';
-import { Session } from '../../../../services/session';
-import { sessionMock } from '../../../../../tests/session-mock.spec';
-import { Client } from '../../../../services/api/client';
-import { clientMock } from '../../../../../tests/client-mock.spec';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
-import { MockComponent } from '../../../../utils/mock';
+import { CommonModule } from "@angular/common";
+import { By } from "@angular/platform-browser";
+import { RelatedQuestionsComponent } from "./related.component";
+import { Session } from "../../../../services/session";
+import { sessionMock } from "../../../../../tests/session-mock.spec";
+import { Client } from "../../../../services/api/client";
+import { clientMock } from "../../../../../tests/client-mock.spec";
+import { ActivatedRoute } from "@angular/router";
+import { of } from "rxjs";
+import { MockComponent } from "../../../../utils/mock";
 import { SafePipe } from "../../../../common/pipes/safe";
 
-describe('RelatedQuestionsComponent', () => {
-
+describe("RelatedQuestionsComponent", () => {
   let comp: RelatedQuestionsComponent;
   let fixture: ComponentFixture<RelatedQuestionsComponent>;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [
         SafePipe,
         RelatedQuestionsComponent,
         MockComponent({
-          selector: 'minds-activity',
-          inputs: [ 'object' ],
-        }),
+          selector: "minds-activity",
+          inputs: ["object"]
+        })
       ],
       imports: [
         RouterTestingModule,
@@ -39,13 +37,12 @@ describe('RelatedQuestionsComponent', () => {
       ],
       providers: [
         { provide: Session, useValue: sessionMock },
-        { provide: Client, useValue: clientMock },
+        { provide: Client, useValue: clientMock }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
-  beforeEach((done) => {
+  beforeEach(done => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 10;
 
     clientMock.response = {};
@@ -59,12 +56,10 @@ describe('RelatedQuestionsComponent', () => {
     if (fixture.isStable()) {
       done();
     } else {
-      fixture.whenStable()
-        .then(() => {
-          fixture.detectChanges();
-          done();
-        });
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        done();
+      });
     }
   });
-
 });

@@ -1,11 +1,17 @@
-import { Component, ElementRef, EventEmitter, HostListener, ViewChild } from '@angular/core';
-import { Session } from '../../../services/session';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  ViewChild
+} from "@angular/core";
+import { Session } from "../../../services/session";
 
-import { AttachmentService } from '../../../services/attachment';
-import { Upload } from '../../../services/api/upload';
-import { Client } from '../../../services/api/client';
-import { HashtagsSelectorComponent } from '../../hashtags/selector/selector.component';
-import { Tag } from '../../hashtags/types/tag';
+import { AttachmentService } from "../../../services/attachment";
+import { Upload } from "../../../services/api/upload";
+import { Client } from "../../../services/api/client";
+import { HashtagsSelectorComponent } from "../../hashtags/selector/selector.component";
+import { Tag } from "../../hashtags/types/tag";
 import autobind from "../../../helpers/autobind";
 import { Subject, Subscription } from "rxjs";
 import { debounceTime } from "rxjs/operators";
@@ -15,22 +21,20 @@ import { AutocompleteSuggestionsService } from "../../suggestions/services/autoc
 
 @Component({
   moduleId: module.id,
-  selector: 'minds-newsfeed-poster',
-  inputs: ['_container_guid: containerGuid', 'accessId', 'message'],
-  outputs: ['load'],
-  providers: [ AttachmentService ],
-  templateUrl: 'poster.component.html',
+  selector: "minds-newsfeed-poster",
+  inputs: ["_container_guid: containerGuid", "accessId", "message"],
+  outputs: ["load"],
+  providers: [AttachmentService],
+  templateUrl: "poster.component.html"
 })
-
 export class PosterComponent {
-
-  content = '';
+  content = "";
   meta: any = {
-    message : '',
+    message: "",
     wire_threshold: null,
     time_created: Math.floor(Date.now() / 1000)
   };
-  tags = [];  
+  tags = [];
   minds = window.Minds;
   load: EventEmitter<any> = new EventEmitter();
   inProgress: boolean = false;
@@ -41,7 +45,8 @@ export class PosterComponent {
 
   errorMessage: string = null;
 
-  @ViewChild('hashtagsSelector', { static: false }) hashtagsSelector: HashtagsSelectorComponent;
+  @ViewChild("hashtagsSelector", { static: false })
+  hashtagsSelector: HashtagsSelectorComponent;
 
   showActionBarLabels: boolean = false;
 
@@ -62,10 +67,9 @@ export class PosterComponent {
     protected elementRef: ElementRef,
     protected router: Router,
     protected inMemoryStorageService: InMemoryStorageService
-  ) {
-  }
+  ) {}
 
-  @HostListener('window:resize') _widthDetection() {
+  @HostListener("window:resize") _widthDetection() {
     this.resizeSubject.next(Date.now());
   }
 
@@ -86,7 +90,8 @@ export class PosterComponent {
   }
 
   onResize() {
-    const width = this.elementRef &&
+    const width =
+      this.elementRef &&
       this.elementRef.nativeElement &&
       this.elementRef.nativeElement.clientWidth;
 
@@ -107,7 +112,7 @@ export class PosterComponent {
 
   set message(value: any) {
     if (value) {
-      value = decodeURIComponent((value).replace(/\+/g, '%20'));
+      value = decodeURIComponent(value.replace(/\+/g, "%20"));
       this.meta.message = value;
       this.showTagsError();
       this.getPostPreview({ value: value }); //a little ugly here!
@@ -134,14 +139,14 @@ export class PosterComponent {
     } else {
       this.tooManyTags = false;
       if (this.errorMessage === "You can only select up to 5 hashtags") {
-        this.errorMessage = '';
+        this.errorMessage = "";
       }
     }
   }
 
   showTagsError() {
     if (this.tags.length > 5) {
-      this.errorMessage = 'You can only select up to 5 hashtags';
+      this.errorMessage = "You can only select up to 5 hashtags";
       this.tooManyTags = true;
     } else {
       this.tooManyTags = false;
@@ -156,7 +161,7 @@ export class PosterComponent {
 
   onTagsRemoved(tags: Tag[]) {
     for (let tag of tags) {
-      this.meta.message = this.meta.message.replace('#' + tag.value, tag.value);
+      this.meta.message = this.meta.message.replace("#" + tag.value, tag.value);
     }
   }
 
@@ -172,7 +177,8 @@ export class PosterComponent {
       return;
     }
 
-    this.meta.time_created = this.meta.time_created || Math.floor(Date.now() / 1000);
+    this.meta.time_created =
+      this.meta.time_created || Math.floor(Date.now() / 1000);
 
     this.errorMessage = "";
 
@@ -181,7 +187,8 @@ export class PosterComponent {
     data.tags = this.tags;
 
     this.inProgress = true;
-    this.client.post('api/v1/newsfeed', data)
+    this.client
+      .post("api/v1/newsfeed", data)
       .then((data: any) => {
         data.activity.boostToggle = true;
         this.load.next(data.activity);
@@ -190,19 +197,21 @@ export class PosterComponent {
         this.inProgress = false;
         this.time_created = null;
       })
-      .catch((e) => {
+      .catch(e => {
         this.inProgress = false;
         alert(e.message);
       });
   }
 
   uploadAttachment(file: HTMLInputElement, event) {
-    if (file.value) { // this prevents IE from executing this code twice
+    if (file.value) {
+      // this prevents IE from executing this code twice
       this.canPost = false;
       this.inProgress = true;
       this.errorMessage = null;
 
-      this.attachment.upload(file)
+      this.attachment
+        .upload(file)
         .then(guid => {
           this.inProgress = false;
           this.canPost = true;
@@ -232,7 +241,7 @@ export class PosterComponent {
       this.attachment.abort();
       this.canPost = true;
       this.inProgress = false;
-      this.errorMessage = '';
+      this.errorMessage = "";
       return;
     }
     // if we're not uploading a file right now
@@ -240,17 +249,20 @@ export class PosterComponent {
     this.canPost = false;
     this.inProgress = true;
 
-    this.errorMessage = '';
+    this.errorMessage = "";
 
-    this.attachment.remove(file).then(() => {
-      this.inProgress = false;
-      this.canPost = true;
-      file.value = '';
-    }).catch(e => {
-      console.error(e);
-      this.inProgress = false;
-      this.canPost = true;
-    });
+    this.attachment
+      .remove(file)
+      .then(() => {
+        this.inProgress = false;
+        this.canPost = true;
+        file.value = "";
+      })
+      .catch(e => {
+        console.error(e);
+        this.inProgress = false;
+        this.canPost = true;
+      });
   }
 
   getPostPreview(message) {
@@ -263,23 +275,25 @@ export class PosterComponent {
 
   createBlog() {
     if (this.meta && this.meta.message) {
-      const shouldNavigate = confirm(`Are you sure? The content will be moved to the blog editor.`);
+      const shouldNavigate = confirm(
+        `Are you sure? The content will be moved to the blog editor.`
+      );
 
       if (!shouldNavigate) {
         return;
       }
 
-      this.inMemoryStorageService.set('newBlogContent', this.meta.message);
+      this.inMemoryStorageService.set("newBlogContent", this.meta.message);
     }
 
-    this.router.navigate(['/blog/edit/new']);
+    this.router.navigate(["/blog/edit/new"]);
   }
 
-  onNSWFSelections(reasons: Array<{ value, label, selected}>) {
-    this.attachment.setNSFW(reasons); 
+  onNSWFSelections(reasons: Array<{ value; label; selected }>) {
+    this.attachment.setNSFW(reasons);
   }
 
-  onTimeCreatedChange(newDate){
+  onTimeCreatedChange(newDate) {
     this.meta.time_created = newDate;
   }
 }

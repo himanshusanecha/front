@@ -1,19 +1,18 @@
-import { Directive,  EventEmitter, ElementRef, OnDestroy } from '@angular/core';
-import { HovercardService } from '../../services/hovercard';
+import { Directive, EventEmitter, ElementRef, OnDestroy } from "@angular/core";
+import { HovercardService } from "../../services/hovercard";
 
 @Directive({
-  selector: '[hovercard]',
-  inputs: ['_hovercard: hovercard', '_hovercardAnchor: hovercardAnchor'],
+  selector: "[hovercard]",
+  inputs: ["_hovercard: hovercard", "_hovercardAnchor: hovercardAnchor"],
   host: {
-    '(mouseenter)': 'show()',
-    '(mouseleave)': 'hide()',
-    '(click)': 'hideForcefully()'
+    "(mouseenter)": "show()",
+    "(mouseleave)": "hide()",
+    "(click)": "hideForcefully()"
   }
 })
 export class Hovercard implements OnDestroy {
-
-  guid: any = '';
-  anchor: any = ['right', 'top'];
+  guid: any = "";
+  anchor: any = ["right", "top"];
   _element: any;
   private showTimer;
 
@@ -26,7 +25,7 @@ export class Hovercard implements OnDestroy {
       return;
     }
 
-    if (typeof value.guid !== 'undefined') {
+    if (typeof value.guid !== "undefined") {
       this.guid = value.guid;
       return;
     }
@@ -39,7 +38,7 @@ export class Hovercard implements OnDestroy {
       return;
     }
 
-    if (typeof value === 'string' || value.length !== 2) {
+    if (typeof value === "string" || value.length !== 2) {
       return;
     }
 

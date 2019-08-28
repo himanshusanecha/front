@@ -1,12 +1,12 @@
-import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ViewChild, ComponentFactoryResolver } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { DynamicHostDirective } from '../../../common/directives/dynamic-host.directive';
-import { RevenueConsoleComponent } from '../../monetization/revenue/console.component';
-import { Session } from '../../../services/session';
+import { DynamicHostDirective } from "../../../common/directives/dynamic-host.directive";
+import { RevenueConsoleComponent } from "../../monetization/revenue/console.component";
+import { Session } from "../../../services/session";
 
 @Component({
-  selector: 'm-wallet--usd',
+  selector: "m-wallet--usd",
   template: `
     <ng-template dynamic-host></ng-template>
   `
@@ -17,16 +17,22 @@ export class WalletUSDComponent {
   componentRef;
   componentInstance: RevenueConsoleComponent;
 
-  constructor(private _componentFactoryResolver: ComponentFactoryResolver, private router: Router, private session: Session) { }
+  constructor(
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    private router: Router,
+    private session: Session
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.loadComponent();
   }
 
   loadComponent() {
-    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(RevenueConsoleComponent),
+    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(
+        RevenueConsoleComponent
+      ),
       viewContainerRef = this.host.viewContainerRef;
 
     viewContainerRef.clear();

@@ -1,17 +1,12 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Navigation as NavigationService } from '../../../services/navigation';
-
+import { Navigation as NavigationService } from "../../../services/navigation";
 
 @Component({
-  selector: 'm-footer',
-  templateUrl: 'footer.component.html'
+  selector: "m-footer",
+  templateUrl: "footer.component.html"
 })
-
 export class FooterComponent {
-
-  constructor(public navigation: NavigationService) {
-  }
-
+  constructor(public navigation: NavigationService) {}
 }

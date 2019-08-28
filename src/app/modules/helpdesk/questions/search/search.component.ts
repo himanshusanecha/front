@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Client } from '../../../../services/api/client';
-import { Session } from '../../../../services/session';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Client } from "../../../../services/api/client";
+import { Session } from "../../../../services/session";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'm-helpdesk--questions--search',
-  templateUrl: 'search.component.html'
+  selector: "m-helpdesk--questions--search",
+  templateUrl: "search.component.html"
 })
-
 export class SearchQuestionsComponent {
-
-  query: string = '';
+  query: string = "";
   questions: any[] = [];
   searching: boolean = false;
   private throttle;
@@ -22,8 +20,7 @@ export class SearchQuestionsComponent {
     public session: Session,
     public router: Router,
     private route: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   onBlur() {
     this.searching = false;
@@ -44,19 +41,21 @@ export class SearchQuestionsComponent {
 
     this.throttle = setTimeout(async () => {
       try {
-        let response: any = await this.client.get(`api/v2/helpdesk/questions/search`, {
-          q: query,
-          limit: 8,
-        });
+        let response: any = await this.client.get(
+          `api/v2/helpdesk/questions/search`,
+          {
+            q: query,
+            limit: 8
+          }
+        );
         if (!response.entities) {
           return;
         }
 
         this.questions = response.entities;
       } catch (e) {
-        console.error('Cannot load results', e);
+        console.error("Cannot load results", e);
       }
     });
   }
-
 }

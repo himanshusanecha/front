@@ -1,14 +1,13 @@
-import { Component, EventEmitter, ChangeDetectorRef  } from '@angular/core';
+import { Component, EventEmitter, ChangeDetectorRef } from "@angular/core";
 
-import { ThirdPartyNetworksService } from '../../services/third-party-networks';
+import { ThirdPartyNetworksService } from "../../services/third-party-networks";
 
 @Component({
   moduleId: module.id,
-  selector: 'minds-third-party-networks-selector',
-  exportAs: 'thirdPartyNetworksSelector',
-  templateUrl: 'selector.html',
+  selector: "minds-third-party-networks-selector",
+  exportAs: "thirdPartyNetworksSelector",
+  templateUrl: "selector.html"
 })
-
 export class ThirdPartyNetworksSelector {
   integrations: any;
 
@@ -20,11 +19,10 @@ export class ThirdPartyNetworksSelector {
   inProgress: boolean = false;
 
   private networkIconsMap: any = {
-    'facebook': 'facebook-official'
+    facebook: "facebook-official"
   };
 
-  constructor(private thirdpartynetworks: ThirdPartyNetworksService) {
-  }
+  constructor(private thirdpartynetworks: ThirdPartyNetworksService) {}
 
   ngOnInit() {
     for (let network in this.thirdpartynetworks.getIntegrations()) {
@@ -39,13 +37,14 @@ export class ThirdPartyNetworksSelector {
     if (!this.ready) {
       this.inProgress = true;
 
-      this.thirdpartynetworks.getStatus()
+      this.thirdpartynetworks
+        .getStatus()
         .then(() => {
           this.inProgress = false;
           this.ready = true;
         })
         .catch(e => {
-          console.error('[Third Party Networks/toggleOpened]', e);
+          console.error("[Third Party Networks/toggleOpened]", e);
           this.inProgress = false;
         });
     }
@@ -65,11 +64,10 @@ export class ThirdPartyNetworksSelector {
 
     this.inProgress = true;
     if (!this.thirdpartynetworks.isConnected(network)) {
-      this.thirdpartynetworks.connect(network)
-        .then(() => {
-          this.inProgress = false;
-          this.state[network] = true;
-        });
+      this.thirdpartynetworks.connect(network).then(() => {
+        this.inProgress = false;
+        this.state[network] = true;
+      });
 
       return;
     }
@@ -89,11 +87,10 @@ export class ThirdPartyNetworksSelector {
   }
 
   getNetworkIconClass(network: string) {
-    if (typeof this.networkIconsMap[network] !== 'undefined') {
+    if (typeof this.networkIconsMap[network] !== "undefined") {
       return this.networkIconsMap[network];
     }
 
     return network;
   }
-
 }

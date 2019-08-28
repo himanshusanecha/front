@@ -1,41 +1,36 @@
-import { 
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
   ViewChild,
-  Input,
-} from '@angular/core';
-import { Router } from '@angular/router';
+  Input
+} from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Client } from '../../../../services/api/client';
-import { Session } from '../../../../services/session';
-import { TokenOnboardingService } from './onboarding.service';
-import { DynamicHostDirective } from '../../../../common/directives/dynamic-host.directive';
-import { Storage } from '../../../../services/storage';
-
+import { Client } from "../../../../services/api/client";
+import { Session } from "../../../../services/session";
+import { TokenOnboardingService } from "./onboarding.service";
+import { DynamicHostDirective } from "../../../../common/directives/dynamic-host.directive";
+import { Storage } from "../../../../services/storage";
 
 @Component({
-  selector: 'm-token--onboarding--video',
+  selector: "m-token--onboarding--video",
   template: `
     <video controls #video>
       <source [src]="src" type="video/mp4" />
     </video>
-    <i class="material-icons" (click)="play()" *ngIf="video.paused">play_circle_outline</i>
+    <i class="material-icons" (click)="play()" *ngIf="video.paused"
+      >play_circle_outline</i
+    >
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TokenOnboardingVideoComponent {
-
-  @ViewChild('video', { static: true }) videoEl;
+  @ViewChild("video", { static: true }) videoEl;
   @Input() src: string;
 
-  constructor(
-    protected client: Client,
-    protected cd: ChangeDetectorRef,
-  ) { 
-
-  }
+  constructor(protected client: Client, protected cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     console.log(this.videoEl);
@@ -57,5 +52,4 @@ export class TokenOnboardingVideoComponent {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

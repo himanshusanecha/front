@@ -1,25 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { Navigation as NavigationService } from '../../services/navigation';
-import { Client } from '../../services/api';
-import { Session } from '../../services/session';
-import { SignupModalService } from '../modals/signup/service';
-import { LoginReferrerService } from '../../services/login-referrer.service';
-import { OnboardingService } from '../onboarding/onboarding.service';
+import { Navigation as NavigationService } from "../../services/navigation";
+import { Client } from "../../services/api";
+import { Session } from "../../services/session";
+import { SignupModalService } from "../modals/signup/service";
+import { LoginReferrerService } from "../../services/login-referrer.service";
+import { OnboardingService } from "../onboarding/onboarding.service";
 
 @Component({
-  selector: 'm-register',
-  templateUrl: 'register.component.html'
+  selector: "m-register",
+  templateUrl: "register.component.html"
 })
-
 export class RegisterComponent implements OnInit, OnDestroy {
-
   minds = window.Minds;
-  errorMessage: string = '';
-  twofactorToken: string = '';
+  errorMessage: string = "";
+  twofactorToken: string = "";
   hideLogin: boolean = false;
   inProgress: boolean = false;
   videoError: boolean = false;
@@ -39,10 +37,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private loginReferrer: LoginReferrerService,
     public session: Session,
     private onboarding: OnboardingService,
-    public navigation: NavigationService,
+    public navigation: NavigationService
   ) {
     if (this.session.isLoggedIn()) {
-      this.router.navigate(['/newsfeed']);
+      this.router.navigate(["/newsfeed"]);
       return;
     }
   }
@@ -50,8 +48,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Set referrer if there is one
     this.paramsSubscription = this.route.queryParams.subscribe(params => {
-      if (params['referrer']) {
-        this.referrer = params['referrer'];
+      if (params["referrer"]) {
+        this.referrer = params["referrer"];
       }
     });
 
@@ -60,9 +58,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   }
 
-
   registered() {
-    this.router.navigate(['/' + this.session.getLoggedInUser().username]);
+    this.router.navigate(["/" + this.session.getLoggedInUser().username]);
   }
 
   onSourceError() {

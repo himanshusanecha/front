@@ -1,17 +1,20 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component
+} from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Client } from '../../../../services/api/client';
-import { Session } from '../../../../services/session';
+import { Client } from "../../../../services/api/client";
+import { Session } from "../../../../services/session";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-wallet-token--join',
-  templateUrl: 'join.component.html',
+  selector: "m-wallet-token--join",
+  templateUrl: "join.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WalletTokenJoinComponent {
-
   confirming: boolean = false;
   number: number;
   code: number;
@@ -24,14 +27,12 @@ export class WalletTokenJoinComponent {
     protected client: Client,
     protected cd: ChangeDetectorRef,
     protected session: Session,
-    protected router: Router,
-  ) { 
-
-  }
+    protected router: Router
+  ) {}
 
   ngOnInit() {
     if (this.session.getLoggedInUser().tel_no_hash) {
-      console.log('sticking around!');
+      console.log("sticking around!");
       //this.router.navigate(['/wallet/tokens/contributions']);
     }
   }
@@ -68,11 +69,14 @@ export class WalletTokenJoinComponent {
     this.inProgress = true;
     this.error = null;
     try {
-      let response: any = await this.client.post('api/v2/blockchain/rewards/confirm', {
+      let response: any = await this.client.post(
+        "api/v2/blockchain/rewards/confirm",
+        {
           number: this.number,
           code: this.code,
-          secret: this.secret,
-        });
+          secret: this.secret
+        }
+      );
 
       window.Minds.user.rewards = true;
       this.join();
@@ -85,12 +89,11 @@ export class WalletTokenJoinComponent {
   }
 
   join() {
-    this.router.navigate(['/wallet/tokens/contributions']);
+    this.router.navigate(["/wallet/tokens/contributions"]);
   }
 
   detectChange() {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

@@ -1,30 +1,28 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Subscription } from "rxjs";
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { Client, Upload } from '../../../services/api';
-import { MindsTitle } from '../../../services/ux/title';
-import { Navigation as NavigationService } from '../../../services/navigation';
-import { Session } from '../../../services/session';
-import { Storage } from '../../../services/storage';
-import { ContextService } from '../../../services/context.service';
-import { SettingsService } from '../../settings/settings.service';
-import { PosterComponent } from '../poster/poster.component';
-import { HashtagsSelectorModalComponent } from '../../../modules/hashtags/hashtag-selector-modal/hashtags-selector.component';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { NewsfeedService } from '../services/newsfeed.service';
+import { Client, Upload } from "../../../services/api";
+import { MindsTitle } from "../../../services/ux/title";
+import { Navigation as NavigationService } from "../../../services/navigation";
+import { Session } from "../../../services/session";
+import { Storage } from "../../../services/storage";
+import { ContextService } from "../../../services/context.service";
+import { SettingsService } from "../../settings/settings.service";
+import { PosterComponent } from "../poster/poster.component";
+import { HashtagsSelectorModalComponent } from "../../../modules/hashtags/hashtag-selector-modal/hashtags-selector.component";
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { NewsfeedService } from "../services/newsfeed.service";
 
 @Component({
-  selector: 'm-newsfeed--top',
-  templateUrl: 'top.component.html'
+  selector: "m-newsfeed--top",
+  templateUrl: "top.component.html"
 })
-
 export class NewsfeedTopComponent implements OnInit, OnDestroy {
-
   newsfeed: Array<Object>;
   prepended: Array<any> = [];
-  offset: string = '';
+  offset: string = "";
   inProgress: boolean = false;
   moreData: boolean = true;
   rating: number = 1;
@@ -35,7 +33,7 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
   ratingSubscription: Subscription;
   reloadFeedSubscription: Subscription;
 
-  @ViewChild('poster', { static: false }) private poster: PosterComponent;
+  @ViewChild("poster", { static: false }) private poster: PosterComponent;
 
   constructor(
     public client: Client,
@@ -49,30 +47,32 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
     private session: Session,
     private settingsService: SettingsService,
     private overlayModal: OverlayModalService,
-    private newsfeedService: NewsfeedService,
+    private newsfeedService: NewsfeedService
   ) {
-    this.title.setTitle('Newsfeed');
+    this.title.setTitle("Newsfeed");
 
     if (this.session.isLoggedIn())
       this.rating = this.session.getLoggedInUser().boost_rating;
 
-    this.ratingSubscription = settingsService.ratingChanged.subscribe((event) => {
+    this.ratingSubscription = settingsService.ratingChanged.subscribe(event => {
       this.onRatingChanged(event);
     });
 
     this.allHashtags = this.newsfeedService.allHashtags;
 
-    this.reloadFeedSubscription = this.newsfeedService.onReloadFeed.subscribe((allHashtags: boolean) => {
-      this.allHashtags = allHashtags;
-      this.load(true);
-    });
+    this.reloadFeedSubscription = this.newsfeedService.onReloadFeed.subscribe(
+      (allHashtags: boolean) => {
+        this.allHashtags = allHashtags;
+        this.load(true);
+      }
+    );
   }
 
   ngOnInit() {
     this.load();
     this.minds = window.Minds;
 
-    this.context.set('activity');
+    this.context.set("activity");
   }
 
   ngOnDestroy() {
@@ -93,24 +93,29 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
    * Load newsfeed
    */
   load(refresh: boolean = false) {
-    if (this.inProgress)
-      return false;
+    if (this.inProgress) return false;
 
     if (refresh) {
       this.moreData = true;
-      this.offset = '';
+      this.offset = "";
       this.newsfeed = [];
     }
 
     this.inProgress = true;
 
-    this.client.get('api/v2/entities/suggested/activities' + (this.allHashtags ? '/all': ''), {
-      limit: 12,
-      offset: this.offset,
-      rating: this.rating
-    }, {
-      cache: true
-    })
+    this.client
+      .get(
+        "api/v2/entities/suggested/activities" +
+          (this.allHashtags ? "/all" : ""),
+        {
+          limit: 12,
+          offset: this.offset,
+          rating: this.rating
+        },
+        {
+          cache: true
+        }
+      )
       .then((data: any) => {
         if (!data.entities || !data.entities.length) {
           this.moreData = false;
@@ -127,10 +132,10 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
         } else {
           this.newsfeed = data.entities;
         }
-        this.offset = data['load-next'];
+        this.offset = data["load-next"];
         this.inProgress = false;
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
         this.inProgress = false;
       });
@@ -150,7 +155,6 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
         return;
       }
     }
-
   }
 
   prepend(activity: any) {
@@ -164,13 +168,18 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
   }
 
   openHashtagsSelector() {
-    this.overlayModal.create(HashtagsSelectorModalComponent, {}, {
-      class: 'm-overlay-modal--hashtag-selector m-overlay-modal--medium-large',
-      onSelected: () => {
-        this.load(true); //refresh list
-      },
-    }).present();
+    this.overlayModal
+      .create(
+        HashtagsSelectorModalComponent,
+        {},
+        {
+          class:
+            "m-overlay-modal--hashtag-selector m-overlay-modal--medium-large",
+          onSelected: () => {
+            this.load(true); //refresh list
+          }
+        }
+      )
+      .present();
   }
-
 }
-

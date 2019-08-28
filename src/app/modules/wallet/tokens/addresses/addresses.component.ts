@@ -1,21 +1,24 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input
+} from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Client } from '../../../../services/api/client';
-import { Session } from '../../../../services/session';
-import { Web3WalletService } from '../../../blockchain/web3-wallet.service';
+import { Client } from "../../../../services/api/client";
+import { Session } from "../../../../services/session";
+import { Web3WalletService } from "../../../blockchain/web3-wallet.service";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-wallet-token--addresses',
-  templateUrl: 'addresses.component.html',
+  selector: "m-wallet-token--addresses",
+  templateUrl: "addresses.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class WalletTokenAddressesComponent {
-
-  receiverAddress: string = '';
-  addresses: Array<{label: string, address?: string, selected: boolean}> = [];
+  receiverAddress: string = "";
+  addresses: Array<{ label: string; address?: string; selected: boolean }> = [];
   inProgress: boolean = false;
   editing: boolean = false;
 
@@ -24,14 +27,12 @@ export class WalletTokenAddressesComponent {
     protected web3Wallet: Web3WalletService,
     protected cd: ChangeDetectorRef,
     protected router: Router,
-    protected session: Session,
-  ) {
-  }
+    protected session: Session
+  ) {}
 
   async ngOnInit() {
     this.receiverAddress = this.session.getLoggedInUser().eth_wallet;
-    if (!this.receiverAddress)
-      this.editing = true;
+    if (!this.receiverAddress) this.editing = true;
     await this.getAddresses();
   }
 
@@ -40,31 +41,30 @@ export class WalletTokenAddressesComponent {
     this.addresses = [
       {
         address: this.receiverAddress,
-        label: 'Receiver',
+        label: "Receiver",
         selected: true
       },
       {
-        label: 'OffChain',
-        address: 'offchain',
+        label: "OffChain",
+        address: "offchain",
         selected: true
       }
     ];
 
     try {
       const onchainAddress = await this.web3Wallet.getCurrentWallet();
-      if (!onchainAddress)
-        return;
+      if (!onchainAddress) return;
 
       if (this.addresses[0].address == onchainAddress) {
-        this.addresses[0].label = 'OnChain & Receiver';
+        this.addresses[0].label = "OnChain & Receiver";
         this.detectChanges();
         return; //no need to count twice
       }
 
       this.addresses.unshift({
-        'label': "OnChain",
-        'address': onchainAddress,
-        'selected': true
+        label: "OnChain",
+        address: onchainAddress,
+        selected: true
       });
       this.detectChanges();
     } catch (e) {
@@ -73,7 +73,7 @@ export class WalletTokenAddressesComponent {
   }
 
   enableEditing() {
-    this.session.getLoggedInUser().eth_wallet = '';
+    this.session.getLoggedInUser().eth_wallet = "";
     this.editing = true;
   }
 

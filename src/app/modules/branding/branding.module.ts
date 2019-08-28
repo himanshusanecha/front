@@ -1,18 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule as NgCommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { FormsModule as NgFormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { CommonModule as NgCommonModule } from "@angular/common";
+import { RouterModule, Routes } from "@angular/router";
+import {
+  FormsModule as NgFormsModule,
+  ReactiveFormsModule
+} from "@angular/forms";
 
-import { CommonModule } from '../../common/common.module';
-import { LegacyModule } from '../legacy/legacy.module';
-import { ModalsModule } from '../modals/modals.module';
-import { MindsFormsModule } from '../forms/forms.module';
+import { CommonModule } from "../../common/common.module";
+import { LegacyModule } from "../legacy/legacy.module";
+import { ModalsModule } from "../modals/modals.module";
+import { MindsFormsModule } from "../forms/forms.module";
 
-import { BrandingComponent } from './branding.component';
+import { BrandingComponent } from "./branding.component";
 
-const routes: Routes = [
-  { path: 'branding', component: BrandingComponent }
-];
+const routes: Routes = [{ path: "branding", component: BrandingComponent }];
 
 @NgModule({
   imports: [
@@ -23,15 +24,9 @@ const routes: Routes = [
     CommonModule,
     LegacyModule,
     ModalsModule,
-    MindsFormsModule,
+    MindsFormsModule
   ],
-  declarations: [
-    BrandingComponent
-  ],
-  entryComponents: [
-    BrandingComponent
-  ]
+  declarations: [BrandingComponent],
+  entryComponents: [BrandingComponent]
 })
-
-export class BrandingModule {
-}
+export class BrandingModule {}

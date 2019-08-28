@@ -1,33 +1,33 @@
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { CommonModule as NgCommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+import { CommonModule as NgCommonModule } from "@angular/common";
+import { RouterModule, Routes } from "@angular/router";
 
-import { CommonModule } from '../../common/common.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CheckoutModule } from '../checkout/checkout.module';
-import { FaqModule } from '../faq/faq.module';
+import { CommonModule } from "../../common/common.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CheckoutModule } from "../checkout/checkout.module";
+import { FaqModule } from "../faq/faq.module";
 
-import { WireCreatorComponent } from './creator/creator.component';
-import { WirePaymentsCreatorComponent } from './payments-creator/creator.component';
-import { WireButtonComponent } from './button/button.component';
-import { WireChannelComponent } from './channel/channel.component';
-import { WireChannelTableComponent } from './channel/table/table.component';
-import { WireChannelOverviewComponent } from './channel/overview/overview.component';
-import { WireCreatorRewardsComponent } from './creator/rewards/rewards.component';
-import { WireThresholdInputComponent } from './threshold-input/threshold-input.component';
-import { WireConsoleComponent } from './console/console.component';
-import { WireConsoleLedgerComponent } from './console/ledger.component';
-import { WireConsoleSupporterComponent } from './console/supporter/supporter.component';
-import { WireConsoleSettingsComponent } from './console/settings/settings.component';
-import { WireLockScreenComponent } from './lock-screen/wire-lock-screen.component';
-import { WireService } from './wire.service';
-import { WireMarketingComponent } from './marketing.component';
-import { WireConsoleOverviewComponent } from './console/overview/overview.component';
-import { WireConsoleRewardsInputsComponent } from './console/rewards-table/inputs/wire-console-rewards-inputs.component';
-import { WireConsoleRewardsComponent } from './console/rewards-table/rewards.component';
+import { WireCreatorComponent } from "./creator/creator.component";
+import { WirePaymentsCreatorComponent } from "./payments-creator/creator.component";
+import { WireButtonComponent } from "./button/button.component";
+import { WireChannelComponent } from "./channel/channel.component";
+import { WireChannelTableComponent } from "./channel/table/table.component";
+import { WireChannelOverviewComponent } from "./channel/overview/overview.component";
+import { WireCreatorRewardsComponent } from "./creator/rewards/rewards.component";
+import { WireThresholdInputComponent } from "./threshold-input/threshold-input.component";
+import { WireConsoleComponent } from "./console/console.component";
+import { WireConsoleLedgerComponent } from "./console/ledger.component";
+import { WireConsoleSupporterComponent } from "./console/supporter/supporter.component";
+import { WireConsoleSettingsComponent } from "./console/settings/settings.component";
+import { WireLockScreenComponent } from "./lock-screen/wire-lock-screen.component";
+import { WireService } from "./wire.service";
+import { WireMarketingComponent } from "./marketing.component";
+import { WireConsoleOverviewComponent } from "./console/overview/overview.component";
+import { WireConsoleRewardsInputsComponent } from "./console/rewards-table/inputs/wire-console-rewards-inputs.component";
+import { WireConsoleRewardsComponent } from "./console/rewards-table/rewards.component";
 
-const wireRoutes : Routes = [
-  { path: 'wire', component: WireMarketingComponent }
+const wireRoutes: Routes = [
+  { path: "wire", component: WireMarketingComponent }
 ];
 
 @NgModule({
@@ -38,7 +38,7 @@ const wireRoutes : Routes = [
     RouterModule.forChild(wireRoutes),
     CommonModule,
     CheckoutModule,
-    FaqModule,
+    FaqModule
   ],
   declarations: [
     WireLockScreenComponent,
@@ -59,9 +59,7 @@ const wireRoutes : Routes = [
     WireMarketingComponent,
     WireConsoleOverviewComponent
   ],
-  providers: [
-    WireService
-  ],
+  providers: [WireService],
   exports: [
     WireLockScreenComponent,
     WireButtonComponent,
@@ -73,7 +71,7 @@ const wireRoutes : Routes = [
     WireConsoleRewardsInputsComponent,
     WireConsoleRewardsComponent,
     WireConsoleSettingsComponent,
-    WireConsoleOverviewComponent,
+    WireConsoleOverviewComponent
   ],
   entryComponents: [
     WireCreatorComponent,
@@ -81,8 +79,7 @@ const wireRoutes : Routes = [
     WireMarketingComponent,
     WirePaymentsCreatorComponent,
     WireLockScreenComponent,
-    WireConsoleRewardsInputsComponent,
+    WireConsoleRewardsInputsComponent
   ]
 })
-export class WireModule {
-}
+export class WireModule {}

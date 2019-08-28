@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { GroupsOnboardingComponent } from "./groups.component";
 import { MockComponent } from "../../../../utils/mock";
 import { Client } from "../../../../services/api/client";
@@ -10,21 +10,16 @@ import { sessionMock } from "../../../../../tests/session-mock.spec";
 import { By } from "@angular/platform-browser";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-describe('GroupsOnboardingComponent', () => {
-
+describe("GroupsOnboardingComponent", () => {
   let comp: GroupsOnboardingComponent;
   let fixture: ComponentFixture<GroupsOnboardingComponent>;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-      ],
+      imports: [FormsModule, ReactiveFormsModule],
       declarations: [
         MockComponent({
-          selector: 'm-suggestions__sidebarGroups',
+          selector: "m-suggestions__sidebarGroups",
           inputs: [],
           outputs: []
         }),
@@ -33,10 +28,9 @@ describe('GroupsOnboardingComponent', () => {
       providers: [
         { provide: Client, useValue: clientMock },
         { provide: Upload, useValue: uploadMock },
-        { provide: Session, useValue: sessionMock },
+        { provide: Session, useValue: sessionMock }
       ]
-    })
-        .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -48,8 +42,8 @@ describe('GroupsOnboardingComponent', () => {
     window.Minds = <any>{
       user: {
         guid: 1,
-        name: 'test',
-        briefdescription: '',
+        name: "test",
+        briefdescription: "",
         opted_in_hashtags: 1
       }
     };
@@ -64,12 +58,15 @@ describe('GroupsOnboardingComponent', () => {
     jasmine.clock().uninstall();
   });
 
-  it('should have a title', () => {
-    expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toBe('Join some popular groups');
+  it("should have a title", () => {
+    expect(
+      fixture.debugElement.query(By.css("h2")).nativeElement.textContent
+    ).toBe("Join some popular groups");
   });
 
-  it('should have an instance of m-suggestions__sidebarGroups', () => {
-    expect(fixture.debugElement.query(By.css('m-suggestions__sidebarGroups'))).not.toBeNull();
+  it("should have an instance of m-suggestions__sidebarGroups", () => {
+    expect(
+      fixture.debugElement.query(By.css("m-suggestions__sidebarGroups"))
+    ).not.toBeNull();
   });
-
 });

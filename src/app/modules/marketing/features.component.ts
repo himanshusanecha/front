@@ -1,22 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'm-marketing--features',
-  templateUrl: 'features.component.html'
+  selector: "m-marketing--features",
+  templateUrl: "features.component.html"
 })
-
 export class MarketingFeaturesComponent {
-
   minds = window.Minds;
 
-  @Input() panels = { 
+  @Input() panels = {
     newsfeed: true
   };
 
-  constructor(
-  ) {
-
-  }
-
+  constructor() {}
 }

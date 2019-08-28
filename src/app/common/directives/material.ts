@@ -1,20 +1,18 @@
-import { Directive, ElementRef, Type, Inject } from '@angular/core';
-import { Material as MaterialService } from '../../services/ui';
+import { Directive, ElementRef, Type, Inject } from "@angular/core";
+import { Material as MaterialService } from "../../services/ui";
 
-import { MaterialTextfield } from './material/text-field';
-import { MaterialUpload } from './material/upload';
-import { MaterialSwitch } from './material/switch';
-import { MaterialDateTimePickerDirective } from './material/datetimepicker.directive';
-import { MaterialSlider } from './material/slider';
-import { MaterialRadio } from './material/radio/radio';
+import { MaterialTextfield } from "./material/text-field";
+import { MaterialUpload } from "./material/upload";
+import { MaterialSwitch } from "./material/switch";
+import { MaterialDateTimePickerDirective } from "./material/datetimepicker.directive";
+import { MaterialSlider } from "./material/slider";
+import { MaterialRadio } from "./material/radio/radio";
 
 @Directive({
-  selector: '[mdl]',
-  inputs: ['mdl']
+  selector: "[mdl]",
+  inputs: ["mdl"]
 })
-
 export class Material {
-
   mdl: any;
   private element: any;
 

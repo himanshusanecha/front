@@ -1,12 +1,8 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone } from "@angular/core";
 
 @Injectable()
 export class GoogleChartsLoader {
-
-  private readonly packages = [
-    'corechart',
-    'line',
-  ];
+  private readonly packages = ["corechart", "line"];
 
   private readyPromise: Promise<any>;
 
@@ -14,7 +10,7 @@ export class GoogleChartsLoader {
     return new GoogleChartsLoader(ngZone);
   }
 
-  constructor(private ngZone: NgZone) { }
+  constructor(private ngZone: NgZone) {}
 
   ready(): Promise<any> {
     if (!this.readyPromise) {
@@ -43,7 +39,7 @@ export class GoogleChartsLoader {
 
   private _loaderReady(): Promise<any> {
     return new Promise((resolve, reject) => {
-      window.google.charts.load('current', { packages: this.packages });
+      window.google.charts.load("current", { packages: this.packages });
 
       window.google.charts.setOnLoadCallback(() => {
         setTimeout(() => {
@@ -52,5 +48,4 @@ export class GoogleChartsLoader {
       });
     });
   }
-
 }

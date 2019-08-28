@@ -1,30 +1,25 @@
-import { Cookie } from '../../services/cookie';
+import { Cookie } from "../../services/cookie";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 /**
  * API Class
  */
 export class MindsHttpClient {
-
-  base: string = '/';
+  base: string = "/";
   cookie: Cookie = new Cookie();
 
   static _(http: HttpClient) {
     return new MindsHttpClient(http);
   }
 
-  constructor(public http: HttpClient) {
-  }
+  constructor(public http: HttpClient) {}
 
   /**
    * Return a GET request
    */
   get(endpoint: string, data: Object = {}, options: Object = {}) {
-    endpoint += '?' + this.buildParams(data);
-    return this.http.get(
-      this.base + endpoint,
-      this.buildOptions(options)
-    );
+    endpoint += "?" + this.buildParams(data);
+    return this.http.get(this.base + endpoint, this.buildOptions(options));
     //     .map(response => response.json());
   }
 
@@ -54,26 +49,25 @@ export class MindsHttpClient {
    * Return a DELETE request
    */
   delete(endpoint: string, data: Object = {}, options: Object = {}) {
-    return this.http.delete(
-      this.base + endpoint,
-      this.buildOptions(options)
-    );
+    return this.http.delete(this.base + endpoint, this.buildOptions(options));
   }
 
   private buildParams(object: Object) {
-    return Object.keys(object).map((k) => {
-      return encodeURIComponent(k) + '=' + encodeURIComponent(object[k]);
-    }).join('&');
+    return Object.keys(object)
+      .map(k => {
+        return encodeURIComponent(k) + "=" + encodeURIComponent(object[k]);
+      })
+      .join("&");
   }
 
   /**
    * Build the options
    */
   private buildOptions(options: Object) {
-    const XSRF_TOKEN = this.cookie.get('XSRF-TOKEN') || '';
+    const XSRF_TOKEN = this.cookie.get("XSRF-TOKEN") || "";
 
     const headers = new HttpHeaders({
-      'X-XSRF-TOKEN': XSRF_TOKEN,
+      "X-XSRF-TOKEN": XSRF_TOKEN
     });
 
     return Object.assign(options, {
@@ -81,8 +75,6 @@ export class MindsHttpClient {
       cache: true
     });
   }
-
 }
 
-
-export { Client } from '../../services/api/client';
+export { Client } from "../../services/api/client";

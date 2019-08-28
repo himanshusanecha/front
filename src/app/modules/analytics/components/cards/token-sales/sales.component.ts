@@ -1,15 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Client } from "../../../../../services/api/client";
 import { AnalyticsCardComponent } from "../card/card.component";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'm-analyticstokensales__card',
-  templateUrl: 'sales.component.html'
+  selector: "m-analyticstokensales__card",
+  templateUrl: "sales.component.html"
 })
-
 export class TokenSalesCardComponent implements OnInit {
-  @ViewChild('card', { static: true }) card: AnalyticsCardComponent;
+  @ViewChild("card", { static: true }) card: AnalyticsCardComponent;
 
   subscription: Subscription;
 
@@ -18,11 +17,10 @@ export class TokenSalesCardComponent implements OnInit {
   buyers: number = 0;
   ethValue: number = 0;
   ethUsdRate: number = 0;
-  currentSales: { name: string, value: number }[];
-  currentRates: { name: string, value: number }[];
+  currentSales: { name: string; value: number }[];
+  currentRates: { name: string; value: number }[];
 
-  constructor(private client: Client) {
-  }
+  constructor(private client: Client) {}
 
   ngOnInit() {
     this.getAvgData();
@@ -39,14 +37,14 @@ export class TokenSalesCardComponent implements OnInit {
   private async getAvgData() {
     try {
       let avgs: Array<any> = await Promise.all([
-        this.client.get('api/v2/analytics/tokensales', {
-          key: '_avg',
+        this.client.get("api/v2/analytics/tokensales", {
+          key: "_avg",
           timespan: this.card.selectedOption
         }),
-        this.client.get('api/v2/analytics/tokensales', {
-          key: 'monthly_rate_avg',
+        this.client.get("api/v2/analytics/tokensales", {
+          key: "monthly_rate_avg",
           timespan: this.card.selectedOption
-        }),
+        })
       ]);
       this.tokens = avgs[0].data.tokens;
 
@@ -57,7 +55,6 @@ export class TokenSalesCardComponent implements OnInit {
       this.ethValue = avgs[1].data.ethValue;
 
       this.ethUsdRate = avgs[1].data.ethUsdRate;
-
     } catch (e) {
       console.error(e);
     }

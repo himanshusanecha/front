@@ -16,29 +16,27 @@ import { Activity } from "../../../modules/legacy/components/cards/activity/acti
 import { ClientMetaService } from "../../services/client-meta.service";
 
 @Component({
-  selector: 'm-featured-content',
-  providers: [ ClientMetaService ],
-  templateUrl: 'featured-content.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: "m-featured-content",
+  providers: [ClientMetaService],
+  templateUrl: "featured-content.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeaturedContentComponent implements OnInit {
-
   entity: any;
 
   @Input() slot: number = -1;
 
-  @ViewChild(DynamicHostDirective, { static: false }) dynamicHost: DynamicHostDirective;
+  @ViewChild(DynamicHostDirective, { static: false })
+  dynamicHost: DynamicHostDirective;
 
   constructor(
     protected featuredContentService: FeaturedContentService,
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected cd: ChangeDetectorRef,
     protected clientMetaService: ClientMetaService,
-    @SkipSelf() injector: Injector,
+    @SkipSelf() injector: Injector
   ) {
-    this.clientMetaService
-      .inherit(injector)
-      .setMedium('featured-content');
+    this.clientMetaService.inherit(injector).setMedium("featured-content");
   }
 
   ngOnInit() {
@@ -49,7 +47,7 @@ export class FeaturedContentComponent implements OnInit {
     try {
       this.entity = await this.featuredContentService.fetch();
     } catch (e) {
-      console.error('FeaturedContentComponent.load', e)
+      console.error("FeaturedContentComponent.load", e);
     }
 
     this.update();
@@ -66,17 +64,24 @@ export class FeaturedContentComponent implements OnInit {
   update() {
     this.clear();
 
-    const {component, injector} = this.resolve();
+    const { component, injector } = this.resolve();
 
     if (!this.dynamicHost) {
-      console.log('tried to load a boost but no dynamicHost found', this.entity);
+      console.log(
+        "tried to load a boost but no dynamicHost found",
+        this.entity
+      );
       return;
     }
 
     if (component) {
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+        component
+      );
 
-      const componentRef: ComponentRef<any> = this.dynamicHost.viewContainerRef.createComponent(componentFactory);
+      const componentRef: ComponentRef<
+        any
+      > = this.dynamicHost.viewContainerRef.createComponent(componentFactory);
       injector.call(this, componentRef, this.entity);
     }
   }
@@ -86,7 +91,7 @@ export class FeaturedContentComponent implements OnInit {
       return {};
     }
 
-    if (this.entity.type === 'activity') {
+    if (this.entity.type === "activity") {
       return {
         component: Activity,
         injector: (componentRef, entity) => {

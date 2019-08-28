@@ -7,7 +7,8 @@ import {
   Output,
   EventEmitter,
   ViewChild,
-  SkipSelf, Injector
+  SkipSelf,
+  Injector
 } from "@angular/core";
 import { FeedsService } from "../../../common/services/feeds.service";
 import { Session } from "../../../services/session";
@@ -17,19 +18,14 @@ import { ClientMetaService } from "../../../common/services/client-meta.service"
 import { Client } from "../../../services/api";
 
 @Component({
-  selector: 'm-channel--sorted',
-  providers: [
-    SortedService,
-    ClientMetaService,
-    FeedsService,
-  ],
-  templateUrl: 'sorted.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: "m-channel--sorted",
+  providers: [SortedService, ClientMetaService, FeedsService],
+  templateUrl: "sorted.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChannelSortedComponent implements OnInit {
-
   channel: any;
-  @Input('channel') set _channel(channel: any) {
+  @Input("channel") set _channel(channel: any) {
     if (channel === this.channel) {
       return;
     }
@@ -41,8 +37,8 @@ export class ChannelSortedComponent implements OnInit {
     }
   }
 
-  type: string = 'activities'
-  @Input('type') set _type(type: string) {
+  type: string = "activities";
+  @Input("type") set _type(type: string) {
     if (type === this.type) {
       return;
     }
@@ -61,13 +57,13 @@ export class ChannelSortedComponent implements OnInit {
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: any = '';
+  offset: any = "";
 
   initialized: boolean = false;
 
   viewScheduled: boolean = false;
 
-  @ViewChild('poster', { static: false }) protected poster: PosterComponent;
+  @ViewChild("poster", { static: false }) protected poster: PosterComponent;
 
   scheduledCount: number = 0;
 
@@ -82,8 +78,8 @@ export class ChannelSortedComponent implements OnInit {
   ) {
     this.clientMetaService
       .inherit(injector)
-      .setSource('feed/channel')
-      .setMedium('feed');
+      .setSource("feed/channel")
+      .setMedium("feed");
   }
 
   ngOnInit() {
@@ -102,31 +98,30 @@ export class ChannelSortedComponent implements OnInit {
 
     this.detectChanges();
 
-    let endpoint = 'api/v2/feeds/container';
+    let endpoint = "api/v2/feeds/container";
     if (this.viewScheduled) {
-      endpoint = 'api/v2/feeds/scheduled';
+      endpoint = "api/v2/feeds/scheduled";
     }
 
     try {
-
       this.feedsService
         .setEndpoint(`${endpoint}/${this.channel.guid}/${this.type}`)
         .setLimit(12)
         .fetch();
 
       this.getScheduledCount();
-
     } catch (e) {
-      console.error('ChannelsSortedComponent.load', e);
+      console.error("ChannelsSortedComponent.load", e);
     }
 
     this.detectChanges();
   }
 
   loadNext() {
-    if (this.feedsService.canFetchMore
-      && !this.feedsService.inProgress.getValue()
-      && this.feedsService.offset.getValue()
+    if (
+      this.feedsService.canFetchMore &&
+      !this.feedsService.inProgress.getValue() &&
+      this.feedsService.offset.getValue()
     ) {
       this.feedsService.fetch(); // load the next 150 in the background
     }
@@ -138,12 +133,14 @@ export class ChannelSortedComponent implements OnInit {
   }
 
   isOwner() {
-    return this.session.isLoggedIn() &&
-      this.session.getLoggedInUser().guid == this.channel.guid;
+    return (
+      this.session.isLoggedIn() &&
+      this.session.getLoggedInUser().guid == this.channel.guid
+    );
   }
 
   isActivityFeed() {
-    return this.type === 'activities';
+    return this.type === "activities";
   }
 
   prepend(activity: any) {
@@ -161,8 +158,8 @@ export class ChannelSortedComponent implements OnInit {
 
     // Todo: Move to FeedsService
     this.feedsService.rawFeed.next([
-      ... [ feedItem ],
-      ... this.feedsService.rawFeed.getValue()
+      ...[feedItem],
+      ...this.feedsService.rawFeed.getValue()
     ]);
 
     this.detectChanges();
@@ -176,7 +173,7 @@ export class ChannelSortedComponent implements OnInit {
     const progress = this.poster.attachment.getUploadProgress();
 
     if (progress > 0 && progress < 100) {
-      return confirm('Your file is still uploading. Are you sure?');
+      return confirm("Your file is still uploading. Are you sure?");
     }
 
     return true;

@@ -1,21 +1,26 @@
-import { WireService } from './wire.service';
-import { clientMock } from '../../../tests/client-mock.spec';
-import { wireContractServiceMock } from '../../../tests/wire-contract-service-mock.spec';
-import { tokenContractServiceMock } from '../../../tests/token-contract-service-mock.spec';
-import { web3WalletServiceMock } from '../../../tests/web3-wallet-service-mock.spec';
-import { fakeAsync, tick } from '@angular/core/testing';
+import { WireService } from "./wire.service";
+import { clientMock } from "../../../tests/client-mock.spec";
+import { wireContractServiceMock } from "../../../tests/wire-contract-service-mock.spec";
+import { tokenContractServiceMock } from "../../../tests/token-contract-service-mock.spec";
+import { web3WalletServiceMock } from "../../../tests/web3-wallet-service-mock.spec";
+import { fakeAsync, tick } from "@angular/core/testing";
 
-describe('WireService', () => {
+describe("WireService", () => {
   let service: WireService;
   const wireGuid = null;
   beforeEach(() => {
     jasmine.clock().uninstall();
     jasmine.clock().install();
-    service = new WireService(clientMock, wireContractServiceMock, tokenContractServiceMock, web3WalletServiceMock);
+    service = new WireService(
+      clientMock,
+      wireContractServiceMock,
+      tokenContractServiceMock,
+      web3WalletServiceMock
+    );
 
     clientMock.response = {};
 
-    clientMock.response[`api/v1/wire/${wireGuid}`] = { 'status': 'success' };
+    clientMock.response[`api/v1/wire/${wireGuid}`] = { status: "success" };
 
     clientMock.get.calls.reset();
     clientMock.post.calls.reset();
@@ -25,11 +30,11 @@ describe('WireService', () => {
     jasmine.clock().uninstall();
   });
 
-  it('should submit an onchain wire', fakeAsync(() => {
+  it("should submit an onchain wire", fakeAsync(() => {
     service.submitWire({
       amount: 10,
       guid: null,
-      payload: { receiver: '0x1234', address: '' },
+      payload: { receiver: "0x1234", address: "" },
       payloadType: "onchain",
       recurring: false
     });
@@ -44,13 +49,18 @@ describe('WireService', () => {
     expect(clientMock.post.calls.mostRecent().args[0]).toBe(`api/v1/wire/null`);
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
       amount: 10,
-      payload: { receiver: '0x1234', address: '0x123', method: 'onchain', txHash: 'hash' },
-      method: 'tokens',
+      payload: {
+        receiver: "0x1234",
+        address: "0x123",
+        method: "onchain",
+        txHash: "hash"
+      },
+      method: "tokens",
       recurring: false
     });
   }));
 
-  it('should submit an offchain wire', fakeAsync(() => {
+  it("should submit an offchain wire", fakeAsync(() => {
     service.submitWire({
       amount: 10,
       guid: null,
@@ -65,17 +75,17 @@ describe('WireService', () => {
     expect(clientMock.post.calls.mostRecent().args[0]).toBe(`api/v1/wire/null`);
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
       amount: 10,
-      payload: { address: 'offchain', method: 'offchain' },
-      method: 'tokens',
+      payload: { address: "offchain", method: "offchain" },
+      method: "tokens",
       recurring: false
     });
   }));
 
-  it('should submit a credit card wire', fakeAsync(() => {
+  it("should submit a credit card wire", fakeAsync(() => {
     service.submitWire({
       amount: 10,
       guid: null,
-      payload: { address: 'offchain', token: 'tok_KPte7942xySKBKyrBu11yEpf' },
+      payload: { address: "offchain", token: "tok_KPte7942xySKBKyrBu11yEpf" },
       payloadType: "creditcard",
       recurring: false
     });
@@ -86,8 +96,12 @@ describe('WireService', () => {
     expect(clientMock.post.calls.mostRecent().args[0]).toBe(`api/v1/wire/null`);
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
       amount: 10,
-      payload: { address: 'offchain', token: 'tok_KPte7942xySKBKyrBu11yEpf', method: 'creditcard' },
-      method: 'tokens',
+      payload: {
+        address: "offchain",
+        token: "tok_KPte7942xySKBKyrBu11yEpf",
+        method: "creditcard"
+      },
+      method: "tokens",
       recurring: false
     });
   }));

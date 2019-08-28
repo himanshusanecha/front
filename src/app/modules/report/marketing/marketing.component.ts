@@ -1,25 +1,23 @@
-import { 
+import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ViewChild,
-  ElementRef, 
-} from '@angular/core';
-import { Router } from '@angular/router';
+  ElementRef
+} from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Client } from '../../../common/api/client.service';
-import { MindsTitle } from '../../../services/ux/title';
-import { REASONS as REASONS_LIST } from '../../../services/list-options';
-import { Session } from '../../../services/session';
+import { Client } from "../../../common/api/client.service";
+import { MindsTitle } from "../../../services/ux/title";
+import { REASONS as REASONS_LIST } from "../../../services/list-options";
+import { Session } from "../../../services/session";
 
 @Component({
-  selector: 'm-reports__marketing',
-  templateUrl: 'marketing.component.html',
+  selector: "m-reports__marketing",
+  templateUrl: "marketing.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class ReportsMarketingComponent {
-
   user = window.Minds.user;
   minds = window.Minds;
   stats = {
@@ -31,7 +29,7 @@ export class ReportsMarketingComponent {
     appealed: 0,
     upheldPct: 0,
     upheld: 0,
-    overturned: 0,
+    overturned: 0
   };
   reasons = REASONS_LIST;
 
@@ -40,9 +38,9 @@ export class ReportsMarketingComponent {
     private cd: ChangeDetectorRef,
     private router: Router,
     private title: MindsTitle,
-    public session: Session,
+    public session: Session
   ) {
-    title.setTitle('Community Moderation');
+    title.setTitle("Community Moderation");
   }
 
   ngOnInit() {
@@ -50,14 +48,13 @@ export class ReportsMarketingComponent {
   }
 
   startJuryDuty() {
-    this.router.navigate(['/moderation/juryduty/initial']);
+    this.router.navigate(["/moderation/juryduty/initial"]);
   }
 
   async loadStats() {
-    let response: any = await this.client.get('api/v2/moderation/stats');
+    let response: any = await this.client.get("api/v2/moderation/stats");
     this.stats = response.stats;
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

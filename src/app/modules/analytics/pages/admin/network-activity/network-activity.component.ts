@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'm-analyticssite__networkactivity',
+  selector: "m-analyticssite__networkactivity",
   template: `
     <m-analyticsactiveusers__card></m-analyticsactiveusers__card>
     <m-analyticspageviews__card></m-analyticspageviews__card>
@@ -9,11 +9,8 @@ import { Component, OnInit } from '@angular/core';
     <m-analyticsengagement__card></m-analyticsengagement__card>
   `
 })
-
 export class SiteNetworkActivityAnalyticsComponent implements OnInit {
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

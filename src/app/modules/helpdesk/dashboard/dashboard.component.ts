@@ -1,24 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { Client } from '../../../services/api/client';
-import { Session } from '../../../services/session';
-import { MindsTitle } from '../../../services/ux/title';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
+import { Client } from "../../../services/api/client";
+import { Session } from "../../../services/session";
+import { MindsTitle } from "../../../services/ux/title";
 
 @Component({
-  selector: 'm-helpdesk--dashboard',
-  templateUrl: 'dashboard.component.html'
+  selector: "m-helpdesk--dashboard",
+  templateUrl: "dashboard.component.html"
 })
-
 export class HelpdeskDashboardComponent implements OnInit {
   minds = window.Minds;
 
-  query: string = '';
+  query: string = "";
   results: any[] = [];
   searching = false;
   noResults = false;
   private throttle;
 
-  @ViewChild('input', { static: false }) private input: ElementRef;
+  @ViewChild("input", { static: false }) private input: ElementRef;
 
   topQuestions = [];
 
@@ -26,18 +25,20 @@ export class HelpdeskDashboardComponent implements OnInit {
     public router: Router,
     public client: Client,
     public session: Session,
-    private title: MindsTitle,
-  ) {
-  }
+    private title: MindsTitle
+  ) {}
 
   async ngOnInit() {
-    this.title.setTitle('Help Desk');
+    this.title.setTitle("Help Desk");
     await this.loadPopular();
   }
 
   async loadPopular() {
     try {
-      const response: any = await this.client.get(`api/v2/helpdesk/questions/top`, { limit: 8 });
+      const response: any = await this.client.get(
+        `api/v2/helpdesk/questions/top`,
+        { limit: 8 }
+      );
 
       this.topQuestions = response.questions;
     } catch (e) {
@@ -53,16 +54,19 @@ export class HelpdeskDashboardComponent implements OnInit {
     this.searching = true;
 
     if (this.input.nativeElement) {
-      setTimeout(() => (<HTMLInputElement>this.input.nativeElement).focus(), 100);
+      setTimeout(
+        () => (<HTMLInputElement>this.input.nativeElement).focus(),
+        100
+      );
     }
   }
 
   newCategory() {
-    this.router.navigate(['/help/category/edit/new']);
+    this.router.navigate(["/help/category/edit/new"]);
   }
 
   newQuestion() {
-    this.router.navigate(['/help/question/edit/new']);
+    this.router.navigate(["/help/question/edit/new"]);
   }
 
   /**
@@ -96,10 +100,11 @@ export class HelpdeskDashboardComponent implements OnInit {
     }
 
     this.throttle = setTimeout(() => {
-      this.client.get(`api/v2/helpdesk/questions/search`, {
-        q: query,
-        limit: 8,
-      })
+      this.client
+        .get(`api/v2/helpdesk/questions/search`, {
+          q: query,
+          limit: 8
+        })
         .then(({ entities }) => {
           if (!entities || entities.length === 0) {
             this.noResults = true;
@@ -109,8 +114,8 @@ export class HelpdeskDashboardComponent implements OnInit {
           this.noResults = false;
           this.results = entities;
         })
-        .catch((e) => {
-          console.error('Cannot load results', e);
+        .catch(e => {
+          console.error("Cannot load results", e);
         });
     });
   }

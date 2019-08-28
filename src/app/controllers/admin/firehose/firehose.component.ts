@@ -1,26 +1,24 @@
-import { Component, HostListener, OnInit, OnDestroy} from '@angular/core';
-import { Client } from '../../../services/api';
-import { Session } from '../../../services/session';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { NewsfeedHashtagSelectorService } from '../../../modules/newsfeed/services/newsfeed-hashtag-selector.service';
-import { ReportCreatorComponent } from '../../../modules/report/creator/creator.component';
-
+import { Component, HostListener, OnInit, OnDestroy } from "@angular/core";
+import { Client } from "../../../services/api";
+import { Session } from "../../../services/session";
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { NewsfeedHashtagSelectorService } from "../../../modules/newsfeed/services/newsfeed-hashtag-selector.service";
+import { ReportCreatorComponent } from "../../../modules/report/creator/creator.component";
 
 @Component({
   moduleId: module.id,
-  selector: 'minds-admin-firehose',
-  templateUrl: 'firehose.component.html',
+  selector: "minds-admin-firehose",
+  templateUrl: "firehose.component.html"
 })
-
 export class AdminFirehoseComponent implements OnInit, OnDestroy {
   entities: Array<any> = [];
   entity: any = null;
   inProgress = true;
-  algorithm = 'latest';
-  period = '12h';
-  customType = 'activities';
+  algorithm = "latest";
+  period = "12h";
+  customType = "activities";
   hashtag: string | null = null;
   all = false;
   paramsSubscription: Subscription;
@@ -32,21 +30,20 @@ export class AdminFirehoseComponent implements OnInit, OnDestroy {
     public router: Router,
     public route: ActivatedRoute,
     protected newsfeedHashtagSelectorService: NewsfeedHashtagSelectorService,
-    private overlayModal: OverlayModalService,
+    private overlayModal: OverlayModalService
   ) {
-
     this.paramsSubscription = this.route.params.subscribe(params => {
-      this.algorithm = params['algorithm'] || 'latest';
-      this.period = params['period'] || '12h';
-      this.customType = params['type'] || 'activities';
+      this.algorithm = params["algorithm"] || "latest";
+      this.period = params["period"] || "12h";
+      this.customType = params["type"] || "activities";
 
-      if (typeof params['hashtag'] !== 'undefined') {
-        this.hashtag = params['hashtag'] || null;
+      if (typeof params["hashtag"] !== "undefined") {
+        this.hashtag = params["hashtag"] || null;
         this.all = false;
-      } else if (typeof params['all'] !== 'undefined') {
+      } else if (typeof params["all"] !== "undefined") {
         this.hashtag = null;
         this.all = true;
-      } else if (params['query']) {
+      } else if (params["query"]) {
         this.all = true;
         this.updateSortRoute();
       } else {
@@ -54,16 +51,16 @@ export class AdminFirehoseComponent implements OnInit, OnDestroy {
         this.all = false;
       }
 
-      if (this.algorithm !== 'top'
-        && (this.customType === 'channels' || this.customType === 'groups')
+      if (
+        this.algorithm !== "top" &&
+        (this.customType === "channels" || this.customType === "groups")
       ) {
-        this.algorithm = 'top';
+        this.algorithm = "top";
         this.updateSortRoute();
       }
       this.entity = null;
       this.load();
     });
-
   }
 
   ngOnInit() {}
@@ -77,9 +74,9 @@ export class AdminFirehoseComponent implements OnInit, OnDestroy {
 
   public async load() {
     this.inProgress = true;
-    const hashtags = this.hashtag ? encodeURIComponent(this.hashtag) : '';
-    const period = this.period || '';
-    const all = this.all ? '1' : '';
+    const hashtags = this.hashtag ? encodeURIComponent(this.hashtag) : "";
+    const period = this.period || "";
+    const all = this.all ? "1" : "";
 
     try {
       const url = `api/v2/admin/firehose/${this.algorithm}/${this.customType}?hashtags=${hashtags}&period=${period}&all=${all}`;
@@ -87,8 +84,8 @@ export class AdminFirehoseComponent implements OnInit, OnDestroy {
       this.entities = response.entities;
 
       if (this.entities.length > 0) {
-          this.initializeEntity();
-          this.timeout = setTimeout(() => this.load(), 3600000);
+        this.initializeEntity();
+        this.timeout = setTimeout(() => this.load(), 3600000);
       }
     } catch (exception) {
       console.error(exception);
@@ -98,20 +95,20 @@ export class AdminFirehoseComponent implements OnInit, OnDestroy {
   }
 
   public initializeEntity() {
-      this.entity = null;
-      if (this.entities.length > 0) {
-        this.entity = this.entities.shift();
-      } else {
-        this.load();
-      }
+    this.entity = null;
+    if (this.entities.length > 0) {
+      this.entity = this.entities.shift();
+    } else {
+      this.load();
+    }
   }
 
   public save(guid: number, reason: number = null, subreason: number = null) {
-      const data = {
-        'reason': reason,
-        'subreason': subreason
-      };
-      return this.client.post('api/v2/admin/firehose/' + guid, data);
+    const data = {
+      reason: reason,
+      subreason: subreason
+    };
+    return this.client.post("api/v2/admin/firehose/" + guid, data);
   }
 
   public reject() {
@@ -122,34 +119,35 @@ export class AdminFirehoseComponent implements OnInit, OnDestroy {
       }
     };
 
-    this.overlayModal.create(
-      ReportCreatorComponent,
-      this.entity,
-      options
-    ).present();
+    this.overlayModal
+      .create(ReportCreatorComponent, this.entity, options)
+      .present();
   }
-
 
   public accept() {
-      this.save(this.entity.guid);
-      this.initializeEntity();
+    this.save(this.entity.guid);
+    this.initializeEntity();
   }
 
-  @HostListener('document:keydown', ['$event'])
+  @HostListener("document:keydown", ["$event"])
   public onKeyPress(e) {
-      if (this.entity) {
-          switch (e.key) {
-              case 'ArrowLeft':
-                this.reject();
-                break;
-              case 'ArrowRight':
-                this.accept();
-                break;
-          }
+    if (this.entity) {
+      switch (e.key) {
+        case "ArrowLeft":
+          this.reject();
+          break;
+        case "ArrowRight":
+          this.accept();
+          break;
       }
+    }
   }
 
-  public setSort(algorithm: string, period: string | null, customType: string | null) {
+  public setSort(
+    algorithm: string,
+    period: string | null,
+    customType: string | null
+  ) {
     this.algorithm = algorithm;
     this.period = period;
     this.customType = customType;
@@ -158,9 +156,8 @@ export class AdminFirehoseComponent implements OnInit, OnDestroy {
   }
 
   updateSortRoute() {
-    const route: any[] = ['admin/firehose', this.algorithm];
+    const route: any[] = ["admin/firehose", this.algorithm];
     const params: any = {};
-
 
     params.algorithm = this.algorithm;
 

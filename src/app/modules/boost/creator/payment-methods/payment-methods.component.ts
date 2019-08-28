@@ -1,20 +1,28 @@
-import { Component, Input, Output, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, EventEmitter } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
-import { Web3WalletService } from '../../../blockchain/web3-wallet.service';
-import { Client } from '../../../../services/api/client';
-import { TokenContractService } from '../../../blockchain/contracts/token-contract.service';
-import { OverlayModalService } from '../../../../services/ux/overlay-modal';
-import { Router } from '@angular/router';
+import {
+  Component,
+  Input,
+  Output,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+  EventEmitter
+} from "@angular/core";
+import { CurrencyPipe } from "@angular/common";
+import { Web3WalletService } from "../../../blockchain/web3-wallet.service";
+import { Client } from "../../../../services/api/client";
+import { TokenContractService } from "../../../blockchain/contracts/token-contract.service";
+import { OverlayModalService } from "../../../../services/ux/overlay-modal";
+import { Router } from "@angular/router";
 
-type CurrencyType = 'offchain' | 'usd' | 'onchain' | 'creditcard';
+type CurrencyType = "offchain" | "usd" | "onchain" | "creditcard";
 
 @Component({
-  providers: [ CurrencyPipe ],
-  selector: 'm-boost--creator-payment-methods',
-  templateUrl: 'payment-methods.component.html'
+  providers: [CurrencyPipe],
+  selector: "m-boost--creator-payment-methods",
+  templateUrl: "payment-methods.component.html"
 })
 export class BoostCreatorPaymentMethodsComponent {
-
   minds: Minds = window.Minds;
 
   @Input() boost;
@@ -34,10 +42,9 @@ export class BoostCreatorPaymentMethodsComponent {
   balances = {
     onchain: null,
     offchain: null,
-    onChainAddress: '',
-    isReceiverOnchain: false,
+    onChainAddress: "",
+    isReceiverOnchain: false
   };
-
 
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
@@ -45,8 +52,8 @@ export class BoostCreatorPaymentMethodsComponent {
     private client: Client,
     private tokenContract: TokenContractService,
     private overlayService: OverlayModalService,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadBalances();
@@ -60,7 +67,9 @@ export class BoostCreatorPaymentMethodsComponent {
         this.loadCurrentWalletBalance(currentWallet);
       }
 
-      let response: any = await this.client.get(`api/v2/blockchain/wallet/balance`);
+      let response: any = await this.client.get(
+        `api/v2/blockchain/wallet/balance`
+      );
 
       if (!response) {
         return;
@@ -99,7 +108,7 @@ export class BoostCreatorPaymentMethodsComponent {
       return;
     }
     this.boost.currency = currency;
-    localStorage.setItem('preferred-payment-method', currency);
+    localStorage.setItem("preferred-payment-method", currency);
     this.boost.nonce = null;
     this.roundAmount();
   }
@@ -108,10 +117,18 @@ export class BoostCreatorPaymentMethodsComponent {
    * Round by 2 decimals if P2P and currency is unset or usd. If not, round by 4 decimals.
    */
   roundAmount() {
-    if ((this.boost.type === 'p2p') && (!this.boost.currency || (this.boost.currency === 'usd'))) {
-      this.boost.amount = Math.round(parseFloat(`${this.boost.amount}`) * 100) / 100;
-    } else if (this.boost.currency === 'tokens' || this.boost.currency === 'offchain') {
-      this.boost.amount = Math.round(parseFloat(`${this.boost.amount}`) * 10000) / 10000;
+    if (
+      this.boost.type === "p2p" &&
+      (!this.boost.currency || this.boost.currency === "usd")
+    ) {
+      this.boost.amount =
+        Math.round(parseFloat(`${this.boost.amount}`) * 100) / 100;
+    } else if (
+      this.boost.currency === "tokens" ||
+      this.boost.currency === "offchain"
+    ) {
+      this.boost.amount =
+        Math.round(parseFloat(`${this.boost.amount}`) * 10000) / 10000;
     }
   }
 
@@ -122,7 +139,7 @@ export class BoostCreatorPaymentMethodsComponent {
    */
   calcBaseCharges(type: string): number {
     // P2P should just round down amount points. It's bid based.
-    if (this.boost.type === 'p2p') {
+    if (this.boost.type === "p2p") {
       return <number>this.boost.amount;
     }
 
@@ -130,16 +147,16 @@ export class BoostCreatorPaymentMethodsComponent {
 
     // Non-P2P should do the views <-> currency conversion
     switch (type) {
-      case 'usd':
+      case "usd":
         const usdFixRate = this.rates.usd / 100;
         return Math.ceil(<number>this.boost.amount / usdFixRate) / 100;
 
-      case 'offchain':
-      case 'tokens':
+      case "offchain":
+      case "tokens":
         return Math.ceil(<number>this.boost.amount / tokensFixRate) / 10000;
     }
 
-    throw new Error('Unknown currency');
+    throw new Error("Unknown currency");
   }
 
   /**
@@ -148,7 +165,7 @@ export class BoostCreatorPaymentMethodsComponent {
   calcCharges(type: string): number {
     const charges = this.calcBaseCharges(type);
 
-    return charges + (charges * this.getPriorityRate());
+    return charges + charges * this.getPriorityRate();
   }
 
   /**
@@ -163,7 +180,7 @@ export class BoostCreatorPaymentMethodsComponent {
    */
   getPriorityRate(force?: boolean): number {
     // NOTE: No priority on P2P
-    if (force || (this.boost.type !== 'p2p' && this.boost.priority)) {
+    if (force || (this.boost.type !== "p2p" && this.boost.priority)) {
       return this.rates.priority;
     }
 
@@ -176,6 +193,6 @@ export class BoostCreatorPaymentMethodsComponent {
 
   buyTokens() {
     this.overlayService.dismiss();
-    this.router.navigate(['/token']);
+    this.router.navigate(["/token"]);
   }
 }

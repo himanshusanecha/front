@@ -9,19 +9,18 @@ import { SettingsService } from "../../modules/settings/settings.service";
 
 import MindsClientHttpAdapter from "../../lib/minds-sync/adapters/MindsClientHttpAdapter.js";
 import browserStorageAdapterFactory from "../../helpers/browser-storage-adapter-factory";
-import BoostedContentSync from '../../lib/minds-sync/services/BoostedContentSync.js';
+import BoostedContentSync from "../../lib/minds-sync/services/BoostedContentSync.js";
 
 import AsyncStatus from "../../helpers/async-status";
 
 @Injectable()
 export class BoostedContentService {
-
   constructor(
     protected client: Client,
     protected session: Session,
     protected entitiesService: EntitiesService,
     protected blockListService: BlockListService,
-    protected settingsService: SettingsService,
+    protected settingsService: SettingsService
   ) {
     this.setUp();
   }
@@ -30,12 +29,12 @@ export class BoostedContentService {
     // User session / rating handlers
 
     if (this.session.isLoggedIn()) {
-    //  this.boostedContentSync.setRating(this.session.getLoggedInUser().boost_rating || null);
+      //  this.boostedContentSync.setRating(this.session.getLoggedInUser().boost_rating || null);
     }
 
     this.session.isLoggedIn((is: boolean) => {
       if (is) {
-      //  this.boostedContentSync.setRating(this.session.getLoggedInUser().boost_rating || null);
+        //  this.boostedContentSync.setRating(this.session.getLoggedInUser().boost_rating || null);
       }
     });
 
@@ -43,9 +42,7 @@ export class BoostedContentService {
     //this.settingsService.ratingChanged.subscribe(rating => this.boostedContentSync.changeRating(rating));
   }
 
-  setEndpoint(endpoint: string) {
-    
-  }
+  setEndpoint(endpoint: string) {}
 
   fetch(opts = {}): BoostedContentService {
     return this;

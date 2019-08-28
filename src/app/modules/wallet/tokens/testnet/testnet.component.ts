@@ -1,18 +1,20 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { Session } from '../../../../services/session';
-import { Client } from '../../../../services/api/client';
-import { TokenContractService } from '../../../blockchain/contracts/token-contract.service';
-import { Web3WalletService } from '../../../blockchain/web3-wallet.service';
-import * as BN from 'bn.js';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component
+} from "@angular/core";
+import { Session } from "../../../../services/session";
+import { Client } from "../../../../services/api/client";
+import { TokenContractService } from "../../../blockchain/contracts/token-contract.service";
+import { Web3WalletService } from "../../../blockchain/web3-wallet.service";
+import * as BN from "bn.js";
 
 @Component({
-  selector: 'm-wallet-token--testnet',
-  templateUrl: 'testnet.component.html',
+  selector: "m-wallet-token--testnet",
+  templateUrl: "testnet.component.html"
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class WalletTokenTestnetComponent {
-
   offchainBalance: number = 0;
   inProgress: boolean = false;
   error: string;
@@ -27,7 +29,7 @@ export class WalletTokenTestnetComponent {
     private client: Client,
     private cd: ChangeDetectorRef,
     private token: TokenContractService,
-    private web3Wallet: Web3WalletService,
+    private web3Wallet: Web3WalletService
   ) {
     this.loadBalance();
   }
@@ -36,15 +38,15 @@ export class WalletTokenTestnetComponent {
     this.savedConfig = Object.assign({}, window.Minds.blockchain);
 
     window.Minds.blockchain.client_network = 4; //rinkeby
-    window.Minds.blockchain.token.address = '0xf5f7ad7d2c37cae59207af43d0beb4b361fb9ec8';
-    window.Minds.blockchain.network_address = 'https://rinkeby.infura.io/';
+    window.Minds.blockchain.token.address =
+      "0xf5f7ad7d2c37cae59207af43d0beb4b361fb9ec8";
+    window.Minds.blockchain.network_address = "https://rinkeby.infura.io/";
 
     this.web3Wallet.config = window.Minds.blockchain;
 
     await this.web3Wallet.ready();
     const wallet = await this.web3Wallet.getCurrentWallet();
-    if (wallet)
-      this.address = wallet;
+    if (wallet) this.address = wallet;
 
     await this.token.load();
 
@@ -52,14 +54,14 @@ export class WalletTokenTestnetComponent {
       await this.checkWallet();
     } catch (err) {
       this.error = err;
-    } 
+    }
   }
 
   async checkWallet() {
     if (this.web3Wallet.isUnavailable()) {
-      throw 'No Ethereum wallets available on your browser.';
+      throw "No Ethereum wallets available on your browser.";
     } else if (!(await this.web3Wallet.unlock())) {
-      throw 'Your Ethereum wallet is locked or connected to another network. Ensure you are on the Rinkeby Network.';
+      throw "Your Ethereum wallet is locked or connected to another network. Ensure you are on the Rinkeby Network.";
     }
   }
 
@@ -68,12 +70,14 @@ export class WalletTokenTestnetComponent {
     // this.detectChanges();
 
     try {
-      let response: any = await this.client.get(`api/v2/blockchain/wallet/balance`);
+      let response: any = await this.client.get(
+        `api/v2/blockchain/wallet/balance`
+      );
 
       if (response) {
         this.offchainBalance = response.addresses[1].balance;
       } else {
-        console.error('No data');
+        console.error("No data");
         this.offchainBalance = 0;
       }
     } catch (e) {
@@ -90,8 +94,7 @@ export class WalletTokenTestnetComponent {
     await this.web3Wallet.ready();
 
     const wallet = await this.web3Wallet.getCurrentWallet(true);
-    if (wallet)
-      this.address = wallet;
+    if (wallet) this.address = wallet;
 
     await this.token.token();
 
@@ -102,12 +105,15 @@ export class WalletTokenTestnetComponent {
         throw "You do not have any tokens to transfer. If you have already made a transfer please allow 7 days.";
       }
 
-      const txHash = await (await this.token.token()).transfer('0x461f1c5768cdb7e567a84e22b19db0eaba069bad', balanceOf.balance, {
-        gas: 67839
-      });
+      const txHash = await (await this.token.token()).transfer(
+        "0x461f1c5768cdb7e567a84e22b19db0eaba069bad",
+        balanceOf.balance,
+        {
+          gas: 67839
+        }
+      );
 
-      alert('Completed. Please see tx: ' + txHash);
-
+      alert("Completed. Please see tx: " + txHash);
     } catch (err) {
       this.error = err;
       this.inProgress = false;

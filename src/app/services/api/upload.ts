@@ -1,32 +1,38 @@
-import { Cookie } from '../cookie';
+import { Cookie } from "../cookie";
 import { HttpClient } from "@angular/common/http";
 
 /**
  * API Class
  */
 export class Upload {
-
-  base: string = '/';
+  base: string = "/";
   cookie: Cookie = new Cookie();
 
   static _(http: HttpClient) {
     return new Upload(http);
   }
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {}
 
-	/**
-	 * Return a POST request
-	 */
-  post(endpoint: string, files: Array<any> = [], data: any = {}, progress: Function = () => { return; }, xhr: XMLHttpRequest = null) {
+  /**
+   * Return a POST request
+   */
+  post(
+    endpoint: string,
+    files: Array<any> = [],
+    data: any = {},
+    progress: Function = () => {
+      return;
+    },
+    xhr: XMLHttpRequest = null
+  ) {
     const formData = new FormData();
     if (!data.filekey) {
-      data.filekey = 'file';
+      data.filekey = "file";
     }
 
     if (files.length > 1) {
-      for (let file of files)
-        formData.append(data.filekey + '[]', file);
+      for (let file of files) formData.append(data.filekey + "[]", file);
     } else {
       formData.append(data.filekey, files[0]);
     }
@@ -35,22 +41,23 @@ export class Upload {
 
     for (let key in data) {
       if (data[key] !== null) {
-        const field = typeof data[key] == 'object' ? JSON.stringify(data[key]) : data[key];
+        const field =
+          typeof data[key] == "object" ? JSON.stringify(data[key]) : data[key];
         formData.append(key, field);
       }
     }
 
     return new Promise((resolve, reject) => {
-      if(!xhr) {
+      if (!xhr) {
         xhr = new XMLHttpRequest();
       }
-      xhr.open('POST', this.base + endpoint, true);
-      xhr.upload.addEventListener('progress', function (e: any) {
+      xhr.open("POST", this.base + endpoint, true);
+      xhr.upload.addEventListener("progress", function(e: any) {
         if (e.lengthComputable) {
-          progress((e.loaded / (e.total) * 99));
+          progress((e.loaded / e.total) * 99);
         }
       });
-      xhr.onload = function (this: XMLHttpRequest) {
+      xhr.onload = function(this: XMLHttpRequest) {
         if (this.status === 200) {
           progress(100);
           resolve(JSON.parse(this.response));
@@ -58,13 +65,12 @@ export class Upload {
           reject(this.response);
         }
       };
-      xhr.onreadystatechange = function () {
+      xhr.onreadystatechange = function() {
         //console.log(this);
       };
-      const XSRF_TOKEN = this.cookie.get('XSRF-TOKEN');
-      xhr.setRequestHeader('X-XSRF-TOKEN', XSRF_TOKEN);
+      const XSRF_TOKEN = this.cookie.get("XSRF-TOKEN");
+      xhr.setRequestHeader("X-XSRF-TOKEN", XSRF_TOKEN);
       xhr.send(formData);
     });
   }
-
 }

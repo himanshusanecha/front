@@ -1,27 +1,24 @@
-import { Component } from '@angular/core';
-import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from "@angular/core";
+import { Location } from "@angular/common";
+import { ActivatedRoute } from "@angular/router";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { Client } from '../../../services/api';
+import { Client } from "../../../services/api";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-admin--verify',
-  templateUrl: 'verify.component.html',
+  selector: "m-admin--verify",
+  templateUrl: "verify.component.html"
 })
-
 export class AdminVerify {
-
   requests: any[] = [];
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = '';
+  offset: string = "";
 
-  constructor(public client: Client, private route: ActivatedRoute) {
-  }
+  constructor(public client: Client, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.load();
@@ -34,7 +31,8 @@ export class AdminVerify {
 
     this.inProgress = true;
 
-    this.client.get(`api/v1/admin/verify`, { limit: 24, offset: this.offset })
+    this.client
+      .get(`api/v1/admin/verify`, { limit: 24, offset: this.offset })
       .then((response: any) => {
         if (!response.requests) {
           this.inProgress = false;
@@ -45,8 +43,8 @@ export class AdminVerify {
         this.requests.push(...response.requests);
         this.inProgress = false;
 
-        if (response['load-next']) {
-          this.offset = response['load-next'];
+        if (response["load-next"]) {
+          this.offset = response["load-next"];
         } else {
           this.moreData = false;
         }
@@ -61,10 +59,10 @@ export class AdminVerify {
   }
 
   verify(index) {
-
     this.inProgress = true;
 
-    this.client.put(`api/v1/admin/verify/${this.requests[index].guid}`)
+    this.client
+      .put(`api/v1/admin/verify/${this.requests[index].guid}`)
       .then(response => {
         this.removeFromList(index);
         this.inProgress = false;
@@ -75,13 +73,14 @@ export class AdminVerify {
   }
 
   reject(index) {
-    if (!window.confirm('User will be REJECTED. There is no UNDO. Proceed?')) {
+    if (!window.confirm("User will be REJECTED. There is no UNDO. Proceed?")) {
       return;
     }
 
     this.inProgress = true;
 
-    this.client.delete(`api/v1/admin/verify/${this.requests[index].guid}`)
+    this.client
+      .delete(`api/v1/admin/verify/${this.requests[index].guid}`)
       .then(response => {
         this.removeFromList(index);
         this.inProgress = false;

@@ -1,22 +1,29 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
-import * as BN from 'bn.js';
+import {
+  Component,
+  Input,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef
+} from "@angular/core";
+import { CurrencyPipe } from "@angular/common";
+import * as BN from "bn.js";
 
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { Client } from '../../../services/api';
-import { Session } from '../../../services/session';
-import { TokenContractService } from '../../blockchain/contracts/token-contract.service';
-import { BoostContractService } from '../../blockchain/contracts/boost-contract.service';
-import { Web3WalletService } from '../../blockchain/web3-wallet.service';
-import { OffchainPaymentService } from '../../blockchain/offchain-payment.service';
-import { GetMetamaskComponent } from '../../blockchain/metamask/getmetamask.component';
-import { Router } from '@angular/router';
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { Client } from "../../../services/api";
+import { Session } from "../../../services/session";
+import { TokenContractService } from "../../blockchain/contracts/token-contract.service";
+import { BoostContractService } from "../../blockchain/contracts/boost-contract.service";
+import { Web3WalletService } from "../../blockchain/web3-wallet.service";
+import { OffchainPaymentService } from "../../blockchain/offchain-payment.service";
+import { GetMetamaskComponent } from "../../blockchain/metamask/getmetamask.component";
+import { Router } from "@angular/router";
 
-type CurrencyType = 'offchain' | 'usd' | 'onchain' | 'creditcard';
-export type BoostType = 'p2p' | 'newsfeed' | 'content';
+type CurrencyType = "offchain" | "usd" | "onchain" | "creditcard";
+export type BoostType = "p2p" | "newsfeed" | "content";
 
 interface BoostStruc {
-  amount: number | '';
+  amount: number | "";
   currency: CurrencyType | null;
   type: BoostType | null;
 
@@ -38,16 +45,15 @@ export class VisibleBoostError extends Error {
 @Component({
   moduleId: module.id,
   providers: [CurrencyPipe],
-  selector: 'm-boost--creator',
-  templateUrl: 'creator.component.html'
+  selector: "m-boost--creator",
+  templateUrl: "creator.component.html"
 })
 export class BoostCreatorComponent implements AfterViewInit {
-
   object: any = {};
 
   boost: BoostStruc = {
     amount: 1000,
-    currency: 'offchain',
+    currency: "offchain",
     type: null,
 
     // General
@@ -64,9 +70,9 @@ export class BoostCreatorComponent implements AfterViewInit {
     checksum: null
   };
 
-  allowedTypes: { newsfeed?, p2p?, content? } = {};
+  allowedTypes: { newsfeed?; p2p?; content? } = {};
 
-  categories: { id, label }[] = [];
+  categories: { id; label }[] = [];
   selectedCategories: Array<any>;
 
   rates = {
@@ -93,16 +99,17 @@ export class BoostCreatorComponent implements AfterViewInit {
 
   success: boolean = false;
   criticalError: boolean = false;
-  error: string = '';
+  error: string = "";
 
   wasAmountChanged: boolean = false;
-  defaultAmount: number | '' = this.boost.amount;
+  defaultAmount: number | "" = this.boost.amount;
 
-  @Input('object') set data(object) {
+  @Input("object") set data(object) {
     this.object = object;
   }
 
-  @ViewChild('amountEditor', { static: false }) private _amountEditor: ElementRef;
+  @ViewChild("amountEditor", { static: false })
+  private _amountEditor: ElementRef;
 
   constructor(
     public session: Session,
@@ -114,8 +121,8 @@ export class BoostCreatorComponent implements AfterViewInit {
     private boostContract: BoostContractService,
     private web3Wallet: Web3WalletService,
     private offchainPayment: OffchainPaymentService,
-    protected router: Router,
-  ) { }
+    protected router: Router
+  ) {}
 
   ngOnInit() {
     this.getPreferredPaymentMethod();
@@ -127,14 +134,14 @@ export class BoostCreatorComponent implements AfterViewInit {
   }
 
   getPreferredPaymentMethod() {
-    let currency = localStorage.getItem('preferred-payment-method');
-    if (currency === 'creditcard') {
-      currency = 'usd';
+    let currency = localStorage.getItem("preferred-payment-method");
+    if (currency === "creditcard") {
+      currency = "usd";
     }
-    if (['offchain', 'usd', 'onchain'].indexOf(currency) !== -1)
-      this.boost.currency = <CurrencyType>(currency ? currency: 'offchain');
+    if (["offchain", "usd", "onchain"].indexOf(currency) !== -1)
+      this.boost.currency = <CurrencyType>(currency ? currency : "offchain");
     else {
-      this.boost.currency = 'offchain';
+      this.boost.currency = "offchain";
     }
   }
 
@@ -147,7 +154,8 @@ export class BoostCreatorComponent implements AfterViewInit {
     // TODO: Move to service and cache (maybe?)
     this.inProgress = true;
 
-    return this.client.get(`api/v2/boost/rates`)
+    return this.client
+      .get(`api/v2/boost/rates`)
       .then((rates: any) => {
         this.inProgress = false;
         this.rates = rates;
@@ -163,7 +171,7 @@ export class BoostCreatorComponent implements AfterViewInit {
       .catch(e => {
         this.inProgress = false;
         this.criticalError = true;
-        this.error = 'Internal server error';
+        this.error = "Internal server error";
       });
   }
 
@@ -180,19 +188,19 @@ export class BoostCreatorComponent implements AfterViewInit {
     }
 
     switch (this.object.type) {
-      case 'activity':
+      case "activity":
         this.allowedTypes = {
           newsfeed: true,
           p2p: true
         };
-        this.boost.type = 'newsfeed';
+        this.boost.type = "newsfeed";
         break;
 
       default:
         this.allowedTypes = {
           content: true
         };
-        this.boost.type = 'content';
+        this.boost.type = "content";
         break;
     }
   }
@@ -206,10 +214,10 @@ export class BoostCreatorComponent implements AfterViewInit {
     this.calcEstimatedCompletionTime();
     this.showErrors(true);
 
-    if (type === 'p2p' && this.boost.currency === 'usd') {
-      this.setBoostCurrency('creditcard');
-    } else if (type !== 'p2p' && this.boost.currency === 'creditcard') {
-      this.setBoostCurrency('usd');
+    if (type === "p2p" && this.boost.currency === "usd") {
+      this.setBoostCurrency("creditcard");
+    } else if (type !== "p2p" && this.boost.currency === "creditcard") {
+      this.setBoostCurrency("usd");
     }
   }
 
@@ -243,7 +251,7 @@ export class BoostCreatorComponent implements AfterViewInit {
     this.editingAmount = true;
 
     if (!this.boost.amount || !this.wasAmountChanged) {
-      this.boost.amount = '';
+      this.boost.amount = "";
     }
 
     this._changeDetectorRef.detectChanges();
@@ -256,9 +264,9 @@ export class BoostCreatorComponent implements AfterViewInit {
       this.boost.amount = 0;
       return;
     }
-    amount = amount.replace(/,/g, '');
+    amount = amount.replace(/,/g, "");
 
-    if (this.boost.type !== 'p2p') {
+    if (this.boost.type !== "p2p") {
       this.boost.amount = parseInt(amount);
     } else {
       this.boost.amount = parseFloat(amount);
@@ -294,10 +302,12 @@ export class BoostCreatorComponent implements AfterViewInit {
    * Round by 2 decimals if P2P and currency is unset or usd. If not, round by 4 decimals.
    */
   roundAmount() {
-    if (this.boost.currency === 'usd') {
-      this.boost.amount = Math.round(parseFloat(`${this.boost.amount}`) * 100) / 100;
+    if (this.boost.currency === "usd") {
+      this.boost.amount =
+        Math.round(parseFloat(`${this.boost.amount}`) * 100) / 100;
     } else {
-      this.boost.amount = Math.round(parseFloat(`${this.boost.amount}`) * 10000) / 10000;
+      this.boost.amount =
+        Math.round(parseFloat(`${this.boost.amount}`) * 10000) / 10000;
     }
   }
 
@@ -305,11 +315,13 @@ export class BoostCreatorComponent implements AfterViewInit {
    * Calculates estimated completion time based on the current boosts backlog and the inputted amount
    */
   calcEstimatedCompletionTime(refresh: boolean = false) {
-    if (this.boost.type !== 'p2p') {
+    if (this.boost.type !== "p2p") {
       if (this.estimatedTime === -1 || refresh) {
-        this.client.get('api/v2/boost/estimated', { impressions: this.boost.amount }).then((res: any) => {
-          this.estimatedTime = res.average || -1;
-        })
+        this.client
+          .get("api/v2/boost/estimated", { impressions: this.boost.amount })
+          .then((res: any) => {
+            this.estimatedTime = res.average || -1;
+          });
       }
     } else {
       this.estimatedTime = -1;
@@ -323,13 +335,13 @@ export class BoostCreatorComponent implements AfterViewInit {
    */
   calcBaseCharges(type: CurrencyType): number {
     // P2P is bid based.
-    if (this.boost.type === 'p2p') {
+    if (this.boost.type === "p2p") {
       return <number>this.boost.amount;
     }
 
     // Non-P2P should do the views <-> currency conversion
     switch (type) {
-      case 'usd':
+      case "usd":
         const usdFixRate = this.rates.usd / 100;
         return Math.ceil(<number>this.boost.amount / usdFixRate) / 100;
 
@@ -345,7 +357,7 @@ export class BoostCreatorComponent implements AfterViewInit {
   calcCharges(type: CurrencyType): number {
     const charges = this.calcBaseCharges(type);
 
-    return charges + (charges * this.getPriorityRate());
+    return charges + charges * this.getPriorityRate();
   }
 
   /**
@@ -360,7 +372,7 @@ export class BoostCreatorComponent implements AfterViewInit {
    */
   getPriorityRate(force?: boolean): number {
     // NOTE: No priority on P2P
-    if (force || (this.boost.type !== 'p2p' && this.boost.priority)) {
+    if (force || (this.boost.type !== "p2p" && this.boost.priority)) {
       return this.rates.priority;
     }
 
@@ -414,65 +426,85 @@ export class BoostCreatorComponent implements AfterViewInit {
    */
   validateBoost() {
     if (this.boost.amount <= 0) {
-      throw new Error('Amount should be greater than zero.');
+      throw new Error("Amount should be greater than zero.");
     }
 
     if (!this.boost.currency) {
-      throw new Error('You should select a currency.');
+      throw new Error("You should select a currency.");
     }
 
     if (!this.boost.type) {
-      throw new Error('You should select a type.');
+      throw new Error("You should select a type.");
     }
 
     switch (this.boost.currency) {
-      case 'usd':
+      case "usd":
         if (!this.boost.nonce) {
-          throw new Error('Payment method not processed.');
+          throw new Error("Payment method not processed.");
         }
 
         if (this.calcCharges(this.boost.currency) < this.rates.minUsd) {
-          throw new VisibleBoostError(`You must spend at least ${this.currency.transform(this.rates.minUsd, 'USD', true)} USD`);
+          throw new VisibleBoostError(
+            `You must spend at least ${this.currency.transform(
+              this.rates.minUsd,
+              "USD",
+              true
+            )} USD`
+          );
         }
         break;
     }
 
-    if (this.boost.priority && this.boost.currency !== 'usd') {
-      throw new VisibleBoostError('The only supported payment method for priority boosts is credit card');
+    if (this.boost.priority && this.boost.currency !== "usd") {
+      throw new VisibleBoostError(
+        "The only supported payment method for priority boosts is credit card"
+      );
     }
 
-    if (this.boost.type === 'p2p') {
+    if (this.boost.type === "p2p") {
       if (!this.boost.target) {
-        throw new Error('You should select a target.');
+        throw new Error("You should select a target.");
       }
 
       if (this.boost.target.guid === this.session.getLoggedInUser().guid) {
-        throw new VisibleBoostError('You cannot boost to yourself.');
+        throw new VisibleBoostError("You cannot boost to yourself.");
       }
 
-      if (this.boost.currency === 'onchain' && !this.boost.target.eth_wallet) {
-        throw new VisibleBoostError('Boost target should have a Receiver Address.');
+      if (this.boost.currency === "onchain" && !this.boost.target.eth_wallet) {
+        throw new VisibleBoostError(
+          "Boost target should have a Receiver Address."
+        );
       }
 
-      if ((this.boost.currency === 'offchain' || this.boost.currency === 'creditcard') && !this.boost.target.rewards) {
-        throw new VisibleBoostError('Boost target should participate in the Rewards program.');
+      if (
+        (this.boost.currency === "offchain" ||
+          this.boost.currency === "creditcard") &&
+        !this.boost.target.rewards
+      ) {
+        throw new VisibleBoostError(
+          "Boost target should participate in the Rewards program."
+        );
       }
     } else {
-      if (this.boost.currency === 'offchain'
-        && (this.boost.amount < this.rates.min
-          || this.boost.amount > this.rates.cap
-      )) {
-        throw new VisibleBoostError(`You must boost between ${this.rates.min} and ${this.rates.cap} views.`);
-
+      if (
+        this.boost.currency === "offchain" &&
+        (this.boost.amount < this.rates.min ||
+          this.boost.amount > this.rates.cap)
+      ) {
+        throw new VisibleBoostError(
+          `You must boost between ${this.rates.min} and ${this.rates.cap} views.`
+        );
       }
 
-      if (this.boost.currency === 'onchain'
-          && (this.boost.amount < this.rates.min
-            || this.boost.amount > (this.rates.cap)
-      )) {
-        throw new VisibleBoostError(`You must boost between ${this.rates.min} and ${this.rates.cap} views.`);
+      if (
+        this.boost.currency === "onchain" &&
+        (this.boost.amount < this.rates.min ||
+          this.boost.amount > this.rates.cap)
+      ) {
+        throw new VisibleBoostError(
+          `You must boost between ${this.rates.min} and ${this.rates.cap} views.`
+        );
       }
-
 
       //if (!this.boost.categories.length) {
       //  throw new Error('You should select a category.');
@@ -499,7 +531,7 @@ export class BoostCreatorComponent implements AfterViewInit {
    */
   showErrors(reset: boolean = false) {
     if (reset) {
-      this.error = '';
+      this.error = "";
     }
 
     try {
@@ -523,7 +555,7 @@ export class BoostCreatorComponent implements AfterViewInit {
    * Submits the boost to the appropiate server endpoint using the current settings
    */
   async submit() {
-    this.error = '';
+    this.error = "";
 
     if (this.inProgress) {
       return;
@@ -539,30 +571,31 @@ export class BoostCreatorComponent implements AfterViewInit {
     let guid = null;
 
     try {
-      if (this.boost.currency !== 'usd') {
+      if (this.boost.currency !== "usd") {
         const prepared = await this.prepare(this.object.guid);
 
         guid = prepared.guid;
         this.boost.checksum = prepared.checksum;
       }
 
-      if (this.boost.type !== 'p2p') {
+      if (this.boost.type !== "p2p") {
         switch (this.boost.currency) {
-          case 'onchain':
+          case "onchain":
             await this.web3Wallet.ready();
 
             const tokensFixRate = this.rates.tokens / 10000;
-            let amount = Math.ceil(<number>this.boost.amount / tokensFixRate) / 10000;
+            let amount =
+              Math.ceil(<number>this.boost.amount / tokensFixRate) / 10000;
 
             if (this.web3Wallet.isUnavailable()) {
-              throw new Error('No Ethereum wallets available on your browser.');
+              throw new Error("No Ethereum wallets available on your browser.");
             }
 
             if (await this.web3Wallet.isLocal()) {
               const action = await this.web3Wallet.setupMetamask();
               switch (action) {
                 case GetMetamaskComponent.ACTION_CREATE:
-                  this.router.navigate(['/wallet']);
+                  this.router.navigate(["/wallet"]);
                   this.inProgress = false;
                   this.overlayModal.dismiss();
                   break;
@@ -572,80 +605,99 @@ export class BoostCreatorComponent implements AfterViewInit {
             }
 
             if (!(await this.web3Wallet.unlock())) {
-              throw new Error('Your Ethereum wallet is locked or connected to another network.');
+              throw new Error(
+                "Your Ethereum wallet is locked or connected to another network."
+              );
             }
 
             this.boost.nonce = {
-              method: 'onchain',
-              txHash: await this.boostContract.create(guid, amount, this.boost.checksum),
+              method: "onchain",
+              txHash: await this.boostContract.create(
+                guid,
+                amount,
+                this.boost.checksum
+              ),
               address: await this.web3Wallet.getCurrentWallet(true)
             };
             break;
 
-          case 'offchain':
+          case "offchain":
             this.boost.nonce = {
-              method: 'offchain',
-              address: 'offchain'
+              method: "offchain",
+              address: "offchain"
             };
         }
 
-        await this.client.post(`api/v2/boost/${this.object.type}/${this.object.guid}/${this.object.owner_guid}`, {
-          guid,
-          bidType: this.boost.currency === 'usd' ? 'usd' : 'tokens',
-          impressions: this.boost.amount,
-          categories: this.boost.categories,
-          priority: this.boost.priority ? 1 : null,
-          paymentMethod: this.boost.nonce,
-          checksum: this.boost.checksum,
-        });
+        await this.client.post(
+          `api/v2/boost/${this.object.type}/${this.object.guid}/${this.object.owner_guid}`,
+          {
+            guid,
+            bidType: this.boost.currency === "usd" ? "usd" : "tokens",
+            impressions: this.boost.amount,
+            categories: this.boost.categories,
+            priority: this.boost.priority ? 1 : null,
+            paymentMethod: this.boost.nonce,
+            checksum: this.boost.checksum
+          }
+        );
       } else {
-        const tokenDec = (new BN(10)).pow(new BN(18)).toString();
+        const tokenDec = new BN(10).pow(new BN(18)).toString();
         let bid: number = (this.boost.amount || 0) * tokenDec;
 
         switch (this.boost.currency) {
-          case 'onchain':
+          case "onchain":
             await this.web3Wallet.ready();
 
             if (this.web3Wallet.isUnavailable()) {
-              throw new Error('No Ethereum wallets available on your browser.');
+              throw new Error("No Ethereum wallets available on your browser.");
             } else if (!(await this.web3Wallet.unlock())) {
-              throw new Error('Your Ethereum wallet is locked or connected to another network.');
+              throw new Error(
+                "Your Ethereum wallet is locked or connected to another network."
+              );
             }
 
             this.boost.nonce = {
-              method: 'onchain',
-              txHash: await this.boostContract.createPeer(this.boost.target.eth_wallet, guid, <number>this.boost.amount, this.boost.checksum),
+              method: "onchain",
+              txHash: await this.boostContract.createPeer(
+                this.boost.target.eth_wallet,
+                guid,
+                <number>this.boost.amount,
+                this.boost.checksum
+              ),
               address: await this.web3Wallet.getCurrentWallet(true)
             };
             break;
 
-          case 'offchain':
+          case "offchain":
             this.boost.nonce = {
-              method: 'offchain',
-              address: 'offchain'
+              method: "offchain",
+              address: "offchain"
             };
             break;
 
-          case 'creditcard':
+          case "creditcard":
             this.boost.nonce = {
-              method: 'creditcard',
-              address: 'creditcard',
+              method: "creditcard",
+              address: "creditcard",
               token: this.boost.nonce
             };
-            throw new Error('Credit Card offer boost is deprecated');
-            // break;
+            throw new Error("Credit Card offer boost is deprecated");
+          // break;
         }
 
-        await this.client.post(`api/v2/boost/peer/${this.object.guid}/${this.object.owner_guid}`, {
-          guid,
-          currency: 'tokens',
-          bid: bid.toString(),
-          destination: this.boost.target.guid,
-          scheduledTs: this.boost.scheduledTs,
-          postToFacebook: this.boost.postToFacebook ? 1 : null,
-          paymentMethod: this.boost.nonce,
-          checksum: this.boost.checksum,
-        });
+        await this.client.post(
+          `api/v2/boost/peer/${this.object.guid}/${this.object.owner_guid}`,
+          {
+            guid,
+            currency: "tokens",
+            bid: bid.toString(),
+            destination: this.boost.target.guid,
+            scheduledTs: this.boost.scheduledTs,
+            postToFacebook: this.boost.postToFacebook ? 1 : null,
+            paymentMethod: this.boost.nonce,
+            checksum: this.boost.checksum
+          }
+        );
       }
 
       this.success = true;
@@ -654,10 +706,12 @@ export class BoostCreatorComponent implements AfterViewInit {
         this.overlayModal.dismiss();
       }, 2500);
     } catch (e) {
-      if (e && e.stage === 'transaction') {
-        throw new Error('Sorry, your payment failed. Please, try again, use another card or wallet.');
+      if (e && e.stage === "transaction") {
+        throw new Error(
+          "Sorry, your payment failed. Please, try again, use another card or wallet."
+        );
       } else {
-        this.error = (e && e.message) || 'Sorry, something went wrong';
+        this.error = (e && e.message) || "Sorry, something went wrong";
         console.warn(this.error);
       }
     } finally {
@@ -667,13 +721,12 @@ export class BoostCreatorComponent implements AfterViewInit {
 
   async prepare(entityGuid: string) {
     const { guid, checksum }: any =
-      (await this.client.get(`api/v2/boost/prepare/${entityGuid}`)) || { };
+      (await this.client.get(`api/v2/boost/prepare/${entityGuid}`)) || {};
 
     if (!guid) {
-      throw new Error('Cannot generate GUID');
+      throw new Error("Cannot generate GUID");
     }
 
     return { guid, checksum };
   }
-
 }

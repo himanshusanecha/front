@@ -1,30 +1,30 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { CommonModule as NgCommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { CommonModule as NgCommonModule } from "@angular/common";
 
-import { CommonModule } from '../../../common/common.module';
-import { FaqModule } from '../../faq/faq.module';
-import { VideoModule } from '../../media/components/video/video.module';
-import { MarketingModule } from '../../marketing/marketing.module';
-import { OnboardingModule } from '../../onboarding/onboarding.module';
-import { BlogModule } from '../../blogs/blog.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BlockchainMarketingComponent } from './marketing.component';
-import { BlockchainPurchaseComponent } from './purchase.component';
-import { BlockchainMarketingOnboardComponent } from './onboard.component';
-import { BlockchainMarketingBlogsComponent } from './blogs.component';
-import { BlockchainMarketingCountdownComponent } from './countdown.component';
-import { BlockchainEthModalComponent } from './eth-modal.component';
-import { ModalsModule } from '../../modals/modals.module';
+import { CommonModule } from "../../../common/common.module";
+import { FaqModule } from "../../faq/faq.module";
+import { VideoModule } from "../../media/components/video/video.module";
+import { MarketingModule } from "../../marketing/marketing.module";
+import { OnboardingModule } from "../../onboarding/onboarding.module";
+import { BlogModule } from "../../blogs/blog.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BlockchainMarketingComponent } from "./marketing.component";
+import { BlockchainPurchaseComponent } from "./purchase.component";
+import { BlockchainMarketingOnboardComponent } from "./onboard.component";
+import { BlockchainMarketingBlogsComponent } from "./blogs.component";
+import { BlockchainMarketingCountdownComponent } from "./countdown.component";
+import { BlockchainEthModalComponent } from "./eth-modal.component";
+import { ModalsModule } from "../../modals/modals.module";
 
 const routes: Routes = [
   {
-    path: 'tokens',
-    redirectTo: '/token',
+    path: "tokens",
+    redirectTo: "/token"
   },
   {
-    path: 'token',
-    component: BlockchainMarketingComponent,
+    path: "token",
+    component: BlockchainMarketingComponent
   }
 ];
 
@@ -39,7 +39,7 @@ const routes: Routes = [
     MarketingModule,
     ModalsModule,
     BlogModule,
-    VideoModule,
+    VideoModule
   ],
   declarations: [
     BlockchainMarketingComponent,
@@ -47,13 +47,9 @@ const routes: Routes = [
     BlockchainPurchaseComponent,
     BlockchainMarketingBlogsComponent,
     BlockchainMarketingCountdownComponent,
-    BlockchainEthModalComponent,
+    BlockchainEthModalComponent
   ],
-  exports: [
-    BlockchainMarketingComponent,
-  ],
-  entryComponents: [
-    BlockchainMarketingComponent,
-  ]
+  exports: [BlockchainMarketingComponent],
+  entryComponents: [BlockchainMarketingComponent]
 })
-export class BlockchainMarketingModule { }
+export class BlockchainMarketingModule {}

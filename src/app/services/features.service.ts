@@ -1,11 +1,11 @@
-import { Injectable, isDevMode } from '@angular/core';
-import { Session } from './session';
-import { Router } from '@angular/router';
+import { Injectable, isDevMode } from "@angular/core";
+import { Session } from "./session";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class FeaturesService {
   protected _features: any;
-  protected _warnedCache: {[key: string]: number} = {};
+  protected _warnedCache: { [key: string]: number } = {};
 
   constructor(private session: Session, private router: Router) {
     this._features = window.Minds.features || {};
@@ -13,27 +13,32 @@ export class FeaturesService {
 
   has(feature: string) {
     if (!feature) {
-      throw new Error('Invalid feature ID')
+      throw new Error("Invalid feature ID");
     }
-    if (feature.indexOf('!') === 0) {
+    if (feature.indexOf("!") === 0) {
       // Inverted check. Useful for *mIfFeature
       return !this.has(feature.substring(1));
     }
 
-    if (typeof this._features[feature] === 'undefined') {
+    if (typeof this._features[feature] === "undefined") {
       if (isDevMode() && !this._hasWarned(feature)) {
-        console.warn(`[FeaturedService] Feature '${feature}' is not declared. Assuming true.`);
+        console.warn(
+          `[FeaturedService] Feature '${feature}' is not declared. Assuming true.`
+        );
         this._warnedCache[feature] = Date.now();
       }
 
       return true;
     }
 
-    if (this._features[feature] === 'admin' && this.session.isAdmin()) {
+    if (this._features[feature] === "admin" && this.session.isAdmin()) {
       return true;
     }
 
-    if (this._features[feature] === 'canary' && this.session.getLoggedInUser().canary) {
+    if (
+      this._features[feature] === "canary" &&
+      this.session.getLoggedInUser().canary
+    ) {
       return true;
     }
 
@@ -41,8 +46,8 @@ export class FeaturesService {
   }
 
   check(feature: string, { redirectTo }: { redirectTo?: any[] } = {}) {
-    if (feature.indexOf('!') === 0) {
-      throw new Error('Cannot negate feature when using check()');
+    if (feature.indexOf("!") === 0) {
+      throw new Error("Cannot negate feature when using check()");
     }
 
     const has = this.has(feature);
@@ -60,7 +65,7 @@ export class FeaturesService {
     }
 
     // Once every 5s
-    return (this._warnedCache[feature] + 5000) < Date.now()
+    return this._warnedCache[feature] + 5000 < Date.now();
   }
 
   static _(session: Session, router: Router) {

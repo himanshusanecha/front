@@ -1,22 +1,25 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from "@angular/core";
 
-import { Session } from '../../../services/session';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { WireCreatorComponent } from '../creator/creator.component';
-import { Client } from '../../../services/api';
-import { WireRewardsType, WireRewardsStruc } from '../interfaces/wire.interfaces';
-import { WireTypeLabels } from '../wire';
-import { SignupModalService } from '../../modals/signup/service';
+import { Session } from "../../../services/session";
+import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { WireCreatorComponent } from "../creator/creator.component";
+import { Client } from "../../../services/api";
+import {
+  WireRewardsType,
+  WireRewardsStruc
+} from "../interfaces/wire.interfaces";
+import { WireTypeLabels } from "../wire";
+import { SignupModalService } from "../../modals/signup/service";
 
 @Component({
   moduleId: module.id,
-  selector: 'm-wire-channel',
-  templateUrl: 'channel.component.html'
+  selector: "m-wire-channel",
+  templateUrl: "channel.component.html"
 })
 export class WireChannelComponent {
   rewards: WireRewardsStruc;
 
-  @Input('rewards') set _rewards(rewards: WireRewardsStruc) {
+  @Input("rewards") set _rewards(rewards: WireRewardsStruc) {
     if (rewards) {
       this.rewards = rewards;
     } else {
@@ -24,7 +27,9 @@ export class WireChannelComponent {
     }
   }
 
-  @Output('rewardsChange') rewardsChangeEmitter: EventEmitter<WireRewardsStruc> = new EventEmitter<WireRewardsStruc>();
+  @Output("rewardsChange") rewardsChangeEmitter: EventEmitter<
+    WireRewardsStruc
+  > = new EventEmitter<WireRewardsStruc>();
 
   @Input() channel: any;
 
@@ -33,7 +38,12 @@ export class WireChannelComponent {
   display: WireRewardsType;
   typeLabels = WireTypeLabels;
 
-  constructor(public session: Session, private overlayModal: OverlayModalService, private client: Client, private signupModal: SignupModalService) { }
+  constructor(
+    public session: Session,
+    private overlayModal: OverlayModalService,
+    private client: Client,
+    private signupModal: SignupModalService
+  ) {}
 
   ngOnInit() {
     if (!this.rewards) {
@@ -45,12 +55,12 @@ export class WireChannelComponent {
 
   // TODO: Smart default display, based on current user
   setDefaultDisplay() {
-    this.display = 'points';
+    this.display = "points";
 
-    if (this.shouldShow('money')) {
-      this.display = 'money';
-    } else if (this.shouldShow('tokens')) {
-      this.display = 'tokens';
+    if (this.shouldShow("money")) {
+      this.display = "money";
+    } else if (this.shouldShow("tokens")) {
+      this.display = "tokens";
     }
   }
 
@@ -64,7 +74,7 @@ export class WireChannelComponent {
 
   reset() {
     this.rewards = {
-      description: '',
+      description: "",
       rewards: {
         points: [],
         money: [],
@@ -74,20 +84,26 @@ export class WireChannelComponent {
   }
 
   async save() {
-    this.rewards.rewards.points = this._cleanAndSortRewards(this.rewards.rewards.points);
-    this.rewards.rewards.money = this._cleanAndSortRewards(this.rewards.rewards.money);
-    this.rewards.rewards.tokens = this._cleanAndSortRewards(this.rewards.rewards.tokens);
+    this.rewards.rewards.points = this._cleanAndSortRewards(
+      this.rewards.rewards.points
+    );
+    this.rewards.rewards.money = this._cleanAndSortRewards(
+      this.rewards.rewards.money
+    );
+    this.rewards.rewards.tokens = this._cleanAndSortRewards(
+      this.rewards.rewards.tokens
+    );
 
     try {
-      await this.client.post('api/v1/wire/rewards', {
+      await this.client.post("api/v1/wire/rewards", {
         rewards: this.rewards
       });
       this.rewardsChangeEmitter.emit(this.rewards);
       this.session.getLoggedInUser().wire_rewards = this.rewards;
-    } catch(e) {
+    } catch (e) {
       this.editing = true;
-      alert((e && e.message) || 'Server error');
-    };
+      alert((e && e.message) || "Server error");
+    }
   }
 
   sendWire() {
@@ -97,31 +113,43 @@ export class WireChannelComponent {
       return;
     }
 
-    const creator = this.overlayModal.create(WireCreatorComponent, this.channel);
+    const creator = this.overlayModal.create(
+      WireCreatorComponent,
+      this.channel
+    );
     creator.present();
   }
 
   isOwner() {
-    return this.session.getLoggedInUser() && (this.session.getLoggedInUser().guid === this.channel.guid);
+    return (
+      this.session.getLoggedInUser() &&
+      this.session.getLoggedInUser().guid === this.channel.guid
+    );
   }
 
   shouldShow(type?: WireRewardsType) {
     const isOwner = this.isOwner();
 
     if (!type) {
-      return isOwner || (
-        this.rewards.description ||
-        (this.rewards.rewards.points && this.rewards.rewards.points.length) ||
-        (this.rewards.rewards.money && this.rewards.rewards.money.length) ||
-        (this.rewards.rewards.tokens && this.rewards.rewards.tokens.length)
+      return (
+        isOwner ||
+        (this.rewards.description ||
+          (this.rewards.rewards.points && this.rewards.rewards.points.length) ||
+          (this.rewards.rewards.money && this.rewards.rewards.money.length) ||
+          (this.rewards.rewards.tokens && this.rewards.rewards.tokens.length))
       );
     }
 
-    const canShow = (type === 'points') ||
-      (type === 'money' && this.channel.merchant) ||
-      (type === 'tokens' && this.channel.eth_wallet);
+    const canShow =
+      type === "points" ||
+      (type === "money" && this.channel.merchant) ||
+      (type === "tokens" && this.channel.eth_wallet);
 
-    return canShow && (isOwner || (this.rewards.rewards[type] && this.rewards.rewards[type].length));
+    return (
+      canShow &&
+      (isOwner ||
+        (this.rewards.rewards[type] && this.rewards.rewards[type].length))
+    );
   }
 
   getCurrentTypeLabel() {
@@ -137,7 +165,10 @@ export class WireChannelComponent {
 
     return rewards
       .filter(reward => reward.amount || `${reward.description}`.trim())
-      .map(reward => ({ ...reward, amount: Math.abs(Math.floor(reward.amount || 0)) }))
-      .sort((a, b) => a.amount > b.amount ? 1 : -1);
+      .map(reward => ({
+        ...reward,
+        amount: Math.abs(Math.floor(reward.amount || 0))
+      }))
+      .sort((a, b) => (a.amount > b.amount ? 1 : -1));
   }
 }

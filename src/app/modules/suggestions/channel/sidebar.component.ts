@@ -1,25 +1,19 @@
-import { Component } from '@angular/core';
-import { Client } from '../../../services/api';
-import { Storage } from '../../../services/storage';
+import { Component } from "@angular/core";
+import { Client } from "../../../services/api";
+import { Storage } from "../../../services/storage";
 
 @Component({
-  selector: 'm-suggestions__sidebar',
-  templateUrl: 'sidebar.component.html'
+  selector: "m-suggestions__sidebar",
+  templateUrl: "sidebar.component.html"
 })
-
 export class SuggestionsSidebar {
-
   minds = window.Minds;
   suggestions: Array<any> = [];
   lastOffset = 0;
   inProgress: boolean = false;
   error: string;
 
-  constructor(
-    private client: Client,
-    private storage: Storage,
-  ) {
-  }
+  constructor(private client: Client, private storage: Storage) {}
 
   async ngOnInit() {
     this.load();
@@ -30,19 +24,20 @@ export class SuggestionsSidebar {
     this.inProgress = true;
     let limit: number = 5;
 
-    if (this.suggestions.length)
-      limit = 1;
+    if (this.suggestions.length) limit = 1;
 
     // Subscribe can not rely on next batch, so load further batch
     this.lastOffset = this.suggestions.length ? this.lastOffset + 11 : 0;
 
     try {
-      const response: any = await this.client.get('api/v2/suggestions/user', {
+      const response: any = await this.client.get("api/v2/suggestions/user", {
         limit,
-        offset: this.lastOffset,
+        offset: this.lastOffset
       });
       for (let suggestion of response.suggestions) {
-        const removed = this.storage.get(`user:suggestion:${suggestion.entity_guid}:removed`);
+        const removed = this.storage.get(
+          `user:suggestion:${suggestion.entity_guid}:removed`
+        );
         if (!removed) {
           this.suggestions.push(suggestion);
         }
@@ -58,7 +53,10 @@ export class SuggestionsSidebar {
     e.preventDefault();
     e.stopPropagation();
     this.suggestions.splice(this.suggestions.indexOf(suggestion), 1);
-    this.storage.set(`user:suggestion:${suggestion.entity_guid}:removed`, suggestion.entity_guid);
+    this.storage.set(
+      `user:suggestion:${suggestion.entity_guid}:removed`,
+      suggestion.entity_guid
+    );
     await this.client.put(`api/v2/suggestions/pass/${suggestion.entity_guid}`);
 
     // load more
@@ -67,9 +65,11 @@ export class SuggestionsSidebar {
 
   remove(suggestion) {
     this.suggestions.splice(this.suggestions.indexOf(suggestion), 1);
-    this.storage.set(`user:suggestion:${suggestion.entity_guid}:removed`, suggestion.entity_guid);
+    this.storage.set(
+      `user:suggestion:${suggestion.entity_guid}:removed`,
+      suggestion.entity_guid
+    );
     // load more
     this.load();
   }
-
 }
