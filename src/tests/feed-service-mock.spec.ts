@@ -9,11 +9,21 @@ import { BehaviorSubject, of } from 'rxjs';
 export let feedsServiceMock = {
   feed: new BehaviorSubject([Promise.resolve('[1,2,3,4,5]')]),
   clear() {
-     of( { response: false }, { response: false }, { response: true } );
+    of({ response: false }, { response: false }, { response: true });
   },
-  response() { return {'response': true } },
-  setEndpoint(str) { return this }, //chainable
-  setLimit(limit) { return this },
-  setParams(params) { return this },
-  fetch() { return this },
+  response() {
+    return { response: true };
+  },
+  setEndpoint(str) {
+    return this;
+  }, //chainable
+  setLimit(limit) {
+    return this;
+  },
+  setParams(params) {
+    return this;
+  },
+  fetch() {
+    return this;
+  },
 };

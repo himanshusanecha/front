@@ -1,4 +1,12 @@
-import { Component, ComponentFactoryResolver, ViewRef, ChangeDetectorRef, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ViewRef,
+  ChangeDetectorRef,
+  Input,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FeedsService } from '../../../../common/services/feeds.service';
 import { BoostConsoleType } from '../console.component';
@@ -13,15 +21,15 @@ import { PosterComponent } from '../../../newsfeed/poster/poster.component';
 @Component({
   moduleId: module.id,
   selector: 'm-boost-console-booster',
-  templateUrl: 'booster.component.html'
+  templateUrl: 'booster.component.html',
 })
 export class BoostConsoleBooster {
-
   /* type of the feed to display */
   @Input('type') type: BoostConsoleType;
 
   /* poster component */
-  @ViewChild('poster', { read: ViewContainerRef, static: false }) poster: ViewContainerRef;
+  @ViewChild('poster', { read: ViewContainerRef, static: false })
+  poster: ViewContainerRef;
 
   minds: Minds = window.Minds;
   feed$: Observable<BehaviorSubject<Object>[]>;
@@ -37,8 +45,8 @@ export class BoostConsoleBooster {
     private route: ActivatedRoute,
     public feedsService: FeedsService,
     private cd: ChangeDetectorRef,
-    private componentFactoryResolver: ComponentFactoryResolver,
-  ) { }
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {}
 
   /**
    * subscribes to route parent url and loads component.
@@ -73,13 +81,13 @@ export class BoostConsoleBooster {
           ? `api/v2/feeds/container/${this.minds.user.guid}/channels`
           : `api/v2/feeds/container/${this.minds.user.guid}/activities`
       )
-      .setParams({sync: true})
+      .setParams({ sync: true })
       .setLimit(12)
       .fetch();
     this.feed$ = this.feedsService.feed;
     this.inProgress = false;
     this.loaded = true;
-    this.feed$.subscribe(feed => this.noContent = feed.length > 0);
+    this.feed$.subscribe(feed => (this.noContent = feed.length > 0));
   }
 
   /**
@@ -87,9 +95,10 @@ export class BoostConsoleBooster {
    * @param feed - the feed to reload.
    */
   loadNext() {
-    if (this.feedsService.canFetchMore
-      && !this.feedsService.inProgress.getValue()
-      && this.feedsService.offset.getValue()
+    if (
+      this.feedsService.canFetchMore &&
+      !this.feedsService.inProgress.getValue() &&
+      this.feedsService.offset.getValue()
     ) {
       this.feedsService.fetch(); // load the next 150 in the background
     }
@@ -128,7 +137,9 @@ export class BoostConsoleBooster {
         }
       }
 
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(PosterComponent);
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+        PosterComponent
+      );
       this.componentRef = this.poster.createComponent(componentFactory);
       this.componentInstance = this.componentRef.instance;
       this.componentInstance.load.subscribe(() => {
