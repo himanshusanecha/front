@@ -53,7 +53,6 @@ import { MindsVideoComponent } from '../../components/video/video.component';
         ]"
         [log]="object.guid"
         [playCount]="false"
-        (click)="togglePlay($event)"
         #player
       >
         <video-ads [player]="player" *ngIf="object.monetized"></video-ads>
