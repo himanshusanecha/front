@@ -598,7 +598,8 @@ m-media--grid{
 }
 
 .m-comment__attachment {
-  img, minds-video {
+  img, minds-video, m-video {
     max-width: 50%;
+    cursor: pointer;
   }
 }

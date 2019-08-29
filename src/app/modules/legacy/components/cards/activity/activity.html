@@ -173,7 +173,7 @@
           [guid]="activity.custom_data.guid"
           [playCount]="activity['play:count']"
           [torrent]="[{ res: '360', key: activity.custom_data.guid + '/360.mp4' }]"
-          [isActivity]="true"
+          [shouldPlayInModal]="true"
           (videoMetadataLoaded)="setVideoDimensions($event)"
           (mediaModalRequested)="clickedVideo()"
           #player>

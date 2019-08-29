@@ -119,6 +119,9 @@
                 [guid]="comment.custom_data.guid"
                 [playCount]="comment['play:count']"
                 [torrent]="[{ res: '360', key: comment.custom_data.guid + '/360.mp4' }]"
+                [shouldPlayInModal]="true"
+                (videoMetadataLoaded)="setVideoDimensions($event)"
+                (mediaModalRequested)="clickedVideo()"
               >
             </m-video>
           </div>
@@ -134,8 +137,15 @@
               <span i18n="@@M__COMMON__CONFIRM_18">Click to confirm your are 18+</span>
             </span>
           </div>
-          <a target="_blank" [routerLink]="['/media', comment.attachment_guid]" *ngIf="comment.attachment_guid">
-            <img [src]="comment.custom_data[0].src" class="mdl-shadow--2dp" (error)="comment.custom_data[0].src = minds.cdn_assets_url + 'assets/logos/medium.png'">
+
+          <a *ngIf="comment.attachment_guid">
+            <img [src]="comment.custom_data[0].src"
+              (error)="comment.custom_data[0].src = minds.cdn_assets_url + 'assets/logos/medium.jpg'"
+              *ngIf="comment.custom_data"
+              class="mdl-shadow--2dp"
+              (click)="clickedImage()"
+              #batchImage
+            >
           </a>
 
           <img *ngIf="!comment.attachment_guid" [src]="comment.custom_data[0].src" (error)="comment.custom_data[0].src = minds.cdn_assets_url + 'assets/logos/medium.png'">
@@ -238,7 +248,6 @@
 
       <span [title]="comment.time_created * 1000 | date: 'medium'" class="m-commentToolbar__timestamp" *ngIf="( commentAge$ | async ) as commentAge">{{ commentAge | friendlydatediff }}</span>
       <span *ngIf="comment.edited" class="m-edited-text" i18n="@@M__COMMON__EDITED">edited</span>
-
 
     </div>
 

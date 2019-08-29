@@ -70,9 +70,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   thumbnail: string = '';
   boosted: boolean = false;
   ownerIconTime: string = '';
-  permalinkGuid: string = '';
-  hasMessage: boolean = true;
-  message: string = '';
 
   // Used for backdrop click detection hack
   isOpen: boolean = false;
@@ -105,35 +102,40 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     // Prevent dismissal of modal when it's just been opened
     this.isOpenTimeout = setTimeout(() => this.isOpen = true, 20);
 
-    this.boosted = this.entity.boosted || this.entity.p2p_boosted;
-
-    // Set title
-    if (!this.entity.title) {
-      if (!this.entity.message) {
-        this.title = `${this.entity.ownerObj.name}'s post`;
-        this.hasMessage = false;
-      } else {
-        this.title = this.entity.message;
-      }
-    } else {
-      this.title = this.entity.title;
+    switch (this.entity.type) {
+      case 'activity':
+        this.title = this.entity.message || this.entity.title || `${this.entity.ownerObj.name}'s post`;
+        this.entity.guid = this.entity.entity_guid || this.entity.guid;
+        this.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.entity_guid}/xlarge`;
+        break;
+      case 'object':
+        switch (this.entity.subtype) {
+          case 'video':
+            this.title = this.entity.title;
+            break;
+          case 'image':
+              this.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.guid}/xlarge`;
+            break;
+          case 'blog':
+            throw new Error('Coming soon');
+            break;
+        }
+        break;
+      case 'comment':
+        this.title = this.entity.message || this.entity.title || this.entity.description || `${this.entity.ownerObj.name}'s post`;
+        this.entity.guid = this.entity.attachment_guid;
+        this.entity.entity_guid = this.entity.attachment_guid;
+        this.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.attachment_guid}/xlarge`;
+        break;
     }
 
-    this.message = this.hasMessage ? this.title : null;
+    this.boosted = this.entity.boosted || this.entity.p2p_boosted;
 
-    // Set ownerIconTime
     const session = this.session.getLoggedInUser();
     if (session && session.guid === this.entity.ownerObj.guid) {
       this.ownerIconTime =  session.icontime;
     } else {
       this.ownerIconTime = this.entity.ownerObj.icontime;
-    }
-
-    this.permalinkGuid = this.entity.guid ? this.entity.guid : this.entity.entity_guid;
-
-    // Allow comment tree to work
-    if (!this.entity.guid) {
-      this.entity.guid = this.entity.entity_guid;
     }
 
     this.isTablet = isMobileOrTablet() && Math.min(screen.width, screen.height) >= 768;
@@ -171,11 +173,9 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       // Image
       this.entityWidth = this.entity.custom_data[0].width;
       this.entityHeight = this.entity.custom_data[0].height;
-      this.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.entity_guid}/xlarge`;
     } else {
       this.entityWidth = this.entity.custom_data.dimensions.width;
       this.entityHeight = this.entity.custom_data.dimensions.height;
-      this.thumbnail = this.entity.custom_data.thumbnail_src; // Not currently used
     }
 
     this.aspectRatio = this.entityWidth / this.entityHeight;
@@ -222,7 +222,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.stageWidth = windowWidth;
       this.stageHeight = windowHeight;
 
-
       if (this.entity.custom_type === 'image') {
         // For images, set mediaHeight as tall as possible but not taller than instrinsic height
         this.mediaHeight = this.entityHeight < windowHeight ? this.entityHeight : windowHeight;
@@ -266,7 +265,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.mediaHeight = this.stageHeight;
     }
 
-    // Scale width according to aspect ratio
     this.mediaWidth = this.scaleWidth();
   }
 

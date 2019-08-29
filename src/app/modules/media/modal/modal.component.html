@@ -137,7 +137,7 @@
                     <strong>({{entity.containerObj.name}})</strong>
                   </a>
                   <!-- PERMALINK -->
-                  <a [routerLink]="['/newsfeed', permalinkGuid]" class="permalink m-ownerBlock__permalink">
+                  <a [routerLink]="['/newsfeed', entity.guid]" class="permalink m-ownerBlock__permalink">
                     <span class="m-ownerBlock__permalinkDate">{{entity.time_created * 1000 | date:'medium'}}</span>
                     <span *ngIf="entity.edited" class="m-ownerBlock__permalinkFlag m-ownerBlock__permalinkFlag--edited" i18n="@@M__COMMON__EDITED">edited</span>
                     <div *ngIf="boosted"
@@ -153,10 +153,10 @@
               </div>
               <!-- MESSAGE -->
               <div class="m-mediaModal__message mdl-card__supporting-text"
-                m-read-more *ngIf="hasMessage"
+                m-read-more *ngIf="this.entity.title || this.entity.message || this.entity.description"
                 [maxHeightAllowed]="136"
               >
-                <span class="m-mature-message-content" [innerHtml]="message | tags">
+                <span class="m-mature-message-content" [innerHtml]="title | tags">
                 </span>
                 <m-read-more--button></m-read-more--button>
               </div>
