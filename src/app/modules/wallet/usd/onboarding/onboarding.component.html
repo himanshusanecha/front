@@ -148,10 +148,10 @@
   </div>
 
   <div class="m-merchant-legal mdl-color--grey-50 mdl-color-text--grey-600">
-    <p>
+    <label>
       <input formControlName="stripeAgree" type="checkbox" value="1">
       <ng-container i18n="@@MONETIZATION__ONBOARDING__AGREE_TERMS_LABEL">I have read and agree to the <a (click)="showTerms()">Monetization Terms & Conditions</a>.</ng-container>
-    </p>
+    </label>
   </div>
 
   <div *ngIf="error" class="m-error mdl-color-text--red">
