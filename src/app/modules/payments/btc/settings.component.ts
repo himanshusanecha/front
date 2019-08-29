@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 
 import { Client } from '../../../services/api';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
 
 @Component({
   selector: 'm-btc__settings',
@@ -19,6 +20,7 @@ export class BTCSettingsComponent {
   constructor(
     private client: Client,
     private cd: ChangeDetectorRef,
+    private overlayModal: OverlayModalService,
   ) { }
 
   ngOnInit() {
@@ -38,6 +40,7 @@ export class BTCSettingsComponent {
     });
     this.saving = false;
     this.detectChanges();
+    this.overlayModal.dismiss();
   }
 
   detectChanges() {
