@@ -1,5 +1,11 @@
 ///<reference path="../../../../../node_modules/@types/jasmine/index.d.ts"/>
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { MockComponent } from '../../../utils/mock';
 import { CommonModule as NgCommonModule } from '@angular/common';
 import { ChannelModeSelectorComponent } from './channel-mode-selector.component';
@@ -10,23 +16,17 @@ import { DropdownComponent } from '../dropdown/dropdown.component';
 import { componentFactoryName } from '@angular/compiler';
 
 describe('ChannelModeSelector', () => {
-  let comp:  ChannelModeSelectorComponent;
+  let comp: ChannelModeSelectorComponent;
   let fixture: ComponentFixture<ChannelModeSelectorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        DropdownComponent,
-        ChannelModeSelectorComponent,
-      ],
-      providers: [
-        { provide: Client, useValue: clientMock },
-      ]
-    })
-    .compileComponents();
+      declarations: [DropdownComponent, ChannelModeSelectorComponent],
+      providers: [{ provide: Client, useValue: clientMock }],
+    }).compileComponents();
   }));
 
-  beforeEach((done) => {
+  beforeEach(done => {
     fixture = TestBed.createComponent(ChannelModeSelectorComponent);
     clientMock.response = {};
     comp = fixture.componentInstance;
@@ -41,7 +41,7 @@ describe('ChannelModeSelector', () => {
       mode: ChannelMode.PUBLIC,
     };
 
-    clientMock.response['api/v1/channel/info'] = {status: 'success'};
+    clientMock.response['api/v1/channel/info'] = { status: 'success' };
     fixture.detectChanges();
     if (fixture.isStable()) {
       done();
@@ -57,7 +57,9 @@ describe('ChannelModeSelector', () => {
     comp.setChannelMode(ChannelMode.MODERATED);
     fixture.detectChanges();
     expect(comp.user.mode).toEqual(ChannelMode.MODERATED);
-    expect(clientMock.post.calls.mostRecent().args[0]).toEqual('api/v1/channel/info');
+    expect(clientMock.post.calls.mostRecent().args[0]).toEqual(
+      'api/v1/channel/info'
+    );
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual(comp.user);
     expect(comp.channelModeDropdown.close).toHaveBeenCalled();
   });
@@ -67,7 +69,9 @@ describe('ChannelModeSelector', () => {
     comp.setChannelMode(ChannelMode.CLOSED);
     fixture.detectChanges();
     expect(comp.user.mode).toEqual(ChannelMode.CLOSED);
-    expect(clientMock.post.calls.mostRecent().args[0]).toEqual('api/v1/channel/info');
+    expect(clientMock.post.calls.mostRecent().args[0]).toEqual(
+      'api/v1/channel/info'
+    );
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual(comp.user);
     expect(comp.channelModeDropdown.close).toHaveBeenCalled();
   });
@@ -77,7 +81,9 @@ describe('ChannelModeSelector', () => {
     comp.setChannelMode(ChannelMode.PUBLIC);
     fixture.detectChanges();
     expect(comp.user.mode).toEqual(ChannelMode.PUBLIC);
-    expect(clientMock.post.calls.mostRecent().args[0]).toEqual('api/v1/channel/info');
+    expect(clientMock.post.calls.mostRecent().args[0]).toEqual(
+      'api/v1/channel/info'
+    );
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual(comp.user);
     expect(comp.channelModeDropdown.close).toHaveBeenCalled();
   });
@@ -94,4 +100,3 @@ describe('ChannelModeSelector', () => {
     expect(comp.channelModeDropdown.close).not.toHaveBeenCalled();
   });
 });
-

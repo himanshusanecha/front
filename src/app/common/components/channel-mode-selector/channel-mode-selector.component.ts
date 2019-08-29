@@ -1,26 +1,20 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { ChannelMode, MindsUser } from '../../../interfaces/entities';
 import { Client } from '../../../services/api';
 
 @Component({
-    selector: 'm-channel-mode-selector',
-    templateUrl: './channel-mode-selector.component.html'
+  selector: 'm-channel-mode-selector',
+  templateUrl: './channel-mode-selector.component.html',
 })
 export class ChannelModeSelectorComponent implements AfterViewInit {
-  @ViewChild('channelModeDropdown', { static: false }) channelModeDropdown: DropdownComponent;
+  @ViewChild('channelModeDropdown', { static: false })
+  channelModeDropdown: DropdownComponent;
   @Input() public enabled = true;
   @Input() public user: MindsUser;
   public channelModes = ChannelMode;
 
-  constructor(
-    public client: Client,
-  ) {}
+  constructor(public client: Client) {}
 
   /**
    * Pass the enabled flag down to the ViewChild to control the dropdown functions
