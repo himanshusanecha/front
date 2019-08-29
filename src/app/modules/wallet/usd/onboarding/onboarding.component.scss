@@ -1,7 +1,7 @@
 .m-walletUsd__onboarding {
   font-family: 'Roboto';
 
-  label{
+  label {
     display: block;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -9,11 +9,11 @@
     font-weight: 600;
   }
 
-  minds-country-input{
-    width:100%;
-  } 
-  
-  select{
+  minds-country-input {
+    width: 100%;
+  }
+
+  select {
     padding: 12px;
     font-size: 14px;
     text-transform: uppercase;
@@ -22,23 +22,23 @@
     font-weight: 300;
     cursor: pointer;
     -webkit-appearance: none;
-    @include m-theme(){
+    @include m-theme() {
       color: themed($m-grey-500);
       background: themed($m-white);
       border-color: themed($m-grey-100);
     }
   }
 
-  .m-date-input--field select{
+  .m-date-input--field select {
     padding: 12px 40px 12px 12px;
-    text-transform:uppercase;
-    @include m-theme(){
+    text-transform: uppercase;
+    @include m-theme() {
       color: themed($m-grey-500);
     }
     margin-right: 4px;
   }
 
-  input[type=text]{
+  input[type='text'] {
     padding: 12px;
     font-size: 14px;
     text-transform: uppercase;
@@ -46,15 +46,14 @@
     border-radius: 6px;
     width: 100%;
   }
-
 }
-.m-merchant-legal{
- p{
-     margin:0;
- }
- a {
-   cursor: pointer;
- }
+.m-merchant-legal {
+  p {
+    margin: 0;
+  }
+  a {
+    cursor: pointer;
+  }
 }
 
 .m-merchant-form-action {

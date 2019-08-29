@@ -6,11 +6,9 @@ import { PaymentsNewCard } from '../../../payments/new-card/new-card.component';
 
 @Component({
   selector: 'm-settings--billing-saved-cards',
-  templateUrl: 'saved-cards.component.html'
+  templateUrl: 'saved-cards.component.html',
 })
-
 export class SettingsBillingSavedCardsComponent {
-
   minds = window.Minds;
   inProgress: boolean = false;
   addingNewCard: boolean = false;
@@ -19,9 +17,8 @@ export class SettingsBillingSavedCardsComponent {
   constructor(
     private client: Client,
     private cd: ChangeDetectorRef,
-    private overlayModal: OverlayModalService,
-  ) {
-  }
+    private overlayModal: OverlayModalService
+  ) {}
 
   ngOnInit() {
     this.loadSavedCards();
@@ -31,7 +28,8 @@ export class SettingsBillingSavedCardsComponent {
     this.inProgress = true;
     this.cards = [];
 
-    return this.client.get(`api/v2/payments/stripe/paymentmethods`)
+    return this.client
+      .get(`api/v2/payments/stripe/paymentmethods`)
       .then(({ paymentmethods }) => {
         this.inProgress = false;
 
@@ -49,7 +47,8 @@ export class SettingsBillingSavedCardsComponent {
   removeCard(index: number) {
     this.inProgress = true;
 
-    this.client.delete('api/v2/payments/stripe/paymentmethods/' + this.cards[index].id)
+    this.client
+      .delete('api/v2/payments/stripe/paymentmethods/' + this.cards[index].id)
       .then(() => {
         this.cards.splice(index, 1);
 
@@ -63,18 +62,23 @@ export class SettingsBillingSavedCardsComponent {
   }
 
   addNewCard() {
-    this.overlayModal.create(PaymentsNewCard, {}, {
-      class: '',
-      onCompleted: () => {
-        this.loadSavedCards(); //refresh list
-        this.overlayModal.dismiss();
-      },
-    }).present(); 
+    this.overlayModal
+      .create(
+        PaymentsNewCard,
+        {},
+        {
+          class: '',
+          onCompleted: () => {
+            this.loadSavedCards(); //refresh list
+            this.overlayModal.dismiss();
+          },
+        }
+      )
+      .present();
   }
 
   detectChanges(): void {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

@@ -15,8 +15,8 @@ export class WireService {
     private wireContract: WireContractService,
     private tokenContract: TokenContractService,
     private web3Wallet: Web3WalletService,
-    private btcService: BTCService,
-  ) { }
+    private btcService: BTCService
+  ) {}
 
   async submitWire(wire: WireStruc) {
     let payload = wire.payload;
@@ -32,10 +32,14 @@ export class WireService {
         if (this.web3Wallet.isUnavailable()) {
           throw new Error('No Ethereum wallets available on your browser.');
         } else if (!(await this.web3Wallet.unlock())) {
-          throw new Error('Your Ethereum wallet is locked or connected to another network.');
+          throw new Error(
+            'Your Ethereum wallet is locked or connected to another network.'
+          );
         }
 
-        if (payload.receiver == await this.web3Wallet.getCurrentWallet(true)) {
+        if (
+          payload.receiver == (await this.web3Wallet.getCurrentWallet(true))
+        ) {
           throw new Error('You cannot wire yourself.');
         }
 
@@ -49,11 +53,16 @@ export class WireService {
           }
 
           payload.address = await this.web3Wallet.getCurrentWallet(true);
-          payload.txHash = await this.wireContract.create(payload.receiver, wire.amount);
+          payload.txHash = await this.wireContract.create(
+            payload.receiver,
+            wire.amount
+          );
           payload.method = 'onchain';
         } catch (e) {
           console.error('[Wire/Token]', e);
-          throw new Error('Either you cancelled the approval, or there was an error processing it.');
+          throw new Error(
+            'Either you cancelled the approval, or there was an error processing it.'
+          );
         }
         break;
 
@@ -63,7 +72,9 @@ export class WireService {
         if (this.web3Wallet.isUnavailable()) {
           throw new Error('No Ethereum wallets available on your browser.');
         } else if (!(await this.web3Wallet.unlock())) {
-          throw new Error('Your Ethereum wallet is locked or connected to another network.');
+          throw new Error(
+            'Your Ethereum wallet is locked or connected to another network.'
+          );
         }
 
         await this.web3Wallet.sendTransaction({
@@ -98,14 +109,16 @@ export class WireService {
         payload,
         method: payload.method,
         amount: wire.amount,
-        recurring: wire.recurring
+        recurring: wire.recurring,
       });
 
       this.wireSent.next(wire);
       return { done: true };
     } catch (e) {
       if (e && e.stage === 'transaction') {
-        throw new Error('Sorry, your payment failed. Please, try again or use another card');
+        throw new Error(
+          'Sorry, your payment failed. Please, try again or use another card'
+        );
       }
 
       throw e;

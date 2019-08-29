@@ -1,14 +1,17 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { FeaturesService } from '../../../../services/features.service';
-import { WireRewardsType, WireRewardsStruc, WireRewardsTiers } from '../../interfaces/wire.interfaces';
+import {
+  WireRewardsType,
+  WireRewardsStruc,
+  WireRewardsTiers,
+} from '../../interfaces/wire.interfaces';
 
 @Component({
   selector: 'm-wireCreator__rewards',
-  templateUrl: 'rewards.component.html'
+  templateUrl: 'rewards.component.html',
 })
 export class WireCreatorRewardsComponent {
-
   rewards: Array<any> = [];
   @Input() amount: number = 1;
   currency: string = 'tokens';
@@ -18,11 +21,11 @@ export class WireCreatorRewardsComponent {
   @Input() sums: any;
   @Output() selectAmount: EventEmitter<any> = new EventEmitter(true);
   @Output() selectCurrency: EventEmitter<string> = new EventEmitter(true);
-  @Output('selectReward') selectRewardEvt: EventEmitter<any> = new EventEmitter(true);
+  @Output('selectReward') selectRewardEvt: EventEmitter<any> = new EventEmitter(
+    true
+  );
 
-  constructor(
-    private featuresService: FeaturesService,
-  ) { }
+  constructor(private featuresService: FeaturesService) {}
 
   selectReward(reward): void {
     this.selectRewardEvt.next(reward);
@@ -31,9 +34,7 @@ export class WireCreatorRewardsComponent {
   }
 
   get selectedReward() {
-    const methods = [
-      { method: 'tokens', currency: 'offchain' },
-    ];
+    const methods = [{ method: 'tokens', currency: 'offchain' }];
 
     if (this.featuresService.has('wire-multi-currency')) {
       methods.push({ method: 'money', currency: 'usd' });
@@ -42,7 +43,7 @@ export class WireCreatorRewardsComponent {
     for (const method of methods) {
       const match = this.findReward();
       if (match) {
-      //this.selectReward(match);
+        //this.selectReward(match);
         return match;
         break;
       }
@@ -52,22 +53,21 @@ export class WireCreatorRewardsComponent {
 
   /**
    * Return a reward that closest matches our query
-   * @param method 
-   */   
+   * @param method
+   */
+
   private findReward() {
     for (let r of this.rewards) {
       if (this.currency === r.currency && this.amount == r.amount) {
         return r;
       }
     }
-    return null;  
+    return null;
   }
 
   @Input('rewards') set _rewards(rewards) {
     this.rewards = [];
-    const methodsMap = [
-      { method: 'tokens', currency: 'tokens' },
-    ];
+    const methodsMap = [{ method: 'tokens', currency: 'tokens' }];
 
     if (this.featuresService.has('wire-multi-currency')) {
       methodsMap.push({ method: 'money', currency: 'usd' });
@@ -78,7 +78,7 @@ export class WireCreatorRewardsComponent {
         this.rewards.push({
           amount: parseInt(reward.amount),
           description: reward.description,
-          currency
+          currency,
         });
       }
     }
@@ -96,5 +96,4 @@ export class WireCreatorRewardsComponent {
     }
     this.currency = currency;
   }
-
 }

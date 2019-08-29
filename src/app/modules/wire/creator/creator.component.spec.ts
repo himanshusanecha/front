@@ -1,11 +1,27 @@
 ///<reference path="../../../../../node_modules/@types/jasmine/index.d.ts"/>
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Component, DebugElement, EventEmitter, Input, Output } from '@angular/core';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
+import {
+  Component,
+  DebugElement,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { VisibleWireError, WireCreatorComponent, WireStruc } from './creator.component';
+import {
+  VisibleWireError,
+  WireCreatorComponent,
+  WireStruc,
+} from './creator.component';
 import { Client } from '../../../services/api/client';
 import { clientMock } from '../../../../tests/client-mock.spec';
 import { AbbrPipe } from '../../../common/pipes/abbr';
@@ -36,10 +52,9 @@ import { MockComponent } from '../../../utils/mock';
 /* tslint:disable */
 @Component({
   selector: 'm-wire--creator-rewards',
-  template: ''
+  template: '',
 })
 export class WireCreatorRewardsComponentMock {
-
   @Input() rewards: any;
   @Input() type: any | null;
   @Input() amount: string | number;
@@ -51,13 +66,11 @@ export class WireCreatorRewardsComponentMock {
 @Component({
   selector: 'minds-payments-stripe-checkout',
   outputs: ['inputed', 'done'],
-  template: ''
+  template: '',
 })
-
 export class StripeCheckoutMock {
-
-  inputed: EventEmitter<any> = new EventEmitter;
-  done: EventEmitter<any> = new EventEmitter;
+  inputed: EventEmitter<any> = new EventEmitter();
+  done: EventEmitter<any> = new EventEmitter();
 
   @Input() amount: number = 0;
   @Input() merchant_guid;
@@ -71,96 +84,104 @@ export class StripeCheckoutMock {
 
 @Component({
   selector: 'm--crypto-token-symbol',
-  template: ''
+  template: '',
 })
-class WireCreatorCryptoTokenSymbolMock {
-}
+class WireCreatorCryptoTokenSymbolMock {}
 
 @Component({
   selector: 'm-checkout--blockchain',
-  template: ''
+  template: '',
 })
 class WireCreatorBlockchainCheckoutMock {
   @Input() autoselect;
 }
 
-let wireServiceMock = new function () {
+let wireServiceMock = new (function() {
   this.wireSent = new EventEmitter<any>();
-  this.submitWire = jasmine.createSpy('submitWire').and.callFake(async (wireStruc: WireStruc) => {
-    return { success: true };
-  });
-};
+  this.submitWire = jasmine
+    .createSpy('submitWire')
+    .and.callFake(async (wireStruc: WireStruc) => {
+      return { success: true };
+    });
+})();
 
 describe('WireCreatorComponent', () => {
-
   let comp: WireCreatorComponent;
   let fixture: ComponentFixture<WireCreatorComponent>;
   let submitSection: DebugElement;
   let sendButton: DebugElement;
 
   const owner: any = {
-    'guid': '123',
-    'type': 'user',
-    'subtype': false,
-    'time_created': '1500037446',
-    'time_updated': false,
-    'container_guid': '0',
-    'owner_guid': '0',
-    'site_guid': false,
-    'access_id': '2',
-    'name': 'minds',
-    'username': 'minds',
-    'eth_wallet': '0x1234',
-    'language': 'en',
-    'icontime': false,
-    'legacy_guid': false,
-    'featured_id': false,
-    'banned': 'no',
-    'website': '',
-    'briefdescription': 'test',
-    'dob': '',
-    'gender': '',
-    'city': '',
-    'merchant': {
-      'service': 'stripe',
-      'id': 'acct_1ApIzEA26BgQpK9C',
-      'exclusive': { 'background': 1502453050, 'intro': '' }
+    guid: '123',
+    type: 'user',
+    subtype: false,
+    time_created: '1500037446',
+    time_updated: false,
+    container_guid: '0',
+    owner_guid: '0',
+    site_guid: false,
+    access_id: '2',
+    name: 'minds',
+    username: 'minds',
+    eth_wallet: '0x1234',
+    language: 'en',
+    icontime: false,
+    legacy_guid: false,
+    featured_id: false,
+    banned: 'no',
+    website: '',
+    briefdescription: 'test',
+    dob: '',
+    gender: '',
+    city: '',
+    merchant: {
+      service: 'stripe',
+      id: 'acct_1ApIzEA26BgQpK9C',
+      exclusive: { background: 1502453050, intro: '' },
     },
-    'boostProPlus': false,
-    'fb': false,
-    'mature': 0,
-    'monetized': '',
-    'signup_method': false,
-    'social_profiles': [],
-    'feature_flags': false,
-    'programs': ['affiliate'],
-    'plus': false,
-    'verified': false,
-    'disabled_boost': false,
-    'categories': ['news', 'film', 'spirituality'],
-    'wire_rewards': null,
-    'subscribed': false,
-    'subscriber': false,
-    'subscribers_count': 1,
-    'subscriptions_count': 1,
-    'impressions': 337,
-    'boost_rating': '2'
+    boostProPlus: false,
+    fb: false,
+    mature: 0,
+    monetized: '',
+    signup_method: false,
+    social_profiles: [],
+    feature_flags: false,
+    programs: ['affiliate'],
+    plus: false,
+    verified: false,
+    disabled_boost: false,
+    categories: ['news', 'film', 'spirituality'],
+    wire_rewards: null,
+    subscribed: false,
+    subscriber: false,
+    subscribers_count: 1,
+    subscriptions_count: 1,
+    impressions: 337,
+    boost_rating: '2',
   };
 
   function getPaymentMethodItem(i: number): DebugElement {
-    return fixture.debugElement.query(By.css(`.m-wire--creator-selector > li:nth-child(${i})`));
+    return fixture.debugElement.query(
+      By.css(`.m-wire--creator-selector > li:nth-child(${i})`)
+    );
   }
 
   function getAmountInput(): DebugElement {
-    return fixture.debugElement.query(By.css('input.m-wire--creator-wide-input--edit'));
+    return fixture.debugElement.query(
+      By.css('input.m-wire--creator-wide-input--edit')
+    );
   }
 
   function getAmountLabel(): DebugElement {
-    return fixture.debugElement.query(By.css('.m-wire--creator-wide-input--label'));
+    return fixture.debugElement.query(
+      By.css('.m-wire--creator-wide-input--label')
+    );
   }
 
   function getRecurringCheckbox(): DebugElement {
-    return fixture.debugElement.query(By.css('.m-wire--creator--recurring input[type=checkbox]'));
+    return fixture.debugElement.query(
+      By.css('.m-wire--creator--recurring input[type=checkbox]')
+    );
   }
 
   function getErrorLabel(): DebugElement {
@@ -168,7 +189,6 @@ describe('WireCreatorComponent', () => {
   }
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [
         MaterialMock,
@@ -185,8 +205,8 @@ describe('WireCreatorComponent', () => {
         IfFeatureDirective,
         MockComponent({
           selector: 'm-wireCreator__rewards',
-          inputs: [ 'rewards', 'amount', 'currency', 'channel', 'sums' ],
-          outputs: [ 'selectReward' ],
+          inputs: ['rewards', 'amount', 'currency', 'channel', 'sums'],
+          outputs: ['selectReward'],
         }),
         MockComponent({
           selector: 'm-payments__selectCard',
@@ -204,14 +224,16 @@ describe('WireCreatorComponent', () => {
         { provide: OverlayModalService, useValue: overlayModalServiceMock },
         { provide: TokenContractService, useValue: tokenContractServiceMock },
         { provide: LocalWalletService, useValue: localWalletServiceMock },
-        { provide: TransactionOverlayService, useValue: transactionOverlayServiceMock },
-      ]
-    })
-      .compileComponents();  // compile template and css
+        {
+          provide: TransactionOverlayService,
+          useValue: transactionOverlayServiceMock,
+        },
+      ],
+    }).compileComponents(); // compile template and css
   }));
 
   // synchronous beforeEach
-  beforeEach((done) => {
+  beforeEach(done => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 10;
     jasmine.clock().uninstall();
     jasmine.clock().install();
@@ -220,56 +242,75 @@ describe('WireCreatorComponent', () => {
     comp = fixture.componentInstance; // LoginForm test instance
     clientMock.response = {};
     clientMock.response[`api/v2/boost/rates`] = {
-      'status': 'success',
-      'balance': 301529,
-      'hasPaymentMethod': false,
-      'rate': 1,
-      'cap': 5000,
-      'min': 100,
-      'priority': 1,
-      'usd': 1000,
-      'minUsd': 1
+      status: 'success',
+      balance: 301529,
+      hasPaymentMethod: false,
+      rate: 1,
+      cap: 5000,
+      min: 100,
+      priority: 1,
+      usd: 1000,
+      minUsd: 1,
     };
     clientMock.response[`api/v1/wire/rewards/${owner.guid}`] = {
-      'status': 'success',
-      'username': 'minds',
-      'wire_rewards': {
-        'description': 'description',
-        'rewards': {
-          'points': [{ 'amount': 10, 'description': 'description' }, {
-            'amount': 100,
-            'description': 'description'
-          }],
-          'money': [{ 'amount': 1, 'description': 'description' }, {
-            'amount': 10,
-            'description': ':)'
-          }, { 'amount': 1000, 'description': 'description' }]
-        }
+      status: 'success',
+      username: 'minds',
+      wire_rewards: {
+        description: 'description',
+        rewards: {
+          points: [
+            { amount: 10, description: 'description' },
+            {
+              amount: 100,
+              description: 'description',
+            },
+          ],
+          money: [
+            { amount: 1, description: 'description' },
+            {
+              amount: 10,
+              description: ':)',
+            },
+            { amount: 1000, description: 'description' },
+          ],
+        },
       },
-      'merchant': {
-        'service': 'stripe',
-        'id': 'acct_123',
-        'exclusive': { 'background': 1502474954, 'intro': 'Support me!' }
+      merchant: {
+        service: 'stripe',
+        id: 'acct_123',
+        exclusive: { background: 1502474954, intro: 'Support me!' },
       },
-      'eth_wallet': '0x1234',
-      'sums': { 'points': '40', 'money': '3096' }
+      eth_wallet: '0x1234',
+      sums: { points: '40', money: '3096' },
     };
     clientMock.response[`api/v2/blockchain/wallet/balance`] = {
       status: 'success',
       addresses: [
-        { address: '0xMOCK', balance: 500 * Math.pow(10, 18), label: 'Receiver' },
-        { address: 'offchain', balance: 500 * Math.pow(10, 18), label: 'OffChain' },
+        {
+          address: '0xMOCK',
+          balance: 500 * Math.pow(10, 18),
+          label: 'Receiver',
+        },
+        {
+          address: 'offchain',
+          balance: 500 * Math.pow(10, 18),
+          label: 'OffChain',
+        },
       ],
       balance: 1000 * Math.pow(10, 18),
-      wireCap: 100 * Math.pow(10, 18)
+      wireCap: 100 * Math.pow(10, 18),
     };
     clientMock.response[`api/v2/blockchain/rate/tokens`] = {
       status: 'success',
-      rate: 10
+      rate: 10,
     };
 
-    submitSection = fixture.debugElement.query(By.css('.m-wire--creator-section--last'));
-    sendButton = fixture.debugElement.query(By.css('.m-wire--creator--submit > button.m-wire--creator-button'));
+    submitSection = fixture.debugElement.query(
+      By.css('.m-wire--creator-section--last')
+    );
+    sendButton = fixture.debugElement.query(
+      By.css('.m-wire--creator--submit > button.m-wire--creator-button')
+    );
 
     comp.owner = owner;
     fixture.detectChanges();
@@ -287,13 +328,17 @@ describe('WireCreatorComponent', () => {
     jasmine.clock().uninstall();
   });
 
-  it('should have the target user\'s avatar', () => {
-    const avatar = fixture.debugElement.query(By.css('.m-wire--creator--header-text .m-wire--avatar'));
+  it("should have the target user's avatar", () => {
+    const avatar = fixture.debugElement.query(
+      By.css('.m-wire--creator--header-text .m-wire--avatar')
+    );
     expect(avatar).not.toBeNull();
 
     const avatarAnchor = avatar.query(By.css('a'));
     expect(avatarAnchor).not.toBeNull();
-    expect(avatarAnchor.nativeElement.href).toContain('/' + comp.owner.username);
+    expect(avatarAnchor.nativeElement.href).toContain(
+      '/' + comp.owner.username
+    );
 
     const avatarImage = avatarAnchor.query(By.css('img'));
     expect(avatarImage).not.toBeNull();
@@ -301,37 +346,71 @@ describe('WireCreatorComponent', () => {
   });
 
   it('should have subtext', () => {
-    const subtitle = fixture.debugElement.query(By.css('.m-wire--creator--header .m-wire-creator--subtext'));
+    const subtitle = fixture.debugElement.query(
+      By.css('.m-wire--creator--header .m-wire-creator--subtext')
+    );
     expect(subtitle).not.toBeNull();
 
-    expect(subtitle.nativeElement.textContent).toContain('Support @' + comp.owner.username + ' by');
+    expect(subtitle.nativeElement.textContent).toContain(
+      'Support @' + comp.owner.username + ' by'
+    );
   });
 
   it('should have a payment section', () => {
-    const section = fixture.debugElement.query(By.css('section.m-wire--creator-payment-section'));
+    const section = fixture.debugElement.query(
+      By.css('section.m-wire--creator-payment-section')
+    );
     expect(section).not.toBeNull();
   });
 
-  it('payment section should have a title that says \'Payment Method\'', () => {
-    const title = fixture.debugElement.query(By.css('section.m-wire--creator-payment-section > .m-wire--creator-section-title--small'));
+  it("payment section should have a title that says 'Payment Method'", () => {
+    const title = fixture.debugElement.query(
+      By.css(
+        'section.m-wire--creator-payment-section > .m-wire--creator-section-title--small'
+      )
+    );
     expect(title).not.toBeNull();
     expect(title.nativeElement.textContent).toContain('Payment Method');
   });
 
   it('should have payment method list (tokens, eth, usd, btc)', () => {
-    const list = fixture.debugElement.query(By.css('section.m-wire--creator-payment-section > ul.m-wire--creator-selector'));
+    const list = fixture.debugElement.query(
+      By.css(
+        'section.m-wire--creator-payment-section > ul.m-wire--creator-selector'
+      )
+    );
     expect(list).not.toBeNull();
 
     expect(list.nativeElement.children.length).toBe(4);
 
-    expect(fixture.debugElement.query(By.css('.m-wire--creator-selector > li:first-child > .m-wire--creator-selector-type > h5 > span')).nativeElement.textContent)
-      .toContain('Tokens');
-    expect(fixture.debugElement.query(By.css('.m-wire--creator-selector > li:nth-child(2) > .m-wire--creator-selector-type > h5 > span')).nativeElement.textContent)
-      .toContain('USD');
-    expect(fixture.debugElement.query(By.css('.m-wire--creator-selector > li:nth-child(3) > .m-wire--creator-selector-type > h5 > span')).nativeElement.textContent)
-      .toContain('ETH');
-    expect(fixture.debugElement.query(By.css('.m-wire--creator-selector > li:nth-child(4) > .m-wire--creator-selector-type > h5 > span')).nativeElement.textContent)
-      .toContain('BTC');
+    expect(
+      fixture.debugElement.query(
+        By.css(
+          '.m-wire--creator-selector > li:first-child > .m-wire--creator-selector-type > h5 > span'
+        )
+      ).nativeElement.textContent
+    ).toContain('Tokens');
+    expect(
+      fixture.debugElement.query(
+        By.css(
+          '.m-wire--creator-selector > li:nth-child(2) > .m-wire--creator-selector-type > h5 > span'
+        )
+      ).nativeElement.textContent
+    ).toContain('USD');
+    expect(
+      fixture.debugElement.query(
+        By.css(
+          '.m-wire--creator-selector > li:nth-child(3) > .m-wire--creator-selector-type > h5 > span'
+        )
+      ).nativeElement.textContent
+    ).toContain('ETH');
+    expect(
+      fixture.debugElement.query(
+        By.css(
+          '.m-wire--creator-selector > li:nth-child(4) > .m-wire--creator-selector-type > h5 > span'
+        )
+      ).nativeElement.textContent
+    ).toContain('BTC');
   });
 
   it('clicking on a payment option should highlight it', fakeAsync(() => {
@@ -342,17 +421,27 @@ describe('WireCreatorComponent', () => {
 
     const onchainOption = getPaymentMethodItem(1);
 
-    expect(onchainOption.nativeElement.classList.contains('m-wire--creator-selector--highlight')).toBeFalsy();
+    expect(
+      onchainOption.nativeElement.classList.contains(
+        'm-wire--creator-selector--highlight'
+      )
+    ).toBeFalsy();
     onchainOption.nativeElement.click();
 
     fixture.detectChanges();
     tick();
 
-    expect(onchainOption.nativeElement.classList.contains('m-wire--creator-selector--highlight')).toBeTruthy();
+    expect(
+      onchainOption.nativeElement.classList.contains(
+        'm-wire--creator-selector--highlight'
+      )
+    ).toBeTruthy();
   }));
 
   it('should have an amount section', () => {
-    expect(fixture.debugElement.query(By.css('.m-wire--creator--amount'))).not.toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('.m-wire--creator--amount'))
+    ).not.toBeNull();
   });
 
   it('amount section should have an input and a label', () => {
@@ -380,15 +469,20 @@ describe('WireCreatorComponent', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.m-wire--creator-wide-input--cost-value')).nativeElement.textContent.replace(/[^0-9.,]/g, ''))
-      .toBe('100.00');
+    expect(
+      fixture.debugElement
+        .query(By.css('.m-wire--creator-wide-input--cost-value'))
+        .nativeElement.textContent.replace(/[^0-9.,]/g, '')
+    ).toBe('100.00');
   });
 
   it(`should have OnChain balance`, () => {
     fixture.detectChanges();
 
     const onchainOption = getPaymentMethodItem(1),
-      subtext = onchainOption.query(By.css('.m-wire--creator-selector-subtext')).nativeElement.textContent.trim(),
+      subtext = onchainOption
+        .query(By.css('.m-wire--creator-selector-subtext'))
+        .nativeElement.textContent.trim(),
       balance = subtext.substr(subtext.lastIndexOf(' ')).trim();
 
     expect(balance).toBe('500');
@@ -398,7 +492,9 @@ describe('WireCreatorComponent', () => {
     fixture.detectChanges();
 
     const onchainOption = getPaymentMethodItem(1),
-      subtext = onchainOption.query(By.css('.m-wire--creator-selector-subtext')).nativeElement.textContent.trim(),
+      subtext = onchainOption
+        .query(By.css('.m-wire--creator-selector-subtext'))
+        .nativeElement.textContent.trim(),
       balance = subtext.substr(subtext.lastIndexOf(' ')).trim();
 
     expect(balance).toBe('500');
@@ -412,7 +508,6 @@ describe('WireCreatorComponent', () => {
   });
 
   it(`recurring checkbox should toggle wire's recurring property`, () => {
-
     comp.setPayloadType('offchain');
     fixture.detectChanges();
 
@@ -429,7 +524,9 @@ describe('WireCreatorComponent', () => {
   });
 
   it('should show creator tiers', () => {
-    expect(fixture.debugElement.query(By.css('m-wireCreator__rewards'))).not.toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('m-wireCreator__rewards'))
+    ).not.toBeNull();
   });
 
   it('should have a submit section', () => {
@@ -439,7 +536,7 @@ describe('WireCreatorComponent', () => {
   it('if there are any errors, hovering over the submit section should show them', fakeAsync(() => {
     spyOn(comp, 'showErrors').and.callThrough();
     spyOn(comp, 'validate').and.callFake(() => {
-      throw new VisibleWireError('I\'m an error');
+      throw new VisibleWireError("I'm an error");
     });
     submitSection.nativeElement.dispatchEvent(new Event('mouseenter'));
     fixture.detectChanges();
@@ -447,14 +544,14 @@ describe('WireCreatorComponent', () => {
 
     expect(comp.showErrors).toHaveBeenCalled();
 
-    expect(getErrorLabel().nativeElement.textContent).toContain('I\'m an error');
+    expect(getErrorLabel().nativeElement.textContent).toContain("I'm an error");
   }));
 
   it('should have a send button', () => {
     expect(sendButton).not.toBeNull();
   });
 
-  it('send button should be disabled either if the user hasn\'t entered data, there\'s an error, the component\'s loading something or just saved the wire', () => {
+  it("send button should be disabled either if the user hasn't entered data, there's an error, the component's loading something or just saved the wire", () => {
     spyOn(comp, 'canSubmit').and.returnValue(true);
 
     fixture.detectChanges();
@@ -508,7 +605,9 @@ describe('WireCreatorComponent', () => {
     fixture.detectChanges();
 
     // Select onchain method
-    const select = fixture.debugElement.query(By.css('.m-wireCreator__tokenMethod .m-selector select')).nativeElement;
+    const select = fixture.debugElement.query(
+      By.css('.m-wireCreator__tokenMethod .m-selector select')
+    ).nativeElement;
     select.value = select.options[0].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -534,8 +633,8 @@ describe('WireCreatorComponent', () => {
       amount: 10,
       guid: null,
       payload: { receiver: '0x1234', address: '' },
-      payloadType: "onchain",
-      recurring: false
+      payloadType: 'onchain',
+      recurring: false,
     });
   }));
 
@@ -547,7 +646,9 @@ describe('WireCreatorComponent', () => {
 
     expect(comp.wire.payloadType).toBe('usd');
 
-    const ccSelector = fixture.debugElement.query(By.css('m-payments__selectCard'));
+    const ccSelector = fixture.debugElement.query(
+      By.css('m-payments__selectCard')
+    );
     expect(ccSelector).not.toBeNull();
   }));
 
@@ -566,8 +667,11 @@ describe('WireCreatorComponent', () => {
 
     // Payment method changes to tokens
     const tokenOptions = getPaymentMethodItem(1);
-    expect(tokenOptions.nativeElement.classList.contains('m-wire--creator-selector--highlight'))
-      .toBeTruthy();
+    expect(
+      tokenOptions.nativeElement.classList.contains(
+        'm-wire--creator-selector--highlight'
+      )
+    ).toBeTruthy();
 
     // selectReward calls the function
     comp.setTier({
@@ -582,8 +686,10 @@ describe('WireCreatorComponent', () => {
 
     // Payment method changes to tokens
     const usdOptions = getPaymentMethodItem(2);
-    expect(usdOptions.nativeElement.classList.contains('m-wire--creator-selector--highlight'))
-      .toBeTruthy();
+    expect(
+      usdOptions.nativeElement.classList.contains(
+        'm-wire--creator-selector--highlight'
+      )
+    ).toBeTruthy();
   }));
-
 });

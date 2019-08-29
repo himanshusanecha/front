@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from '../../../../services/api';
@@ -9,10 +16,9 @@ import { WalletUSDTermsComponent } from '../terms.component';
 
 @Component({
   selector: 'm-walletUsd__onboarding',
-  templateUrl: 'onboarding.component.html'
+  templateUrl: 'onboarding.component.html',
 })
 export class WalletUSDOnboardingComponent implements OnInit {
-
   form: FormGroup;
   inProgress: boolean = false;
   restrictAsVerified: boolean = false;
@@ -30,14 +36,17 @@ export class WalletUSDOnboardingComponent implements OnInit {
     private client: Client,
     private cd: ChangeDetectorRef,
     private router: Router,
-    protected overlayModal: OverlayModalService,
-  ) { }
+    protected overlayModal: OverlayModalService
+  ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
       country: ['', Validators.required],
       ssn: ['', requiredFor(['US'], { ignore: this.edit })],
-      personalIdNumber: ['', requiredFor(['CA', 'HK', 'SG'], { ignore: this.edit })],
+      personalIdNumber: [
+        '',
+        requiredFor(['CA', 'HK', 'SG'], { ignore: this.edit }),
+      ],
       firstName: ['', optionalFor(['JP'])],
       lastName: ['', optionalFor(['JP'])],
       gender: ['', requiredFor(['JP'])],
@@ -47,7 +56,7 @@ export class WalletUSDOnboardingComponent implements OnInit {
       state: ['', requiredFor(['AU', 'CA', 'IE', 'US'])],
       postCode: ['', optionalFor(['HK', 'IE', 'JP'])],
       phoneNumber: ['', requiredFor(['JP'])],
-      stripeAgree: ['', Validators.required]
+      stripeAgree: ['', Validators.required],
     });
 
     this.restrictAsVerified = false;
@@ -101,20 +110,21 @@ export class WalletUSDOnboardingComponent implements OnInit {
     this.error = '';
 
     try {
-      const response = <any>await this.client.put('api/v2/wallet/usd/account', this.form.value)
+      const response = <any>(
+        await this.client.put('api/v2/wallet/usd/account', this.form.value)
+      );
       this.inProgress = false;
 
-      if (!this.minds.user.programs)
-        this.minds.user.programs = [];
+      if (!this.minds.user.programs) this.minds.user.programs = [];
       this.minds.user.programs.push('affiliate');
 
       this.minds.user.merchant = {
-        'id': response.account.id,
-        'service': 'stripe',
+        id: response.account.id,
+        service: 'stripe',
       };
 
       this.router.navigate(['/wallet/usd/']);
-    } catch(e) {
+    } catch (e) {
       this.inProgress = false;
       this.error = e.message;
       this.detectChanges();
@@ -129,13 +139,14 @@ export class WalletUSDOnboardingComponent implements OnInit {
     this.inProgress = true;
     this.error = '';
 
-    this.client.post('api/v2/wallet/usd/account', this.form.value)
+    this.client
+      .post('api/v2/wallet/usd/account', this.form.value)
       .then((response: any) => {
         this.inProgress = false;
         this.completed.emit(response);
         this.detectChanges();
       })
-      .catch((e) => {
+      .catch(e => {
         this.inProgress = false;
         this.error = e.message;
         this.detectChanges();
@@ -166,13 +177,11 @@ export class WalletUSDOnboardingComponent implements OnInit {
   }
 
   showTerms() {
-    this.overlayModal.create(WalletUSDTermsComponent)
-      .present();
+    this.overlayModal.create(WalletUSDTermsComponent).present();
   }
 
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

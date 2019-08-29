@@ -21,7 +21,7 @@ import { BTCSettingsComponent } from './btc/settings.component';
     ReactiveFormsModule,
     CommonModule,
     CheckoutModule,
-    ModalsModule
+    ModalsModule,
   ],
   declarations: [
     PayWall,
@@ -31,20 +31,8 @@ import { BTCSettingsComponent } from './btc/settings.component';
     BTCComponent,
     BTCSettingsComponent,
   ],
-  exports: [
-    PayWall,
-    PaywallCancelButton,
-    PaymentsNewCard,
-    PaymentsSelectCard,
-  ],
-  providers: [
-    BTCService,
-  ],
-  entryComponents: [
-    PaymentsNewCard,
-    BTCComponent,
-    BTCSettingsComponent,
-  ],
+  exports: [PayWall, PaywallCancelButton, PaymentsNewCard, PaymentsSelectCard],
+  providers: [BTCService],
+  entryComponents: [PaymentsNewCard, BTCComponent, BTCSettingsComponent],
 })
-export class PaymentsModule {
-}
+export class PaymentsModule {}

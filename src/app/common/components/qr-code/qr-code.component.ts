@@ -1,8 +1,4 @@
-import {
-  Component,
-  Input,
-  ElementRef,
-} from '@angular/core';
+import { Component, Input, ElementRef } from '@angular/core';
 
 declare var require: any;
 let QRCode: any;
@@ -12,11 +8,10 @@ let QRCode: any;
   template: '',
 })
 export class QRCodeComponent {
-
   qrcode;
   @Input() data: string = '';
 
-  constructor(public el: ElementRef) { }
+  constructor(public el: ElementRef) {}
 
   ngOnInit() {
     if (!QRCode) {
@@ -32,5 +27,4 @@ export class QRCodeComponent {
       width: 300,
     });
   }
-
 }

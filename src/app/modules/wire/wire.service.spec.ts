@@ -17,14 +17,12 @@ describe('WireService', () => {
       wireContractServiceMock,
       tokenContractServiceMock,
       web3WalletServiceMock,
-      new (() => {
-        
-      })
+      new (() => {})()
     );
 
     clientMock.response = {};
 
-    clientMock.response[`api/v1/wire/${wireGuid}`] = { 'status': 'success' };
+    clientMock.response[`api/v1/wire/${wireGuid}`] = { status: 'success' };
 
     clientMock.get.calls.reset();
     clientMock.post.calls.reset();
@@ -39,8 +37,8 @@ describe('WireService', () => {
       amount: 10,
       guid: null,
       payload: { receiver: '0x1234', address: '' },
-      payloadType: "onchain",
-      recurring: false
+      payloadType: 'onchain',
+      recurring: false,
     });
 
     tick();
@@ -53,9 +51,14 @@ describe('WireService', () => {
     expect(clientMock.post.calls.mostRecent().args[0]).toBe(`api/v2/wire/null`);
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
       amount: 10,
-      payload: { receiver: '0x1234', address: '0x123', method: 'onchain', txHash: 'hash' },
+      payload: {
+        receiver: '0x1234',
+        address: '0x123',
+        method: 'onchain',
+        txHash: 'hash',
+      },
       method: 'onchain',
-      recurring: false
+      recurring: false,
     });
   }));
 
@@ -64,8 +67,8 @@ describe('WireService', () => {
       amount: 10,
       guid: null,
       payload: null,
-      payloadType: "offchain",
-      recurring: false
+      payloadType: 'offchain',
+      recurring: false,
     });
 
     tick();
@@ -76,7 +79,7 @@ describe('WireService', () => {
       amount: 10,
       payload: { address: 'offchain', method: 'offchain' },
       method: 'offchain',
-      recurring: false
+      recurring: false,
     });
   }));
 
@@ -85,8 +88,8 @@ describe('WireService', () => {
       amount: 10,
       guid: null,
       payload: { address: 'offchain', token: 'tok_KPte7942xySKBKyrBu11yEpf' },
-      payloadType: "usd",
-      recurring: false
+      payloadType: 'usd',
+      recurring: false,
     });
 
     tick();
@@ -95,9 +98,13 @@ describe('WireService', () => {
     expect(clientMock.post.calls.mostRecent().args[0]).toBe(`api/v2/wire/null`);
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
       amount: 10,
-      payload: { address: 'offchain', token: 'tok_KPte7942xySKBKyrBu11yEpf', method: 'usd' },
+      payload: {
+        address: 'offchain',
+        token: 'tok_KPte7942xySKBKyrBu11yEpf',
+        method: 'usd',
+      },
       method: 'usd',
-      recurring: false
+      recurring: false,
     });
   }));
 });

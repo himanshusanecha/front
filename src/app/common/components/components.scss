@@ -1,9 +1,9 @@
-@import "defaults";
+@import 'defaults';
 
 .m-card--large {
   padding: 24px;
   margin-bottom: 16px;
-  @include m-theme(){
+  @include m-theme() {
     background-color: themed($m-white);
   }
 
@@ -13,7 +13,7 @@
     margin-bottom: 16px;
     font-weight: bold;
     line-height: 42px;
-    @include m-theme(){
+    @include m-theme() {
       color: themed($m-grey-800);
     }
   }
@@ -27,18 +27,18 @@
 }
 
 minds-graph-line svg {
-  @include m-theme(){
+  @include m-theme() {
     stroke: themed($m-grey-500);
   }
 }
 
 minds-graph-pie svg {
-  @include m-theme(){
+  @include m-theme() {
     background-color: themed($m-grey-100);
   }
 
   circle {
-    @include m-theme(){
+    @include m-theme() {
       stroke: themed($m-blue-dark);
     }
   }
@@ -51,42 +51,41 @@ minds-graph-pie svg {
 minds-button-thumbs-up,
 minds-button-thumbs-down {
   a {
-    @include m-theme(){
+    @include m-theme() {
       color: themed($m-blue-grey-500);
     }
     &:hover {
-      @include m-theme(){
+      @include m-theme() {
         color: themed($m-blue-grey-800);
       }
     }
   }
   .selected:hover {
-    @include m-theme(){
-      color: rgba(themed($m-blue-dark),0.9) !important;
+    @include m-theme() {
+      color: rgba(themed($m-blue-dark), 0.9) !important;
     }
   }
 }
 
+.m-selector {
+  position: relative;
 
-.m-selector { 
-  position: relative; 
- 
-  select { 
-    padding: 8px 16px; 
-    max-width: 100%; 
-    appearance: none; 
+  select {
+    padding: 8px 16px;
+    max-width: 100%;
+    appearance: none;
     display: block;
     width: 100%;
     font-family: 'Roboto', Helvetica, sans-serif;
     font-size: 13px;
     cursor: pointer;
     font-weight: 600;
-    @include m-theme(){
-       border: 1px solid themed($m-grey-100);
+    @include m-theme() {
+      border: 1px solid themed($m-grey-100);
     }
   }
 
-  &::before{
+  &::before {
     content: '\25bc';
     position: absolute;
     pointer-events: none;
@@ -99,9 +98,8 @@ minds-button-thumbs-down {
     text-align: center;
     transform: scale(0.84, 0.42);
     filter: progid:DXImageTransform.Microsoft.Matrix(M11=.84, M12=0, M21=0, M22=.42, SizingMethod='auto expand');
-    @include m-theme(){
+    @include m-theme() {
       color: themed($m-grey-500);
     }
   }
 }
-

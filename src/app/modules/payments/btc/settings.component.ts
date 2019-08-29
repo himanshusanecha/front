@@ -13,22 +13,21 @@ import { OverlayModalService } from '../../../services/ux/overlay-modal';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BTCSettingsComponent {
-
   btcAddress: string = '';
   saving: boolean = false;
 
   constructor(
     private client: Client,
     private cd: ChangeDetectorRef,
-    private overlayModal: OverlayModalService,
-  ) { }
+    private overlayModal: OverlayModalService
+  ) {}
 
   ngOnInit() {
     this.getAddressFromRemote();
   }
 
   async getAddressFromRemote() {
-  const { address } = <any>await this.client.get('api/v2/wallet/btc/address');
+    const { address } = <any>await this.client.get('api/v2/wallet/btc/address');
     this.btcAddress = address;
     this.detectChanges();
   }
@@ -47,7 +46,4 @@ export class BTCSettingsComponent {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
-
 }
-
