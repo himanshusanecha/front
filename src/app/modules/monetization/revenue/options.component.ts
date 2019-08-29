@@ -52,12 +52,13 @@ export class RevenueOptionsComponent {
   addBankAccount() {
     this.inProgress = true;
     this.error = '';
-    this.editing = false;
+    // this.editing = false;
     this.detectChanges();
 
     this.client.post('api/v2/payments/stripe/connect/bank', this.form.value)
       .then((response: any) => {
         this.inProgress = false;
+        this.editing = false;
         this.getSettings();
       })
       .catch((e) => {
