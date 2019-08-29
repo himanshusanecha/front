@@ -248,7 +248,7 @@ describe('NotificationsComponent', () => {
     fixture.detectChanges();
     expect(comp.notification).not.toBeNull();
     const notification = fixture.debugElement.query(By.css('p'));
-    expect(notification.nativeElement.innerHTML).toBe(
+    expect(notification.nativeElement.innerHTML).toContain(
       'name tagged you in a post'
     );
   });
@@ -276,7 +276,7 @@ describe('NotificationsComponent', () => {
     fixture.detectChanges();
     expect(comp.notification).not.toBeNull();
     const notification = fixture.debugElement.query(By.css('p'));
-    expect(notification.nativeElement.innerHTML).toBe(
+    expect(notification.nativeElement.innerHTML).toContain(
       'name tagged you in a comment'
     );
   });
@@ -518,7 +518,7 @@ describe('NotificationsComponent', () => {
     fixture.detectChanges();
     expect(comp.notification).not.toBeNull();
     const notification = fixture.debugElement.query(By.css('p'));
-    expect(notification.nativeElement.innerHTML).toBe(
+    expect(notification.nativeElement.innerHTML).toContain(
       'You can gain more reach by boosting your content. Hit the blue boost icon on your posts.'
     );
   });

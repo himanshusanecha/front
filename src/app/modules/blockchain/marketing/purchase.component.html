@@ -109,9 +109,7 @@
     <div *ngIf="session.getLoggedInUser().rewards && !confirmed">
       <h2 i18n="@@M__PURCHASE_TITLE">
         Your {{ phase === 'presale' ? 'pledge' : 'purchase' }} for
-        {{ tokens | number: '1.0-4' }} Tokens ({{
-          amount | number: '1.0-4'
-        }}
+        {{ tokens | number: '1.0-4' }} Tokens ({{ amount | number: '1.0-4' }}
         ETH)
       </h2>
 
