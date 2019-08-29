@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { OnboardingService } from "../onboarding.service";
+import { Component, Input } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { OnboardingService } from '../onboarding.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-onboarding-card",
-  templateUrl: "card.component.html"
+  selector: 'm-onboarding-card',
+  templateUrl: 'card.component.html',
 })
 export class OnboardingCardComponent {
   @Input() route;

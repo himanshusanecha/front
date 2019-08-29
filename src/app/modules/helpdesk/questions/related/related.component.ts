@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, Input, OnInit } from '@angular/core';
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: "m-helpdesk--questions--related",
-  templateUrl: "related.component.html"
+  selector: 'm-helpdesk--questions--related',
+  templateUrl: 'related.component.html',
 })
 export class RelatedQuestionsComponent implements OnInit {
   @Input() question;
@@ -33,7 +33,7 @@ export class RelatedQuestionsComponent implements OnInit {
         `api/v2/helpdesk/relatedposts`,
         {
           limit: 8,
-          q: this.question.question
+          q: this.question.question,
         }
       );
 

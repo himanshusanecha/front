@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { EmojiList } from "../../../services/emoji-list";
-import { Emoji as EmojiDirective } from "../../directives/emoji";
+import { EmojiList } from '../../../services/emoji-list';
+import { Emoji as EmojiDirective } from '../../directives/emoji';
 
 @Component({
-  selector: "minds-emoji",
-  inputs: ["localDirective"],
+  selector: 'minds-emoji',
+  inputs: ['localDirective'],
   template: `
     <div
       class="m-bubble-popup mdl-shadow--4dp"
@@ -32,7 +32,7 @@ import { Emoji as EmojiDirective } from "../../directives/emoji";
         >
       </div>
     </div>
-  `
+  `,
 })
 export class MindsEmoji {
   localDirective: EmojiDirective;
@@ -52,7 +52,7 @@ export class MindsEmoji {
     }
 
     this.localDirective.emoji.next({
-      character: this.represent(codePoint)
+      character: this.represent(codePoint),
     });
   }
 
@@ -63,7 +63,7 @@ export class MindsEmoji {
   // Internal
 
   private fromCodePoint(...args: any[]) {
-    if (typeof (<any>String).fromCodePoint !== "undefined") {
+    if (typeof (<any>String).fromCodePoint !== 'undefined') {
       return (<any>String).fromCodePoint.apply(String, args);
     }
 
@@ -81,6 +81,6 @@ export class MindsEmoji {
           : [point];
       chars.push(String.fromCharCode.apply(null, units));
     }
-    return chars.join("");
+    return chars.join('');
   }
 }

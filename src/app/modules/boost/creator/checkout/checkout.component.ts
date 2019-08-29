@@ -6,16 +6,16 @@ import {
   ViewChild,
   ElementRef,
   ChangeDetectorRef,
-  EventEmitter
-} from "@angular/core";
-import { CurrencyPipe } from "@angular/common";
+  EventEmitter,
+} from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 
-type CurrencyType = "points" | "usd" | "tokens";
+type CurrencyType = 'points' | 'usd' | 'tokens';
 
 @Component({
   providers: [CurrencyPipe],
-  selector: "m-boost--creator-checkout",
-  templateUrl: "checkout.component.html"
+  selector: 'm-boost--creator-checkout',
+  templateUrl: 'checkout.component.html',
 })
 export class BoostCreatorCheckoutComponent {
   @Input() boost;
@@ -30,7 +30,7 @@ export class BoostCreatorCheckoutComponent {
     tokens: 1000,
     minUsd: 1,
     priority: 1,
-    maxCategories: 3
+    maxCategories: 3,
   };
 
   constructor(private _changeDetectorRef: ChangeDetectorRef) {}

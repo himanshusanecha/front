@@ -4,20 +4,20 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef
-} from "@angular/core";
-import { interval, Subscription } from "rxjs";
-import { map, take } from "rxjs/operators";
-import { OverlayModalService } from "../../../../services/ux/overlay-modal";
-import { Client } from "../../../../services/api";
-import { Session } from "../../../../services/session";
-import { REASONS } from "../../../../services/list-options";
-import { JurySessionService } from "./session.service";
-import { SocketsService } from "../../../../services/sockets";
+  ChangeDetectorRef,
+} from '@angular/core';
+import { interval, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { OverlayModalService } from '../../../../services/ux/overlay-modal';
+import { Client } from '../../../../services/api';
+import { Session } from '../../../../services/session';
+import { REASONS } from '../../../../services/list-options';
+import { JurySessionService } from './session.service';
+import { SocketsService } from '../../../../services/sockets';
 
 @Component({
-  selector: "m-juryDutySession__summons",
-  templateUrl: "summons.component.html"
+  selector: 'm-juryDutySession__summons',
+  templateUrl: 'summons.component.html',
 })
 export class JuryDutySessionSummonsComponent {
   showModal: boolean = false;
@@ -26,7 +26,7 @@ export class JuryDutySessionSummonsComponent {
   accepted: boolean = false;
   inProgress: boolean = false;
   summons;
-  reportUrn: string = "";
+  reportUrn: string = '';
   report;
 
   constructor(
@@ -74,7 +74,7 @@ export class JuryDutySessionSummonsComponent {
   async accept() {
     if (
       !confirm(
-        "I am at least 18 years of age and volunteer to participate in this jury. I acknowledge that I may be exposed to content that is Not Safe for Work (NSFW) and understand the purpose of this jury is to enforce the content policy on Minds."
+        'I am at least 18 years of age and volunteer to participate in this jury. I acknowledge that I may be exposed to content that is Not Safe for Work (NSFW) and understand the purpose of this jury is to enforce the content policy on Minds.'
       )
     ) {
       return;
@@ -86,7 +86,7 @@ export class JuryDutySessionSummonsComponent {
     this.report = (<any>await this.client.post(`api/v2/moderation/summons`, {
       report_urn: this.summons.report_urn,
       jury_type: this.summons.jury_type,
-      status: "accepted"
+      status: 'accepted',
     })).report;
     this.inProgress = false;
   }
@@ -95,7 +95,7 @@ export class JuryDutySessionSummonsComponent {
     await this.client.post(`api/v2/moderation/summons`, {
       report_urn: this.summons.report_urn,
       jury_type: this.summons.jury_type,
-      status: "declined"
+      status: 'declined',
     });
 
     this.showModal = false;

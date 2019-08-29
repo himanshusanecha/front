@@ -1,9 +1,9 @@
-import { Inject, Injector, EventEmitter } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Inject, Injector, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { Client } from "./api";
-import { Session } from "./session";
-import { SocketsService } from "./sockets";
+import { Client } from './api';
+import { Session } from './session';
+import { SocketsService } from './sockets';
 
 export class WalletService {
   points: number | null = null;
@@ -82,7 +82,7 @@ export class WalletService {
         .then(({ balance }) => {
           this.apiInProgress = false;
 
-          if (typeof balance === "undefined") {
+          if (typeof balance === 'undefined') {
             this.points = null;
           } else {
             this.points = balance;
@@ -114,7 +114,7 @@ export class WalletService {
   // real-time
   listen() {
     this.pointsTxSubscription = this.sockets.subscribe(
-      "pointsTx",
+      'pointsTx',
       (points, entity_guid, description) => {
         if (this.apiInProgress) {
           return;

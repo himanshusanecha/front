@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { AnalyticsCardComponent } from "../card/card.component";
-import { Subscription } from "rxjs";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { AnalyticsCardComponent } from '../card/card.component';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "m-analyticsactiveusers__card",
-  templateUrl: "active-users.component.html"
+  selector: 'm-analyticsactiveusers__card',
+  templateUrl: 'active-users.component.html',
 })
 export class ActiveUsersCardComponent implements OnInit {
-  @ViewChild("card", { static: true }) card: AnalyticsCardComponent;
+  @ViewChild('card', { static: true }) card: AnalyticsCardComponent;
 
   subscription: Subscription;
 
@@ -34,21 +34,21 @@ export class ActiveUsersCardComponent implements OnInit {
   private async getAvgData() {
     try {
       let avgs: Array<any> = await Promise.all([
-        this.client.get("api/v2/analytics/activeusers", {
-          key: "avg",
-          timespan: "hourly"
+        this.client.get('api/v2/analytics/activeusers', {
+          key: 'avg',
+          timespan: 'hourly',
         }),
-        this.client.get("api/v2/analytics/activeusers", {
-          key: "avg",
-          timespan: "daily"
+        this.client.get('api/v2/analytics/activeusers', {
+          key: 'avg',
+          timespan: 'daily',
         }),
-        this.client.get("api/v2/analytics/activeusers", {
-          key: "avg",
-          timespan: "monthly"
+        this.client.get('api/v2/analytics/activeusers', {
+          key: 'avg',
+          timespan: 'monthly',
         }),
-        this.client.get("api/v2/analytics/avgpageviews", {
-          key: "total_pageviews"
-        })
+        this.client.get('api/v2/analytics/avgpageviews', {
+          key: 'total_pageviews',
+        }),
       ]);
 
       this.hauUnique = avgs[0].data.uniqueHAU;

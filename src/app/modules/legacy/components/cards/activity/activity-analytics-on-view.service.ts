@@ -1,8 +1,8 @@
-import { ElementRef, Injectable, OnDestroy } from "@angular/core";
-import { debounceTime } from "rxjs/operators";
-import { Subject, Subscription } from "rxjs";
+import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { debounceTime } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
 
-import { ScrollService } from "../../../../../services/ux/scroll";
+import { ScrollService } from '../../../../../services/ux/scroll';
 
 @Injectable()
 export class ActivityAnalyticsOnViewService implements OnDestroy {
@@ -56,14 +56,14 @@ export class ActivityAnalyticsOnViewService implements OnDestroy {
           if (this.onViewFn) {
             this.onViewFn(this.entity);
           } else {
-            console.warn("Missing onView handler for Activity");
+            console.warn('Missing onView handler for Activity');
           }
         }
       });
 
     this.scroll$ = this.scroll.listenForView().subscribe(() => {
       if (!this.element) {
-        console.warn("Missing element ref");
+        console.warn('Missing element ref');
         return;
       }
 

@@ -1,37 +1,37 @@
-import { Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subscription } from "rxjs";
-import { Storage } from "../../../services/storage";
-import { Client } from "../../../services/api";
-import { MindsTitle } from "../../../services/ux/title";
-import { Session } from "../../../services/session";
+import { Subscription } from 'rxjs';
+import { Storage } from '../../../services/storage';
+import { Client } from '../../../services/api';
+import { MindsTitle } from '../../../services/ux/title';
+import { Session } from '../../../services/session';
 
-import { WalletService } from "../../../services/wallet";
-import { BlockchainService } from "../../blockchain/blockchain.service";
+import { WalletService } from '../../../services/wallet';
+import { BlockchainService } from '../../blockchain/blockchain.service';
 
 @Component({
-  selector: "m-wallet--overview",
-  templateUrl: "overview.component.html"
+  selector: 'm-wallet--overview',
+  templateUrl: 'overview.component.html',
 })
 export class WalletOverviewComponent {
-  type: string = "";
+  type: string = '';
   togglePurchase: boolean = false;
   paramsSubscription: Subscription;
 
   points: Number = 0;
   transactions: Array<any> = [];
-  offset: string = "";
+  offset: string = '';
   inProgress: boolean = false;
   moreData: boolean = true;
 
-  currency: string = "usd";
+  currency: string = 'usd';
   balance: number | string = 0;
   payouts: number | string = 0;
   net: number | string = 0;
   ready: boolean = false;
 
-  filter: string = "payments";
+  filter: string = 'payments';
 
   tokens: any;
 
@@ -52,19 +52,19 @@ export class WalletOverviewComponent {
   ) {}
 
   ngOnInit() {
-    this.type = "points";
+    this.type = 'points';
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["type"]) {
-        this.type = params["type"];
+      if (params['type']) {
+        this.type = params['type'];
       }
-      if (params["stub"] && params["stub"] === "purchase") {
+      if (params['stub'] && params['stub'] === 'purchase') {
         this.togglePurchase = true;
       }
     });
 
     this.route.url.subscribe(url => {
-      if (url[0].path === "purchase") this.togglePurchase = true;
+      if (url[0].path === 'purchase') this.togglePurchase = true;
     });
 
     this.getTotals();
@@ -77,10 +77,10 @@ export class WalletOverviewComponent {
   getTotals() {
     let requests = [
       this.client
-        .get("api/v1/monetization/revenue/overview")
+        .get('api/v1/monetization/revenue/overview')
         .catch(() => false),
       this.wallet.getBalance(true).catch(() => false),
-      this.blockchain.getBalance(true).catch(() => false)
+      this.blockchain.getBalance(true).catch(() => false),
     ];
 
     Promise.all(requests).then(results => {
@@ -112,13 +112,13 @@ export class WalletOverviewComponent {
 
   getCurrencySymbol(currency) {
     switch (currency) {
-      case "gbp":
-        return "£";
-      case "eur":
-        return "€";
-      case "usd":
+      case 'gbp':
+        return '£';
+      case 'eur':
+        return '€';
+      case 'usd':
       default:
-        return "$";
+        return '$';
     }
   }
 }

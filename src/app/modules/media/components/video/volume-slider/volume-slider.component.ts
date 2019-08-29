@@ -1,12 +1,12 @@
-import { Component, Input } from "@angular/core";
-import { MindsPlayerInterface } from "../players/player.interface";
+import { Component, Input } from '@angular/core';
+import { MindsPlayerInterface } from '../players/player.interface';
 
 @Component({
-  selector: "m-video--volume-slider",
-  templateUrl: "volume-slider.component.html"
+  selector: 'm-video--volume-slider',
+  templateUrl: 'volume-slider.component.html',
 })
 export class MindsVideoVolumeSlider {
-  @Input("player") playerRef: MindsPlayerInterface;
+  @Input('player') playerRef: MindsPlayerInterface;
 
   element: HTMLVideoElement;
 

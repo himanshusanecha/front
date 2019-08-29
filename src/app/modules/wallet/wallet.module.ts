@@ -1,98 +1,98 @@
-import { NgModule } from "@angular/core";
-import { CommonModule as NgCommonModule } from "@angular/common";
-import { RouterModule, Routes } from "@angular/router";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CommonModule } from "../../common/common.module";
-import { MonetizationOverviewModule } from "../monetization/monetization.overview.module";
-import { CheckoutModule } from "../checkout/checkout.module";
-import { AdsModule } from "../ads/ads.module";
-import { WireModule } from "../wire/wire.module";
-import { BlockchainModule } from "../blockchain/blockchain.module";
-import { PlusModule } from "../plus/plus.module";
+import { CommonModule } from '../../common/common.module';
+import { MonetizationOverviewModule } from '../monetization/monetization.overview.module';
+import { CheckoutModule } from '../checkout/checkout.module';
+import { AdsModule } from '../ads/ads.module';
+import { WireModule } from '../wire/wire.module';
+import { BlockchainModule } from '../blockchain/blockchain.module';
+import { PlusModule } from '../plus/plus.module';
 
-import { WalletComponent } from "./wallet.component";
-import { PointsOverviewComponent } from "./points-overview.component";
-import { WalletOverviewComponent } from "./overview/overview.component";
-import { WalletTransactionsComponent } from "./transactions/transactions.component";
-import { WalletPointsTransactionsComponent } from "./transactions/points.component";
-import { WalletPurchaseComponent } from "./purchase/purchase.component";
-import { WalletWireComponent } from "./wire/wire.component";
-import { WalletToggleComponent } from "./toggle.component";
-import { WalletFlyoutComponent } from "./flyout/flyout.component";
-import { WalletTokensComponent } from "./tokens/tokens.component";
-import { WalletPointsComponent } from "./points/points.component";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { WalletTokenSettingsComponent } from "./tokens/settings/settings.component";
-import { WalletTokenTransactionsComponent } from "./tokens/transactions/transactions.component";
-import { WalletTokenContributionsComponent } from "./tokens/contributions/contributions.component";
-import { WalletTokenWithdrawComponent } from "./tokens/withdraw/withdraw.component";
-import { WalletTokenJoinComponent } from "./tokens/join/join.component";
-import { WalletBalanceUSDComponent } from "./balances/usd/balance.component";
-import { WalletBalanceTokensComponent } from "./balances/tokens/balance.component";
-import { WalletBalanceRewardsComponent } from "./balances/rewards/balance.component";
-import { WalletUSDComponent } from "./usd/usd.component";
-import { WalletUSDEarningsComponent } from "./usd/earnings.component";
-import { WalletUSDPayoutsComponent } from "./usd/payouts.component";
-import { WalletUSDSettingsComponent } from "./usd/settings.component";
-import { WalletTokenWithdrawLedgerComponent } from "./tokens/withdraw/ledger/ledger.component";
-import { WalletTokenAddressesComponent } from "./tokens/addresses/addresses.component";
-import { TokenOnboardingModule } from "./tokens/onboarding/onboarding.module";
-import { WalletTokenContributionsOverviewComponent } from "./tokens/contributions/overview.component";
-import { WalletTokenContributionsChartComponent } from "./tokens/contributions/chart.component";
-import { WalletToken101Component } from "./tokens/101/101.component";
-import { ModalsModule } from "../modals/modals.module";
-import { WalletTokenTestnetComponent } from "./tokens/testnet/testnet.component";
-import { ReferralsModule } from "./tokens/referrals/referrals.module";
-import { ReferralsComponent } from "./tokens/referrals/referrals.component";
+import { WalletComponent } from './wallet.component';
+import { PointsOverviewComponent } from './points-overview.component';
+import { WalletOverviewComponent } from './overview/overview.component';
+import { WalletTransactionsComponent } from './transactions/transactions.component';
+import { WalletPointsTransactionsComponent } from './transactions/points.component';
+import { WalletPurchaseComponent } from './purchase/purchase.component';
+import { WalletWireComponent } from './wire/wire.component';
+import { WalletToggleComponent } from './toggle.component';
+import { WalletFlyoutComponent } from './flyout/flyout.component';
+import { WalletTokensComponent } from './tokens/tokens.component';
+import { WalletPointsComponent } from './points/points.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WalletTokenSettingsComponent } from './tokens/settings/settings.component';
+import { WalletTokenTransactionsComponent } from './tokens/transactions/transactions.component';
+import { WalletTokenContributionsComponent } from './tokens/contributions/contributions.component';
+import { WalletTokenWithdrawComponent } from './tokens/withdraw/withdraw.component';
+import { WalletTokenJoinComponent } from './tokens/join/join.component';
+import { WalletBalanceUSDComponent } from './balances/usd/balance.component';
+import { WalletBalanceTokensComponent } from './balances/tokens/balance.component';
+import { WalletBalanceRewardsComponent } from './balances/rewards/balance.component';
+import { WalletUSDComponent } from './usd/usd.component';
+import { WalletUSDEarningsComponent } from './usd/earnings.component';
+import { WalletUSDPayoutsComponent } from './usd/payouts.component';
+import { WalletUSDSettingsComponent } from './usd/settings.component';
+import { WalletTokenWithdrawLedgerComponent } from './tokens/withdraw/ledger/ledger.component';
+import { WalletTokenAddressesComponent } from './tokens/addresses/addresses.component';
+import { TokenOnboardingModule } from './tokens/onboarding/onboarding.module';
+import { WalletTokenContributionsOverviewComponent } from './tokens/contributions/overview.component';
+import { WalletTokenContributionsChartComponent } from './tokens/contributions/chart.component';
+import { WalletToken101Component } from './tokens/101/101.component';
+import { ModalsModule } from '../modals/modals.module';
+import { WalletTokenTestnetComponent } from './tokens/testnet/testnet.component';
+import { ReferralsModule } from './tokens/referrals/referrals.module';
+import { ReferralsComponent } from './tokens/referrals/referrals.component';
 
 const walletRoutes: Routes = [
   {
-    path: "wallet",
+    path: 'wallet',
     component: WalletComponent,
     children: [
-      { path: "", redirectTo: "tokens", pathMatch: "full" },
-      { path: "overview", redirectTo: "tokens", pathMatch: "full" },
-      { path: "101", redirectTo: "tokens/101", pathMatch: "full" },
+      { path: '', redirectTo: 'tokens', pathMatch: 'full' },
+      { path: 'overview', redirectTo: 'tokens', pathMatch: 'full' },
+      { path: '101', redirectTo: 'tokens/101', pathMatch: 'full' },
       // { path: 'overview', component: WalletOverviewComponent },
       // { path: 'points', component: WalletPointsComponent },
       // { path: 'points/purchase', component: WalletPurchaseComponent },
       {
-        path: "tokens",
+        path: 'tokens',
         component: WalletTokensComponent,
         children: [
-          { path: "", redirectTo: "contributions", pathMatch: "full" },
+          { path: '', redirectTo: 'contributions', pathMatch: 'full' },
           {
-            path: "transactions/:contract",
-            component: WalletTokenTransactionsComponent
+            path: 'transactions/:contract',
+            component: WalletTokenTransactionsComponent,
           },
-          { path: "transactions", component: WalletTokenTransactionsComponent },
-          { path: "withdraw", component: WalletTokenWithdrawComponent },
-          { path: "contributions/join", component: WalletTokenJoinComponent },
+          { path: 'transactions', component: WalletTokenTransactionsComponent },
+          { path: 'withdraw', component: WalletTokenWithdrawComponent },
+          { path: 'contributions/join', component: WalletTokenJoinComponent },
           {
-            path: "contributions",
-            component: WalletTokenContributionsComponent
+            path: 'contributions',
+            component: WalletTokenContributionsComponent,
           },
-          { path: "addresses", component: WalletTokenAddressesComponent },
-          { path: "101", component: WalletToken101Component },
-          { path: "testnet", component: WalletTokenTestnetComponent },
-          { path: "referrals", component: ReferralsComponent }
-        ]
+          { path: 'addresses', component: WalletTokenAddressesComponent },
+          { path: '101', component: WalletToken101Component },
+          { path: 'testnet', component: WalletTokenTestnetComponent },
+          { path: 'referrals', component: ReferralsComponent },
+        ],
       },
       {
-        path: "usd",
+        path: 'usd',
         component: WalletUSDComponent,
         children: [
-          { path: "", redirectTo: "earnings", pathMatch: "full" },
-          { path: "earnings", component: WalletUSDEarningsComponent },
-          { path: "payouts", component: WalletUSDPayoutsComponent },
-          { path: "settings", component: WalletUSDSettingsComponent }
-        ]
+          { path: '', redirectTo: 'earnings', pathMatch: 'full' },
+          { path: 'earnings', component: WalletUSDEarningsComponent },
+          { path: 'payouts', component: WalletUSDPayoutsComponent },
+          { path: 'settings', component: WalletUSDSettingsComponent },
+        ],
       },
-      { path: "wire", component: WalletWireComponent },
-      { path: "**", component: WalletOverviewComponent }
-    ]
-  }
+      { path: 'wire', component: WalletWireComponent },
+      { path: '**', component: WalletOverviewComponent },
+    ],
+  },
 ];
 
 @NgModule({
@@ -111,7 +111,7 @@ const walletRoutes: Routes = [
     TokenOnboardingModule,
     PlusModule,
     ModalsModule,
-    ReferralsModule
+    ReferralsModule,
   ],
   declarations: [
     WalletComponent,
@@ -142,7 +142,7 @@ const walletRoutes: Routes = [
     WalletTokenContributionsOverviewComponent,
     WalletTokenContributionsChartComponent,
     WalletToken101Component,
-    WalletTokenTestnetComponent
+    WalletTokenTestnetComponent,
   ],
   exports: [
     WalletComponent,
@@ -153,8 +153,8 @@ const walletRoutes: Routes = [
     WalletWireComponent,
     WalletToggleComponent,
     WalletFlyoutComponent,
-    WalletBalanceUSDComponent
+    WalletBalanceUSDComponent,
   ],
-  entryComponents: [WalletComponent]
+  entryComponents: [WalletComponent],
 })
 export class WalletModule {}

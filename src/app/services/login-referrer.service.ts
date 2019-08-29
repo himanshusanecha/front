@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { Router, Event, NavigationEnd } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { Router, Event, NavigationEnd } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Session } from "./session";
+import { Session } from './session';
 
 type NavigateOptions = {
   extraParams?: string;
@@ -12,7 +12,7 @@ type NavigateOptions = {
 
 @Injectable()
 export class LoginReferrerService {
-  private static DEFAULT_URL = "/newsfeed";
+  private static DEFAULT_URL = '/newsfeed';
   private url: string;
   private exceptions: string[] = [];
 
@@ -65,7 +65,7 @@ export class LoginReferrerService {
       this.url || options.defaultUrl || LoginReferrerService.DEFAULT_URL;
 
     if (options.extraParams) {
-      url += `${~url.indexOf("?") ? "&" : "?"}${options.extraParams}`;
+      url += `${~url.indexOf('?') ? '&' : '?'}${options.extraParams}`;
     }
 
     return this.router.navigateByUrl(url, { replaceUrl: true });
@@ -80,8 +80,8 @@ export class LoginReferrerService {
   shouldBeAvoided(url: string): boolean {
     let cleanUrl = this._trim(url);
 
-    if (~cleanUrl.indexOf(";")) {
-      cleanUrl = cleanUrl.split(";")[0];
+    if (~cleanUrl.indexOf(';')) {
+      cleanUrl = cleanUrl.split(';')[0];
     }
 
     return !!~this.exceptions.indexOf(cleanUrl);
@@ -89,7 +89,7 @@ export class LoginReferrerService {
 
   // based on: https://stackoverflow.com/a/36391166
   private _trim(s): string {
-    const mask = " /";
+    const mask = ' /';
 
     while (~mask.indexOf(s[0])) {
       s = s.slice(1);

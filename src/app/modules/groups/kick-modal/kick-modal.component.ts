@@ -4,18 +4,18 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
-import { GroupsService } from "../groups-service";
+  Output,
+} from '@angular/core';
+import { GroupsService } from '../groups-service';
 
 @Component({
-  selector: "m-groups__kick-modal",
-  templateUrl: "kick-modal.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-groups__kick-modal',
+  templateUrl: 'kick-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsKickModalComponent {
   user: any;
-  @Input("user") set _user(user: any) {
+  @Input('user') set _user(user: any) {
     if (this.user !== user) {
       this.user = user;
       this.kickSuccess = false;

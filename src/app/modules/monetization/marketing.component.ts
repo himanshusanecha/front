@@ -1,15 +1,15 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from "@angular/core";
+  ChangeDetectorRef,
+} from '@angular/core';
 
-import { Client } from "../../common/api/client.service";
+import { Client } from '../../common/api/client.service';
 
 @Component({
-  selector: "m-monetization--marketing",
-  templateUrl: "marketing.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-monetization--marketing',
+  templateUrl: 'marketing.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonetizationMarketingComponent {
   minds: Minds = window.Minds;
@@ -24,7 +24,7 @@ export class MonetizationMarketingComponent {
 
   load(): Promise<any> {
     return this.client
-      .get("api/v1/merchant/status")
+      .get('api/v1/merchant/status')
       .then((response: any) => {
         console.log(response);
         return response;
@@ -47,12 +47,12 @@ export class MonetizationMarketingComponent {
   onboardCompleted(response) {
     this.user.merchant = {
       id: response.id,
-      service: "stripe",
-      status: "awaiting-document",
+      service: 'stripe',
+      status: 'awaiting-document',
       exclusive: {
         enabled: true,
-        amount: 10
-      }
+        amount: 10,
+      },
     };
 
     this.showOnboardingForm = false;

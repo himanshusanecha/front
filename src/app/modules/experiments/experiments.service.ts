@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Client } from "../../common/api/client.service";
-import { Storage } from "../../services/storage";
+import { Client } from '../../common/api/client.service';
+import { Storage } from '../../services/storage';
 
 type ExperimentBucket = {
   experimentId: string;
@@ -45,7 +45,7 @@ export class ExperimentsService {
       );
       bucket = response.bucketId;
     } catch (err) {
-      bucket = "base";
+      bucket = 'base';
     }
 
     this.experiments[opts.experimentId] = bucket;

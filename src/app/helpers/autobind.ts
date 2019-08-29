@@ -29,26 +29,26 @@ function boundClass(target) {
   // (Using reflect to get all keys including symbols)
   let keys;
   // Use Reflect if exists
-  if (typeof Reflect !== "undefined" && typeof Reflect.ownKeys === "function") {
+  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
     keys = Reflect.ownKeys(target.prototype);
   } else {
     keys = Object.getOwnPropertyNames(target.prototype);
     // use symbols if support is provided
-    if (typeof Object.getOwnPropertySymbols === "function") {
+    if (typeof Object.getOwnPropertySymbols === 'function') {
       keys = keys.concat(Object.getOwnPropertySymbols(target.prototype));
     }
   }
 
   keys.forEach(key => {
     // Ignore special case target method
-    if (key === "constructor") {
+    if (key === 'constructor') {
       return;
     }
 
     let descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
 
     // Only methods need binding
-    if (typeof descriptor.value === "function") {
+    if (typeof descriptor.value === 'function') {
       Object.defineProperty(
         target.prototype,
         key,
@@ -67,7 +67,7 @@ function boundClass(target) {
 function boundMethod(target, key, descriptor) {
   let fn = descriptor.value;
 
-  if (typeof fn !== "function") {
+  if (typeof fn !== 'function') {
     throw new Error(
       `@autobind decorator can only be applied to methods not: ${typeof fn}`
     );
@@ -94,10 +94,10 @@ function boundMethod(target, key, descriptor) {
       Object.defineProperty(this, key, {
         value: boundFn,
         configurable: true,
-        writable: true
+        writable: true,
       });
       definingProperty = false;
       return boundFn;
-    }
+    },
   };
 }

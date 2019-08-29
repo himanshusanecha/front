@@ -1,6 +1,6 @@
-import { Injectable, isDevMode } from "@angular/core";
-import { Session } from "./session";
-import { Router } from "@angular/router";
+import { Injectable, isDevMode } from '@angular/core';
+import { Session } from './session';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class FeaturesService {
@@ -13,14 +13,14 @@ export class FeaturesService {
 
   has(feature: string) {
     if (!feature) {
-      throw new Error("Invalid feature ID");
+      throw new Error('Invalid feature ID');
     }
-    if (feature.indexOf("!") === 0) {
+    if (feature.indexOf('!') === 0) {
       // Inverted check. Useful for *mIfFeature
       return !this.has(feature.substring(1));
     }
 
-    if (typeof this._features[feature] === "undefined") {
+    if (typeof this._features[feature] === 'undefined') {
       if (isDevMode() && !this._hasWarned(feature)) {
         console.warn(
           `[FeaturedService] Feature '${feature}' is not declared. Assuming true.`
@@ -31,12 +31,12 @@ export class FeaturesService {
       return true;
     }
 
-    if (this._features[feature] === "admin" && this.session.isAdmin()) {
+    if (this._features[feature] === 'admin' && this.session.isAdmin()) {
       return true;
     }
 
     if (
-      this._features[feature] === "canary" &&
+      this._features[feature] === 'canary' &&
       this.session.getLoggedInUser().canary
     ) {
       return true;
@@ -46,8 +46,8 @@ export class FeaturesService {
   }
 
   check(feature: string, { redirectTo }: { redirectTo?: any[] } = {}) {
-    if (feature.indexOf("!") === 0) {
-      throw new Error("Cannot negate feature when using check()");
+    if (feature.indexOf('!') === 0) {
+      throw new Error('Cannot negate feature when using check()');
     }
 
     const has = this.has(feature);

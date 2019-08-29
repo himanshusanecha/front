@@ -1,4 +1,4 @@
-import { ValidatorFn, AbstractControl } from "@angular/forms";
+import { ValidatorFn, AbstractControl } from '@angular/forms';
 
 const _isCountry = (currentCountry, countries: string[]) => {
   return countries.indexOf(currentCountry) > -1;
@@ -13,7 +13,7 @@ export function requiredFor(
       return null;
     }
 
-    const country = control.root.get("country");
+    const country = control.root.get('country');
 
     if (!country) {
       return { required: true };
@@ -38,7 +38,7 @@ export function optionalFor(
       return null;
     }
 
-    const country = control.root.get("country");
+    const country = control.root.get('country');
 
     if (!country) {
       return { required: true };

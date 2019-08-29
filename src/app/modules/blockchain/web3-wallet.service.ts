@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import * as Eth from "ethjs";
-import * as SignerProvider from "ethjs-provider-signer";
+import { Injectable } from '@angular/core';
+import * as Eth from 'ethjs';
+import * as SignerProvider from 'ethjs-provider-signer';
 
-import { LocalWalletService } from "./local-wallet.service";
-import callbackToPromise from "../../helpers/callback-to-promise";
-import asyncSleep from "../../helpers/async-sleep";
-import { TransactionOverlayService } from "./transaction-overlay/transaction-overlay.service";
+import { LocalWalletService } from './local-wallet.service';
+import callbackToPromise from '../../helpers/callback-to-promise';
+import asyncSleep from '../../helpers/async-sleep';
+import { TransactionOverlayService } from './transaction-overlay/transaction-overlay.service';
 
 @Injectable()
 export class Web3WalletService {
@@ -113,14 +113,14 @@ export class Web3WalletService {
   setUp() {
     this.ready() // boot web3 loading
       .catch(e => {
-        console.error("[Web3WalletService]", e);
+        console.error('[Web3WalletService]', e);
       });
   }
 
   ready(): Promise<any> {
     if (!this._ready) {
       this._ready = new Promise((resolve, reject) => {
-        if (typeof window.web3 !== "undefined") {
+        if (typeof window.web3 !== 'undefined') {
           this.loadFromWeb3();
           return resolve(true);
         }
@@ -141,7 +141,7 @@ export class Web3WalletService {
     }
 
     setTimeout(() => {
-      if (typeof window.web3 !== "undefined") {
+      if (typeof window.web3 !== 'undefined') {
         this.loadFromWeb3();
         return resolve(true);
       }
@@ -166,7 +166,7 @@ export class Web3WalletService {
       new SignerProvider(this.config.network_address, {
         signTransaction: (rawTx, cb) =>
           this.localWallet.signTransaction(rawTx, cb),
-        accounts: cb => this.localWallet.accounts(cb)
+        accounts: cb => this.localWallet.accounts(cb),
       })
     );
     this.local = true;
@@ -183,7 +183,7 @@ export class Web3WalletService {
     method: string,
     params: any[],
     value: number | string,
-    message: string = "",
+    message: string = '',
     tokenDelta: number = 0
   ): Promise<string> {
     let txHash;
@@ -222,7 +222,7 @@ export class Web3WalletService {
     contract: any,
     method: string,
     params: any[],
-    message: string = "",
+    message: string = '',
     tokenDelta: number = 0
   ): Promise<string> {
     return await this.sendSignedContractMethodWithValue(
@@ -239,7 +239,7 @@ export class Web3WalletService {
 
   async sendTransaction(
     originalTxObject: any,
-    message: string = ""
+    message: string = ''
   ): Promise<string> {
     let txHash;
 
@@ -274,22 +274,22 @@ export class Web3WalletService {
 
   getOnChainInterfaceLabel() {
     if (this.local) {
-      return "Private Key";
+      return 'Private Key';
     }
 
     if (
-      window.web3.currentProvider.constructor.name === "MetamaskInpageProvider"
+      window.web3.currentProvider.constructor.name === 'MetamaskInpageProvider'
     ) {
-      return "Metamask";
+      return 'Metamask';
     } else if (
-      window.web3.currentProvider.constructor.name === "EthereumProvider"
+      window.web3.currentProvider.constructor.name === 'EthereumProvider'
     ) {
-      return "Mist";
-    } else if (window.web3.currentProvider.constructor.name === "o") {
-      return "Parity";
+      return 'Mist';
+    } else if (window.web3.currentProvider.constructor.name === 'o') {
+      return 'Parity';
     }
 
-    return "Local Interface";
+    return 'Local Interface';
   }
 
   // Service provider

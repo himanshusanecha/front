@@ -4,24 +4,24 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
-import { DebugElement } from "@angular/core";
+  tick,
+} from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
 
-import { Client } from "../../../services/api/client";
-import { By } from "@angular/platform-browser";
-import { clientMock } from "../../../../tests/client-mock.spec";
-import { AbbrPipe } from "../../../common/pipes/abbr";
-import { MaterialMock } from "../../../../tests/material-mock.spec";
-import { FormsModule } from "@angular/forms";
-import { MaterialSwitchMock } from "../../../../tests/material-switch-mock.spec";
-import { overlayModalServiceMock } from "../../../../tests/overlay-modal-service-mock.spec";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { BanModalComponent } from "./modal.component";
-import { Session } from "../../../services/session";
-import { sessionMock } from "../../../../tests/session-mock.spec";
+import { Client } from '../../../services/api/client';
+import { By } from '@angular/platform-browser';
+import { clientMock } from '../../../../tests/client-mock.spec';
+import { AbbrPipe } from '../../../common/pipes/abbr';
+import { MaterialMock } from '../../../../tests/material-mock.spec';
+import { FormsModule } from '@angular/forms';
+import { MaterialSwitchMock } from '../../../../tests/material-switch-mock.spec';
+import { overlayModalServiceMock } from '../../../../tests/overlay-modal-service-mock.spec';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { BanModalComponent } from './modal.component';
+import { Session } from '../../../services/session';
+import { sessionMock } from '../../../../tests/session-mock.spec';
 
-describe("BanModalComponent", () => {
+describe('BanModalComponent', () => {
   let comp: BanModalComponent;
   let fixture: ComponentFixture<BanModalComponent>;
 
@@ -35,14 +35,14 @@ describe("BanModalComponent", () => {
         MaterialMock,
         MaterialSwitchMock,
         AbbrPipe,
-        BanModalComponent
+        BanModalComponent,
       ], // declare the test component
       imports: [FormsModule],
       providers: [
         { provide: Session, useValue: sessionMock },
         { provide: Client, useValue: clientMock },
-        { provide: OverlayModalService, useValue: overlayModalServiceMock }
-      ]
+        { provide: OverlayModalService, useValue: overlayModalServiceMock },
+      ],
     }).compileComponents(); // compile template and css
   }));
 
@@ -58,18 +58,18 @@ describe("BanModalComponent", () => {
 
     //set the user
     comp.data = {
-      guid: "1",
-      type: "user",
-      name: "test",
-      username: "test",
-      language: "en",
-      banned: "no",
-      city: "Parana",
+      guid: '1',
+      type: 'user',
+      name: 'test',
+      username: 'test',
+      language: 'en',
+      banned: 'no',
+      city: 'Parana',
       merchant: false,
       boostProPlus: false,
       fb: false,
       mature: 1,
-      monetized: "",
+      monetized: '',
       signup_method: false,
       feature_flags: false,
       programs: [],
@@ -83,7 +83,7 @@ describe("BanModalComponent", () => {
       subscribers_count: 73,
       subscriptions_count: 29,
       impressions: 14761,
-      boost_rating: "2"
+      boost_rating: '2',
     };
     fixture.detectChanges();
 
@@ -100,69 +100,69 @@ describe("BanModalComponent", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should have a title", () => {
+  it('should have a title', () => {
     const title = fixture.debugElement.query(
-      By.css(".m-report-creator--header span")
+      By.css('.m-report-creator--header span')
     );
     expect(title).not.toBeNull();
-    expect(title.nativeElement.textContent).toContain("Ban");
+    expect(title.nativeElement.textContent).toContain('Ban');
   });
 
-  it("should have a disabled send button and get the guid from the object", () => {
+  it('should have a disabled send button and get the guid from the object', () => {
     const button = fixture.debugElement.query(
-      By.css(".m-report-creator--button-submit")
+      By.css('.m-report-creator--button-submit')
     );
     expect(button.properties.disabled).toBe(true);
   });
 
-  it("should have a subject list with the expected items", () => {
+  it('should have a subject list with the expected items', () => {
     const subjectList = fixture.debugElement.query(
-      By.css(".m-report-creator--subjects")
+      By.css('.m-report-creator--subjects')
     );
     const subjectListInputs = fixture.debugElement.queryAll(
-      By.css(".m-report-creator--subjects-subject")
+      By.css('.m-report-creator--subjects-subject')
     );
     expect(subjectList).not.toBeNull();
     expect(subjectListInputs.length).toBe(12);
   });
 
-  it("once a item is clicked submit shouldnt be disabled", () => {
+  it('once a item is clicked submit shouldnt be disabled', () => {
     const item = getSubjectItem(2);
     item.nativeElement.click();
     fixture.detectChanges();
     const button = fixture.debugElement.query(
-      By.css(".m-report-creator--button-submit")
+      By.css('.m-report-creator--button-submit')
     );
     expect(comp.subject).toEqual(3);
     expect(button.properties.disabled).toBe(false);
   });
 
-  xit("once a item is clicked and is not submittable, next button should appear, and 2nd step", () => {
+  xit('once a item is clicked and is not submittable, next button should appear, and 2nd step', () => {
     const item = getSubjectItem(10);
     item.nativeElement.click();
     fixture.detectChanges();
     const next = fixture.debugElement.query(
-      By.css(".m-report-creator--button-next")
+      By.css('.m-report-creator--button-next')
     );
     expect(next).not.toBeNull();
     next.nativeElement.click();
     fixture.detectChanges();
     expect(comp.next).toBe(true);
     const button = fixture.debugElement.query(
-      By.css(".m-report-creator--button-submit")
+      By.css('.m-report-creator--button-submit')
     );
     expect(button.properties.disabled).toBe(false);
   });
 
-  it("should show success msg after submission, calling with the expected params", fakeAsync(() => {
+  it('should show success msg after submission, calling with the expected params', fakeAsync(() => {
     clientMock.put.calls.reset();
-    clientMock.response[`api/v1/admin/ban/1`] = { status: "success" };
+    clientMock.response[`api/v1/admin/ban/1`] = { status: 'success' };
 
     const item = getSubjectItem(3);
     item.nativeElement.click();
     fixture.detectChanges();
     const button = fixture.debugElement.query(
-      By.css(".m-report-creator--button-submit")
+      By.css('.m-report-creator--button-submit')
     );
     expect(button.properties.disabled).toBe(false);
     button.nativeElement.click();
@@ -171,24 +171,24 @@ describe("BanModalComponent", () => {
     expect(clientMock.put).toHaveBeenCalled();
     expect(clientMock.put.calls.mostRecent().args[1]).toEqual({
       subject: {
-        label: "Harassment",
+        label: 'Harassment',
         value: 4,
-        hasMore: false
+        hasMore: false,
       },
-      note: ""
+      note: '',
     });
     expect(comp.success).toBe(true);
     expect(comp.inProgress).toBe(false);
   }));
 
-  it("should show error msg after submission, calling with the expected params", fakeAsync(() => {
+  it('should show error msg after submission, calling with the expected params', fakeAsync(() => {
     clientMock.put.calls.reset();
     clientMock.response[`api/v1/admin/ban/1`] = {
-      status: "error",
-      message: "error message"
+      status: 'error',
+      message: 'error message',
     };
 
-    spyOn(window, "alert").and.callFake(function() {
+    spyOn(window, 'alert').and.callFake(function() {
       return true;
     });
 
@@ -196,7 +196,7 @@ describe("BanModalComponent", () => {
     item.nativeElement.click();
     fixture.detectChanges();
     const button = fixture.debugElement.query(
-      By.css(".m-report-creator--button-submit")
+      By.css('.m-report-creator--button-submit')
     );
     expect(button.properties.disabled).toBe(false);
     button.nativeElement.click();
@@ -205,11 +205,11 @@ describe("BanModalComponent", () => {
     expect(clientMock.put).toHaveBeenCalled();
     expect(clientMock.put.calls.mostRecent().args[1]).toEqual({
       subject: {
-        label: "Harassment",
+        label: 'Harassment',
         value: 4,
-        hasMore: false
+        hasMore: false,
       },
-      note: ""
+      note: '',
     });
     expect(comp.success).toBe(false);
     expect(comp.inProgress).toBe(false);
@@ -220,7 +220,7 @@ describe("BanModalComponent", () => {
     item.nativeElement.click();
     fixture.detectChanges();
     const next = fixture.debugElement.query(
-      By.css(".m-report-creator--button-next")
+      By.css('.m-report-creator--button-next')
     );
     expect(next).toBeNull();
   });

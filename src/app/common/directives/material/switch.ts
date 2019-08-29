@@ -1,9 +1,9 @@
-import { Directive, ElementRef, Inject, Input } from "@angular/core";
-import { Material as MaterialService } from "../../../services/ui";
+import { Directive, ElementRef, Inject, Input } from '@angular/core';
+import { Material as MaterialService } from '../../../services/ui';
 
 @Directive({
-  selector: "[mdlSwitch]",
-  inputs: ["mdlSwitch", "toggled"]
+  selector: '[mdlSwitch]',
+  inputs: ['mdlSwitch', 'toggled'],
 })
 export class MaterialSwitch {
   mdlSwitch: any;
@@ -24,6 +24,6 @@ export class MaterialSwitch {
 
   set toggled(value: boolean) {
     MaterialService.updateElement(this.element);
-    if (value) this.element.classList.add("is-checked");
+    if (value) this.element.classList.add('is-checked');
   }
 }

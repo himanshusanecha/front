@@ -1,7 +1,7 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: "friendlydatediff"
+  name: 'friendlydatediff',
 })
 export class FriendlyDateDiffPipe implements PipeTransform {
   transform(value: string | number, reference: string | number = null): any {
@@ -18,7 +18,7 @@ export class FriendlyDateDiffPipe implements PipeTransform {
     const dateValue = new Date(<string>value);
 
     if (dateValue >= referenceDate) {
-      return "0s ago";
+      return '0s ago';
     }
 
     let differenceMs = referenceDate.getTime() - dateValue.getTime();

@@ -1,15 +1,15 @@
-import { Component } from "@angular/core";
-import { Session } from "../../services/session";
+import { Component } from '@angular/core';
+import { Session } from '../../services/session';
 import {
   Reason,
-  rejectionReasons
-} from "../../controllers/admin/boosts/rejection-reasons";
+  rejectionReasons,
+} from '../../controllers/admin/boosts/rejection-reasons';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-notification",
-  inputs: ["_notification: notification"],
-  templateUrl: "notification.component.html"
+  selector: 'minds-notification',
+  inputs: ['_notification: notification'],
+  templateUrl: 'notification.component.html',
 })
 export class NotificationComponent {
   notification: any;

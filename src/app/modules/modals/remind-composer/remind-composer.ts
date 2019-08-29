@@ -2,18 +2,18 @@ import {
   Component,
   ComponentFactoryResolver,
   EventEmitter,
-  ViewChild
-} from "@angular/core";
+  ViewChild,
+} from '@angular/core';
 
-import { DynamicHostDirective } from "../../../common/directives/dynamic-host.directive";
-import { ActivityPreview } from "../../legacy/components/cards/activity/preview";
-import { AutocompleteSuggestionsService } from "../../suggestions/services/autocomplete-suggestions.service";
+import { DynamicHostDirective } from '../../../common/directives/dynamic-host.directive';
+import { ActivityPreview } from '../../legacy/components/cards/activity/preview';
+import { AutocompleteSuggestionsService } from '../../suggestions/services/autocomplete-suggestions.service';
 
 // had forwardRef(() => ActivityPreview)
 @Component({
-  selector: "m-modal-remind-composer",
-  inputs: ["_default: default", "open", "_object: object"],
-  outputs: ["closed", "post"],
+  selector: 'm-modal-remind-composer',
+  inputs: ['_default: default', 'open', '_object: object'],
+  outputs: ['closed', 'post'],
   template: `
     <m-modal
       [open]="open"
@@ -63,7 +63,7 @@ import { AutocompleteSuggestionsService } from "../../suggestions/services/autoc
 
       <ng-template dynamic-host></ng-template>
     </m-modal>
-  `
+  `,
 })
 export class RemindComposerModal {
   open: boolean = false;
@@ -71,7 +71,7 @@ export class RemindComposerModal {
   post: EventEmitter<any> = new EventEmitter();
   object: any = {};
 
-  message: string = "";
+  message: string = '';
 
   @ViewChild(DynamicHostDirective, { static: true })
   cardHost: DynamicHostDirective;
@@ -100,7 +100,7 @@ export class RemindComposerModal {
 
   send() {
     this.post.next({
-      message: this.message
+      message: this.message,
     });
 
     this.close();

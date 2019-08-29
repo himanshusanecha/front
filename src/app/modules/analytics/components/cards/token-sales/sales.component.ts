@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { AnalyticsCardComponent } from "../card/card.component";
-import { Subscription } from "rxjs";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { AnalyticsCardComponent } from '../card/card.component';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "m-analyticstokensales__card",
-  templateUrl: "sales.component.html"
+  selector: 'm-analyticstokensales__card',
+  templateUrl: 'sales.component.html',
 })
 export class TokenSalesCardComponent implements OnInit {
-  @ViewChild("card", { static: true }) card: AnalyticsCardComponent;
+  @ViewChild('card', { static: true }) card: AnalyticsCardComponent;
 
   subscription: Subscription;
 
@@ -37,14 +37,14 @@ export class TokenSalesCardComponent implements OnInit {
   private async getAvgData() {
     try {
       let avgs: Array<any> = await Promise.all([
-        this.client.get("api/v2/analytics/tokensales", {
-          key: "_avg",
-          timespan: this.card.selectedOption
+        this.client.get('api/v2/analytics/tokensales', {
+          key: '_avg',
+          timespan: this.card.selectedOption,
         }),
-        this.client.get("api/v2/analytics/tokensales", {
-          key: "monthly_rate_avg",
-          timespan: this.card.selectedOption
-        })
+        this.client.get('api/v2/analytics/tokensales', {
+          key: 'monthly_rate_avg',
+          timespan: this.card.selectedOption,
+        }),
       ]);
       this.tokens = avgs[0].data.tokens;
 

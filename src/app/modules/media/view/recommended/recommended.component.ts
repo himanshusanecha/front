@@ -1,20 +1,20 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
-import { RecommendedService } from "../../components/video/recommended.service";
+import { RecommendedService } from '../../components/video/recommended.service';
 
-import { Client } from "../../../../services/api";
+import { Client } from '../../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "m-media--recommended",
-  templateUrl: "recommended.component.html"
+  selector: 'm-media--recommended',
+  templateUrl: 'recommended.component.html',
 })
 export class MediaViewRecommendedComponent {
   @Input() limit: string | number;
 
-  @Input("opts") set _opts({ current, next, channel, type }) {
-    this.current = current || "";
-    this.next = next || "";
+  @Input('opts') set _opts({ current, next, channel, type }) {
+    this.current = current || '';
+    this.next = next || '';
     this.channel = channel;
     this.type = type;
 
@@ -51,7 +51,7 @@ export class MediaViewRecommendedComponent {
       .getRecommended(this.type, this.channel, {
         current: this.current,
         next: this.next,
-        limit: this.limit
+        limit: this.limit,
       })
       .then(entities => {
         if (!entities) {

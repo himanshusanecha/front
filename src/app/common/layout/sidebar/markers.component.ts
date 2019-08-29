@@ -2,18 +2,18 @@ import {
   Component,
   ComponentFactoryResolver,
   ViewChild,
-  HostListener
-} from "@angular/core";
+  HostListener,
+} from '@angular/core';
 
-import { Storage } from "../../../services/storage";
-import { Sidebar } from "../../../services/ui/sidebar";
-import { Session } from "../../../services/session";
-import { DynamicHostDirective } from "../../directives/dynamic-host.directive";
-import { GroupsSidebarMarkersComponent } from "../../../modules/groups/sidebar-markers/sidebar-markers.component";
+import { Storage } from '../../../services/storage';
+import { Sidebar } from '../../../services/ui/sidebar';
+import { Session } from '../../../services/session';
+import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
+import { GroupsSidebarMarkersComponent } from '../../../modules/groups/sidebar-markers/sidebar-markers.component';
 
 @Component({
-  selector: "m-sidebar--markers",
-  templateUrl: "markers.component.html"
+  selector: 'm-sidebar--markers',
+  templateUrl: 'markers.component.html',
 })
 export class SidebarMarkersComponent {
   @ViewChild(DynamicHostDirective, { static: true }) host: DynamicHostDirective;
@@ -47,13 +47,13 @@ export class SidebarMarkersComponent {
       return;
     }
 
-    const mBody: any = document.getElementsByTagName("m-body")[0];
+    const mBody: any = document.getElementsByTagName('m-body')[0];
 
     if (showMarkerSidebar) {
-      mBody.classList.add("has-markers-sidebar");
+      mBody.classList.add('has-markers-sidebar');
       this.createGroupsSideBar();
     } else {
-      mBody.classList.remove("has-markers-sidebar");
+      mBody.classList.remove('has-markers-sidebar');
       this.host.viewContainerRef.clear();
     }
     this.showMarkerSidebar = showMarkerSidebar;

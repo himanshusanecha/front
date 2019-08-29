@@ -1,10 +1,10 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { Client } from "../../../../common/api/client.service";
+import { Client } from '../../../../common/api/client.service';
 
 @Component({
-  selector: "m-settings--billing-subscriptions",
-  templateUrl: "subscriptions.component.html"
+  selector: 'm-settings--billing-subscriptions',
+  templateUrl: 'subscriptions.component.html',
 })
 export class SettingsBillingSubscriptionsComponent {
   minds = window.Minds;
@@ -39,7 +39,7 @@ export class SettingsBillingSubscriptionsComponent {
   }
 
   cancel(i: number) {
-    if (!confirm("Are you sure you want to cancel this subscription?")) {
+    if (!confirm('Are you sure you want to cancel this subscription?')) {
       return;
     }
 
@@ -55,7 +55,7 @@ export class SettingsBillingSubscriptionsComponent {
         this.cd.detectChanges();
       })
       .catch(e => {
-        alert("Sorry, there was an error");
+        alert('Sorry, there was an error');
         this.inProgress = false;
         this.cd.detectChanges();
       });

@@ -3,17 +3,17 @@ import {
   ChangeDetectorRef,
   Component,
   Output,
-  EventEmitter
-} from "@angular/core";
-import { Router } from "@angular/router";
+  EventEmitter,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../../../services/api/client";
-import { Session } from "../../../../../services/session";
+import { Client } from '../../../../../services/api/client';
+import { Session } from '../../../../../services/session';
 
 @Component({
-  selector: "m-token--onboarding--introduction",
-  templateUrl: "introduction.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-token--onboarding--introduction',
+  templateUrl: 'introduction.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenIntroductionOnboardingComponent {
   inProgress: boolean = false;

@@ -1,15 +1,15 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Navigation as NavigationService } from "../../services/navigation";
-import { Session } from "../../services/session";
-import { MindsTitle } from "../../services/ux/title";
-import { Client } from "../../services/api";
-import { LoginReferrerService } from "../../services/login-referrer.service";
+import { Navigation as NavigationService } from '../../services/navigation';
+import { Session } from '../../services/session';
+import { MindsTitle } from '../../services/ux/title';
+import { Client } from '../../services/api';
+import { LoginReferrerService } from '../../services/login-referrer.service';
 
 @Component({
-  selector: "m-homepage",
-  templateUrl: "homepage.component.html"
+  selector: 'm-homepage',
+  templateUrl: 'homepage.component.html',
 })
 export class HomepageComponent {
   videos: Array<any> = [];
@@ -18,16 +18,16 @@ export class HomepageComponent {
   stream = {
     1: [],
     2: [],
-    3: []
+    3: [],
   };
-  offset: string = "";
+  offset: string = '';
   inProgress: boolean = false;
   videoError: boolean = false;
 
   minds = window.Minds;
 
   flags = {
-    canPlayInlineVideos: true
+    canPlayInlineVideos: true,
   };
 
   constructor(
@@ -38,11 +38,11 @@ export class HomepageComponent {
     private loginReferrer: LoginReferrerService,
     public session: Session
   ) {
-    this.title.setTitle("Minds Social Network", false);
+    this.title.setTitle('Minds Social Network', false);
     this.loadStream();
 
     if (this.session.isLoggedIn()) {
-      this.router.navigate(["/newsfeed"]);
+      this.router.navigate(['/newsfeed']);
       return;
     }
 
@@ -54,7 +54,7 @@ export class HomepageComponent {
   loadStream(refresh: boolean = false) {
     this.inProgress = true;
     this.client
-      .get("api/v1/newsfeed/featured", { limit: 24, offset: this.offset })
+      .get('api/v1/newsfeed/featured', { limit: 24, offset: this.offset })
       .then((response: any) => {
         let col = 0;
         for (let activity of response.activity) {
@@ -62,7 +62,7 @@ export class HomepageComponent {
           if (col++ >= 3) col = 1;
           this.stream[col].push(activity);
         }
-        this.offset = response["load-next"];
+        this.offset = response['load-next'];
         this.inProgress = false;
       })
       .catch(() => {
@@ -72,7 +72,7 @@ export class HomepageComponent {
 
   loadVideos() {
     this.client
-      .get("api/v1/entities/featured/videos", { limit: 4 })
+      .get('api/v1/entities/featured/videos', { limit: 4 })
       .then((response: any) => {
         this.videos = response.entities;
       });
@@ -80,7 +80,7 @@ export class HomepageComponent {
 
   loadBlogs() {
     this.client
-      .get("api/v1/blog/featured", { limit: 4 })
+      .get('api/v1/blog/featured', { limit: 4 })
       .then((response: any) => {
         this.blogs = response.blogs;
       });
@@ -89,11 +89,11 @@ export class HomepageComponent {
   registered() {
     this.loginReferrer.navigate({
       defaultUrl:
-        "/" + this.session.getLoggedInUser().username + ";onboarding=1"
+        '/' + this.session.getLoggedInUser().username + ';onboarding=1',
     });
   }
 
   onSourceError() {
-    console.log("video failed");
+    console.log('video failed');
   }
 }

@@ -1,11 +1,11 @@
-import { Cookie } from "../cookie";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Cookie } from '../cookie';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 /**
  * API Class
  */
 export class Client {
-  base: string = "/";
+  base: string = '/';
   cookie: Cookie = new Cookie();
 
   static _(http: HttpClient) {
@@ -19,22 +19,22 @@ export class Client {
    */
   get(endpoint: string, data: Object = {}, options: Object = {}) {
     if (data) {
-      endpoint += "?" + this.buildParams(data);
+      endpoint += '?' + this.buildParams(data);
     }
     return new Promise((resolve, reject) => {
       this.http.get(this.base + endpoint, this.buildOptions(options)).subscribe(
         res => {
           var data: any = res;
-          if (!data || data.status !== "success") return reject(data);
+          if (!data || data.status !== 'success') return reject(data);
 
           return resolve(data);
         },
         err => {
           if (err.data && !err.data()) {
-            return reject(err || new Error("GET error"));
+            return reject(err || new Error('GET error'));
           }
           if (err.status === 401 && err.error.loggedin === false) {
-            window.location.href = "/login";
+            window.location.href = '/login';
             return reject(err);
           }
           return reject(err);
@@ -47,7 +47,7 @@ export class Client {
    * Return a GET request
    */
   getRaw(endpoint: string, data: Object = {}, options: Object = {}) {
-    endpoint += "?" + this.buildParams(data);
+    endpoint += '?' + this.buildParams(data);
     return new Promise((resolve, reject) => {
       this.http.get(this.base + endpoint, this.buildOptions(options)).subscribe(
         res => {
@@ -55,10 +55,10 @@ export class Client {
         },
         err => {
           if (err.data && !err.data()) {
-            return reject(err || new Error("GET error"));
+            return reject(err || new Error('GET error'));
           }
           if (err.status === 401 && err.error.loggedin === false) {
-            window.location.href = "/login";
+            window.location.href = '/login';
             return reject(err);
           }
           return reject(err);
@@ -81,16 +81,16 @@ export class Client {
         .subscribe(
           res => {
             var data: any = res;
-            if (!data || data.status !== "success") return reject(data);
+            if (!data || data.status !== 'success') return reject(data);
 
             return resolve(data);
           },
           err => {
             if (err.data && !err.data()) {
-              return reject(err || new Error("POST error"));
+              return reject(err || new Error('POST error'));
             }
             if (err.status === 401 && err.loggedin === false) {
-              window.location.href = "/login";
+              window.location.href = '/login';
               return reject(err);
             }
             if (err.status !== 200) {
@@ -115,13 +115,13 @@ export class Client {
         .subscribe(
           res => {
             var data: any = res;
-            if (!data || data.status !== "success") return reject(data);
+            if (!data || data.status !== 'success') return reject(data);
 
             return resolve(data);
           },
           err => {
             if (err.status === 401 && err.data().loggedin === false) {
-              window.location.href = "/login";
+              window.location.href = '/login';
               return reject(err);
             }
             if (err.status !== 200) {
@@ -142,13 +142,13 @@ export class Client {
         .subscribe(
           res => {
             var data: any = res;
-            if (!data || data.status !== "success") return reject(data);
+            if (!data || data.status !== 'success') return reject(data);
 
             return resolve(data);
           },
           err => {
             if (err.status === 401 && err.error.loggedin === false) {
-              window.location.href = "/login";
+              window.location.href = '/login';
               return reject(err);
             }
             if (err.status !== 200) {
@@ -162,24 +162,24 @@ export class Client {
   private buildParams(object: Object) {
     return Object.keys(object)
       .map(k => {
-        return encodeURIComponent(k) + "=" + encodeURIComponent(object[k]);
+        return encodeURIComponent(k) + '=' + encodeURIComponent(object[k]);
       })
-      .join("&");
+      .join('&');
   }
 
   /**
    * Build the options
    */
   private buildOptions(options: Object) {
-    const XSRF_TOKEN = this.cookie.get("XSRF-TOKEN") || "";
+    const XSRF_TOKEN = this.cookie.get('XSRF-TOKEN') || '';
 
     const headers = new HttpHeaders({
-      "X-XSRF-TOKEN": XSRF_TOKEN
+      'X-XSRF-TOKEN': XSRF_TOKEN,
     });
 
     return Object.assign(options, {
       headers: headers,
-      cache: true
+      cache: true,
     });
   }
 }

@@ -2,17 +2,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit
-} from "@angular/core";
-import { tap, filter, switchMap } from "rxjs/operators";
-import { BlockListService } from "../../../common/services/block-list.service";
-import { EntitiesService } from "../../../common/services/entities.service";
-import { Client } from "../../../services/api/client";
+  OnInit,
+} from '@angular/core';
+import { tap, filter, switchMap } from 'rxjs/operators';
+import { BlockListService } from '../../../common/services/block-list.service';
+import { EntitiesService } from '../../../common/services/entities.service';
+import { Client } from '../../../services/api/client';
 
 @Component({
-  selector: "m-settings__blockedChannels",
-  templateUrl: "blocked-channels.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-settings__blockedChannels',
+  templateUrl: 'blocked-channels.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsBlockedChannelsComponent implements OnInit {
   blockedGuids: any[] = [];
@@ -67,7 +67,7 @@ export class SettingsBlockedChannelsComponent implements OnInit {
     const { guid } = channel;
 
     if (!guid) {
-      throw new Error("Missing channel GUID");
+      throw new Error('Missing channel GUID');
     }
 
     try {
@@ -87,7 +87,7 @@ export class SettingsBlockedChannelsComponent implements OnInit {
     const { guid } = channel;
 
     if (!guid) {
-      throw new Error("Missing channel GUID");
+      throw new Error('Missing channel GUID');
     }
 
     try {

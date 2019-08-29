@@ -1,14 +1,14 @@
-import { Directive, EventEmitter, ElementRef } from "@angular/core";
+import { Directive, EventEmitter, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: "[autoGrow]",
-  inputs: ["autoGrow", "_model: ngModel"],
+  selector: '[autoGrow]',
+  inputs: ['autoGrow', '_model: ngModel'],
   host: {
-    "(keydown)": "grow()",
-    "(paste)": "grow()",
-    "(change)": "grow()",
-    "(ngModelChange)": "grow()"
-  }
+    '(keydown)': 'grow()',
+    '(paste)': 'grow()',
+    '(change)': 'grow()',
+    '(ngModelChange)': 'grow()',
+  },
 })
 export class AutoGrow {
   _element: any;
@@ -33,12 +33,12 @@ export class AutoGrow {
     }
 
     this.timeout = setTimeout(() => {
-      this._element.style.overflow = "hidden";
-      this._element.style.maxHeight = "none";
-      this._element.style.height = "auto";
-      this._element.style.height = this._element.scrollHeight + "px";
-      this._element.style.overflow = "";
-      this._element.style.maxHeight = "";
+      this._element.style.overflow = 'hidden';
+      this._element.style.maxHeight = 'none';
+      this._element.style.height = 'auto';
+      this._element.style.height = this._element.scrollHeight + 'px';
+      this._element.style.overflow = '';
+      this._element.style.maxHeight = '';
     });
   }
 }

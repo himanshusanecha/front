@@ -1,24 +1,24 @@
-import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { CommonModule as NgCommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-import { CommonModule } from "../../common/common.module";
-import { LegacyModule } from "../legacy/legacy.module";
-import { TokenOnboardingModule } from "../wallet/tokens/onboarding/onboarding.module";
-import { ReportCreatorComponent } from "./creator/creator.component";
-import { ReportConsoleComponent } from "./console/console.component";
-import { ReportsMarketingComponent } from "./marketing/marketing.component";
-import { JuryDutySessionComponent } from "./juryduty/session/session.component";
-import { CommentsModule } from "../comments/comments.module";
-import { JuryDutySessionListComponent } from "./juryduty/session/list.component";
-import { JurySessionService } from "./juryduty/session/session.service";
-import { JuryDutySessionContentComponent } from "./juryduty/session/content.component";
-import { JuryDutySessionSummonsComponent } from "./juryduty/session/summons.component";
-import { StrikesComponent } from "./strikes/strikes.component";
-import { BannedService } from "./banned/banned.service";
-import { BannedComponent } from "./banned/banned.component";
-import { ModerationAppealComponent } from "./console/appeal.component";
+import { CommonModule } from '../../common/common.module';
+import { LegacyModule } from '../legacy/legacy.module';
+import { TokenOnboardingModule } from '../wallet/tokens/onboarding/onboarding.module';
+import { ReportCreatorComponent } from './creator/creator.component';
+import { ReportConsoleComponent } from './console/console.component';
+import { ReportsMarketingComponent } from './marketing/marketing.component';
+import { JuryDutySessionComponent } from './juryduty/session/session.component';
+import { CommentsModule } from '../comments/comments.module';
+import { JuryDutySessionListComponent } from './juryduty/session/list.component';
+import { JurySessionService } from './juryduty/session/session.service';
+import { JuryDutySessionContentComponent } from './juryduty/session/content.component';
+import { JuryDutySessionSummonsComponent } from './juryduty/session/summons.component';
+import { StrikesComponent } from './strikes/strikes.component';
+import { BannedService } from './banned/banned.service';
+import { BannedComponent } from './banned/banned.component';
+import { ModerationAppealComponent } from './console/appeal.component';
 
 @NgModule({
   imports: [
@@ -30,18 +30,18 @@ import { ModerationAppealComponent } from "./console/appeal.component";
     CommentsModule,
     RouterModule.forChild([
       //{ path: 'moderation',  redirectTo: '/content-policy' },
-      { path: "content-policy", component: ReportsMarketingComponent },
+      { path: 'content-policy', component: ReportsMarketingComponent },
       {
-        path: "moderation/juryduty/:jury",
-        component: JuryDutySessionComponent
+        path: 'moderation/juryduty/:jury',
+        component: JuryDutySessionComponent,
       },
       {
-        path: "settings/reported-content/strikes",
-        component: StrikesComponent
+        path: 'settings/reported-content/strikes',
+        component: StrikesComponent,
       },
-      { path: "moderation/banned", component: BannedComponent }
+      { path: 'moderation/banned', component: BannedComponent },
     ]),
-    TokenOnboardingModule
+    TokenOnboardingModule,
   ],
   declarations: [
     ReportCreatorComponent,
@@ -53,7 +53,7 @@ import { ModerationAppealComponent } from "./console/appeal.component";
     JuryDutySessionSummonsComponent,
     StrikesComponent,
     BannedComponent,
-    ModerationAppealComponent
+    ModerationAppealComponent,
   ],
   exports: [ReportConsoleComponent, JuryDutySessionSummonsComponent],
   entryComponents: [
@@ -62,8 +62,8 @@ import { ModerationAppealComponent } from "./console/appeal.component";
     JuryDutySessionComponent,
     JuryDutySessionSummonsComponent,
     StrikesComponent,
-    BannedComponent
+    BannedComponent,
   ],
-  providers: [JurySessionService, BannedService]
+  providers: [JurySessionService, BannedService],
 })
 export class ReportModule {}

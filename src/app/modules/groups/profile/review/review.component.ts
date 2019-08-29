@@ -3,18 +3,18 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnInit
-} from "@angular/core";
-import { GroupsService } from "../../groups-service";
-import { Session } from "../../../../services/session";
-import { Router } from "@angular/router";
-import { Client } from "../../../../services/api/client";
-import { Subscription } from "rxjs";
+  OnInit,
+} from '@angular/core';
+import { GroupsService } from '../../groups-service';
+import { Session } from '../../../../services/session';
+import { Router } from '@angular/router';
+import { Client } from '../../../../services/api/client';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "m-groups-profile__review",
-  templateUrl: "review.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-groups-profile__review',
+  templateUrl: 'review.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsProfileReviewComponent implements OnInit {
   group: any;
@@ -25,7 +25,7 @@ export class GroupsProfileReviewComponent implements OnInit {
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: any = "";
+  offset: any = '';
 
   initialized: boolean = false;
 
@@ -60,7 +60,7 @@ export class GroupsProfileReviewComponent implements OnInit {
     if (refresh) {
       this.entities = [];
       this.moreData = true;
-      this.offset = "";
+      this.offset = '';
     }
 
     this.inProgress = true;
@@ -70,7 +70,7 @@ export class GroupsProfileReviewComponent implements OnInit {
     try {
       const params: any = {
         limit: 12,
-        offset: this.offset
+        offset: this.offset,
       };
 
       const response: any = await this.client.get(
@@ -78,12 +78,12 @@ export class GroupsProfileReviewComponent implements OnInit {
         params
       );
 
-      if (typeof response["adminqueue:count"] !== "undefined") {
-        this.group["adminqueue:count"] = response["adminqueue:count"];
+      if (typeof response['adminqueue:count'] !== 'undefined') {
+        this.group['adminqueue:count'] = response['adminqueue:count'];
       }
 
       const entities = (response || {}).activity || [];
-      const next = (response || {})["load-next"] || "";
+      const next = (response || {})['load-next'] || '';
 
       if (this.entities && !refresh) {
         this.entities.push(...entities);
@@ -97,7 +97,7 @@ export class GroupsProfileReviewComponent implements OnInit {
 
       this.offset = next;
     } catch (e) {
-      console.error("GroupProfileFeedSortedComponent.loadReviewQueue", e);
+      console.error('GroupProfileFeedSortedComponent.loadReviewQueue', e);
     }
 
     this.inProgress = false;
@@ -134,9 +134,9 @@ export class GroupsProfileReviewComponent implements OnInit {
         `api/v1/groups/review/${this.group.guid}/${activity.guid}`
       );
 
-      this.group["adminqueue:count"] = this.group["adminqueue:count"] - 1;
+      this.group['adminqueue:count'] = this.group['adminqueue:count'] - 1;
     } catch (e) {
-      alert((e && e.message) || "Internal server error");
+      alert((e && e.message) || 'Internal server error');
     }
   }
 
@@ -152,9 +152,9 @@ export class GroupsProfileReviewComponent implements OnInit {
         `api/v1/groups/review/${this.group.guid}/${activity.guid}`
       );
 
-      this.group["adminqueue:count"] = this.group["adminqueue:count"] - 1;
+      this.group['adminqueue:count'] = this.group['adminqueue:count'] - 1;
     } catch (e) {
-      alert((e && e.message) || "Internal server error");
+      alert((e && e.message) || 'Internal server error');
     }
   }
 

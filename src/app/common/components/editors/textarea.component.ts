@@ -6,13 +6,13 @@ import {
   EventEmitter,
   Input,
   Output,
-  SimpleChange
-} from "@angular/core";
+  SimpleChange,
+} from '@angular/core';
 
 declare var tinymce;
 
 @Component({
-  selector: "minds-textarea",
+  selector: 'minds-textarea',
   template: `
     <div
       #editor
@@ -27,16 +27,16 @@ declare var tinymce;
       placeholder
     }}</span>
   `,
-  exportAs: "Textarea"
+  exportAs: 'Textarea',
 })
 export class Textarea implements OnChanges {
-  @ViewChild("editor", { static: true }) editorControl: ElementRef;
+  @ViewChild('editor', { static: true }) editorControl: ElementRef;
 
-  @Input("mModel") model: string = "";
-  @Output("mModelChange") update: EventEmitter<any> = new EventEmitter();
+  @Input('mModel') model: string = '';
+  @Output('mModelChange') update: EventEmitter<any> = new EventEmitter();
 
-  @Input("disabled") disabled: boolean = false;
-  @Input("placeholder") placeholder: string = "";
+  @Input('disabled') disabled: boolean = false;
+  @Input('placeholder') placeholder: string = '';
 
   getControlText(): string {
     return this.editorControl.nativeElement.innerText;
@@ -65,13 +65,13 @@ export class Textarea implements OnChanges {
     let text;
 
     if (e.clipboardData && e.clipboardData.getData) {
-      text = e.clipboardData.getData("text/plain");
-      document.execCommand("insertHTML", false, text);
+      text = e.clipboardData.getData('text/plain');
+      document.execCommand('insertHTML', false, text);
     } else if (
       (<any>window).clipboardData &&
       (<any>window).clipboardData.getData
     ) {
-      text = (<any>window).clipboardData.getData("Text");
+      text = (<any>window).clipboardData.getData('Text');
       this.insertTextAtCursor(text);
     }
   }
@@ -113,8 +113,8 @@ export class Textarea implements OnChanges {
 
   private _placeCaretAtEnd(el: HTMLElement) {
     if (
-      typeof window.getSelection !== "undefined" &&
-      typeof document.createRange !== "undefined"
+      typeof window.getSelection !== 'undefined' &&
+      typeof document.createRange !== 'undefined'
     ) {
       var range = document.createRange();
       range.selectNodeContents(el);
@@ -122,7 +122,7 @@ export class Textarea implements OnChanges {
       var sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
-    } else if (typeof (<any>document.body).createTextRange !== "undefined") {
+    } else if (typeof (<any>document.body).createTextRange !== 'undefined') {
       var textRange = (<any>document.body).createTextRange();
       textRange.moveToElementText(el);
       textRange.collapse(false);

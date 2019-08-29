@@ -4,30 +4,30 @@ import {
   forwardRef,
   OnChanges,
   OnInit,
-  ViewChild
-} from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+  ViewChild,
+} from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
-import { Country } from "./country";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { CountryCode } from "./countries";
+import { Country } from './country';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CountryCode } from './countries';
 
 export const PHONE_INPUT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => PhoneInputComponent),
-  multi: true
+  multi: true,
 };
 
 @Component({
-  selector: "m-phone-input",
-  templateUrl: "phone-input.component.html",
-  providers: [PHONE_INPUT_VALUE_ACCESSOR]
+  selector: 'm-phone-input',
+  templateUrl: 'phone-input.component.html',
+  providers: [PHONE_INPUT_VALUE_ACCESSOR],
 })
 export class PhoneInputComponent
   implements ControlValueAccessor, OnInit, OnChanges {
-  phoneNumber: string = "";
+  phoneNumber: string = '';
 
-  @ViewChild("input", { static: true }) input: ElementRef;
+  @ViewChild('input', { static: true }) input: ElementRef;
   selectedCountry;
 
   allowedKeyCodes: Array<number> = [8, 33, 34, 35, 36, 37, 39, 46];

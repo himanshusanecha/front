@@ -1,8 +1,8 @@
-import { Pipe } from "@angular/core";
+import { Pipe } from '@angular/core';
 
 @Pipe({
-  name: "listable",
-  pure: false
+  name: 'listable',
+  pure: false,
 })
 export class ListablePipe {
   transform(value: any) {

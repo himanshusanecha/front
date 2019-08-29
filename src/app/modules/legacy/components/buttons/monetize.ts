@@ -1,14 +1,14 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { Session } from "../../../../services/session";
-import { Client } from "../../../../services/api";
+import { Session } from '../../../../services/session';
+import { Client } from '../../../../services/api';
 
 @Component({
-  selector: "minds-button-monetize",
-  inputs: ["_object: object"],
+  selector: 'minds-button-monetize',
+  inputs: ['_object: object'],
   host: {
-    "(click)": "monetize()",
-    class: "m-button"
+    '(click)': 'monetize()',
+    class: 'm-button',
   },
   template: `
     <button
@@ -17,7 +17,7 @@ import { Client } from "../../../../services/api";
     >
       <i class="material-icons">attach_money</i>
     </button>
-  `
+  `,
 })
 export class MonetizeButton {
   object;
@@ -36,7 +36,7 @@ export class MonetizeButton {
 
     this.isMonetized = true;
 
-    this.client.put("api/v1/monetize/" + this.object.guid, {}).catch(e => {
+    this.client.put('api/v1/monetize/' + this.object.guid, {}).catch(e => {
       this.isMonetized = false;
     });
   }
@@ -44,7 +44,7 @@ export class MonetizeButton {
   unMonetize() {
     this.isMonetized = false;
     this.object.monetized = false;
-    this.client.delete("api/v1/monetize/" + this.object.guid, {}).catch(e => {
+    this.client.delete('api/v1/monetize/' + this.object.guid, {}).catch(e => {
       this.isMonetized = true;
     });
   }

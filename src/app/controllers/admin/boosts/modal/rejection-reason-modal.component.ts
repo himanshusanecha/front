@@ -3,28 +3,28 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  Output
-} from "@angular/core";
-import { Reason, rejectionReasons } from "../rejection-reasons";
+  Output,
+} from '@angular/core';
+import { Reason, rejectionReasons } from '../rejection-reasons';
 
 @Component({
   moduleId: module.id,
-  selector: "m--rejection-reason-modal",
-  outputs: ["actioned", "closed"],
-  templateUrl: "rejection-reason-modal.component.html"
+  selector: 'm--rejection-reason-modal',
+  outputs: ['actioned', 'closed'],
+  templateUrl: 'rejection-reason-modal.component.html',
 })
 export class RejectionReasonModalComponent {
   @Input() boost;
 
-  @Input() yesButton: string = "Yes";
-  @Input() noButton: string = "No";
+  @Input() yesButton: string = 'Yes';
+  @Input() noButton: string = 'No';
   @Input() closeAfterAction: boolean = false;
 
   @Output() closed: EventEmitter<any> = new EventEmitter();
   @Output() actioned: EventEmitter<any> = new EventEmitter();
 
   errorlevel: number = null;
-  dismissButton: string = "Dismiss";
+  dismissButton: string = 'Dismiss';
   reasons: Array<Reason> = rejectionReasons;
 
   open: boolean = true;
@@ -43,7 +43,7 @@ export class RejectionReasonModalComponent {
     this.boost.rejection_reason = reason.code;
   }
 
-  @HostListener("document:keypress", ["$event"])
+  @HostListener('document:keypress', ['$event'])
   onKeyPress(e: KeyboardEvent) {
     e.stopPropagation();
 

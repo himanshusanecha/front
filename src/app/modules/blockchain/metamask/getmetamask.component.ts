@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
-  selector: "m-get-metamask",
-  templateUrl: "getmetamask.component.html"
+  selector: 'm-get-metamask',
+  templateUrl: 'getmetamask.component.html',
 })
 export class GetMetamaskComponent {
-  public static ACTION_CREATE = "create";
-  public static ACTION_UNLOCK = "unlock";
-  public static ACTION_CANCEL = "cancel";
+  public static ACTION_CREATE = 'create';
+  public static ACTION_UNLOCK = 'unlock';
+  public static ACTION_CANCEL = 'cancel';
 
   @Output() actioned: EventEmitter<String> = new EventEmitter();
 

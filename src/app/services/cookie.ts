@@ -7,14 +7,14 @@ export class Cookie {
    */
   get(key: string): string {
     var cookies: Array<string> = document.cookie
-      ? document.cookie.split("; ")
+      ? document.cookie.split('; ')
       : [];
 
     if (!cookies) return;
 
     for (let cookie of cookies) {
       let name: string, value: string;
-      [name, value] = cookie.split("=");
+      [name, value] = cookie.split('=');
       if (name === key) return value;
     }
     return;

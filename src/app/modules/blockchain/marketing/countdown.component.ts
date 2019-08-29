@@ -6,21 +6,21 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild
-} from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { MindsTitle } from "../../../services/ux/title";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { Session } from "../../../services/session";
-import * as BN from "bn.js";
+  ViewChild,
+} from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { MindsTitle } from '../../../services/ux/title';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { Session } from '../../../services/session';
+import * as BN from 'bn.js';
 
 @Component({
-  selector: "m-blockchain--marketing--countdown",
-  templateUrl: "countdown.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-blockchain--marketing--countdown',
+  templateUrl: 'countdown.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockchainMarketingCountdownComponent implements OnInit {
-  end = new Date("Aug 13, 2018 12:00:00 UTC").getTime();
+  end = new Date('Aug 13, 2018 12:00:00 UTC').getTime();
 
   days: number;
   hours: number;

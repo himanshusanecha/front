@@ -1,14 +1,14 @@
-import { Component, HostBinding, Input } from "@angular/core";
-import { Session } from "../../../services/session";
-import { Router } from "@angular/router";
-import { Storage } from "../../../services/storage";
+import { Component, HostBinding, Input } from '@angular/core';
+import { Session } from '../../../services/session';
+import { Router } from '@angular/router';
+import { Storage } from '../../../services/storage';
 
 @Component({
-  selector: "m-channel--explicit-overlay",
-  templateUrl: "overlay.component.html"
+  selector: 'm-channel--explicit-overlay',
+  templateUrl: 'overlay.component.html',
 })
 export class ExplicitOverlayComponent {
-  @HostBinding("hidden") hidden: boolean;
+  @HostBinding('hidden') hidden: boolean;
   _channel: any;
 
   @Input() set channel(value: any) {
@@ -28,10 +28,10 @@ export class ExplicitOverlayComponent {
 
   login() {
     this.storage.set(
-      "redirectTo",
+      'redirectTo',
       window.Minds.site_url + this._channel.username
     );
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 
   disableFilter() {

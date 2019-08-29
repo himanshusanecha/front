@@ -1,22 +1,22 @@
-import { Component, EventEmitter } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Component, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Client, Upload } from "../../../services/api";
-import { Session } from "../../../services/session";
+import { Client, Upload } from '../../../services/api';
+import { Session } from '../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-form-onboarding",
-  outputs: ["done"],
-  templateUrl: "onboarding.html"
+  selector: 'minds-form-onboarding',
+  outputs: ['done'],
+  templateUrl: 'onboarding.html',
 })
 export class OnboardingForm {
-  error: string = "";
+  error: string = '';
   inProgress: boolean = false;
   referrer: string;
 
   form: FormGroup;
-  gender: string = "private";
+  gender: string = 'private';
   banner: string;
 
   done: EventEmitter<any> = new EventEmitter();
@@ -28,9 +28,9 @@ export class OnboardingForm {
     fb: FormBuilder
   ) {
     this.form = fb.group({
-      briefdescription: [""],
-      dob: [""],
-      city: [""]
+      briefdescription: [''],
+      dob: [''],
+      city: [''],
     });
   }
 
@@ -42,7 +42,7 @@ export class OnboardingForm {
     info.gender = this.gender;
 
     this.client
-      .post("api/v1/channel/info", info)
+      .post('api/v1/channel/info', info)
       .then((data: any) => {
         // TODO: [emi/sprint/bison] Find a way to reset controls. Old implementation throws Exception;
 
@@ -61,7 +61,7 @@ export class OnboardingForm {
   addAvatar(file) {
     console.log(file);
     this.upload
-      .post("api/v1/channel/avatar", [file], { filekey: "file" })
+      .post('api/v1/channel/avatar', [file], { filekey: 'file' })
       .then((response: any) => {
         window.Minds.user.icontime = Date.now();
       });
@@ -74,12 +74,12 @@ export class OnboardingForm {
     var reader = new FileReader();
     reader.onloadend = () => {
       this.banner =
-        typeof reader.result === "string"
+        typeof reader.result === 'string'
           ? reader.result
           : reader.result.toString();
     };
     reader.readAsDataURL(file);
 
-    this.upload.post("api/v1/channel/carousel", [file], { top: 0 });
+    this.upload.post('api/v1/channel/carousel', [file], { top: 0 });
   }
 }

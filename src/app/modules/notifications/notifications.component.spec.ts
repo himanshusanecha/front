@@ -4,25 +4,25 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
-import { DebugElement } from "@angular/core";
+  tick,
+} from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
 
-import { Client } from "../../services/api/client";
-import { By } from "@angular/platform-browser";
-import { clientMock } from "../../../tests/client-mock.spec";
-import { notificationServiceMock } from "../../../tests/notification-service-mock.spec";
-import { MaterialMock } from "../../../tests/material-mock.spec";
-import { NotificationsComponent } from "./notifications.component";
+import { Client } from '../../services/api/client';
+import { By } from '@angular/platform-browser';
+import { clientMock } from '../../../tests/client-mock.spec';
+import { notificationServiceMock } from '../../../tests/notification-service-mock.spec';
+import { MaterialMock } from '../../../tests/material-mock.spec';
+import { NotificationsComponent } from './notifications.component';
 
-import { MindsTitle } from "../../services/ux/title";
-import { NotificationService } from "./notification.service";
-import { Session } from "../../services/session";
-import { Mock, MockComponent } from "../../utils/mock";
-import { RouterTestingModule } from "@angular/router/testing";
-import { sessionMock } from "../../../tests/session-mock.spec";
+import { MindsTitle } from '../../services/ux/title';
+import { NotificationService } from './notification.service';
+import { Session } from '../../services/session';
+import { Mock, MockComponent } from '../../utils/mock';
+import { RouterTestingModule } from '@angular/router/testing';
+import { sessionMock } from '../../../tests/session-mock.spec';
 
-describe("NotificationsComponent", () => {
+describe('NotificationsComponent', () => {
   let comp: NotificationsComponent;
   let fixture: ComponentFixture<NotificationsComponent>;
 
@@ -32,29 +32,29 @@ describe("NotificationsComponent", () => {
         MaterialMock,
         NotificationsComponent,
         MockComponent({
-          selector: "minds-notification",
-          inputs: ["notification"]
+          selector: 'minds-notification',
+          inputs: ['notification'],
         }),
         MockComponent({
-          selector: "infinite-scroll",
-          inputs: ["inProgress", "moreData", "inProgress", "scrollSource"]
+          selector: 'infinite-scroll',
+          inputs: ['inProgress', 'moreData', 'inProgress', 'scrollSource'],
         }),
         MockComponent({
-          selector: "m-tooltip"
-        })
+          selector: 'm-tooltip',
+        }),
       ],
       imports: [RouterTestingModule],
       providers: [
         {
           provide: MindsTitle,
           useValue: {
-            setTitle: function() {}
-          }
+            setTitle: function() {},
+          },
         },
         { provide: NotificationService, useValue: notificationServiceMock },
         { provide: Client, useValue: clientMock },
-        { provide: Session, useValue: sessionMock }
-      ]
+        { provide: Session, useValue: sessionMock },
+      ],
     }).compileComponents(); // compile template and css
   }));
 
@@ -68,24 +68,24 @@ describe("NotificationsComponent", () => {
 
     window.Minds.notifications_count = 10;
     clientMock.response[`api/v1/notifications/all`] = {
-      status: "success",
+      status: 'success',
       notifications: [
         {
-          type: "notification",
-          guid: "843204301747658770",
-          notification_view: "group_activity"
+          type: 'notification',
+          guid: '843204301747658770',
+          notification_view: 'group_activity',
         },
         {
-          type: "notification",
-          guid: "843204301747658770",
-          notification_view: "group_activity"
+          type: 'notification',
+          guid: '843204301747658770',
+          notification_view: 'group_activity',
         },
         {
-          type: "notification",
-          guid: "843204301747658770",
-          notification_view: "group_activity"
-        }
-      ]
+          type: 'notification',
+          guid: '843204301747658770',
+          notification_view: 'group_activity',
+        },
+      ],
     };
     comp = fixture.componentInstance;
 
@@ -104,47 +104,47 @@ describe("NotificationsComponent", () => {
     jasmine.clock().uninstall();
   });
 
-  it("Should load 3 elements", () => {
+  it('Should load 3 elements', () => {
     fixture.detectChanges();
     expect(comp.notifications.length).toBe(3);
     const notifications = fixture.debugElement.queryAll(
-      By.css("minds-notification")
+      By.css('minds-notification')
     );
     expect(notifications.length).toBe(3);
   });
 
-  it("Should show the filters with tooltips", () => {
+  it('Should show the filters with tooltips', () => {
     fixture.detectChanges();
-    const tooltips = fixture.debugElement.queryAll(By.css("m-tooltip"));
+    const tooltips = fixture.debugElement.queryAll(By.css('m-tooltip'));
     expect(tooltips.length).toBe(6);
   });
 
-  it("infinite scroll shouldnt be visible if visible false", () => {
+  it('infinite scroll shouldnt be visible if visible false', () => {
     comp.visible = false;
     fixture.detectChanges();
-    const notifications = fixture.debugElement.query(By.css("infinite-scroll"));
+    const notifications = fixture.debugElement.query(By.css('infinite-scroll'));
     expect(notifications).toBeNull();
   });
 
-  it("infinite load on click", () => {
+  it('infinite load on click', () => {
     window.Minds.notifications_count = 10;
     fixture.detectChanges();
     const notifications = fixture.debugElement.query(
-      By.css(".m-notifications--load-new a")
+      By.css('.m-notifications--load-new a')
     );
     notifications.nativeElement.click();
     fixture.detectChanges();
 
     const call = clientMock.get.calls.mostRecent();
-    expect(call.args[0]).toBe("api/v1/notifications/all");
+    expect(call.args[0]).toBe('api/v1/notifications/all');
   });
 
-  it("should load notifications using the proper endpoint", () => {
+  it('should load notifications using the proper endpoint', () => {
     fixture.detectChanges();
     const call = clientMock.get.calls.mostRecent();
-    expect(call.args[0]).toBe("api/v1/notifications/all");
+    expect(call.args[0]).toBe('api/v1/notifications/all');
     const notifications = fixture.debugElement.queryAll(
-      By.css("minds-notification")
+      By.css('minds-notification')
     );
     expect(notifications.length).toBe(3);
   });

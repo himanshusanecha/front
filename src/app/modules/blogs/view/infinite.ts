@@ -1,20 +1,20 @@
-import { ApplicationRef, ChangeDetectorRef, Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ApplicationRef, ChangeDetectorRef, Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { MindsTitle } from "../../../services/ux/title";
-import { AnalyticsService } from "../../../services/analytics";
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { MindsTitle } from '../../../services/ux/title';
+import { AnalyticsService } from '../../../services/analytics';
 
-import { MindsBlogResponse } from "../../../interfaces/responses";
-import { MindsBlogEntity } from "../../../interfaces/entities";
+import { MindsBlogResponse } from '../../../interfaces/responses';
+import { MindsBlogEntity } from '../../../interfaces/entities';
 
 @Component({
   moduleId: module.id,
-  selector: "m-blog-view-infinite",
-  templateUrl: "infinite.html"
+  selector: 'm-blog-view-infinite',
+  templateUrl: 'infinite.html',
 })
 export class BlogViewInfinite {
   minds = window.Minds;
@@ -25,7 +25,7 @@ export class BlogViewInfinite {
   inProgress: boolean = false;
   moreData: boolean = true;
 
-  error: string = "";
+  error: string = '';
 
   paramsSubscription: Subscription;
 
@@ -44,12 +44,12 @@ export class BlogViewInfinite {
     this.paramsSubscription = this.route.params.subscribe(params => {
       let load = false;
 
-      if (params["guid"]) {
-        this.guid = params["guid"];
+      if (params['guid']) {
+        this.guid = params['guid'];
 
         load = true;
-      } else if (params["slugid"]) {
-        const slugParts = params["slugid"].split("-");
+      } else if (params['slugid']) {
+        const slugParts = params['slugid'].split('-');
 
         this.guid = slugParts[slugParts.length - 1];
 
@@ -82,17 +82,17 @@ export class BlogViewInfinite {
     this.analytics.preventDefault();
     //console.log('grabbing ' + this.guid);
     this.client
-      .get("api/v1/blog/" + this.guid, {})
+      .get('api/v1/blog/' + this.guid, {})
       .then((response: MindsBlogResponse) => {
         if (response.blog) {
           this.blogs = [response.blog];
           this.title.setTitle(response.blog.title);
           this.analytics.send(
-            "pageview",
+            'pageview',
             {
-              url: "/blog/view/" + response.blog.guid,
+              url: '/blog/view/' + response.blog.guid,
               referrer: document.referrer,
-              dimension1: response.blog.ownerObj.guid
+              dimension1: response.blog.ownerObj.guid,
             },
             response.blog.guid
           );
@@ -106,7 +106,7 @@ export class BlogViewInfinite {
       })
       .catch(e => {
         if (this.blogs.length === 0) {
-          this.error = "Sorry, there was a problem loading the blog";
+          this.error = 'Sorry, there was a problem loading the blog';
         }
         this.inProgress = false;
       });

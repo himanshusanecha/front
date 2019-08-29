@@ -6,40 +6,40 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild
-} from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Subscription } from "rxjs";
+  ViewChild,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../../services/api/client";
-import { MindsTitle } from "../../../services/ux/title";
-import { WireCreatorComponent } from "../../wire/creator/creator.component";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { BlockchainTdeBuyComponent } from "../tde-buy/tde-buy.component";
-import { Session } from "../../../services/session";
-import { Web3WalletService } from "../web3-wallet.service";
-import { TokenDistributionEventService } from "../contracts/token-distribution-event.service";
-import * as BN from "bn.js";
-import { GetMetamaskComponent } from "../../blockchain/metamask/getmetamask.component";
-import { Router } from "@angular/router";
+import { Client } from '../../../services/api/client';
+import { MindsTitle } from '../../../services/ux/title';
+import { WireCreatorComponent } from '../../wire/creator/creator.component';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { BlockchainTdeBuyComponent } from '../tde-buy/tde-buy.component';
+import { Session } from '../../../services/session';
+import { Web3WalletService } from '../web3-wallet.service';
+import { TokenDistributionEventService } from '../contracts/token-distribution-event.service';
+import * as BN from 'bn.js';
+import { GetMetamaskComponent } from '../../blockchain/metamask/getmetamask.component';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "m-blockchain--purchase",
-  templateUrl: "purchase.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-blockchain--purchase',
+  templateUrl: 'purchase.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockchainPurchaseComponent implements OnInit {
   stats: { amount; count; requested; issued } = {
     amount: 0,
     count: 0,
     requested: 0,
-    issued: 0
+    issued: 0,
   };
 
   //amount: number = 0.25;
   tokens: number = 30;
 
-  address: string = "";
+  address: string = '';
   ofac: boolean = false;
   use: boolean = false;
   terms: boolean = false;
@@ -54,7 +54,7 @@ export class BlockchainPurchaseComponent implements OnInit {
   confirmed: boolean = false;
   error: string;
 
-  @Input() phase: string = "presale";
+  @Input() phase: string = 'presale';
   inProgress: boolean = false;
   rate: number = 0;
 
@@ -105,12 +105,12 @@ export class BlockchainPurchaseComponent implements OnInit {
     this.detectChanges();
 
     try {
-      const response: any = await this.client.get("api/v2/blockchain/purchase");
+      const response: any = await this.client.get('api/v2/blockchain/purchase');
       this.stats = {
         amount: response.amount,
         count: response.count,
         requested: response.requested,
-        issued: response.issued
+        issued: response.issued,
       };
       this.rate = response.rate;
       //this.amount = this.stats.pledged;
@@ -122,7 +122,7 @@ export class BlockchainPurchaseComponent implements OnInit {
 
   async loadWalletAddress() {
     const address = await this.web3Wallet.getCurrentWallet();
-    this.address = address ? address : "";
+    this.address = address ? address : '';
     this.autodetectedWallet = !!this.address;
     this.detectChanges();
   }
@@ -134,7 +134,7 @@ export class BlockchainPurchaseComponent implements OnInit {
         const action = await this.web3Wallet.setupMetamask();
         switch (action) {
           case GetMetamaskComponent.ACTION_CREATE:
-            this.router.navigate(["/wallet"]);
+            this.router.navigate(['/wallet']);
             this.inProgress = false;
             this.overlayModal.dismiss();
             return;
@@ -168,10 +168,10 @@ export class BlockchainPurchaseComponent implements OnInit {
       return;
     }
 
-    let response = await this.client.post("api/v2/blockchain/purchase", {
+    let response = await this.client.post('api/v2/blockchain/purchase', {
       tx: tx,
       amount: amount.toString(),
-      wallet_address: await this.web3Wallet.getCurrentWallet(true)
+      wallet_address: await this.web3Wallet.getCurrentWallet(true),
     });
 
     this.confirming = false;
@@ -210,7 +210,7 @@ export class BlockchainPurchaseComponent implements OnInit {
   }
 
   promptTokenInput(input) {
-    alert("Please enter how many tokens you wish to purchase");
+    alert('Please enter how many tokens you wish to purchase');
     setTimeout(() => {
       input.focus();
     }, 100);

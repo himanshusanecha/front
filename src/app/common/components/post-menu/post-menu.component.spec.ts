@@ -1,34 +1,34 @@
 ///<reference path="../../../../../node_modules/@types/jasmine/index.d.ts"/>
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Component,
   EventEmitter,
   Input,
   Output,
-  NO_ERRORS_SCHEMA
-} from "@angular/core";
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 
-import { Session } from "../../../services/session";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { Client } from "../../../services/api/client";
-import { SignupModalService } from "../../../modules/modals/signup/service";
-import { By } from "@angular/platform-browser";
-import { PostMenuComponent } from "./post-menu.component";
-import { CommonModule as NgCommonModule } from "@angular/common";
-import { overlayModalServiceMock } from "../../../../tests/overlay-modal-service-mock.spec";
-import { clientMock } from "../../../../tests/client-mock.spec";
-import { sessionMock } from "../../../../tests/session-mock.spec";
-import { FormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
-import { BlockListService } from "../../services/block-list.service";
-import { storageMock } from "../../../../tests/storage-mock.spec";
+import { Session } from '../../../services/session';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { Client } from '../../../services/api/client';
+import { SignupModalService } from '../../../modules/modals/signup/service';
+import { By } from '@angular/platform-browser';
+import { PostMenuComponent } from './post-menu.component';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { overlayModalServiceMock } from '../../../../tests/overlay-modal-service-mock.spec';
+import { clientMock } from '../../../../tests/client-mock.spec';
+import { sessionMock } from '../../../../tests/session-mock.spec';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BlockListService } from '../../services/block-list.service';
+import { storageMock } from '../../../../tests/storage-mock.spec';
 /* tslint:disable */
 
 /* Mock section */
 
 @Component({
-  selector: "m-modal-share",
-  template: ""
+  selector: 'm-modal-share',
+  template: '',
 })
 class ModalShareMock {
   @Input() open;
@@ -38,8 +38,8 @@ class ModalShareMock {
 }
 
 @Component({
-  selector: "m-modal",
-  template: "<ng-content></ng-content>"
+  selector: 'm-modal',
+  template: '<ng-content></ng-content>',
 })
 class MindsModalMock {
   @Input() open: any;
@@ -47,8 +47,8 @@ class MindsModalMock {
 }
 
 @Component({
-  selector: "m-modal-report",
-  template: ""
+  selector: 'm-modal-report',
+  template: '',
 })
 class ModalReportMock {
   @Input() open;
@@ -57,8 +57,8 @@ class ModalReportMock {
 }
 
 @Component({
-  selector: "m-modal-confirm",
-  template: ""
+  selector: 'm-modal-confirm',
+  template: '',
 })
 class ModalConfirmMock {
   @Input() open;
@@ -69,13 +69,13 @@ class ModalConfirmMock {
 }
 
 let scrollServiceMock = new (function() {
-  this.initOnScroll = jasmine.createSpy("initOnScroll").and.stub();
-  this.open = jasmine.createSpy("open").and.stub();
-  this.close = jasmine.createSpy("close").and.stub();
+  this.initOnScroll = jasmine.createSpy('initOnScroll').and.stub();
+  this.open = jasmine.createSpy('open').and.stub();
+  this.close = jasmine.createSpy('close').and.stub();
 })();
 
 /* ENd of mock section */
-describe("PostMenuComponent", () => {
+describe('PostMenuComponent', () => {
   let comp: PostMenuComponent;
   let fixture: ComponentFixture<PostMenuComponent>;
   beforeEach(async(() => {
@@ -85,7 +85,7 @@ describe("PostMenuComponent", () => {
         ModalShareMock,
         ModalConfirmMock,
         ModalReportMock,
-        PostMenuComponent
+        PostMenuComponent,
       ], // declare the test component
       imports: [RouterTestingModule, NgCommonModule, FormsModule],
       providers: [
@@ -98,10 +98,10 @@ describe("PostMenuComponent", () => {
           provide: BlockListService,
           useFactory: () => {
             return BlockListService._(clientMock, sessionMock, storageMock);
-          }
-        }
+          },
+        },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents(); // compile template and css
   }));
 
@@ -111,45 +111,45 @@ describe("PostMenuComponent", () => {
 
     comp = fixture.componentInstance;
     comp.options = [
-      "edit",
-      "translate",
-      "share",
-      "follow",
-      "unfollow",
-      "feature",
-      "unfeature",
-      "delete",
-      "report",
-      "block"
+      'edit',
+      'translate',
+      'share',
+      'follow',
+      'unfollow',
+      'feature',
+      'unfeature',
+      'delete',
+      'report',
+      'block',
     ];
     comp.entity = {};
     // comp.opened = true;
-    comp.entity.ownerObj = { guid: "1" };
+    comp.entity.ownerObj = { guid: '1' };
     comp.cardMenuHandler();
     fixture.detectChanges();
   });
 
-  it("should have dropdown", () => {
+  it('should have dropdown', () => {
     expect(
-      fixture.debugElement.query(By.css(".minds-dropdown-menu"))
+      fixture.debugElement.query(By.css('.minds-dropdown-menu'))
     ).not.toBeNull();
   });
 
-  it("should check if owner is blocked when opening dropdown", () => {
-    expect(clientMock.get.calls.mostRecent().args[0]).toEqual("api/v1/block/1");
+  it('should check if owner is blocked when opening dropdown', () => {
+    expect(clientMock.get.calls.mostRecent().args[0]).toEqual('api/v1/block/1');
   });
 
-  it("should put to owner when blocking", () => {
+  it('should put to owner when blocking', () => {
     comp.block();
     fixture.detectChanges();
-    expect(clientMock.put.calls.mostRecent().args[0]).toEqual("api/v1/block/1");
+    expect(clientMock.put.calls.mostRecent().args[0]).toEqual('api/v1/block/1');
   });
 
-  it("should delete to owner when unblocking", () => {
+  it('should delete to owner when unblocking', () => {
     comp.unBlock();
     fixture.detectChanges();
     expect(clientMock.delete.calls.mostRecent().args[0]).toEqual(
-      "api/v1/block/1"
+      'api/v1/block/1'
     );
   });
 });

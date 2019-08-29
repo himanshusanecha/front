@@ -5,27 +5,27 @@ import {
   OnDestroy,
   OnInit,
   SkipSelf,
-  ViewChild
-} from "@angular/core";
+  ViewChild,
+} from '@angular/core';
 
-import { Subject, Subscription } from "rxjs";
+import { Subject, Subscription } from 'rxjs';
 
-import { Client, Upload } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { ScrollService } from "../../../services/ux/scroll";
+import { Client, Upload } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { ScrollService } from '../../../services/ux/scroll';
 
-import { MindsActivityObject } from "../../../interfaces/entities";
-import { MindsUser } from "../../../interfaces/entities";
-import { PosterComponent } from "../../../modules/newsfeed/poster/poster.component";
-import { WireChannelComponent } from "../../../modules/wire/channel/channel.component";
-import { debounceTime } from "rxjs/operators";
-import { ClientMetaService } from "../../../common/services/client-meta.service";
+import { MindsActivityObject } from '../../../interfaces/entities';
+import { MindsUser } from '../../../interfaces/entities';
+import { PosterComponent } from '../../../modules/newsfeed/poster/poster.component';
+import { WireChannelComponent } from '../../../modules/wire/channel/channel.component';
+import { debounceTime } from 'rxjs/operators';
+import { ClientMetaService } from '../../../common/services/client-meta.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-channel--feed",
+  selector: 'm-channel--feed',
   providers: [ClientMetaService],
-  templateUrl: "feed.html"
+  templateUrl: 'feed.html',
 })
 export class ChannelFeedComponent implements OnInit, OnDestroy {
   @Input() user: MindsUser;
@@ -33,21 +33,21 @@ export class ChannelFeedComponent implements OnInit, OnDestroy {
 
   minds = window.Minds;
 
-  filter: any = "feed";
+  filter: any = 'feed';
   isLocked: boolean = false;
   username: string;
   feed: Array<Object> = [];
   pinned: Array<Object> = [];
-  offset: string | number = "";
+  offset: string | number = '';
   moreData: boolean = true;
   inProgress: boolean = false;
   editing: boolean = false;
-  error: string = "";
+  error: string = '';
 
   paramsSubscription: Subscription;
 
-  @ViewChild("poster", { static: false }) private poster: PosterComponent;
-  @ViewChild("wire", { static: false }) private wire: WireChannelComponent;
+  @ViewChild('poster', { static: false }) private poster: PosterComponent;
+  @ViewChild('wire', { static: false }) private wire: WireChannelComponent;
 
   protected loadFeedObservable: Subject<any> = new Subject();
   protected loadFeedObservableSubscription: Subscription;
@@ -62,8 +62,8 @@ export class ChannelFeedComponent implements OnInit, OnDestroy {
   ) {
     this.clientMetaService
       .inherit(injector)
-      .setSource("feed/channel")
-      .setMedium("feed");
+      .setSource('feed/channel')
+      .setMedium('feed');
   }
 
   ngOnInit() {
@@ -92,12 +92,12 @@ export class ChannelFeedComponent implements OnInit, OnDestroy {
 
     if (refresh) {
       this.feed = [];
-      this.offset = "";
+      this.offset = '';
     }
 
     let params: any = {
       limit: 12,
-      offset: ""
+      offset: '',
     };
 
     if (!this.offset && this.user.pinned_posts.length > 0) {
@@ -109,8 +109,8 @@ export class ChannelFeedComponent implements OnInit, OnDestroy {
     params.offset = this.offset;
 
     this.client
-      .get("api/v1/newsfeed/personal/" + this.user.guid, params, {
-        cache: true
+      .get('api/v1/newsfeed/personal/' + this.user.guid, params, {
+        cache: true,
       })
       .then((data: MindsActivityObject) => {
         if (!data.activity || !data.activity.length) {
@@ -126,7 +126,7 @@ export class ChannelFeedComponent implements OnInit, OnDestroy {
           this.feed = this.filterPinned(data.activity);
           this.pinned = data.pinned;
         }
-        this.offset = data["load-next"];
+        this.offset = data['load-next'];
         this.inProgress = false;
       })
       .catch(e => {
@@ -176,7 +176,7 @@ export class ChannelFeedComponent implements OnInit, OnDestroy {
     if (!this.poster || !this.poster.attachment) return true;
     const progress = this.poster.attachment.getUploadProgress();
     if (progress > 0 && progress < 100) {
-      return confirm("Your file is still uploading. Are you sure?");
+      return confirm('Your file is still uploading. Are you sure?');
     }
 
     return true;

@@ -1,18 +1,18 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { WireRewardsTiers } from "../../../interfaces/wire.interfaces";
-import { Session } from "../../../../../services/session";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { WireRewardsTiers } from '../../../interfaces/wire.interfaces';
+import { Session } from '../../../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wire-console--rewards--inputs",
-  templateUrl: "wire-console-rewards-inputs.component.html"
+  selector: 'm-wire-console--rewards--inputs',
+  templateUrl: 'wire-console-rewards-inputs.component.html',
 })
 export class WireConsoleRewardsInputsComponent {
   @Input() channel;
 
   rewards: WireRewardsTiers = [];
 
-  @Input("rewards") set _rewards(rewards: WireRewardsTiers) {
+  @Input('rewards') set _rewards(rewards: WireRewardsTiers) {
     this.rewards = rewards;
 
     if (!this.rewards) {
@@ -21,7 +21,7 @@ export class WireConsoleRewardsInputsComponent {
     }
   }
 
-  @Output("rewardsChange") rewardsChangeEmitter: EventEmitter<
+  @Output('rewardsChange') rewardsChangeEmitter: EventEmitter<
     WireRewardsTiers
   > = new EventEmitter<WireRewardsTiers>();
 
@@ -31,8 +31,8 @@ export class WireConsoleRewardsInputsComponent {
 
   addTier() {
     this.rewards.push({
-      amount: "",
-      description: ""
+      amount: '',
+      description: '',
     });
     this.rewardsChangeEmitter.emit(this.rewards);
   }

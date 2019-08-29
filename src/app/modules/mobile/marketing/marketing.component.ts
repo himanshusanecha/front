@@ -1,17 +1,17 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component
-} from "@angular/core";
-import { MindsTitle } from "../../../services/ux/title";
-import { Session } from "../../../services/session";
-import { MobileService } from "../mobile.service";
-import { first } from "lodash";
+  Component,
+} from '@angular/core';
+import { MindsTitle } from '../../../services/ux/title';
+import { Session } from '../../../services/session';
+import { MobileService } from '../mobile.service';
+import { first } from 'lodash';
 
 @Component({
-  selector: "m-mobile--marketing",
-  templateUrl: "marketing.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-mobile--marketing',
+  templateUrl: 'marketing.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MobileMarketingComponent {
   minds = window.Minds;
@@ -21,7 +21,7 @@ export class MobileMarketingComponent {
   inProgress: boolean = false;
   error: string;
   latestRelease: any = {
-    href: null
+    href: null,
   };
 
   constructor(
@@ -32,7 +32,7 @@ export class MobileMarketingComponent {
   ) {}
 
   ngOnInit() {
-    this.title.setTitle("Mobile");
+    this.title.setTitle('Mobile');
     this.user = this.session.getLoggedInUser();
     this.load();
   }
@@ -51,7 +51,7 @@ export class MobileMarketingComponent {
       );
     } catch (e) {
       console.error(e);
-      this.error = e.message || "Unknown error";
+      this.error = e.message || 'Unknown error';
     }
 
     this.inProgress = false;

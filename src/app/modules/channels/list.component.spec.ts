@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { DebugElement } from "@angular/core";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
 
-import { ChannelsListComponent } from "./list.component";
-import { ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
-import { By } from "@angular/platform-browser";
-import { Session } from "../../services/session";
-import { sessionMock } from "../../../tests/session-mock.spec";
-import { clientMock } from "../../../tests/client-mock.spec";
-import { mindsTitleMock } from "../../mocks/services/ux/minds-title.service.mock.spec";
-import { MindsTitle } from "../../services/ux/title";
-import { contextServiceMock } from "../../../tests/context-service-mock.spec";
-import { ContextService } from "../../services/context.service";
-import { Client } from "../../services/api/client";
-import { MockComponent } from "../../utils/mock";
-import { ActivatedRoute } from "@angular/router";
-import { of } from "rxjs/internal/observable/of";
-import { overlayModalServiceMock } from "../../../tests/overlay-modal-service-mock.spec";
-import { OverlayModalService } from "../../services/ux/overlay-modal";
+import { ChannelsListComponent } from './list.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
+import { Session } from '../../services/session';
+import { sessionMock } from '../../../tests/session-mock.spec';
+import { clientMock } from '../../../tests/client-mock.spec';
+import { mindsTitleMock } from '../../mocks/services/ux/minds-title.service.mock.spec';
+import { MindsTitle } from '../../services/ux/title';
+import { contextServiceMock } from '../../../tests/context-service-mock.spec';
+import { ContextService } from '../../services/context.service';
+import { Client } from '../../services/api/client';
+import { MockComponent } from '../../utils/mock';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs/internal/observable/of';
+import { overlayModalServiceMock } from '../../../tests/overlay-modal-service-mock.spec';
+import { OverlayModalService } from '../../services/ux/overlay-modal';
 
-describe("ChannelsListComponent", () => {
+describe('ChannelsListComponent', () => {
   let comp: ChannelsListComponent;
   let fixture: ComponentFixture<ChannelsListComponent>;
 
@@ -41,26 +41,26 @@ describe("ChannelsListComponent", () => {
     TestBed.configureTestingModule({
       declarations: [
         MockComponent({
-          selector: "infinite-scroll",
-          inputs: ["inProgress", "moreData", "inProgress"]
+          selector: 'infinite-scroll',
+          inputs: ['inProgress', 'moreData', 'inProgress'],
         }),
         MockComponent({
-          selector: "m-tooltip",
-          template: "<ng-content></ng-content>",
-          inputs: ["icon"]
+          selector: 'm-tooltip',
+          template: '<ng-content></ng-content>',
+          inputs: ['icon'],
         }),
         MockComponent({
-          selector: "m-channels--tile",
-          template: "",
-          inputs: ["entity"]
+          selector: 'm-channels--tile',
+          template: '',
+          inputs: ['entity'],
         }),
         MockComponent({
-          selector: "m-topbar--hashtags",
-          template: "",
-          inputs: ["enabled"],
-          outputs: ["selectionChange"]
+          selector: 'm-topbar--hashtags',
+          template: '',
+          inputs: ['enabled'],
+          outputs: ['selectionChange'],
         }),
-        ChannelsListComponent
+        ChannelsListComponent,
       ],
       imports: [RouterTestingModule, ReactiveFormsModule],
       providers: [
@@ -68,9 +68,9 @@ describe("ChannelsListComponent", () => {
         { provide: Client, useValue: clientMock },
         { provide: MindsTitle, useValue: mindsTitleMock },
         { provide: ContextService, useValue: contextServiceMock },
-        { provide: ActivatedRoute, useValue: { params: of("all") } },
-        { provide: OverlayModalService, useValue: overlayModalServiceMock }
-      ]
+        { provide: ActivatedRoute, useValue: { params: of('all') } },
+        { provide: OverlayModalService, useValue: overlayModalServiceMock },
+      ],
     }).compileComponents();
   }));
 
@@ -81,18 +81,18 @@ describe("ChannelsListComponent", () => {
     comp = fixture.componentInstance;
 
     clientMock.response = {};
-    clientMock.response["api/v1/entities/trending/channels"] = {
-      status: "success",
+    clientMock.response['api/v1/entities/trending/channels'] = {
+      status: 'success',
       entities: [
         {
           guid: 123,
-          name: "test1"
+          name: 'test1',
         },
         {
           guid: 456,
-          name: "test2"
-        }
-      ]
+          name: 'test2',
+        },
+      ],
     };
 
     fixture.detectChanges();
@@ -107,8 +107,8 @@ describe("ChannelsListComponent", () => {
     }
   });
 
-  it("should have a topbar", () => {
-    expect(fixture.debugElement.query(By.css(".m-toolbar"))).not.toBeNull();
+  it('should have a topbar', () => {
+    expect(fixture.debugElement.query(By.css('.m-toolbar'))).not.toBeNull();
     const nav1 = getNavigationItem(1);
     const tooltip1 = getNavigationItemTooltip(1);
     const nav2 = getNavigationItem(2);
@@ -119,48 +119,48 @@ describe("ChannelsListComponent", () => {
     const tooltip4 = getNavigationItemTooltip(4);
 
     expect(nav1).not.toBeNull();
-    expect(nav1.nativeElement.children[0].textContent).toContain("Top");
+    expect(nav1.nativeElement.children[0].textContent).toContain('Top');
     expect(tooltip1).not.toBeNull();
     expect(tooltip1.nativeElement.textContent).toContain(
-      "Top displays the top content on Minds"
+      'Top displays the top content on Minds'
     );
 
     expect(nav2).not.toBeNull();
     expect(nav2.nativeElement.children[0].textContent).toContain(
-      "Subscriptions"
+      'Subscriptions'
     );
     expect(tooltip2).not.toBeNull();
     expect(tooltip2.nativeElement.textContent).toContain(
-      "Channels you are subscribed to"
+      'Channels you are subscribed to'
     );
 
     expect(nav3).not.toBeNull();
-    expect(nav3.nativeElement.children[0].textContent).toContain("Subscribers");
+    expect(nav3.nativeElement.children[0].textContent).toContain('Subscribers');
     expect(tooltip3).not.toBeNull();
     expect(tooltip3.nativeElement.textContent).toContain(
-      "Channels who are subscribed to you"
+      'Channels who are subscribed to you'
     );
 
     expect(nav4).not.toBeNull();
-    expect(nav4.nativeElement.children[0].textContent).toContain("Founders");
+    expect(nav4.nativeElement.children[0].textContent).toContain('Founders');
     expect(tooltip4).not.toBeNull();
     expect(tooltip4.nativeElement.textContent).toContain(
-      "Channels who invested in the Minds Reg-CF Crowfunding campaign"
+      'Channels who invested in the Minds Reg-CF Crowfunding campaign'
     );
   });
 
-  it("should have a list of channels", () => {
+  it('should have a list of channels', () => {
     const tiles = fixture.debugElement.queryAll(
-      By.css(".m-channels--list m-channels--tile")
+      By.css('.m-channels--list m-channels--tile')
     );
 
     expect(tiles).not.toBeNull();
     expect(tiles.length).toBe(2);
   });
 
-  it("should have an infinite-scroll", () => {
+  it('should have an infinite-scroll', () => {
     expect(
-      fixture.debugElement.query(By.css("infinite-scroll"))
+      fixture.debugElement.query(By.css('infinite-scroll'))
     ).not.toBeNull();
   });
 });

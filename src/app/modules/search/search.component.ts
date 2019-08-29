@@ -1,40 +1,40 @@
-import { Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../services/api";
-import { MindsTitle } from "../../services/ux/title";
-import { Storage } from "../../services/storage";
-import { Session } from "../../services/session";
+import { Client } from '../../services/api';
+import { MindsTitle } from '../../services/ux/title';
+import { Storage } from '../../services/storage';
+import { Session } from '../../services/session';
 
 export type HybridSearchEntities = {
   user: any[];
   group: any[];
-  "object:video": any[];
-  "object:image": any[];
-  "object:blog": any[];
+  'object:video': any[];
+  'object:image': any[];
+  'object:blog': any[];
   activity: any[];
 };
 
 @Component({
   moduleId: module.id,
-  selector: "m-search",
-  templateUrl: "search.component.html",
+  selector: 'm-search',
+  templateUrl: 'search.component.html',
   host: {
-    "(window:click)": "onWindowClick($event)"
-  }
+    '(window:click)': 'onWindowClick($event)',
+  },
 })
 export class SearchComponent {
-  q: string = "";
-  type: string = "";
-  container: string = "";
+  q: string = '';
+  type: string = '';
+  container: string = '';
 
-  searchType: "hybrid" | "simple";
+  searchType: 'hybrid' | 'simple';
   entities: any[];
   hybridEntities: HybridSearchEntities;
 
-  offset: string = "";
+  offset: string = '';
   inProgress: boolean = false;
   moreData: boolean = true;
 
@@ -45,7 +45,7 @@ export class SearchComponent {
 
   paramsSubscription: Subscription;
 
-  ref: string = "";
+  ref: string = '';
 
   constructor(
     public client: Client,
@@ -56,7 +56,7 @@ export class SearchComponent {
     private session: Session
   ) {
     if (!this.session.isLoggedIn()) {
-      this.router.navigate(["/login"]);
+      this.router.navigate(['/login']);
       return;
     }
   }
@@ -65,30 +65,30 @@ export class SearchComponent {
     this.loadOptions();
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (typeof params["q"] !== "undefined") {
-        this.q = decodeURIComponent(params["q"] || "");
+      if (typeof params['q'] !== 'undefined') {
+        this.q = decodeURIComponent(params['q'] || '');
       }
 
-      if (typeof params["type"] !== "undefined") {
-        this.type = params["type"] || "";
+      if (typeof params['type'] !== 'undefined') {
+        this.type = params['type'] || '';
       }
 
-      if (typeof params["id"] !== "undefined") {
-        this.container = params["id"] || "";
+      if (typeof params['id'] !== 'undefined') {
+        this.container = params['id'] || '';
       }
 
-      if (typeof params["ref"] !== "undefined") {
-        this.ref = params["ref"] || "";
+      if (typeof params['ref'] !== 'undefined') {
+        this.ref = params['ref'] || '';
       }
 
       this.reset();
       this.inProgress = false;
-      this.offset = "";
+      this.offset = '';
 
       this.search();
     });
 
-    this.title.setTitle("Search");
+    this.title.setTitle('Search');
   }
 
   ngOnDestroy() {
@@ -104,46 +104,46 @@ export class SearchComponent {
     }
 
     this.inProgress = true;
-    this.searchType = !this.type || this.type == "latest" ? "hybrid" : "simple";
+    this.searchType = !this.type || this.type == 'latest' ? 'hybrid' : 'simple';
 
     if (refresh) {
       this.reset();
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
     }
 
     try {
-      let endpoint = "api/v2/search",
+      let endpoint = 'api/v2/search',
         searchType = this.searchType;
 
       const data = {
         q: this.q,
-        container: this.container || "",
+        container: this.container || '',
         limit: 12,
         rating: this.rating,
-        offset: this.offset
+        offset: this.offset,
       };
 
-      if (searchType == "hybrid") {
-        endpoint = "api/v2/search/top";
-        data["sort"] = this.type;
+      if (searchType == 'hybrid') {
+        endpoint = 'api/v2/search/top';
+        data['sort'] = this.type;
 
-        if (this.hasRef("hashtag")) {
-          data["topLimits[user]"] = 2;
-          data["topLimits[group]"] = 0;
+        if (this.hasRef('hashtag')) {
+          data['topLimits[user]'] = 2;
+          data['topLimits[group]'] = 0;
         }
       } else {
-        data["taxonomies"] = this.type;
+        data['taxonomies'] = this.type;
       }
 
       if (!this.mature) {
-        data["mature"] = 0;
+        data['mature'] = 0;
       } else {
         data.rating = 3; // explicit is now rating 3
       }
 
       if (!this.paywall) {
-        data["paywall"] = 0;
+        data['paywall'] = 0;
       }
 
       let response: any = await this.client.get(endpoint, data);
@@ -152,14 +152,14 @@ export class SearchComponent {
         this.reset();
       }
 
-      if (searchType == "hybrid") {
+      if (searchType == 'hybrid') {
         this.hybridEntitiesPush(response.entities);
       } else {
         this.entities.push(...(response.entities || []));
       }
 
-      if (response["load-next"]) {
-        this.offset = response["load-next"];
+      if (response['load-next']) {
+        this.offset = response['load-next'];
       } else {
         this.moreData = false;
       }
@@ -170,7 +170,7 @@ export class SearchComponent {
   }
 
   toggleOptions(forceValue?: boolean) {
-    if (typeof forceValue !== "undefined") {
+    if (typeof forceValue !== 'undefined') {
       this.optionsToggle = forceValue;
       return;
     }
@@ -197,23 +197,23 @@ export class SearchComponent {
   }
 
   loadOptions() {
-    const options = JSON.parse(this.storage.get("search:options") || "{}");
+    const options = JSON.parse(this.storage.get('search:options') || '{}');
 
-    if (typeof options["mature"] !== "undefined") {
-      this.mature = options["mature"];
+    if (typeof options['mature'] !== 'undefined') {
+      this.mature = options['mature'];
     }
 
-    if (typeof options["paywall"] !== "undefined") {
-      this.paywall = options["paywall"];
+    if (typeof options['paywall'] !== 'undefined') {
+      this.paywall = options['paywall'];
     }
   }
 
   saveOptions() {
     this.storage.set(
-      "search:options",
+      'search:options',
       JSON.stringify({
         mature: this.mature,
-        paywall: this.paywall
+        paywall: this.paywall,
       })
     );
   }
@@ -223,7 +223,7 @@ export class SearchComponent {
       return false;
     }
 
-    const refs = this.ref.split("-");
+    const refs = this.ref.split('-');
 
     return refs.indexOf(ref) > -1;
   }
@@ -239,10 +239,10 @@ export class SearchComponent {
     this.hybridEntities = {
       user: [],
       group: [],
-      "object:video": [],
-      "object:image": [],
-      "object:blog": [],
-      activity: []
+      'object:video': [],
+      'object:image': [],
+      'object:blog': [],
+      activity: [],
     };
   }
 
@@ -252,7 +252,7 @@ export class SearchComponent {
     }
 
     for (let key in this.hybridEntities) {
-      if (typeof entities[key] !== "undefined") {
+      if (typeof entities[key] !== 'undefined') {
         this.hybridEntities[key].push(...entities[key]);
       }
     }

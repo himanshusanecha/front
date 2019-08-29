@@ -1,6 +1,6 @@
-import { Inject, Injectable } from "@angular/core";
-import { NavigationStart, Router } from "@angular/router";
-import { Session } from "../../../services/session";
+import { Inject, Injectable } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { Session } from '../../../services/session';
 
 @Injectable()
 export class BannedService {
@@ -9,17 +9,17 @@ export class BannedService {
       if (navigationState instanceof NavigationStart) {
         // Forward to moderation banned page if banned
         if (
-          this.session.getLoggedInUser().banned === "yes" &&
-          navigationState.url != "/moderation/banned"
+          this.session.getLoggedInUser().banned === 'yes' &&
+          navigationState.url != '/moderation/banned'
         ) {
-          this.router.navigate(["/moderation/banned"]);
+          this.router.navigate(['/moderation/banned']);
         }
         // Do not allow access to banned page if not banned
         if (
-          this.session.getLoggedInUser().banned !== "yes" &&
-          navigationState.url === "/moderation/banned"
+          this.session.getLoggedInUser().banned !== 'yes' &&
+          navigationState.url === '/moderation/banned'
         ) {
-          this.router.navigate(["/newsfeed"]);
+          this.router.navigate(['/newsfeed']);
         }
       }
     });

@@ -1,6 +1,6 @@
-import { EventEmitter } from "@angular/core";
-import { fromEvent, Observable, Subscription } from "rxjs";
-import { debounceTime, throttleTime } from "rxjs/operators";
+import { EventEmitter } from '@angular/core';
+import { fromEvent, Observable, Subscription } from 'rxjs';
+import { debounceTime, throttleTime } from 'rxjs/operators';
 
 export type ScrollSubscription = {
   element: any;
@@ -93,8 +93,8 @@ export class GlobalScrollService {
     scrollSource.scrollTop = 0;
     subscription = {
       element: scrollSource,
-      scrollEvent: fromEvent(scrollSource, "scroll"),
-      subscriptions: []
+      scrollEvent: fromEvent(scrollSource, 'scroll'),
+      subscriptions: [],
     };
 
     this.subscriptions.push(subscription);

@@ -1,11 +1,11 @@
-import { Pipe, Inject, Renderer } from "@angular/core";
+import { Pipe, Inject, Renderer } from '@angular/core';
 
 @Pipe({
-  name: "abbr"
+  name: 'abbr',
 })
 export class AbbrPipe {
-  numberAbbrev = ["k", "m", "b", "t"];
-  bytesAbbrev = ["K", "M", "G", "T"];
+  numberAbbrev = ['k', 'm', 'b', 't'];
+  bytesAbbrev = ['K', 'M', 'G', 'T'];
 
   transform(
     number: number | any,

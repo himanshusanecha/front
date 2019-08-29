@@ -5,19 +5,19 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
-} from "@angular/core";
-import { TopbarHashtagsService } from "../service/topbar.service";
-import { Tag } from "../types/tag";
-import { findLastIndex } from "../../../utils/array-utils";
-import { Storage } from "../../../services/storage";
+  Output,
+} from '@angular/core';
+import { TopbarHashtagsService } from '../service/topbar.service';
+import { Tag } from '../types/tag';
+import { findLastIndex } from '../../../utils/array-utils';
+import { Storage } from '../../../services/storage';
 
 export type SideBarSelectorChange = { type: string; value?: any };
 
 @Component({
-  selector: "m-hashtags--sidebar-selector",
-  templateUrl: "sidebar-selector.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-hashtags--sidebar-selector',
+  templateUrl: 'sidebar-selector.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarSelectorComponent implements OnInit {
   @Input() compact: boolean = false;
@@ -65,10 +65,10 @@ export class SidebarSelectorComponent implements OnInit {
       this.hashtags = await this.topbarHashtagsService.loadAll({
         softLimit: 25,
         trending: this.showTrending,
-        defaults: !this.showTrending
+        defaults: !this.showTrending,
       });
     } catch (e) {
-      console.error("SidebarSelector", e);
+      console.error('SidebarSelector', e);
     }
 
     this.loading = false;
@@ -79,7 +79,7 @@ export class SidebarSelectorComponent implements OnInit {
     // Ensure user hashtags are always shown; checks the first non-user and uses index as size
     const userLength = findLastIndex(
       this.hashtags,
-      hashtag => hashtag.type === "user"
+      hashtag => hashtag.type === 'user'
     );
 
     // Ensure selected hashtags are always shown; checks the first non-selected and uses index + 10
@@ -107,13 +107,13 @@ export class SidebarSelectorComponent implements OnInit {
       return this.hashtags.slice(0, this.calcFoldLength());
     }
 
-    return this.hashtags.filter(hashtag => hashtag.type === "user");
+    return this.hashtags.filter(hashtag => hashtag.type === 'user');
   }
 
   get moreHashtags() {
     if (!this.showSuggested) return [];
     return this.hashtags
-      .filter(hashtag => hashtag.type !== "user")
+      .filter(hashtag => hashtag.type !== 'user')
       .slice(0, 12);
   }
 
@@ -126,8 +126,8 @@ export class SidebarSelectorComponent implements OnInit {
       this.currentHashtag = hashtag.value;
 
       this.filterChange.emit({
-        type: "single",
-        value: this.currentHashtag
+        type: 'single',
+        value: this.currentHashtag,
       });
     } else {
       this.currentHashtag = null;
@@ -141,7 +141,7 @@ export class SidebarSelectorComponent implements OnInit {
     this.lastPreferredEmission = this.preferred;
 
     this.filterChange.emit({
-      type: this.preferred ? "preferred" : "all"
+      type: this.preferred ? 'preferred' : 'all',
     });
   }
 
@@ -161,7 +161,7 @@ export class SidebarSelectorComponent implements OnInit {
           hashtagValue.toLowerCase()
         ),
         selected: false,
-        type: "user"
+        type: 'user',
       };
 
       this.hashtags.push(hashtag);
@@ -172,14 +172,14 @@ export class SidebarSelectorComponent implements OnInit {
   }
 
   resetAddHashtag(htmlInputElement: HTMLInputElement) {
-    htmlInputElement.value = "";
+    htmlInputElement.value = '';
   }
 
   async toggleHashtag(hashtag) {
     try {
       await this.topbarHashtagsService.toggleSelection(hashtag, this);
     } catch (e) {
-      console.error("SidebarSelector", e);
+      console.error('SidebarSelector', e);
       hashtag.selected = !hashtag.selected;
     }
 
@@ -205,15 +205,15 @@ export class SidebarSelectorComponent implements OnInit {
 
   toggleSuggested() {
     if (this.showSuggested) {
-      this.storage.set("hide-suggested", true);
+      this.storage.set('hide-suggested', true);
     } else {
-      this.storage.destroy("hide-suggested");
+      this.storage.destroy('hide-suggested');
     }
     this.detectChanges();
   }
 
   get showSuggested() {
-    return !this.storage.get("hide-suggested");
+    return !this.storage.get('hide-suggested');
   }
 
   detectChanges() {

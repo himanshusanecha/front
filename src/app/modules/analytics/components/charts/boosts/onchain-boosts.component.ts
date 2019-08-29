@@ -6,14 +6,14 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
-} from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { timespanOption } from "../timespanOption";
-import { removeCurrentUnits } from "../../../util";
+  ViewChild,
+} from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { timespanOption } from '../timespanOption';
+import { removeCurrentUnits } from '../../../util';
 
 @Component({
-  selector: "m-analyticscharts__onchainboosts",
+  selector: 'm-analyticscharts__onchainboosts',
   template: `
     <div class="m-chart" #chartContainer>
       <div
@@ -27,14 +27,14 @@ import { removeCurrentUnits } from "../../../util";
         *ngIf="!inProgress && !!data"
       ></m-graph>
     </div>
-  `
+  `,
 })
 export class OnChainBoostsChartComponent implements OnInit {
   @Output() loaded: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
 
   timespan: timespanOption;
 
-  @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;
+  @ViewChild('chartContainer', { static: true }) chartContainer: ElementRef;
 
   init: boolean = false;
   inProgress: boolean = false;
@@ -44,28 +44,28 @@ export class OnChainBoostsChartComponent implements OnInit {
     width: 0,
     height: 0,
     font: {
-      family: "Roboto"
+      family: 'Roboto',
     },
     titlefont: {
-      family: "Roboto",
+      family: 'Roboto',
       size: 24,
-      weight: "bold"
+      weight: 'bold',
     },
     xaxis: {
-      type: "-"
+      type: '-',
     },
     yaxis: {
-      type: "log",
-      dtick: 1
+      type: 'log',
+      dtick: 1,
     },
     margin: {
       t: 16,
       b: 32,
-      l: 32
-    }
+      l: 32,
+    },
   };
 
-  @Input("timespan") set _timespan(value: timespanOption) {
+  @Input('timespan') set _timespan(value: timespanOption) {
     this.timespan = value;
 
     if (this.init) {
@@ -92,12 +92,12 @@ export class OnChainBoostsChartComponent implements OnInit {
     this.loaded.emit(current);
   }
 
-  @HostListener("window:resize")
+  @HostListener('window:resize')
   applyDimensions() {
     this.layout = {
       ...this.layout,
       width: this.chartContainer.nativeElement.clientWidth,
-      height: this.chartContainer.nativeElement.clientHeight - 35
+      height: this.chartContainer.nativeElement.clientHeight - 35,
     };
   }
 }

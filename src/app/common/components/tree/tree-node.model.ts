@@ -1,4 +1,4 @@
-import { TreeModel } from "./tree.model";
+import { TreeModel } from './tree.model';
 
 export class TreeNode {
   id: string;
@@ -34,8 +34,8 @@ export class TreeNode {
   ) {
     this.original = data;
 
-    this.id = data[idField] || "";
-    this.label = data[labelField] || "";
+    this.id = data[idField] || '';
+    this.label = data[labelField] || '';
 
     this.parent = parent;
 

@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 /**
  * Async modal dialog service
@@ -9,7 +9,7 @@ import { Observable, of } from "rxjs";
  * Source: https://github.com/angular/angular/blob/master/aio/content/examples/router/src/app/dialog.service.ts
  */
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class DialogService {
   /**
@@ -17,7 +17,7 @@ export class DialogService {
    * Returns observable resolving to `true`=confirm or `false`=cancel
    */
   confirm(message?: string): Observable<boolean> {
-    const confirmation = window.confirm(message || "Is it OK?");
+    const confirmation = window.confirm(message || 'Is it OK?');
     return of(confirmation);
   }
 }

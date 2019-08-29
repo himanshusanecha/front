@@ -1,18 +1,18 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
-import { Navigation as NavigationService } from "../../../services/navigation";
-import { Session } from "../../../services/session";
+import { Navigation as NavigationService } from '../../../services/navigation';
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "m-sidebar--navigation",
-  templateUrl: "navigation.component.html"
+  selector: 'm-sidebar--navigation',
+  templateUrl: 'navigation.component.html',
 })
 export class SidebarNavigationComponent {
   user;
   items;
 
   constructor(public navigation: NavigationService, public session: Session) {
-    this.items = navigation.getItems("sidebar");
+    this.items = navigation.getItems('sidebar');
     this.getUser();
   }
 

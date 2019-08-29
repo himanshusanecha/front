@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { Client } from "../../../services/api/client";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Client } from '../../../services/api/client';
 
 @Component({
-  selector: "m-safe-toggle",
+  selector: 'm-safe-toggle',
   template: `
     <div class="m-safe-toggle" (click)="onRatingToggle($event)">
       <label>
@@ -13,11 +13,11 @@ import { Client } from "../../../services/api/client";
         >
       </label>
     </div>
-  `
+  `,
 })
 export class SafeToggleComponent {
-  @Input("entity") entity: any;
-  @Output("entityChange") entityChange: EventEmitter<any> = new EventEmitter<
+  @Input('entity') entity: any;
+  @Output('entityChange') entityChange: EventEmitter<any> = new EventEmitter<
     any
   >();
 

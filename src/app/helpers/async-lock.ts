@@ -1,4 +1,4 @@
-import { BehaviorSubject, Subscription } from "rxjs";
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 export default class AsyncLock {
   protected lockId: number = 0;
@@ -13,7 +13,7 @@ export default class AsyncLock {
 
   lock(): this {
     if (this.locked) {
-      throw new Error("Already locked");
+      throw new Error('Already locked');
     }
 
     this.locked = true;
@@ -24,7 +24,7 @@ export default class AsyncLock {
 
   unlock(): this {
     if (!this.locked) {
-      throw new Error("Already unlocked");
+      throw new Error('Already unlocked');
     }
 
     this.locked = false;

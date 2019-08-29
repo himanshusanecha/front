@@ -5,55 +5,55 @@ import {
   EventEmitter,
   ElementRef,
   ViewChild,
-  OnInit
-} from "@angular/core";
+  OnInit,
+} from '@angular/core';
 
 import {
   WireThresholdStruc,
-  WireRewardsType
-} from "../interfaces/wire.interfaces";
-import { WireTypeLabels } from "../wire";
-import { Session } from "../../../services/session";
+  WireRewardsType,
+} from '../interfaces/wire.interfaces';
+import { WireTypeLabels } from '../wire';
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "m-wire-threshold-input",
-  templateUrl: "threshold-input.component.html"
+  selector: 'm-wire-threshold-input',
+  templateUrl: 'threshold-input.component.html',
 })
 export class WireThresholdInputComponent implements OnInit {
   threshold: WireThresholdStruc;
 
-  @Input("threshold") set _threshold(threshold: WireThresholdStruc) {
+  @Input('threshold') set _threshold(threshold: WireThresholdStruc) {
     this.threshold = threshold;
 
     if (!this.threshold) {
       this.threshold = {
-        type: "tokens",
-        min: 0
+        type: 'tokens',
+        min: 0,
       };
     }
   }
 
-  @Input("disabled") disabled: boolean = false;
+  @Input('disabled') disabled: boolean = false;
 
-  @Input() buttonClass: string = "m-btn m-btn--slim m-btn m-btn--with-icon";
-  @Input() labelPosition: "left" | "right" = "left";
+  @Input() buttonClass: string = 'm-btn m-btn--slim m-btn m-btn--with-icon';
+  @Input() labelPosition: 'left' | 'right' = 'left';
 
-  @Output("thresholdChange") thresholdChangeEmitter: EventEmitter<
+  @Output('thresholdChange') thresholdChangeEmitter: EventEmitter<
     WireThresholdStruc
   > = new EventEmitter<WireThresholdStruc>();
-  @Output("validThreshold") validThresholdEmitter: EventEmitter<
+  @Output('validThreshold') validThresholdEmitter: EventEmitter<
     boolean
   > = new EventEmitter<boolean>();
 
   //REMOVE SOON.. this doesn't do anything
-  @Input("enabled") legacyEnabled: boolean = false;
-  @Output("enabledChange") enabledChangeEmitter: EventEmitter<
+  @Input('enabled') legacyEnabled: boolean = false;
+  @Output('enabledChange') enabledChangeEmitter: EventEmitter<
     boolean
   > = new EventEmitter<boolean>();
 
   typeLabels = WireTypeLabels;
 
-  @ViewChild("minAmountInput", { static: true }) minAmountInput: ElementRef;
+  @ViewChild('minAmountInput', { static: true }) minAmountInput: ElementRef;
 
   constructor(public session: Session) {}
 
@@ -87,7 +87,7 @@ export class WireThresholdInputComponent implements OnInit {
   }
 
   setMinAmount(value: string) {
-    let cleanValue = parseFloat(value.replace(/,/g, "."));
+    let cleanValue = parseFloat(value.replace(/,/g, '.'));
 
     if (cleanValue) {
       // allow 3 decimals only

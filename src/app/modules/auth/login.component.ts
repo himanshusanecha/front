@@ -1,22 +1,22 @@
-import { Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { SignupModalService } from "../modals/signup/service";
-import { MindsTitle } from "../../services/ux/title";
-import { Client } from "../../services/api";
-import { Session } from "../../services/session";
-import { LoginReferrerService } from "../../services/login-referrer.service";
-import { OnboardingService } from "../onboarding/onboarding.service";
+import { SignupModalService } from '../modals/signup/service';
+import { MindsTitle } from '../../services/ux/title';
+import { Client } from '../../services/api';
+import { Session } from '../../services/session';
+import { LoginReferrerService } from '../../services/login-referrer.service';
+import { OnboardingService } from '../onboarding/onboarding.service';
 
 @Component({
-  selector: "m-login",
-  templateUrl: "login.component.html"
+  selector: 'm-login',
+  templateUrl: 'login.component.html',
 })
 export class LoginComponent {
-  errorMessage: string = "";
-  twofactorToken: string = "";
+  errorMessage: string = '';
+  twofactorToken: string = '';
   hideLogin: boolean = false;
   inProgress: boolean = false;
   referrer: string;
@@ -24,7 +24,7 @@ export class LoginComponent {
   private redirectTo: string;
 
   flags = {
-    canPlayInlineVideos: true
+    canPlayInlineVideos: true,
   };
 
   paramsSubscription: Subscription;
@@ -42,16 +42,16 @@ export class LoginComponent {
 
   ngOnInit() {
     if (this.session.isLoggedIn()) {
-      this.loginReferrer.register("/newsfeed");
+      this.loginReferrer.register('/newsfeed');
       this.loginReferrer.navigate();
     }
 
-    this.title.setTitle("Login");
-    this.redirectTo = localStorage.getItem("redirect");
+    this.title.setTitle('Login');
+    this.redirectTo = localStorage.getItem('redirect');
 
     this.paramsSubscription = this.route.queryParams.subscribe(params => {
-      if (params["referrer"]) {
-        this.referrer = params["referrer"];
+      if (params['referrer']) {
+        this.referrer = params['referrer'];
       }
     });
 
@@ -73,9 +73,9 @@ export class LoginComponent {
   registered() {
     if (this.redirectTo) this.router.navigate([this.redirectTo]);
     else {
-      this.modal.setDisplay("categories").open();
+      this.modal.setDisplay('categories').open();
       this.loginReferrer.navigate({
-        defaultUrl: "/" + this.session.getLoggedInUser().username
+        defaultUrl: '/' + this.session.getLoggedInUser().username,
       });
     }
   }

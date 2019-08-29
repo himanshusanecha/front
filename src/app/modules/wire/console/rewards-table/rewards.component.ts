@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import {
   WireRewardsStruc,
   WireRewardsTiers,
-  WireRewardsType
-} from "../../interfaces/wire.interfaces";
-import { Client } from "../../../../services/api/client";
+  WireRewardsType,
+} from '../../interfaces/wire.interfaces';
+import { Client } from '../../../../services/api/client';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wire-console--rewards--container",
-  templateUrl: "rewards.component.html"
+  selector: 'm-wire-console--rewards--container',
+  templateUrl: 'rewards.component.html',
 })
 export class WireConsoleRewardsComponent {
   minds: Minds;
@@ -38,14 +38,14 @@ export class WireConsoleRewardsComponent {
     );
 
     this.client
-      .post("api/v1/wire/rewards", {
-        rewards: this.rewards
+      .post('api/v1/wire/rewards', {
+        rewards: this.rewards,
       })
       .then(() => {
         this.rewardsSaved = true;
       })
       .catch(e => {
-        alert((e && e.message) || "Server error");
+        alert((e && e.message) || 'Server error');
       });
   }
 
@@ -58,7 +58,7 @@ export class WireConsoleRewardsComponent {
       .filter(reward => reward.amount || `${reward.description}`.trim())
       .map(reward => ({
         ...reward,
-        amount: Math.abs(Math.floor(reward.amount || 0))
+        amount: Math.abs(Math.floor(reward.amount || 0)),
       }))
       .sort((a, b) => (a.amount > b.amount ? 1 : -1));
   }

@@ -3,18 +3,18 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Output
-} from "@angular/core";
-import { Router } from "@angular/router";
+  Output,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../../../services/api/client";
-import { Session } from "../../../../../services/session";
-import { Storage } from "../../../../../services/storage";
+import { Client } from '../../../../../services/api/client';
+import { Session } from '../../../../../services/session';
+import { Storage } from '../../../../../services/storage';
 
 @Component({
-  selector: "m-token--onboarding--completed",
-  templateUrl: "completed.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-token--onboarding--completed',
+  templateUrl: 'completed.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenCompletedOnboardingComponent {
   @Output() next: EventEmitter<any> = new EventEmitter();
@@ -30,7 +30,7 @@ export class TokenCompletedOnboardingComponent {
   ) {}
 
   complete() {
-    this.storage.set("walletOnboardingComplete", true);
+    this.storage.set('walletOnboardingComplete', true);
     this.next.next();
   }
 

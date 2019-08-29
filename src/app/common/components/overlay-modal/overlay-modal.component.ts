@@ -4,15 +4,15 @@ import {
   ViewChild,
   ComponentFactoryResolver,
   ComponentRef,
-  Input
-} from "@angular/core";
+  Input,
+} from '@angular/core';
 
-import { DynamicHostDirective } from "../../directives/dynamic-host.directive";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
 
 @Component({
   moduleId: module.id,
-  selector: "m-overlay-modal",
+  selector: 'm-overlay-modal',
   template: `
     <div
       class="m-overlay-modal--backdrop"
@@ -25,11 +25,11 @@ import { OverlayModalService } from "../../../services/ux/overlay-modal";
       >
       <ng-template dynamic-host></ng-template>
     </div>
-  `
+  `,
 })
 export class OverlayModalComponent implements AfterViewInit {
   hidden: boolean = true;
-  class: string = "";
+  class: string = '';
 
   @ViewChild(DynamicHostDirective, { static: true })
   private host: DynamicHostDirective;
@@ -51,15 +51,15 @@ export class OverlayModalComponent implements AfterViewInit {
 
     opts = {
       ...{
-        class: ""
+        class: '',
       },
-      ...opts
+      ...opts,
     };
 
     this.class = opts.class;
 
     if (!componentClass) {
-      throw new Error("Unknown component class");
+      throw new Error('Unknown component class');
     }
 
     const componentFactory = this._componentFactoryResolver.resolveComponentFactory(
@@ -98,7 +98,7 @@ export class OverlayModalComponent implements AfterViewInit {
     this.hidden = false;
 
     if (document && document.body) {
-      document.body.classList.add("m-overlay-modal--shown");
+      document.body.classList.add('m-overlay-modal--shown');
     }
   }
 
@@ -106,7 +106,7 @@ export class OverlayModalComponent implements AfterViewInit {
     this.hidden = true;
 
     if (document && document.body) {
-      document.body.classList.remove("m-overlay-modal--shown");
+      document.body.classList.remove('m-overlay-modal--shown');
     }
 
     if (!this.componentInstance) {

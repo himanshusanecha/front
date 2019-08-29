@@ -1,38 +1,38 @@
-import { Component, Injector, SkipSelf, ViewChild } from "@angular/core";
-import { Subscription, BehaviorSubject } from "rxjs";
-import { filter } from "rxjs/operators";
+import { Component, Injector, SkipSelf, ViewChild } from '@angular/core';
+import { Subscription, BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import {
   ActivatedRoute,
   Router,
   RouterEvent,
-  NavigationEnd
-} from "@angular/router";
+  NavigationEnd,
+} from '@angular/router';
 
-import { Client, Upload } from "../../../services/api";
-import { MindsTitle } from "../../../services/ux/title";
-import { Navigation as NavigationService } from "../../../services/navigation";
-import { MindsActivityObject } from "../../../interfaces/entities";
-import { Session } from "../../../services/session";
-import { Storage } from "../../../services/storage";
-import { ContextService } from "../../../services/context.service";
-import { PosterComponent } from "../poster/poster.component";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { FeaturesService } from "../../../services/features.service";
-import { FeedsService } from "../../../common/services/feeds.service";
-import { NewsfeedService } from "../services/newsfeed.service";
-import { ClientMetaService } from "../../../common/services/client-meta.service";
+import { Client, Upload } from '../../../services/api';
+import { MindsTitle } from '../../../services/ux/title';
+import { Navigation as NavigationService } from '../../../services/navigation';
+import { MindsActivityObject } from '../../../interfaces/entities';
+import { Session } from '../../../services/session';
+import { Storage } from '../../../services/storage';
+import { ContextService } from '../../../services/context.service';
+import { PosterComponent } from '../poster/poster.component';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { FeaturesService } from '../../../services/features.service';
+import { FeedsService } from '../../../common/services/feeds.service';
+import { NewsfeedService } from '../services/newsfeed.service';
+import { ClientMetaService } from '../../../common/services/client-meta.service';
 
 @Component({
-  selector: "m-newsfeed--subscribed",
+  selector: 'm-newsfeed--subscribed',
   providers: [ClientMetaService, FeedsService],
-  templateUrl: "subscribed.component.html"
+  templateUrl: 'subscribed.component.html',
 })
 export class NewsfeedSubscribedComponent {
   newsfeed: Array<Object>;
   feed: BehaviorSubject<Array<Object>> = new BehaviorSubject([]);
   prepended: Array<any> = [];
-  offset: string | number = "";
+  offset: string | number = '';
   showBoostRotator: boolean = true;
   inProgress: boolean = false;
   moreData: boolean = true;
@@ -40,22 +40,22 @@ export class NewsfeedSubscribedComponent {
 
   attachment_preview;
 
-  message: string = "";
+  message: string = '';
   newUserPromo: boolean = false;
   postMeta: any = {
-    title: "",
-    description: "",
-    thumbnail: "",
-    url: "",
+    title: '',
+    description: '',
+    thumbnail: '',
+    url: '',
     active: false,
-    attachment_guid: null
+    attachment_guid: null,
   };
 
   paramsSubscription: Subscription;
   reloadFeedSubscription: Subscription;
   routerSubscription: Subscription;
 
-  @ViewChild("poster", { static: true }) private poster: PosterComponent;
+  @ViewChild('poster', { static: true }) private poster: PosterComponent;
 
   constructor(
     public client: Client,
@@ -72,12 +72,12 @@ export class NewsfeedSubscribedComponent {
     protected clientMetaService: ClientMetaService,
     @SkipSelf() injector: Injector
   ) {
-    this.title.setTitle("Newsfeed");
+    this.title.setTitle('Newsfeed');
 
     this.clientMetaService
       .inherit(injector)
-      .setSource("feed/subscribed")
-      .setMedium("feed");
+      .setSource('feed/subscribed')
+      .setMedium('feed');
   }
 
   ngOnInit() {
@@ -101,14 +101,14 @@ export class NewsfeedSubscribedComponent {
     this.minds = window.Minds;
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["message"]) {
-        this.message = params["message"];
+      if (params['message']) {
+        this.message = params['message'];
       }
 
-      this.newUserPromo = !!params["newUser"];
+      this.newUserPromo = !!params['newUser'];
     });
 
-    this.context.set("activity");
+    this.context.set('activity');
   }
 
   ngOnDestroy() {
@@ -118,7 +118,7 @@ export class NewsfeedSubscribedComponent {
   }
 
   load(refresh: boolean = false, forceSync: boolean = false) {
-    if (this.featuresService.has("es-feeds")) {
+    if (this.featuresService.has('es-feeds')) {
       this.loadFromService(refresh, forceSync);
     } else {
       this.loadLegacy(refresh);
@@ -126,7 +126,7 @@ export class NewsfeedSubscribedComponent {
   }
 
   loadNext() {
-    if (this.featuresService.has("es-feeds")) {
+    if (this.featuresService.has('es-feeds')) {
       if (
         this.feedsService.canFetchMore &&
         !this.feedsService.inProgress.getValue() &&
@@ -159,7 +159,7 @@ export class NewsfeedSubscribedComponent {
         .setLimit(12)
         .fetch();
     } catch (e) {
-      console.error("SortedComponent", e);
+      console.error('SortedComponent', e);
     }
   }
 
@@ -170,7 +170,7 @@ export class NewsfeedSubscribedComponent {
     if (this.inProgress) return;
 
     if (refresh) {
-      this.offset = "";
+      this.offset = '';
       this.feedsService.clear();
     }
 
@@ -184,7 +184,7 @@ export class NewsfeedSubscribedComponent {
 
     this.client
       .get(
-        "api/v1/newsfeed",
+        'api/v1/newsfeed',
         { limit: 12, offset: this.offset },
         { cache: true }
       )
@@ -201,14 +201,14 @@ export class NewsfeedSubscribedComponent {
             urn: entity.urn,
             guid: entity.guid,
             owner_guid: entity.owner_guid,
-            entity: entity
+            entity: entity,
           });
         }
 
         if (this.feedsService.rawFeed.getValue() && !refresh) {
           this.feedsService.rawFeed.next([
             ...this.feedsService.rawFeed.getValue(),
-            ...feedItems
+            ...feedItems,
           ]);
         } else {
           this.feedsService.rawFeed.next(feedItems);
@@ -216,7 +216,7 @@ export class NewsfeedSubscribedComponent {
 
         this.feedsService.inProgress.next(false);
         //this.feedsService.setOffset(this.feedsService.offset.getValue() + 12); // Hacky!
-        this.offset = data["load-next"];
+        this.offset = data['load-next'];
         this.inProgress = false;
       })
       .catch(e => {
@@ -238,11 +238,11 @@ export class NewsfeedSubscribedComponent {
 
   autoBoost(activity: any) {
     this.client.post(
-      "api/v2/boost/activity/" + activity.guid + "/" + activity.owner_guid,
+      'api/v2/boost/activity/' + activity.guid + '/' + activity.owner_guid,
       {
         newUserPromo: true,
         impressions: 200,
-        destination: "Newsfeed"
+        destination: 'Newsfeed',
       }
     );
   }
@@ -267,7 +267,7 @@ export class NewsfeedSubscribedComponent {
     if (!this.poster || !this.poster.attachment) return true;
     const progress = this.poster.attachment.getUploadProgress();
     if (progress > 0 && progress < 100) {
-      return confirm("Your file is still uploading. Are you sure?");
+      return confirm('Your file is still uploading. Are you sure?');
     }
 
     return true;

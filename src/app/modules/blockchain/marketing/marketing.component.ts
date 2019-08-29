@@ -5,19 +5,19 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild
-} from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { MindsTitle } from "../../../services/ux/title";
-import { WireCreatorComponent } from "../../wire/creator/creator.component";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { BlockchainTdeBuyComponent } from "../tde-buy/tde-buy.component";
+  ViewChild,
+} from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { MindsTitle } from '../../../services/ux/title';
+import { WireCreatorComponent } from '../../wire/creator/creator.component';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { BlockchainTdeBuyComponent } from '../tde-buy/tde-buy.component';
 
 @Component({
   moduleId: module.id,
-  selector: "m-blockchain--marketing",
-  templateUrl: "marketing.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-blockchain--marketing',
+  templateUrl: 'marketing.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockchainMarketingComponent implements OnInit, OnDestroy {
   tdeStats: { tokens; raised; remaining };
@@ -41,7 +41,7 @@ export class BlockchainMarketingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     //this.poll();
 
-    this.title.setTitle("The Minds Token");
+    this.title.setTitle('The Minds Token');
     this.updatePledgeConfirmation();
   }
 
@@ -53,7 +53,7 @@ export class BlockchainMarketingComponent implements OnInit, OnDestroy {
         this.tdeStats = result.stats;
         this.detectChanges();
       } catch (e) {
-        console.error("[TDE Stats]", e);
+        console.error('[TDE Stats]', e);
       }
     };
 
@@ -66,12 +66,12 @@ export class BlockchainMarketingComponent implements OnInit, OnDestroy {
     this.detectChanges();
 
     try {
-      const response: any = await this.client.get("api/v2/blockchain/pledges", {
-        brief: 1
+      const response: any = await this.client.get('api/v2/blockchain/pledges', {
+        brief: 1,
       });
 
       this.isPledgeApproved =
-        response.pledge && response.pledge.status === "approved";
+        response.pledge && response.pledge.status === 'approved';
     } catch (e) {
       console.error(e);
     }
@@ -101,7 +101,7 @@ export class BlockchainMarketingComponent implements OnInit, OnDestroy {
             this.isPledgeApproved = false;
             this.detectChanges();
           }
-        }
+        },
       }
     );
     creator.present();

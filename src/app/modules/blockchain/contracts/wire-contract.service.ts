@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Web3WalletService } from "../web3-wallet.service";
-import { TokenContractService } from "./token-contract.service";
+import { Injectable } from '@angular/core';
+import { Web3WalletService } from '../web3-wallet.service';
+import { TokenContractService } from './token-contract.service';
 
 @Injectable()
 export class WireContractService {
@@ -17,7 +17,7 @@ export class WireContractService {
     await this.web3Wallet.ready();
 
     this.instance = this.web3Wallet.eth
-      .contract(this.web3Wallet.config.wire.abi, "0x")
+      .contract(this.web3Wallet.config.wire.abi, '0x')
       .at(this.web3Wallet.config.wire.address);
 
     this.wire(); // Refresh default account
@@ -27,7 +27,7 @@ export class WireContractService {
     gasPriceGwei: number = this.web3Wallet.config.default_gas_price || 1
   ) {
     if (!this.instance) {
-      throw new Error("No wire instance");
+      throw new Error('No wire instance');
     }
 
     if (!this.instance.defaultTxObject) {
@@ -40,7 +40,7 @@ export class WireContractService {
       this.instance.defaultTxObject.from = await this.web3Wallet.getCurrentWallet();
       this.instance.defaultTxObject.gasPrice = this.web3Wallet.EthJS.toWei(
         gasPriceGwei,
-        "Gwei"
+        'Gwei'
       );
     }
 
@@ -49,19 +49,19 @@ export class WireContractService {
 
   // Wire
 
-  async create(receiver: string, amount: number, message: string = "") {
+  async create(receiver: string, amount: number, message: string = '') {
     return await this.web3Wallet.sendSignedContractMethod(
       await this.tokenContract.token(),
-      "approveAndCall",
+      'approveAndCall',
       [
         this.instance.address,
         this.tokenContract.tokenToUnit(amount),
         this.tokenContract.encodeParams([
           {
-            type: "address",
-            value: receiver
-          }
-        ])
+            type: 'address',
+            value: receiver,
+          },
+        ]),
       ],
       `Send ${amount} Tokens to ${receiver}. ${message}`.trim(),
       this.tokenContract.tokenToUnit(-amount)

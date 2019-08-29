@@ -1,21 +1,21 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component
-} from "@angular/core";
-import { Storage } from "../../../services/storage";
-import { WebtorrentService } from "../../webtorrent/webtorrent.service";
-import { Client } from "../../../services/api/client";
+  Component,
+} from '@angular/core';
+import { Storage } from '../../../services/storage';
+import { WebtorrentService } from '../../webtorrent/webtorrent.service';
+import { Client } from '../../../services/api/client';
 
 @Component({
   moduleId: module.id,
-  selector: "m-settings--p2pmedia",
-  templateUrl: "p2pmedia.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-settings--p2pmedia',
+  templateUrl: 'p2pmedia.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsP2PMediaComponent {
   settings = {
-    enableP2p: false
+    enableP2p: false,
   };
 
   supported: boolean = true;
@@ -41,7 +41,7 @@ export class SettingsP2PMediaComponent {
     window.Minds.user.p2p_media_enabled = this.settings.enableP2p;
     this.webtorrent.setEnabled(!this.settings.enableP2p);
 
-    const url = "api/v2/settings/p2p";
+    const url = 'api/v2/settings/p2p';
 
     try {
       if (this.settings.enableP2p) {

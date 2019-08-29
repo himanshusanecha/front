@@ -3,17 +3,17 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
-  OnInit
-} from "@angular/core";
-import { Router } from "@angular/router";
+  OnInit,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
 
 @Component({
-  selector: "m-wallet-token--overview",
-  templateUrl: "overview.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wallet-token--overview',
+  templateUrl: 'overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletTokenContributionsOverviewComponent
   implements OnInit, OnDestroy {
@@ -29,7 +29,7 @@ export class WalletTokenContributionsOverviewComponent
     currentReward: null,
     yourContribution: null,
     totalNetworkContribution: null,
-    yourShare: null
+    yourShare: null,
   };
 
   protected updateTimer$;

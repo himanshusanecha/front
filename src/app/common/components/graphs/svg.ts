@@ -2,12 +2,12 @@ import {
   Directive,
   EventEmitter,
   ViewContainerRef,
-  Inject
-} from "@angular/core";
+  Inject,
+} from '@angular/core';
 
 @Directive({
-  selector: "[svgHack]",
-  inputs: ["svgHack", "height", "width", "viewBox"]
+  selector: '[svgHack]',
+  inputs: ['svgHack', 'height', 'width', 'viewBox'],
 })
 export class GraphSVG {
   element: any;
@@ -18,14 +18,14 @@ export class GraphSVG {
   }
 
   set height(value: any) {
-    this.element.setAttribute("height", value);
+    this.element.setAttribute('height', value);
   }
 
   set width(value: any) {
-    this.element.setAttribute("width", value);
+    this.element.setAttribute('width', value);
   }
 
   set viewBox(value: any) {
-    this.element.setAttribute("viewBox", value);
+    this.element.setAttribute('viewBox', value);
   }
 }

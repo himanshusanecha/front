@@ -4,54 +4,54 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
+  tick,
+} from '@angular/core/testing';
 import {
   Component,
   DebugElement,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
-import { By } from "@angular/platform-browser";
-import { FormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
+  Output,
+} from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   VisibleWireError,
   WireCreatorComponent,
-  WireStruc
-} from "./creator.component";
-import { Client } from "../../../services/api/client";
-import { clientMock } from "../../../../tests/client-mock.spec";
-import { AbbrPipe } from "../../../common/pipes/abbr";
-import { MaterialMock } from "../../../../tests/material-mock.spec";
-import { MaterialSwitchMock } from "../../../../tests/material-switch-mock.spec";
-import { overlayModalServiceMock } from "../../../../tests/overlay-modal-service-mock.spec";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { WireService } from "../wire.service";
-import { WireContractService } from "../../blockchain/contracts/wire-contract.service";
-import { wireContractServiceMock } from "../../../../tests/wire-contract-service-mock.spec";
-import { TokenContractService } from "../../blockchain/contracts/token-contract.service";
-import { Web3WalletService } from "../../blockchain/web3-wallet.service";
-import { tokenContractServiceMock } from "../../../../tests/token-contract-service-mock.spec";
-import { LocalWalletService } from "../../blockchain/local-wallet.service";
-import { localWalletServiceMock } from "../../../../tests/local-wallet-service-mock.spec";
-import { TransactionOverlayService } from "../../blockchain/transaction-overlay/transaction-overlay.service";
-import { transactionOverlayServiceMock } from "../../../../tests/transaction-overlay-service-mock.spec";
-import { TooltipComponent } from "../../../common/components/tooltip/tooltip.component";
-import { AddressExcerptPipe } from "../../../common/pipes/address-excerpt";
-import { TokenPipe } from "../../../common/pipes/token.pipe";
-import { Session } from "../../../services/session";
-import { sessionMock } from "../../../../tests/session-mock.spec";
-import { web3WalletServiceMock } from "../../../../tests/web3-wallet-service-mock.spec";
-import { IfFeatureDirective } from "../../../common/directives/if-feature.directive";
-import { FeaturesService } from "../../../services/features.service";
+  WireStruc,
+} from './creator.component';
+import { Client } from '../../../services/api/client';
+import { clientMock } from '../../../../tests/client-mock.spec';
+import { AbbrPipe } from '../../../common/pipes/abbr';
+import { MaterialMock } from '../../../../tests/material-mock.spec';
+import { MaterialSwitchMock } from '../../../../tests/material-switch-mock.spec';
+import { overlayModalServiceMock } from '../../../../tests/overlay-modal-service-mock.spec';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { WireService } from '../wire.service';
+import { WireContractService } from '../../blockchain/contracts/wire-contract.service';
+import { wireContractServiceMock } from '../../../../tests/wire-contract-service-mock.spec';
+import { TokenContractService } from '../../blockchain/contracts/token-contract.service';
+import { Web3WalletService } from '../../blockchain/web3-wallet.service';
+import { tokenContractServiceMock } from '../../../../tests/token-contract-service-mock.spec';
+import { LocalWalletService } from '../../blockchain/local-wallet.service';
+import { localWalletServiceMock } from '../../../../tests/local-wallet-service-mock.spec';
+import { TransactionOverlayService } from '../../blockchain/transaction-overlay/transaction-overlay.service';
+import { transactionOverlayServiceMock } from '../../../../tests/transaction-overlay-service-mock.spec';
+import { TooltipComponent } from '../../../common/components/tooltip/tooltip.component';
+import { AddressExcerptPipe } from '../../../common/pipes/address-excerpt';
+import { TokenPipe } from '../../../common/pipes/token.pipe';
+import { Session } from '../../../services/session';
+import { sessionMock } from '../../../../tests/session-mock.spec';
+import { web3WalletServiceMock } from '../../../../tests/web3-wallet-service-mock.spec';
+import { IfFeatureDirective } from '../../../common/directives/if-feature.directive';
+import { FeaturesService } from '../../../services/features.service';
 
 /* tslint:disable */
 @Component({
-  selector: "m-wire--creator-rewards",
-  template: ""
+  selector: 'm-wire--creator-rewards',
+  template: '',
 })
 export class WireCreatorRewardsComponentMock {
   @Input() rewards: any;
@@ -63,9 +63,9 @@ export class WireCreatorRewardsComponentMock {
 }
 
 @Component({
-  selector: "minds-payments-stripe-checkout",
-  outputs: ["inputed", "done"],
-  template: ""
+  selector: 'minds-payments-stripe-checkout',
+  outputs: ['inputed', 'done'],
+  template: '',
 })
 export class StripeCheckoutMock {
   inputed: EventEmitter<any> = new EventEmitter();
@@ -73,23 +73,23 @@ export class StripeCheckoutMock {
 
   @Input() amount: number = 0;
   @Input() merchant_guid;
-  @Input() gateway: string = "merchants";
+  @Input() gateway: string = 'merchants';
 
-  @Input("useMDLStyling") useMDLStyling: boolean = true;
+  @Input('useMDLStyling') useMDLStyling: boolean = true;
 
   @Input() useCreditCard: boolean = true;
   @Input() useBitcoin: boolean = false;
 }
 
 @Component({
-  selector: "m--crypto-token-symbol",
-  template: ""
+  selector: 'm--crypto-token-symbol',
+  template: '',
 })
 class WireCreatorCryptoTokenSymbolMock {}
 
 @Component({
-  selector: "m-checkout--blockchain",
-  template: ""
+  selector: 'm-checkout--blockchain',
+  template: '',
 })
 class WireCreatorBlockchainCheckoutMock {
   @Input() autoselect;
@@ -98,65 +98,65 @@ class WireCreatorBlockchainCheckoutMock {
 let wireServiceMock = new (function() {
   this.wireSent = new EventEmitter<any>();
   this.submitWire = jasmine
-    .createSpy("submitWire")
+    .createSpy('submitWire')
     .and.callFake(async (wireStruc: WireStruc) => {
       return { success: true };
     });
 })();
 
-describe("WireCreatorComponent", () => {
+describe('WireCreatorComponent', () => {
   let comp: WireCreatorComponent;
   let fixture: ComponentFixture<WireCreatorComponent>;
   let submitSection: DebugElement;
   let sendButton: DebugElement;
 
   const owner: any = {
-    guid: "123",
-    type: "user",
+    guid: '123',
+    type: 'user',
     subtype: false,
-    time_created: "1500037446",
+    time_created: '1500037446',
     time_updated: false,
-    container_guid: "0",
-    owner_guid: "0",
+    container_guid: '0',
+    owner_guid: '0',
     site_guid: false,
-    access_id: "2",
-    name: "minds",
-    username: "minds",
-    eth_wallet: "0x1234",
-    language: "en",
+    access_id: '2',
+    name: 'minds',
+    username: 'minds',
+    eth_wallet: '0x1234',
+    language: 'en',
     icontime: false,
     legacy_guid: false,
     featured_id: false,
-    banned: "no",
-    website: "",
-    briefdescription: "test",
-    dob: "",
-    gender: "",
-    city: "",
+    banned: 'no',
+    website: '',
+    briefdescription: 'test',
+    dob: '',
+    gender: '',
+    city: '',
     merchant: {
-      service: "stripe",
-      id: "acct_1ApIzEA26BgQpK9C",
-      exclusive: { background: 1502453050, intro: "" }
+      service: 'stripe',
+      id: 'acct_1ApIzEA26BgQpK9C',
+      exclusive: { background: 1502453050, intro: '' },
     },
     boostProPlus: false,
     fb: false,
     mature: 0,
-    monetized: "",
+    monetized: '',
     signup_method: false,
     social_profiles: [],
     feature_flags: false,
-    programs: ["affiliate"],
+    programs: ['affiliate'],
     plus: false,
     verified: false,
     disabled_boost: false,
-    categories: ["news", "film", "spirituality"],
+    categories: ['news', 'film', 'spirituality'],
     wire_rewards: null,
     subscribed: false,
     subscriber: false,
     subscribers_count: 1,
     subscriptions_count: 1,
     impressions: 337,
-    boost_rating: "2"
+    boost_rating: '2',
   };
 
   function getPaymentMethodItem(i: number): DebugElement {
@@ -167,24 +167,24 @@ describe("WireCreatorComponent", () => {
 
   function getAmountInput(): DebugElement {
     return fixture.debugElement.query(
-      By.css("input.m-wire--creator-wide-input--edit")
+      By.css('input.m-wire--creator-wide-input--edit')
     );
   }
 
   function getAmountLabel(): DebugElement {
     return fixture.debugElement.query(
-      By.css("span.m-wire--creator-wide-input--label")
+      By.css('span.m-wire--creator-wide-input--label')
     );
   }
 
   function getRecurringCheckbox(): DebugElement {
     return fixture.debugElement.query(
-      By.css(".m-wire--creator--recurring input[type=checkbox]")
+      By.css('.m-wire--creator--recurring input[type=checkbox]')
     );
   }
 
   function getErrorLabel(): DebugElement {
-    return fixture.debugElement.query(By.css(".m-wire--creator--submit-error"));
+    return fixture.debugElement.query(By.css('.m-wire--creator--submit-error'));
   }
 
   beforeEach(async(() => {
@@ -201,7 +201,7 @@ describe("WireCreatorComponent", () => {
         TooltipComponent,
         AddressExcerptPipe,
         TokenPipe,
-        IfFeatureDirective
+        IfFeatureDirective,
       ], // declare the test component
       imports: [FormsModule, RouterTestingModule],
       providers: [
@@ -217,9 +217,9 @@ describe("WireCreatorComponent", () => {
         { provide: LocalWalletService, useValue: localWalletServiceMock },
         {
           provide: TransactionOverlayService,
-          useValue: transactionOverlayServiceMock
-        }
-      ]
+          useValue: transactionOverlayServiceMock,
+        },
+      ],
     }).compileComponents(); // compile template and css
   }));
 
@@ -233,7 +233,7 @@ describe("WireCreatorComponent", () => {
     comp = fixture.componentInstance; // LoginForm test instance
     clientMock.response = {};
     clientMock.response[`api/v2/boost/rates`] = {
-      status: "success",
+      status: 'success',
       balance: 301529,
       hasPaymentMethod: false,
       rate: 1,
@@ -241,66 +241,66 @@ describe("WireCreatorComponent", () => {
       min: 100,
       priority: 1,
       usd: 1000,
-      minUsd: 1
+      minUsd: 1,
     };
     clientMock.response[`api/v1/wire/rewards/${owner.guid}`] = {
-      status: "success",
-      username: "minds",
+      status: 'success',
+      username: 'minds',
       wire_rewards: {
-        description: "description",
+        description: 'description',
         rewards: {
           points: [
-            { amount: 10, description: "description" },
+            { amount: 10, description: 'description' },
             {
               amount: 100,
-              description: "description"
-            }
+              description: 'description',
+            },
           ],
           money: [
-            { amount: 1, description: "description" },
+            { amount: 1, description: 'description' },
             {
               amount: 10,
-              description: ":)"
+              description: ':)',
             },
-            { amount: 1000, description: "description" }
-          ]
-        }
+            { amount: 1000, description: 'description' },
+          ],
+        },
       },
       merchant: {
-        service: "stripe",
-        id: "acct_123",
-        exclusive: { background: 1502474954, intro: "Support me!" }
+        service: 'stripe',
+        id: 'acct_123',
+        exclusive: { background: 1502474954, intro: 'Support me!' },
       },
-      eth_wallet: "0x1234",
-      sums: { points: "40", money: "3096" }
+      eth_wallet: '0x1234',
+      sums: { points: '40', money: '3096' },
     };
     clientMock.response[`api/v2/blockchain/wallet/balance`] = {
-      status: "success",
+      status: 'success',
       addresses: [
         {
-          address: "0xMOCK",
+          address: '0xMOCK',
           balance: 500 * Math.pow(10, 18),
-          label: "Receiver"
+          label: 'Receiver',
         },
         {
-          address: "offchain",
+          address: 'offchain',
           balance: 500 * Math.pow(10, 18),
-          label: "OffChain"
-        }
+          label: 'OffChain',
+        },
       ],
       balance: 1000 * Math.pow(10, 18),
-      wireCap: 100 * Math.pow(10, 18)
+      wireCap: 100 * Math.pow(10, 18),
     };
     clientMock.response[`api/v2/blockchain/rate/tokens`] = {
-      status: "success",
-      rate: 10
+      status: 'success',
+      rate: 10,
     };
 
     submitSection = fixture.debugElement.query(
-      By.css(".m-wire--creator-section--last")
+      By.css('.m-wire--creator-section--last')
     );
     sendButton = fixture.debugElement.query(
-      By.css(".m-wire--creator--submit > button.m-wire--creator-button")
+      By.css('.m-wire--creator--submit > button.m-wire--creator-button')
     );
 
     comp.owner = owner;
@@ -319,47 +319,47 @@ describe("WireCreatorComponent", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should have a title", () => {
+  it('should have a title', () => {
     const title = fixture.debugElement.query(
-      By.css(".m-wire--creator--header span")
+      By.css('.m-wire--creator--header span')
     );
     expect(title).not.toBeNull();
-    expect(title.nativeElement.textContent).toContain("Wire");
+    expect(title.nativeElement.textContent).toContain('Wire');
   });
 
   it("should have the target user's avatar", () => {
     const avatar = fixture.debugElement.query(
-      By.css(".m-wire--creator--header-text .m-wire--avatar")
+      By.css('.m-wire--creator--header-text .m-wire--avatar')
     );
     expect(avatar).not.toBeNull();
 
-    const avatarAnchor = avatar.query(By.css("a"));
+    const avatarAnchor = avatar.query(By.css('a'));
     expect(avatarAnchor).not.toBeNull();
     expect(avatarAnchor.nativeElement.href).toContain(
-      "/" + comp.owner.username
+      '/' + comp.owner.username
     );
 
-    const avatarImage = avatarAnchor.query(By.css("img"));
+    const avatarImage = avatarAnchor.query(By.css('img'));
     expect(avatarImage).not.toBeNull();
-    expect(avatarImage.nativeElement.src).toContain("icon/" + comp.owner.guid);
+    expect(avatarImage.nativeElement.src).toContain('icon/' + comp.owner.guid);
   });
 
-  it("should have subtext", () => {
+  it('should have subtext', () => {
     const subtitle = fixture.debugElement.query(
-      By.css(".m-wire--creator--header .m-wire-creator--subtext")
+      By.css('.m-wire--creator--header .m-wire-creator--subtext')
     );
     expect(subtitle).not.toBeNull();
 
     expect(subtitle.nativeElement.textContent).toContain(
-      "Support @" +
+      'Support @' +
         comp.owner.username +
         " by sending them tokens. Once you send them the amount listed in the tiers, you can receive rewards if they are offered. Otherwise, it's a donation."
     );
   });
 
-  it("should have a payment section", () => {
+  it('should have a payment section', () => {
     const section = fixture.debugElement.query(
-      By.css("section.m-wire--creator-payment-section")
+      By.css('section.m-wire--creator-payment-section')
     );
     expect(section).not.toBeNull();
   });
@@ -367,17 +367,17 @@ describe("WireCreatorComponent", () => {
   it("payment section should have a title that says 'Payment Method'", () => {
     const title = fixture.debugElement.query(
       By.css(
-        "section.m-wire--creator-payment-section > .m-wire--creator-section-title--small"
+        'section.m-wire--creator-payment-section > .m-wire--creator-section-title--small'
       )
     );
     expect(title).not.toBeNull();
-    expect(title.nativeElement.textContent).toContain("Payment Method");
+    expect(title.nativeElement.textContent).toContain('Payment Method');
   });
 
-  it("should have payment method list (onchain, offchain)", () => {
+  it('should have payment method list (onchain, offchain)', () => {
     const list = fixture.debugElement.query(
       By.css(
-        "section.m-wire--creator-payment-section > ul.m-wire--creator-selector"
+        'section.m-wire--creator-payment-section > ul.m-wire--creator-selector'
       )
     );
     expect(list).not.toBeNull();
@@ -387,21 +387,21 @@ describe("WireCreatorComponent", () => {
     expect(
       fixture.debugElement.query(
         By.css(
-          ".m-wire--creator-selector > li:first-child > .m-wire--creator-selector-type > h5 > span"
+          '.m-wire--creator-selector > li:first-child > .m-wire--creator-selector-type > h5 > span'
         )
       ).nativeElement.textContent
-    ).toContain("OnChain");
+    ).toContain('OnChain');
     expect(
       fixture.debugElement.query(
         By.css(
-          ".m-wire--creator-selector > li:nth-child(2) > .m-wire--creator-selector-type > h5 > span"
+          '.m-wire--creator-selector > li:nth-child(2) > .m-wire--creator-selector-type > h5 > span'
         )
       ).nativeElement.textContent
-    ).toContain("OffChain");
+    ).toContain('OffChain');
   });
 
-  it("clicking on a payment option should highlight it", fakeAsync(() => {
-    comp.setPayloadType("offchain"); // Select other
+  it('clicking on a payment option should highlight it', fakeAsync(() => {
+    comp.setPayloadType('offchain'); // Select other
 
     fixture.detectChanges();
     tick();
@@ -410,7 +410,7 @@ describe("WireCreatorComponent", () => {
 
     expect(
       onchainOption.nativeElement.classList.contains(
-        "m-wire--creator-selector--highlight"
+        'm-wire--creator-selector--highlight'
       )
     ).toBeFalsy();
     onchainOption.nativeElement.click();
@@ -420,18 +420,18 @@ describe("WireCreatorComponent", () => {
 
     expect(
       onchainOption.nativeElement.classList.contains(
-        "m-wire--creator-selector--highlight"
+        'm-wire--creator-selector--highlight'
       )
     ).toBeTruthy();
   }));
 
-  it("should have an amount section", () => {
+  it('should have an amount section', () => {
     expect(
-      fixture.debugElement.query(By.css(".m-wire--creator--amount"))
+      fixture.debugElement.query(By.css('.m-wire--creator--amount'))
     ).not.toBeNull();
   });
 
-  it("amount section should have an input and a label", () => {
+  it('amount section should have an input and a label', () => {
     expect(getAmountInput()).not.toBeNull();
 
     expect(getAmountLabel()).not.toBeNull();
@@ -440,8 +440,8 @@ describe("WireCreatorComponent", () => {
   it(`changing amount input should change the wire's amount`, () => {
     const amountInput: DebugElement = getAmountInput();
 
-    amountInput.nativeElement.value = "10";
-    amountInput.nativeElement.dispatchEvent(new Event("input"));
+    amountInput.nativeElement.value = '10';
+    amountInput.nativeElement.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
 
@@ -451,16 +451,16 @@ describe("WireCreatorComponent", () => {
   it(`changing amount input should change the wire's cost`, () => {
     const amountInput: DebugElement = getAmountInput();
 
-    amountInput.nativeElement.value = "10";
-    amountInput.nativeElement.dispatchEvent(new Event("input"));
+    amountInput.nativeElement.value = '10';
+    amountInput.nativeElement.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
 
     expect(
       fixture.debugElement
-        .query(By.css(".m-wire--creator-wide-input--cost-value"))
-        .nativeElement.textContent.replace(/[^0-9.,]/g, "")
-    ).toBe("100.00");
+        .query(By.css('.m-wire--creator-wide-input--cost-value'))
+        .nativeElement.textContent.replace(/[^0-9.,]/g, '')
+    ).toBe('100.00');
   });
 
   it(`should have OnChain balance`, () => {
@@ -468,11 +468,11 @@ describe("WireCreatorComponent", () => {
 
     const onchainOption = getPaymentMethodItem(1),
       subtext = onchainOption
-        .query(By.css(".m-wire--creator-selector-subtext"))
+        .query(By.css('.m-wire--creator-selector-subtext'))
         .nativeElement.textContent.trim(),
-      balance = subtext.substr(subtext.lastIndexOf(" ")).trim();
+      balance = subtext.substr(subtext.lastIndexOf(' ')).trim();
 
-    expect(balance).toBe("500");
+    expect(balance).toBe('500');
   });
 
   it(`should have OffChain balance`, () => {
@@ -480,11 +480,11 @@ describe("WireCreatorComponent", () => {
 
     const onchainOption = getPaymentMethodItem(2),
       subtext = onchainOption
-        .query(By.css(".m-wire--creator-selector-subtext"))
+        .query(By.css('.m-wire--creator-selector-subtext'))
         .nativeElement.textContent.trim(),
-      balance = subtext.substr(subtext.lastIndexOf(" ")).trim();
+      balance = subtext.substr(subtext.lastIndexOf(' ')).trim();
 
-    expect(balance).toBe("500");
+    expect(balance).toBe('500');
   });
 
   it(`should have credit card payment method`, () => {
@@ -495,14 +495,14 @@ describe("WireCreatorComponent", () => {
   });
 
   it(`recurring checkbox should toggle wire's recurring property`, () => {
-    comp.setPayloadType("onchain");
+    comp.setPayloadType('onchain');
     fixture.detectChanges();
 
     expect(comp.wire.recurring).toBe(false);
     const checkbox: DebugElement = getRecurringCheckbox();
 
     checkbox.nativeElement.click();
-    checkbox.nativeElement.dispatchEvent(new Event("input"));
+    checkbox.nativeElement.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
 
@@ -510,22 +510,22 @@ describe("WireCreatorComponent", () => {
     expect(comp.wire.recurring).toBe(true);
   });
 
-  it("should show creator rewards", () => {
+  it('should show creator rewards', () => {
     expect(
-      fixture.debugElement.query(By.css("m-wire--creator-rewards"))
+      fixture.debugElement.query(By.css('m-wire--creator-rewards'))
     ).not.toBeNull();
   });
 
-  it("should have a submit section", () => {
+  it('should have a submit section', () => {
     expect(submitSection).not.toBeNull();
   });
 
-  it("if there are any errors, hovering over the submit section should show them", fakeAsync(() => {
-    spyOn(comp, "showErrors").and.callThrough();
-    spyOn(comp, "validate").and.callFake(() => {
+  it('if there are any errors, hovering over the submit section should show them', fakeAsync(() => {
+    spyOn(comp, 'showErrors').and.callThrough();
+    spyOn(comp, 'validate').and.callFake(() => {
       throw new VisibleWireError("I'm an error");
     });
-    submitSection.nativeElement.dispatchEvent(new Event("mouseenter"));
+    submitSection.nativeElement.dispatchEvent(new Event('mouseenter'));
     fixture.detectChanges();
     tick();
 
@@ -534,12 +534,12 @@ describe("WireCreatorComponent", () => {
     expect(getErrorLabel().nativeElement.textContent).toContain("I'm an error");
   }));
 
-  it("should have a send button", () => {
+  it('should have a send button', () => {
     expect(sendButton).not.toBeNull();
   });
 
   it("send button should be disabled either if the user hasn't entered data, there's an error, the component's loading something or just saved the wire", () => {
-    spyOn(comp, "canSubmit").and.returnValue(true);
+    spyOn(comp, 'canSubmit').and.returnValue(true);
 
     fixture.detectChanges();
 
@@ -569,9 +569,9 @@ describe("WireCreatorComponent", () => {
     expect(sendButton.nativeElement.disabled).toBeTruthy();
   });
 
-  it("send button should call submit()", () => {
-    spyOn(comp, "submit").and.callThrough();
-    spyOn(comp, "canSubmit").and.returnValue(true);
+  it('send button should call submit()', () => {
+    spyOn(comp, 'submit').and.callThrough();
+    spyOn(comp, 'canSubmit').and.returnValue(true);
 
     fixture.detectChanges();
 
@@ -582,9 +582,9 @@ describe("WireCreatorComponent", () => {
     expect(comp.submit).toHaveBeenCalled();
   });
 
-  it("should send a correct onchain wire", fakeAsync(() => {
-    spyOn(comp, "submit").and.callThrough();
-    spyOn(comp, "canSubmit").and.returnValue(true);
+  it('should send a correct onchain wire', fakeAsync(() => {
+    spyOn(comp, 'submit').and.callThrough();
+    spyOn(comp, 'canSubmit').and.returnValue(true);
 
     const selectTokens = getPaymentMethodItem(1);
     selectTokens.nativeElement.click();
@@ -593,8 +593,8 @@ describe("WireCreatorComponent", () => {
 
     const amountInput: DebugElement = getAmountInput();
 
-    amountInput.nativeElement.value = "10";
-    amountInput.nativeElement.dispatchEvent(new Event("input"));
+    amountInput.nativeElement.value = '10';
+    amountInput.nativeElement.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
 
@@ -611,9 +611,9 @@ describe("WireCreatorComponent", () => {
     expect(wireServiceMock.submitWire.calls.mostRecent().args[0]).toEqual({
       amount: 10,
       guid: null,
-      payload: { receiver: "0x1234", address: "" },
-      payloadType: "onchain",
-      recurring: false
+      payload: { receiver: '0x1234', address: '' },
+      payloadType: 'onchain',
+      recurring: false,
     });
   }));
 });

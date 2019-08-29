@@ -1,5 +1,5 @@
-import { Inject } from "@angular/core";
-import { Location } from "@angular/common";
+import { Inject } from '@angular/core';
+import { Location } from '@angular/common';
 
 export class Navigation {
   static _(location: Location) {
@@ -8,7 +8,7 @@ export class Navigation {
 
   constructor(@Inject(Location) public location: Location) {}
 
-  getItems(container: string = "sidebar"): Array<any> {
+  getItems(container: string = 'sidebar'): Array<any> {
     var navigation: Array<any> = window.Minds.navigation;
     var items: Array<any> = navigation[container];
     if (!items) return [];
@@ -27,13 +27,13 @@ export class Navigation {
         for (var subitem of item.submenus) {
           var sub_path = subitem.path;
           for (var p in subitem.params) {
-            if (subitem.params[p]) sub_path += "/" + subitem.params[p];
+            if (subitem.params[p]) sub_path += '/' + subitem.params[p];
           }
 
           if (path && path.indexOf(sub_path.toLowerCase()) > -1) {
             item.active = true; // activate parent aswell
             subitem.active = true;
-            path += ";ts=" + Date.now();
+            path += ';ts=' + Date.now();
           } else {
             subitem.active = false;
           }
@@ -47,7 +47,7 @@ export class Navigation {
     for (var i in window.Minds.navigation.sidebar) {
       var item = window.Minds.navigation.sidebar[i];
       if (
-        item.name === "Messenger" &&
+        item.name === 'Messenger' &&
         this.location.path().indexOf(item.path.toLowerCase()) === -1
       ) {
         item.extras.counter = count;

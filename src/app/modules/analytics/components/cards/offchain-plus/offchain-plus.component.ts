@@ -1,13 +1,13 @@
-import { Component, ViewChild } from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { AnalyticsCardComponent } from "../card/card.component";
+import { Component, ViewChild } from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { AnalyticsCardComponent } from '../card/card.component';
 
 @Component({
-  selector: "m-analyticsoffchainplus__card",
-  templateUrl: "offchain-plus.component.html"
+  selector: 'm-analyticsoffchainplus__card',
+  templateUrl: 'offchain-plus.component.html',
 })
 export class OffChainPlusCardComponent {
-  @ViewChild("card", { static: true }) card: AnalyticsCardComponent;
+  @ViewChild('card', { static: true }) card: AnalyticsCardComponent;
 
   reclaimedTokens: number = 0;
   users: number = 0;
@@ -23,10 +23,10 @@ export class OffChainPlusCardComponent {
   private async getAvgData() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/offchainplus",
+        'api/v2/analytics/offchainplus',
         {
-          key: "avg",
-          timespan: this.card.selectedOption
+          key: 'avg',
+          timespan: this.card.selectedOption,
         }
       );
 

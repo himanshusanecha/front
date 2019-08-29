@@ -1,19 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
-import { BlockchainService } from "../blockchain.service";
-import { Web3WalletService } from "../web3-wallet.service";
+import { BlockchainService } from '../blockchain.service';
+import { Web3WalletService } from '../web3-wallet.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-blockchain--console",
-  templateUrl: "console.component.html"
+  selector: 'm-blockchain--console',
+  templateUrl: 'console.component.html',
 })
 export class BlockchainConsoleComponent implements OnInit {
   inProgress: boolean = false;
   form: FormGroup;
-  error: string = "";
+  error: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -24,14 +24,14 @@ export class BlockchainConsoleComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      address: ["", Validators.pattern(/^0x[a-fA-F0-9]{40}$/)]
+      address: ['', Validators.pattern(/^0x[a-fA-F0-9]{40}$/)],
     });
 
     this.getWallet();
   }
 
   async getWallet() {
-    this.error = "";
+    this.error = '';
     this.inProgress = true;
 
     try {
@@ -50,21 +50,21 @@ export class BlockchainConsoleComponent implements OnInit {
       }
     } catch (e) {
       this.error =
-        (e && e.message) || "There was an issue getting your saved wallet info";
+        (e && e.message) || 'There was an issue getting your saved wallet info';
     } finally {
       this.inProgress = false;
     }
   }
 
   async setWallet() {
-    this.error = "";
+    this.error = '';
     this.inProgress = true;
 
     try {
       await this.blockchain.setWallet(this.form.value);
     } catch (e) {
       this.error =
-        (e && e.message) || "There was an issue saving the wallet info";
+        (e && e.message) || 'There was an issue saving the wallet info';
     } finally {
       this.inProgress = false;
     }

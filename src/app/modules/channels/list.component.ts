@@ -1,31 +1,31 @@
-import { Component, HostListener } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component, HostListener } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { MindsTitle } from "../../services/ux/title";
-import { Client } from "../../services/api";
-import { Session } from "../../services/session";
-import { ContextService } from "../../services/context.service";
-import { HashtagsSelectorModalComponent } from "../hashtags/hashtag-selector-modal/hashtags-selector.component";
-import { OverlayModalService } from "../../services/ux/overlay-modal";
+import { MindsTitle } from '../../services/ux/title';
+import { Client } from '../../services/api';
+import { Session } from '../../services/session';
+import { ContextService } from '../../services/context.service';
+import { HashtagsSelectorModalComponent } from '../hashtags/hashtag-selector-modal/hashtags-selector.component';
+import { OverlayModalService } from '../../services/ux/overlay-modal';
 
 @Component({
   moduleId: module.id,
-  selector: "m-channels--list",
-  templateUrl: "list.component.html"
+  selector: 'm-channels--list',
+  templateUrl: 'list.component.html',
 })
 export class ChannelsListComponent {
-  filter: string = "top";
-  uri: string = "entities/trending/channels";
+  filter: string = 'top';
+  uri: string = 'entities/trending/channels';
   entities: Array<Object> = [];
   moreData: boolean = true;
   all: boolean = false;
-  offset: string | number = "";
+  offset: string | number = '';
   inProgress: boolean = false;
   paramsSubscription: Subscription;
   rating: number = 1; //safe by default
-  version: string = "v1";
+  version: string = 'v1';
   preventHashtagOverflow: boolean = false;
 
   constructor(
@@ -39,21 +39,21 @@ export class ChannelsListComponent {
   ) {}
 
   ngOnInit() {
-    this.title.setTitle("Channels");
+    this.title.setTitle('Channels');
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["filter"]) {
-        this.filter = params["filter"];
-        this.version = "v1";
+      if (params['filter']) {
+        this.filter = params['filter'];
+        this.version = 'v1';
         switch (this.filter) {
-          case "all":
-            this.filter = "all";
-            this.uri = "entities/all/channels";
+          case 'all':
+            this.filter = 'all';
+            this.uri = 'entities/all/channels';
             break;
-          case "top":
+          case 'top':
             this.router.navigate([
-              "/newsfeed/global/top",
-              { type: "channels" }
+              '/newsfeed/global/top',
+              { type: 'channels' },
             ]);
 
             // if (!this.session.isLoggedIn()) {
@@ -63,24 +63,24 @@ export class ChannelsListComponent {
             // this.filter = 'trending';
             // this.uri = 'entities/suggested/channels';
             break;
-          case "suggested":
+          case 'suggested':
             if (!this.session.isLoggedIn()) {
-              this.router.navigate(["/channels", "subscriptions"]);
+              this.router.navigate(['/channels', 'subscriptions']);
             }
-            this.filter = "trending";
-            this.uri = "entities/trending/channels";
+            this.filter = 'trending';
+            this.uri = 'entities/trending/channels';
             break;
-          case "subscribers":
+          case 'subscribers':
             this.uri =
-              "subscribe/subscribers/" + this.session.getLoggedInUser().guid;
+              'subscribe/subscribers/' + this.session.getLoggedInUser().guid;
             break;
-          case "subscriptions":
+          case 'subscriptions':
             this.uri =
-              "subscribe/subscriptions/" + this.session.getLoggedInUser().guid;
+              'subscribe/subscriptions/' + this.session.getLoggedInUser().guid;
             break;
-          case "founders":
-            this.uri = "channels/founders/";
-            this.version = "v2";
+          case 'founders':
+            this.uri = 'channels/founders/';
+            this.version = 'v2';
             break;
         }
       }
@@ -106,7 +106,7 @@ export class ChannelsListComponent {
     if (this.inProgress || (!this.moreData && !refresh)) return false;
 
     if (refresh) {
-      this.offset = "";
+      this.offset = '';
       this.entities = [];
     }
 
@@ -114,21 +114,21 @@ export class ChannelsListComponent {
 
     let uri = this.uri;
     if (this.all) {
-      uri = uri + "/all";
-      this.router.navigate(["channels/top"]);
+      uri = uri + '/all';
+      this.router.navigate(['channels/top']);
     }
 
     this.client
-      .get("api/" + this.version + "/" + uri, {
+      .get('api/' + this.version + '/' + uri, {
         limit: 24,
-        offset: this.offset
+        offset: this.offset,
       })
       .then((data: any) => {
         if (data.users) data.entities = data.users;
         if (!data.entities || !data.entities.length) {
           this.moreData = false;
           this.inProgress = false;
-          if (this.filter == "trending") this.openHashtagsSelector();
+          if (this.filter == 'trending') this.openHashtagsSelector();
           return false;
         }
 
@@ -139,7 +139,7 @@ export class ChannelsListComponent {
           this.entities = this.entities.concat(data.entities);
         }
 
-        this.offset = data["load-next"];
+        this.offset = data['load-next'];
         if (!this.offset) this.moreData = false;
         this.inProgress = false;
       })
@@ -148,7 +148,7 @@ export class ChannelsListComponent {
       });
   }
 
-  @HostListener("window:resize") detectWidth() {
+  @HostListener('window:resize') detectWidth() {
     this.preventHashtagOverflow = window.innerWidth < 400;
   }
 
@@ -170,10 +170,10 @@ export class ChannelsListComponent {
         {},
         {
           class:
-            "m-overlay-modal--hashtag-selector m-overlay-modal--medium-large",
+            'm-overlay-modal--hashtag-selector m-overlay-modal--medium-large',
           onSelected: () => {
             this.load(true); //refresh list
-          }
+          },
         }
       )
       .present();

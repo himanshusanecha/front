@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Client } from "../../services/api/client";
+import { Injectable } from '@angular/core';
+import { Client } from '../../services/api/client';
 
 @Injectable()
 export class BlockchainService {
@@ -25,7 +25,7 @@ export class BlockchainService {
       this.serverWalletAddressCache = response.wallet.address;
       return response.wallet.address;
     } else {
-      throw new Error("There was an issue getting your saved wallet info");
+      throw new Error('There was an issue getting your saved wallet info');
     }
   }
 
@@ -37,7 +37,7 @@ export class BlockchainService {
   }
 
   async getBalance(refresh?: boolean) {
-    if (!refresh && typeof this.serverBalanceCache !== "undefined") {
+    if (!refresh && typeof this.serverBalanceCache !== 'undefined') {
       return this.serverBalanceCache;
     }
 

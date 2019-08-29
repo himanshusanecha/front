@@ -2,18 +2,18 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit
-} from "@angular/core";
-import { Router } from "@angular/router";
+  OnInit,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Web3WalletService } from "../web3-wallet.service";
-import { BlockchainService } from "../blockchain.service";
+import { Web3WalletService } from '../web3-wallet.service';
+import { BlockchainService } from '../blockchain.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-blockchain--wallet-address-notice",
-  templateUrl: "wallet-address-notice.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-blockchain--wallet-address-notice',
+  templateUrl: 'wallet-address-notice.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockchainWalletAddressNoticeComponent implements OnInit {
   address: string;
@@ -46,7 +46,7 @@ export class BlockchainWalletAddressNoticeComponent implements OnInit {
     try {
       await this.blockchain.setWallet({ address: this.address });
 
-      this.router.navigate(["/wallet/tokens/addresses"]);
+      this.router.navigate(['/wallet/tokens/addresses']);
       this.address = void 0;
       this.detectChanges();
     } catch (e) {

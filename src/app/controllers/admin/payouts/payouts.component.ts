@@ -1,22 +1,22 @@
-import { Component } from "@angular/core";
-import { Location } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-admin-payouts",
-  templateUrl: "payouts.component.html"
+  selector: 'minds-admin-payouts',
+  templateUrl: 'payouts.component.html',
 })
 export class AdminPayouts {
   payouts: any[] = [];
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = "";
+  offset: string = '';
   reviewing: number | null = null;
 
   constructor(public client: Client, private route: ActivatedRoute) {}
@@ -35,7 +35,7 @@ export class AdminPayouts {
     this.client
       .get(`api/v1/admin/monetization/payouts/queue`, {
         limit: 50,
-        offset: this.offset
+        offset: this.offset,
       })
       .then((response: any) => {
         if (!response.payouts) {
@@ -47,8 +47,8 @@ export class AdminPayouts {
         this.payouts.push(...response.payouts);
         this.inProgress = false;
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
         }
@@ -67,7 +67,7 @@ export class AdminPayouts {
   }
 
   pay(index) {
-    if (!window.confirm("Payment has no UNDO. Proceed?")) {
+    if (!window.confirm('Payment has no UNDO. Proceed?')) {
       return;
     }
 

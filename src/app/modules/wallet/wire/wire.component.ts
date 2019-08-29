@@ -1,16 +1,16 @@
-import { Component, ViewChild, ComponentFactoryResolver } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { DynamicHostDirective } from "../../../common/directives/dynamic-host.directive";
-import { WireConsoleComponent } from "../../wire/console/console.component";
-import { Session } from "../../../services/session";
+import { DynamicHostDirective } from '../../../common/directives/dynamic-host.directive';
+import { WireConsoleComponent } from '../../wire/console/console.component';
+import { Session } from '../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wallet--wire",
+  selector: 'm-wallet--wire',
   template: `
     <ng-template dynamic-host></ng-template>
-  `
+  `,
 })
 export class WalletWireComponent {
   @ViewChild(DynamicHostDirective, { static: true }) host: DynamicHostDirective;

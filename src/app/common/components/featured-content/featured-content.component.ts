@@ -8,18 +8,18 @@ import {
   Input,
   OnInit,
   SkipSelf,
-  ViewChild
-} from "@angular/core";
-import { FeaturedContentService } from "./featured-content.service";
-import { DynamicHostDirective } from "../../directives/dynamic-host.directive";
-import { Activity } from "../../../modules/legacy/components/cards/activity/activity";
-import { ClientMetaService } from "../../services/client-meta.service";
+  ViewChild,
+} from '@angular/core';
+import { FeaturedContentService } from './featured-content.service';
+import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
+import { Activity } from '../../../modules/legacy/components/cards/activity/activity';
+import { ClientMetaService } from '../../services/client-meta.service';
 
 @Component({
-  selector: "m-featured-content",
+  selector: 'm-featured-content',
   providers: [ClientMetaService],
-  templateUrl: "featured-content.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'featured-content.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeaturedContentComponent implements OnInit {
   entity: any;
@@ -36,7 +36,7 @@ export class FeaturedContentComponent implements OnInit {
     protected clientMetaService: ClientMetaService,
     @SkipSelf() injector: Injector
   ) {
-    this.clientMetaService.inherit(injector).setMedium("featured-content");
+    this.clientMetaService.inherit(injector).setMedium('featured-content');
   }
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class FeaturedContentComponent implements OnInit {
     try {
       this.entity = await this.featuredContentService.fetch();
     } catch (e) {
-      console.error("FeaturedContentComponent.load", e);
+      console.error('FeaturedContentComponent.load', e);
     }
 
     this.update();
@@ -68,7 +68,7 @@ export class FeaturedContentComponent implements OnInit {
 
     if (!this.dynamicHost) {
       console.log(
-        "tried to load a boost but no dynamicHost found",
+        'tried to load a boost but no dynamicHost found',
         this.entity
       );
       return;
@@ -91,14 +91,14 @@ export class FeaturedContentComponent implements OnInit {
       return {};
     }
 
-    if (this.entity.type === "activity") {
+    if (this.entity.type === 'activity') {
       return {
         component: Activity,
         injector: (componentRef, entity) => {
           componentRef.instance.object = entity;
           componentRef.instance.slot = this.slot;
           componentRef.changeDetectorRef.detectChanges();
-        }
+        },
       };
     }
   }

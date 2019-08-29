@@ -1,13 +1,13 @@
-import { Component, ViewChild } from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { AnalyticsCardComponent } from "../card/card.component";
+import { Component, ViewChild } from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { AnalyticsCardComponent } from '../card/card.component';
 
 @Component({
-  selector: "m-analyticspageviews__card",
-  templateUrl: "pageviews.component.html"
+  selector: 'm-analyticspageviews__card',
+  templateUrl: 'pageviews.component.html',
 })
 export class PageviewsCardComponent {
-  @ViewChild("card", { static: true }) card: AnalyticsCardComponent;
+  @ViewChild('card', { static: true }) card: AnalyticsCardComponent;
 
   currents: { name: string; value: number }[];
   avgPageviews: number = 0;
@@ -25,10 +25,10 @@ export class PageviewsCardComponent {
   private async getAvgData() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/pageviews",
+        'api/v2/analytics/pageviews',
         {
-          key: "avg",
-          timespan: this.card.selectedOption
+          key: 'avg',
+          timespan: this.card.selectedOption,
         }
       );
 

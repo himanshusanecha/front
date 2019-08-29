@@ -1,18 +1,18 @@
-import { Component, EventEmitter, NgZone } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Component, EventEmitter, NgZone } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-form-login",
-  outputs: ["done", "doneRegistered"],
-  templateUrl: "login.html"
+  selector: 'minds-form-login',
+  outputs: ['done', 'doneRegistered'],
+  templateUrl: 'login.html',
 })
 export class LoginForm {
-  errorMessage: string = "";
-  twofactorToken: string = "";
+  errorMessage: string = '';
+  twofactorToken: string = '';
   hideLogin: boolean = false;
   inProgress: boolean = false;
   referrer: string;
@@ -35,8 +35,8 @@ export class LoginForm {
     private zone: NgZone
   ) {
     this.form = fb.group({
-      username: ["", Validators.required],
-      password: ["", Validators.required]
+      username: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
@@ -45,19 +45,19 @@ export class LoginForm {
 
     let username = this.form.value.username.trim();
     if (this.emailRegex.test(username)) {
-      this.errorMessage = "LoginException::EmailAddress";
+      this.errorMessage = 'LoginException::EmailAddress';
       return;
     }
     //re-enable cookies
     document.cookie =
-      "disabled_cookies=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+      'disabled_cookies=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
-    this.errorMessage = "";
+    this.errorMessage = '';
     this.inProgress = true;
     this.client
-      .post("api/v1/authenticate", {
+      .post('api/v1/authenticate', {
         username: username,
-        password: this.form.value.password
+        password: this.form.value.password,
       })
       .then((data: any) => {
         // TODO: [emi/sprint/bison] Find a way to reset controls. Old implementation throws Exception;
@@ -69,16 +69,16 @@ export class LoginForm {
         this.inProgress = false;
 
         if (!e) {
-          this.errorMessage = "LoginException::Unknown";
+          this.errorMessage = 'LoginException::Unknown';
           this.session.logout();
-        } else if (e.status === "failed") {
+        } else if (e.status === 'failed') {
           //incorrect login details
-          this.errorMessage = "LoginException::AuthenticationFailed";
+          this.errorMessage = 'LoginException::AuthenticationFailed';
           this.session.logout();
-        } else if (e.status === "error") {
+        } else if (e.status === 'error') {
           if (
-            e.message === "LoginException:BannedUser" ||
-            e.message === "LoginException::AttemptsExceeded"
+            e.message === 'LoginException:BannedUser' ||
+            e.message === 'LoginException::AttemptsExceeded'
           ) {
             this.session.logout();
           }
@@ -87,16 +87,16 @@ export class LoginForm {
           this.twofactorToken = e.message;
           this.hideLogin = true;
         } else {
-          this.errorMessage = "LoginException::Unknown";
+          this.errorMessage = 'LoginException::Unknown';
         }
       });
   }
 
   twofactorAuth(code) {
     this.client
-      .post("api/v1/twofactor/authenticate", {
+      .post('api/v1/twofactor/authenticate', {
         token: this.twofactorToken,
-        code: code.value
+        code: code.value,
       })
       .then((data: any) => {
         this.session.login(data.user);
@@ -104,7 +104,7 @@ export class LoginForm {
       })
       .catch(e => {
         this.errorMessage = e.message;
-        this.twofactorToken = "";
+        this.twofactorToken = '';
         this.hideLogin = false;
       });
   }

@@ -1,4 +1,4 @@
-import { BehaviorSubject, Subscription } from "rxjs";
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 export default class AsyncStatus {
   protected ready: boolean = false;
@@ -10,7 +10,7 @@ export default class AsyncStatus {
 
   done(): this {
     if (this.ready) {
-      throw new Error("Already done");
+      throw new Error('Already done');
     }
 
     this.ready = true;

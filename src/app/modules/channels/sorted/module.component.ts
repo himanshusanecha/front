@@ -3,24 +3,24 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Input,
-  ChangeDetectorRef
-} from "@angular/core";
-import { SortedService } from "./sorted.service";
-import { AttachmentService } from "../../../services/attachment";
+  ChangeDetectorRef,
+} from '@angular/core';
+import { SortedService } from './sorted.service';
+import { AttachmentService } from '../../../services/attachment';
 
 @Component({
-  selector: "m-channels--sorted-module",
+  selector: 'm-channels--sorted-module',
   providers: [SortedService],
-  templateUrl: "module.component.html",
+  templateUrl: 'module.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: "mdl-card m-border",
-    "[hidden]": "!entities || !entities.length"
-  }
+    class: 'mdl-card m-border',
+    '[hidden]': '!entities || !entities.length',
+  },
 })
 export class ChannelSortedModuleComponent implements OnInit {
   channel: any;
-  @Input("channel") set _channel(channel: any) {
+  @Input('channel') set _channel(channel: any) {
     if (channel === this.channel) {
       return;
     }
@@ -29,8 +29,8 @@ export class ChannelSortedModuleComponent implements OnInit {
     this.load();
   }
 
-  type: string = "";
-  @Input("type") set _type(type: string) {
+  type: string = '';
+  @Input('type') set _type(type: string) {
     if (type === this.type) {
       return;
     }
@@ -38,7 +38,7 @@ export class ChannelSortedModuleComponent implements OnInit {
     this.type = type;
   }
 
-  @Input() title: string = "";
+  @Input() title: string = '';
 
   @Input() linksTo: string | any[];
 
@@ -71,7 +71,7 @@ export class ChannelSortedModuleComponent implements OnInit {
       const params: any = {
         customType: this.type,
         container_guid: this.channel.guid,
-        limit: this.size
+        limit: this.size,
       };
 
       const entities = await this.service.getMedia(
@@ -89,7 +89,7 @@ export class ChannelSortedModuleComponent implements OnInit {
 
       this.entities = entities;
     } catch (e) {
-      console.error("ChannelSortedModuleComponent.load", e);
+      console.error('ChannelSortedModuleComponent.load', e);
     }
 
     this.inProgress = false;
@@ -101,7 +101,7 @@ export class ChannelSortedModuleComponent implements OnInit {
   }
 
   getThumbnailSrcCssUrl(entity: any) {
-    let src: string = "";
+    let src: string = '';
 
     if (entity && entity.thumbnail_src) {
       src = entity.thumbnail_src;
@@ -120,7 +120,7 @@ export class ChannelSortedModuleComponent implements OnInit {
       src = entity.custom_data.thumbnail_src;
     }
 
-    return src ? `url(${src})` : "none";
+    return src ? `url(${src})` : 'none';
   }
 
   detectChanges() {

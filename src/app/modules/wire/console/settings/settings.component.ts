@@ -2,35 +2,35 @@ import {
   Component,
   ChangeDetectorRef,
   Output,
-  EventEmitter
-} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+  EventEmitter,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Client, Upload } from "../../../../services/api";
-import { Session } from "../../../../services/session";
-import { WalletService } from "../../../../services/wallet";
-import { Storage } from "../../../../services/storage";
+import { Client, Upload } from '../../../../services/api';
+import { Session } from '../../../../services/session';
+import { WalletService } from '../../../../services/wallet';
+import { Storage } from '../../../../services/storage';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wire-console-settings",
-  templateUrl: "settings.component.html"
+  selector: 'm-wire-console-settings',
+  templateUrl: 'settings.component.html',
 })
 export class WireConsoleSettingsComponent {
-  @Output("saved") savedEmitter: EventEmitter<any> = new EventEmitter<any>();
+  @Output('saved') savedEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   ts: number = Date.now();
 
   user = window.Minds.user;
   minds = window.Minds;
 
-  error: string = "";
+  error: string = '';
 
   exclusive: any = {
-    intro: "",
+    intro: '',
     background: 0,
     saving: false,
-    saved: false
+    saved: false,
   };
 
   previewEntity: any = false;
@@ -59,8 +59,8 @@ export class WireConsoleSettingsComponent {
     this.previewEntity = {
       _preview: true,
       wire_threshold: {
-        type: "money",
-        min: 50
+        type: 'money',
+        min: 50,
       },
       ownerObj: {
         ...this.user,
@@ -70,13 +70,13 @@ export class WireConsoleSettingsComponent {
             _backgroundPreview:
               this.preview.src ||
               this.minds.cdn_url +
-                "fs/v1/paywall/preview/" +
+                'fs/v1/paywall/preview/' +
                 this.session.getLoggedInUser().guid +
-                "/" +
-                this.exclusive.background
-          }
-        }
-      }
+                '/' +
+                this.exclusive.background,
+          },
+        },
+      },
     };
 
     this.detectChanges();
@@ -88,15 +88,15 @@ export class WireConsoleSettingsComponent {
     var reader = new FileReader();
     reader.onloadend = () => {
       input.src =
-        typeof reader.result === "string"
+        typeof reader.result === 'string'
           ? reader.result
           : reader.result.toString();
 
       this.preview = {
         src:
-          typeof reader.result === "string"
+          typeof reader.result === 'string'
             ? reader.result
-            : reader.result.toString()
+            : reader.result.toString(),
       };
       this.updatePreviewEntity();
     };
@@ -113,7 +113,7 @@ export class WireConsoleSettingsComponent {
     }
 
     return this.upload
-      .post("api/v1/merchant/exclusive-preview", [file], {}, progress => {
+      .post('api/v1/merchant/exclusive-preview', [file], {}, progress => {
         console.log(progress);
       })
       .then((response: any) => {
@@ -124,7 +124,7 @@ export class WireConsoleSettingsComponent {
         return true;
       })
       .catch(e => {
-        alert("Sorry, there was a problem. Try again.");
+        alert('Sorry, there was a problem. Try again.');
         input.value = null;
         this.detectChanges();
 
@@ -143,7 +143,7 @@ export class WireConsoleSettingsComponent {
 
     return this.uploadPreview(file).then(() => {
       return this.client
-        .post("api/v1/merchant/exclusive", this.exclusive)
+        .post('api/v1/merchant/exclusive', this.exclusive)
         .then(() => {
           this.minds.user.merchant.exclusive = this.exclusive;
           this.exclusive.saved = true;

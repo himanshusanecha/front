@@ -7,42 +7,42 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   OnChanges,
-  Input
-} from "@angular/core";
+  Input,
+} from '@angular/core';
 
-import { Session } from "../../../services/session";
-import { Upload } from "../../../services/api/upload";
-import { Client } from "../../../services/api/client";
-import { AttachmentService } from "../../../services/attachment";
-import { TranslationService } from "../../../services/translation";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { ReportCreatorComponent } from "../../report/creator/creator.component";
-import { CommentsListComponent } from "../list/list.component";
-import { TimeDiffService } from "../../../services/timediff.service";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Session } from '../../../services/session';
+import { Upload } from '../../../services/api/upload';
+import { Client } from '../../../services/api/client';
+import { AttachmentService } from '../../../services/attachment';
+import { TranslationService } from '../../../services/translation';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { ReportCreatorComponent } from '../../report/creator/creator.component';
+import { CommentsListComponent } from '../list/list.component';
+import { TimeDiffService } from '../../../services/timediff.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-card-comment",
+  selector: 'minds-card-comment',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  inputs: ["parent"],
-  outputs: ["_delete: delete", "_saved: saved"],
+  inputs: ['parent'],
+  outputs: ['_delete: delete', '_saved: saved'],
   host: {
-    "(keydown.esc)": "editing = false"
+    '(keydown.esc)': 'editing = false',
   },
-  templateUrl: "comment.component.html",
+  templateUrl: 'comment.component.html',
   providers: [
     {
       provide: AttachmentService,
       useFactory: AttachmentService._,
-      deps: [Session, Client, Upload]
+      deps: [Session, Client, Upload],
     },
     {
       provide: CommentsListComponent,
-      useValue: forwardRef(() => CommentsListComponent)
-    }
-  ]
+      useValue: forwardRef(() => CommentsListComponent),
+    },
+  ],
 })
 export class CommentComponent implements OnChanges {
   comment: any;
@@ -52,7 +52,7 @@ export class CommentComponent implements OnChanges {
   canPost: boolean = true;
   triedToPost: boolean = false;
   inProgress: boolean = false;
-  error: string = "";
+  error: string = '';
   showReplies: boolean = false;
   changesDetected: boolean = false;
 
@@ -64,10 +64,10 @@ export class CommentComponent implements OnChanges {
 
   translation = {
     translated: false,
-    target: "",
+    target: '',
     error: false,
-    description: "",
-    source: null
+    description: '',
+    source: null,
   };
   isTranslatable: boolean;
   translationInProgress: boolean;
@@ -95,7 +95,7 @@ export class CommentComponent implements OnChanges {
     );
   }
 
-  @Input("object")
+  @Input('object')
   set object(value: any) {
     if (!value) return;
     this.comment = value;
@@ -112,7 +112,7 @@ export class CommentComponent implements OnChanges {
     return (
       !this.inProgress &&
       this.canPost &&
-      ((this.comment.description && this.comment.description.trim() !== "") ||
+      ((this.comment.description && this.comment.description.trim() !== '') ||
         this.attachment.has())
     );
   }
@@ -125,17 +125,17 @@ export class CommentComponent implements OnChanges {
     }
 
     let data = this.attachment.exportMeta();
-    data["comment"] = this.comment.description;
+    data['comment'] = this.comment.description;
 
     this.editing = false;
     this.inProgress = true;
     this.client
-      .post("api/v1/comments/update/" + this.comment.guid, data)
+      .post('api/v1/comments/update/' + this.comment.guid, data)
       .then((response: any) => {
         this.inProgress = false;
         if (response.comment) {
           this._saved.next({
-            comment: response.comment
+            comment: response.comment,
           });
         }
         this.comment.edited = true;
@@ -173,8 +173,8 @@ export class CommentComponent implements OnChanges {
       return;
     }
 
-    this.client.delete("api/v1/comments/" + this.comment.guid);
-    if (this.parent.type === "comment") {
+    this.client.delete('api/v1/comments/' + this.comment.guid);
+    if (this.parent.type === 'comment') {
       this.parent.replies_count -= 1;
     }
     this._delete.next(true);
@@ -208,7 +208,7 @@ export class CommentComponent implements OnChanges {
       .then(() => {
         this.canPost = true;
         this.triedToPost = false;
-        file.value = "";
+        file.value = '';
       })
       .catch(e => {
         console.error(e);
@@ -234,7 +234,7 @@ export class CommentComponent implements OnChanges {
       return;
     }
 
-    this.translation.target = "";
+    this.translation.target = '';
     this.translationService
       .getLanguageName($event.selected)
       .then(name => (this.translation.target = name));
@@ -252,7 +252,7 @@ export class CommentComponent implements OnChanges {
           this.translation[field] = translation[field].content;
 
           if (this.translation.source === null && translation[field].source) {
-            this.translation.source = "";
+            this.translation.source = '';
             this.translationService
               .getLanguageName(translation[field].source)
               .then(name => (this.translation.source = name));
@@ -263,7 +263,7 @@ export class CommentComponent implements OnChanges {
         this.translationInProgress = false;
         this.translation.error = true;
 
-        console.error("translate()", e);
+        console.error('translate()', e);
       });
   }
 

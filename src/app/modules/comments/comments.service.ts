@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Subscription } from "rxjs";
+import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../services/api";
+import { Client } from '../../services/api';
 
 @Injectable()
 export class CommentsService {
@@ -14,7 +14,7 @@ export class CommentsService {
   constructor(private route: ActivatedRoute, private client: Client) {
     this.queryParamsSubscription$ = this.route.queryParamMap.subscribe(
       params => {
-        this.focusedUrn = params.get("focusedCommentUrn");
+        this.focusedUrn = params.get('focusedCommentUrn');
       }
     );
   }
@@ -41,7 +41,7 @@ export class CommentsService {
       if (opts.entity_guid != focusedUrnObject.entity_guid)
         this.focusedUrn = null; //wrong comment thread to focus on
       if (opts.loadNext || opts.loadPrevious) this.focusedUrn = null; //can not focus and have pagination
-      if (this.focusedUrn && opts.parent_path === "0:0:0") {
+      if (this.focusedUrn && opts.parent_path === '0:0:0') {
         opts.loadNext = focusedUrnObject.parent_guid_l1;
       }
       if (
@@ -59,14 +59,14 @@ export class CommentsService {
       }
     }
 
-    let response: any = <{ comments; "load-next"; "load-previous" }>(
+    let response: any = <{ comments; 'load-next'; 'load-previous' }>(
       await this.fetch({
         entity_guid: opts.entity_guid,
         parent_path: opts.parent_path,
         focused_urn: this.focusedUrn,
         limit: opts.limit,
-        "load-previous": opts.loadPrevious || null,
-        "load-next": opts.loadNext || null
+        'load-previous': opts.loadPrevious || null,
+        'load-next': opts.loadNext || null,
       })
     );
 
@@ -83,7 +83,7 @@ export class CommentsService {
               `${focusedUrnObject.parent_guid_l1}:${focusedUrnObject.parent_guid_l2}:0`;
             break;
           default:
-            console.log("Level out of scope", opts.level);
+            console.log('Level out of scope', opts.level);
         }
         comment.focused = comment._guid === focusedUrnObject.guid;
       }
@@ -100,7 +100,7 @@ export class CommentsService {
       {
         limit: 1,
         reversed: false,
-        descending: true
+        descending: true,
       }
     );
 
@@ -116,7 +116,7 @@ export class CommentsService {
   }
 
   private decodeUrn(urn) {
-    let parts = urn.split(":");
+    let parts = urn.split(':');
 
     const obj = {
       entity_guid: parts[2],
@@ -124,7 +124,7 @@ export class CommentsService {
       parent_guid_l2: parts[4],
       parent_guid_l3: parts[5],
       guid: parts[6],
-      parent_path: parts[5] ? `${parts[3]}:${parts[4]}:0` : `${parts[3]}:0:0`
+      parent_path: parts[5] ? `${parts[3]}:${parts[4]}:0` : `${parts[3]}:0:0`,
     };
 
     return obj;

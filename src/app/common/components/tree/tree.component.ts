@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { TreeModel } from "./tree.model";
-import { TreeNode } from "./tree-node.model";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TreeModel } from './tree.model';
+import { TreeNode } from './tree-node.model';
 
 @Component({
-  selector: "m--tree",
+  selector: 'm--tree',
   template: `
     <span *ngIf="nodes.length === 0"
       ><i i18n="No results on a tree view@@COMMON__TREE__NO_RESULTS"
@@ -42,7 +42,7 @@ import { TreeNode } from "./tree-node.model";
         ></m--tree>
       </ng-container>
     </ng-container>
-  `
+  `,
 })
 export class TreeComponent {
   @Input() treeModel: TreeModel = new TreeModel();

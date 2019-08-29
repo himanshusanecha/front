@@ -4,27 +4,27 @@ import {
   forwardRef,
   ViewChild,
   Output,
-  EventEmitter
-} from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+  EventEmitter,
+} from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
-import { Country } from "./country";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { CountryCode } from "./countries";
+import { Country } from './country';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CountryCode } from './countries';
 
 @Component({
-  selector: "m-phone-input--country",
-  templateUrl: "country.component.html"
+  selector: 'm-phone-input--country',
+  templateUrl: 'country.component.html',
 })
 export class PhoneInputCountryComponent {
-  @Output("country") selectedCountryEvt = new EventEmitter();
+  @Output('country') selectedCountryEvt = new EventEmitter();
   countries: Array<Country> = [];
   selectedCountry: Country = new Country();
   phoneNumber: string;
   countryCodeData = new CountryCode();
 
-  @ViewChild("input", { static: false }) input: ElementRef;
-  @ViewChild("dropdownMenu", { static: true }) dropdownMenu: ElementRef;
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild('dropdownMenu', { static: true }) dropdownMenu: ElementRef;
 
   showDropdownMenu: boolean = false;
   allowedKeyCodes: Array<number> = [8, 33, 34, 35, 36, 37, 39, 46];
@@ -38,10 +38,10 @@ export class PhoneInputCountryComponent {
   }
 
   searchList(event: KeyboardEvent) {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const uppercaseKey = event.key.toUpperCase();
     if (this.showDropdownMenu && chars.indexOf(uppercaseKey)) {
-      let items = this.dropdownMenu.nativeElement.querySelectorAll(".country");
+      let items = this.dropdownMenu.nativeElement.querySelectorAll('.country');
 
       for (let i: number = 0; i < items.length; ++i) {
         if (

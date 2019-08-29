@@ -3,19 +3,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ViewChild,
-  ElementRef
-} from "@angular/core";
+  ElementRef,
+} from '@angular/core';
 
-import { PlusSubscriptionComponent } from "./subscription.component";
-import { Client } from "../../common/api/client.service";
+import { PlusSubscriptionComponent } from './subscription.component';
+import { Client } from '../../common/api/client.service';
 
 @Component({
-  selector: "m-plus--marketing",
-  templateUrl: "marketing.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-plus--marketing',
+  templateUrl: 'marketing.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlusMarketingComponent {
-  @ViewChild("subscription", { static: false })
+  @ViewChild('subscription', { static: false })
   private subscription: PlusSubscriptionComponent;
 
   user = window.Minds.user;

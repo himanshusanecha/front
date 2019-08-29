@@ -7,23 +7,23 @@ import {
   Input,
   Output,
   Renderer,
-  ViewChild
-} from "@angular/core";
+  ViewChild,
+} from '@angular/core';
 
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
-import { Upload } from "../../../services/api/upload";
-import { AttachmentService } from "../../../services/attachment";
-import { Textarea } from "../../../common/components/editors/textarea.component";
-import { SocketsService } from "../../../services/sockets";
-import { CommentsService } from "../comments.service";
-import { BlockListService } from "../../../common/services/block-list.service";
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
+import { Upload } from '../../../services/api/upload';
+import { AttachmentService } from '../../../services/attachment';
+import { Textarea } from '../../../common/components/editors/textarea.component';
+import { SocketsService } from '../../../services/sockets';
+import { CommentsService } from '../comments.service';
+import { BlockListService } from '../../../common/services/block-list.service';
 
 @Component({
-  selector: "m-comments__thread",
-  templateUrl: "thread.component.html",
+  selector: 'm-comments__thread',
+  templateUrl: 'thread.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CommentsService]
+  providers: [CommentsService],
 })
 export class CommentsThreadComponent {
   minds;
@@ -42,14 +42,14 @@ export class CommentsThreadComponent {
   );
 
   @Input() scrollable: boolean = false;
-  @ViewChild("scrollArea", { static: true }) scrollView: ElementRef;
+  @ViewChild('scrollArea', { static: true }) scrollView: ElementRef;
   commentsScrollEmitter: EventEmitter<any> = new EventEmitter();
   autoloadBlocked: boolean = false;
 
   comments: Array<any> = [];
   blockedUsers: string[] = [];
   inProgress: boolean = false;
-  error: string = "";
+  error: string = '';
 
   loadNext: string;
   loadPrevious: string;
@@ -58,7 +58,7 @@ export class CommentsThreadComponent {
 
   socketRoomName: string;
   socketSubscriptions: any = {
-    comment: null
+    comment: null,
   };
 
   constructor(
@@ -81,7 +81,7 @@ export class CommentsThreadComponent {
     return this.entity.entity_guid ? this.entity.entity_guid : this.entity.guid;
   }
 
-  async load(refresh: boolean = false, direction: string = "desc") {
+  async load(refresh: boolean = false, direction: string = 'desc') {
     if (refresh) {
       this.comments = [];
 
@@ -97,14 +97,14 @@ export class CommentsThreadComponent {
     this.inProgress = true;
     this.detectChanges();
 
-    const descending: boolean = direction === "desc";
-    const parent_path = this.parent.child_path || "0:0:0";
+    const descending: boolean = direction === 'desc';
+    const parent_path = this.parent.child_path || '0:0:0';
 
     let el = this.scrollView.nativeElement;
     const previousScrollHeightMinusTop = el.scrollHeight - el.scrollTop;
 
     let response: any = <
-      { comments; "load-next"; "load-previous"; socketRoomName }
+      { comments; 'load-next'; 'load-previous'; socketRoomName }
     >await this.commentsService.get({
       entity_guid: this.guid,
       parent_path,
@@ -112,7 +112,7 @@ export class CommentsThreadComponent {
       limit: 12,
       loadNext: descending ? null : this.loadNext,
       loadPrevious: descending ? this.loadPrevious : null,
-      descending
+      descending,
     });
 
     let comments = response.comments;
@@ -123,8 +123,8 @@ export class CommentsThreadComponent {
       this.comments = this.comments.concat(comments);
     }
 
-    if (this.moreNext) this.loadNext = response["load-next"];
-    if (this.morePrevious) this.loadPrevious = response["load-previous"];
+    if (this.moreNext) this.loadNext = response['load-next'];
+    if (this.morePrevious) this.loadPrevious = response['load-previous'];
 
     this.moreNext = !!this.loadNext;
     this.morePrevious = !!this.loadPrevious;
@@ -135,7 +135,7 @@ export class CommentsThreadComponent {
     }
 
     if (refresh && this.level === 0) {
-      this.commentsScrollEmitter.emit("bottom");
+      this.commentsScrollEmitter.emit('bottom');
     } else if (this.scrollView && this.scrollable) {
       this.detectChanges();
       el.scrollTop = el.scrollHeight - previousScrollHeightMinusTop;
@@ -150,7 +150,7 @@ export class CommentsThreadComponent {
     try {
       this.blockedUsers = (await this.blockListService.getList()) || [];
     } catch (e) {
-      console.warn("CommentsThreadComponent.loadBlockedUsers", e);
+      console.warn('CommentsThreadComponent.loadBlockedUsers', e);
     }
 
     return true;
@@ -178,12 +178,12 @@ export class CommentsThreadComponent {
       this.autoloadBlocked = false;
     }, 1000);
 
-    this.load(false, "desc");
+    this.load(false, 'desc');
   }
 
   listen() {
     this.socketSubscriptions.comment = this.sockets.subscribe(
-      "comment",
+      'comment',
       async (entity_guid, owner_guid, guid) => {
         if (entity_guid !== this.guid) {
           return;
@@ -196,7 +196,7 @@ export class CommentsThreadComponent {
           return;
         }
 
-        const parent_path = this.parent.child_path || "0:0:0";
+        const parent_path = this.parent.child_path || '0:0:0';
 
         let scrolledToBottom =
           this.scrollView.nativeElement.scrollTop +
@@ -207,7 +207,7 @@ export class CommentsThreadComponent {
           let comment: any = await this.commentsService.single({
             entity_guid: this.guid,
             guid: guid,
-            parent_path: parent_path
+            parent_path: parent_path,
           });
 
           // if the list is scrolled to the bottom
@@ -224,14 +224,14 @@ export class CommentsThreadComponent {
           this.detectChanges();
 
           if (scrolledToBottom) {
-            this.commentsScrollEmitter.emit("bottom");
+            this.commentsScrollEmitter.emit('bottom');
             this.scrollToBottom.next(true);
           }
         } catch (err) {}
       }
     );
 
-    this.sockets.subscribe("reply", guid => {
+    this.sockets.subscribe('reply', guid => {
       for (let i = 0; i < this.comments.length; i++) {
         if (this.comments[i]._guid == guid) {
           this.comments[i].replies_count++;
@@ -240,14 +240,14 @@ export class CommentsThreadComponent {
       }
     });
 
-    this.sockets.subscribe("vote", (guid, owner_guid, direction) => {
+    this.sockets.subscribe('vote', (guid, owner_guid, direction) => {
       if (
         this.session.isLoggedIn() &&
         owner_guid === this.session.getLoggedInUser().guid
       ) {
         return;
       }
-      let key = "thumbs:" + direction + ":count";
+      let key = 'thumbs:' + direction + ':count';
       for (let i = 0; i < this.comments.length; i++) {
         if (this.comments[i]._guid == guid) {
           this.comments[i][key]++;
@@ -258,14 +258,14 @@ export class CommentsThreadComponent {
       this.detectChanges();
     });
 
-    this.sockets.subscribe("vote:cancel", (guid, owner_guid, direction) => {
+    this.sockets.subscribe('vote:cancel', (guid, owner_guid, direction) => {
       if (
         this.session.isLoggedIn() &&
         owner_guid === this.session.getLoggedInUser().guid
       ) {
         return;
       }
-      let key = "thumbs:" + direction + ":count";
+      let key = 'thumbs:' + direction + ':count';
       for (let i = 0; i < this.comments.length; i++) {
         if (this.comments[i]._guid == guid) {
           this.comments[i][key]--;
@@ -284,12 +284,12 @@ export class CommentsThreadComponent {
   onOptimisticPost(comment) {
     this.comments.push(comment);
     this.detectChanges();
-    this.commentsScrollEmitter.emit("bottom");
+    this.commentsScrollEmitter.emit('bottom');
     this.scrollToBottom.next(true);
   }
 
   onPosted({ comment, index }) {
-    console.log("onPosted called");
+    console.log('onPosted called');
     console.log(comment, index);
     this.comments[index] = comment;
     this.detectChanges();

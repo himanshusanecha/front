@@ -1,26 +1,26 @@
-import { Component, Injector, ViewChild } from "@angular/core";
+import { Component, Injector, ViewChild } from '@angular/core';
 
-import { SocketsService } from "../../../services/sockets";
+import { SocketsService } from '../../../services/sockets';
 
-import { Storage } from "../../../services/storage";
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
+import { Storage } from '../../../services/storage';
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
 
-import { MessengerConversationDockpanesService } from "../dockpanes/dockpanes.component";
-import { MessengerEncryptionService } from "../encryption/encryption.service";
-import { MessengerSounds } from "../sounds/service";
-import { MessengerEncryption } from "../encryption/encryption.component";
+import { MessengerConversationDockpanesService } from '../dockpanes/dockpanes.component';
+import { MessengerEncryptionService } from '../encryption/encryption.service';
+import { MessengerSounds } from '../sounds/service';
+import { MessengerEncryption } from '../encryption/encryption.component';
 
 @Component({
   moduleId: module.id,
-  selector: "m-messenger--userlist",
-  templateUrl: "userlist.component.html"
+  selector: 'm-messenger--userlist',
+  templateUrl: 'userlist.component.html',
 })
 export class MessengerUserlist {
   sounds = new MessengerSounds();
 
   conversations: Array<any> = [];
-  offset: string = "";
+  offset: string = '';
 
   setup: boolean = false;
   hasMoreData: boolean = true;
@@ -31,7 +31,7 @@ export class MessengerUserlist {
   storage: Storage = new Storage();
 
   socketSubscriptions = {
-    touchConversation: null
+    touchConversation: null,
   };
 
   userListToggle: boolean = false;
@@ -59,8 +59,8 @@ export class MessengerUserlist {
     (<any>Object).assign(
       {
         limit: 12,
-        offset: "",
-        refresh: false
+        offset: '',
+        refresh: false,
       },
       opts
     );
@@ -70,12 +70,12 @@ export class MessengerUserlist {
     this.inProgress = true;
 
     if (opts.refresh) {
-      this.offset = "";
+      this.offset = '';
       this.cb = Date.now();
     }
 
     this.client
-      .get("api/v2/messenger/conversations", opts)
+      .get('api/v2/messenger/conversations', opts)
       .then((response: any) => {
         if (!response.conversations) {
           this.hasMoreData = false;
@@ -91,11 +91,11 @@ export class MessengerUserlist {
           );
         }
 
-        this.offset = response["load-next"];
+        this.offset = response['load-next'];
         this.inProgress = false;
       })
       .catch(error => {
-        console.log("got error" + error);
+        console.log('got error' + error);
         this.inProgress = false;
       });
   }
@@ -105,7 +105,7 @@ export class MessengerUserlist {
 
     this.conversations = [];
 
-    if (typeof (<HTMLInputElement>q).value !== "undefined") {
+    if (typeof (<HTMLInputElement>q).value !== 'undefined') {
       q = (<HTMLInputElement>q).value;
     }
 
@@ -116,9 +116,9 @@ export class MessengerUserlist {
     this.search_timeout = setTimeout(() => {
       this.inProgress = true;
       this.client
-        .get("api/v2/messenger/search", {
+        .get('api/v2/messenger/search', {
           q,
-          limit: 24
+          limit: 24,
         })
         .then((response: any) => {
           if (!response.conversations) {
@@ -129,11 +129,11 @@ export class MessengerUserlist {
 
           this.conversations = response.conversations;
 
-          this.offset = response["load-next"];
+          this.offset = response['load-next'];
           this.inProgress = false;
         })
         .catch(error => {
-          console.log("got error" + error);
+          console.log('got error' + error);
           this.inProgress = false;
         });
     }, 300);
@@ -146,7 +146,7 @@ export class MessengerUserlist {
 
   listen() {
     this.socketSubscriptions.touchConversation = this.sockets.subscribe(
-      "touchConversation",
+      'touchConversation',
       guid => {
         for (var i in this.dockpanes.conversations) {
           if (this.dockpanes.conversations[i].guid === guid) {
@@ -193,7 +193,7 @@ export class MessengerUserlist {
     setInterval(() => {
       if (!this.userListToggle) return;
       this.client
-        .get("api/v2/messenger/conversations", { limit: 12 })
+        .get('api/v2/messenger/conversations', { limit: 12 })
         .then((response: any) => {
           if (!response.conversations) {
             return false;
@@ -225,4 +225,4 @@ export class MessengerUserlist {
     this.unListen();
   }
 }
-export { MessengerConversation } from "../conversation/conversation.component";
+export { MessengerConversation } from '../conversation/conversation.component';

@@ -7,9 +7,13 @@
 <div class="minds-list">
   <div>
     <div class="m-mindsList__tools m-border">
-      <div class="m-mindsListTools__scheduled" (click)="toggleScheduled()" [class.selected]="viewScheduled">
+      <div
+        class="m-mindsListTools__scheduled"
+        (click)="toggleScheduled()"
+        [class.selected]="viewScheduled"
+      >
         <m-tooltip icon="date_range"> See Scheduled Activities </m-tooltip>
-        <span>scheduled: {{scheduledCount}}</span>
+        <span>scheduled: {{ scheduledCount }}</span>
       </div>
       <m-sort-selector
         class="m-channel--sorted__SortSelector"
@@ -21,18 +25,18 @@
       ></m-sort-selector>
     </div>
 
-    <m-onboarding-feed
-      *ngIf="isOwner()"
-    ></m-onboarding-feed>
+    <m-onboarding-feed *ngIf="isOwner()"></m-onboarding-feed>
 
-    <ng-container *ngIf="['images', 'videos'].indexOf(type) > -1; else entityListView">
+    <ng-container
+      *ngIf="['images', 'videos'].indexOf(type) > -1; else entityListView"
+    >
       <m-newsfeed__tiles
         [entities]="feedsService.feed | async"
       ></m-newsfeed__tiles>
     </ng-container>
     <ng-template #entityListView>
       <m-newsfeed__entity
-        *ngFor="let entity of (feedsService.feed | async); let i = index"
+        *ngFor="let entity of feedsService.feed | async; let i = index"
         [entity]="entity | async"
         [slot]="i + 1"
       ></m-newsfeed__entity>

@@ -1,14 +1,14 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { GroupsService } from "../groups-service";
-import { ReportCreatorComponent } from "../../report/creator/creator.component";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
+import { GroupsService } from '../groups-service';
+import { ReportCreatorComponent } from '../../report/creator/creator.component';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "minds-groups-settings-button",
+  selector: 'minds-groups-settings-button',
   template: `
     <button class="material-icons" (click)="toggleMenu($event)">
       settings
@@ -188,15 +188,15 @@ import { Session } from "../../../services/session";
         </button>
       </div>
     </m-modal>
-  `
+  `,
 })
 export class GroupsSettingsButton {
   group: any = {
-    "is:muted": false,
-    deleted: false
+    'is:muted': false,
+    deleted: false,
   };
 
-  @Input("group") set _group(value: any) {
+  @Input('group') set _group(value: any) {
     if (!value) return;
     this.group = value;
     this.featured = value.featured_id || value.featured === true;
@@ -211,7 +211,7 @@ export class GroupsSettingsButton {
   isGoingToBeDeleted: boolean = false;
 
   categories: Array<any> = [];
-  category: string = "not-selected";
+  category: string = 'not-selected';
 
   featured: boolean = false;
 
@@ -233,34 +233,34 @@ export class GroupsSettingsButton {
     for (let category in window.Minds.categories) {
       this.categories.push({
         id: category,
-        label: window.Minds.categories[category]
+        label: window.Minds.categories[category],
       });
     }
   }
 
   async mute() {
-    this.group["is:muted"] = true;
+    this.group['is:muted'] = true;
 
     try {
       const isMuted: boolean = await this.service.muteNotifications(this.group);
-      this.group["is:muted"] = isMuted;
+      this.group['is:muted'] = isMuted;
     } catch (e) {
-      this.group["is:muted"] = false;
+      this.group['is:muted'] = false;
     }
 
     this.showMenu = false;
   }
 
   async unmute() {
-    this.group["is:muted"] = false;
+    this.group['is:muted'] = false;
 
     try {
       const isMuted: boolean = await this.service.unmuteNotifications(
         this.group
       );
-      this.group["is:muted"] = isMuted;
+      this.group['is:muted'] = isMuted;
     } catch (e) {
-      this.group["is:muted"] = true;
+      this.group['is:muted'] = true;
     }
 
     this.showMenu = false;
@@ -310,7 +310,7 @@ export class GroupsSettingsButton {
    */
   async deletePrompt() {
     if ((await this.service.countMembers(this.group.guid)) !== 1) {
-      alert("You cannot delete a group that has members.");
+      alert('You cannot delete a group that has members.');
       return;
     }
     this.isGoingToBeDeleted = true;
@@ -339,7 +339,7 @@ export class GroupsSettingsButton {
       this.group.deleted = deleted;
 
       if (deleted) {
-        this.router.navigate(["/groups/member"]);
+        this.router.navigate(['/groups/member']);
       }
     });
 
@@ -367,7 +367,7 @@ export class GroupsSettingsButton {
   toggleVideoChat(enabled: boolean) {
     this.group.videoChatDisabled = enabled ? 0 : 1;
     this.client.post(`api/v1/groups/group/${this.group.guid}`, {
-      videoChatDisabled: this.group.videoChatDisabled
+      videoChatDisabled: this.group.videoChatDisabled,
     });
     this.groupChange.next(this.group);
   }
@@ -375,7 +375,7 @@ export class GroupsSettingsButton {
   toggleModeration(enabled: boolean) {
     this.group.moderated = enabled ? 1 : 0;
     this.client.post(`api/v1/groups/group/${this.group.guid}`, {
-      moderated: this.group.moderated
+      moderated: this.group.moderated,
     });
     this.groupChange.next(this.group);
   }
@@ -383,13 +383,13 @@ export class GroupsSettingsButton {
   togglePublic(enabled: boolean) {
     this.group.membership = enabled ? 2 : 0;
     this.client.post(`api/v1/groups/group/${this.group.guid}`, {
-      membership: this.group.membership
+      membership: this.group.membership,
     });
     this.groupChange.next(this.group);
   }
 
   onNSFWSelected(reasons: Array<{ label; value; selected }>) {
-    console.log("group", this.group);
+    console.log('group', this.group);
     const nsfw = reasons.map(reason => reason.value);
     this.client.post(`api/v2/admin/nsfw/${this.group.guid}`, { nsfw });
     this.group.nsfw = nsfw;

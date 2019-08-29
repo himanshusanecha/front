@@ -1,19 +1,19 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { Client } from "../../../../services/api";
+import { Client } from '../../../../services/api';
 
 @Component({
-  selector: "minds-button-comment",
-  inputs: ["_object: object"],
+  selector: 'minds-button-comment',
+  inputs: ['_object: object'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <a [ngClass]="{ selected: object['comments:count'] > 0 }">
       <i class="material-icons">chat_bubble</i>
       <span class="minds-counter" *ngIf="object['comments:count'] > 0">{{
-        object["comments:count"] | number
+        object['comments:count'] | number
       }}</span>
     </a>
-  `
+  `,
 })
 export class CommentButton {
   object;

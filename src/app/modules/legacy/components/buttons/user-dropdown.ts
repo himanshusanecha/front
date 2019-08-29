@@ -1,17 +1,17 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
-import { Client } from "../../../../services/api";
-import { Session } from "../../../../services/session";
-import { OverlayModalService } from "../../../../services/ux/overlay-modal";
-import { BanModalComponent } from "../../../ban/modal/modal.component";
-import { ReportCreatorComponent } from "../../../report/creator/creator.component";
-import { Router } from "@angular/router";
-import { BlockListService } from "../../../../common/services/block-list.service";
+import { Client } from '../../../../services/api';
+import { Session } from '../../../../services/session';
+import { OverlayModalService } from '../../../../services/ux/overlay-modal';
+import { BanModalComponent } from '../../../ban/modal/modal.component';
+import { ReportCreatorComponent } from '../../../report/creator/creator.component';
+import { Router } from '@angular/router';
+import { BlockListService } from '../../../../common/services/block-list.service';
 
 @Component({
-  selector: "minds-button-user-dropdown",
-  inputs: ["user"],
-  outputs: ["userChanged"],
+  selector: 'minds-button-user-dropdown',
+  inputs: ['user'],
+  outputs: ['userChanged'],
   template: `
     <button class="material-icons" (click)="toggleMenu($event)">
       more_vert
@@ -218,11 +218,11 @@ import { BlockListService } from "../../../../common/services/block-list.service
         <ng-container *ngIf="!user.email">...</ng-container>
       </div>
     </m-modal>
-  `
+  `,
 })
 export class UserDropdownButton {
   user: any = {
-    blocked: false
+    blocked: false,
   };
   userChanged: EventEmitter<any> = new EventEmitter();
   showMenu: boolean = false;
@@ -242,14 +242,14 @@ export class UserDropdownButton {
    * Reindex the user
    */
   reindex() {
-    this.client.post("api/v2/admin/reindex", { guid: this.user.guid });
+    this.client.post('api/v2/admin/reindex', { guid: this.user.guid });
   }
 
   block() {
     var self = this;
     this.user.blocked = true;
     this.client
-      .put("api/v1/block/" + this.user.guid, {})
+      .put('api/v1/block/' + this.user.guid, {})
       .then((response: any) => {
         self.user.blocked = true;
         this.blockListService.add(`${this.user.guid}`);
@@ -264,7 +264,7 @@ export class UserDropdownButton {
     var self = this;
     this.user.blocked = false;
     this.client
-      .delete("api/v1/block/" + this.user.guid, {})
+      .delete('api/v1/block/' + this.user.guid, {})
       .then((response: any) => {
         self.user.blocked = false;
         this.blockListService.remove(`${this.user.guid}`);
@@ -278,7 +278,7 @@ export class UserDropdownButton {
   subscribe() {
     this.user.subscribed = true;
     this.client
-      .post("api/v1/subscribe/" + this.user.guid, {})
+      .post('api/v1/subscribe/' + this.user.guid, {})
       .then((response: any) => {
         this.user.subscribed = true;
       })
@@ -290,7 +290,7 @@ export class UserDropdownButton {
   unSubscribe() {
     this.user.subscribed = false;
     this.client
-      .delete("api/v1/subscribe/" + this.user.guid, {})
+      .delete('api/v1/subscribe/' + this.user.guid, {})
       .then((response: any) => {
         this.user.subscribed = false;
       })
@@ -300,49 +300,49 @@ export class UserDropdownButton {
   }
 
   ban() {
-    this.user.banned = "yes";
+    this.user.banned = 'yes';
     this.overlayService.create(BanModalComponent, this.user).present();
 
     this.banToggle = false;
   }
 
   unBan() {
-    this.user.banned = "no";
+    this.user.banned = 'no';
     this.client
       .delete(`api/v1/admin/ban/${this.user.guid}`, {})
       .then(() => {
-        this.user.banned = "no";
+        this.user.banned = 'no';
       })
       .catch(e => {
-        this.user.banned = "yes";
+        this.user.banned = 'yes';
       });
 
     this.showMenu = false;
   }
 
   banMonetization() {
-    this.user.ban_monetization = "yes";
+    this.user.ban_monetization = 'yes';
     this.client
       .put(`api/v1/admin/monetization/ban/${this.user.guid}`, {})
       .then(() => {
-        this.user.ban_monetization = "yes";
+        this.user.ban_monetization = 'yes';
       })
       .catch(e => {
-        this.user.ban_monetization = "no";
+        this.user.ban_monetization = 'no';
       });
 
     this.banMonetizationToggle = false;
   }
 
   unBanMonetization() {
-    this.user.ban_monetization = "no";
+    this.user.ban_monetization = 'no';
     this.client
       .delete(`api/v1/admin/monetization/ban/${this.user.guid}`, {})
       .then(() => {
-        this.user.ban_monetization = "no";
+        this.user.ban_monetization = 'no';
       })
       .catch(e => {
-        this.user.ban_monetization = "yes";
+        this.user.ban_monetization = 'yes';
       });
 
     this.showMenu = false;
@@ -357,7 +357,7 @@ export class UserDropdownButton {
     this.showMenu = true;
     var self = this;
 
-    this.client.get("api/v1/block/" + this.user.guid).then((response: any) => {
+    this.client.get('api/v1/block/' + this.user.guid).then((response: any) => {
       self.user.blocked = response.blocked;
     });
 
@@ -365,8 +365,8 @@ export class UserDropdownButton {
       this.client
         .get(`api/v1/admin/monetization/ban/${this.user.guid}`)
         .then((response: any) => {
-          if (typeof response.banned !== "undefined") {
-            self.user.ban_monetization = response.banned ? "yes" : "no";
+          if (typeof response.banned !== 'undefined') {
+            self.user.ban_monetization = response.banned ? 'yes' : 'no';
           }
         });
     }
@@ -377,7 +377,7 @@ export class UserDropdownButton {
   }
 
   async setSpam(value: boolean) {
-    this.user["spam"] = value ? 1 : 0;
+    this.user['spam'] = value ? 1 : 0;
 
     try {
       if (value) {
@@ -386,7 +386,7 @@ export class UserDropdownButton {
         await this.client.delete(`api/v1/admin/spam/${this.user.guid}`);
       }
     } catch (e) {
-      this.user["spam"] = !value ? 1 : 0;
+      this.user['spam'] = !value ? 1 : 0;
     }
   }
 
@@ -394,7 +394,7 @@ export class UserDropdownButton {
     this.user.is_mature = value;
     try {
       await this.client.post(`api/v1/entities/explicit/${this.user.guid}`, {
-        value: value ? "1" : "0"
+        value: value ? '1' : '0',
       });
     } catch (e) {
       this.user.is_mature = !value;
@@ -417,13 +417,13 @@ export class UserDropdownButton {
 
   viewLedger() {
     this.router.navigate([
-      "/wallet/tokens/transactions",
-      { remote: this.user.username }
+      '/wallet/tokens/transactions',
+      { remote: this.user.username },
     ]);
   }
 
   viewWithdrawals() {
-    this.router.navigate(["/admin/withdrawals", { user: this.user.username }]);
+    this.router.navigate(['/admin/withdrawals', { user: this.user.username }]);
   }
 
   async viewEmail() {
@@ -435,7 +435,7 @@ export class UserDropdownButton {
       )) as any;
       this.user.email = email;
     } catch (e) {
-      console.error("viewEmail", e);
+      console.error('viewEmail', e);
     }
   }
 }

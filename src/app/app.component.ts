@@ -1,27 +1,27 @@
-import { ChangeDetectorRef, Component, NgZone } from "@angular/core";
+import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
 
-import { NotificationService } from "./modules/notifications/notification.service";
-import { AnalyticsService } from "./services/analytics";
-import { SocketsService } from "./services/sockets";
-import { Session } from "./services/session";
-import { LoginReferrerService } from "./services/login-referrer.service";
-import { ScrollToTopService } from "./services/scroll-to-top.service";
-import { ContextService } from "./services/context.service";
-import { BlockchainService } from "./modules/blockchain/blockchain.service";
-import { Web3WalletService } from "./modules/blockchain/web3-wallet.service";
-import { Client } from "./services/api/client";
-import { WebtorrentService } from "./modules/webtorrent/webtorrent.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { ChannelOnboardingService } from "./modules/onboarding/channel/onboarding.service";
-import { BlockListService } from "./common/services/block-list.service";
-import { FeaturesService } from "./services/features.service";
-import { ThemeService } from "./common/services/theme.service";
-import { BannedService } from "./modules/report/banned/banned.service";
+import { NotificationService } from './modules/notifications/notification.service';
+import { AnalyticsService } from './services/analytics';
+import { SocketsService } from './services/sockets';
+import { Session } from './services/session';
+import { LoginReferrerService } from './services/login-referrer.service';
+import { ScrollToTopService } from './services/scroll-to-top.service';
+import { ContextService } from './services/context.service';
+import { BlockchainService } from './modules/blockchain/blockchain.service';
+import { Web3WalletService } from './modules/blockchain/web3-wallet.service';
+import { Client } from './services/api/client';
+import { WebtorrentService } from './modules/webtorrent/webtorrent.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChannelOnboardingService } from './modules/onboarding/channel/onboarding.service';
+import { BlockListService } from './common/services/block-list.service';
+import { FeaturesService } from './services/features.service';
+import { ThemeService } from './common/services/theme.service';
+import { BannedService } from './modules/report/banned/banned.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-app",
-  templateUrl: "app.component.html"
+  selector: 'm-app',
+  templateUrl: 'app.component.html',
 })
 export class Minds {
   name: string;
@@ -52,7 +52,7 @@ export class Minds {
     public themeService: ThemeService,
     private bannedService: BannedService
   ) {
-    this.name = "Minds";
+    this.name = 'Minds';
   }
 
   async ngOnInit() {
@@ -63,7 +63,7 @@ export class Minds {
         this.showOnboarding = await this.onboardingService.showModal();
         if (this.minds.user.language !== this.minds.language) {
           console.log(
-            "[app]:: language change",
+            '[app]:: language change',
             this.minds.user.language,
             this.minds.language
           );
@@ -82,11 +82,11 @@ export class Minds {
 
     this.loginReferrer
       .avoid([
-        "/login",
-        "/logout",
-        "/logout/all",
-        "/register",
-        "/forgot-password"
+        '/login',
+        '/logout',
+        '/logout/all',
+        '/register',
+        '/forgot-password',
       ])
       .listen();
 

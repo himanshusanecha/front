@@ -7,23 +7,23 @@ import {
   Input,
   Output,
   Renderer,
-  ViewChild
-} from "@angular/core";
+  ViewChild,
+} from '@angular/core';
 
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
-import { Upload } from "../../../services/api/upload";
-import { AttachmentService } from "../../../services/attachment";
-import { Textarea } from "../../../common/components/editors/textarea.component";
-import { SocketsService } from "../../../services/sockets";
-import autobind from "../../../helpers/autobind";
-import { AutocompleteSuggestionsService } from "../../suggestions/services/autocomplete-suggestions.service";
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
+import { Upload } from '../../../services/api/upload';
+import { AttachmentService } from '../../../services/attachment';
+import { Textarea } from '../../../common/components/editors/textarea.component';
+import { SocketsService } from '../../../services/sockets';
+import autobind from '../../../helpers/autobind';
+import { AutocompleteSuggestionsService } from '../../suggestions/services/autocomplete-suggestions.service';
 
 @Component({
-  selector: "m-comment__poster",
-  templateUrl: "poster.component.html",
+  selector: 'm-comment__poster',
+  templateUrl: 'poster.component.html',
   providers: [AttachmentService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentPosterComponent {
   minds;
@@ -33,11 +33,11 @@ export class CommentPosterComponent {
   @Input() readonly: boolean = false;
   @Input() currentIndex: number = -1;
   @Input() conversation: boolean = false;
-  @Output("optimisticPost") optimisticPost$: EventEmitter<
+  @Output('optimisticPost') optimisticPost$: EventEmitter<
     any
   > = new EventEmitter();
-  @Output("posted") posted$: EventEmitter<any> = new EventEmitter();
-  content: string = "";
+  @Output('posted') posted$: EventEmitter<any> = new EventEmitter();
+  content: string = '';
   triedToPost: boolean = false;
   comments: Array<any> = []; // TODO: remove this
   canPost: boolean = true;
@@ -81,8 +81,8 @@ export class CommentPosterComponent {
     this.content = this.content.trim();
 
     let data = this.attachment.exportMeta();
-    data["comment"] = this.content;
-    data["parent_path"] = this.parent.child_path || "0:0:0";
+    data['comment'] = this.content;
+    data['parent_path'] = this.parent.child_path || '0:0:0';
 
     let comment = {
       // Optimistic
@@ -91,30 +91,30 @@ export class CommentPosterComponent {
       ownerObj: this.session.getLoggedInUser(),
       owner_guid: this.session.getLoggedInUser().guid,
       time_created: Date.now() / 1000,
-      type: "comment",
-      error: null
+      type: 'comment',
+      error: null,
     };
 
     this.optimisticPost$.next(comment);
 
     this.attachment.reset();
-    this.content = "";
+    this.content = '';
 
     this.detectChanges();
 
     try {
       let response: any = await this.client.post(
-        "api/v1/comments/" + this.guid,
+        'api/v1/comments/' + this.guid,
         data
       );
       this.posted$.next({
         comment: response.comment,
-        index: this.currentIndex
+        index: this.currentIndex,
       });
     } catch (e) {
-      comment.error = (e && e.message) || "There was an error";
+      comment.error = (e && e.message) || 'There was an error';
       this.posted$.next({ comment, index: this.currentIndex });
-      console.error("Error posting", e);
+      console.error('Error posting', e);
     }
     this.inProgress = false;
     this.detectChanges();
@@ -160,7 +160,7 @@ export class CommentPosterComponent {
       .then(() => {
         this.canPost = true;
         this.triedToPost = false;
-        file.value = "";
+        file.value = '';
       })
       .catch(e => {
         console.error(e);

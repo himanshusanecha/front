@@ -2,17 +2,17 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
-  ViewChild
-} from "@angular/core";
-import { Router } from "@angular/router";
-import { DynamicHostDirective } from "../../../common/directives/dynamic-host.directive";
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
-import { ChannelOnboardingService } from "./onboarding.service";
-import { Modal } from "../../../common/components/modal/modal.component";
+  ViewChild,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { DynamicHostDirective } from '../../../common/directives/dynamic-host.directive';
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
+import { ChannelOnboardingService } from './onboarding.service';
+import { Modal } from '../../../common/components/modal/modal.component';
 
 @Component({
-  selector: "m-channel--onboarding",
+  selector: 'm-channel--onboarding',
   template: `
     <m-modal
       [open]="true"
@@ -51,7 +51,7 @@ import { Modal } from "../../../common/components/modal/modal.component";
         </div>
       </div>
     </m-modal>
-  `
+  `,
 })
 export class ChannelOnboardingComponent {
   minds = window.Minds;
@@ -102,7 +102,7 @@ export class ChannelOnboardingComponent {
     let componentRef = viewContainerRef.createComponent(componentFactory);
 
     componentRef.instance.pendingItems = this.service.pendingItems || [
-      this.service.slide.items
+      this.service.slide.items,
     ];
 
     if (componentRef.instance.onClose) {
@@ -125,7 +125,7 @@ export class ChannelOnboardingComponent {
   async onClose() {
     try {
       const response: any = await this.client.post(
-        "api/v2/onboarding/onboarding_shown"
+        'api/v2/onboarding/onboarding_shown'
       );
       this.service.onClose.emit();
     } catch (e) {

@@ -1,1 +1,1 @@
-export { WalletService } from "../../services/wallet";
+export { WalletService } from '../../services/wallet';

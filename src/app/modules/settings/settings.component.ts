@@ -1,19 +1,19 @@
-import { Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../services/api";
-import { MindsTitle } from "../../services/ux/title";
-import { Session } from "../../services/session";
+import { Client } from '../../services/api';
+import { MindsTitle } from '../../services/ux/title';
+import { Session } from '../../services/session';
 
-import { HashtagsSelectorModalComponent } from "../../modules/hashtags/hashtag-selector-modal/hashtags-selector.component";
-import { OverlayModalService } from "../../services/ux/overlay-modal";
-import { ReferralsLinksComponent } from "../wallet/tokens/referrals/links/links.component";
+import { HashtagsSelectorModalComponent } from '../../modules/hashtags/hashtag-selector-modal/hashtags-selector.component';
+import { OverlayModalService } from '../../services/ux/overlay-modal';
+import { ReferralsLinksComponent } from '../wallet/tokens/referrals/links/links.component';
 
 @Component({
-  selector: "m-settings",
-  templateUrl: "settings.component.html"
+  selector: 'm-settings',
+  templateUrl: 'settings.component.html',
 })
 export class SettingsComponent {
   minds: Minds;
@@ -35,24 +35,24 @@ export class SettingsComponent {
 
   ngOnInit() {
     if (!this.session.isLoggedIn()) {
-      return this.router.navigate(["/login"]);
+      return this.router.navigate(['/login']);
     }
     this.minds = window.Minds;
 
-    this.title.setTitle("Settings");
+    this.title.setTitle('Settings');
 
-    this.filter = "general";
+    this.filter = 'general';
 
     this.account_time_created = window.Minds.user.time_created;
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["filter"]) {
-        this.filter = params["filter"];
+      if (params['filter']) {
+        this.filter = params['filter'];
       } else {
-        this.filter = "general";
+        this.filter = 'general';
       }
-      if (params["card"]) {
-        this.card = params["card"];
+      if (params['card']) {
+        this.card = params['card'];
       }
     });
   }
@@ -68,7 +68,7 @@ export class SettingsComponent {
         {},
         {
           class:
-            "m-overlay-modal--hashtag-selector m-overlay-modal--medium-large"
+            'm-overlay-modal--hashtag-selector m-overlay-modal--medium-large',
         }
       )
       .present();
@@ -80,7 +80,7 @@ export class SettingsComponent {
         ReferralsLinksComponent,
         {},
         {
-          class: "m-overlay-modal--referrals-links m-overlay-modal--medium"
+          class: 'm-overlay-modal--referrals-links m-overlay-modal--medium',
         }
       )
       .present();

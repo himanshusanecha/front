@@ -1,6 +1,6 @@
-import { EventEmitter, Injectable } from "@angular/core";
-import { Session } from "../../services/session";
-import { Client } from "../../services/api/client";
+import { EventEmitter, Injectable } from '@angular/core';
+import { Session } from '../../services/session';
+import { Client } from '../../services/api/client';
 
 @Injectable()
 export class NewsfeedBoostService {
@@ -41,9 +41,9 @@ export class NewsfeedBoostService {
     this.explicitChanged.emit(active);
 
     this.client
-      .post("api/v1/settings/" + this.session.getLoggedInUser().guid, {
+      .post('api/v1/settings/' + this.session.getLoggedInUser().guid, {
         mature: active,
-        boost_rating: this.rating
+        boost_rating: this.rating,
       })
       .catch(e => {
         window.Minds.user.mature = !active;
@@ -55,7 +55,7 @@ export class NewsfeedBoostService {
   togglePause() {
     this.paused = !this.paused;
 
-    this.client.post("api/v1/settings", { boost_autorotate: !this.paused });
+    this.client.post('api/v1/settings', { boost_autorotate: !this.paused });
     this.pauseChanged.emit(this.paused);
   }
 
@@ -65,7 +65,7 @@ export class NewsfeedBoostService {
 
     this.enableChanged.emit(this.enabled);
 
-    this.client.put("api/v1/plus/boost").catch(() => {
+    this.client.put('api/v1/plus/boost').catch(() => {
       this.session.getLoggedInUser().disabled_boost = false;
       this.enabled = true;
 
@@ -79,7 +79,7 @@ export class NewsfeedBoostService {
 
     this.enableChanged.emit(this.enabled);
 
-    this.client.delete("api/v1/plus/boost").catch(() => {
+    this.client.delete('api/v1/plus/boost').catch(() => {
       this.session.getLoggedInUser().disabled_boost = true;
       this.enabled = false;
 

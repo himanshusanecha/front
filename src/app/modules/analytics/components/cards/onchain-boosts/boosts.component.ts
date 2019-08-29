@@ -1,15 +1,15 @@
-import { Component, ViewChild } from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { AnalyticsCardComponent } from "../card/card.component";
-import { Subscription } from "rxjs";
-import { timespanOption } from "../../charts/timespanOption";
+import { Component, ViewChild } from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { AnalyticsCardComponent } from '../card/card.component';
+import { Subscription } from 'rxjs';
+import { timespanOption } from '../../charts/timespanOption';
 
 @Component({
-  selector: "m-analyticsonchainboosts__card",
-  templateUrl: "boosts.component.html"
+  selector: 'm-analyticsonchainboosts__card',
+  templateUrl: 'boosts.component.html',
 })
 export class OnChainBoostsCardComponent {
-  @ViewChild("card", { static: true }) card: AnalyticsCardComponent;
+  @ViewChild('card', { static: true }) card: AnalyticsCardComponent;
 
   subscription: Subscription;
 
@@ -37,10 +37,10 @@ export class OnChainBoostsCardComponent {
   private async getAvgData() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/onchainboosts",
+        'api/v2/analytics/onchainboosts',
         {
-          key: "avg",
-          timespan: this.timespan
+          key: 'avg',
+          timespan: this.timespan,
         }
       );
 

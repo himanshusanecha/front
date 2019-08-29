@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { GroupsService } from "../../groups/groups-service";
-import { Session } from "../../../services/session";
+import { Component } from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { GroupsService } from '../../groups/groups-service';
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "m-suggestions__sidebarGroups",
-  templateUrl: "sidebar.component.html"
+  selector: 'm-suggestions__sidebarGroups',
+  templateUrl: 'sidebar.component.html',
 })
 export class GroupSuggestionsSidebarComponent {
   minds = window.Minds;
@@ -34,10 +34,10 @@ export class GroupSuggestionsSidebarComponent {
     this.inProgress = true;
     try {
       const response: any = await this.client.get(
-        "api/v2/entities/suggested/groups/all",
+        'api/v2/entities/suggested/groups/all',
         {
           limit,
-          offset: this.lastOffset
+          offset: this.lastOffset,
         }
       );
 
@@ -74,26 +74,26 @@ export class GroupSuggestionsSidebarComponent {
       .then(() => {
         this.inProgress = false;
         if (this.isPublic(group)) {
-          group["is:member"] = true;
+          group['is:member'] = true;
           return;
         }
-        group["is:awaiting"] = true;
+        group['is:awaiting'] = true;
       })
       .catch(e => {
         let error = e.error;
         switch (e.error) {
-          case "You are banned from this group":
-            error = "banned";
+          case 'You are banned from this group':
+            error = 'banned';
             break;
-          case "User is already a member":
-            error = "already_a_member";
+          case 'User is already a member':
+            error = 'already_a_member';
             break;
           default:
             error = e.error;
             break;
         }
-        group["is:member"] = false;
-        group["is:awaiting"] = false;
+        group['is:member'] = false;
+        group['is:awaiting'] = false;
         this.inProgress = false;
       });
   }
@@ -105,10 +105,10 @@ export class GroupSuggestionsSidebarComponent {
     this.service
       .leave(group)
       .then(() => {
-        group["is:member"] = false;
+        group['is:member'] = false;
       })
       .catch(e => {
-        group["is:member"] = true;
+        group['is:member'] = true;
       });
   }
 
@@ -116,10 +116,10 @@ export class GroupSuggestionsSidebarComponent {
    * Cancel a group joining request
    */
   cancelRequest(group: any) {
-    group["is:awaiting"] = false;
+    group['is:awaiting'] = false;
 
     this.service.cancelRequest(group).then((done: boolean) => {
-      group["is:awaiting"] = !done;
+      group['is:awaiting'] = !done;
     });
   }
 }

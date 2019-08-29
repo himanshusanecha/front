@@ -3,19 +3,19 @@ import {
   ElementRef,
   HostListener,
   OnInit,
-  ViewChild
-} from "@angular/core";
-import { Subject } from "rxjs";
+  ViewChild,
+} from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
-  selector: "m-text-input--autocomplete-menu",
-  templateUrl: "text-input-autocomplete-menu.component.html"
+  selector: 'm-text-input--autocomplete-menu',
+  templateUrl: 'text-input-autocomplete-menu.component.html',
 })
 export class TextInputAutocompleteMenuComponent implements OnInit {
-  @ViewChild("dropdownMenu", { static: true }) dropdownMenuElement: ElementRef<
+  @ViewChild('dropdownMenu', { static: true }) dropdownMenuElement: ElementRef<
     HTMLUListElement
   >;
-  @ViewChild("defaultItemTemplate", { static: true }) defaultItemTemplate;
+  @ViewChild('defaultItemTemplate', { static: true }) defaultItemTemplate;
   itemTemplate: any;
   position: { top: number; left: number };
   selectChoice = new Subject();
@@ -25,7 +25,7 @@ export class TextInputAutocompleteMenuComponent implements OnInit {
   choiceLoading = false;
   private _choices: any[];
   trackById = (index: number, choice: any) =>
-    typeof choice.id !== "undefined" ? choice.id : choice;
+    typeof choice.id !== 'undefined' ? choice.id : choice;
 
   set choices(choices: any[]) {
     this._choices = choices;
@@ -44,7 +44,7 @@ export class TextInputAutocompleteMenuComponent implements OnInit {
     }
   }
 
-  @HostListener("document:keydown.ArrowDown", ["$event"])
+  @HostListener('document:keydown.ArrowDown', ['$event'])
   onArrowDown(event: KeyboardEvent) {
     event.preventDefault();
     const index = this.choices.indexOf(this.activeChoice);
@@ -53,7 +53,7 @@ export class TextInputAutocompleteMenuComponent implements OnInit {
     }
   }
 
-  @HostListener("document:keydown.ArrowUp", ["$event"])
+  @HostListener('document:keydown.ArrowUp', ['$event'])
   onArrowUp(event: KeyboardEvent) {
     event.preventDefault();
     const index = this.choices.indexOf(this.activeChoice);
@@ -62,7 +62,7 @@ export class TextInputAutocompleteMenuComponent implements OnInit {
     }
   }
 
-  @HostListener("document:keydown.Enter", ["$event"])
+  @HostListener('document:keydown.Enter', ['$event'])
   onEnter(event: KeyboardEvent) {
     if (this.choices.indexOf(this.activeChoice) > -1) {
       event.preventDefault();

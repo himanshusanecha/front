@@ -1,10 +1,10 @@
-import { Title } from "@angular/platform-browser";
+import { Title } from '@angular/platform-browser';
 
 export class MindsTitle {
   private counter: number;
-  private sep = " | ";
-  private default_title = "Minds";
-  private text: string = "";
+  private sep = ' | ';
+  private default_title = 'Minds';
+  private text: string = '';
 
   static _(title: Title) {
     return new MindsTitle(title);

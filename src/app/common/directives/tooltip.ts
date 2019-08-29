@@ -1,13 +1,13 @@
-import { Directive, ElementRef } from "@angular/core";
-import { AnchorPosition } from "../../services/ux/anchor-position";
+import { Directive, ElementRef } from '@angular/core';
+import { AnchorPosition } from '../../services/ux/anchor-position';
 
 @Directive({
-  selector: "[tooltip]",
-  exportAs: "tooltip",
+  selector: '[tooltip]',
+  exportAs: 'tooltip',
   host: {
-    "(mouseenter)": "show()",
-    "(mouseleave)": "hide()"
-  }
+    '(mouseenter)': 'show()',
+    '(mouseleave)': 'hide()',
+  },
 })
 export class Tooltip {
   shown: boolean = false;
@@ -23,7 +23,7 @@ export class Tooltip {
     this.timeout = setTimeout(() => {
       this.timeout = null;
 
-      let position = AnchorPosition.getFixed(this._element, ["left", "bottom"]);
+      let position = AnchorPosition.getFixed(this._element, ['left', 'bottom']);
 
       if (!position) {
         return;
@@ -34,7 +34,7 @@ export class Tooltip {
         top: position.top,
         right: position.right,
         bottom: position.bottom,
-        left: position.left
+        left: position.left,
       };
     }, 1000);
   }

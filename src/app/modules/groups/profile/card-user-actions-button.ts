@@ -1,10 +1,10 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
-import { GroupsService } from "../groups-service";
+import { GroupsService } from '../groups-service';
 
 @Component({
-  selector: "minds-groups-card-user-actions-button",
-  inputs: ["group", "user"],
+  selector: 'minds-groups-card-user-actions-button',
+  inputs: ['group', 'user'],
   template: `
     <button
       *ngIf="
@@ -126,16 +126,16 @@ import { GroupsService } from "../groups-service";
         </button>
       </div>
     </m-modal>
-  `
+  `,
 })
 export class GroupsCardUserActionsButton {
   group: any = {};
   user: any = {
-    "is:member": false,
-    "is:moderator": false,
-    "is:owner": false,
-    "is:creator": false,
-    "is:banned": false
+    'is:member': false,
+    'is:moderator': false,
+    'is:owner': false,
+    'is:creator': false,
+    'is:banned': false,
   };
 
   kickPrompt: boolean = false;
@@ -181,11 +181,11 @@ export class GroupsCardUserActionsButton {
     }
 
     action.then((done: boolean) => {
-      this.user["is:member"] = !done;
-      this.user["is:banned"] = done && ban;
+      this.user['is:member'] = !done;
+      this.user['is:banned'] = done && ban;
 
       this.kickPrompt = !done;
-      this.changeCounter("members:count", -1);
+      this.changeCounter('members:count', -1);
     });
 
     this.showMenu = false;
@@ -205,24 +205,24 @@ export class GroupsCardUserActionsButton {
   }
 
   grantOwnership() {
-    this.user["is:owner"] = true;
+    this.user['is:owner'] = true;
 
     this.service
       .grantOwnership({ guid: this.group.guid }, this.user.guid)
       .then((isOwner: boolean) => {
-        this.user["is:owner"] = isOwner;
+        this.user['is:owner'] = isOwner;
       });
 
     this.showMenu = false;
   }
 
   revokeOwnership() {
-    this.user["is:owner"] = false;
+    this.user['is:owner'] = false;
 
     this.service
       .revokeOwnership({ guid: this.group.guid }, this.user.guid)
       .then((isOwner: boolean) => {
-        this.user["is:owner"] = isOwner;
+        this.user['is:owner'] = isOwner;
       });
 
     this.showMenu = false;
@@ -232,12 +232,12 @@ export class GroupsCardUserActionsButton {
    * Grant moderation
    */
   grantModerator() {
-    this.user["is:moderator"] = true;
+    this.user['is:moderator'] = true;
 
     this.service
       .grantModerator({ guid: this.group.guid }, this.user.guid)
       .then((isModerator: boolean) => {
-        this.user["is:moderator"] = isModerator;
+        this.user['is:moderator'] = isModerator;
       });
 
     this.showMenu = false;
@@ -247,19 +247,19 @@ export class GroupsCardUserActionsButton {
    * Revoke moderation
    */
   revokeModerator() {
-    this.user["is:moderator"] = false;
+    this.user['is:moderator'] = false;
 
     this.service
       .revokeModerator({ guid: this.group.guid }, this.user.guid)
       .then((isModerator: boolean) => {
-        this.user["is:moderator"] = isModerator;
+        this.user['is:moderator'] = isModerator;
       });
 
     this.showMenu = false;
   }
 
   private changeCounter(counter: string, val = 0) {
-    if (typeof this.group[counter] !== "undefined") {
+    if (typeof this.group[counter] !== 'undefined') {
       this.group[counter] = parseInt(this.group[counter], 10) + val;
     }
   }

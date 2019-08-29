@@ -1,28 +1,28 @@
-import { Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { MindsTitle } from "../../services/ux/title";
-import { Client } from "../../services/api";
-import { Session } from "../../services/session";
-import { ContextService } from "../../services/context.service";
+import { MindsTitle } from '../../services/ux/title';
+import { Client } from '../../services/api';
+import { Session } from '../../services/session';
+import { ContextService } from '../../services/context.service';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-discovery",
-  templateUrl: "discovery.html"
+  selector: 'minds-discovery',
+  templateUrl: 'discovery.html',
 })
 export class Discovery {
-  _filter: string = "featured";
-  _owner: string = "";
-  _type: string = "all";
+  _filter: string = 'featured';
+  _owner: string = '';
+  _type: string = 'all';
   entities: Array<Object> = [];
   moreData: boolean = true;
-  offset: string | number = "";
+  offset: string | number = '';
   inProgress: boolean = false;
 
-  city: string = "";
+  city: string = '';
   cities: Array<any> = [];
   nearby: boolean = false;
   hasNearby: boolean = false;
@@ -40,35 +40,35 @@ export class Discovery {
   ) {}
 
   ngOnInit() {
-    this.title.setTitle("Discovery");
+    this.title.setTitle('Discovery');
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["filter"]) {
-        this._filter = params["filter"];
+      if (params['filter']) {
+        this._filter = params['filter'];
 
         switch (this._filter) {
-          case "all":
+          case 'all':
             break;
-          case "suggested":
+          case 'suggested':
             if (!this.session.isLoggedIn()) {
-              this.router.navigate(["/discovery/featured/channels"]);
+              this.router.navigate(['/discovery/featured/channels']);
               return;
             }
 
-            this._type = "channels";
+            this._type = 'channels';
             if (this.session.getLoggedInUser().city) {
               this.city = this.session.getLoggedInUser().city;
               this.nearby = true;
               this.hasNearby = false;
             }
             break;
-          case "trending":
-            this._type = "images";
+          case 'trending':
+            this._type = 'images';
             break;
-          case "featured":
-            this._type = "channels";
+          case 'featured':
+            this._type = 'channels';
             break;
-          case "owner":
+          case 'owner':
             break;
           default:
             this._owner = this._filter;
@@ -76,19 +76,19 @@ export class Discovery {
         }
       }
 
-      if (params["type"]) {
-        this._type = params["type"];
+      if (params['type']) {
+        this._type = params['type'];
       }
 
       switch (this._type) {
-        case "videos":
-          this.context.set("object:video");
+        case 'videos':
+          this.context.set('object:video');
           break;
-        case "images":
-          this.context.set("object:image");
+        case 'images':
+          this.context.set('object:image');
           break;
-        case "channels":
-          this.context.set("user");
+        case 'channels':
+          this.context.set('user');
           break;
 
         default:
@@ -108,20 +108,20 @@ export class Discovery {
   load(refresh: boolean = false) {
     if (this.inProgress) return false;
 
-    if (refresh) this.offset = "";
+    if (refresh) this.offset = '';
 
     this.inProgress = true;
 
     var filter = this._filter;
-    if (this._owner) filter = "owner";
+    if (this._owner) filter = 'owner';
 
     this.client
-      .get("api/v1/entities/" + filter + "/" + this._type + "/" + this._owner, {
+      .get('api/v1/entities/' + filter + '/' + this._type + '/' + this._owner, {
         limit: 24,
         offset: this.offset,
         skip: 0,
         nearby: this.nearby,
-        distance: this.distance
+        distance: this.distance,
       })
       .then((data: any) => {
         if (!data.entities) {
@@ -141,11 +141,11 @@ export class Discovery {
         if (refresh) {
           this.entities = data.entities;
         } else {
-          if (this.offset && filter != "trending") data.entities.shift();
+          if (this.offset && filter != 'trending') data.entities.shift();
           this.entities = this.entities.concat(data.entities);
         }
 
-        this.offset = data["load-next"];
+        this.offset = data['load-next'];
         this.inProgress = false;
         if (!this.offset) this.moreData = false;
       })
@@ -159,7 +159,7 @@ export class Discovery {
 
   pass(index: number) {
     var entity: any = this.entities[index];
-    this.client.post("api/v1/entities/suggested/pass/" + entity.guid);
+    this.client.post('api/v1/entities/suggested/pass/' + entity.guid);
     this.pop(index);
   }
 
@@ -177,7 +177,7 @@ export class Discovery {
     }
     this.searching = setTimeout(() => {
       this.client
-        .get("api/v1/geolocation/list", { q: q })
+        .get('api/v1/geolocation/list', { q: q })
         .then((response: any) => {
           this.cities = response.results;
         });
@@ -192,9 +192,9 @@ export class Discovery {
     this.entities = [];
     this.inProgress = true;
     this.client
-      .post("api/v1/channel/info", {
-        coordinates: row.lat + "," + row.lon,
-        city: window.Minds.user.city
+      .post('api/v1/channel/info', {
+        coordinates: row.lat + ',' + row.lon,
+        city: window.Minds.user.city,
       })
       .then((response: any) => {
         this.inProgress = false;

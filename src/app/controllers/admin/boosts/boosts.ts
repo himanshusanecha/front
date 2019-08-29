@@ -1,32 +1,32 @@
-import { Component, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../../services/api";
-import { RejectionReasonModalComponent } from "./modal/rejection-reason-modal.component";
-import { Reason, rejectionReasons } from "./rejection-reasons";
-import { ReportCreatorComponent } from "../../../modules/report/creator/creator.component";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
+import { Client } from '../../../services/api';
+import { RejectionReasonModalComponent } from './modal/rejection-reason-modal.component';
+import { Reason, rejectionReasons } from './rejection-reasons';
+import { ReportCreatorComponent } from '../../../modules/report/creator/creator.component';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-admin-boosts",
+  selector: 'minds-admin-boosts',
   host: {
-    "(document:keypress)": "onKeyPress($event)"
+    '(document:keypress)': 'onKeyPress($event)',
   },
-  templateUrl: "boosts.html"
+  templateUrl: 'boosts.html',
 })
 export class AdminBoosts {
   boosts: Array<any> = [];
-  type: string = "newsfeed";
+  type: string = 'newsfeed';
   count: number = 0;
   newsfeed_count: number = 0;
   content_count: number = 0;
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = "";
+  offset: string = '';
   reasonModalOpened: boolean = false;
 
   statistics: any = null;
@@ -36,7 +36,7 @@ export class AdminBoosts {
 
   readonly NON_REPORTABLE_REASONS = [7, 8, 12, 13]; // spam, appeals, onchain payment failed, original post removed
 
-  @ViewChild("reasonModal", { static: false })
+  @ViewChild('reasonModal', { static: false })
   modal: RejectionReasonModalComponent;
 
   constructor(
@@ -47,17 +47,17 @@ export class AdminBoosts {
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["type"]) {
-        this.type = params["type"];
+      if (params['type']) {
+        this.type = params['type'];
       } else {
-        this.type = "newsfeed";
+        this.type = 'newsfeed';
       }
 
       this.boosts = [];
       this.count = 0;
       this.inProgress = false;
       this.moreData = true;
-      this.offset = "";
+      this.offset = '';
 
       this.load().then(() => {
         this.loadStatistics();
@@ -74,9 +74,9 @@ export class AdminBoosts {
     this.inProgress = true;
 
     return this.client
-      .get("api/v1/admin/boosts/" + this.type, {
+      .get('api/v1/admin/boosts/' + this.type, {
         limit: 24,
-        offset: this.offset
+        offset: this.offset,
       })
       .then((response: any) => {
         if (!response.boosts) {
@@ -90,7 +90,7 @@ export class AdminBoosts {
         this.newsfeed_count = response.newsfeed_count;
         this.content_count = response.content_count;
 
-        this.offset = response["load-next"];
+        this.offset = response['load-next'];
         this.inProgress = false;
       })
       .catch(e => {
@@ -107,7 +107,7 @@ export class AdminBoosts {
         this.statistics = response;
       })
       .catch(e => {
-        console.error("[Minds Admin] Cannot load boost statistics", e);
+        console.error('[Minds Admin] Cannot load boost statistics', e);
       });
   }
 
@@ -119,11 +119,11 @@ export class AdminBoosts {
     if (!opts.mature) opts.mature = 0;
 
     this.client.post(
-      "api/v1/admin/boosts/" + this.type + "/" + boost.guid + "/accept",
+      'api/v1/admin/boosts/' + this.type + '/' + boost.guid + '/accept',
       {
         quality: boost.quality,
         rating: boost.rating,
-        mature: opts.mature
+        mature: opts.mature,
       }
     );
     this.pop(boost);
@@ -139,7 +139,7 @@ export class AdminBoosts {
     }
 
     this.client.post(
-      "api/v1/admin/boosts/" + this.type + "/" + boost.guid + "/reject",
+      'api/v1/admin/boosts/' + this.type + '/' + boost.guid + '/reject',
       { reason: boost.rejection_reason }
     );
     this.pop(boost);
@@ -155,7 +155,7 @@ export class AdminBoosts {
   eTag(boost: any = null) {
     if (!boost) boost = this.boosts[0];
 
-    boost.rejection_reason = this.findReason("Explicit", "label").code;
+    boost.rejection_reason = this.findReason('Explicit', 'label').code;
 
     this.reject(boost);
   }
@@ -176,8 +176,8 @@ export class AdminBoosts {
     for (i in this.boosts) {
       if (boost === this.boosts[i]) this.boosts.splice(i, 1);
     }
-    if (this.type === "newsfeed") this.newsfeed_count--;
-    else if (this.type === "content") this.content_count--;
+    if (this.type === 'newsfeed') this.newsfeed_count--;
+    else if (this.type === 'content') this.content_count--;
     if (this.boosts.length < 5) this.load();
   }
 
@@ -190,36 +190,36 @@ export class AdminBoosts {
     // numbers
 
     switch (e.key.toLowerCase()) {
-      case "1":
-      case "2":
-      case "3":
-      case "4":
-      case "5":
-      case "6":
-      case "7":
-      case "8":
-      case "9":
-      case "0":
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '0':
         const keyValue = Number.parseInt(e.key);
         this.boosts[0].quality = keyValue > 0 ? keyValue * 10 : 100;
         break;
-      case "arrowleft":
+      case 'arrowleft':
         return this.accept();
-      case "arrowright":
+      case 'arrowright':
         return this.openReasonsModal();
 
-      case "e":
+      case 'e':
         //mark as nsfw and reject
         this.eTag(this.boosts[0]);
         break;
-      case "n":
+      case 'n':
         //mark as nsfw and accept
         this.accept(this.boosts[0], true);
         break;
-      case "a":
+      case 'a':
         this.accept();
         break;
-      case "r":
+      case 'r':
         this.openReasonsModal();
         break;
     }
@@ -231,10 +231,10 @@ export class AdminBoosts {
       mins = minsDuration % 60,
       hours = Math.floor(minsDuration / 60);
 
-    return `${hours}:${this._padStart("" + mins, 2, "0")}`;
+    return `${hours}:${this._padStart('' + mins, 2, '0')}`;
   }
 
-  findReason(value: any, field: "code" | "label" = "code"): Reason {
+  findReason(value: any, field: 'code' | 'label' = 'code'): Reason {
     return rejectionReasons.find((item: Reason) => {
       return item[field] == value;
     });
@@ -242,7 +242,7 @@ export class AdminBoosts {
 
   private _padStart(str: string, targetLength, padString) {
     targetLength = targetLength >> 0; //floor if number or convert non-number to 0;
-    padString = String(padString || " ");
+    padString = String(padString || ' ');
     if (str.length > targetLength) {
       return String(str);
     } else {

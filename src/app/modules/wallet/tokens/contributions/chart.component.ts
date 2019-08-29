@@ -1,17 +1,17 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component
-} from "@angular/core";
-import { Router } from "@angular/router";
+  Component,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
 
 @Component({
-  selector: "m-wallet-token--chart",
-  templateUrl: "chart.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wallet-token--chart',
+  templateUrl: 'chart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletTokenContributionsChartComponent {
   constructor(

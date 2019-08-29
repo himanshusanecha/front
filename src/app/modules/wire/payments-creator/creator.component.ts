@@ -3,28 +3,28 @@ import {
   Input,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef
-} from "@angular/core";
-import { CurrencyPipe } from "@angular/common";
+  ChangeDetectorRef,
+} from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { WireService } from "../wire.service";
-import { Web3WalletService } from "../../blockchain/web3-wallet.service";
-import { TokenContractService } from "../../blockchain/contracts/token-contract.service";
-import { GetMetamaskComponent } from "../../blockchain/metamask/getmetamask.component";
-import { MindsUser } from "../../../interfaces/entities";
-import { Router } from "@angular/router";
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { WireService } from '../wire.service';
+import { Web3WalletService } from '../../blockchain/web3-wallet.service';
+import { TokenContractService } from '../../blockchain/contracts/token-contract.service';
+import { GetMetamaskComponent } from '../../blockchain/metamask/getmetamask.component';
+import { MindsUser } from '../../../interfaces/entities';
+import { Router } from '@angular/router';
 
-export type PayloadType = "onchain" | "offchain";
+export type PayloadType = 'onchain' | 'offchain';
 
 export class VisibleWireError extends Error {
   visible: boolean = true;
 }
 
 export interface WireStruc {
-  amount: number | "";
+  amount: number | '';
   payloadType: PayloadType | null;
   guid: any;
   recurring: boolean;
@@ -34,8 +34,8 @@ export interface WireStruc {
 
 @Component({
   providers: [CurrencyPipe],
-  selector: "m-wire-payments--creator",
-  templateUrl: "creator.component.html"
+  selector: 'm-wire-payments--creator',
+  templateUrl: 'creator.component.html',
 })
 export class WirePaymentsCreatorComponent {
   minds = window.Minds;
@@ -45,11 +45,11 @@ export class WirePaymentsCreatorComponent {
 
   wire: WireStruc = {
     amount: 1,
-    payloadType: "onchain",
+    payloadType: 'onchain',
     guid: null,
     recurring: false,
     payload: null,
-    period: null
+    period: null,
   };
 
   owner: any;
@@ -63,7 +63,7 @@ export class WirePaymentsCreatorComponent {
     min: 250,
     cap: 5000,
     usd: 1,
-    tokens: 1
+    tokens: 1,
   };
 
   editingAmount: boolean = false;
@@ -73,15 +73,15 @@ export class WirePaymentsCreatorComponent {
 
   success: boolean = false;
   criticalError: boolean = false;
-  error: string = "";
+  error: string = '';
 
   tokenRate: number;
 
-  defaultAmount: number | "" = this.wire.amount;
+  defaultAmount: number | '' = this.wire.amount;
 
   protected submitted: boolean;
 
-  @Input("payment") set data(payment) {
+  @Input('payment') set data(payment) {
     this.wire.amount = payment.amount;
     this.wire.period = payment.period;
     this.wire.recurring = true;
@@ -98,9 +98,9 @@ export class WirePaymentsCreatorComponent {
   balances = {
     onchain: null,
     offchain: null,
-    onChainAddress: "",
+    onChainAddress: '',
     isReceiverOnchain: false,
-    wireCap: null
+    wireCap: null,
   };
 
   constructor(
@@ -191,15 +191,15 @@ export class WirePaymentsCreatorComponent {
       .catch(e => {
         this.inProgress = false;
         this.criticalError = true;
-        this.error = "Internal server error";
+        this.error = 'Internal server error';
       });
   }
 
   setDefaults() {
     this.wire.recurring = true;
-    let payloadType = localStorage.getItem("preferred-payment-method");
-    if (["onchain", "offchain"].indexOf(payloadType) === -1) {
-      payloadType = "offchain";
+    let payloadType = localStorage.getItem('preferred-payment-method');
+    if (['onchain', 'offchain'].indexOf(payloadType) === -1) {
+      payloadType = 'offchain';
     }
     this.setPayloadType(<PayloadType>payloadType);
   }
@@ -214,11 +214,11 @@ export class WirePaymentsCreatorComponent {
 
     this.wire.payload = null;
 
-    if (payloadType === "onchain") {
-      this.setOnchainNoncePayload("");
+    if (payloadType === 'onchain') {
+      this.setOnchainNoncePayload('');
     }
 
-    localStorage.setItem("preferred-payment-method", payloadType);
+    localStorage.setItem('preferred-payment-method', payloadType);
 
     this.roundAmount();
     this.showErrors();
@@ -288,21 +288,21 @@ export class WirePaymentsCreatorComponent {
    */
   validate() {
     if (this.wire.amount <= 0) {
-      throw new Error("Amount should be greater than zero.");
+      throw new Error('Amount should be greater than zero.');
     }
 
     if (!this.wire.payloadType) {
-      throw new Error("You should select a payment method.");
+      throw new Error('You should select a payment method.');
     }
 
     switch (this.wire.payloadType) {
-      case "onchain":
+      case 'onchain':
         if (!this.wire.payload && !this.wire.payload.receiver) {
-          throw new Error("Invalid receiver.");
+          throw new Error('Invalid receiver.');
         }
         break;
 
-      case "offchain":
+      case 'offchain':
         if (this.balances.wireCap === null) {
           // Skip client-side check until loaded
           break;
@@ -324,7 +324,7 @@ export class WirePaymentsCreatorComponent {
     }
 
     if (!this.wire.guid) {
-      throw new Error("You cannot wire this.");
+      throw new Error('You cannot wire this.');
     }
   }
 
@@ -347,7 +347,7 @@ export class WirePaymentsCreatorComponent {
    */
   showErrors() {
     if (!this.submitted) {
-      this.error = "";
+      this.error = '';
     }
 
     try {
@@ -361,7 +361,7 @@ export class WirePaymentsCreatorComponent {
 
   buyTokens() {
     this.overlayModal.dismiss();
-    this.router.navigate(["/token"]);
+    this.router.navigate(['/token']);
   }
 
   /**
@@ -380,16 +380,16 @@ export class WirePaymentsCreatorComponent {
     try {
       this.inProgress = true;
       this.submitted = true;
-      this.error = "";
+      this.error = '';
 
       if (
         (await this.web3Wallet.isLocal()) &&
-        this.wire.payloadType === "onchain"
+        this.wire.payloadType === 'onchain'
       ) {
         const action = await this.web3Wallet.setupMetamask();
         switch (action) {
           case GetMetamaskComponent.ACTION_CREATE:
-            this.router.navigate(["/wallet"]);
+            this.router.navigate(['/wallet']);
             this.inProgress = false;
             this.overlayModal.dismiss();
             break;
@@ -412,7 +412,7 @@ export class WirePaymentsCreatorComponent {
         }, 2500);
       }
     } catch (e) {
-      this.error = (e && e.message) || "Sorry, something went wrong";
+      this.error = (e && e.message) || 'Sorry, something went wrong';
     } finally {
       this.inProgress = false;
     }

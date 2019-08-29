@@ -1,18 +1,18 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
-  selector: "minds-avatar",
+  selector: 'minds-avatar',
   inputs: [
-    "_object: object",
-    "_src: src",
-    "_editMode: editMode",
-    "waitForDoneSignal",
-    "icon",
-    "showPrompt"
+    '_object: object',
+    '_src: src',
+    '_editMode: editMode',
+    'waitForDoneSignal',
+    'icon',
+    'showPrompt',
   ],
-  outputs: ["added"],
+  outputs: ['added'],
   template: `
     <div class="minds-avatar" [style.background-image]="'url(' + src + ')'">
       <img
@@ -29,16 +29,16 @@ import { Client } from "../../../services/api";
       </div>
       <input *ngIf="editing" type="file" #file (change)="add($event)" />
     </div>
-  `
+  `,
 })
 export class MindsAvatar {
   minds: Minds = window.Minds;
   object;
   editing: boolean = false;
   waitForDoneSignal: boolean = true;
-  src: string = "";
+  src: string = '';
   index: number = 0;
-  icon: string = "camera";
+  icon: string = 'camera';
   showPrompt: boolean = true;
 
   file: any;
@@ -47,10 +47,10 @@ export class MindsAvatar {
   set _object(value: any) {
     if (!value) return;
 
-    value.icontime = value.icontime ? value.icontime : "";
+    value.icontime = value.icontime ? value.icontime : '';
     this.object = value;
     this.src = `${this.minds.cdn_url}fs/v1/avatars/${this.object.guid}/large/${this.object.icontime}`;
-    if (this.object.type === "user")
+    if (this.object.type === 'user')
       this.src = `${this.minds.cdn_url}icon/${this.object.guid}/large/${this.object.icontime}`;
   }
 
@@ -75,20 +75,20 @@ export class MindsAvatar {
     var reader = new FileReader();
     reader.onloadend = () => {
       this.src =
-        typeof reader.result === "string"
+        typeof reader.result === 'string'
           ? reader.result
           : reader.result.toString();
     };
     reader.readAsDataURL(this.file);
 
-    element.value = "";
+    element.value = '';
 
     console.log(this.waitForDoneSignal);
     if (this.waitForDoneSignal !== true) this.done();
   }
 
   done() {
-    console.log("sending done");
+    console.log('sending done');
     this.added.next(this.file);
     this.file = null;
   }

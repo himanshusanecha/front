@@ -1,23 +1,23 @@
-import { Component } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
-import { Subscription } from "rxjs";
+import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { Session } from "../../../services/session";
-import { ScrollService } from "../../../services/ux/scroll";
+import { Session } from '../../../services/session';
+import { ScrollService } from '../../../services/ux/scroll';
 
 @Component({
-  selector: "m-modal-signup-on-scroll",
+  selector: 'm-modal-signup-on-scroll',
   template: `
     <m-modal-signup open="true" *ngIf="open"></m-modal-signup>
-  `
+  `,
 })
 export class SignupOnScrollModal {
   open: boolean = false;
-  route: string = "";
+  route: string = '';
   scroll_listener;
   minds = window.Minds;
 
-  display: string = "initial";
+  display: string = 'initial';
 
   routerSubscription: Subscription;
 
@@ -48,25 +48,25 @@ export class SignupOnScrollModal {
 
             let url = navigationEvent.urlAfterRedirects;
 
-            if (url.indexOf("/") === 0) {
+            if (url.indexOf('/') === 0) {
               url = url.substr(1);
             }
 
-            const fragments = url.replace(/\/|\?/g, ";").split(";");
+            const fragments = url.replace(/\/|\?/g, ';').split(';');
 
             this.route = navigationEvent.urlAfterRedirects;
 
             switch (fragments[0]) {
-              case "register":
-              case "login":
-              case "forgot-password":
-              case "":
+              case 'register':
+              case 'login':
+              case 'forgot-password':
+              case '':
                 this.open = false;
                 break;
               default:
                 this.scroll_listener = this.scroll.listen(e => {
                   if (this.scroll.view.scrollTop > 20) {
-                    if (window.localStorage.getItem("hideSignupModal"))
+                    if (window.localStorage.getItem('hideSignupModal'))
                       this.open = false;
                     else this.open = true;
                   }
@@ -74,7 +74,7 @@ export class SignupOnScrollModal {
             }
           }
         } catch (e) {
-          console.error("Minds: router hook(SignupOnScrollModal)", e);
+          console.error('Minds: router hook(SignupOnScrollModal)', e);
         }
       }
     );

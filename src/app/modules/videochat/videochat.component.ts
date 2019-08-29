@@ -4,15 +4,15 @@ import {
   HostBinding,
   Input,
   OnInit,
-  ViewChild
-} from "@angular/core";
-import { JitsiConfig, VideoChatService } from "./videochat.service";
+  ViewChild,
+} from '@angular/core';
+import { JitsiConfig, VideoChatService } from './videochat.service';
 
 declare const JitsiMeetExternalAPI: any;
 
 @Component({
-  selector: "m-videochat",
-  templateUrl: "./videochat.component.html"
+  selector: 'm-videochat',
+  templateUrl: './videochat.component.html',
 })
 export class VideoChatComponent implements OnInit {
   minds = window.Minds;
@@ -20,9 +20,9 @@ export class VideoChatComponent implements OnInit {
   isFullWidth$;
 
   @Input() configs: JitsiConfig;
-  @HostBinding("class.is-active") isActive = false;
+  @HostBinding('class.is-active') isActive = false;
   // @HostBinding('class.j-meetings-meeting--full-width') isFullWidth = false;
-  @ViewChild("meet", { static: false }) meet;
+  @ViewChild('meet', { static: false }) meet;
 
   constructor(
     private service: VideoChatService,
@@ -53,53 +53,53 @@ export class VideoChatComponent implements OnInit {
     this.isActive = true;
     this.cd.markForCheck();
     this.cd.detectChanges();
-    const domain = "meet.jit.si";
+    const domain = 'meet.jit.si';
 
     const options = {
       roomName: this.configs.roomName,
-      width: "100%",
+      width: '100%',
       parentNode: this.meet.nativeElement,
       avatarUrl: `${this.minds.cdn_url}icon/${this.minds.user.guid}/large/${this.minds.user.icontime}`,
       interfaceConfigOverwrite: {
         // filmStripOnly: true,
         DEFAULT_REMOTE_DISPLAY_NAME: this.configs.username,
         SHOW_JITSI_WATERMARK: true,
-        JITSI_WATERMARK_LINK: "",
+        JITSI_WATERMARK_LINK: '',
         SHOW_WATERMARK_FOR_GUESTS: false,
-        APP_NAME: "Minds",
+        APP_NAME: 'Minds',
 
         TOOLBAR_BUTTONS: [
           // main toolbar
-          "microphone",
-          "camera",
-          "desktop",
-          "fullscreen",
-          "fodeviceselection",
-          "hangup",
-          "tileview",
+          'microphone',
+          'camera',
+          'desktop',
+          'fullscreen',
+          'fodeviceselection',
+          'hangup',
+          'tileview',
           // extended toolbar
-          "settings",
-          "raisehand",
-          "invite",
-          "livestreaming",
-          "videoquality",
-          "filmstrip",
-          "stats"
-        ]
-      }
+          'settings',
+          'raisehand',
+          'invite',
+          'livestreaming',
+          'videoquality',
+          'filmstrip',
+          'stats',
+        ],
+      },
     };
     const api = new JitsiMeetExternalAPI(domain, options);
 
     api.executeCommand(
-      "displayName",
-      this.configs.username || "Unknown Minds User"
+      'displayName',
+      this.configs.username || 'Unknown Minds User'
     );
     api.executeCommand(
-      "avatarUrl",
+      'avatarUrl',
       `${this.minds.cdn_url}icon/${this.minds.user.guid}/large/${this.minds.user.icontime}`
     );
 
-    api.on("videoConferenceLeft", () => {
+    api.on('videoConferenceLeft', () => {
       this.service.deactivate();
     });
   }

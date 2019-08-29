@@ -6,26 +6,26 @@ import {
   EventEmitter,
   Input,
   Output,
-  Renderer
-} from "@angular/core";
+  Renderer,
+} from '@angular/core';
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
-  Router
-} from "@angular/router";
-import { Subscription } from "rxjs";
+  Router,
+} from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
-import { Upload } from "../../../services/api/upload";
-import { AttachmentService } from "../../../services/attachment";
-import { Textarea } from "../../../common/components/editors/textarea.component";
-import { SocketsService } from "../../../services/sockets";
-import { CommentsService } from "../comments.service";
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
+import { Upload } from '../../../services/api/upload';
+import { AttachmentService } from '../../../services/attachment';
+import { Textarea } from '../../../common/components/editors/textarea.component';
+import { SocketsService } from '../../../services/sockets';
+import { CommentsService } from '../comments.service';
 
 @Component({
-  selector: "m-comments__tree",
-  templateUrl: "tree.component.html",
+  selector: 'm-comments__tree',
+  templateUrl: 'tree.component.html',
   providers: [
     AttachmentService,
     {
@@ -33,15 +33,15 @@ import { CommentsService } from "../comments.service";
       useFactory: (_route, _client) => {
         return new CommentsService(_route, _client);
       },
-      deps: [ActivatedRoute, Client]
-    }
+      deps: [ActivatedRoute, Client],
+    },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentsTreeComponent {
   minds;
   entity;
-  guid: string = "";
+  guid: string = '';
   parent: any;
 
   @Input() limit: number = 12;
@@ -81,7 +81,7 @@ export class CommentsTreeComponent {
     this.router.routeReuseStrategy.shouldReuseRoute = this.shouldReuseRouteFn;
   }
 
-  @Input("entity")
+  @Input('entity')
   set _entity(value: any) {
     this.entity = value;
     this.guid = this.entity.guid;

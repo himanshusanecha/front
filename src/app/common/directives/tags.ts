@@ -1,8 +1,8 @@
-import { Directive, Inject, ElementRef } from "@angular/core";
+import { Directive, Inject, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: "[tags]",
-  inputs: ["tags"]
+  selector: '[tags]',
+  inputs: ['tags'],
 })
 export class TagsLinks {
   element: any;

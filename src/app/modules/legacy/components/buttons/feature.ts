@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { Session } from "../../../../services/session";
-import { Client } from "../../../../services/api";
+import { Component } from '@angular/core';
+import { Session } from '../../../../services/session';
+import { Client } from '../../../../services/api';
 
 @Component({
-  selector: "minds-button-feature",
-  inputs: ["_object: object"],
+  selector: 'minds-button-feature',
+  inputs: ['_object: object'],
   template: `
     <button
       class="m-btn m-btn--with-icon"
@@ -35,14 +35,14 @@ import { Client } from "../../../../services/api";
         </button>
       </div>
     </m-modal>
-  `
+  `,
 })
 export class FeatureButton {
   object;
   isFeatured: boolean = false;
 
   open: boolean = false;
-  category: string = "not-selected";
+  category: string = 'not-selected';
   categories: Array<any> = [];
 
   constructor(public session: Session, public client: Client) {}
@@ -55,7 +55,7 @@ export class FeatureButton {
     for (let category in window.Minds.categories) {
       this.categories.push({
         id: category,
-        label: window.Minds.categories[category]
+        label: window.Minds.categories[category],
       });
     }
   }
@@ -74,7 +74,7 @@ export class FeatureButton {
     this.isFeatured = true;
 
     this.client
-      .put("api/v1/admin/feature/" + this.object.guid + "/" + this.category, {})
+      .put('api/v1/admin/feature/' + this.object.guid + '/' + this.category, {})
       .then((response: any) => {
         this.open = false;
       })
@@ -88,7 +88,7 @@ export class FeatureButton {
     this.isFeatured = false;
     this.object.featured = false;
     this.client
-      .delete("api/v1/admin/feature/" + this.object.guid, {})
+      .delete('api/v1/admin/feature/' + this.object.guid, {})
       .then((response: any) => {
         this.open = false;
       })

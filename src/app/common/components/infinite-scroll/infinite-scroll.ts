@@ -3,16 +3,16 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
+  Output,
+} from '@angular/core';
 import {
   GlobalScrollService,
-  ScrollSubscription
-} from "../../../services/ux/global-scroll.service";
-import { Subscription } from "rxjs";
+  ScrollSubscription,
+} from '../../../services/ux/global-scroll.service';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "infinite-scroll",
+  selector: 'infinite-scroll',
   template: `
     <div
       class="mdl-spinner mdl-js-spinner is-active"
@@ -48,14 +48,14 @@ import { Subscription } from "rxjs";
         >Nothing more to load</ng-container
       >
     </div>
-  `
+  `,
 })
 export class InfiniteScroll {
   @Input() on: any;
   @Input() scrollSource: any; // if not provided, it defaults to window
   @Input() iconOnly: boolean = false;
 
-  @Output("load") loadHandler: EventEmitter<any> = new EventEmitter(true);
+  @Output('load') loadHandler: EventEmitter<any> = new EventEmitter(true);
   @Input() distance: any;
   @Input() inProgress: boolean = false;
   @Input() moreData: boolean = true;

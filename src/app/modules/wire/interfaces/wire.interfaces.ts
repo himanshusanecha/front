@@ -1,7 +1,7 @@
-export type WireRewardsType = "points" | "money" | "tokens";
+export type WireRewardsType = 'points' | 'money' | 'tokens';
 
 export type WireRewardsTier = {
-  amount: number | "";
+  amount: number | '';
   description: string;
 };
 
@@ -16,5 +16,5 @@ export type WireRewardsStruc = {
 
 export type WireThresholdStruc = {
   type: WireRewardsType;
-  min: number | "";
+  min: number | '';
 };

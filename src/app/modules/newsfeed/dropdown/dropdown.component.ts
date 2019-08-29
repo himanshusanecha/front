@@ -1,18 +1,18 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Session } from "../../../services/session";
-import { NewsfeedBoostService } from "../newsfeed-boost.service";
-import { NewsfeedService } from "../services/newsfeed.service";
-import { SettingsService } from "../../settings/settings.service";
-import { Router } from "@angular/router";
+import { Component, Input, OnInit } from '@angular/core';
+import { Session } from '../../../services/session';
+import { NewsfeedBoostService } from '../newsfeed-boost.service';
+import { NewsfeedService } from '../services/newsfeed.service';
+import { SettingsService } from '../../settings/settings.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "m-newsfeed--dropdown",
-  templateUrl: "dropdown.component.html"
+  selector: 'm-newsfeed--dropdown',
+  templateUrl: 'dropdown.component.html',
 })
 export class NewsfeedDropdownComponent implements OnInit {
   boostRating: number = 2;
   plus: boolean = false;
-  @Input("showBoost") showBoostOptions: boolean = true;
+  @Input('showBoost') showBoostOptions: boolean = true;
 
   constructor(
     public session: Session,
@@ -44,7 +44,7 @@ export class NewsfeedDropdownComponent implements OnInit {
   }
 
   selectCategories() {
-    this.router.navigate(["/settings/general", "categories"]);
+    this.router.navigate(['/settings/general', 'categories']);
   }
 
   onNSFWSelected(reasons) {

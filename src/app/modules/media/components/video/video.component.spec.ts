@@ -4,43 +4,43 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
+  tick,
+} from '@angular/core/testing';
 import {
   Component,
   DebugElement,
   EventEmitter,
   Input,
   Output,
-  Directive
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { By } from "@angular/platform-browser";
-import { Router } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { CommonModule as NgCommonModule } from "@angular/common";
-import { Client } from "../../../../services/api";
-import { clientMock } from "../../../../../tests/client-mock.spec";
-import { ScrollService } from "../../../../services/ux/scroll";
-import { scrollServiceMock } from "../../../../../tests/scroll-service-mock.spec";
-import { VideoAdsService } from "./ads.service";
-import { MindsVideoComponent } from "./video.component";
-import { MindsVideoProgressBar } from "./progress-bar/progress-bar.component";
-import { MindsVideoQualitySelector } from "./quality-selector/quality-selector.component";
-import { MindsVideoVolumeSlider } from "./volume-slider/volume-slider.component";
-import { AbbrPipe } from "../../../../common/pipes/abbr";
-import { TooltipComponent } from "../../../../common/components/tooltip/tooltip.component";
-import { WebtorrentService } from "../../../webtorrent/webtorrent.service";
-import { webtorrentServiceMock } from "../../../../../tests/webtorrent-service-mock.spec";
-import { MindsPlayerInterface } from "./players/player.interface";
-import { MediaModalComponent } from "../../modal/modal.component";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { FeaturesService } from "../../../../services/features.service";
-import { featuresServiceMock } from "../../../../../tests/features-service-mock.spec";
+  Directive,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { Client } from '../../../../services/api';
+import { clientMock } from '../../../../../tests/client-mock.spec';
+import { ScrollService } from '../../../../services/ux/scroll';
+import { scrollServiceMock } from '../../../../../tests/scroll-service-mock.spec';
+import { VideoAdsService } from './ads.service';
+import { MindsVideoComponent } from './video.component';
+import { MindsVideoProgressBar } from './progress-bar/progress-bar.component';
+import { MindsVideoQualitySelector } from './quality-selector/quality-selector.component';
+import { MindsVideoVolumeSlider } from './volume-slider/volume-slider.component';
+import { AbbrPipe } from '../../../../common/pipes/abbr';
+import { TooltipComponent } from '../../../../common/components/tooltip/tooltip.component';
+import { WebtorrentService } from '../../../webtorrent/webtorrent.service';
+import { webtorrentServiceMock } from '../../../../../tests/webtorrent-service-mock.spec';
+import { MindsPlayerInterface } from './players/player.interface';
+import { MediaModalComponent } from '../../modal/modal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FeaturesService } from '../../../../services/features.service';
+import { featuresServiceMock } from '../../../../../tests/features-service-mock.spec';
 
 @Component({
-  selector: "m-video--direct-http-player",
-  template: ""
+  selector: 'm-video--direct-http-player',
+  template: '',
 })
 class MindsVideoDirectHttpPlayerMock implements MindsPlayerInterface {
   @Input() muted: boolean;
@@ -74,18 +74,18 @@ class MindsVideoDirectHttpPlayerMock implements MindsPlayerInterface {
     return false;
   };
 
-  requestFullScreen = jasmine.createSpy("requestFullScreen").and.stub();
+  requestFullScreen = jasmine.createSpy('requestFullScreen').and.stub();
 
   getInfo = () => {};
 }
 
 class HTMLVideoElementMock {
-  webkitEnterFullScreen = jasmine.createSpy("webkitEnterFullScreen").and.stub();
+  webkitEnterFullScreen = jasmine.createSpy('webkitEnterFullScreen').and.stub();
 }
 
 @Component({
-  selector: "m-video--torrent-player",
-  template: ""
+  selector: 'm-video--torrent-player',
+  template: '',
 })
 class MindsVideoTorrentPlayerMock implements MindsPlayerInterface {
   @Input() muted: boolean;
@@ -119,14 +119,14 @@ class MindsVideoTorrentPlayerMock implements MindsPlayerInterface {
     return false;
   };
 
-  requestFullScreen = jasmine.createSpy("requestFullScreen").and.stub();
+  requestFullScreen = jasmine.createSpy('requestFullScreen').and.stub();
 
   getInfo = () => {};
 }
 
 @Component({
-  selector: "m-video--volume-slider",
-  template: ""
+  selector: 'm-video--volume-slider',
+  template: '',
 })
 export class MindsVideoVolumeSliderMock {
   @Input() player;
@@ -134,18 +134,18 @@ export class MindsVideoVolumeSliderMock {
 }
 
 @Component({
-  selector: "m-video--quality-selector",
-  template: ""
+  selector: 'm-video--quality-selector',
+  template: '',
 })
 export class MindsVideoQualitySelectorMock {
-  @Input("qualities") qualities: Array<string>;
-  @Input("current") current: string;
-  @Output("select") selectEmitter: EventEmitter<any> = new EventEmitter();
+  @Input('qualities') qualities: Array<string>;
+  @Input('current') current: string;
+  @Output('select') selectEmitter: EventEmitter<any> = new EventEmitter();
 }
 
 @Component({
-  selector: "m-video--progress-bar",
-  template: ""
+  selector: 'm-video--progress-bar',
+  template: '',
 })
 export class MindsVideoProgressBarMock {
   @Input() player;
@@ -157,12 +157,12 @@ export class MindsVideoProgressBarMock {
 }
 
 @Directive({
-  selector: "[mdl]",
-  inputs: ["mdl"]
+  selector: '[mdl]',
+  inputs: ['mdl'],
 })
 export class MDLMock {}
 
-describe("MindsVideo", () => {
+describe('MindsVideo', () => {
   let comp: MindsVideoComponent;
   let fixture: ComponentFixture<MindsVideoComponent>;
 
@@ -177,20 +177,20 @@ describe("MindsVideo", () => {
         MindsVideoDirectHttpPlayerMock,
         MindsVideoTorrentPlayerMock,
         MindsVideoComponent,
-        TooltipComponent
+        TooltipComponent,
       ], // declare the test component
       imports: [
         FormsModule,
         RouterTestingModule,
         NgCommonModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
       ],
       providers: [
         { provide: ScrollService, useValue: scrollServiceMock },
         { provide: Client, useValue: clientMock },
         { provide: WebtorrentService, useValue: webtorrentServiceMock },
-        { provide: FeaturesService, useValue: featuresServiceMock }
-      ]
+        { provide: FeaturesService, useValue: featuresServiceMock },
+      ],
     }).compileComponents(); // compile template and css
   }));
 
@@ -202,10 +202,10 @@ describe("MindsVideo", () => {
     fixture = TestBed.createComponent(MindsVideoComponent);
     clientMock.response = {};
     comp = fixture.componentInstance;
-    comp.guid = "1";
+    comp.guid = '1';
     comp.current = {
-      type: "direct-http",
-      src: "thisisavideo.mp4"
+      type: 'direct-http',
+      src: 'thisisavideo.mp4',
     };
 
     fixture.detectChanges(); // re-render
@@ -236,70 +236,70 @@ describe("MindsVideo", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should have a Play icon and a Control bar", () => {
+  it('should have a Play icon and a Control bar', () => {
     const playIcon = fixture.debugElement.query(
-      By.css(".minds-video-play-icon")
+      By.css('.minds-video-play-icon')
     );
     const videoBar = fixture.debugElement.query(
-      By.css(".minds-video-bar-full")
+      By.css('.minds-video-bar-full')
     );
     expect(playIcon).not.toBeNull();
     expect(videoBar).not.toBeNull();
   });
 
-  it("On mouse enter Control bar should be visible", () => {
+  it('On mouse enter Control bar should be visible', () => {
     expect(comp.playerRef.getPlayer()).not.toBeNull();
     comp.onMouseEnter();
     const videoBar = fixture.debugElement.query(
-      By.css(".minds-video-bar-full")
+      By.css('.minds-video-bar-full')
     );
-    expect(videoBar.nativeElement.hasAttribute("hidden")).toEqual(false);
+    expect(videoBar.nativeElement.hasAttribute('hidden')).toEqual(false);
     const quality = fixture.debugElement.query(
-      By.css("m-video--quality-selector")
+      By.css('m-video--quality-selector')
     );
-    const volume = fixture.debugElement.query(By.css("m-video--volume-slider"));
+    const volume = fixture.debugElement.query(By.css('m-video--volume-slider'));
     const progressBar = fixture.debugElement.query(
-      By.css("m-video--progress-bar")
+      By.css('m-video--progress-bar')
     );
     expect(progressBar).not.toBeNull();
     expect(quality).toBeNull();
     expect(volume).not.toBeNull();
   });
 
-  it("Should call counter", () => {
-    const video = fixture.debugElement.query(By.css("video"));
+  it('Should call counter', () => {
+    const video = fixture.debugElement.query(By.css('video'));
     comp.playCountDisabled = false;
     comp.playCount = -1;
-    comp.log = "1";
+    comp.log = '1';
     fixture.detectChanges();
-    const calls = clientMock.get["calls"];
+    const calls = clientMock.get['calls'];
     expect(calls.mostRecent().args[0]).toEqual(
-      "api/v1/analytics/@counter/play/1"
+      'api/v1/analytics/@counter/play/1'
     );
   });
 
-  it("If error loading then try to confirm that is being transcoded", fakeAsync(() => {
+  it('If error loading then try to confirm that is being transcoded', fakeAsync(() => {
     fixture.detectChanges();
     comp.onError();
     jasmine.clock().tick(100);
     fixture.detectChanges();
-    const calls = clientMock.get["calls"];
-    expect(calls.mostRecent().args[0]).toEqual("api/v1/media/transcoding/1");
+    const calls = clientMock.get['calls'];
+    expect(calls.mostRecent().args[0]).toEqual('api/v1/media/transcoding/1');
   }));
 
-  it("should set muted", () => {
+  it('should set muted', () => {
     comp.muted = true;
     fixture.detectChanges();
     expect(comp.muted).toEqual(true);
   });
 
-  it("should sets _autoplay", () => {
+  it('should sets _autoplay', () => {
     comp._autoplay = false;
     fixture.detectChanges();
     expect(comp.autoplay).toEqual(false);
   });
 
-  it("should set src", () => {
+  it('should set src', () => {
     comp._src = [];
     fixture.detectChanges();
     expect(comp.src).toEqual([]);
@@ -317,28 +317,28 @@ describe("MindsVideo", () => {
   //   expect(comp.visibleplay).toEqual(false);
   // });
 
-  it("should sets _playCount", () => {
+  it('should sets _playCount', () => {
     comp._playCount = 70;
     fixture.detectChanges();
     expect(comp.playCount).toEqual(70);
   });
 
-  it("should sets _playCount in 0", () => {
+  it('should sets _playCount in 0', () => {
     comp._playCount = false;
     fixture.detectChanges();
     expect(comp.playCountDisabled).toEqual(true);
   });
 
-  it("Should Select Quality, reloading and playing", fakeAsync(() => {
+  it('Should Select Quality, reloading and playing', fakeAsync(() => {
     comp._src = [];
     comp._torrent = [];
     fixture.detectChanges();
 
     comp.playerRef.getPlayer().currentTime = 39;
-    spyOn(comp.playerRef, "resumeFromTime").and.stub();
-    spyOn(comp, "reorderSourcesBasedOnQuality").and.callThrough();
-    spyOn(comp, "changeSources").and.callThrough();
-    comp.selectedQuality("360");
+    spyOn(comp.playerRef, 'resumeFromTime').and.stub();
+    spyOn(comp, 'reorderSourcesBasedOnQuality').and.callThrough();
+    spyOn(comp, 'changeSources').and.callThrough();
+    comp.selectedQuality('360');
     jasmine.clock().tick(100);
     jasmine.clock().tick(100);
     expect(comp.playerRef.resumeFromTime).toHaveBeenCalled();

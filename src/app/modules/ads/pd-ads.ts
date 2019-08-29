@@ -1,9 +1,9 @@
-import { Component, EventEmitter, ElementRef } from "@angular/core";
+import { Component, EventEmitter, ElementRef } from '@angular/core';
 
 @Component({
   moduleId: module.id,
-  selector: "pd-ad",
-  inputs: ["type", "location"],
+  selector: 'pd-ad',
+  inputs: ['type', 'location'],
   template: `
     <div
       class="tpd-box"
@@ -47,16 +47,16 @@ import { Component, EventEmitter, ElementRef } from "@angular/core";
     ></div>
   `,
   host: {
-    "[class]": "'m-ad-block m-ad-block-pd ' + type + ' m-ad-block-' + location"
-  }
+    '[class]': "'m-ad-block m-ad-block-pd ' + type + ' m-ad-block-' + location",
+  },
 })
 export class PDAds {
   visible: boolean = false;
-  type: string = "square";
-  location: string = "default";
+  type: string = 'square';
+  location: string = 'default';
 
   ngOnInit() {
-    if (typeof window.twoOhSix !== "undefined") {
+    if (typeof window.twoOhSix !== 'undefined') {
       window.twoOhSix.insertAds();
       //if(this.type == 'context')
       setTimeout(() => {

@@ -1,11 +1,11 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
-  selector: "m-channel--carousel",
-  inputs: ["_banners: banners", "_editMode: editMode"],
-  outputs: ["done_event: done", "delete_event: delete"],
+  selector: 'm-channel--carousel',
+  inputs: ['_banners: banners', '_editMode: editMode'],
+  outputs: ['done_event: done', 'delete_event: delete'],
   template: `
     <i
       class="material-icons left"
@@ -43,14 +43,14 @@ import { Client } from "../../../services/api";
       [hidden]="banners.length <= 1"
       >keyboard_arrow_right</i
     >
-  `
+  `,
 })
 export class CarouselComponent {
   minds: Minds = window.Minds;
   banners: Array<any> = [];
 
   editing: boolean = false;
-  src: string = "";
+  src: string = '';
   modified: Array<any> = []; //all banners should be exported to here on the done event, and sent to parent
 
   done_event = new EventEmitter();
@@ -73,7 +73,7 @@ export class CarouselComponent {
       this.banners = value;
     } else {
       this.banners.push({
-        src: null
+        src: null,
       });
     }
   }
@@ -82,10 +82,10 @@ export class CarouselComponent {
    * If the parent set edit mode
    */
   set _editMode(value: boolean) {
-    console.log("[carousel]: edit mode event received");
+    console.log('[carousel]: edit mode event received');
     //was in edit more, now settings not in edit more
     if (this.editing && !value) {
-      console.log("[carousel]: edit mode ended");
+      console.log('[carousel]: edit mode ended');
       this._done();
       return;
     }
@@ -94,7 +94,7 @@ export class CarouselComponent {
     if (!this.editing) {
       return;
     }
-    console.log("[carousel]: edit mode enabled");
+    console.log('[carousel]: edit mode enabled');
     this.rotate = false;
     this.done = false;
     var blank_banner = false;
@@ -103,7 +103,7 @@ export class CarouselComponent {
     }
     if (!blank_banner) {
       this.banners.push({
-        src: null
+        src: null,
       });
     }
   }
@@ -130,7 +130,7 @@ export class CarouselComponent {
       guid: this.banners[index].guid,
       index: index,
       file: value.file,
-      top: value.top
+      top: value.top,
     });
   }
 
@@ -149,7 +149,7 @@ export class CarouselComponent {
   _done() {
     this.editing = false; //this should update each banner (I'd prefer even driven but change detection works..)
     this.done = true;
-    console.log("[carousel]: received done event");
+    console.log('[carousel]: received done event');
     //after one second?
     setTimeout(() => {
       this.done_event.next(this.modified);

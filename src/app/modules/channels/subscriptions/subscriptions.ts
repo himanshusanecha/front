@@ -1,19 +1,19 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-channel--subscriptions",
-  inputs: ["channel"],
-  templateUrl: "subscriptions.html"
+  selector: 'm-channel--subscriptions',
+  inputs: ['channel'],
+  templateUrl: 'subscriptions.html',
 })
 export class ChannelSubscriptions {
   guid: string;
   users: Array<any> = [];
 
-  offset: string = "";
+  offset: string = '';
   moreData: boolean = true;
   inProgress: boolean = false;
 
@@ -28,8 +28,8 @@ export class ChannelSubscriptions {
     if (this.inProgress) return;
     this.inProgress = true;
     this.client
-      .get("api/v1/subscribe/subscriptions/" + this.guid, {
-        offset: this.offset
+      .get('api/v1/subscribe/subscriptions/' + this.guid, {
+        offset: this.offset,
       })
       .then((response: any) => {
         if (!response.users || response.users.length === 0) {
@@ -40,7 +40,7 @@ export class ChannelSubscriptions {
 
         this.users = this.users.concat(response.users);
 
-        this.offset = response["load-next"];
+        this.offset = response['load-next'];
         this.inProgress = false;
       })
       .catch(e => {

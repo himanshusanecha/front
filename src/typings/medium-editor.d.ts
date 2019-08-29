@@ -198,6 +198,6 @@ declare namespace MediumEditor {
 
 declare var MediumEditor: MediumEditor.MediumEditor;
 
-declare module "medium-editor" {
+declare module 'medium-editor' {
   export = MediumEditor;
 }

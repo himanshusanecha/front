@@ -1,9 +1,9 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: "m-scheduler",
-  inputs: ["days"],
-  outputs: ["update: ts"],
+  selector: 'm-scheduler',
+  inputs: ['days'],
+  outputs: ['update: ts'],
   template: `
     <!-- Day -->
     <select
@@ -39,7 +39,7 @@ import { Component, EventEmitter } from "@angular/core";
         m.label
       }}</option>
     </select>
-  `
+  `,
 })
 export class Scheduler {
   days: Number = 3;
@@ -69,8 +69,8 @@ export class Scheduler {
         formatted:
           date.getDate() +
           this.getSuffix(date.getDate()) +
-          " " +
-          date.toLocaleString("en-us", { month: "long" })
+          ' ' +
+          date.toLocaleString('en-us', { month: 'long' }),
       });
     }
     this.setUpHours();
@@ -101,14 +101,14 @@ export class Scheduler {
     if (day > 20 || day < 10) {
       switch (day % 10) {
         case 1:
-          return "st";
+          return 'st';
         case 2:
-          return "nd";
+          return 'nd';
         case 3:
-          return "rd";
+          return 'rd';
       }
     }
-    return "th";
+    return 'th';
   }
 
   compileTs() {
@@ -117,7 +117,7 @@ export class Scheduler {
     date.setHours(this.selectedHour, this.selectedMinutes * 5, 0, 0);
     var ts = date.getTime();
     console.log(
-      "emitting change",
+      'emitting change',
       ts,
       date,
       this.dates[this.selectedDate].date,

@@ -1,10 +1,10 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { Client } from "../../../../common/api/client.service";
+import { Client } from '../../../../common/api/client.service';
 
 @Component({
-  selector: "m-settings--billing-saved-cards",
-  templateUrl: "saved-cards.component.html"
+  selector: 'm-settings--billing-saved-cards',
+  templateUrl: 'saved-cards.component.html',
 })
 export class SettingsBillingSavedCardsComponent {
   minds = window.Minds;
@@ -52,7 +52,7 @@ export class SettingsBillingSavedCardsComponent {
     this.inProgress = true;
 
     this.client
-      .delete("api/v1/payments/stripe/card/" + this.cards[index].id)
+      .delete('api/v1/payments/stripe/card/' + this.cards[index].id)
       .then(() => {
         this.cards.splice(index, 1);
 
@@ -81,20 +81,20 @@ export class SettingsBillingSavedCardsComponent {
           .catch(e => {
             this.inProgress = false;
             this.detectChanges();
-            alert((e && e.message) || "There was an error saving your card.");
+            alert((e && e.message) || 'There was an error saving your card.');
           });
       })
       .catch(e => {
         this.inProgress = false;
         this.detectChanges();
         alert(
-          (e && e.message) || "There was an error with your card information."
+          (e && e.message) || 'There was an error with your card information.'
         );
       });
   }
 
   saveCard(token: string): Promise<any> {
-    return this.client.put("api/v1/payments/stripe/card/" + token);
+    return this.client.put('api/v1/payments/stripe/card/' + token);
   }
 
   getCardNonce(card): Promise<string> {
@@ -104,7 +104,7 @@ export class SettingsBillingSavedCardsComponent {
           number: card.number,
           cvc: card.sec,
           exp_month: card.month,
-          exp_year: card.year
+          exp_year: card.year,
         },
         (status, response) => {
           if (response.error) {

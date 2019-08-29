@@ -1,5 +1,5 @@
-import { EventEmitter } from "@angular/core";
-import { TreeNode } from "./tree-node.model";
+import { EventEmitter } from '@angular/core';
+import { TreeNode } from './tree-node.model';
 
 export class TreeModel {
   nodes: Array<TreeNode> = [];
@@ -11,7 +11,7 @@ export class TreeModel {
 
   setData(data: Array<any>) {
     (data || []).forEach(item => {
-      const node = new TreeNode(item, "id", "label", "children", this);
+      const node = new TreeNode(item, 'id', 'label', 'children', this);
       this.nodes.push(node);
     });
   }
@@ -87,8 +87,8 @@ export class TreeModel {
     this.hiddenNodes = [];
   }
 
-  filterNodes(filter: string = "") {
-    if (filter === "") {
+  filterNodes(filter: string = '') {
+    if (filter === '') {
       this.clearFilter();
       return;
     }

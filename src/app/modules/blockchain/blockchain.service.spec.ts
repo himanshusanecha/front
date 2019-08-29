@@ -1,8 +1,8 @@
-import { BlockchainService } from "./blockchain.service";
-import { fakeAsync } from "@angular/core/testing";
-import { clientMock } from "../../../tests/client-mock.spec";
+import { BlockchainService } from './blockchain.service';
+import { fakeAsync } from '@angular/core/testing';
+import { clientMock } from '../../../tests/client-mock.spec';
 
-describe("BlockchainService", () => {
+describe('BlockchainService', () => {
   let service: BlockchainService;
 
   beforeEach(() => {
@@ -10,23 +10,23 @@ describe("BlockchainService", () => {
     jasmine.clock().install();
     service = new BlockchainService(clientMock);
     clientMock.response = {};
-    window.Minds = <any>{ user: { eth_wallet: null }, context: "minds" };
+    window.Minds = <any>{ user: { eth_wallet: null }, context: 'minds' };
   });
 
   afterEach(() => {
     jasmine.clock().uninstall();
   });
 
-  it("should be instantiated", () => {
+  it('should be instantiated', () => {
     expect(service).toBeTruthy();
   });
 
-  it("should get the wallet", fakeAsync(() => {
-    const url = "api/v2/blockchain/wallet/address";
+  it('should get the wallet', fakeAsync(() => {
+    const url = 'api/v2/blockchain/wallet/address';
 
     clientMock.response[url] = {
-      status: "success",
-      wallet: "0x1234"
+      status: 'success',
+      wallet: '0x1234',
     };
 
     service.getWallet();
@@ -37,25 +37,25 @@ describe("BlockchainService", () => {
     expect(args[0]).toBe(url);
   }));
 
-  it("should set the wallet", fakeAsync(() => {
-    const url = "api/v2/blockchain/wallet";
+  it('should set the wallet', fakeAsync(() => {
+    const url = 'api/v2/blockchain/wallet';
 
     clientMock.response[url] = {
-      status: "success"
+      status: 'success',
     };
 
-    service.setWallet({ address: "0x1234" });
+    service.setWallet({ address: '0x1234' });
     jasmine.clock().tick(10);
     expect(clientMock.post).toHaveBeenCalled();
     expect(clientMock.post.calls.mostRecent().args[0]).toBe(url);
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
-      address: "0x1234"
+      address: '0x1234',
     });
   }));
 
-  it("should get the balance", fakeAsync(async () => {
-    const url = "api/v2/blockchain/wallet/balance";
-    clientMock.response[url] = { status: "success", balance: 10 ** 18 };
+  it('should get the balance', fakeAsync(async () => {
+    const url = 'api/v2/blockchain/wallet/balance';
+    clientMock.response[url] = { status: 'success', balance: 10 ** 18 };
 
     let balance = await service.getBalance();
     jasmine.clock().tick(10);

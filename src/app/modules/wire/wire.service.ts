@@ -1,9 +1,9 @@
-import { EventEmitter, Injectable } from "@angular/core";
-import { Client } from "../../services/api/client";
-import { WireContractService } from "../blockchain/contracts/wire-contract.service";
-import { TokenContractService } from "../blockchain/contracts/token-contract.service";
-import { Web3WalletService } from "../blockchain/web3-wallet.service";
-import { WireStruc } from "./creator/creator.component";
+import { EventEmitter, Injectable } from '@angular/core';
+import { Client } from '../../services/api/client';
+import { WireContractService } from '../blockchain/contracts/wire-contract.service';
+import { TokenContractService } from '../blockchain/contracts/token-contract.service';
+import { Web3WalletService } from '../blockchain/web3-wallet.service';
+import { WireStruc } from './creator/creator.component';
 
 @Injectable()
 export class WireService {
@@ -20,25 +20,25 @@ export class WireService {
     let payload = wire.payload;
 
     if (!wire.amount || wire.amount < 0) {
-      throw new Error("Amount should be a positive number");
+      throw new Error('Amount should be a positive number');
     }
 
     switch (wire.payloadType) {
-      case "onchain":
+      case 'onchain':
         await this.web3Wallet.ready();
 
         if (this.web3Wallet.isUnavailable()) {
-          throw new Error("No Ethereum wallets available on your browser.");
+          throw new Error('No Ethereum wallets available on your browser.');
         } else if (!(await this.web3Wallet.unlock())) {
           throw new Error(
-            "Your Ethereum wallet is locked or connected to another network."
+            'Your Ethereum wallet is locked or connected to another network.'
           );
         }
 
         if (
           payload.receiver == (await this.web3Wallet.getCurrentWallet(true))
         ) {
-          throw new Error("You cannot wire yourself.");
+          throw new Error('You cannot wire yourself.');
         }
 
         try {
@@ -55,38 +55,38 @@ export class WireService {
             payload.receiver,
             wire.amount
           );
-          payload.method = "onchain";
+          payload.method = 'onchain';
         } catch (e) {
-          console.error("[Wire/Token]", e);
+          console.error('[Wire/Token]', e);
           throw new Error(
-            "Either you cancelled the approval, or there was an error processing it."
+            'Either you cancelled the approval, or there was an error processing it.'
           );
         }
         break;
 
-      case "creditcard":
-        payload.method = "creditcard";
+      case 'creditcard':
+        payload.method = 'creditcard';
         break;
 
-      case "offchain":
-        payload = { method: "offchain", address: "offchain" };
+      case 'offchain':
+        payload = { method: 'offchain', address: 'offchain' };
         break;
     }
 
     try {
       let response: any = await this.client.post(`api/v1/wire/${wire.guid}`, {
         payload,
-        method: "tokens",
+        method: 'tokens',
         amount: wire.amount,
-        recurring: wire.recurring
+        recurring: wire.recurring,
       });
 
       this.wireSent.next(wire);
       return { done: true };
     } catch (e) {
-      if (e && e.stage === "transaction") {
+      if (e && e.stage === 'transaction') {
         throw new Error(
-          "Sorry, your payment failed. Please, try again or use another card"
+          'Sorry, your payment failed. Please, try again or use another card'
         );
       }
 

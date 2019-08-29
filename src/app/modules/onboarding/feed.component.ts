@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Session } from "../../services/session";
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Session } from '../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-onboarding-feed",
-  templateUrl: "feed.component.html"
+  selector: 'm-onboarding-feed',
+  templateUrl: 'feed.component.html',
 })
 export class OnboardingFeedComponent {
   paramsSubscription;

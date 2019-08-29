@@ -2,12 +2,12 @@ import {
   Directive,
   EventEmitter,
   ViewContainerRef,
-  Inject
-} from "@angular/core";
+  Inject,
+} from '@angular/core';
 
 @Directive({
-  selector: "[points]",
-  inputs: ["_points: points"]
+  selector: '[points]',
+  inputs: ['_points: points'],
 })
 export class GraphPoints {
   element: any;
@@ -17,6 +17,6 @@ export class GraphPoints {
   }
 
   set _points(value: any) {
-    this.element.setAttribute("points", value);
+    this.element.setAttribute('points', value);
   }
 }

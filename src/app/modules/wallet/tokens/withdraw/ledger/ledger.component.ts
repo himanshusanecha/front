@@ -3,17 +3,17 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnInit
-} from "@angular/core";
-import { Router } from "@angular/router";
-import { Session } from "../../../../../services/session";
-import { Client } from "../../../../../services/api/client";
+  OnInit,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { Session } from '../../../../../services/session';
+import { Client } from '../../../../../services/api/client';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wallet-token--withdraw-ledger",
-  templateUrl: "ledger.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wallet-token--withdraw-ledger',
+  templateUrl: 'ledger.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletTokenWithdrawLedgerComponent implements OnInit {
   startDate: string;
@@ -56,7 +56,7 @@ export class WalletTokenWithdrawLedgerComponent implements OnInit {
 
     if (refresh) {
       this.withdrawals = [];
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
     }
 
@@ -76,7 +76,7 @@ export class WalletTokenWithdrawLedgerComponent implements OnInit {
         {
           from: Math.floor(+startDate / 1000),
           to: Math.floor(+endDate / 1000),
-          offset: this.offset
+          offset: this.offset,
         }
       );
 
@@ -87,13 +87,13 @@ export class WalletTokenWithdrawLedgerComponent implements OnInit {
       if (response) {
         this.withdrawals.push(...(response.withdrawals || []));
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
         }
       } else {
-        console.error("No data");
+        console.error('No data');
         this.moreData = false;
         // TODO: Show
       }

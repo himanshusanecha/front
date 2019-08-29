@@ -1,8 +1,8 @@
-import { Pipe, Renderer } from "@angular/core";
-import { DomSanitizer } from "@angular/platform-browser";
+import { Pipe, Renderer } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Pipe({
-  name: "safe"
+  name: 'safe',
 })
 export class SafePipe {
   constructor(private sanitizer: DomSanitizer) {}

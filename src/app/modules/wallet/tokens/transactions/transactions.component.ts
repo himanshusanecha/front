@@ -3,19 +3,19 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  ViewChild
-} from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+  ViewChild,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
-import { Web3WalletService } from "../../../blockchain/web3-wallet.service";
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
+import { Web3WalletService } from '../../../blockchain/web3-wallet.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wallet-token--transactions",
-  templateUrl: "transactions.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wallet-token--transactions',
+  templateUrl: 'transactions.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletTokenTransactionsComponent {
   startDate: string;
@@ -28,11 +28,11 @@ export class WalletTokenTransactionsComponent {
   selectedAddress: string | null = null;
   selectedContract: string | null = null;
   contracts: string[] = [
-    "withdraw",
-    "wire",
-    "offchain:wire",
-    "token",
-    "offchain:reward"
+    'withdraw',
+    'wire',
+    'offchain:wire',
+    'token',
+    'offchain:reward',
   ];
 
   contractsToggle: boolean = false;
@@ -43,7 +43,7 @@ export class WalletTokenTransactionsComponent {
   paramsSubscription;
 
   remote: boolean = false;
-  remoteUser: string = "";
+  remoteUser: string = '';
 
   constructor(
     protected client: Client,
@@ -56,18 +56,18 @@ export class WalletTokenTransactionsComponent {
 
   async ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe(async params => {
-      if (params["contract"]) {
-        const contract = params["contract"];
+      if (params['contract']) {
+        const contract = params['contract'];
 
-        if (contract !== "all" && this.contracts.indexOf(contract) !== -1) {
+        if (contract !== 'all' && this.contracts.indexOf(contract) !== -1) {
           this.selectedContract = contract;
-        } else if (contract !== "all") {
-          this.router.navigate(["/wallet/token/transactions", "all"]);
+        } else if (contract !== 'all') {
+          this.router.navigate(['/wallet/token/transactions', 'all']);
         }
       }
 
-      this.remote = !!params["remote"];
-      this.remoteUser = params["remote"] || "";
+      this.remote = !!params['remote'];
+      this.remoteUser = params['remote'] || '';
 
       const d = new Date();
 
@@ -92,14 +92,14 @@ export class WalletTokenTransactionsComponent {
       this.addresses = [
         {
           address: receiverAddress,
-          label: "Receiver",
-          selected: false
+          label: 'Receiver',
+          selected: false,
         },
         {
-          label: "OffChain",
-          address: "offchain",
-          selected: false
-        }
+          label: 'OffChain',
+          address: 'offchain',
+          selected: false,
+        },
       ];
 
       try {
@@ -114,16 +114,16 @@ export class WalletTokenTransactionsComponent {
           this.addresses[0].address.toLowerCase() ==
           onchainAddress.toLowerCase()
         ) {
-          this.addresses[0].label = "OnChain & Receiver";
+          this.addresses[0].label = 'OnChain & Receiver';
           this.inProgress = false;
           this.detectChanges();
           return; //no need to count twice
         }
 
         this.addresses.unshift({
-          label: "OnChain",
+          label: 'OnChain',
           address: onchainAddress,
-          selected: false
+          selected: false,
         });
         this.inProgress = false;
         this.detectChanges();
@@ -144,7 +144,7 @@ export class WalletTokenTransactionsComponent {
 
     if (refresh) {
       this.transactions = [];
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
     }
 
@@ -161,7 +161,7 @@ export class WalletTokenTransactionsComponent {
       let opts: any = {
         from: Math.floor(+startDate / 1000),
         to: Math.floor(+endDate / 1000),
-        offset: this.offset
+        offset: this.offset,
       };
 
       if (this.selectedAddress) {
@@ -186,14 +186,14 @@ export class WalletTokenTransactionsComponent {
       if (response) {
         this.transactions.push(...(response.transactions || []));
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
           this.inProgress = false;
         }
       } else {
-        console.error("No data");
+        console.error('No data');
         this.moreData = false;
         this.inProgress = false;
       }
@@ -217,7 +217,7 @@ export class WalletTokenTransactionsComponent {
   }
 
   toggleContractsMenu(forceValue?: boolean) {
-    if (typeof forceValue !== "undefined") {
+    if (typeof forceValue !== 'undefined') {
       this.contractsToggle = forceValue;
       return;
     }
@@ -226,7 +226,7 @@ export class WalletTokenTransactionsComponent {
   }
 
   toggleAddressesMenu(forceValue?: boolean) {
-    if (typeof forceValue !== "undefined") {
+    if (typeof forceValue !== 'undefined') {
       this.addressesToggle = forceValue;
       return;
     }
@@ -241,7 +241,7 @@ export class WalletTokenTransactionsComponent {
       this.selectedContract = contract;
     }
 
-    if (this.selectedContract === "offchain:wire") {
+    if (this.selectedContract === 'offchain:wire') {
       this.toggleAddress(null);
     }
 
@@ -270,14 +270,14 @@ export class WalletTokenTransactionsComponent {
 
       return {
         avatar: `/icon/${user.guid}/medium/${user.icontime}`,
-        username: user.username
+        username: user.username,
       };
     } else {
       const user = this.session.getLoggedInUser();
 
       return {
         avatar: `/icon/${user.guid}/medium/${user.icontime}`,
-        username: user.username
+        username: user.username,
       };
     }
   }
@@ -293,7 +293,7 @@ export class WalletTokenTransactionsComponent {
     return {
       avatar: `/icon/${user.guid}/medium/${user.icontime}`,
       username: user.username,
-      isSender
+      isSender,
     };
   }
 
@@ -301,18 +301,18 @@ export class WalletTokenTransactionsComponent {
     const contractName = this.getNormalizedContractName(transaction.contract);
 
     if (
-      contractName === "wire" ||
-      contractName == "offchain wire" ||
-      contractName === "boost"
+      contractName === 'wire' ||
+      contractName == 'offchain wire' ||
+      contractName === 'boost'
     ) {
       return !!transaction.sender && !!transaction.receiver;
     }
   }
 
   getNormalizedContractName(contractName) {
-    if (contractName.indexOf("offchain:") > -1) {
+    if (contractName.indexOf('offchain:') > -1) {
       const name = contractName.substr(9);
-      return name === "wire" ? "offchain wire" : name;
+      return name === 'wire' ? 'offchain wire' : name;
     }
     return contractName;
   }

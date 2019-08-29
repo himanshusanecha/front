@@ -8,12 +8,12 @@ export class Country {
   placeHolder: string;
 
   constructor() {
-    this.name = "";
-    this.iso2 = "";
-    this.dialCode = "";
+    this.name = '';
+    this.iso2 = '';
+    this.dialCode = '';
     this.priority = 0;
     this.areaCode = null;
-    this.flagClass = "";
-    this.placeHolder = "";
+    this.flagClass = '';
+    this.placeHolder = '';
   }
 }

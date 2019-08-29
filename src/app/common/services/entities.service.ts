@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
-import { first } from "rxjs/operators";
-import { Client } from "../../services/api";
-import { BlockListService } from "./block-list.service";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { Client } from '../../services/api';
+import { BlockListService } from './block-list.service';
 
-import MindsClientHttpAdapter from "../../lib/minds-sync/adapters/MindsClientHttpAdapter.js";
-import browserStorageAdapterFactory from "../../helpers/browser-storage-adapter-factory";
-import EntitiesSync from "../../lib/minds-sync/services/EntitiesSync.js";
-import AsyncStatus from "../../helpers/async-status";
-import normalizeUrn from "../../helpers/normalize-urn";
+import MindsClientHttpAdapter from '../../lib/minds-sync/adapters/MindsClientHttpAdapter.js';
+import browserStorageAdapterFactory from '../../helpers/browser-storage-adapter-factory';
+import EntitiesSync from '../../lib/minds-sync/services/EntitiesSync.js';
+import AsyncStatus from '../../helpers/async-status';
+import normalizeUrn from '../../helpers/normalize-urn';
 
 type EntityObservable = BehaviorSubject<Object>;
 type EntityObservables = Map<string, EntityObservable>;
@@ -77,7 +77,7 @@ export class EntitiesService {
    * @return Object
    */
   single(urn: string): EntityObservable {
-    if (urn.indexOf("urn:") < 0) {
+    if (urn.indexOf('urn:') < 0) {
       // not a urn, so treat as a guid
       urn = `urn:activity:${urn}`; // and assume activity
     }
@@ -114,9 +114,9 @@ export class EntitiesService {
    */
   async fetch(urns: string[]): Promise<Array<Object>> {
     try {
-      const response: any = await this.client.get("api/v2/entities/", {
+      const response: any = await this.client.get('api/v2/entities/', {
         urns,
-        as_activities: this.castToActivites ? 1 : 0
+        as_activities: this.castToActivites ? 1 : 0,
       });
 
       if (!response.entities.length) {
@@ -157,7 +157,7 @@ export class EntitiesService {
     if (!this.entities.has(urn)) {
       this.entities.set(urn, new BehaviorSubject(null));
     }
-    this.entities.get(urn).error("Not found");
+    this.entities.get(urn).error('Not found');
   }
 
   static _(client: Client, blockListService: BlockListService) {

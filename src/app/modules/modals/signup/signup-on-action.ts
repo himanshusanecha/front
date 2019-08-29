@@ -1,11 +1,11 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
-import { Session } from "../../../services/session";
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "m-modal-signup-on-action",
-  inputs: ["open", "action", "display", "overrideOnboarding"],
-  outputs: ["closed"],
+  selector: 'm-modal-signup-on-action',
+  inputs: ['open', 'action', 'display', 'overrideOnboarding'],
+  outputs: ['closed'],
   template: `
     <m-modal-signup
       open="true"
@@ -15,14 +15,14 @@ import { Session } from "../../../services/session";
       i18n-subtitle="@@MODALS__SIGNUP__ON_ACTION_SUBTITLE"
       *ngIf="open"
     ></m-modal-signup>
-  `
+  `,
 })
 export class SignupOnActionModal {
   open: boolean = false;
-  action: string = "";
+  action: string = '';
   closed: EventEmitter<any> = new EventEmitter();
   minds = window.Minds;
-  display: string = "register";
+  display: string = 'register';
   overrideOnboarding: boolean = false;
 
   constructor(public session: Session) {}

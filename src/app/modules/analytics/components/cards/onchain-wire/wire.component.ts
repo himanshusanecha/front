@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { AnalyticsCardComponent } from "../card/card.component";
-import { Subscription } from "rxjs";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { AnalyticsCardComponent } from '../card/card.component';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "m-analyticsonchainwire__card",
-  templateUrl: "wire.component.html"
+  selector: 'm-analyticsonchainwire__card',
+  templateUrl: 'wire.component.html',
 })
 export class OnchainWireCardComponent implements OnInit {
-  @ViewChild("card", { static: true }) card: AnalyticsCardComponent;
+  @ViewChild('card', { static: true }) card: AnalyticsCardComponent;
 
   subscription: Subscription;
 
@@ -35,10 +35,10 @@ export class OnchainWireCardComponent implements OnInit {
   private async getAvgData() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/onchainwire",
+        'api/v2/analytics/onchainwire',
         {
-          key: "avg",
-          timespan: this.card.selectedOption
+          key: 'avg',
+          timespan: this.card.selectedOption,
         }
       );
 

@@ -1,8 +1,8 @@
-import { Injectable, Renderer2, RendererFactory2 } from "@angular/core";
-import { Client } from "../../services/api/client";
-import { Session } from "../../services/session";
-import { Storage } from "../../services/storage";
-import { BehaviorSubject, Subscription } from "rxjs";
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Client } from '../../services/api/client';
+import { Session } from '../../services/session';
+import { Storage } from '../../services/storage';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Injectable()
 export class ThemeService {
@@ -35,11 +35,11 @@ export class ThemeService {
   // prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
   setUp() {
-    window.addEventListener("storage", event => {
-      if (event.key === "dark_theme" && window.Minds.LoggedIn) {
+    window.addEventListener('storage', event => {
+      if (event.key === 'dark_theme' && window.Minds.LoggedIn) {
         if (
-          (event.newValue === "true" && this.isDark.value === false) ||
-          (event.newValue === "false" && this.isDark.value === true)
+          (event.newValue === 'true' && this.isDark.value === false) ||
+          (event.newValue === 'false' && this.isDark.value === true)
         ) {
           this.toggleTheme();
         }
@@ -57,19 +57,19 @@ export class ThemeService {
     // so they are prevented from triggering storage events on other tabs
     this.allowSetStorage = this.session.isLoggedIn();
 
-    if (this.session.getLoggedInUser().theme === "dark") this.isDark.next(true);
+    if (this.session.getLoggedInUser().theme === 'dark') this.isDark.next(true);
     else this.isDark.next(false);
     this.renderTheme();
   }
 
   toggleUserThemePreference() {
     if (this.isDark.value) {
-      this.client.post("api/v2/settings/theme", {
-        theme: "light"
+      this.client.post('api/v2/settings/theme', {
+        theme: 'light',
       });
     } else {
-      this.client.post("api/v2/settings/theme", {
-        theme: "dark"
+      this.client.post('api/v2/settings/theme', {
+        theme: 'dark',
       });
     }
 
@@ -82,15 +82,15 @@ export class ThemeService {
   }
 
   renderTheme() {
-    if (this.allowSetStorage) this.storage.set("dark_theme", this.isDark.value);
+    if (this.allowSetStorage) this.storage.set('dark_theme', this.isDark.value);
 
-    this.renderer.addClass(document.body, "m-theme-in-transition");
+    this.renderer.addClass(document.body, 'm-theme-in-transition');
     if (this.isDark.value) {
-      this.renderer.removeClass(document.body, "m-theme__light");
-      this.renderer.addClass(document.body, "m-theme__dark");
+      this.renderer.removeClass(document.body, 'm-theme__light');
+      this.renderer.addClass(document.body, 'm-theme__dark');
     } else {
-      this.renderer.removeClass(document.body, "m-theme__dark");
-      this.renderer.addClass(document.body, "m-theme__light");
+      this.renderer.removeClass(document.body, 'm-theme__dark');
+      this.renderer.addClass(document.body, 'm-theme__light');
     }
     this.clearTransitions();
   }
@@ -98,7 +98,7 @@ export class ThemeService {
   clearTransitions() {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      this.renderer.removeClass(document.body, "m-theme-in-transition");
+      this.renderer.removeClass(document.body, 'm-theme-in-transition');
     }, 1000);
   }
 }

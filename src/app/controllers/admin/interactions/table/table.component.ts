@@ -4,12 +4,12 @@ import {
   Component,
   Input,
   OnChanges,
-  OnInit
-} from "@angular/core";
-import { Client } from "../../../../services/api/client";
+  OnInit,
+} from '@angular/core';
+import { Client } from '../../../../services/api/client';
 
 @Component({
-  selector: "m-admin--interactions--table",
+  selector: 'm-admin--interactions--table',
   template: `
     <h3>{{ metric.title | titlecase }}</h3>
     <div
@@ -40,36 +40,36 @@ import { Client } from "../../../../services/api/client";
     </table>
   `,
   host: {
-    class: "m-border"
+    class: 'm-border',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InteractionsTableComponent implements OnInit, OnChanges {
   @Input() metric: { title: string; metric: string };
   timeout;
 
-  @Input("type") set _type(value: "actors" | "beneficiaries") {
+  @Input('type') set _type(value: 'actors' | 'beneficiaries') {
     this.type = value;
   }
 
-  @Input("startDate") set _startDate(value: string) {
+  @Input('startDate') set _startDate(value: string) {
     this.startDate = value;
   }
 
-  @Input("endDate") set _endDate(value: string) {
+  @Input('endDate') set _endDate(value: string) {
     this.endDate = value;
   }
 
-  type: "actors" | "beneficiaries";
-  startDate: string = "";
-  endDate: string = "";
+  type: 'actors' | 'beneficiaries';
+  startDate: string = '';
+  endDate: string = '';
 
   inProgress: boolean = false;
   init: boolean = false;
 
   data: any = {
     actors: [],
-    beneficiaries: []
+    beneficiaries: [],
   };
 
   constructor(private client: Client, private cd: ChangeDetectorRef) {}
@@ -103,7 +103,7 @@ export class InteractionsTableComponent implements OnInit, OnChanges {
         `api/v2/admin/analytics/leaderboard/${this.type}/${this.metric.metric}`,
         {
           from: Math.floor(+startDate / 1000),
-          to: Math.floor(+endDate / 1000)
+          to: Math.floor(+endDate / 1000),
         }
       );
 

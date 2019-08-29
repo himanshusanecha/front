@@ -1,9 +1,9 @@
-import { Component, Directive } from "@angular/core";
+import { Component, Directive } from '@angular/core';
 
 @Component({
-  selector: "minds-graph-pie",
-  inputs: ["_data: data"],
-  templateUrl: "pie-graph.component.html"
+  selector: 'minds-graph-pie',
+  inputs: ['_data: data'],
+  templateUrl: 'pie-graph.component.html',
 })
 export class PieGraph {
   data: Array<any>;
@@ -39,8 +39,8 @@ export class PieGraph {
       this.segments = [
         {
           array: c,
-          offset: offset
-        }
+          offset: offset,
+        },
       ];
     }
   }

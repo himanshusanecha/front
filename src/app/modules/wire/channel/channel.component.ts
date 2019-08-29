@@ -1,25 +1,25 @@
-import { Component, Input, EventEmitter, Output } from "@angular/core";
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
-import { Session } from "../../../services/session";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { WireCreatorComponent } from "../creator/creator.component";
-import { Client } from "../../../services/api";
+import { Session } from '../../../services/session';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { WireCreatorComponent } from '../creator/creator.component';
+import { Client } from '../../../services/api';
 import {
   WireRewardsType,
-  WireRewardsStruc
-} from "../interfaces/wire.interfaces";
-import { WireTypeLabels } from "../wire";
-import { SignupModalService } from "../../modals/signup/service";
+  WireRewardsStruc,
+} from '../interfaces/wire.interfaces';
+import { WireTypeLabels } from '../wire';
+import { SignupModalService } from '../../modals/signup/service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wire-channel",
-  templateUrl: "channel.component.html"
+  selector: 'm-wire-channel',
+  templateUrl: 'channel.component.html',
 })
 export class WireChannelComponent {
   rewards: WireRewardsStruc;
 
-  @Input("rewards") set _rewards(rewards: WireRewardsStruc) {
+  @Input('rewards') set _rewards(rewards: WireRewardsStruc) {
     if (rewards) {
       this.rewards = rewards;
     } else {
@@ -27,7 +27,7 @@ export class WireChannelComponent {
     }
   }
 
-  @Output("rewardsChange") rewardsChangeEmitter: EventEmitter<
+  @Output('rewardsChange') rewardsChangeEmitter: EventEmitter<
     WireRewardsStruc
   > = new EventEmitter<WireRewardsStruc>();
 
@@ -55,12 +55,12 @@ export class WireChannelComponent {
 
   // TODO: Smart default display, based on current user
   setDefaultDisplay() {
-    this.display = "points";
+    this.display = 'points';
 
-    if (this.shouldShow("money")) {
-      this.display = "money";
-    } else if (this.shouldShow("tokens")) {
-      this.display = "tokens";
+    if (this.shouldShow('money')) {
+      this.display = 'money';
+    } else if (this.shouldShow('tokens')) {
+      this.display = 'tokens';
     }
   }
 
@@ -74,12 +74,12 @@ export class WireChannelComponent {
 
   reset() {
     this.rewards = {
-      description: "",
+      description: '',
       rewards: {
         points: [],
         money: [],
-        tokens: []
-      }
+        tokens: [],
+      },
     };
   }
 
@@ -95,14 +95,14 @@ export class WireChannelComponent {
     );
 
     try {
-      await this.client.post("api/v1/wire/rewards", {
-        rewards: this.rewards
+      await this.client.post('api/v1/wire/rewards', {
+        rewards: this.rewards,
       });
       this.rewardsChangeEmitter.emit(this.rewards);
       this.session.getLoggedInUser().wire_rewards = this.rewards;
     } catch (e) {
       this.editing = true;
-      alert((e && e.message) || "Server error");
+      alert((e && e.message) || 'Server error');
     }
   }
 
@@ -141,9 +141,9 @@ export class WireChannelComponent {
     }
 
     const canShow =
-      type === "points" ||
-      (type === "money" && this.channel.merchant) ||
-      (type === "tokens" && this.channel.eth_wallet);
+      type === 'points' ||
+      (type === 'money' && this.channel.merchant) ||
+      (type === 'tokens' && this.channel.eth_wallet);
 
     return (
       canShow &&
@@ -167,7 +167,7 @@ export class WireChannelComponent {
       .filter(reward => reward.amount || `${reward.description}`.trim())
       .map(reward => ({
         ...reward,
-        amount: Math.abs(Math.floor(reward.amount || 0))
+        amount: Math.abs(Math.floor(reward.amount || 0)),
       }))
       .sort((a, b) => (a.amount > b.amount ? 1 : -1));
   }

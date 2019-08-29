@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Client } from "../../../../services/api";
+import { Injectable } from '@angular/core';
+import { Client } from '../../../../services/api';
 
 @Injectable()
 export class RecommendedService {

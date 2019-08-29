@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import * as BN from "bn.js";
+import { Injectable } from '@angular/core';
+import * as BN from 'bn.js';
 
-import { Web3WalletService } from "../web3-wallet.service";
-import { TransactionOverlayService } from "../transaction-overlay/transaction-overlay.service";
+import { Web3WalletService } from '../web3-wallet.service';
+import { TransactionOverlayService } from '../transaction-overlay/transaction-overlay.service';
 
 export interface TokenApproveAndCallParam {
   type: string;
@@ -26,7 +26,7 @@ export class TokenContractService {
     await this.web3Wallet.ready();
 
     this.instance = this.web3Wallet.eth
-      .contract(this.web3Wallet.config.token.abi, "0x")
+      .contract(this.web3Wallet.config.token.abi, '0x')
       .at(this.web3Wallet.config.token.address);
 
     this.token(); // Refresh default account
@@ -36,7 +36,7 @@ export class TokenContractService {
     gasPriceGwei: number = this.web3Wallet.config.default_gas_price || 1
   ) {
     if (!this.instance) {
-      throw new Error("No token instance");
+      throw new Error('No token instance');
     }
 
     if (!this.instance.defaultTxObject) {
@@ -49,7 +49,7 @@ export class TokenContractService {
       this.instance.defaultTxObject.from = await this.web3Wallet.getCurrentWallet();
       this.instance.defaultTxObject.gasPrice = this.web3Wallet.EthJS.toWei(
         gasPriceGwei,
-        "Gwei"
+        'Gwei'
       );
     }
 
@@ -76,11 +76,11 @@ export class TokenContractService {
   async increaseApproval(
     address: string,
     amount: number,
-    message: string = ""
+    message: string = ''
   ) {
     return await this.web3Wallet.sendSignedContractMethod(
       await this.token(),
-      "approve",
+      'approve',
       [address, this.tokenToUnit(amount)],
       `${message}`.trim()
     );
@@ -103,7 +103,7 @@ export class TokenContractService {
   // Token approveAndCall parameters. Adds 80 + 40 padding
 
   encodeParams(params: TokenApproveAndCallParams): string {
-    const types = ["uint256", "uint256"],
+    const types = ['uint256', 'uint256'],
       values = [0x80, 0x40];
 
     for (let param of params) {

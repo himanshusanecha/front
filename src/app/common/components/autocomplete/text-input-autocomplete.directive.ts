@@ -9,13 +9,13 @@ import {
   Input,
   OnDestroy,
   Output,
-  ViewContainerRef
-} from "@angular/core";
-import { takeUntil } from "rxjs/operators";
-import { TextInputAutocompleteMenuComponent } from "./text-input-autocomplete-menu.component";
-import { Subject } from "rxjs";
-import getCaretCoordinates from "textarea-caret";
-import { getContentEditableCaretCoordinates } from "../../../helpers/contenteditable-caret";
+  ViewContainerRef,
+} from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { TextInputAutocompleteMenuComponent } from './text-input-autocomplete-menu.component';
+import { Subject } from 'rxjs';
+import getCaretCoordinates from 'textarea-caret';
+import { getContentEditableCaretCoordinates } from '../../../helpers/contenteditable-caret';
 
 export interface ChoiceSelectedEvent {
   choice: any;
@@ -27,14 +27,14 @@ export interface ChoiceSelectedEvent {
 
 @Directive({
   selector:
-    'minds-textarea[mTextInputAutocomplete],textarea[mTextInputAutocomplete],input[type="text"][mTextInputAutocomplete]'
+    'minds-textarea[mTextInputAutocomplete],textarea[mTextInputAutocomplete],input[type="text"][mTextInputAutocomplete]',
 })
 export class TextInputAutocompleteDirective implements OnDestroy {
   triggerCharacter: string;
   /**
    * The character that will trigger the menu to appear
    */
-  @Input() triggerCharacters = ["@"];
+  @Input() triggerCharacters = ['@'];
 
   /**
    * The regular expression that will match the search text after the trigger character
@@ -98,7 +98,7 @@ export class TextInputAutocompleteDirective implements OnDestroy {
     private elm: ElementRef
   ) {}
 
-  @HostListener("keypress", ["$event.key"])
+  @HostListener('keypress', ['$event.key'])
   onKeypress(key: string) {
     const index: number = this.triggerCharacters.indexOf(key);
     if (index !== -1) {
@@ -107,7 +107,7 @@ export class TextInputAutocompleteDirective implements OnDestroy {
     }
   }
 
-  @HostListener("input", ["$event"])
+  @HostListener('input', ['$event'])
   onChange(event: any) {
     const value: string = event.target.value || event.target.textContent;
     if (this.menu) {
@@ -155,7 +155,7 @@ export class TextInputAutocompleteDirective implements OnDestroy {
     }
   }
 
-  @HostListener("blur")
+  @HostListener('blur')
   onBlur() {
     if (this.menu) {
       this.menu.lastCaretPosition = this.getTriggerCharPosition(
@@ -188,11 +188,11 @@ export class TextInputAutocompleteDirective implements OnDestroy {
         ),
         triggerCharacterPosition: this.getTriggerCharPosition(
           this.elm.nativeElement
-        )
+        ),
       };
       const lineHeight = +getComputedStyle(
         this.elm.nativeElement
-      ).lineHeight!.replace(/px$/, "");
+      ).lineHeight!.replace(/px$/, '');
 
       const { top, left } =
         this.elm.nativeElement instanceof HTMLTextAreaElement
@@ -206,7 +206,7 @@ export class TextInputAutocompleteDirective implements OnDestroy {
       this.menu.component.instance.itemTemplate = this.itemTemplate;
       this.menu.component.instance.position = {
         top: top + lineHeight,
-        left
+        left,
       };
       this.menu.component.changeDetectorRef.detectChanges();
       this.menu.component.instance.selectChoice
@@ -215,7 +215,7 @@ export class TextInputAutocompleteDirective implements OnDestroy {
           const label = this.getChoiceLabel(choice, this.triggerCharacter);
           let element: any = this.elm.nativeElement;
 
-          if (element.nodeName === "MINDS-TEXTAREA") {
+          if (element.nodeName === 'MINDS-TEXTAREA') {
             element = element.firstChild;
           }
           let value: string;
@@ -245,7 +245,7 @@ export class TextInputAutocompleteDirective implements OnDestroy {
             element.value = value;
           }
           // force ng model / form control to update
-          element.dispatchEvent(new Event("input"));
+          element.dispatchEvent(new Event('input'));
           this.hideMenu();
           const setCursorAt = (start + label).length;
 
@@ -271,8 +271,8 @@ export class TextInputAutocompleteDirective implements OnDestroy {
             choice,
             insertedAt: {
               start: startIndex,
-              end: startIndex + label.length
-            }
+              end: startIndex + label.length,
+            },
           });
         });
       this.menuShown.emit();

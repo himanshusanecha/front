@@ -1,18 +1,18 @@
-import { Injectable } from "@angular/core";
-import { Event, NavigationStart, Router } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { Event, NavigationStart, Router } from '@angular/router';
 
-import { Storage } from "./storage";
+import { Storage } from './storage';
 
-import { Subscription } from "rxjs";
-import { Client } from "./api/client";
+import { Subscription } from 'rxjs';
+import { Client } from './api/client';
 
 export type ContextServiceProduct =
-  | "activity"
-  | "user"
-  | "object:video"
-  | "object:image"
-  | "object:blog"
-  | "group";
+  | 'activity'
+  | 'user'
+  | 'object:video'
+  | 'object:image'
+  | 'object:blog'
+  | 'group';
 
 export type ContextServiceEntity = {
   label: string;
@@ -77,31 +77,31 @@ export class ContextService {
   }
 
   getProductLabel(product: string) {
-    let label = "";
+    let label = '';
 
     switch (product) {
-      case "activity":
-        label = "posts";
+      case 'activity':
+        label = 'posts';
         break;
 
-      case "user":
-        label = "channels";
+      case 'user':
+        label = 'channels';
         break;
 
-      case "object:video":
-        label = "videos";
+      case 'object:video':
+        label = 'videos';
         break;
 
-      case "object:image":
-        label = "images";
+      case 'object:image':
+        label = 'images';
         break;
 
-      case "object:blog":
-        label = "blogs";
+      case 'object:blog':
+        label = 'blogs';
         break;
 
-      case "group":
-        label = "groups";
+      case 'group':
+        label = 'groups';
         break;
     }
 
@@ -121,10 +121,10 @@ export class ContextService {
       .get(`api/v1/entities/entity/${guid}`)
       .then((response: any) => {
         if (!response || !response.entity) {
-          return "";
+          return '';
         }
 
-        let label = "";
+        let label = '';
 
         if (response.entity.username) {
           label = `@${response.entity.username}`;
@@ -139,21 +139,21 @@ export class ContextService {
   }
 
   resolveStaticLabel(product: string): Promise<string> {
-    return Promise.resolve(this.getProductLabel(product) || "Minds");
+    return Promise.resolve(this.getProductLabel(product) || 'Minds');
   }
 
   protected _storeLabel(guid: string, label: string) {
-    const cache = JSON.parse(this.storage.get("context-label-cache") || `{}`);
+    const cache = JSON.parse(this.storage.get('context-label-cache') || `{}`);
 
     cache[guid] = label;
 
-    this.storage.set("context-label-cache", JSON.stringify(cache));
+    this.storage.set('context-label-cache', JSON.stringify(cache));
   }
 
   protected _fetchLabel(guid: string): string | null {
-    const cache = JSON.parse(this.storage.get("context-label-cache") || `{}`);
+    const cache = JSON.parse(this.storage.get('context-label-cache') || `{}`);
 
-    if (typeof cache[guid] !== "undefined") {
+    if (typeof cache[guid] !== 'undefined') {
       return cache[guid];
     }
 

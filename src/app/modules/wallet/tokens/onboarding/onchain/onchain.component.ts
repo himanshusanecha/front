@@ -4,27 +4,27 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter
-} from "@angular/core";
-import { Router } from "@angular/router";
+  EventEmitter,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../../../services/api/client";
-import { Session } from "../../../../../services/session";
-import { LocalWalletService } from "../../../../blockchain/local-wallet.service";
-import { BlockchainService } from "../../../../blockchain/blockchain.service";
-import { Web3WalletService } from "../../../../blockchain/web3-wallet.service";
-import { getBrowser } from "../../../../../utils/browser";
+import { Client } from '../../../../../services/api/client';
+import { Session } from '../../../../../services/session';
+import { LocalWalletService } from '../../../../blockchain/local-wallet.service';
+import { BlockchainService } from '../../../../blockchain/blockchain.service';
+import { Web3WalletService } from '../../../../blockchain/web3-wallet.service';
+import { getBrowser } from '../../../../../utils/browser';
 
 enum Views {
   CreateAddress = 1,
   ProvideAddress,
-  UseExternal
+  UseExternal,
 }
 
 @Component({
-  selector: "m-token--onboarding--onchain",
-  templateUrl: "onchain.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-token--onboarding--onchain',
+  templateUrl: 'onchain.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenOnChainOnboardingComponent {
   @Input() skippable: boolean = true;
@@ -33,7 +33,7 @@ export class TokenOnChainOnboardingComponent {
   error: string;
   display: Views;
   generatedAccount: any;
-  providedAddress: string = "";
+  providedAddress: string = '';
   hasExternal: boolean = false;
   downloadingMetamask: boolean = false;
   minds = window.Minds;
@@ -80,7 +80,7 @@ export class TokenOnChainOnboardingComponent {
 
       this.generatedAccount = await this.localWallet.create(false);
       await this.blockchain.setWallet({
-        address: this.generatedAccount.address
+        address: this.generatedAccount.address,
       });
     } catch (e) {
       console.error(e);
@@ -97,12 +97,12 @@ export class TokenOnChainOnboardingComponent {
 
       const { address, privateKey } = this.generatedAccount,
         filename = `pk_${address}.csv`,
-        blob = new Blob([privateKey], { type: "text/csv" });
+        blob = new Blob([privateKey], { type: 'text/csv' });
 
       if (window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveBlob(blob, filename);
       } else {
-        const link = window.document.createElement("a"),
+        const link = window.document.createElement('a'),
           objectUrl = window.URL.createObjectURL(blob);
 
         link.href = objectUrl;
@@ -151,17 +151,17 @@ export class TokenOnChainOnboardingComponent {
 
   downloadMetamask() {
     let browser: string = getBrowser();
-    let url = "";
+    let url = '';
     switch (browser) {
-      case "chrome":
+      case 'chrome':
         url =
-          "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn";
-      case "firefox":
-        url = "https://addons.mozilla.org/firefox/addon/ether-metamask/";
-      case "opera":
-        url = "https://addons.opera.com/extensions/details/metamask/";
+          'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn';
+      case 'firefox':
+        url = 'https://addons.mozilla.org/firefox/addon/ether-metamask/';
+      case 'opera':
+        url = 'https://addons.opera.com/extensions/details/metamask/';
       default:
-        url = "https://metamask.io";
+        url = 'https://metamask.io';
     }
     window.open(url);
     this.downloadingMetamask = true;
@@ -179,7 +179,7 @@ export class TokenOnChainOnboardingComponent {
 
   async detectExternal() {
     const address: string =
-      (await this.web3Wallet.getCurrentWallet(true)) || "";
+      (await this.web3Wallet.getCurrentWallet(true)) || '';
 
     if (this.providedAddress !== address) {
       this.providedAddress = address;

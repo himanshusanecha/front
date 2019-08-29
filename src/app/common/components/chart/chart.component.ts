@@ -6,12 +6,12 @@ import {
   Input,
   ViewChild,
   ElementRef,
-  NgZone
-} from "@angular/core";
-import { fromEvent, Subscription } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+  NgZone,
+} from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
-import { GoogleChartsLoader } from "../../../services/third-party/google-charts-loader";
+import { GoogleChartsLoader } from '../../../services/third-party/google-charts-loader';
 
 export interface ChartColumn {
   type?: string;
@@ -20,13 +20,13 @@ export interface ChartColumn {
 
 @Component({
   moduleId: module.id,
-  selector: "m-chart",
+  selector: 'm-chart',
   template: `
     <div class="m-chart-container" #container></div>
   `,
   host: {
-    "(window:resize)": "draw()"
-  }
+    '(window:resize)': 'draw()',
+  },
 })
 export class ChartComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() title: string;
@@ -35,7 +35,7 @@ export class ChartComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() columns: ChartColumn[];
   @Input() rows: any[][];
 
-  @ViewChild("container", { static: true }) containerElement: ElementRef;
+  @ViewChild('container', { static: true }) containerElement: ElementRef;
 
   private _chartInstance: any;
   private _chartOptions: any = {};
@@ -53,7 +53,7 @@ export class ChartComponent implements AfterViewInit, OnDestroy, OnChanges {
       this.draw();
     });
 
-    this._resizeWatch = fromEvent(window, "resize")
+    this._resizeWatch = fromEvent(window, 'resize')
       .pipe(debounceTime(250))
       .subscribe(value => {
         this.ngZone.run(() => this.draw());
@@ -74,7 +74,7 @@ export class ChartComponent implements AfterViewInit, OnDestroy, OnChanges {
     let chartClass;
 
     switch (this.type) {
-      case "line":
+      case 'line':
         chartClass = window.google.charts.Line;
         //this._chartOptions = {
         //  curveType: 'function',
@@ -82,7 +82,7 @@ export class ChartComponent implements AfterViewInit, OnDestroy, OnChanges {
         //};
         break;
       default:
-        throw new Error("Unknown chart type");
+        throw new Error('Unknown chart type');
     }
 
     this._chartInstance = new chartClass(this.containerElement.nativeElement);
@@ -94,13 +94,13 @@ export class ChartComponent implements AfterViewInit, OnDestroy, OnChanges {
     }
 
     if (!this.columns || this.columns.length < 2) {
-      throw new Error("Charts must have at least 2 columns");
+      throw new Error('Charts must have at least 2 columns');
     }
 
     let data = new window.google.visualization.DataTable();
 
     for (let column of this.columns) {
-      data.addColumn(column.type || "string", column.label);
+      data.addColumn(column.type || 'string', column.label);
     }
 
     data.addRows(this.rows);
@@ -108,27 +108,27 @@ export class ChartComponent implements AfterViewInit, OnDestroy, OnChanges {
     this._chartInstance.draw(data, {
       chart: {
         title: this.title,
-        subtitle: this.subtitle
+        subtitle: this.subtitle,
       },
-      axisTitlesPosition: "none",
+      axisTitlesPosition: 'none',
       axes: {
         x: {
-          0: { side: "bottom", label: "" }
-        }
+          0: { side: 'bottom', label: '' },
+        },
       },
       legend: {
-        position: "none"
+        position: 'none',
       },
       animation: {
         // @note: animation doesn't work yet in the current implementation of Material Charts
         startup: true,
         duration: 1000,
-        easing: "out"
+        easing: 'out',
       },
       chartArea: {
-        backgroundColor: "transparent"
+        backgroundColor: 'transparent',
       },
-      curveType: "function"
+      curveType: 'function',
     });
   }
 }

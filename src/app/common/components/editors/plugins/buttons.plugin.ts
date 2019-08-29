@@ -7,10 +7,10 @@ export class ButtonsPlugin {
   options: any = {
     addons: {
       images: `<i class="material-icons">photo</i>`,
-      videos: `<i class="material-icons">camera</i>`
+      videos: `<i class="material-icons">camera</i>`,
     },
     enabled: true,
-    uploadFunction: () => {}
+    uploadFunction: () => {},
   };
   base: Editor;
   window;
@@ -29,12 +29,12 @@ export class ButtonsPlugin {
   }
 
   public init() {
-    this.$element = document.querySelector(".medium-editor-element");
+    this.$element = document.querySelector('.medium-editor-element');
 
-    this.$element.classList.add("medium-editor-insert-plugin");
+    this.$element.classList.add('medium-editor-insert-plugin');
 
     if (
-      typeof this.options.addons !== "object" ||
+      typeof this.options.addons !== 'object' ||
       Object.keys(this.options.addons).length === 0
     ) {
       this.disable();
@@ -42,7 +42,7 @@ export class ButtonsPlugin {
 
     this.events();
 
-    this.base.subscribe("editableInput", () => {
+    this.base.subscribe('editableInput', () => {
       if (this.updated) {
         return;
       }
@@ -52,56 +52,56 @@ export class ButtonsPlugin {
   }
 
   public events() {
-    this.$element.addEventListener("keyup", this.toggleButtons.bind(this));
-    this.$element.addEventListener("click", this.toggleButtons.bind(this));
+    this.$element.addEventListener('keyup', this.toggleButtons.bind(this));
+    this.$element.addEventListener('click', this.toggleButtons.bind(this));
 
-    window.addEventListener("resize", this.positionButtons.bind(this));
+    window.addEventListener('resize', this.positionButtons.bind(this));
   }
 
   getButtons() {
     const keys = Object.keys(this.options.addons);
 
-    const div = document.createElement("div");
-    div.classList.add("medium-insert-buttons");
-    div.setAttribute("contenteditable", "false");
-    div.setAttribute("spellcheck", "false");
-    div.style.display = "none";
-    div.addEventListener("selectstart", this.disableSelection.bind(this));
-    div.addEventListener("mousedown", this.disableSelection.bind(this));
+    const div = document.createElement('div');
+    div.classList.add('medium-insert-buttons');
+    div.setAttribute('contenteditable', 'false');
+    div.setAttribute('spellcheck', 'false');
+    div.style.display = 'none';
+    div.addEventListener('selectstart', this.disableSelection.bind(this));
+    div.addEventListener('mousedown', this.disableSelection.bind(this));
 
-    const button = document.createElement("button");
-    button.classList.add("medium-insert-buttons-show");
-    button.setAttribute("type", "button");
-    button.addEventListener("mousedown", this.toggleAddons.bind(this));
+    const button = document.createElement('button');
+    button.classList.add('medium-insert-buttons-show');
+    button.setAttribute('type', 'button');
+    button.addEventListener('mousedown', this.toggleAddons.bind(this));
 
-    button.innerText = "+";
+    button.innerText = '+';
     div.appendChild(button);
 
-    const ul = document.createElement("ul");
-    ul.classList.add("medium-insert-buttons-addons");
+    const ul = document.createElement('ul');
+    ul.classList.add('medium-insert-buttons-addons');
 
     for (let i: number = 0; i < keys.length; ++i) {
       const item = keys[i];
 
-      const li = document.createElement("li");
-      const button2 = document.createElement("button");
-      button2.setAttribute("data-addon", item);
-      button2.setAttribute("data-action", "add");
-      button2.setAttribute("type", "button");
-      button2.classList.add("medium-insert-action");
+      const li = document.createElement('li');
+      const button2 = document.createElement('button');
+      button2.setAttribute('data-addon', item);
+      button2.setAttribute('data-action', 'add');
+      button2.setAttribute('type', 'button');
+      button2.classList.add('medium-insert-action');
       button2.innerHTML = this.options.addons[item];
-      button2.addEventListener("click", this.showInput.bind(this));
+      button2.addEventListener('click', this.showInput.bind(this));
       li.appendChild(button2);
 
       ul.appendChild(li);
     }
     div.appendChild(ul);
 
-    const fileInput: HTMLInputElement = document.createElement("input");
-    fileInput.setAttribute("type", "file");
-    fileInput.classList.add("medium-media-file-input");
-    fileInput.style.display = "none";
-    fileInput.addEventListener("change", this.uploadFile.bind(this));
+    const fileInput: HTMLInputElement = document.createElement('input');
+    fileInput.setAttribute('type', 'file');
+    fileInput.classList.add('medium-media-file-input');
+    fileInput.style.display = 'none';
+    fileInput.addEventListener('change', this.uploadFile.bind(this));
 
     div.appendChild(fileInput);
 
@@ -114,12 +114,12 @@ export class ButtonsPlugin {
   public disable() {
     this.options.enabled = false;
 
-    this.$element.querySelector(".medium-insert-buttons").classList.add("hide");
+    this.$element.querySelector('.medium-insert-buttons').classList.add('hide');
   }
 
   private createP(): HTMLParagraphElement {
-    const p = document.createElement("p");
-    p.innerHTML = "<br>";
+    const p = document.createElement('p');
+    p.innerHTML = '<br>';
     return p;
   }
 
@@ -131,7 +131,7 @@ export class ButtonsPlugin {
     }
     if (!this.$element.children || this.$element.children.length === 0) {
       this.$element.innerHTML = `<p><br></p>`;
-    } else if (!this.$element.querySelector("p")) {
+    } else if (!this.$element.querySelector('p')) {
       this.$element.insertBefore(this.createP(), this.$element.firstChild);
       this.$element.appendChild(this.createP());
     }
@@ -140,8 +140,8 @@ export class ButtonsPlugin {
     for (let i: number = 0; i < this.$element.children.length; ++i) {
       const $child = this.$element.children[i];
       if (
-        ($child.nodeName === "#text" && $child.textContent.trim() !== "") ||
-        $child.nodeName.toLowerCase() === "br"
+        ($child.nodeName === '#text' && $child.textContent.trim() !== '') ||
+        $child.nodeName.toLowerCase() === 'br'
       ) {
         $text.push($child);
       }
@@ -149,21 +149,21 @@ export class ButtonsPlugin {
 
     for (let i: number = 0; i < $text.length; ++i) {
       const item = $text[i];
-      this.wrap(item, document.createElement("p"));
+      this.wrap(item, document.createElement('p'));
 
       this.moveCaret(item.parentNode, item.textContent.length);
     }
 
     this.addButtons();
 
-    $buttons = this.$element.querySelector(".medium-insert-buttons");
+    $buttons = this.$element.querySelector('.medium-insert-buttons');
     $lastEl = $buttons.previousElementSibling;
     if (
-      $lastEl.getAttribute("class") &&
-      $lastEl.getAttribute("class").match(/medium\-insert(?!\-active)/)
+      $lastEl.getAttribute('class') &&
+      $lastEl.getAttribute('class').match(/medium\-insert(?!\-active)/)
     ) {
-      const p = document.createElement("p");
-      p.innerHTML = "<br>";
+      const p = document.createElement('p');
+      p.innerHTML = '<br>';
       $buttons.parentNode.insertBefore(p, $buttons);
     }
   }
@@ -180,7 +180,7 @@ export class ButtonsPlugin {
     el = $el.get(0);
 
     if (!el.childNodes.length) {
-      textEl = document.createTextNode(" ");
+      textEl = document.createTextNode(' ');
       el.appendChild(textEl);
     }
 
@@ -194,7 +194,7 @@ export class ButtonsPlugin {
    * Appends buttons at the end of the $el
    */
   public addButtons() {
-    if (!this.$element.querySelector(".medium-insert-buttons")) {
+    if (!this.$element.querySelector('.medium-insert-buttons')) {
       this.$element.appendChild(this.getButtons());
     }
   }
@@ -203,35 +203,35 @@ export class ButtonsPlugin {
    * Position buttons
    */
   public positionButtons(activeAddon) {
-    let $buttons = this.$element.querySelector(".medium-insert-buttons"),
-      $p = this.$element.querySelector(".medium-insert-active"),
-      $lastCaption = $p.classList.contains("medium-insert-images-grid")
+    let $buttons = this.$element.querySelector('.medium-insert-buttons'),
+      $p = this.$element.querySelector('.medium-insert-active'),
+      $lastCaption = $p.classList.contains('medium-insert-images-grid')
         ? []
         : $p.querySelector(
-            "* .medium-insert-images:last-child .m-blog--image-caption"
+            '* .medium-insert-images:last-child .m-blog--image-caption'
           ),
       elementsContainer = (<any>this.base).options.elementsContainer,
       elementsContainerAbsolute =
-        ["absolute", "fixed"].indexOf(
+        ['absolute', 'fixed'].indexOf(
           window
             .getComputedStyle(elementsContainer)
-            .getPropertyValue("position")
+            .getPropertyValue('position')
         ) > -1;
 
     if ($p) {
       const pRect = $p.getBoundingClientRect();
 
-      $buttons.style.left = pRect.left + document.body.scrollLeft - 40 + "px";
-      $buttons.style.top = pRect.top + document.body.scrollTop + "px";
+      $buttons.style.left = pRect.left + document.body.scrollLeft - 40 + 'px';
+      $buttons.style.top = pRect.top + document.body.scrollTop + 'px';
 
       if (activeAddon) {
         $buttons.style.left +=
           pRect.width -
           $buttons
-            .querySelector(".medium-insert-buttons-show")
+            .querySelector('.medium-insert-buttons-show')
             .getBoundingClientRect().width -
           10 +
-          "px";
+          'px';
         $buttons.style.top +=
           pRect.width -
           20 +
@@ -239,21 +239,21 @@ export class ButtonsPlugin {
             ? -$lastCaption.getBoundingClientRect().height -
               parseInt($lastCaption.style.marginTop, 10)
             : 10) +
-          "px";
+          'px';
       } else {
-        $buttons.style.top += parseInt($p.style.marginTop, 10) + "px";
+        $buttons.style.top += parseInt($p.style.marginTop, 10) + 'px';
       }
 
       if (elementsContainerAbsolute) {
-        $buttons.style.top += elementsContainer.scrollTop + "px";
+        $buttons.style.top += elementsContainer.scrollTop + 'px';
       }
 
       if (
-        this.$element.classList.contains("medium-editor-placeholder") ===
+        this.$element.classList.contains('medium-editor-placeholder') ===
           false &&
         $buttons.getBoundingClientRect().left < 0
       ) {
-        $buttons.style.left = pRect.left + "px";
+        $buttons.style.left = pRect.left + 'px';
       }
     }
   }
@@ -293,39 +293,39 @@ export class ButtonsPlugin {
     // When user clicks on  editor's placeholder in FF, $current el is editor itself, not the first paragraph as it should
     if (
       $current.classList &&
-      $current.classList.contains("medium-editor-insert-plugin")
+      $current.classList.contains('medium-editor-insert-plugin')
     ) {
-      $current = $current.querySelector("* p:first-child");
+      $current = $current.querySelector('* p:first-child');
     }
 
     $p =
-      $current && $current.tagName === "P"
+      $current && $current.tagName === 'P'
         ? $current
-        : this.closestByClass($current, "p");
+        : this.closestByClass($current, 'p');
 
     this.clean();
 
     if (
-      $el.classList.contains("medium-editor-placeholder") === false &&
-      !this.closestByClass($el, ".medium-insert-buttons") &&
-      !this.closestByClass($current, ".medium-insert-buttons")
+      $el.classList.contains('medium-editor-placeholder') === false &&
+      !this.closestByClass($el, '.medium-insert-buttons') &&
+      !this.closestByClass($current, '.medium-insert-buttons')
     ) {
-      if (this.$element.querySelector(".medium-insert-active")) {
+      if (this.$element.querySelector('.medium-insert-active')) {
         this.$element
-          .querySelector(".medium-insert-active")
-          .classList.remove("medium-insert-active");
+          .querySelector('.medium-insert-active')
+          .classList.remove('medium-insert-active');
       }
 
       const addons = Object.keys(this.options.addons);
       for (let i: number = 0; i < addons.length; ++i) {
         const addon = addons[i];
 
-        if (this.closestByClass($el, ".medium-insert-" + addon)) {
+        if (this.closestByClass($el, '.medium-insert-' + addon)) {
           $current = $el;
         }
 
-        if (this.closestByClass($current, ".medium-insert-" + addon)) {
-          $p = this.closestByClass($current, ".medium-insert-" + addon);
+        if (this.closestByClass($current, '.medium-insert-' + addon)) {
+          $p = this.closestByClass($current, '.medium-insert-' + addon);
           activeAddon = addon;
           return;
         }
@@ -333,19 +333,19 @@ export class ButtonsPlugin {
 
       if (
         $p &&
-        (($p.innerText.trim() === "" && !activeAddon) ||
-          activeAddon === "images")
+        (($p.innerText.trim() === '' && !activeAddon) ||
+          activeAddon === 'images')
       ) {
-        $p.classList.add("medium-insert-active");
+        $p.classList.add('medium-insert-active');
 
-        if (activeAddon === "images") {
+        if (activeAddon === 'images') {
           this.$element
-            .querySelector(".medium-insert-buttons")
-            .setAttribute("data-active-addon", activeAddon);
+            .querySelector('.medium-insert-buttons')
+            .setAttribute('data-active-addon', activeAddon);
         } else {
           this.$element
-            .querySelector(".medium-insert-buttons")
-            .removeAttribute("data-active-addon");
+            .querySelector('.medium-insert-buttons')
+            .removeAttribute('data-active-addon');
         }
 
         // If buttons are displayed on addon paragraph, wait 100ms for possible captions to display
@@ -366,33 +366,33 @@ export class ButtonsPlugin {
    * Show buttons
    */
   private showButtons(activeAddon) {
-    const $buttons = this.$element.querySelector(".medium-insert-buttons");
+    const $buttons = this.$element.querySelector('.medium-insert-buttons');
 
-    $buttons.style.display = "";
-    const $lis = $buttons.querySelectorAll("li");
+    $buttons.style.display = '';
+    const $lis = $buttons.querySelectorAll('li');
     for (let i: number = 0; i < $lis.length; ++i) {
       const $li: HTMLElement = $lis[i];
-      $li.style.display = "";
+      $li.style.display = '';
     }
 
     if (activeAddon) {
-      $buttons.querySelector("li").style.display = "none";
+      $buttons.querySelector('li').style.display = 'none';
       $buttons.querySelector(
         'button[data-addon="' + activeAddon + '"]'
-      ).parentNode.style.display = "";
+      ).parentNode.style.display = '';
     }
   }
 
   private hideButtons($el = null) {
     $el = $el || this.$element;
 
-    $el.querySelector(".medium-insert-buttons").style.display = "none";
+    $el.querySelector('.medium-insert-buttons').style.display = 'none';
     $el
-      .querySelector(".medium-insert-buttons-addons")
-      .classList.remove("medium-insert-buttons-addons-show");
+      .querySelector('.medium-insert-buttons-addons')
+      .classList.remove('medium-insert-buttons-addons-show');
     $el
-      .querySelector(".medium-insert-buttons-show")
-      .classList.remove("medium-insert-buttons-rotate");
+      .querySelector('.medium-insert-buttons-show')
+      .classList.remove('medium-insert-buttons-rotate');
   }
 
   /**
@@ -402,8 +402,8 @@ export class ButtonsPlugin {
     const $el = e.target;
 
     if (
-      $el.tagName !== "IMG" ||
-      $el.classList.contains("medium-insert-buttons-show")
+      $el.tagName !== 'IMG' ||
+      $el.classList.contains('medium-insert-buttons-show')
     ) {
       e.preventDefault();
     }
@@ -413,15 +413,15 @@ export class ButtonsPlugin {
    * toggles addons buttons
    */
   private toggleAddons() {
-    let $addons = this.$element.querySelector(".medium-insert-buttons-addons");
-    if ($addons.classList.contains("medium-insert-buttons-addons-show")) {
-      $addons.classList.remove("medium-insert-buttons-addons-show");
+    let $addons = this.$element.querySelector('.medium-insert-buttons-addons');
+    if ($addons.classList.contains('medium-insert-buttons-addons-show')) {
+      $addons.classList.remove('medium-insert-buttons-addons-show');
     } else {
-      $addons.classList.add("medium-insert-buttons-addons-show");
+      $addons.classList.add('medium-insert-buttons-addons-show');
     }
     ButtonsPlugin.toggleClass(
-      this.$element.querySelector(".medium-insert-buttons-show"),
-      "medium-insert-buttons-rotate"
+      this.$element.querySelector('.medium-insert-buttons-show'),
+      'medium-insert-buttons-rotate'
     );
     this.hideInput();
   }
@@ -435,7 +435,7 @@ export class ButtonsPlugin {
   }
 
   private hideInput() {
-    const $input = this.$element.querySelector(".medium-media-buttons");
+    const $input = this.$element.querySelector('.medium-media-buttons');
 
     if ($input) {
       $input.parentNode.removeChild($input);
@@ -447,44 +447,44 @@ export class ButtonsPlugin {
     this.hideButtons();
     let $a = e.currentTarget;
 
-    let $place = this.$element.querySelector(".medium-insert-active");
+    let $place = this.$element.querySelector('.medium-insert-active');
 
     // empty <p> tag so the input doesn't look wrong
     while ($place.firstChild) {
       $place.removeChild($place.firstChild);
     }
 
-    const div: HTMLDivElement = document.createElement("div");
-    div.setAttribute("contenteditable", "false");
-    div.classList.add("medium-media-buttons");
+    const div: HTMLDivElement = document.createElement('div');
+    div.setAttribute('contenteditable', 'false');
+    div.classList.add('medium-media-buttons');
 
-    if ($a.getAttribute("data-addon") === "images") {
-      const uploadButton: HTMLButtonElement = document.createElement("button");
-      uploadButton.setAttribute("type", "button");
-      uploadButton.classList.add("medium-media-buttons-upload");
+    if ($a.getAttribute('data-addon') === 'images') {
+      const uploadButton: HTMLButtonElement = document.createElement('button');
+      uploadButton.setAttribute('type', 'button');
+      uploadButton.classList.add('medium-media-buttons-upload');
       uploadButton.innerHTML = `<i class="material-icons file-upload"></i>`;
 
       uploadButton.addEventListener(
-        "mousedown",
+        'mousedown',
         this.chooseFile.bind(this),
         true
       );
 
       uploadButton.onblur = () => {
         if (div && div.parentNode) {
-          div.parentNode.replaceChild(document.createElement("br"), div);
+          div.parentNode.replaceChild(document.createElement('br'), div);
         }
       };
 
       div.appendChild(uploadButton);
     }
 
-    const input: HTMLInputElement = document.createElement("input");
-    input.setAttribute("type", "text");
-    input.setAttribute("placeholder", this.options.placeholder);
-    input.classList.add("medium-insert-link-input");
+    const input: HTMLInputElement = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('placeholder', this.options.placeholder);
+    input.classList.add('medium-insert-link-input');
 
-    input.addEventListener("keypress", e => {
+    input.addEventListener('keypress', e => {
       if (e.keyCode == 13) {
         this.addonAction($a, input.value);
         e.preventDefault();
@@ -493,11 +493,11 @@ export class ButtonsPlugin {
 
     input.onblur = () => {
       if (div && div.parentNode) {
-        div.parentNode.replaceChild(document.createElement("br"), div);
+        div.parentNode.replaceChild(document.createElement('br'), div);
       }
     };
 
-    input.addEventListener("keydown", (e: any) => {
+    input.addEventListener('keydown', (e: any) => {
       if ((!e.ctrlKey && !e.metaKey) || e.keyCode != 86) {
         return;
       }
@@ -505,9 +505,9 @@ export class ButtonsPlugin {
     });
 
     input.addEventListener(
-      "paste",
+      'paste',
       (e: ClipboardEvent) => {
-        input.value = e.clipboardData.getData("text/plain");
+        input.value = e.clipboardData.getData('text/plain');
         e.preventDefault();
         e.stopPropagation();
       },
@@ -522,15 +522,15 @@ export class ButtonsPlugin {
   }
 
   private chooseFile() {
-    let $place = this.$element.querySelector(".medium-insert-active");
+    let $place = this.$element.querySelector('.medium-insert-active');
 
-    const fileInput = this.$element.querySelector(".medium-media-file-input");
+    const fileInput = this.$element.querySelector('.medium-media-file-input');
 
     fileInput.click();
   }
 
   private uploadFile() {
-    const fileInput = this.$element.querySelector(".medium-media-file-input");
+    const fileInput = this.$element.querySelector('.medium-media-file-input');
 
     const file = fileInput ? fileInput.files[0] : null;
 
@@ -540,11 +540,11 @@ export class ButtonsPlugin {
 
     reader.onloadend = () => {
       this.window.dispatchEvent(
-        new CustomEvent("attachment-preview-loaded", {
+        new CustomEvent('attachment-preview-loaded', {
           detail: {
             timestamp: timestamp,
-            src: reader.result
-          }
+            src: reader.result,
+          },
         })
       );
     };
@@ -552,11 +552,11 @@ export class ButtonsPlugin {
 
     this.options.uploadFunction(fileInput).then(result => {
       this.window.dispatchEvent(
-        new CustomEvent("attachment-upload-finished", {
+        new CustomEvent('attachment-upload-finished', {
           detail: {
             timestamp: timestamp,
-            guid: result
-          }
+            guid: result,
+          },
         })
       );
     });
@@ -569,17 +569,17 @@ export class ButtonsPlugin {
    */
   private addonAction(target, link) {
     this.base.trigger(
-      "action-" + target.getAttribute("data-addon"),
+      'action-' + target.getAttribute('data-addon'),
       {
         link: link,
-        rangeStart: this.$element.querySelector(".medium-insert-active")
+        rangeStart: this.$element.querySelector('.medium-insert-active'),
       },
       this.$element
     );
   }
 
   public prepare() {
-    let buttons = this.$element.querySelectorAll(".medium-insert-buttons");
+    let buttons = this.$element.querySelectorAll('.medium-insert-buttons');
     for (let i: number = 0; i < buttons.length; ++i) {
       buttons[i].parentNode.removeChild(buttons[i]);
     }

@@ -1,15 +1,15 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject } from '@angular/core';
 
-import { GroupsService } from "../../groups-service";
+import { GroupsService } from '../../groups-service';
 
-import { Client } from "../../../../services/api";
-import { Session } from "../../../../services/session";
+import { Client } from '../../../../services/api';
+import { Session } from '../../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-groups-profile-requests",
-  inputs: ["_group : group"],
-  templateUrl: "requests.html"
+  selector: 'minds-groups-profile-requests',
+  inputs: ['_group : group'],
+  templateUrl: 'requests.html',
 })
 export class GroupsProfileRequests {
   minds = window.Minds;
@@ -17,7 +17,7 @@ export class GroupsProfileRequests {
   $group;
 
   users: Array<any> = [];
-  offset: string = "";
+  offset: string = '';
   inProgress: boolean = false;
   moreData: boolean = true;
 
@@ -38,16 +38,16 @@ export class GroupsProfileRequests {
     if (this.inProgress) return;
 
     if (refresh) {
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
       this.users = [];
     }
 
     this.inProgress = true;
     this.client
-      .get("api/v1/groups/membership/" + this.group.guid + "/requests", {
+      .get('api/v1/groups/membership/' + this.group.guid + '/requests', {
         limit: 12,
-        offset: this.offset
+        offset: this.offset,
       })
       .then((response: any) => {
         if (!response.users || response.users.length === 0) {
@@ -61,7 +61,7 @@ export class GroupsProfileRequests {
         } else {
           this.users = response.users;
         }
-        this.offset = response["load-next"];
+        this.offset = response['load-next'];
         this.inProgress = false;
       });
   }
@@ -69,20 +69,20 @@ export class GroupsProfileRequests {
   accept(user: any, index: number) {
     this.service.acceptRequest(this.group, user.guid).then(() => {
       this.users.splice(index, 1);
-      this.changeCounter("members:count", +1);
-      this.changeCounter("requests:count", -1);
+      this.changeCounter('members:count', +1);
+      this.changeCounter('requests:count', -1);
     });
   }
 
   reject(user: any, index: number) {
     this.service.rejectRequest(this.group, user.guid).then(() => {
       this.users.splice(index, 1);
-      this.changeCounter("requests:count", -1);
+      this.changeCounter('requests:count', -1);
     });
   }
 
   private changeCounter(counter: string, val = 0) {
-    if (typeof this.group[counter] !== "undefined") {
+    if (typeof this.group[counter] !== 'undefined') {
       this.group[counter] = parseInt(this.group[counter], 10) + val;
     }
   }

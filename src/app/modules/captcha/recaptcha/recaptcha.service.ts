@@ -1,5 +1,5 @@
-import { Injectable, NgZone, Optional, SkipSelf } from "@angular/core";
-import { Observable, BehaviorSubject } from "rxjs";
+import { Injectable, NgZone, Optional, SkipSelf } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 /*
  * Common service shared by all reCaptcha component instances
@@ -19,7 +19,7 @@ export class ReCaptchaService {
 
   constructor(zone: NgZone) {
     /* the callback needs to exist before the API is loaded */
-    window[<any>"reCaptchaOnloadCallback"] = <any>(
+    window[<any>'reCaptchaOnloadCallback'] = <any>(
       (() => zone.run(this.onloadCallback.bind(this)))
     );
   }
@@ -28,11 +28,11 @@ export class ReCaptchaService {
     if (!this.scriptLoaded) {
       this.scriptLoaded = true;
       let doc = <HTMLDivElement>document.body;
-      let script = document.createElement("script");
-      script.innerHTML = "";
+      let script = document.createElement('script');
+      script.innerHTML = '';
       script.src =
-        "https://www.google.com/recaptcha/api.js?onload=reCaptchaOnloadCallback&render=explicit" +
-        (language ? "&hl=" + language : "");
+        'https://www.google.com/recaptcha/api.js?onload=reCaptchaOnloadCallback&render=explicit' +
+        (language ? '&hl=' + language : '');
       script.async = true;
       script.defer = true;
       doc.appendChild(script);
@@ -56,5 +56,5 @@ export function RECAPTCHA_SERVICE_PROVIDER_FACTORY(
 export const RECAPTCHA_SERVICE_PROVIDER = {
   provide: ReCaptchaService,
   deps: [NgZone, [new Optional(), new SkipSelf(), ReCaptchaService]],
-  useFactory: RECAPTCHA_SERVICE_PROVIDER_FACTORY
+  useFactory: RECAPTCHA_SERVICE_PROVIDER_FACTORY,
 };

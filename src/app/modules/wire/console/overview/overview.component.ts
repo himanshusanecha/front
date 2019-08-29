@@ -1,17 +1,17 @@
 import {
   Component,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
-} from "@angular/core";
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
-import { Client } from "../../../../services/api";
-import { Session } from "../../../../services/session";
+import { Client } from '../../../../services/api';
+import { Session } from '../../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wire-console--overview",
-  templateUrl: "overview.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wire-console--overview',
+  templateUrl: 'overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WireConsoleOverviewComponent {
   startDate: string;
@@ -38,7 +38,7 @@ export class WireConsoleOverviewComponent {
     money_avg: 0,
     tokens: 0,
     tokens_count: 0,
-    tokens_avg: 0
+    tokens_avg: 0,
   };
 
   constructor(
@@ -57,8 +57,8 @@ export class WireConsoleOverviewComponent {
 
   getStats() {
     this.client
-      .get("api/v1/wire/sums/overview/" + this.session.getLoggedInUser().guid, {
-        start: Date.parse(this.startDate) / 1000
+      .get('api/v1/wire/sums/overview/' + this.session.getLoggedInUser().guid, {
+        start: Date.parse(this.startDate) / 1000,
       })
       .then(
         ({
@@ -71,7 +71,7 @@ export class WireConsoleOverviewComponent {
           money_avg = 0,
           tokens = 0,
           tokens_count = 0,
-          tokens_avg = 0
+          tokens_avg = 0,
         }) => {
           this.stats = {
             count,
@@ -83,7 +83,7 @@ export class WireConsoleOverviewComponent {
             money_avg,
             tokens,
             tokens_count,
-            tokens_avg
+            tokens_avg,
           };
 
           this.detectChanges();

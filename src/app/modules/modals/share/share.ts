@@ -1,21 +1,21 @@
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
-import { Session } from "../../../services/session";
-import isMobileOrTablet from "../../../helpers/is-mobile-or-tablet";
-import isMobile from "../../../helpers/is-mobile";
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Session } from '../../../services/session';
+import isMobileOrTablet from '../../../helpers/is-mobile-or-tablet';
+import isMobile from '../../../helpers/is-mobile';
 
 @Component({
-  selector: "m-modal-share",
-  templateUrl: "share.html"
+  selector: 'm-modal-share',
+  templateUrl: 'share.html',
 })
 export class ShareModalComponent implements OnInit, OnDestroy {
   minds = window.Minds;
 
-  rawUrl: string = "";
-  encodedRawUrl: string = "";
-  referrerParam: string = "";
+  rawUrl: string = '';
+  encodedRawUrl: string = '';
+  referrerParam: string = '';
 
-  shareUrl: string = "";
-  encodedShareUrl: string = "";
+  shareUrl: string = '';
+  encodedShareUrl: string = '';
 
   shareUrlRecentlyCopied: boolean = false;
   shareUrlFocused: boolean = false;
@@ -25,7 +25,7 @@ export class ShareModalComponent implements OnInit, OnDestroy {
   flashing: boolean = false;
   flashTimeout;
 
-  @Input("url") set data(url) {
+  @Input('url') set data(url) {
     this.rawUrl = url;
     this.encodedRawUrl = encodeURI(this.rawUrl);
   }
@@ -36,7 +36,7 @@ export class ShareModalComponent implements OnInit, OnDestroy {
     if (this.session.getLoggedInUser()) {
       // Create custom referral param for current user
       this.referrerParam =
-        "?referrer=" + this.session.getLoggedInUser().username;
+        '?referrer=' + this.session.getLoggedInUser().username;
     }
 
     // Include referrerParam in url by default
@@ -55,46 +55,46 @@ export class ShareModalComponent implements OnInit, OnDestroy {
   }
 
   openWindow(url: string) {
-    window.open(url, "_blank", "width=600, height=300, left=80, top=80");
+    window.open(url, '_blank', 'width=600, height=300, left=80, top=80');
   }
 
   openTwitter() {
     const url =
-      "https://twitter.com/intent/tweet?tw_p=tweetbutton&url=" +
+      'https://twitter.com/intent/tweet?tw_p=tweetbutton&url=' +
       this.encodedShareUrl;
-    window.open(url, "_blank", "width=620, height=220, left=80, top=80");
+    window.open(url, '_blank', 'width=620, height=220, left=80, top=80');
   }
 
   openFacebook() {
     this.openWindow(
-      "https://www.facebook.com/sharer/sharer.php?u=" +
+      'https://www.facebook.com/sharer/sharer.php?u=' +
         this.encodedShareUrl +
-        "&display=popup&ref=plugin&src=share_button"
+        '&display=popup&ref=plugin&src=share_button'
     );
   }
 
   openMessenger() {
-    const encodedFacebookAppId = encodeURIComponent("184865748231073");
+    const encodedFacebookAppId = encodeURIComponent('184865748231073');
     this.openWindow(
-      "fb-messenger://share?link=" +
+      'fb-messenger://share?link=' +
         this.encodedShareUrl +
-        "&app_id=" +
+        '&app_id=' +
         encodedFacebookAppId
     );
   }
 
   openWhatsapp() {
     this.openWindow(
-      "https://api.whatsapp.com/send?text=" + this.encodedShareUrl
+      'https://api.whatsapp.com/send?text=' + this.encodedShareUrl
     );
   }
 
   openSMS() {
-    this.openWindow("sms:?&body=" + this.encodedShareUrl);
+    this.openWindow('sms:?&body=' + this.encodedShareUrl);
   }
 
   openEmail() {
-    this.openWindow("mailto:?body=" + this.encodedShareUrl);
+    this.openWindow('mailto:?body=' + this.encodedShareUrl);
   }
 
   // Add or remove referrerParam from share url based on checkbox input
@@ -120,7 +120,7 @@ export class ShareModalComponent implements OnInit, OnDestroy {
   // Receives input element whose text you want to copy
   copyToClipboard(inputElement) {
     inputElement.select();
-    document.execCommand("copy");
+    document.execCommand('copy');
 
     // Temporarily change button text from 'copy' to 'copied'
     clearTimeout(this.shareUrlTimeout);

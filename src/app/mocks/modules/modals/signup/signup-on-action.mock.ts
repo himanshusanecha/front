@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: "m-modal-signup-on-action",
-  template: ``
+  selector: 'm-modal-signup-on-action',
+  template: ``,
 })
 export class SignupOnActionModalMock {
   @Input() open;

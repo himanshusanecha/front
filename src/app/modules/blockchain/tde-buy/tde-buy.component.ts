@@ -2,27 +2,27 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit
-} from "@angular/core";
-import { TokenDistributionEventService } from "../contracts/token-distribution-event.service";
-import { Client } from "../../../services/api/client";
-import { Web3WalletService } from "../web3-wallet.service";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
+  OnInit,
+} from '@angular/core';
+import { TokenDistributionEventService } from '../contracts/token-distribution-event.service';
+import { Client } from '../../../services/api/client';
+import { Web3WalletService } from '../web3-wallet.service';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
 
 @Component({
   moduleId: module.id,
-  selector: "m-blockchain--tde-buy",
-  templateUrl: "tde-buy.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-blockchain--tde-buy',
+  templateUrl: 'tde-buy.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockchainTdeBuyComponent implements OnInit {
   inProgress: boolean;
   success: boolean;
-  error: string = "";
-  metamaskError: string = "";
+  error: string = '';
+  metamaskError: string = '';
 
   pledged: number | null = null;
-  address: string = "…";
+  address: string = '…';
   tdeAddress: string;
 
   protected _checkWalletAvailabilityTimer;
@@ -56,12 +56,12 @@ export class BlockchainTdeBuyComponent implements OnInit {
     this.detectChanges();
 
     try {
-      const response: any = await this.client.get("api/v2/blockchain/pledges", {
-        brief: 1
+      const response: any = await this.client.get('api/v2/blockchain/pledges', {
+        brief: 1,
       });
 
       if (!response.pledge) {
-        throw new Error("No pledge found");
+        throw new Error('No pledge found');
       }
 
       this.pledged = response.pledge.eth_amount;
@@ -77,7 +77,7 @@ export class BlockchainTdeBuyComponent implements OnInit {
   }
 
   async checkWalletAvailability() {
-    let metamaskError = "";
+    let metamaskError = '';
 
     this._checkWalletAvailabilityTimer = void 0;
 
@@ -87,7 +87,7 @@ export class BlockchainTdeBuyComponent implements OnInit {
     }
 
     if (this.web3Wallet.isUnavailable()) {
-      metamaskError = "There are no Ethereum wallet clients available.";
+      metamaskError = 'There are no Ethereum wallet clients available.';
     } else if (!(await this.web3Wallet.unlock())) {
       metamaskError =
         "There are no local wallets available, the wallet manager is locked, or you're connected to a different network.";
@@ -128,10 +128,10 @@ export class BlockchainTdeBuyComponent implements OnInit {
           this._opts.onComplete({ done: true });
         }
       } else {
-        this.error = "There was an issue buying tokens";
+        this.error = 'There was an issue buying tokens';
       }
     } catch (e) {
-      this.error = (e && e.message) || "There was an issue buying tokens";
+      this.error = (e && e.message) || 'There was an issue buying tokens';
     } finally {
       this.inProgress = false;
 

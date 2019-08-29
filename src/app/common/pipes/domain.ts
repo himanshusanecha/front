@@ -1,7 +1,7 @@
-import { Pipe, Inject, Renderer } from "@angular/core";
+import { Pipe, Inject, Renderer } from '@angular/core';
 
 @Pipe({
-  name: "domain"
+  name: 'domain',
 })
 export class DomainPipe {
   transform(value: string) {
@@ -15,7 +15,7 @@ export class DomainPipe {
 
     if (matches !== null) output = matches[1];
 
-    if (output.indexOf("www.") > -1) output = output.split("www.").pop();
+    if (output.indexOf('www.') > -1) output = output.split('www.').pop();
 
     return output;
   }

@@ -8,27 +8,27 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
-} from "@angular/core";
-import { MindsPlayerInterface } from "./player.interface";
+  ViewChild,
+} from '@angular/core';
+import { MindsPlayerInterface } from './player.interface';
 
 @Component({
   moduleId: module.id,
-  selector: "m-video--direct-http-player",
-  templateUrl: "direct-http.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-video--direct-http-player',
+  templateUrl: 'direct-http.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MindsVideoDirectHttpPlayer
   implements OnInit, OnDestroy, MindsPlayerInterface {
-  @ViewChild("player", { static: true }) player: ElementRef;
+  @ViewChild('player', { static: true }) player: ElementRef;
 
   @Input() muted: boolean = false;
-  @Input() poster: string = "";
+  @Input() poster: string = '';
   @Input() autoplay: boolean = false;
   @Input() guid: string | number;
 
   src: string;
-  @Input("src") set _src(src: string) {
+  @Input('src') set _src(src: string) {
     this.src = src;
 
     const player = this.getPlayer();
@@ -88,12 +88,12 @@ export class MindsVideoDirectHttpPlayer
 
   ngOnInit() {
     const player = this.getPlayer();
-    player.addEventListener("playing", this._emitPlay);
-    player.addEventListener("pause", this._emitPause);
-    player.addEventListener("ended", this._emitEnd);
-    player.addEventListener("error", this._onPlayerError);
-    player.addEventListener("canplaythrough", this._canPlayThrough);
-    player.addEventListener("loadedmetadata", this._emitLoadedMetadata);
+    player.addEventListener('playing', this._emitPlay);
+    player.addEventListener('pause', this._emitPause);
+    player.addEventListener('ended', this._emitEnd);
+    player.addEventListener('error', this._onPlayerError);
+    player.addEventListener('canplaythrough', this._canPlayThrough);
+    player.addEventListener('loadedmetadata', this._emitLoadedMetadata);
 
     this.loading = true;
   }
@@ -102,12 +102,12 @@ export class MindsVideoDirectHttpPlayer
     const player = this.getPlayer();
 
     if (player) {
-      player.removeEventListener("playing", this._emitPlay);
-      player.removeEventListener("pause", this._emitPause);
-      player.removeEventListener("ended", this._emitEnd);
-      player.removeEventListener("error", this._onPlayerError);
-      player.removeEventListener("canplaythrough", this._canPlayThrough);
-      player.removeEventListener("loadedmetadata", this._emitLoadedMetadata);
+      player.removeEventListener('playing', this._emitPlay);
+      player.removeEventListener('pause', this._emitPause);
+      player.removeEventListener('ended', this._emitEnd);
+      player.removeEventListener('error', this._onPlayerError);
+      player.removeEventListener('canplaythrough', this._canPlayThrough);
+      player.removeEventListener('loadedmetadata', this._emitLoadedMetadata);
     }
   }
 

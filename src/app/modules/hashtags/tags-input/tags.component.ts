@@ -3,16 +3,16 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnInit
-} from "@angular/core";
-import { Session } from "../../../services/session";
-import { Client } from "../../../services/api/client";
-import { Tag } from "../types/tag";
-import { TopbarHashtagsService } from "../service/topbar.service";
+  OnInit,
+} from '@angular/core';
+import { Session } from '../../../services/session';
+import { Client } from '../../../services/api/client';
+import { Tag } from '../types/tag';
+import { TopbarHashtagsService } from '../service/topbar.service';
 
 @Component({
-  selector: "m-form-tags-input",
-  outputs: ["change: tagsChange"],
+  selector: 'm-form-tags-input',
+  outputs: ['change: tagsChange'],
   template: `
     <div
       class="m-form-tags-input-tags-tag"
@@ -39,14 +39,14 @@ import { TopbarHashtagsService } from "../service/topbar.service";
         placeholder="Enter a hashtag..."
       />
     </div>
-  `
+  `,
 })
 export class TagsInput implements OnInit {
-  error: string = "";
+  error: string = '';
   inProgress: boolean = false;
 
-  input: string = "";
-  placeholder: string = "+";
+  input: string = '';
+  placeholder: string = '+';
   tags: Array<Tag> = [];
   suggestedTags: Array<Tag> = [];
   change: EventEmitter<any> = new EventEmitter();
@@ -62,7 +62,7 @@ export class TagsInput implements OnInit {
     await this.getTopHashtags();
   }
 
-  @Input("tags") set _tags(tags: Array<Tag>) {
+  @Input('tags') set _tags(tags: Array<Tag>) {
     this.tags = this.suggestedTags.slice(0); // Reset
     if (Array.isArray(tags)) {
       this.merge(tags);
@@ -135,7 +135,7 @@ export class TagsInput implements OnInit {
 
   focus() {
     const input = this.element.nativeElement.querySelector(
-      "input[name=input-tags]"
+      'input[name=input-tags]'
     );
     if (input) input.focus();
   }
@@ -151,7 +151,7 @@ export class TagsInput implements OnInit {
     }
 
     this.tags.push({ value: input, selected: true });
-    this.input = "";
+    this.input = '';
   }
 
   pop() {
@@ -162,7 +162,7 @@ export class TagsInput implements OnInit {
     try {
       let tags = [];
       const response: any = await this.client.get(
-        "api/v2/hashtags/suggested/user"
+        'api/v2/hashtags/suggested/user'
       );
 
       for (let tag of response.tags) {

@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { Client } from "../../../../services/api/client";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Client } from '../../../../services/api/client';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: "m-helpdesk--category-creator",
-  templateUrl: "creator.component.html"
+  selector: 'm-helpdesk--category-creator',
+  templateUrl: 'creator.component.html',
 })
 export class CategoryCreatorComponent implements OnInit {
   categories: Array<any> = [];
@@ -12,8 +12,8 @@ export class CategoryCreatorComponent implements OnInit {
   error: string = null;
 
   category: any = {
-    title: "",
-    parent_uuid: null
+    title: '',
+    parent_uuid: null,
   };
 
   constructor(
@@ -26,8 +26,8 @@ export class CategoryCreatorComponent implements OnInit {
     this.loadCategories();
 
     this.route.params.subscribe(params => {
-      if (params["uuid"] && params["uuid"] !== "new") {
-        this.load(params["uuid"]);
+      if (params['uuid'] && params['uuid'] !== 'new') {
+        this.load(params['uuid']);
       }
     });
   }
@@ -82,7 +82,7 @@ export class CategoryCreatorComponent implements OnInit {
       text.push(branch[i].title);
     }
 
-    return text.join(" > ");
+    return text.join(' > ');
   }
 
   selectCategory(category) {
@@ -105,7 +105,7 @@ export class CategoryCreatorComponent implements OnInit {
     this.error = null;
 
     if (!this.category.title) {
-      this.error = "You must provide a title";
+      this.error = 'You must provide a title';
     }
 
     if (this.error) {
@@ -121,11 +121,11 @@ export class CategoryCreatorComponent implements OnInit {
     }
 
     try {
-      await this.client.post("api/v2/admin/helpdesk/categories", {
-        ...this.category
+      await this.client.post('api/v2/admin/helpdesk/categories', {
+        ...this.category,
       });
 
-      this.router.navigate(["/help"]);
+      this.router.navigate(['/help']);
     } catch (e) {
       console.error(e);
       this.error = e;

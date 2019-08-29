@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { AnalyticsCardComponent } from "../card/card.component";
-import { Subscription } from "rxjs";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { AnalyticsCardComponent } from '../card/card.component';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "m-analyticswithdraw__card",
-  templateUrl: "withdraw.component.html"
+  selector: 'm-analyticswithdraw__card',
+  templateUrl: 'withdraw.component.html',
 })
 export class WithdrawCardComponent implements OnInit {
-  @ViewChild("card", { static: true }) card: AnalyticsCardComponent;
+  @ViewChild('card', { static: true }) card: AnalyticsCardComponent;
 
   subscription: Subscription;
 
@@ -33,9 +33,9 @@ export class WithdrawCardComponent implements OnInit {
 
   private async getAvgData() {
     try {
-      const response: any = await this.client.get("api/v2/analytics/withdraw", {
-        key: "avg",
-        timespan: this.card.selectedOption
+      const response: any = await this.client.get('api/v2/analytics/withdraw', {
+        key: 'avg',
+        timespan: this.card.selectedOption,
       });
 
       this.tokens = response.data.tokens;

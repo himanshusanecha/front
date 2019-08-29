@@ -4,23 +4,23 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit
-} from "@angular/core";
-import { Client } from "../../../../services/api";
-import { Session } from "../../../../services/session";
-import { WireService } from "../../wire.service";
+  OnInit,
+} from '@angular/core';
+import { Client } from '../../../../services/api';
+import { Session } from '../../../../services/session';
+import { WireService } from '../../wire.service';
 
 @Component({
-  selector: "m-wire-channel--overview",
-  templateUrl: "overview.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wire-channel--overview',
+  templateUrl: 'overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WireChannelOverviewComponent implements OnInit, OnDestroy {
   ready: boolean = true;
   stats: { count; tokens; sent? } = {
     count: 0,
     tokens: 0,
-    sent: 0
+    sent: 0,
   };
   sentSubscription;
 
@@ -47,14 +47,14 @@ export class WireChannelOverviewComponent implements OnInit, OnDestroy {
 
   getStats() {
     this.client
-      .get("api/v1/wire/sums/overview/" + this.channel.guid, {
-        merchant: this.channel.merchant ? 1 : 0
+      .get('api/v1/wire/sums/overview/' + this.channel.guid, {
+        merchant: this.channel.merchant ? 1 : 0,
       })
       .then(({ count, tokens }) => {
         this.stats = {
           count,
           tokens,
-          sent: this.stats.sent
+          sent: this.stats.sent,
         };
         this.detectChanges();
       });
@@ -62,7 +62,7 @@ export class WireChannelOverviewComponent implements OnInit, OnDestroy {
     if (!this.canWire()) return;
 
     this.client
-      .get("api/v1/wire/rewards/" + this.channel.guid)
+      .get('api/v1/wire/rewards/' + this.channel.guid)
       .then(({ sums }) => {
         this.stats.sent = sums.tokens;
 

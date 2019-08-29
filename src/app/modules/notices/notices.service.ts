@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-const NOTICES_JSON_URL = "https://cdn-assets.minds.com/notices.json";
+const NOTICES_JSON_URL = 'https://cdn-assets.minds.com/notices.json';
 
 @Injectable()
 export class NoticesService {

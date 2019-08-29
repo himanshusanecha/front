@@ -1,6 +1,6 @@
-import { Inject } from "@angular/core";
-import { Client } from "./api";
-import { Storage } from "./storage";
+import { Inject } from '@angular/core';
+import { Client } from './api';
+import { Storage } from './storage';
 
 export class TranslationService {
   private defaultLanguage: string;
@@ -14,7 +14,7 @@ export class TranslationService {
     @Inject(Client) private clientService: Client,
     @Inject(Storage) private storage: Storage
   ) {
-    this.defaultLanguage = "en"; // TODO: Set to get translated names (when i18n is in place)
+    this.defaultLanguage = 'en'; // TODO: Set to get translated names (when i18n is in place)
     this.load();
   }
 
@@ -35,7 +35,7 @@ export class TranslationService {
           .get(`api/v1/translation/languages`, { target: this.defaultLanguage })
           .then((response: any) => {
             if (!response.languages) {
-              throw new Error("No languages array");
+              throw new Error('No languages array');
             }
 
             this.storage.set(
@@ -57,7 +57,7 @@ export class TranslationService {
     return this.getLanguages().then(() => {
       let lang = this.storage.get(`translation:userDefault`);
 
-      if (lang === "null") {
+      if (lang === 'null') {
         // Some users have the default language cache tainted
         lang = null;
       }
@@ -68,17 +68,17 @@ export class TranslationService {
 
   purgeLanguagesCache() {
     this.languagesReady = void 0;
-    this.storage.set(`translation:languages:${this.defaultLanguage}`, "");
+    this.storage.set(`translation:languages:${this.defaultLanguage}`, '');
     this.storage.set(`translation:userDefault`, null);
   }
 
   getLanguageName(query: string): Promise<string> {
     if (!query) {
-      return Promise.resolve("None");
+      return Promise.resolve('None');
     }
 
     return this.getLanguages().then((languages: any[]) => {
-      let result: string = "Unknown";
+      let result: string = 'Unknown';
 
       languages.forEach((language: any) => {
         if (language.language === query) {
@@ -91,7 +91,7 @@ export class TranslationService {
   }
 
   isTranslatable(entity): boolean {
-    if (typeof entity !== "object") {
+    if (typeof entity !== 'object') {
       return false;
     }
 
@@ -100,14 +100,14 @@ export class TranslationService {
     }
 
     // Message should exist and have content
-    if (typeof entity.message !== "undefined" && entity.message) {
+    if (typeof entity.message !== 'undefined' && entity.message) {
       return true;
-    } else if (entity.type === "comment" && entity.description) {
+    } else if (entity.type === 'comment' && entity.description) {
       return true;
     } else if (
       entity.custom_type &&
-      ((typeof entity.title !== "undefined" && entity.title) ||
-        (typeof entity.blurb !== "undefined" && entity.blurb))
+      ((typeof entity.title !== 'undefined' && entity.title) ||
+        (typeof entity.blurb !== 'undefined' && entity.blurb))
     ) {
       return true;
     }
@@ -132,7 +132,7 @@ export class TranslationService {
           !response.translation ||
           Object.keys(response.translation).length == 0
         ) {
-          throw new Error("No translation available");
+          throw new Error('No translation available');
         }
 
         return response.translation;

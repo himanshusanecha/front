@@ -9,30 +9,30 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
-} from "@angular/core";
-import { MindsPlayerInterface } from "./player.interface";
-import { WebtorrentService } from "../../../../webtorrent/webtorrent.service";
-import { Client } from "../../../../../services/api/client";
-import base64ToBlob from "../../../../../helpers/base64-to-blob";
+  ViewChild,
+} from '@angular/core';
+import { MindsPlayerInterface } from './player.interface';
+import { WebtorrentService } from '../../../../webtorrent/webtorrent.service';
+import { Client } from '../../../../../services/api/client';
+import base64ToBlob from '../../../../../helpers/base64-to-blob';
 
 @Component({
   moduleId: module.id,
-  selector: "m-video--torrent-player",
-  templateUrl: "torrent.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-video--torrent-player',
+  templateUrl: 'torrent.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MindsVideoTorrentPlayer
   implements OnInit, AfterViewInit, OnDestroy, MindsPlayerInterface {
-  @ViewChild("player", { static: true }) player: ElementRef;
+  @ViewChild('player', { static: true }) player: ElementRef;
 
   @Input() muted: boolean = false;
-  @Input() poster: string = "";
+  @Input() poster: string = '';
   @Input() autoplay: boolean = false;
   @Input() guid: string | number;
 
   src: string;
-  @Input("src") set _src(src: string) {
+  @Input('src') set _src(src: string) {
     this.src = src;
 
     if (this.initialized) {
@@ -64,7 +64,7 @@ export class MindsVideoTorrentPlayer
     ul: 0,
     dl: 0,
     ulspeed: 0,
-    dlspeed: 0
+    dlspeed: 0,
   };
   protected infoTimer$: any;
 
@@ -123,7 +123,7 @@ export class MindsVideoTorrentPlayer
         ul: 0,
         dl: 0,
         ulspeed: 0,
-        dlspeed: 0
+        dlspeed: 0,
       };
     } else {
       const torrent = this.webtorrent.get(this.torrentId);
@@ -134,7 +134,7 @@ export class MindsVideoTorrentPlayer
         ul: torrent.uploaded,
         dl: torrent.downloaded,
         ulspeed: torrent.uploadSpeed,
-        dlspeed: torrent.downloadSpeed
+        dlspeed: torrent.downloadSpeed,
       };
     }
 
@@ -143,15 +143,15 @@ export class MindsVideoTorrentPlayer
 
   ngOnInit() {
     const player = this.getPlayer();
-    player.addEventListener("playing", this._emitPlay);
-    player.addEventListener("pause", this._emitPause);
-    player.addEventListener("ended", this._emitEnd);
-    player.addEventListener("error", this._onPlayerError);
-    player.addEventListener("canplaythrough", this._canPlayThrough);
-    player.addEventListener("loadedmetadata", this._emitLoadedMetadata);
+    player.addEventListener('playing', this._emitPlay);
+    player.addEventListener('pause', this._emitPause);
+    player.addEventListener('ended', this._emitEnd);
+    player.addEventListener('error', this._onPlayerError);
+    player.addEventListener('canplaythrough', this._canPlayThrough);
+    player.addEventListener('loadedmetadata', this._emitLoadedMetadata);
 
     this.infoTimer$ = setInterval(this._refreshInfo, 1000);
-    this.isModal = document.body.classList.contains("m-overlay-modal--shown");
+    this.isModal = document.body.classList.contains('m-overlay-modal--shown');
   }
 
   ngAfterViewInit() {
@@ -172,12 +172,12 @@ export class MindsVideoTorrentPlayer
     const player = this.getPlayer();
 
     if (player) {
-      player.removeEventListener("playing", this._emitPlay);
-      player.removeEventListener("pause", this._emitPause);
-      player.removeEventListener("ended", this._emitEnd);
-      player.removeEventListener("error", this._onPlayerError);
-      player.removeEventListener("canplaythrough", this._canPlayThrough);
-      player.removeEventListener("loadedmetadata", this._emitLoadedMetadata);
+      player.removeEventListener('playing', this._emitPlay);
+      player.removeEventListener('pause', this._emitPause);
+      player.removeEventListener('ended', this._emitEnd);
+      player.removeEventListener('error', this._onPlayerError);
+      player.removeEventListener('canplaythrough', this._canPlayThrough);
+      player.removeEventListener('loadedmetadata', this._emitLoadedMetadata);
     }
   }
 
@@ -302,7 +302,7 @@ export class MindsVideoTorrentPlayer
       this.loading = false;
       this.detectChanges();
 
-      console.error("[TorrentVideo] Magnet download", e);
+      console.error('[TorrentVideo] Magnet download', e);
       this._emitError(e);
 
       return;
@@ -319,7 +319,7 @@ export class MindsVideoTorrentPlayer
       this.loading = false;
       this.detectChanges();
 
-      const file = torrent.files.find(file => file.name.endsWith(".mp4"));
+      const file = torrent.files.find(file => file.name.endsWith('.mp4'));
 
       if (!file) {
         this.loading = false;
@@ -328,8 +328,8 @@ export class MindsVideoTorrentPlayer
         this.webtorrent.remove(this.torrentId);
         this.torrentId = void 0;
 
-        console.error("[TorrentVideo] Video file not found");
-        this._emitError("E_NO_FILE");
+        console.error('[TorrentVideo] Video file not found');
+        this._emitError('E_NO_FILE');
         return;
       }
 
@@ -341,7 +341,7 @@ export class MindsVideoTorrentPlayer
           this.webtorrent.remove(this.torrentId);
           this.torrentId = void 0;
 
-          console.error("[TorrentVideo] Video render", err);
+          console.error('[TorrentVideo] Video render', err);
           this._emitError(err);
           return;
         }
@@ -361,7 +361,7 @@ export class MindsVideoTorrentPlayer
       this.loading = false;
       this.detectChanges();
 
-      console.error("[TorrentVideo] Webtorrent general error", e);
+      console.error('[TorrentVideo] Webtorrent general error', e);
       this._emitError(e);
     }
   }

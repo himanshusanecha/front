@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Client } from "../../services/api";
-import { Session } from "../../services/session";
+import { Client } from '../../services/api';
+import { Session } from '../../services/session';
 
 @Component({
-  template: ``
+  template: ``,
 })
 export class LogoutComponent {
   constructor(
@@ -16,17 +16,17 @@ export class LogoutComponent {
   ) {
     this.route.url.subscribe(segments => {
       this.logout(
-        segments && segments.length > 1 && segments[1].toString() === "all"
+        segments && segments.length > 1 && segments[1].toString() === 'all'
       );
     });
   }
 
   logout(closeAllSessions: boolean = false) {
-    let url: string = "api/v1/authenticate";
-    if (closeAllSessions) url += "/all";
+    let url: string = 'api/v1/authenticate';
+    if (closeAllSessions) url += '/all';
 
     this.client.delete(url);
     this.session.logout();
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 }

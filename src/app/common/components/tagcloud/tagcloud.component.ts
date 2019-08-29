@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "m-tagcloud",
-  templateUrl: "tagcloud.component.html"
+  selector: 'm-tagcloud',
+  templateUrl: 'tagcloud.component.html',
 })
 export class TagcloudComponent {
   tags: Array<string> = [];

@@ -1,13 +1,13 @@
-import { Component, EventEmitter } from "@angular/core";
-import { map } from "rxjs/operators";
+import { Component, EventEmitter } from '@angular/core';
+import { map } from 'rxjs/operators';
 
-import { Navigation as NavigationService } from "../../../services/navigation";
-import { Session } from "../../../services/session";
-import { UpdateMarkersService } from "../../services/update-markers.service";
+import { Navigation as NavigationService } from '../../../services/navigation';
+import { Session } from '../../../services/session';
+import { UpdateMarkersService } from '../../services/update-markers.service';
 
 @Component({
-  selector: "m-topbar--navigation",
-  templateUrl: "navigation.component.html"
+  selector: 'm-topbar--navigation',
+  templateUrl: 'navigation.component.html',
 })
 export class TopbarNavigationComponent {
   user;
@@ -21,7 +21,7 @@ export class TopbarNavigationComponent {
   ) {}
 
   ngOnInit() {
-    this.items = this.navigation.getItems("topbar");
+    this.items = this.navigation.getItems('topbar');
     this.getUser();
     /*this.hasMarker$ = this.updateMarkers.markers
           .pipe(

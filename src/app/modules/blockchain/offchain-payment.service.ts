@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Client } from "../../services/api/client";
+import { Client } from '../../services/api/client';
 
 @Injectable()
 export class OffchainPaymentService {
@@ -13,7 +13,7 @@ export class OffchainPaymentService {
     );
 
     if (!response.txHash) {
-      throw new Error("Error processing payment");
+      throw new Error('Error processing payment');
     }
 
     return response.txHash;

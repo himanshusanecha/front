@@ -13,7 +13,7 @@ export let uploadMock = new (function() {
       }
       if (
         !res ||
-        ((res.status && res.status === "error") || res.status === "failed")
+        ((res.status && res.status === 'error') || res.status === 'failed')
       )
         reject(res);
 
@@ -21,5 +21,5 @@ export let uploadMock = new (function() {
     });
   };
 
-  this.post = jasmine.createSpy("post").and.callFake(callFake);
+  this.post = jasmine.createSpy('post').and.callFake(callFake);
 })();

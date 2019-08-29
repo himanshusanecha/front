@@ -4,27 +4,27 @@ import {
   ElementRef,
   ChangeDetectorRef,
   OnDestroy,
-  OnInit
-} from "@angular/core";
-import { MindsPlayerInterface } from "../players/player.interface";
+  OnInit,
+} from '@angular/core';
+import { MindsPlayerInterface } from '../players/player.interface';
 
 @Component({
-  selector: "m-video--progress-bar",
-  templateUrl: "progress-bar.component.html"
+  selector: 'm-video--progress-bar',
+  templateUrl: 'progress-bar.component.html',
 })
 export class MindsVideoProgressBar implements OnInit, OnDestroy {
-  @Input("player") playerRef: MindsPlayerInterface;
+  @Input('player') playerRef: MindsPlayerInterface;
 
   element: HTMLVideoElement;
 
   time: { minutes: any; seconds: any } = {
-    minutes: "00",
-    seconds: "00"
+    minutes: '00',
+    seconds: '00',
   };
 
   elapsed: { minutes: any; seconds: any } = {
-    minutes: "00",
-    seconds: "00"
+    minutes: '00',
+    seconds: '00',
   };
   remaining: { minutes: any; seconds: any } | null = null;
   seek_interval;
@@ -46,12 +46,12 @@ export class MindsVideoProgressBar implements OnInit, OnDestroy {
 
   bindToElement() {
     if (this.element) {
-      this.element.removeEventListener("loadedmetadata", this._loadedMetadata);
+      this.element.removeEventListener('loadedmetadata', this._loadedMetadata);
     }
 
     if (this.playerRef.getPlayer()) {
       this.element = this.playerRef.getPlayer();
-      this.element.addEventListener("loadedmetadata", this._loadedMetadata);
+      this.element.addEventListener('loadedmetadata', this._loadedMetadata);
 
       if (this.element.readyState > 0) {
         this._loadedMetadata();
@@ -60,7 +60,7 @@ export class MindsVideoProgressBar implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.element.removeEventListener("loadedmetadata", this._loadedMetadata);
+    this.element.removeEventListener('loadedmetadata', this._loadedMetadata);
     clearInterval(this.seek_interval);
   }
 
@@ -69,22 +69,22 @@ export class MindsVideoProgressBar implements OnInit, OnDestroy {
 
     this.time.minutes = Math.floor(seconds / 60);
     if (parseInt(this.time.minutes) < 10)
-      this.time.minutes = "0" + this.time.minutes;
+      this.time.minutes = '0' + this.time.minutes;
 
     this.time.seconds = Math.floor(seconds % 60);
     if (parseInt(this.time.seconds) < 10)
-      this.time.seconds = "0" + this.time.seconds;
+      this.time.seconds = '0' + this.time.seconds;
   }
 
   calculateElapsed() {
     const seconds = this.element.currentTime;
     this.elapsed.minutes = Math.floor(seconds / 60);
     if (parseInt(this.elapsed.minutes) < 10)
-      this.elapsed.minutes = "0" + this.elapsed.minutes;
+      this.elapsed.minutes = '0' + this.elapsed.minutes;
 
     this.elapsed.seconds = Math.floor(seconds % 60);
     if (parseInt(this.elapsed.seconds) < 10)
-      this.elapsed.seconds = "0" + this.elapsed.seconds;
+      this.elapsed.seconds = '0' + this.elapsed.seconds;
   }
 
   calculateRemaining() {
@@ -97,11 +97,11 @@ export class MindsVideoProgressBar implements OnInit, OnDestroy {
     this.remaining = { seconds: 0, minutes: 0 };
     this.remaining.minutes = Math.floor(seconds / 60);
     if (parseInt(this.remaining.minutes) < 10)
-      this.remaining.minutes = "0" + this.remaining.minutes;
+      this.remaining.minutes = '0' + this.remaining.minutes;
 
     this.remaining.seconds = Math.floor(seconds % 60);
     if (parseInt(this.remaining.seconds) < 10)
-      this.remaining.seconds = "0" + this.remaining.seconds;
+      this.remaining.seconds = '0' + this.remaining.seconds;
   }
 
   seek(e) {
@@ -131,12 +131,12 @@ export class MindsVideoProgressBar implements OnInit, OnDestroy {
   }
 
   enableKeyControls() {
-    window.removeEventListener("keydown", this.keyPressListener, true);
-    window.addEventListener("keydown", this.keyPressListener, true);
+    window.removeEventListener('keydown', this.keyPressListener, true);
+    window.addEventListener('keydown', this.keyPressListener, true);
   }
 
   disableKeyControls() {
-    window.removeEventListener("keydown", this.keyPressListener, true);
+    window.removeEventListener('keydown', this.keyPressListener, true);
   }
 
   togglePause() {

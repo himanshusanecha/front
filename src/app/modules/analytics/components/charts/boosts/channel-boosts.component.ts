@@ -6,13 +6,13 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
-} from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { removeCurrentUnits } from "../../../util";
+  ViewChild,
+} from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { removeCurrentUnits } from '../../../util';
 
 @Component({
-  selector: "m-analyticscharts__channelboosts",
+  selector: 'm-analyticscharts__channelboosts',
   template: `
     <div class="m-chart" #chartContainer>
       <div
@@ -27,13 +27,13 @@ import { removeCurrentUnits } from "../../../util";
         *ngIf="!inProgress && !!data"
       ></m-graph>
     </div>
-  `
+  `,
 })
 export class ChannelBoostsComponent implements OnInit {
-  @Input() analytics: "totals" | "monthly";
+  @Input() analytics: 'totals' | 'monthly';
   @Output() loaded: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
 
-  @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;
+  @ViewChild('chartContainer', { static: true }) chartContainer: ElementRef;
 
   inProgress: boolean = false;
   data: any;
@@ -41,21 +41,21 @@ export class ChannelBoostsComponent implements OnInit {
   layout: any = {
     width: 0,
     height: 0,
-    title: "",
+    title: '',
     font: {
-      family: "Roboto"
+      family: 'Roboto',
     },
     titlefont: {
-      family: "Roboto",
+      family: 'Roboto',
       size: 24,
-      weight: "bold"
+      weight: 'bold',
     },
     xaxis: {
-      type: "-"
+      type: '-',
     },
     yaxis: {
-      type: "log"
-    }
+      type: 'log',
+    },
   };
 
   constructor(private client: Client) {}
@@ -73,31 +73,31 @@ export class ChannelBoostsComponent implements OnInit {
     this.data = response.data;
 
     switch (this.analytics) {
-      case "monthly":
-        this.layout.title = "Percentage of Interactions from Boosts";
+      case 'monthly':
+        this.layout.title = 'Percentage of Interactions from Boosts';
         const [data, current] = removeCurrentUnits(response.data);
         this.data = data;
 
         this.loaded.emit(current);
 
         for (let i = 0; i < this.data.length; i++) {
-          this.data[i].stackgroup = "one";
-          this.data[i].groupnorm = "percent";
+          this.data[i].stackgroup = 'one';
+          this.data[i].groupnorm = 'percent';
         }
         break;
-      case "totals":
-        this.layout.title = "Boosts Interactions by Type";
-        this.data[0].type = "pie";
+      case 'totals':
+        this.layout.title = 'Boosts Interactions by Type';
+        this.data[0].type = 'pie';
         break;
     }
   }
 
-  @HostListener("window:resize")
+  @HostListener('window:resize')
   applyDimensions() {
     this.layout = {
       ...this.layout,
       width: this.chartContainer.nativeElement.clientWidth,
-      height: this.chartContainer.nativeElement.clientHeight - 35
+      height: this.chartContainer.nativeElement.clientHeight - 35,
     };
   }
 }

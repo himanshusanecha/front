@@ -1,13 +1,13 @@
-import { Directive, ElementRef, EventEmitter } from "@angular/core";
+import { Directive, ElementRef, EventEmitter } from '@angular/core';
 
 @Directive({
-  selector: "[scrollLock]",
-  inputs: ["strictScrollLock"],
-  outputs: ["overscroll"],
+  selector: '[scrollLock]',
+  inputs: ['strictScrollLock'],
+  outputs: ['overscroll'],
   host: {
-    "(mouseenter)": "lock()",
-    "(mouseleave)": "unlock()"
-  }
+    '(mouseenter)': 'lock()',
+    '(mouseleave)': 'unlock()',
+  },
 })
 export class ScrollLock {
   strictScrollLock: boolean = false;
@@ -23,11 +23,11 @@ export class ScrollLock {
   }
 
   lock() {
-    this.element.addEventListener("wheel", this.wheelHandler, true);
+    this.element.addEventListener('wheel', this.wheelHandler, true);
   }
 
   unlock() {
-    this.element.removeEventListener("wheel", this.wheelHandler, true);
+    this.element.removeEventListener('wheel', this.wheelHandler, true);
   }
 
   ngOnDestroy() {
@@ -62,7 +62,7 @@ export class ScrollLock {
         event.preventDefault();
 
         _this.overscroll.emit({
-          deltaY
+          deltaY,
         });
 
         if (deltaY) {
@@ -84,21 +84,21 @@ export class ScrollLock {
       pY = 0; // pixelX, pixelY
 
     // Legacy
-    if ("detail" in event) {
+    if ('detail' in event) {
       sY = event.detail;
     }
-    if ("wheelDelta" in event) {
+    if ('wheelDelta' in event) {
       sY = -event.wheelDelta / 120;
     }
-    if ("wheelDeltaY" in event) {
+    if ('wheelDeltaY' in event) {
       sY = -event.wheelDeltaY / 120;
     }
-    if ("wheelDeltaX" in event) {
+    if ('wheelDeltaX' in event) {
       sX = -event.wheelDeltaX / 120;
     }
 
     // side scrolling on FF with DOMMouseScroll
-    if ("axis" in event && event.axis === event.HORIZONTAL_AXIS) {
+    if ('axis' in event && event.axis === event.HORIZONTAL_AXIS) {
       sX = sY;
       sY = 0;
     }
@@ -106,10 +106,10 @@ export class ScrollLock {
     pX = sX * PIXEL_STEP;
     pY = sY * PIXEL_STEP;
 
-    if ("deltaY" in event) {
+    if ('deltaY' in event) {
       pY = event.deltaY;
     }
-    if ("deltaX" in event) {
+    if ('deltaX' in event) {
       pX = event.deltaX;
     }
 
@@ -135,7 +135,7 @@ export class ScrollLock {
       spinX: sX,
       spinY: sY,
       pixelX: pX,
-      pixelY: pY
+      pixelY: pY,
     };
   }
 }

@@ -1,8 +1,8 @@
-import { EventEmitter, Injectable } from "@angular/core";
-import { Client } from "../../services/api/client";
-import { Session } from "../../services/session";
-import { BehaviorSubject, ReplaySubject, interval } from "rxjs";
-import { startWith } from "rxjs/operators";
+import { EventEmitter, Injectable } from '@angular/core';
+import { Client } from '../../services/api/client';
+import { Session } from '../../services/session';
+import { BehaviorSubject, ReplaySubject, interval } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
 export type JitsiConfig = {
   roomName: string;
@@ -32,7 +32,7 @@ export class VideoChatService {
 
       this.activate$.emit({
         username: this.session.getLoggedInUser().username,
-        roomName: roomName
+        roomName: roomName,
       });
 
       if (this.heartBeatSubscription) this.heartBeatSubscription.unsubscribe();
@@ -43,7 +43,7 @@ export class VideoChatService {
         .pipe(startWith(0))
         .subscribe(() => this.heartBeat(entity.guid));
     } catch (e) {
-      console.error("Error trying to open video chat.");
+      console.error('Error trying to open video chat.');
       console.error(e);
     }
   }

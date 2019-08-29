@@ -1,45 +1,45 @@
-import { Component, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client, Upload } from "../../services/api";
-import { MindsTitle } from "../../services/ux/title";
-import { Session } from "../../services/session";
-import { ScrollService } from "../../services/ux/scroll";
-import { RecentService } from "../../services/ux/recent";
+import { Client, Upload } from '../../services/api';
+import { MindsTitle } from '../../services/ux/title';
+import { Session } from '../../services/session';
+import { ScrollService } from '../../services/ux/scroll';
+import { RecentService } from '../../services/ux/recent';
 
-import { MindsUser } from "../../interfaces/entities";
-import { MindsChannelResponse } from "../../interfaces/responses";
-import { ContextService } from "../../services/context.service";
-import { FeaturesService } from "../../services/features.service";
-import { Observable } from "rxjs";
-import { DialogService } from "../../common/services/confirm-leave-dialog.service";
-import { BlockListService } from "../../common/services/block-list.service";
-import { ChannelSortedComponent } from "./sorted/sorted.component";
+import { MindsUser } from '../../interfaces/entities';
+import { MindsChannelResponse } from '../../interfaces/responses';
+import { ContextService } from '../../services/context.service';
+import { FeaturesService } from '../../services/features.service';
+import { Observable } from 'rxjs';
+import { DialogService } from '../../common/services/confirm-leave-dialog.service';
+import { BlockListService } from '../../common/services/block-list.service';
+import { ChannelSortedComponent } from './sorted/sorted.component';
 
 @Component({
   moduleId: module.id,
-  selector: "m-channel",
-  templateUrl: "channel.component.html"
+  selector: 'm-channel',
+  templateUrl: 'channel.component.html',
 })
 export class ChannelComponent {
   minds = window.Minds;
-  filter: any = "feed";
+  filter: any = 'feed';
   isLocked: boolean = false;
 
   username: string;
   user: MindsUser;
-  offset: string = "";
+  offset: string = '';
   moreData: boolean = true;
   inProgress: boolean = false;
   editing: boolean = false;
-  error: string = "";
+  error: string = '';
   openWireModal: boolean = false;
   changed: boolean = false;
   paramsSubscription: Subscription;
 
-  @ViewChild("feed", { static: false }) private feed: ChannelSortedComponent;
+  @ViewChild('feed', { static: false }) private feed: ChannelSortedComponent;
 
   constructor(
     public session: Session,
@@ -57,8 +57,8 @@ export class ChannelComponent {
   ) {}
 
   ngOnInit() {
-    this.title.setTitle("Channel");
-    this.context.set("activity");
+    this.title.setTitle('Channel');
+    this.context.set('activity');
     this.onScroll();
 
     this.paramsSubscription = this.route.params.subscribe(params => {
@@ -67,29 +67,29 @@ export class ChannelComponent {
       this.changed = false;
       this.editing = false;
 
-      if (params["username"]) {
-        this.changed = this.username !== params["username"];
-        this.username = params["username"];
+      if (params['username']) {
+        this.changed = this.username !== params['username'];
+        this.username = params['username'];
 
         feedChanged = true;
       }
 
-      if (params["filter"]) {
-        if (params["filter"] === "wire") {
+      if (params['filter']) {
+        if (params['filter'] === 'wire') {
           this.openWireModal = true;
         } else {
-          this.filter = params["filter"];
+          this.filter = params['filter'];
         }
       }
 
-      if (params["editToggle"]) {
+      if (params['editToggle']) {
         this.editing = true;
       }
 
       if (this.changed) {
         this.load();
       } else if (feedChanged) {
-        console.log("reload feed with new settings");
+        console.log('reload feed with new settings');
       }
     });
   }
@@ -99,15 +99,15 @@ export class ChannelComponent {
   }
 
   load() {
-    this.error = "";
+    this.error = '';
 
     this.user = null;
     this.title.setTitle(this.username);
 
     this.client
-      .get("api/v1/channel/" + this.username, {})
+      .get('api/v1/channel/' + this.username, {})
       .then((data: MindsChannelResponse) => {
-        if (data.status !== "success") {
+        if (data.status !== 'success') {
           this.error = data.message;
           return false;
         }
@@ -122,10 +122,10 @@ export class ChannelComponent {
         }
         this.title.setTitle(`${this.user.name} (@${this.user.username})`);
 
-        this.context.set("activity", {
+        this.context.set('activity', {
           label: `@${this.user.username} posts`,
           nameLabel: `@${this.user.username}`,
-          id: this.user.guid
+          id: this.user.guid,
         });
         if (this.session.getLoggedInUser()) {
           this.addRecent();
@@ -133,10 +133,10 @@ export class ChannelComponent {
       })
       .catch(e => {
         if (e.status === 0) {
-          this.error = "Sorry, there was a timeout error.";
+          this.error = 'Sorry, there was a timeout error.';
         } else {
           this.error = "Sorry, the channel couldn't be found";
-          console.log("couldnt load channel", e);
+          console.log('couldnt load channel', e);
         }
       });
   }
@@ -147,22 +147,22 @@ export class ChannelComponent {
 
   shouldShowFeeds() {
     return (
-      ["feed", "images", "videos", "blogs"].indexOf(this.filter.toLowerCase()) >
+      ['feed', 'images', 'videos', 'blogs'].indexOf(this.filter.toLowerCase()) >
       -1
     );
   }
 
   getFeedType() {
-    if (this.filter === "feed") {
-      return "activities";
+    if (this.filter === 'feed') {
+      return 'activities';
     }
 
     return this.filter;
   }
 
-  setFeedType(type: string | null = "") {
-    const route = ["/", this.user.username];
-    if (type && type !== "activities") {
+  setFeedType(type: string | null = '') {
+    const route = ['/', this.user.username];
+    if (type && type !== 'activities') {
       route.push(type);
     }
 
@@ -189,7 +189,7 @@ export class ChannelComponent {
       var options: any = { top: banner.top };
       if (banner.guid) options.guid = banner.guid;
       this.upload
-        .post("api/v1/channel/carousel", [banner.file], options)
+        .post('api/v1/channel/carousel', [banner.file], options)
         .then((response: any) => {
           response.index = banner.index;
           if (!this.user.carousels) {
@@ -201,11 +201,11 @@ export class ChannelComponent {
   }
 
   removeCarousel(value: any) {
-    if (value.guid) this.client.delete("api/v1/channel/carousel/" + value.guid);
+    if (value.guid) this.client.delete('api/v1/channel/carousel/' + value.guid);
   }
 
   async update() {
-    await this.client.post("api/v1/channel/info", this.user);
+    await this.client.post('api/v1/channel/info', this.user);
 
     this.editing = false;
   }
@@ -213,7 +213,7 @@ export class ChannelComponent {
   unBlock() {
     this.user.blocked = false;
     this.client
-      .delete("api/v1/block/" + this.user.guid, {})
+      .delete('api/v1/block/' + this.user.guid, {})
       .then((response: any) => {
         this.user.blocked = false;
         this.blockListService.remove(`${this.user.guid}`);
@@ -229,8 +229,8 @@ export class ChannelComponent {
     }
 
     this.recent
-      .store("recent", this.user, entry => entry.guid == this.user.guid)
-      .splice("recent", 50);
+      .store('recent', this.user, entry => entry.guid == this.user.guid)
+      .splice('recent', 50);
   }
 
   /**
@@ -246,9 +246,9 @@ export class ChannelComponent {
       return false;
     }
 
-    return !this.editing || this.dialogService.confirm("Discard changes?");
+    return !this.editing || this.dialogService.confirm('Discard changes?');
   }
 }
 
-export { ChannelSubscribers } from "./subscribers/subscribers";
-export { ChannelSubscriptions } from "./subscriptions/subscriptions";
+export { ChannelSubscribers } from './subscribers/subscribers';
+export { ChannelSubscriptions } from './subscriptions/subscriptions';

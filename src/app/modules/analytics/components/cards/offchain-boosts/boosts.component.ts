@@ -1,24 +1,24 @@
-import { Component, ViewChild } from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { AnalyticsCardComponent } from "../card/card.component";
+import { Component, ViewChild } from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { AnalyticsCardComponent } from '../card/card.component';
 
 @Component({
-  selector: "m-analyticsoffchainboosts__card",
-  templateUrl: "boosts.component.html"
+  selector: 'm-analyticsoffchainboosts__card',
+  templateUrl: 'boosts.component.html',
 })
 export class OffChainBoostsCardComponent {
-  @ViewChild("completed", { static: true }) completed: AnalyticsCardComponent;
-  @ViewChild("notcompleted", { static: true })
+  @ViewChild('completed', { static: true }) completed: AnalyticsCardComponent;
+  @ViewChild('notcompleted', { static: true })
   notcompleted: AnalyticsCardComponent;
-  @ViewChild("revoked", { static: true }) revoked: AnalyticsCardComponent;
-  @ViewChild("rejected", { static: true }) rejected: AnalyticsCardComponent;
-  @ViewChild("userscompleted", { static: true })
+  @ViewChild('revoked', { static: true }) revoked: AnalyticsCardComponent;
+  @ViewChild('rejected', { static: true }) rejected: AnalyticsCardComponent;
+  @ViewChild('userscompleted', { static: true })
   userscompleted: AnalyticsCardComponent;
-  @ViewChild("userspending", { static: true })
+  @ViewChild('userspending', { static: true })
   userspending: AnalyticsCardComponent;
-  @ViewChild("reclaimedtokens", { static: true })
+  @ViewChild('reclaimedtokens', { static: true })
   reclaimedtokens: AnalyticsCardComponent;
-  @ViewChild("impressions", { static: true })
+  @ViewChild('impressions', { static: true })
   impressions: AnalyticsCardComponent;
 
   avgNewsfeedCompleted: number = 0;
@@ -102,10 +102,10 @@ export class OffChainBoostsCardComponent {
   private async getAvgCompleted() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/offchainboosts",
+        'api/v2/analytics/offchainboosts',
         {
-          key: "completed_avg",
-          timespan: this.completed.selectedOption
+          key: 'completed_avg',
+          timespan: this.completed.selectedOption,
         }
       );
 
@@ -119,10 +119,10 @@ export class OffChainBoostsCardComponent {
   private async getAvgNotCompleted() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/offchainboosts",
+        'api/v2/analytics/offchainboosts',
         {
-          key: "not_completed_avg",
-          timespan: this.notcompleted.selectedOption
+          key: 'not_completed_avg',
+          timespan: this.notcompleted.selectedOption,
         }
       );
 
@@ -136,10 +136,10 @@ export class OffChainBoostsCardComponent {
   private async getAvgRevoked() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/offchainboosts",
+        'api/v2/analytics/offchainboosts',
         {
-          key: "revoked_avg",
-          timespan: this.revoked.selectedOption
+          key: 'revoked_avg',
+          timespan: this.revoked.selectedOption,
         }
       );
 
@@ -153,10 +153,10 @@ export class OffChainBoostsCardComponent {
   private async getAvgRejected() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/offchainboosts",
+        'api/v2/analytics/offchainboosts',
         {
-          key: "rejected_avg",
-          timespan: this.rejected.selectedOption
+          key: 'rejected_avg',
+          timespan: this.rejected.selectedOption,
         }
       );
 
@@ -170,10 +170,10 @@ export class OffChainBoostsCardComponent {
   private async getAvgUsersCompleted() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/offchainboosts",
+        'api/v2/analytics/offchainboosts',
         {
-          key: "users_who_completed_avg",
-          timespan: this.userscompleted.selectedOption
+          key: 'users_who_completed_avg',
+          timespan: this.userscompleted.selectedOption,
         }
       );
 
@@ -187,10 +187,10 @@ export class OffChainBoostsCardComponent {
   private async getAvgUsersAwaitingCompletion() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/offchainboosts",
+        'api/v2/analytics/offchainboosts',
         {
-          key: "users_waiting_for_completion_avg",
-          timespan: this.userspending.selectedOption
+          key: 'users_waiting_for_completion_avg',
+          timespan: this.userspending.selectedOption,
         }
       );
 
@@ -204,10 +204,10 @@ export class OffChainBoostsCardComponent {
   private async getAvgReclaimed() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/offchainboosts",
+        'api/v2/analytics/offchainboosts',
         {
-          key: "reclaimed_tokens_avg",
-          timespan: this.reclaimedtokens.selectedOption
+          key: 'reclaimed_tokens_avg',
+          timespan: this.reclaimedtokens.selectedOption,
         }
       );
 
@@ -221,10 +221,10 @@ export class OffChainBoostsCardComponent {
   private async getAvgImpressions() {
     try {
       const response: any = await this.client.get(
-        "api/v2/analytics/offchainboosts",
+        'api/v2/analytics/offchainboosts',
         {
-          key: "impressions_served_avg",
-          timespan: this.impressions.selectedOption
+          key: 'impressions_served_avg',
+          timespan: this.impressions.selectedOption,
         }
       );
 

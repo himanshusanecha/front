@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { Session } from "../../../services/session";
-import { SettingsService } from "../../../modules/settings/settings.service";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Session } from '../../../services/session';
+import { SettingsService } from '../../../modules/settings/settings.service';
 
 @Component({
-  selector: "m-topbar--navigation--options",
-  templateUrl: "options.component.html"
+  selector: 'm-topbar--navigation--options',
+  templateUrl: 'options.component.html',
 })
 export class TopbarOptionsComponent {
-  @Input() options: Array<string> = ["rating"];
+  @Input() options: Array<string> = ['rating'];
   @Output() change: EventEmitter<{ rating }> = new EventEmitter();
 
   constructor(

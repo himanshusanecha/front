@@ -1,14 +1,14 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { Client } from "../../../services/api";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { ConfirmPasswordModalComponent } from "../../modals/confirm-password/modal.component";
+import { Client } from '../../../services/api';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { ConfirmPasswordModalComponent } from '../../modals/confirm-password/modal.component';
 
 @Component({
   moduleId: module.id,
-  selector: "m-settings--two-factor",
-  inputs: ["object"],
-  templateUrl: "two-factor.component.html"
+  selector: 'm-settings--two-factor',
+  inputs: ['object'],
+  templateUrl: 'two-factor.component.html',
 })
 export class SettingsTwoFactorComponent {
   minds: Minds;
@@ -19,7 +19,7 @@ export class SettingsTwoFactorComponent {
   object: any;
 
   inProgress: boolean = false;
-  error: string = "";
+  error: string = '';
 
   constructor(
     public client: Client,
@@ -31,7 +31,7 @@ export class SettingsTwoFactorComponent {
 
   load() {
     this.inProgress = true;
-    this.client.get("api/v1/twofactor").then((response: any) => {
+    this.client.get('api/v1/twofactor').then((response: any) => {
       if (response.telno) this.telno = response.telno;
       this.inProgress = false;
     });
@@ -41,9 +41,9 @@ export class SettingsTwoFactorComponent {
     this.telno = smsNumber;
     this.waitingForCheck = true;
     this.sendingSms = true;
-    this.error = "";
+    this.error = '';
     this.client
-      .post("api/v1/twofactor/setup", { tel: smsNumber })
+      .post('api/v1/twofactor/setup', { tel: smsNumber })
       .then((response: any) => {
         this.secret = response.secret;
         this.sendingSms = false;
@@ -52,21 +52,21 @@ export class SettingsTwoFactorComponent {
         this.waitingForCheck = false;
         this.sendingSms = false;
         this.telno = null;
-        if (e.message == "voip phones not allowed") {
+        if (e.message == 'voip phones not allowed') {
           this.error =
             "We don't allow voip phones. Please, try again with a different number";
         }
         this.error =
-          "The phone number you entered was incorrect. Please, try again.";
+          'The phone number you entered was incorrect. Please, try again.';
       });
   }
 
   check(code: number) {
     this.client
-      .post("api/v1/twofactor/check", {
+      .post('api/v1/twofactor/check', {
         code: code,
         telno: this.telno,
-        secret: this.secret
+        secret: this.secret,
       })
       .then((response: any) => {
         this.waitingForCheck = false;
@@ -74,7 +74,7 @@ export class SettingsTwoFactorComponent {
       .catch((response: any) => {
         this.waitingForCheck = false;
         this.telno = null;
-        this.error = "The code was incorrect. Please, try again.";
+        this.error = 'The code was incorrect. Please, try again.';
       });
   }
 
@@ -88,14 +88,14 @@ export class SettingsTwoFactorComponent {
       ConfirmPasswordModalComponent,
       {},
       {
-        class: "m-overlay-modal--small",
+        class: 'm-overlay-modal--small',
         onComplete: ({ password }) => {
-          this.client.post("api/v1/twofactor/remove", {
-            password: password
+          this.client.post('api/v1/twofactor/remove', {
+            password: password,
           });
           this.telno = null;
-          this.error = "";
-        }
+          this.error = '';
+        },
       }
     );
     creator.present();

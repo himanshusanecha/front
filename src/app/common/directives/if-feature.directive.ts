@@ -3,12 +3,12 @@ import {
   EmbeddedViewRef,
   Input,
   TemplateRef,
-  ViewContainerRef
-} from "@angular/core";
-import { FeaturesService } from "../../services/features.service";
+  ViewContainerRef,
+} from '@angular/core';
+import { FeaturesService } from '../../services/features.service';
 
 @Directive({
-  selector: "[mIfFeature]"
+  selector: '[mIfFeature]',
 })
 export class IfFeatureDirective {
   private _currentValue: boolean;

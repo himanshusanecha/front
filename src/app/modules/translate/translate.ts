@@ -1,14 +1,14 @@
-import { Component, EventEmitter, ChangeDetectorRef } from "@angular/core";
+import { Component, EventEmitter, ChangeDetectorRef } from '@angular/core';
 
-import { TranslationService } from "../../services/translation";
+import { TranslationService } from '../../services/translation';
 
 @Component({
   moduleId: module.id,
-  selector: "m-translate",
-  inputs: ["_open: open", "_entity: entity", "_translateEvent: translateEvent"],
-  outputs: ["onTranslateInit", "onTranslate", "onTranslateError"],
-  exportAs: "translate",
-  templateUrl: "translate.html"
+  selector: 'm-translate',
+  inputs: ['_open: open', '_entity: entity', '_translateEvent: translateEvent'],
+  outputs: ['onTranslateInit', 'onTranslate', 'onTranslateError'],
+  exportAs: 'translate',
+  templateUrl: 'translate.html',
 })
 export class Translate {
   onTranslateInit: EventEmitter<any> = new EventEmitter();
@@ -29,13 +29,13 @@ export class Translate {
   translatable: boolean = false;
   translation = {
     translated: false,
-    target: "",
+    target: '',
     error: false,
-    message: "",
-    title: "",
-    description: "",
-    body: "",
-    source: ""
+    message: '',
+    title: '',
+    description: '',
+    body: '',
+    source: '',
   };
   translationInProgress: boolean;
 
@@ -93,7 +93,7 @@ export class Translate {
 
         this.changeDetectorRef.markForCheck();
 
-        console.error("TranslateModal::onInit", e);
+        console.error('TranslateModal::onInit', e);
       });
   }
 
@@ -136,7 +136,7 @@ export class Translate {
 
     let $event = {
       entity: this.entity,
-      selected: language
+      selected: language,
     };
 
     this.onTranslateInit.emit($event);
@@ -156,7 +156,7 @@ export class Translate {
       return;
     }
 
-    this.translation.target = "";
+    this.translation.target = '';
     this.translationService.getLanguageName($event.selected).then(name => {
       this.translation.target = name;
       this.changeDetectorRef.markForCheck();
@@ -175,7 +175,7 @@ export class Translate {
           this.translation[field] = translation[field].content;
 
           if (this.translation.source === null && translation[field].source) {
-            this.translation.source = "";
+            this.translation.source = '';
             this.translationService
               .getLanguageName(translation[field].source)
               .then(name => {
@@ -188,7 +188,7 @@ export class Translate {
         this.onTranslate.emit({
           entity: this.entity,
           translation: this.translation,
-          selected: $event.selected
+          selected: $event.selected,
         });
 
         this.changeDetectorRef.markForCheck();
@@ -199,12 +199,12 @@ export class Translate {
 
         this.onTranslateError.emit({
           entity: this.entity,
-          selected: $event.selected
+          selected: $event.selected,
         });
 
         this.changeDetectorRef.markForCheck();
 
-        console.error("translate()", e);
+        console.error('translate()', e);
       });
   }
 

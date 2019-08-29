@@ -2,18 +2,18 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit
-} from "@angular/core";
-import { Session } from "../../../services/session";
-import { ThemeService } from "../../../common/services/theme.service";
-import { Subscription } from "rxjs";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { ReferralsLinksComponent } from "../../../modules/wallet/tokens/referrals/links/links.component";
+  OnInit,
+} from '@angular/core';
+import { Session } from '../../../services/session';
+import { ThemeService } from '../../../common/services/theme.service';
+import { Subscription } from 'rxjs';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { ReferralsLinksComponent } from '../../../modules/wallet/tokens/referrals/links/links.component';
 
 @Component({
-  selector: "m-user-menu",
-  templateUrl: "user-menu.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-user-menu',
+  templateUrl: 'user-menu.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserMenuComponent implements OnInit {
   isOpen: boolean = false;
@@ -72,7 +72,7 @@ export class UserMenuComponent implements OnInit {
         ReferralsLinksComponent,
         {},
         {
-          class: "m-overlay-modal--referrals-links m-overlay-modal--medium"
+          class: 'm-overlay-modal--referrals-links m-overlay-modal--medium',
         }
       )
       .present();

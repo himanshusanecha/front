@@ -1,12 +1,12 @@
-import { EventEmitter } from "@angular/core";
-import { Client } from "../../services/api";
-import { SocketsService } from "../../services/sockets";
-import { Session } from "../../services/session";
-import { MindsTitle } from "../../services/ux/title";
+import { EventEmitter } from '@angular/core';
+import { Client } from '../../services/api';
+import { SocketsService } from '../../services/sockets';
+import { Session } from '../../services/session';
+import { MindsTitle } from '../../services/ux/title';
 
 export class NotificationService {
   socketSubscriptions: any = {
-    notification: null
+    notification: null,
   };
   onReceive: EventEmitter<any> = new EventEmitter();
 
@@ -35,7 +35,7 @@ export class NotificationService {
    */
   listen() {
     this.socketSubscriptions.notification = this.sockets.subscribe(
-      "notification",
+      'notification',
       guid => {
         this.increment();
 
@@ -81,7 +81,7 @@ export class NotificationService {
         window.Minds.notifications_count = 0;
 
       self.client
-        .get("api/v1/notifications/count", {})
+        .get('api/v1/notifications/count', {})
         .then((response: any) => {
           window.Minds.notifications_count = response.count;
           self.sync();
@@ -94,7 +94,7 @@ export class NotificationService {
    */
   sync() {
     for (var i in window.Minds.navigation.topbar) {
-      if (window.Minds.navigation.topbar[i].name === "Notifications") {
+      if (window.Minds.navigation.topbar[i].name === 'Notifications') {
         window.Minds.navigation.topbar[i].extras.counter =
           window.Minds.notifications_count;
       }

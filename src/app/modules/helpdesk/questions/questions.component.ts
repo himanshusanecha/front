@@ -1,12 +1,12 @@
-import { Component, OnInit } from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
-import { MindsTitle } from "../../../services/ux/title";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
+import { MindsTitle } from '../../../services/ux/title';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: "m-helpdesk--questions",
-  templateUrl: "questions.component.html"
+  selector: 'm-helpdesk--questions',
+  templateUrl: 'questions.component.html',
 })
 export class QuestionsComponent implements OnInit {
   question: any = {};
@@ -23,7 +23,7 @@ export class QuestionsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.load(params["uuid"]);
+      this.load(params['uuid']);
     });
   }
 
@@ -41,11 +41,11 @@ export class QuestionsComponent implements OnInit {
     }
   }
 
-  hasVoted(direction: "up" | "down") {
+  hasVoted(direction: 'up' | 'down') {
     return this.question[`thumb_${direction}`] === true;
   }
 
-  async castVote(direction: "up" | "down") {
+  async castVote(direction: 'up' | 'down') {
     const key = `thumb_${direction}`;
     this.question[key] = !this.question[key];
 
@@ -67,11 +67,11 @@ export class QuestionsComponent implements OnInit {
 
   async delete() {
     try {
-      if (confirm("Are you sure to delete " + this.question["uuid"])) {
+      if (confirm('Are you sure to delete ' + this.question['uuid'])) {
         await this.client.delete(
-          `api/v2/admin/helpdesk/questions/${this.question["uuid"]}`
+          `api/v2/admin/helpdesk/questions/${this.question['uuid']}`
         );
-        this.router.navigate(["/help"]);
+        this.router.navigate(['/help']);
       }
     } catch (e) {
       console.error(e);

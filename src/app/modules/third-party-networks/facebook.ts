@@ -1,10 +1,10 @@
-import { Component, EventEmitter, ChangeDetectorRef } from "@angular/core";
+import { Component, EventEmitter, ChangeDetectorRef } from '@angular/core';
 
-import { Client } from "../../services/api";
+import { Client } from '../../services/api';
 
 @Component({
-  selector: "m-third-party-networks-facebook",
-  outputs: ["done"],
+  selector: 'm-third-party-networks-facebook',
+  outputs: ['done'],
   template: `
     <div
       class="mdl-spinner mdl-js-spinner is-active"
@@ -92,7 +92,7 @@ import { Client } from "../../services/api";
         </div>
       </div>
     </div>
-  `
+  `,
 })
 export class ThirdPartyNetworksFacebook {
   minds = window.Minds;
@@ -110,7 +110,7 @@ export class ThirdPartyNetworksFacebook {
   getPage() {
     this.inProgress = true;
     this.client
-      .get("api/v1/thirdpartynetworks/facebook/page")
+      .get('api/v1/thirdpartynetworks/facebook/page')
       .then((response: any) => {
         this.inProgress = false;
         if (!response.page) {
@@ -127,14 +127,14 @@ export class ThirdPartyNetworksFacebook {
       this.getAccounts();
     };
     window.open(
-      this.minds.site_url + "api/v1/thirdpartynetworks/facebook/link"
+      this.minds.site_url + 'api/v1/thirdpartynetworks/facebook/link'
     );
   }
 
   getAccounts() {
     this.inProgress = true;
     this.client
-      .get("api/v1/thirdpartynetworks/facebook/accounts")
+      .get('api/v1/thirdpartynetworks/facebook/accounts')
       .then((response: any) => {
         this.inProgress = false;
         this.accounts = response.accounts;
@@ -145,10 +145,10 @@ export class ThirdPartyNetworksFacebook {
   selectAccount(account) {
     this.inProgress = true;
     this.client
-      .post("api/v1/thirdpartynetworks/facebook/select-page", {
+      .post('api/v1/thirdpartynetworks/facebook/select-page', {
         id: account.id,
         name: account.name,
-        accessToken: account.access_token
+        accessToken: account.access_token,
       })
       .then((response: any) => {
         this.inProgress = false;
@@ -158,7 +158,7 @@ export class ThirdPartyNetworksFacebook {
 
   drop() {
     this.inProgress = true;
-    this.client.delete("api/v1/thirdpartynetworks/facebook").then(() => {
+    this.client.delete('api/v1/thirdpartynetworks/facebook').then(() => {
       this.inProgress = false;
       this.page = null;
     });

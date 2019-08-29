@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { OverlayModalComponent } from "../../common/components/overlay-modal/overlay-modal.component";
+import { OverlayModalComponent } from '../../common/components/overlay-modal/overlay-modal.component';
 
 @Injectable()
 export class OverlayModalService {
@@ -20,7 +20,7 @@ export class OverlayModalService {
 
   create(component, data?, opts?) {
     if (!this.container) {
-      throw new Error("Missing overlay container");
+      throw new Error('Missing overlay container');
     }
 
     this._onDidDismissFn = void 0;
@@ -37,7 +37,7 @@ export class OverlayModalService {
 
   setData(data?) {
     if (!this.container) {
-      throw new Error("Missing overlay container");
+      throw new Error('Missing overlay container');
     }
 
     this.container.setData(data);
@@ -46,7 +46,7 @@ export class OverlayModalService {
 
   onDidDismiss(fn?: Function) {
     if (!this.container) {
-      throw new Error("Missing overlay container");
+      throw new Error('Missing overlay container');
     }
 
     this._onDidDismissFn = fn;
@@ -61,7 +61,7 @@ export class OverlayModalService {
 
   present() {
     if (!this.container) {
-      throw new Error("Missing overlay container");
+      throw new Error('Missing overlay container');
     }
 
     this.container.present();
@@ -70,7 +70,7 @@ export class OverlayModalService {
 
   dismiss() {
     if (!this.container) {
-      throw new Error("Missing overlay container");
+      throw new Error('Missing overlay container');
     }
 
     this.container.dismiss();

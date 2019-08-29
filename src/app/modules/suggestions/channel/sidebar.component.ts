@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { Client } from "../../../services/api";
-import { Storage } from "../../../services/storage";
+import { Component } from '@angular/core';
+import { Client } from '../../../services/api';
+import { Storage } from '../../../services/storage';
 
 @Component({
-  selector: "m-suggestions__sidebar",
-  templateUrl: "sidebar.component.html"
+  selector: 'm-suggestions__sidebar',
+  templateUrl: 'sidebar.component.html',
 })
 export class SuggestionsSidebar {
   minds = window.Minds;
@@ -30,9 +30,9 @@ export class SuggestionsSidebar {
     this.lastOffset = this.suggestions.length ? this.lastOffset + 11 : 0;
 
     try {
-      const response: any = await this.client.get("api/v2/suggestions/user", {
+      const response: any = await this.client.get('api/v2/suggestions/user', {
         limit,
-        offset: this.lastOffset
+        offset: this.lastOffset,
       });
       for (let suggestion of response.suggestions) {
         const removed = this.storage.get(

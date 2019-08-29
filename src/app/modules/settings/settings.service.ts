@@ -1,6 +1,6 @@
-import { EventEmitter, Injectable } from "@angular/core";
-import { Client } from "../../services/api/client";
-import { Session } from "../../services/session";
+import { EventEmitter, Injectable } from '@angular/core';
+import { Client } from '../../services/api/client';
+import { Session } from '../../services/session';
 
 @Injectable()
 export class SettingsService {
@@ -11,8 +11,8 @@ export class SettingsService {
   setRating(rating) {
     this.session.getLoggedInUser().boost_rating = rating;
 
-    this.client.post("api/v1/settings/" + this.session.getLoggedInUser().guid, {
-      boost_rating: rating
+    this.client.post('api/v1/settings/' + this.session.getLoggedInUser().guid, {
+      boost_rating: rating,
     });
 
     this.ratingChanged.emit(rating);

@@ -1,15 +1,15 @@
-import { Component, ComponentFactoryResolver, ViewChild } from "@angular/core";
+import { Component, ComponentFactoryResolver, ViewChild } from '@angular/core';
 
-import { Storage } from "../../../services/storage";
-import { Sidebar } from "../../../services/ui/sidebar";
-import { Session } from "../../../services/session";
-import { DynamicHostDirective } from "../../directives/dynamic-host.directive";
-import { NotificationsToasterComponent } from "../../../modules/notifications/toaster.component";
+import { Storage } from '../../../services/storage';
+import { Sidebar } from '../../../services/ui/sidebar';
+import { Session } from '../../../services/session';
+import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
+import { NotificationsToasterComponent } from '../../../modules/notifications/toaster.component';
 
 @Component({
   moduleId: module.id,
-  selector: "m-topbar",
-  templateUrl: "topbar.component.html"
+  selector: 'm-topbar',
+  templateUrl: 'topbar.component.html',
 })
 export class TopbarComponent {
   @ViewChild(DynamicHostDirective, { static: true }) host: DynamicHostDirective;

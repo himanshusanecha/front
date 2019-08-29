@@ -1,6 +1,6 @@
-import { EventEmitter } from "@angular/core";
-import { fromEvent, Observable } from "rxjs";
-import { debounceTime, throttleTime } from "rxjs/operators";
+import { EventEmitter } from '@angular/core';
+import { fromEvent, Observable } from 'rxjs';
+import { debounceTime, throttleTime } from 'rxjs/operators';
 
 export class ScrollService {
   scroll: Observable<Event>;
@@ -13,9 +13,9 @@ export class ScrollService {
   }
 
   constructor() {
-    this.view = document.getElementsByTagName("body")[0];
+    this.view = document.getElementsByTagName('body')[0];
     this.view.scrollTop = 0;
-    this.scroll = fromEvent(window, "scroll");
+    this.scroll = fromEvent(window, 'scroll');
   }
 
   listen(

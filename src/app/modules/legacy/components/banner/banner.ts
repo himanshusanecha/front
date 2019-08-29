@@ -1,18 +1,18 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
-import { Client } from "../../../../services/api";
+import { Client } from '../../../../services/api';
 
 @Component({
-  selector: "minds-banner",
+  selector: 'minds-banner',
   inputs: [
-    "_object: object",
-    "_src: src",
-    "_top: top",
-    "overlay",
-    "_editMode: editMode",
-    "_done: done"
+    '_object: object',
+    '_src: src',
+    '_top: top',
+    'overlay',
+    '_editMode: editMode',
+    '_done: done',
   ],
-  outputs: ["added"],
+  outputs: ['added'],
   template: `
     <div class="minds-banner" *ngIf="!editing">
       <div
@@ -55,14 +55,14 @@ import { Client } from "../../../../services/api";
       </div>
       <input type="file" id="file" (change)="add($event)" [hidden]="file" />
     </div>
-  `
+  `,
 })
 export class MindsBanner {
   minds: Minds = window.Minds;
   object;
   editing: boolean = false;
-  src: string = "";
-  originalSrc: string = "";
+  src: string = '';
+  originalSrc: string = '';
   index: number = 0;
 
   file: any;
@@ -78,11 +78,11 @@ export class MindsBanner {
     if (!value) return;
     this.object = value;
     this.originalSrc = this.src =
-      "/fs/v1/banners/" +
+      '/fs/v1/banners/' +
       this.object.guid +
-      "/" +
+      '/' +
       this.top +
-      "/" +
+      '/' +
       this.object.banner;
   }
 
@@ -111,13 +111,13 @@ export class MindsBanner {
     var reader = new FileReader();
     reader.onloadend = () => {
       this.src =
-        typeof reader.result === "string"
+        typeof reader.result === 'string'
           ? reader.result
           : reader.result.toString();
     };
     reader.readAsDataURL(this.file);
 
-    element.value = "";
+    element.value = '';
   }
 
   cancel() {
@@ -136,13 +136,13 @@ export class MindsBanner {
     this.added.next({
       index: this.index,
       file: this.file,
-      top: this.top
+      top: this.top,
     });
     this.file = null;
     //this.editing = false;
   }
 
   onClick(e) {
-    e.target.parentNode.parentNode.getElementsByTagName("input")[0].click();
+    e.target.parentNode.parentNode.getElementsByTagName('input')[0].click();
   }
 }

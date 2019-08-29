@@ -3,37 +3,37 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  tick
-} from "@angular/core/testing";
+  tick,
+} from '@angular/core/testing';
 
 import {
   Component,
   DebugElement,
   ChangeDetectorRef,
   Input,
-  Output
-} from "@angular/core";
-import { TokenCompletedOnboardingComponent } from "./completed.component";
-import { clientMock } from "../../../../../../tests/client-mock.spec";
-import { Client } from "../../../../../services/api/client";
-import { Web3WalletService } from "../../../../blockchain/web3-wallet.service";
+  Output,
+} from '@angular/core';
+import { TokenCompletedOnboardingComponent } from './completed.component';
+import { clientMock } from '../../../../../../tests/client-mock.spec';
+import { Client } from '../../../../../services/api/client';
+import { Web3WalletService } from '../../../../blockchain/web3-wallet.service';
 
-import { of } from "rxjs/internal/observable/of";
-import { ActivatedRoute, Router } from "@angular/router";
+import { of } from 'rxjs/internal/observable/of';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   MockComponent,
   MockDirective,
-  MockService
-} from "../../../../../utils/mock";
-import { Session } from "../../../../../services/session";
-import { RouterTestingModule } from "@angular/router/testing";
-import { By } from "@angular/platform-browser";
-import { sessionMock } from "../../../../../../tests/session-mock.spec";
+  MockService,
+} from '../../../../../utils/mock';
+import { Session } from '../../../../../services/session';
+import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
+import { sessionMock } from '../../../../../../tests/session-mock.spec';
 
-import { storageMock } from "../../../../../../tests/storage-mock.spec";
-import { Storage } from "../../../../../services/storage";
+import { storageMock } from '../../../../../../tests/storage-mock.spec';
+import { Storage } from '../../../../../services/storage';
 
-describe("TokenCompletedOnboardingComponent", () => {
+describe('TokenCompletedOnboardingComponent', () => {
   let comp: TokenCompletedOnboardingComponent;
   let fixture: ComponentFixture<TokenCompletedOnboardingComponent>;
 
@@ -45,8 +45,8 @@ describe("TokenCompletedOnboardingComponent", () => {
         { provide: ChangeDetectorRef, useValue: ChangeDetectorRef },
         { provide: Router, useValue: RouterTestingModule },
         { provide: Session, useValue: sessionMock },
-        { provide: Storage, useValue: storageMock }
-      ]
+        { provide: Storage, useValue: storageMock },
+      ],
     }).compileComponents(); // compile template and css
   }));
 
@@ -72,8 +72,8 @@ describe("TokenCompletedOnboardingComponent", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should show complete button", fakeAsync(() => {
-    spyOn(comp.next, "next").and.stub();
+  it('should show complete button', fakeAsync(() => {
+    spyOn(comp.next, 'next').and.stub();
     expect(fixture.debugElement.query(By.css(`button`))).not.toBeNull();
     comp.complete();
     expect(comp.next.next).toHaveBeenCalled();

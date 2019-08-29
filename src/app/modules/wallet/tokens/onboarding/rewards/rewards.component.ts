@@ -4,17 +4,17 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter
-} from "@angular/core";
-import { Router } from "@angular/router";
+  EventEmitter,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../../../services/api/client";
-import { Session } from "../../../../../services/session";
+import { Client } from '../../../../../services/api/client';
+import { Session } from '../../../../../services/session';
 
 @Component({
-  selector: "m-token--onboarding--rewards",
-  templateUrl: "rewards.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-token--onboarding--rewards',
+  templateUrl: 'rewards.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenRewardsOnboardingComponent {
   @Input() skippable: boolean = true;
@@ -48,9 +48,9 @@ export class TokenRewardsOnboardingComponent {
     this.error = null;
     try {
       let response: any = await this.client.post(
-        "api/v2/blockchain/rewards/verify",
+        'api/v2/blockchain/rewards/verify',
         {
-          number: this.number
+          number: this.number,
         }
       );
       this.secret = response.secret;
@@ -77,11 +77,11 @@ export class TokenRewardsOnboardingComponent {
     this.error = null;
     try {
       let response: any = await this.client.post(
-        "api/v2/blockchain/rewards/confirm",
+        'api/v2/blockchain/rewards/confirm',
         {
           number: this.number,
           code: this.code,
-          secret: this.secret
+          secret: this.secret,
         }
       );
 

@@ -3,36 +3,36 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  ViewChild
-} from "@angular/core";
-import { Session } from "../../../services/session";
+  ViewChild,
+} from '@angular/core';
+import { Session } from '../../../services/session';
 
-import { AttachmentService } from "../../../services/attachment";
-import { Upload } from "../../../services/api/upload";
-import { Client } from "../../../services/api/client";
-import { HashtagsSelectorComponent } from "../../hashtags/selector/selector.component";
-import { Tag } from "../../hashtags/types/tag";
-import autobind from "../../../helpers/autobind";
-import { Subject, Subscription } from "rxjs";
-import { debounceTime } from "rxjs/operators";
-import { Router } from "@angular/router";
-import { InMemoryStorageService } from "../../../services/in-memory-storage.service";
-import { AutocompleteSuggestionsService } from "../../suggestions/services/autocomplete-suggestions.service";
+import { AttachmentService } from '../../../services/attachment';
+import { Upload } from '../../../services/api/upload';
+import { Client } from '../../../services/api/client';
+import { HashtagsSelectorComponent } from '../../hashtags/selector/selector.component';
+import { Tag } from '../../hashtags/types/tag';
+import autobind from '../../../helpers/autobind';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { InMemoryStorageService } from '../../../services/in-memory-storage.service';
+import { AutocompleteSuggestionsService } from '../../suggestions/services/autocomplete-suggestions.service';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-newsfeed-poster",
-  inputs: ["_container_guid: containerGuid", "accessId", "message"],
-  outputs: ["load"],
+  selector: 'minds-newsfeed-poster',
+  inputs: ['_container_guid: containerGuid', 'accessId', 'message'],
+  outputs: ['load'],
   providers: [AttachmentService],
-  templateUrl: "poster.component.html"
+  templateUrl: 'poster.component.html',
 })
 export class PosterComponent {
-  content = "";
+  content = '';
   meta: any = {
-    message: "",
+    message: '',
     wire_threshold: null,
-    time_created: Math.floor(Date.now() / 1000)
+    time_created: Math.floor(Date.now() / 1000),
   };
   tags = [];
   minds = window.Minds;
@@ -45,7 +45,7 @@ export class PosterComponent {
 
   errorMessage: string = null;
 
-  @ViewChild("hashtagsSelector", { static: false })
+  @ViewChild('hashtagsSelector', { static: false })
   hashtagsSelector: HashtagsSelectorComponent;
 
   showActionBarLabels: boolean = false;
@@ -69,7 +69,7 @@ export class PosterComponent {
     protected inMemoryStorageService: InMemoryStorageService
   ) {}
 
-  @HostListener("window:resize") _widthDetection() {
+  @HostListener('window:resize') _widthDetection() {
     this.resizeSubject.next(Date.now());
   }
 
@@ -112,7 +112,7 @@ export class PosterComponent {
 
   set message(value: any) {
     if (value) {
-      value = decodeURIComponent(value.replace(/\+/g, "%20"));
+      value = decodeURIComponent(value.replace(/\+/g, '%20'));
       this.meta.message = value;
       this.showTagsError();
       this.getPostPreview({ value: value }); //a little ugly here!
@@ -120,7 +120,7 @@ export class PosterComponent {
   }
 
   onMessageChange($event) {
-    this.errorMessage = "";
+    this.errorMessage = '';
     this.meta.message = $event;
 
     const regex = /(^|\s||)#(\w+)/gim;
@@ -134,19 +134,19 @@ export class PosterComponent {
 
   onTagsChange(tags: string[]) {
     if (this.hashtagsSelector.tags.length > 5) {
-      this.errorMessage = "You can only select up to 5 hashtags";
+      this.errorMessage = 'You can only select up to 5 hashtags';
       this.tooManyTags = true;
     } else {
       this.tooManyTags = false;
-      if (this.errorMessage === "You can only select up to 5 hashtags") {
-        this.errorMessage = "";
+      if (this.errorMessage === 'You can only select up to 5 hashtags') {
+        this.errorMessage = '';
       }
     }
   }
 
   showTagsError() {
     if (this.tags.length > 5) {
-      this.errorMessage = "You can only select up to 5 hashtags";
+      this.errorMessage = 'You can only select up to 5 hashtags';
       this.tooManyTags = true;
     } else {
       this.tooManyTags = false;
@@ -161,7 +161,7 @@ export class PosterComponent {
 
   onTagsRemoved(tags: Tag[]) {
     for (let tag of tags) {
-      this.meta.message = this.meta.message.replace("#" + tag.value, tag.value);
+      this.meta.message = this.meta.message.replace('#' + tag.value, tag.value);
     }
   }
 
@@ -180,7 +180,7 @@ export class PosterComponent {
     this.meta.time_created =
       this.meta.time_created || Math.floor(Date.now() / 1000);
 
-    this.errorMessage = "";
+    this.errorMessage = '';
 
     let data = Object.assign(this.meta, this.attachment.exportMeta());
 
@@ -188,7 +188,7 @@ export class PosterComponent {
 
     this.inProgress = true;
     this.client
-      .post("api/v1/newsfeed", data)
+      .post('api/v1/newsfeed', data)
       .then((data: any) => {
         data.activity.boostToggle = true;
         this.load.next(data.activity);
@@ -241,7 +241,7 @@ export class PosterComponent {
       this.attachment.abort();
       this.canPost = true;
       this.inProgress = false;
-      this.errorMessage = "";
+      this.errorMessage = '';
       return;
     }
     // if we're not uploading a file right now
@@ -249,14 +249,14 @@ export class PosterComponent {
     this.canPost = false;
     this.inProgress = true;
 
-    this.errorMessage = "";
+    this.errorMessage = '';
 
     this.attachment
       .remove(file)
       .then(() => {
         this.inProgress = false;
         this.canPost = true;
-        file.value = "";
+        file.value = '';
       })
       .catch(e => {
         console.error(e);
@@ -283,10 +283,10 @@ export class PosterComponent {
         return;
       }
 
-      this.inMemoryStorageService.set("newBlogContent", this.meta.message);
+      this.inMemoryStorageService.set('newBlogContent', this.meta.message);
     }
 
-    this.router.navigate(["/blog/edit/new"]);
+    this.router.navigate(['/blog/edit/new']);
   }
 
   onNSWFSelections(reasons: Array<{ value; label; selected }>) {

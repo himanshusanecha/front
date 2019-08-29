@@ -1,18 +1,18 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { GroupsService } from "../groups-service";
+import { GroupsService } from '../groups-service';
 
-import { MindsTitle } from "../../../services/ux/title";
-import { Session } from "../../../services/session";
+import { MindsTitle } from '../../../services/ux/title';
+import { Session } from '../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-groups-create",
+  selector: 'minds-groups-create',
   host: {
-    "(keydown)": "keyDown($event)"
+    '(keydown)': 'keyDown($event)',
   },
-  templateUrl: "create.html"
+  templateUrl: 'create.html',
 })
 export class GroupsCreator {
   minds = window.Minds;
@@ -20,13 +20,13 @@ export class GroupsCreator {
   banner: any = false;
   avatar: any = false;
   group: any = {
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     membership: 2,
-    tags: "",
-    invitees: "",
+    tags: '',
+    invitees: '',
     moderated: 0,
-    default_view: 0
+    default_view: 0,
   };
   invitees: Array<any> = [];
   editing: boolean = true;
@@ -39,7 +39,7 @@ export class GroupsCreator {
     public router: Router,
     public title: MindsTitle
   ) {
-    this.title.setTitle("Create Group");
+    this.title.setTitle('Create Group');
   }
 
   addBanner(banner: any) {
@@ -93,15 +93,15 @@ export class GroupsCreator {
           .upload(
             {
               guid,
-              banner_position: this.group.banner_position
+              banner_position: this.group.banner_position,
             },
             {
               banner: this.banner,
-              avatar: this.avatar
+              avatar: this.avatar,
             }
           )
           .then(() => {
-            this.router.navigate(["/groups/profile", guid]);
+            this.router.navigate(['/groups/profile', guid]);
           });
       })
       .catch(e => {

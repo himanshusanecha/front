@@ -3,20 +3,20 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
-  ViewChild
-} from "@angular/core";
-import { Router } from "@angular/router";
+  ViewChild,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
-import { TokenOnboardingService } from "./onboarding.service";
-import { DynamicHostDirective } from "../../../../common/directives/dynamic-host.directive";
-import { Storage } from "../../../../services/storage";
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
+import { TokenOnboardingService } from './onboarding.service';
+import { DynamicHostDirective } from '../../../../common/directives/dynamic-host.directive';
+import { Storage } from '../../../../services/storage';
 
 @Component({
-  selector: "m-token--onboarding",
-  templateUrl: "onboarding.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-token--onboarding',
+  templateUrl: 'onboarding.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenOnboardingComponent {
   @ViewChild(DynamicHostDirective, { static: true }) host;
@@ -36,7 +36,7 @@ export class TokenOnboardingComponent {
 
   ngOnInit() {
     if (
-      this.storage.get("walletOnboardingComplete") ||
+      this.storage.get('walletOnboardingComplete') ||
       (this.session.getLoggedInUser().rewards &&
         this.session.getLoggedInUser().eth_wallet)
     ) {

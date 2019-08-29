@@ -79,7 +79,7 @@ export class SourceCandidates {
       if (candidates.length > 0) {
         return {
           type,
-          value: candidates[0]
+          value: candidates[0],
         };
       }
     }

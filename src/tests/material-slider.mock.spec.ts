@@ -1,12 +1,12 @@
-import { Directive, ElementRef } from "@angular/core";
+import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: "[mdlSlider]",
-  inputs: ["mdlSlider", "ngModel", "value"]
+  selector: '[mdlSlider]',
+  inputs: ['mdlSlider', 'ngModel', 'value'],
 })
 export class MaterialSliderMock {
   mdlSlider: any;
-  value: string = "0";
+  value: string = '0';
 
   private element: any;
 

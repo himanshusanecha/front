@@ -3,18 +3,18 @@ import {
   ComponentFactoryResolver,
   ViewChild,
   ChangeDetectorRef,
-  HostListener
-} from "@angular/core";
-import { interval, timer } from "rxjs";
-import { startWith, map, tap, throttle } from "rxjs/operators";
+  HostListener,
+} from '@angular/core';
+import { interval, timer } from 'rxjs';
+import { startWith, map, tap, throttle } from 'rxjs/operators';
 
-import { UpdateMarkersService } from "../../../common/services/update-markers.service";
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
+import { UpdateMarkersService } from '../../../common/services/update-markers.service';
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "m-group--sidebar-markers",
-  templateUrl: "sidebar-markers.component.html"
+  selector: 'm-group--sidebar-markers',
+  templateUrl: 'sidebar-markers.component.html',
 })
 export class GroupsSidebarMarkersComponent {
   inProgress: boolean = false;
@@ -23,9 +23,9 @@ export class GroupsSidebarMarkersComponent {
   groups = [];
   offset = 0;
   moreData: boolean = true;
-  tooltipsAnchor: string = "right";
+  tooltipsAnchor: string = 'right';
 
-  @ViewChild("list", { static: true }) list;
+  @ViewChild('list', { static: true }) list;
 
   constructor(
     private client: Client,
@@ -56,7 +56,7 @@ export class GroupsSidebarMarkersComponent {
               markers.filter(
                 marker =>
                   marker.entity_guid == entity_guid &&
-                  marker.marker == "gathering-heartbeat" &&
+                  marker.marker == 'gathering-heartbeat' &&
                   marker.updated_timestamp > Date.now() / 1000 - 60 //1 minute tollerance
               ).length > 0
           )
@@ -67,7 +67,7 @@ export class GroupsSidebarMarkersComponent {
             marker =>
               marker.entity_guid == this.groups[i].guid &&
               marker.read_timestamp < marker.updated_timestamp &&
-              marker.marker != "gathering-heartbeat"
+              marker.marker != 'gathering-heartbeat'
           ).length > 0;
       }
     });
@@ -81,13 +81,13 @@ export class GroupsSidebarMarkersComponent {
     if (this.inProgress) return false;
     this.inProgress = true;
     try {
-      const response: any = await this.client.get("api/v1/groups/member", {
-        offset: this.offset
+      const response: any = await this.client.get('api/v1/groups/member', {
+        offset: this.offset,
       });
 
       if (!response.entities && this.offset) {
         this.moreData = false;
-        throw "No entities found";
+        throw 'No entities found';
       }
 
       if (refresh) {
@@ -98,7 +98,7 @@ export class GroupsSidebarMarkersComponent {
 
       this.listenForMarkers();
 
-      this.offset = response["load-next"];
+      this.offset = response['load-next'];
       this.moreData = response.entities && response.entities.length;
     } catch (e) {
     } finally {
@@ -110,7 +110,7 @@ export class GroupsSidebarMarkersComponent {
     this.cd.detectChanges();
   }
 
-  @HostListener("window:resize") onResize() {
-    this.tooltipsAnchor = window.innerWidth <= 992 ? "top" : "right";
+  @HostListener('window:resize') onResize() {
+    this.tooltipsAnchor = window.innerWidth <= 992 ? 'top' : 'right';
   }
 }

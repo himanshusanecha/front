@@ -1,7 +1,7 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: "m-dropdown",
+  selector: 'm-dropdown',
   template: `
     <ng-template #dropdownListContent>
       <ng-content select=".m-dropdown--list,.m-dropdown__list"></ng-content>
@@ -31,7 +31,7 @@ import { Component, Input } from "@angular/core";
         </div>
       </div>
     </ng-template>
-  `
+  `,
 })
 export class DropdownComponent {
   @Input() expanded: boolean = false;

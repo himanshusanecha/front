@@ -1,9 +1,9 @@
-import { Pipe, Inject, PipeTransform } from "@angular/core";
-import { DomSanitizer } from "@angular/platform-browser";
-import { FeaturesService } from "../../services/features.service";
+import { Pipe, Inject, PipeTransform } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { FeaturesService } from '../../services/features.service';
 
 @Pipe({
-  name: "tags"
+  name: 'tags',
 })
 
 /**
@@ -20,29 +20,29 @@ export class TagsPipe implements PipeTransform {
       rule: /(\b(https?|ftp|file):\/\/[^\s\]]+)/gim,
       replace: m => {
         return `<a href="${m.match[1]}" target="_blank" rel="noopener noreferrer">${m.match[1]}</a>`;
-      }
+      },
     },
     mail: {
       rule: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gim,
       replace: m => {
         return `<a href="mailto:${m.match[0]}" target="_blank" rel="noopener noreferrer">${m.match[0]}</a>`;
-      }
+      },
     },
     hash: {
       rule: /(^|\s||)#(\w+)/gim,
       replace: m => {
-        if (this.featureService.has("top-feeds")) {
+        if (this.featureService.has('top-feeds')) {
           return `${m.match[1]}<a href="/newsfeed/global/top;hashtag=${m.match[2]};period=24h">#${m.match[2]}</a>`;
         }
         return `${m.match[1]}<a href="/newsfeed/tag/${m.match[2]};ref=hashtag">#${m.match[2]}</a>`;
-      }
+      },
     },
     at: {
       rule: /(^|\W|\s)@([a-z0-9_\-\.]+[a-z0-9_])/gim,
       replace: m => {
         return `${m.match[1]}<a class="tag" href="/${m.match[2]}" target="_blank">@${m.match[2]}</a>`;
-      }
-    }
+      },
+    },
   };
 
   constructor(private featureService: FeaturesService) {}
@@ -75,7 +75,7 @@ export class TagsPipe implements PipeTransform {
         type: tag,
         start: match.index,
         end: match.index + match[0].length,
-        match: match
+        match: match,
       });
     }
   }
@@ -95,10 +95,10 @@ export class TagsPipe implements PipeTransform {
   transform(value: string): string {
     this.results = [];
     // Order is important. Url and Mail first, then smaller matches (hash and at).
-    this.parse("url", value);
-    this.parse("mail", value);
-    this.parse("hash", value);
-    this.parse("at", value);
+    this.parse('url', value);
+    this.parse('mail', value);
+    this.parse('hash', value);
+    this.parse('at', value);
 
     if (this.results.length === 0) {
       return value;
@@ -118,6 +118,6 @@ export class TagsPipe implements PipeTransform {
         html.push(value.substring(copyStartIndex));
       }
     }
-    return html.join("");
+    return html.join('');
   }
 }

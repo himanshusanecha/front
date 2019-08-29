@@ -1,12 +1,12 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: "m-modal",
+  selector: 'm-modal',
   host: {
-    "[hidden]": "hidden"
+    '[hidden]': 'hidden',
   },
-  inputs: ["open", "allowClose"],
-  outputs: ["closed"],
+  inputs: ['open', 'allowClose'],
+  outputs: ['closed'],
   template: `
     <div class="m-modal-bg" (click)="close($event)"></div>
     <div class="m-modal-container">
@@ -17,7 +17,7 @@ import { Component, EventEmitter } from "@angular/core";
         </div>
       </div>
     </div>
-  `
+  `,
 })
 export class Modal {
   allowClose: boolean = true;

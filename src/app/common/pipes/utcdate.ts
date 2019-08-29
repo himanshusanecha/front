@@ -1,15 +1,15 @@
 /**
  * Credits to Jo Paul (https://stackoverflow.com/a/43281084)
  */
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: "utcDate"
+  name: 'utcDate',
 })
 export class UtcDatePipe implements PipeTransform {
   transform(value: string | number): any {
     if (!value) {
-      return "";
+      return '';
     }
 
     const dateValue = new Date(<string>value);

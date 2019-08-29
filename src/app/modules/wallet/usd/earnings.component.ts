@@ -1,15 +1,15 @@
-import { Component, ViewChild, ComponentFactoryResolver } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { DynamicHostDirective } from "../../../common/directives/dynamic-host.directive";
-import { RevenueLedgerComponent } from "../../monetization/revenue/ledger.component";
-import { Session } from "../../../services/session";
+import { DynamicHostDirective } from '../../../common/directives/dynamic-host.directive';
+import { RevenueLedgerComponent } from '../../monetization/revenue/ledger.component';
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "m-wallet--usd--earnings",
+  selector: 'm-wallet--usd--earnings',
   template: `
     <ng-template dynamic-host></ng-template>
-  `
+  `,
 })
 export class WalletUSDEarningsComponent {
   @ViewChild(DynamicHostDirective, { static: true }) host: DynamicHostDirective;

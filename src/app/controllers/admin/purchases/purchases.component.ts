@@ -1,10 +1,10 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component
-} from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { MindsUser } from "../../../interfaces/entities";
+  Component,
+} from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { MindsUser } from '../../../interfaces/entities';
 
 export type Purchase = {
   user: MindsUser;
@@ -18,13 +18,13 @@ export type Purchase = {
 };
 
 @Component({
-  selector: "m-admin--purchases",
-  templateUrl: "purchases.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-admin--purchases',
+  templateUrl: 'purchases.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminPurchasesComponent {
   purchases: Array<Purchase> = [];
-  offset = "";
+  offset = '';
 
   inProgress: boolean = false;
   moreData: boolean = false;
@@ -36,21 +36,21 @@ export class AdminPurchasesComponent {
   async load(refresh: boolean = false) {
     if (refresh) {
       this.purchases = [];
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
     }
 
     this.inProgress = true;
 
     try {
-      const response: any = await this.client.get("api/v1/admin/purchases", {
-        offset: this.offset
+      const response: any = await this.client.get('api/v1/admin/purchases', {
+        offset: this.offset,
       });
 
       this.purchases.push(...response.purchases);
 
-      if (response["load-next"]) {
-        this.offset = response["load-next"];
+      if (response['load-next']) {
+        this.offset = response['load-next'];
       } else {
         this.moreData = false;
       }
@@ -66,7 +66,7 @@ export class AdminPurchasesComponent {
   async issue(i) {
     if (
       this.inProgress ||
-      !confirm("Are you sure you want to APPROVE this pledge?")
+      !confirm('Are you sure you want to APPROVE this pledge?')
     ) {
       return;
     }
@@ -92,7 +92,7 @@ export class AdminPurchasesComponent {
   async reject(i) {
     if (
       this.inProgress ||
-      !confirm("Are you sure you want to REJECT this pledge?")
+      !confirm('Are you sure you want to REJECT this pledge?')
     ) {
       return;
     }

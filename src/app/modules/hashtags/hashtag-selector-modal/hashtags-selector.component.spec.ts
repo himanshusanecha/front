@@ -1,25 +1,25 @@
 ///<reference path="../../../../../node_modules/@types/jasmine/index.d.ts"/>
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { FormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { HashtagsSelectorModalComponent } from "./hashtags-selector.component";
-import { AbbrPipe } from "../../../common/pipes/abbr";
-import { MaterialMock } from "../../../../tests/material-mock.spec";
-import { MaterialSwitchMock } from "../../../../tests/material-switch-mock.spec";
-import { overlayModalServiceMock } from "../../../../tests/overlay-modal-service-mock.spec";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { Session } from "../../../services/session";
-import { sessionMock } from "../../../../tests/session-mock.spec";
-import { TopbarHashtagsService } from "../service/topbar.service";
-import { topbarHashtagsServiceMock } from "../../../mocks/modules/hashtags/service/topbar.service.mock";
-import { MockComponent } from "../../../utils/mock";
-import { IfFeatureDirective } from "../../../common/directives/if-feature.directive";
-import { FeaturesService } from "../../../services/features.service";
-import { featuresServiceMock } from "../../../../tests/features-service-mock.spec";
+import { HashtagsSelectorModalComponent } from './hashtags-selector.component';
+import { AbbrPipe } from '../../../common/pipes/abbr';
+import { MaterialMock } from '../../../../tests/material-mock.spec';
+import { MaterialSwitchMock } from '../../../../tests/material-switch-mock.spec';
+import { overlayModalServiceMock } from '../../../../tests/overlay-modal-service-mock.spec';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { Session } from '../../../services/session';
+import { sessionMock } from '../../../../tests/session-mock.spec';
+import { TopbarHashtagsService } from '../service/topbar.service';
+import { topbarHashtagsServiceMock } from '../../../mocks/modules/hashtags/service/topbar.service.mock';
+import { MockComponent } from '../../../utils/mock';
+import { IfFeatureDirective } from '../../../common/directives/if-feature.directive';
+import { FeaturesService } from '../../../services/features.service';
+import { featuresServiceMock } from '../../../../tests/features-service-mock.spec';
 
-describe("HashtagsSelectorModalComponent", () => {
+describe('HashtagsSelectorModalComponent', () => {
   let comp: HashtagsSelectorModalComponent;
   let fixture: ComponentFixture<HashtagsSelectorModalComponent>;
 
@@ -31,19 +31,19 @@ describe("HashtagsSelectorModalComponent", () => {
         AbbrPipe,
         HashtagsSelectorModalComponent,
         MockComponent({
-          selector: "m-switch",
-          inputs: ["mModel", "disabled", "labelPosition"],
-          outputs: ["mModelChange", "change"]
+          selector: 'm-switch',
+          inputs: ['mModel', 'disabled', 'labelPosition'],
+          outputs: ['mModelChange', 'change'],
         }),
-        IfFeatureDirective
+        IfFeatureDirective,
       ],
       imports: [FormsModule, RouterTestingModule],
       providers: [
         { provide: Session, useValue: sessionMock },
         { provide: OverlayModalService, useValue: overlayModalServiceMock },
         { provide: TopbarHashtagsService, useValue: topbarHashtagsServiceMock },
-        { provide: FeaturesService, useValue: featuresServiceMock }
-      ]
+        { provide: FeaturesService, useValue: featuresServiceMock },
+      ],
     }).compileComponents();
   }));
 
@@ -53,27 +53,27 @@ describe("HashtagsSelectorModalComponent", () => {
     jasmine.clock().install();
     fixture = TestBed.createComponent(HashtagsSelectorModalComponent);
 
-    featuresServiceMock.mock("top-feeds", false);
+    featuresServiceMock.mock('top-feeds', false);
 
     comp = fixture.componentInstance;
 
     topbarHashtagsServiceMock.loadResponse = [
       {
-        value: "thegreatmigration",
-        selected: true
+        value: 'thegreatmigration',
+        selected: true,
       },
       {
-        value: "thegreatmigration",
-        selected: true
+        value: 'thegreatmigration',
+        selected: true,
       },
       {
-        value: "thegreatmigration",
-        selected: true
+        value: 'thegreatmigration',
+        selected: true,
       },
       {
-        value: "thegreatmigration",
-        selected: true
-      }
+        value: 'thegreatmigration',
+        selected: true,
+      },
     ];
 
     fixture.detectChanges();
@@ -92,17 +92,17 @@ describe("HashtagsSelectorModalComponent", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should have a title", () => {
+  it('should have a title', () => {
     const title = fixture.debugElement.query(
-      By.css(".m-hashtags-selector--header h3")
+      By.css('.m-hashtags-selector--header h3')
     );
     expect(title).not.toBeNull();
-    expect(title.nativeElement.textContent).toContain("Personalize your feed");
+    expect(title.nativeElement.textContent).toContain('Personalize your feed');
   });
 
-  it("should have subtext", () => {
+  it('should have subtext', () => {
     const subtitle = fixture.debugElement.query(
-      By.css(".m-hashtags-selector--header .m-hashtags-selector--subtext")
+      By.css('.m-hashtags-selector--header .m-hashtags-selector--subtext')
     );
     expect(subtitle).not.toBeNull();
 
@@ -110,7 +110,7 @@ describe("HashtagsSelectorModalComponent", () => {
 
     comp.toggleSelection({
       selected: true,
-      value: "22"
+      value: '22',
     });
     fixture.detectChanges();
 
@@ -118,7 +118,7 @@ describe("HashtagsSelectorModalComponent", () => {
 
     comp.toggleSelection({
       selected: false,
-      value: "22"
+      value: '22',
     });
     fixture.detectChanges();
 
@@ -129,13 +129,13 @@ describe("HashtagsSelectorModalComponent", () => {
     );
   });
 
-  it("should create a hashtag", () => {
+  it('should create a hashtag', () => {
     const subtitle = fixture.debugElement.query(
-      By.css(".m-hashtags-selector--header .m-hashtags-selector--subtext")
+      By.css('.m-hashtags-selector--header .m-hashtags-selector--subtext')
     );
     expect(subtitle).not.toBeNull();
 
-    comp.input = "Newhastag";
+    comp.input = 'Newhastag';
     comp.addNew();
     fixture.detectChanges();
 
@@ -146,9 +146,9 @@ describe("HashtagsSelectorModalComponent", () => {
     );
   });
 
-  it("should create a hashtag and be case insensitive", () => {
+  it('should create a hashtag and be case insensitive', () => {
     const subtitle = fixture.debugElement.query(
-      By.css(".m-hashtags-selector--header .m-hashtags-selector--subtext")
+      By.css('.m-hashtags-selector--header .m-hashtags-selector--subtext')
     );
     expect(subtitle).not.toBeNull();
 
@@ -158,7 +158,7 @@ describe("HashtagsSelectorModalComponent", () => {
     fixture.detectChanges();
 
     expect(
-      comp.hashtags.findIndex(item => item.value === "uppercasedoesntmatter")
+      comp.hashtags.findIndex(item => item.value === 'uppercasedoesntmatter')
     ).not.toBe(-1);
 
     expect(topbarHashtagsServiceMock.toggleSelection).toHaveBeenCalled();
@@ -168,18 +168,18 @@ describe("HashtagsSelectorModalComponent", () => {
     );
   });
 
-  it("should have a done button", () => {
+  it('should have a done button', () => {
     const button = fixture.debugElement.query(
-      By.css("i.m-hashtag--creator--done")
+      By.css('i.m-hashtag--creator--done')
     );
     console.warn(comp.inProgress);
     expect(button).not.toBeNull();
-    expect(button.nativeElement.textContent).toContain("done");
+    expect(button.nativeElement.textContent).toContain('done');
   });
 
-  it("clicking on done should close the modal", () => {
+  it('clicking on done should close the modal', () => {
     const button = fixture.debugElement.query(
-      By.css("i.m-hashtag--creator--close")
+      By.css('i.m-hashtag--creator--close')
     );
     button.nativeElement.click();
 

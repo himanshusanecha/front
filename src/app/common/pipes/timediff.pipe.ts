@@ -1,7 +1,7 @@
-import { Pipe } from "@angular/core";
+import { Pipe } from '@angular/core';
 
 @Pipe({
-  name: "timediff"
+  name: 'timediff',
 })
 export class TimediffPipe {
   transform(time: number, displaySeconds: boolean = false) {
@@ -9,7 +9,7 @@ export class TimediffPipe {
     const minutes = Math.floor(time / 60) % 60;
     const hours = Math.floor(time / 3600);
 
-    let output = "";
+    let output = '';
 
     if (hours > 0) {
       output += `${hours}h `;

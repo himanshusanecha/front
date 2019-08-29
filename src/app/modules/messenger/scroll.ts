@@ -1,11 +1,11 @@
-import { Directive, ElementRef, EventEmitter } from "@angular/core";
-import { Observable, fromEvent } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import { Directive, ElementRef, EventEmitter } from '@angular/core';
+import { Observable, fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Directive({
-  selector: "[minds-messenger-scroll]",
-  inputs: ["emitter", "moreData"],
-  outputs: ["previous", "next"]
+  selector: '[minds-messenger-scroll]',
+  inputs: ['emitter', 'moreData'],
+  outputs: ['previous', 'next'],
 })
 export class MessengerScrollDirective {
   previous = new EventEmitter();
@@ -16,7 +16,7 @@ export class MessengerScrollDirective {
 
   constructor(public _element: ElementRef) {
     this.element = _element.nativeElement;
-    this.scroll = fromEvent(this.element, "scroll");
+    this.scroll = fromEvent(this.element, 'scroll');
   }
 
   set emitter(emitter: any) {
@@ -25,7 +25,7 @@ export class MessengerScrollDirective {
         setTimeout(() => {
           this._element.nativeElement.scrollTop = this._element.nativeElement.scrollHeight;
         });
-      }
+      },
     });
   }
 

@@ -1,11 +1,11 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Session } from "../../../../services/session";
-import { Client } from "../../../../services/api";
-import { SignupModalService } from "../../../../modules/modals/signup/service";
+import { Session } from '../../../../services/session';
+import { Client } from '../../../../services/api';
+import { SignupModalService } from '../../../../modules/modals/signup/service';
 
 @Component({
-  selector: "minds-button-subscribe",
+  selector: 'minds-button-subscribe',
   template: `
     <button
       class="m-btn m-btn--with-icon m-btn--subscribe"
@@ -29,17 +29,17 @@ import { SignupModalService } from "../../../../modules/modals/signup/service";
         >
       </span>
     </button>
-  `
+  `,
 })
 export class SubscribeButton {
   _user: any = {
-    subscribed: false
+    subscribed: false,
   };
   _inprogress: boolean = false;
   _content: any;
   _listener: Function;
   showModal: boolean = false;
-  @Output("subscribed") onSubscribed: EventEmitter<any> = new EventEmitter();
+  @Output('subscribed') onSubscribed: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public session: Session,
@@ -47,7 +47,7 @@ export class SubscribeButton {
     public modal: SignupModalService
   ) {}
 
-  @Input("user")
+  @Input('user')
   set user(value: any) {
     this._user = value;
   }
@@ -58,7 +58,7 @@ export class SubscribeButton {
 
     if (!this.session.isLoggedIn()) {
       this.modal
-        .setSubtitle("You need to have a channel in order to subscribe")
+        .setSubtitle('You need to have a channel in order to subscribe')
         .open();
       return false;
     }
@@ -67,10 +67,10 @@ export class SubscribeButton {
     this.onSubscribed.next();
 
     this.client
-      .post("api/v1/subscribe/" + this._user.guid, {})
+      .post('api/v1/subscribe/' + this._user.guid, {})
       .then((response: any) => {
         if (response && response.error) {
-          throw "error";
+          throw 'error';
         }
 
         this._user.subscribed = true;
@@ -86,7 +86,7 @@ export class SubscribeButton {
     e.stopPropagation();
     this._user.subscribed = false;
     this.client
-      .delete("api/v1/subscribe/" + this._user.guid, {})
+      .delete('api/v1/subscribe/' + this._user.guid, {})
       .then((response: any) => {
         this._user.subscribed = false;
       })

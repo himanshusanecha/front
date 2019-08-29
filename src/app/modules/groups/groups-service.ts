@@ -1,10 +1,10 @@
-import { Inject, EventEmitter } from "@angular/core";
-import { Client, Upload } from "../../services/api";
-import { UpdateMarkersService } from "../../common/services/update-markers.service";
-import { BehaviorSubject } from "rxjs";
+import { Inject, EventEmitter } from '@angular/core';
+import { Client, Upload } from '../../services/api';
+import { UpdateMarkersService } from '../../common/services/update-markers.service';
+import { BehaviorSubject } from 'rxjs';
 
 export class GroupsService {
-  private base: string = "api/v1/groups/";
+  private base: string = 'api/v1/groups/';
 
   private infiniteInProgress: boolean = false;
   private infiniteOffset: any;
@@ -37,7 +37,7 @@ export class GroupsService {
           return response.group;
         }
 
-        throw "E_LOADING";
+        throw 'E_LOADING';
       });
   }
 
@@ -55,7 +55,7 @@ export class GroupsService {
         return response.guid;
       }
 
-      throw "E_SAVING";
+      throw 'E_SAVING';
     });
   }
 
@@ -68,7 +68,7 @@ export class GroupsService {
           `${this.base}group/${group.guid}/banner`,
           [files.banner],
           {
-            banner_position: group.banner_position
+            banner_position: group.banner_position,
           }
         )
       );
@@ -77,7 +77,7 @@ export class GroupsService {
     if (files.avatar) {
       uploads.push(
         this.uploadService.post(`${this.base}group/${group.guid}/avatar`, [
-          files.avatar
+          files.avatar,
         ])
       );
     }
@@ -110,7 +110,7 @@ export class GroupsService {
         return true;
       }
 
-      throw response.error ? response.error : "Internal error";
+      throw response.error ? response.error : 'Internal error';
     });
   }
 
@@ -126,7 +126,7 @@ export class GroupsService {
         return true;
       }
 
-      throw response.error ? response.error : "Internal error";
+      throw response.error ? response.error : 'Internal error';
     });
   }
 
@@ -180,7 +180,7 @@ export class GroupsService {
     return this.clientService
       .post(`${this.base}notifications/${group.guid}/mute`)
       .then((response: any) => {
-        return !!response["is:muted"];
+        return !!response['is:muted'];
       })
       .catch(e => {
         return false;
@@ -192,7 +192,7 @@ export class GroupsService {
     return this.clientService
       .post(`${this.base}notifications/${group.guid}/unmute`)
       .then((response: any) => {
-        return !!response["is:muted"];
+        return !!response['is:muted'];
       })
       .catch(e => {
         return true;
@@ -257,7 +257,7 @@ export class GroupsService {
           return user;
         }
 
-        throw "E_NOT_DONE";
+        throw 'E_NOT_DONE';
       });
   }
 
@@ -269,10 +269,10 @@ export class GroupsService {
           return true;
         }
 
-        throw response.error ? response.error : "Internal error";
+        throw response.error ? response.error : 'Internal error';
       })
       .catch(e => {
-        throw typeof e === "string" ? e : "Connectivity error";
+        throw typeof e === 'string' ? e : 'Connectivity error';
       });
   }
 
@@ -302,11 +302,11 @@ export class GroupsService {
     return this.clientService
       .get(`${this.base}review/${guid}/count`)
       .then((response: any) => {
-        if (typeof response["adminqueue:count"] !== "undefined") {
-          return parseInt(response["adminqueue:count"], 10);
+        if (typeof response['adminqueue:count'] !== 'undefined') {
+          return parseInt(response['adminqueue:count'], 10);
         }
 
-        throw "E_COUNT";
+        throw 'E_COUNT';
       });
   }
 
@@ -324,6 +324,6 @@ export class GroupsService {
   countMembers(guid: any) {
     return this.clientService
       .get(`api/v1/groups/membership/${guid}`)
-      .then(res => res["members"].length);
+      .then(res => res['members'].length);
   }
 }

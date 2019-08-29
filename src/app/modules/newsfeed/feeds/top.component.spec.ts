@@ -2,42 +2,42 @@ import {
   async,
   ComponentFixture,
   fakeAsync,
-  TestBed
-} from "@angular/core/testing";
+  TestBed,
+} from '@angular/core/testing';
 
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { CommonModule } from "@angular/common";
+import { CommonModule } from '@angular/common';
 
-import { MockComponent } from "../../../utils/mock";
+import { MockComponent } from '../../../utils/mock';
 
-import { By } from "@angular/platform-browser";
-import { NewsfeedTopComponent } from "./top.component";
-import { MaterialMock } from "../../../../tests/material-mock.spec";
-import { uploadMock } from "../../../../tests/upload-mock.spec";
-import { navigationMock } from "../../../../tests/navigation-service-mock.spec";
-import { Upload } from "../../../services/api/upload";
-import { Navigation } from "../../../services/navigation";
-import { mindsTitleMock } from "../../../mocks/services/ux/minds-title.service.mock.spec";
-import { MindsTitle } from "../../../services/ux/title";
-import { clientMock } from "../../../../tests/client-mock.spec";
-import { sessionMock } from "../../../../tests/session-mock.spec";
-import { Session } from "../../../services/session";
-import { storageMock } from "../../../../tests/storage-mock.spec";
-import { ContextService } from "../../../services/context.service";
-import { contextServiceMock } from "../../../../tests/context-service-mock.spec";
-import { Client } from "../../../services/api/client";
-import { Storage } from "../../../services/storage";
-import { SettingsService } from "../../settings/settings.service";
-import { settingsServiceMock } from "../../../mocks/modules/settings/settings.service.mock.spec";
+import { By } from '@angular/platform-browser';
+import { NewsfeedTopComponent } from './top.component';
+import { MaterialMock } from '../../../../tests/material-mock.spec';
+import { uploadMock } from '../../../../tests/upload-mock.spec';
+import { navigationMock } from '../../../../tests/navigation-service-mock.spec';
+import { Upload } from '../../../services/api/upload';
+import { Navigation } from '../../../services/navigation';
+import { mindsTitleMock } from '../../../mocks/services/ux/minds-title.service.mock.spec';
+import { MindsTitle } from '../../../services/ux/title';
+import { clientMock } from '../../../../tests/client-mock.spec';
+import { sessionMock } from '../../../../tests/session-mock.spec';
+import { Session } from '../../../services/session';
+import { storageMock } from '../../../../tests/storage-mock.spec';
+import { ContextService } from '../../../services/context.service';
+import { contextServiceMock } from '../../../../tests/context-service-mock.spec';
+import { Client } from '../../../services/api/client';
+import { Storage } from '../../../services/storage';
+import { SettingsService } from '../../settings/settings.service';
+import { settingsServiceMock } from '../../../mocks/modules/settings/settings.service.mock.spec';
 
-import { overlayModalServiceMock } from "../../../../tests/overlay-modal-service-mock.spec";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { NewsfeedService } from "../services/newsfeed.service";
-import { newsfeedServiceMock } from "../../../mocks/modules/newsfeed/services/newsfeed-service.mock";
+import { overlayModalServiceMock } from '../../../../tests/overlay-modal-service-mock.spec';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { NewsfeedService } from '../services/newsfeed.service';
+import { newsfeedServiceMock } from '../../../mocks/modules/newsfeed/services/newsfeed-service.mock';
 
-describe("NewsfeedTopComponent", () => {
+describe('NewsfeedTopComponent', () => {
   let comp: NewsfeedTopComponent;
   let fixture: ComponentFixture<NewsfeedTopComponent>;
 
@@ -46,40 +46,40 @@ describe("NewsfeedTopComponent", () => {
       declarations: [
         MaterialMock,
         MockComponent({
-          selector: "m-newsfeed--boost-rotator",
-          inputs: ["interval", "channel"]
+          selector: 'm-newsfeed--boost-rotator',
+          inputs: ['interval', 'channel'],
         }),
         MockComponent({
-          selector: "minds-activity",
+          selector: 'minds-activity',
           inputs: [
-            "object",
-            "boostToggle",
-            "showRatingToggle",
-            "boost",
-            "showBoostMenuOptions"
+            'object',
+            'boostToggle',
+            'showRatingToggle',
+            'boost',
+            'showBoostMenuOptions',
           ],
-          outputs: ["delete"]
+          outputs: ['delete'],
         }),
         MockComponent({
-          selector: "infinite-scroll",
-          inputs: ["inProgress", "moreData", "inProgress"]
+          selector: 'infinite-scroll',
+          inputs: ['inProgress', 'moreData', 'inProgress'],
         }),
         MockComponent({
-          selector: "m-hashtags-selector",
-          inputs: ["tags", "alignLeft"],
-          outputs: ["tagsChange", "tagsAdded", "tagsRemoved"]
+          selector: 'm-hashtags-selector',
+          inputs: ['tags', 'alignLeft'],
+          outputs: ['tagsChange', 'tagsAdded', 'tagsRemoved'],
         }),
         MockComponent({
-          selector: "minds-newsfeed-poster",
-          inputs: ["containerGuid", "accessId", "message"]
+          selector: 'minds-newsfeed-poster',
+          inputs: ['containerGuid', 'accessId', 'message'],
         }),
-        NewsfeedTopComponent
+        NewsfeedTopComponent,
       ],
       imports: [
         RouterTestingModule,
         ReactiveFormsModule,
         CommonModule,
-        FormsModule
+        FormsModule,
       ],
       providers: [
         { provide: Session, useValue: sessionMock },
@@ -91,8 +91,8 @@ describe("NewsfeedTopComponent", () => {
         { provide: ContextService, useValue: contextServiceMock },
         { provide: SettingsService, useValue: settingsServiceMock },
         { provide: OverlayModalService, useValue: overlayModalServiceMock },
-        { provide: NewsfeedService, useValue: newsfeedServiceMock }
-      ]
+        { provide: NewsfeedService, useValue: newsfeedServiceMock },
+      ],
     }).compileComponents();
   }));
 
@@ -105,36 +105,36 @@ describe("NewsfeedTopComponent", () => {
     window.Minds = <any>{
       user: {
         guid: 1,
-        name: "test",
-        opted_in_hashtags: 1
-      }
+        name: 'test',
+        opted_in_hashtags: 1,
+      },
     };
 
     comp = fixture.componentInstance;
 
     clientMock.response = {};
-    clientMock.response["api/v2/entities/suggested/activities"] = {
-      status: "success",
+    clientMock.response['api/v2/entities/suggested/activities'] = {
+      status: 'success',
       entities: [
         {
-          guid: "1",
-          type: "activity",
-          time_created: "1525457795",
-          time_updated: "1525457795",
-          title: "",
-          message: "test",
+          guid: '1',
+          type: 'activity',
+          time_created: '1525457795',
+          time_updated: '1525457795',
+          title: '',
+          message: 'test',
           boosted: true,
-          boosted_guid: "1"
+          boosted_guid: '1',
         },
         {
-          guid: "2",
-          type: "activity",
-          message: "test2",
+          guid: '2',
+          type: 'activity',
+          message: 'test2',
           boosted: true,
-          boosted_guid: 2
-        }
+          boosted_guid: 2,
+        },
       ],
-      "load-next": ""
+      'load-next': '',
     };
 
     sessionMock.user.boost_rating = 1;
@@ -155,17 +155,17 @@ describe("NewsfeedTopComponent", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should have an infinite-scroll", () => {
-    expect(fixture.debugElement.query(By.css("infinite-scroll"))).toBeTruthy();
+  it('should have an infinite-scroll', () => {
+    expect(fixture.debugElement.query(By.css('infinite-scroll'))).toBeTruthy();
   });
 
-  it("should have a list of activities", () => {
+  it('should have a list of activities', () => {
     expect(clientMock.get).toHaveBeenCalled();
     const call = clientMock.get.calls.mostRecent();
-    expect(call.args[0]).toBe("api/v2/entities/suggested/activities");
-    expect(call.args[1]).toEqual({ limit: 12, offset: "", rating: 1 });
+    expect(call.args[0]).toBe('api/v2/entities/suggested/activities');
+    expect(call.args[1]).toEqual({ limit: 12, offset: '', rating: 1 });
     expect(call.args[2]).toEqual({ cache: true });
-    const list = fixture.debugElement.query(By.css(".minds-list"));
+    const list = fixture.debugElement.query(By.css('.minds-list'));
     expect(list.nativeElement.children.length).toBe(4); // poster + 2 activities + infinite-scroll
   });
 
@@ -178,8 +178,8 @@ describe("NewsfeedTopComponent", () => {
     expect(comp.rating).toBe(2);
 
     const call = clientMock.get.calls.mostRecent();
-    expect(call.args[0]).toBe("api/v2/entities/suggested/activities");
-    expect(call.args[1]).toEqual({ limit: 12, offset: "", rating: 2 });
+    expect(call.args[0]).toBe('api/v2/entities/suggested/activities');
+    expect(call.args[1]).toEqual({ limit: 12, offset: '', rating: 2 });
     expect(call.args[2]).toEqual({ cache: true });
   }));
 });

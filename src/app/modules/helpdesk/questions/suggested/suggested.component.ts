@@ -1,17 +1,17 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, Input, OnInit } from '@angular/core';
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: "m-helpdesk--questions--suggested",
-  templateUrl: "suggested.component.html"
+  selector: 'm-helpdesk--questions--suggested',
+  templateUrl: 'suggested.component.html',
 })
 export class SuggestedQuestionsComponent implements OnInit {
   categories: any[] = [];
   topQuestions: any[] = [];
 
-  @Input() type = "popular";
+  @Input() type = 'popular';
   @Input() question;
 
   minds: Minds = window.Minds;
@@ -29,10 +29,10 @@ export class SuggestedQuestionsComponent implements OnInit {
 
   load() {
     switch (this.type) {
-      case "popular":
+      case 'popular':
         this.loadPopular();
         break;
-      case "category":
+      case 'category':
         this.loadCategory(this.question.category_uuid);
         break;
     }
@@ -43,7 +43,7 @@ export class SuggestedQuestionsComponent implements OnInit {
       const response: any = await this.client.get(
         `api/v2/helpdesk/questions/top`,
         {
-          limit: 8
+          limit: 8,
         }
       );
       this.topQuestions = response.questions;

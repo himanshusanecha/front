@@ -7,18 +7,18 @@ import {
   Type,
   ChangeDetectorRef,
   ComponentRef,
-  ElementRef
-} from "@angular/core";
+  ElementRef,
+} from '@angular/core';
 
-import { DynamicHostDirective } from "../../directives/dynamic-host.directive";
+import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
 
-import { BoostButton } from "../../../modules/legacy/components/buttons/boost";
+import { BoostButton } from '../../../modules/legacy/components/buttons/boost';
 
 @Component({
-  selector: "minds-button",
+  selector: 'minds-button',
   template: `
     <ng-template dynamic-host></ng-template>
-  `
+  `,
 })
 export class MindsButton implements AfterViewInit {
   @ViewChild(DynamicHostDirective, { static: true })
@@ -31,13 +31,13 @@ export class MindsButton implements AfterViewInit {
   componentInstance: any;
   anchorRef: ElementRef;
 
-  cssClasses: string = "";
+  cssClasses: string = '';
 
   private initialized: boolean = false;
 
   constructor(private _componentFactoryResolver: ComponentFactoryResolver) {}
 
-  @Input("object") set _object(value: any) {
+  @Input('object') set _object(value: any) {
     const oldType = this.type;
 
     this.object = value ? value : {};
@@ -51,8 +51,8 @@ export class MindsButton implements AfterViewInit {
     }
   }
 
-  @Input("hostClass") set _hostClass(value: string) {
-    this.cssClasses = value || "";
+  @Input('hostClass') set _hostClass(value: string) {
+    this.cssClasses = value || '';
 
     if (this.initialized) {
       this.updateClasses();
@@ -69,7 +69,7 @@ export class MindsButton implements AfterViewInit {
       return null;
     }
 
-    if (type === "boost") {
+    if (type === 'boost') {
       return BoostButton;
     }
 

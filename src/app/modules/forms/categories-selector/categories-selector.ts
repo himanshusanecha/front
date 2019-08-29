@@ -1,12 +1,12 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-onboarding-categories-selector",
-  outputs: ["done"],
-  templateUrl: "categories-selector.html"
+  selector: 'minds-onboarding-categories-selector',
+  outputs: ['done'],
+  templateUrl: 'categories-selector.html',
 })
 export class OnboardingCategoriesSelector {
   minds = window.Minds;
@@ -28,7 +28,7 @@ export class OnboardingCategoriesSelector {
       this.categories.push({
         id: category,
         label: window.Minds.categories[category],
-        selected: false
+        selected: false,
       });
     }
   }
@@ -39,8 +39,8 @@ export class OnboardingCategoriesSelector {
       .filter(category => category.selected)
       .map(category => category.id);
     this.client
-      .post("api/v1/settings", {
-        categories: filteredCategories
+      .post('api/v1/settings', {
+        categories: filteredCategories,
       })
       .then((response: any) => {
         this.inProgress = false;

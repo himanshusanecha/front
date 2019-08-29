@@ -2,22 +2,22 @@ import {
   async,
   ComponentFixture,
   fakeAsync,
-  TestBed
-} from "@angular/core/testing";
+  TestBed,
+} from '@angular/core/testing';
 
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MaterialMock } from "../../../../tests/material-mock.spec";
-import { PhoneInputComponent } from "./phone-input.component";
-import { PhoneInputCountryComponent } from "./country.component";
-import { DebugElement } from "@angular/core";
-import { By } from "@angular/platform-browser";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialMock } from '../../../../tests/material-mock.spec';
+import { PhoneInputComponent } from './phone-input.component';
+import { PhoneInputCountryComponent } from './country.component';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
-describe("PhoneInputComponent", () => {
+describe('PhoneInputComponent', () => {
   let comp: PhoneInputComponent;
   let fixture: ComponentFixture<PhoneInputComponent>;
 
   function getInput(): DebugElement {
-    return fixture.debugElement.query(By.css("input"));
+    return fixture.debugElement.query(By.css('input'));
   }
 
   beforeEach(async(() => {
@@ -25,9 +25,9 @@ describe("PhoneInputComponent", () => {
       declarations: [
         MaterialMock,
         PhoneInputComponent,
-        PhoneInputCountryComponent
+        PhoneInputCountryComponent,
       ], // declare the test component
-      imports: [ReactiveFormsModule, FormsModule]
+      imports: [ReactiveFormsModule, FormsModule],
     }).compileComponents(); // compile template and css
   }));
 
@@ -40,14 +40,14 @@ describe("PhoneInputComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should have a phone input", fakeAsync(() => {
+  it('should have a phone input', fakeAsync(() => {
     expect(getInput()).not.toBeNull();
   }));
 
-  it("should set a phone number", () => {
-    getInput().nativeElement.value = "0123456789";
-    getInput().nativeElement.dispatchEvent(new Event("input"));
+  it('should set a phone number', () => {
+    getInput().nativeElement.value = '0123456789';
+    getInput().nativeElement.dispatchEvent(new Event('input'));
 
-    expect(comp.number).toEqual("10123456789");
+    expect(comp.number).toEqual('10123456789');
   });
 });

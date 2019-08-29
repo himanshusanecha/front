@@ -1,10 +1,10 @@
-import { TransactionOverlayService } from "./transaction-overlay.service";
+import { TransactionOverlayService } from './transaction-overlay.service';
 
-describe("TransactionOverlayService", () => {
+describe('TransactionOverlayService', () => {
   let service: TransactionOverlayService;
   let comp: any = <any>{
-    show: jasmine.createSpy("show"),
-    hide: jasmine.createSpy("hide")
+    show: jasmine.createSpy('show'),
+    hide: jasmine.createSpy('hide'),
   };
 
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe("TransactionOverlayService", () => {
     service.setComponent(comp);
   });
 
-  it("should be instantiated", () => {
+  it('should be instantiated', () => {
     expect(service).toBeTruthy();
     expect(comp).toBeTruthy();
   });

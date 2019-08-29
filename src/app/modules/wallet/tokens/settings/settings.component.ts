@@ -2,16 +2,16 @@ import {
   AfterViewInit,
   Component,
   ComponentFactoryResolver,
-  ViewChild
-} from "@angular/core";
-import { BlockchainConsoleComponent } from "../../../blockchain/console/console.component";
-import { DynamicHostDirective } from "../../../../common/directives/dynamic-host.directive";
+  ViewChild,
+} from '@angular/core';
+import { BlockchainConsoleComponent } from '../../../blockchain/console/console.component';
+import { DynamicHostDirective } from '../../../../common/directives/dynamic-host.directive';
 
 @Component({
-  selector: "m-wallet-token--settings",
+  selector: 'm-wallet-token--settings',
   template: `
     <ng-template dynamic-host></ng-template>
-  `
+  `,
 })
 export class WalletTokenSettingsComponent implements AfterViewInit {
   @ViewChild(DynamicHostDirective, { static: true }) host: DynamicHostDirective;

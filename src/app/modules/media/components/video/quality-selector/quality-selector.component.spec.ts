@@ -4,30 +4,30 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
+  tick,
+} from '@angular/core/testing';
 import {
   Component,
   DebugElement,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { By } from "@angular/platform-browser";
-import { Router } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { CommonModule as NgCommonModule } from "@angular/common";
-import { MindsVideoQualitySelector } from "./quality-selector.component";
+  Output,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { MindsVideoQualitySelector } from './quality-selector.component';
 
-describe("MindsVideoQualitySelector", () => {
+describe('MindsVideoQualitySelector', () => {
   let comp: MindsVideoQualitySelector;
   let fixture: ComponentFixture<MindsVideoQualitySelector>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MindsVideoQualitySelector], // declare the test component
-      imports: [FormsModule, RouterTestingModule, NgCommonModule]
+      imports: [FormsModule, RouterTestingModule, NgCommonModule],
     }).compileComponents(); // compile template and css
   }));
 
@@ -38,7 +38,7 @@ describe("MindsVideoQualitySelector", () => {
     jasmine.clock().install();
     fixture = TestBed.createComponent(MindsVideoQualitySelector);
     comp = fixture.componentInstance;
-    comp.qualities = ["720", "360", "128"];
+    comp.qualities = ['720', '360', '128'];
     fixture.detectChanges();
     if (fixture.isStable()) {
       done();
@@ -53,36 +53,36 @@ describe("MindsVideoQualitySelector", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should render a hidden slider, should show as many options as there srcs, and first one should be selected", () => {
-    comp.current = "720";
+  it('should render a hidden slider, should show as many options as there srcs, and first one should be selected', () => {
+    comp.current = '720';
     fixture.detectChanges();
     const wrapper = fixture.debugElement.query(
-      By.css(".m-video--quality-control-wrapper")
+      By.css('.m-video--quality-control-wrapper')
     );
     const control = fixture.debugElement.query(
-      By.css(".m-video--quality-control")
+      By.css('.m-video--quality-control')
     );
-    const icon = fixture.debugElement.query(By.css(".material-icons"));
+    const icon = fixture.debugElement.query(By.css('.material-icons'));
     const selectedOption = fixture.debugElement.query(
-      By.css(".m-video--selected-quality")
+      By.css('.m-video--selected-quality')
     );
     expect(control).not.toBeNull();
     expect(icon).not.toBeNull();
     expect(wrapper).not.toBeNull();
     expect(selectedOption).not.toBeNull();
-    expect(selectedOption.nativeElement.innerText).toBe("720");
+    expect(selectedOption.nativeElement.innerText).toBe('720');
   });
 
-  it("should change quality", () => {
-    comp.current = "720";
+  it('should change quality', () => {
+    comp.current = '720';
     fixture.detectChanges();
-    const selectedOptions = fixture.debugElement.queryAll(By.css("li"));
+    const selectedOptions = fixture.debugElement.queryAll(By.css('li'));
     selectedOptions[1].nativeElement.click();
     fixture.detectChanges();
     const selectedOption = fixture.debugElement.query(
-      By.css(".m-video--selected-quality")
+      By.css('.m-video--selected-quality')
     );
     expect(selectedOption).not.toBeNull();
-    expect(selectedOption.nativeElement.innerText).toBe("360");
+    expect(selectedOption.nativeElement.innerText).toBe('360');
   });
 });

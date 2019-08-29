@@ -1,21 +1,21 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { SignupModalService } from "../../modals/signup/service";
-import { WireCreatorComponent } from "../creator/creator.component";
-import { Session } from "../../../services/session";
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { SignupModalService } from '../../modals/signup/service';
+import { WireCreatorComponent } from '../creator/creator.component';
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "m-wire-button",
+  selector: 'm-wire-button',
   template: `
     <button class="m-wire-button" (click)="wire()">
       <i class="ion-icon ion-flash"></i>
     </button>
-  `
+  `,
 })
 export class WireButtonComponent {
   @Input() object: any;
-  @Output("done") doneEmitter: EventEmitter<any> = new EventEmitter();
+  @Output('done') doneEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public session: Session,
@@ -41,7 +41,7 @@ export class WireButtonComponent {
           }
 
           this.doneEmitter.emit(wire);
-        }
+        },
       }
     );
     creator.present();

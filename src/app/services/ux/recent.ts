@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Storage } from "../storage";
+import { Storage } from '../storage';
 
 @Injectable()
 export class RecentService {
@@ -39,7 +39,7 @@ export class RecentService {
   //
 
   private read(key: string): any[] {
-    return JSON.parse(this.storage.get(`recent:${key}`) || "[]");
+    return JSON.parse(this.storage.get(`recent:${key}`) || '[]');
   }
 
   private write(key: string, data: any[]) {

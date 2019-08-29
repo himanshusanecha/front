@@ -1,12 +1,12 @@
-import { Directive, ElementRef, EventEmitter } from "@angular/core";
-import { Observable, Subscription, fromEvent } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import { Directive, ElementRef, EventEmitter } from '@angular/core';
+import { Observable, Subscription, fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Directive({
-  selector: "[commentsScroll]",
-  inputs: ["_emitter: emitter", "enabled"],
-  outputs: ["previous", "next"],
-  exportAs: "commentsScroll"
+  selector: '[commentsScroll]',
+  inputs: ['_emitter: emitter', 'enabled'],
+  outputs: ['previous', 'next'],
+  exportAs: 'commentsScroll',
 })
 export class CommentsScrollDirective {
   emitter: EventEmitter<any>;
@@ -26,12 +26,12 @@ export class CommentsScrollDirective {
   private emitterSubscription: Subscription;
 
   constructor(private elementRef: ElementRef) {
-    this.scroll = fromEvent(elementRef.nativeElement, "scroll");
+    this.scroll = fromEvent(elementRef.nativeElement, 'scroll');
   }
 
   set _emitter(emitter: EventEmitter<any>) {
     if (!(emitter instanceof EventEmitter)) {
-      console.error("Not an emitter");
+      console.error('Not an emitter');
       return;
     }
 
@@ -42,11 +42,11 @@ export class CommentsScrollDirective {
     this.emitterSubscription = emitter.subscribe((command: string) => {
       setTimeout(() => {
         switch (command) {
-          case "top":
+          case 'top':
             this.top(true, true);
             break;
 
-          case "bottom":
+          case 'bottom':
             this.bottom(true, true);
             break;
         }
@@ -96,11 +96,11 @@ export class CommentsScrollDirective {
     }
 
     switch (this.stickTo) {
-      case "top":
+      case 'top':
         this.top();
         break;
 
-      case "bottom":
+      case 'bottom':
         this.bottom();
         break;
     }
@@ -126,7 +126,7 @@ export class CommentsScrollDirective {
       this.elementRef.nativeElement.scrollTop = 0;
 
       if (stick) {
-        this.setStick("top");
+        this.setStick('top');
       }
 
       if (run) {
@@ -140,7 +140,7 @@ export class CommentsScrollDirective {
       this.elementRef.nativeElement.scrollTop = this.elementRef.nativeElement.scrollHeight;
 
       if (stick) {
-        this.setStick("bottom");
+        this.setStick('bottom');
       }
 
       if (run) {

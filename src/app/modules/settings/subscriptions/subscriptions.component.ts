@@ -1,18 +1,18 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "m-settings--subscriptions",
-  templateUrl: "subscriptions.component.html"
+  selector: 'm-settings--subscriptions',
+  templateUrl: 'subscriptions.component.html',
 })
 export class SettingsSubscriptionsComponent {
   subscriptions: any[] = [];
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = "";
+  offset: string = '';
 
   minds: any;
 
@@ -36,7 +36,7 @@ export class SettingsSubscriptionsComponent {
     }
 
     this.client
-      .get("api/v1/payments/subscriptions/exclusive", { offset: this.offset })
+      .get('api/v1/payments/subscriptions/exclusive', { offset: this.offset })
       .then((response: any) => {
         if (!response.subscriptions) {
           this.inProgress = false;
@@ -45,7 +45,7 @@ export class SettingsSubscriptionsComponent {
         }
 
         this.subscriptions = this.subscriptions.concat(response.subscriptions);
-        this.offset = response["load-next"];
+        this.offset = response['load-next'];
         this.inProgress = false;
 
         if (!this.offset) {

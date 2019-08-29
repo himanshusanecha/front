@@ -1,12 +1,12 @@
-import { Component, Input } from "@angular/core";
-import { Router } from "@angular/router";
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
-import { BoostConsoleFilter } from "../../console/console.component";
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
+import { BoostConsoleFilter } from '../../console/console.component';
 
 @Component({
-  selector: "m-boost-publisher--earnings",
-  templateUrl: "earnings.component.html"
+  selector: 'm-boost-publisher--earnings',
+  templateUrl: 'earnings.component.html',
 })
 export class BoostPublisherEarningsComponent {
   _filter: BoostConsoleFilter;
@@ -25,12 +25,12 @@ export class BoostPublisherEarningsComponent {
     usd_earnings: 0,
     token_earnings: 0,
     total_count: 0,
-    total_earnings: 0
+    total_earnings: 0,
   };
 
-  @Input("filter") set filter(value: BoostConsoleFilter) {
+  @Input('filter') set filter(value: BoostConsoleFilter) {
     this._filter = value;
-    if (this._filter === "earnings") {
+    if (this._filter === 'earnings') {
       this.getStatistics();
     }
   }
@@ -41,12 +41,12 @@ export class BoostPublisherEarningsComponent {
     private router: Router
   ) {
     if (!this.session.getLoggedInUser().show_boosts) {
-      this.router.navigate(["/boost/console/publisher/settings"]);
+      this.router.navigate(['/boost/console/publisher/settings']);
     }
   }
 
   getStatistics() {
-    this.client.get("api/v2/boost/sums").then((res: any) => {
+    this.client.get('api/v2/boost/sums').then((res: any) => {
       this.stats.points_count = res.sums.points_count;
       this.stats.points_earnings = res.sums.points_earnings;
       this.stats.usd_count = res.sums.usd_count;

@@ -2,23 +2,23 @@ import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  EventEmitter
-} from "@angular/core";
+  EventEmitter,
+} from '@angular/core';
 
-import { Client } from "../../../../../services/api";
-import { Session } from "../../../../../services/session";
+import { Client } from '../../../../../services/api';
+import { Session } from '../../../../../services/session';
 
-import { AttachmentService } from "../../../../../services/attachment";
+import { AttachmentService } from '../../../../../services/attachment';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-activity-preview",
-  inputs: ["object"],
-  templateUrl: "activity.html",
+  selector: 'minds-activity-preview',
+  inputs: ['object'],
+  templateUrl: 'activity.html',
   host: {
-    class: "mdl-shadow--8dp"
+    class: 'mdl-shadow--8dp',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityPreview {
   minds = window.Minds;

@@ -1,8 +1,8 @@
-import { Component, EventEmitter, OnInit, Input, Output } from "@angular/core";
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-date-input",
+  selector: 'minds-date-input',
   template: `
     <div class="m-date-input--field">
       <select
@@ -47,16 +47,16 @@ import { Component, EventEmitter, OnInit, Input, Output } from "@angular/core";
         <option *ngFor="let year of years" [value]="year">{{ year }}</option>
       </select>
     </div>
-  `
+  `,
 })
 export class DateInputComponent implements OnInit {
   months: string[];
   days: string[];
   years: string[];
 
-  selectedMonth: string = "";
-  selectedDay: string = "";
-  selectedYear: string = "";
+  selectedMonth: string = '';
+  selectedDay: string = '';
+  selectedYear: string = '';
   @Input() showClearButton: boolean = true;
   @Input() disabled: boolean = false;
 
@@ -68,7 +68,7 @@ export class DateInputComponent implements OnInit {
       return;
     }
 
-    let values = value.split("-");
+    let values = value.split('-');
 
     if (values.length < 1 || values.length > 3) {
       return;
@@ -97,18 +97,18 @@ export class DateInputComponent implements OnInit {
 
   ngOnInit() {
     this.months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
 
     this.days = [];
@@ -124,9 +124,9 @@ export class DateInputComponent implements OnInit {
   }
 
   build() {
-    let date: string = "";
+    let date: string = '';
 
-    if (this.selectedMonth !== "") {
+    if (this.selectedMonth !== '') {
       if (this.selectedYear) {
         date = `${this.pad(this.selectedYear, 4)}-`;
       }
@@ -143,9 +143,9 @@ export class DateInputComponent implements OnInit {
   }
 
   clear() {
-    this.selectedMonth = "";
-    this.selectedDay = "";
-    this.selectedYear = "";
+    this.selectedMonth = '';
+    this.selectedDay = '';
+    this.selectedYear = '';
 
     this.build();
   }
@@ -155,11 +155,11 @@ export class DateInputComponent implements OnInit {
       return true;
     }
 
-    if (typeof day !== "number") {
+    if (typeof day !== 'number') {
       day = parseInt(day, 10);
     }
 
-    if (typeof month !== "number") {
+    if (typeof month !== 'number') {
       month = parseInt(month, 10);
     }
 
@@ -185,6 +185,6 @@ export class DateInputComponent implements OnInit {
       return val;
     }
 
-    return (Array(pad + 1).join("0") + val).slice(-pad);
+    return (Array(pad + 1).join('0') + val).slice(-pad);
   }
 }

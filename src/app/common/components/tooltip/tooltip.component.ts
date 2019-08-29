@@ -1,16 +1,16 @@
-import { Component, ElementRef, Input } from "@angular/core";
+import { Component, ElementRef, Input } from '@angular/core';
 
 @Component({
-  selector: "m-tooltip",
-  templateUrl: "tooltip.component.html",
+  selector: 'm-tooltip',
+  templateUrl: 'tooltip.component.html',
   host: {
-    "(mouseover)": "setHidden(false)",
-    "(mouseout)": "setHidden(true)"
-  }
+    '(mouseover)': 'setHidden(false)',
+    '(mouseout)': 'setHidden(true)',
+  },
 })
 export class TooltipComponent {
   @Input() icon;
-  @Input() anchor: "top" | "bottom" | "right" | "left";
+  @Input() anchor: 'top' | 'bottom' | 'right' | 'left';
   @Input() iconClass;
   @Input() useParentPosition: boolean = false;
 
@@ -26,16 +26,16 @@ export class TooltipComponent {
 
     if (!this.hidden && this.useParentPosition) {
       switch (this.anchor) {
-        case "top":
+        case 'top':
           this.anchorTop();
           break;
-        case "bottom":
+        case 'bottom':
           this.anchorBottom();
           break;
-        case "left":
+        case 'left':
           this.anchorLeft();
           break;
-        case "right":
+        case 'right':
           this.anchorRight();
           break;
       }

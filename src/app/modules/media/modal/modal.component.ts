@@ -4,53 +4,53 @@ import {
   OnDestroy,
   Input,
   HostListener,
-  ViewChild
-} from "@angular/core";
-import { Location } from "@angular/common";
-import { Router, Event, NavigationStart } from "@angular/router";
+  ViewChild,
+} from '@angular/core';
+import { Location } from '@angular/common';
+import { Router, Event, NavigationStart } from '@angular/router';
 import {
   trigger,
   state,
   style,
   animate,
-  transition
-} from "@angular/animations";
-import { Subscription } from "rxjs";
-import { Session } from "../../../services/session";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { AnalyticsService } from "../../../services/analytics";
-import { MindsVideoComponent } from "../components/video/video.component";
-import isMobileOrTablet from "../../../helpers/is-mobile-or-tablet";
+  transition,
+} from '@angular/animations';
+import { Subscription } from 'rxjs';
+import { Session } from '../../../services/session';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { AnalyticsService } from '../../../services/analytics';
+import { MindsVideoComponent } from '../components/video/video.component';
+import isMobileOrTablet from '../../../helpers/is-mobile-or-tablet';
 
 @Component({
-  selector: "m-media--modal",
-  templateUrl: "modal.component.html",
+  selector: 'm-media--modal',
+  templateUrl: 'modal.component.html',
   animations: [
     // Fade media in after load
-    trigger("slowFadeAnimation", [
+    trigger('slowFadeAnimation', [
       state(
-        "in",
+        'in',
         style({
-          opacity: 1
+          opacity: 1,
         })
       ),
       state(
-        "out",
+        'out',
         style({
-          opacity: 0
+          opacity: 0,
         })
       ),
-      transition("in <=> out", [animate("600ms")])
+      transition('in <=> out', [animate('600ms')]),
     ]),
     // Fade overlay in/out
-    trigger("fastFadeAnimation", [
-      transition(":enter", [
+    trigger('fastFadeAnimation', [
+      transition(':enter', [
         style({ opacity: 0 }),
-        animate("300ms", style({ opacity: 1 }))
+        animate('300ms', style({ opacity: 1 })),
       ]),
-      transition(":leave", [animate("300ms", style({ opacity: 0 }))])
-    ])
-  ]
+      transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class MediaModalComponent implements OnInit, OnDestroy {
   minds = window.Minds;
@@ -80,13 +80,13 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   contentWidth: number = 360;
   padding: number = 20; // 20px on each side
 
-  title: string = "";
-  thumbnail: string = "";
+  title: string = '';
+  thumbnail: string = '';
   boosted: boolean = false;
-  ownerIconTime: string = "";
-  permalinkGuid: string = "";
+  ownerIconTime: string = '';
+  permalinkGuid: string = '';
   hasMessage: boolean = true;
-  message: string = "";
+  message: string = '';
 
   // Used for backdrop click detection hack
   isOpen: boolean = false;
@@ -97,7 +97,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   routerSubscription: Subscription;
 
-  @Input("entity") set data(entity) {
+  @Input('entity') set data(entity) {
     this.entity = entity;
     this.entityWidth = 0;
     this.entityHeight = 0;
@@ -155,10 +155,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.isTablet =
       isMobileOrTablet() && Math.min(screen.width, screen.height) >= 768;
 
-    this.isVideo = this.entity.custom_type === "video";
+    this.isVideo = this.entity.custom_type === 'video';
 
-    this.analyticsService.send("pageview", {
-      url: `/media/${this.entity.entity_guid}?ismodal=true`
+    this.analyticsService.send('pageview', {
+      url: `/media/${this.entity.entity_guid}?ismodal=true`,
     });
 
     // * LOCATION & ROUTING * -----------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   // Re-calculate height/width when window resizes
-  @HostListener("window:resize", ["$resizeEvent"])
+  @HostListener('window:resize', ['$resizeEvent'])
   onResize(resizeEvent) {
     this.calculateDimensions();
   }
@@ -243,7 +243,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.stageWidth = windowWidth;
       this.stageHeight = windowHeight;
 
-      if (this.entity.custom_type === "image") {
+      if (this.entity.custom_type === 'image') {
         // For images, set mediaHeight as tall as possible but not taller than instrinsic height
         this.mediaHeight =
           this.entityHeight < windowHeight ? this.entityHeight : windowHeight;
@@ -337,17 +337,17 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   // * FULLSCREEN * --------------------------------------------------------------------------------
   // Listen for fullscreen change event in case user enters/exits full screen without clicking button
-  @HostListener("document:fullscreenchange", ["$event"])
-  @HostListener("document:webkitfullscreenchange", ["$event"])
-  @HostListener("document:mozfullscreenchange", ["$event"])
-  @HostListener("document:MSFullscreenChange", ["$event"])
+  @HostListener('document:fullscreenchange', ['$event'])
+  @HostListener('document:webkitfullscreenchange', ['$event'])
+  @HostListener('document:mozfullscreenchange', ['$event'])
+  @HostListener('document:MSFullscreenChange', ['$event'])
   onFullscreenChange(event) {
     this.calculateDimensions();
     if (
       !document.fullscreenElement &&
-      !document["webkitFullscreenElement"] &&
-      !document["mozFullScreenElement"] &&
-      !document["msFullscreenElement"]
+      !document['webkitFullscreenElement'] &&
+      !document['mozFullScreenElement'] &&
+      !document['msFullscreenElement']
     ) {
       this.isFullscreen = false;
     } else {
@@ -356,26 +356,26 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   toggleFullscreen() {
-    const elem = document.querySelector(".m-mediaModal__stageWrapper");
+    const elem = document.querySelector('.m-mediaModal__stageWrapper');
     this.fullscreenHovering = false;
     this.calculateDimensions();
 
     // If fullscreen is not already enabled
     if (
-      !document["fullscreenElement"] &&
-      !document["webkitFullscreenElement"] &&
-      !document["mozFullScreenElement"] &&
-      !document["msFullscreenElement"]
+      !document['fullscreenElement'] &&
+      !document['webkitFullscreenElement'] &&
+      !document['mozFullScreenElement'] &&
+      !document['msFullscreenElement']
     ) {
       // Request full screen
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
-      } else if (elem["webkitRequestFullscreen"]) {
-        elem["webkitRequestFullscreen"]();
-      } else if (elem["mozRequestFullScreen"]) {
-        elem["mozRequestFullScreen"]();
-      } else if (elem["msRequestFullscreen"]) {
-        elem["msRequestFullscreen"]();
+      } else if (elem['webkitRequestFullscreen']) {
+        elem['webkitRequestFullscreen']();
+      } else if (elem['mozRequestFullScreen']) {
+        elem['mozRequestFullScreen']();
+      } else if (elem['msRequestFullscreen']) {
+        elem['msRequestFullscreen']();
       }
       this.isFullscreen = true;
       return;
@@ -384,12 +384,12 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     // If fullscreen is already enabled, exit it
     if (document.exitFullscreen) {
       document.exitFullscreen();
-    } else if (document["webkitExitFullscreen"]) {
-      document["webkitExitFullscreen"]();
-    } else if (document["mozCancelFullScreen"]) {
-      document["mozCancelFullScreen"]();
-    } else if (document["msExitFullscreen"]) {
-      document["msExitFullscreen"]();
+    } else if (document['webkitExitFullscreen']) {
+      document['webkitExitFullscreen']();
+    } else if (document['mozCancelFullScreen']) {
+      document['mozCancelFullScreen']();
+    } else if (document['msExitFullscreen']) {
+      document['msExitFullscreen']();
     }
     this.isFullscreen = false;
   }
@@ -397,7 +397,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   // * MODAL DISMISSAL * --------------------------------------------------------------------------
 
   // Dismiss modal when backdrop is clicked and modal is open
-  @HostListener("document:click", ["$event"])
+  @HostListener('document:click', ['$event'])
   clickedBackdrop($event) {
     $event.preventDefault();
     $event.stopPropagation();

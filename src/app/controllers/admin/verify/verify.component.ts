@@ -1,22 +1,22 @@
-import { Component } from "@angular/core";
-import { Location } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "m-admin--verify",
-  templateUrl: "verify.component.html"
+  selector: 'm-admin--verify',
+  templateUrl: 'verify.component.html',
 })
 export class AdminVerify {
   requests: any[] = [];
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = "";
+  offset: string = '';
 
   constructor(public client: Client, private route: ActivatedRoute) {}
 
@@ -43,8 +43,8 @@ export class AdminVerify {
         this.requests.push(...response.requests);
         this.inProgress = false;
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
         }
@@ -73,7 +73,7 @@ export class AdminVerify {
   }
 
   reject(index) {
-    if (!window.confirm("User will be REJECTED. There is no UNDO. Proceed?")) {
+    if (!window.confirm('User will be REJECTED. There is no UNDO. Proceed?')) {
       return;
     }
 

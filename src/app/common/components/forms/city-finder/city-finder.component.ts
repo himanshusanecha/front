@@ -1,19 +1,19 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter } from '@angular/core';
 
-import { Client, Upload } from "../../../../services/api";
-import { Session } from "../../../../services/session";
+import { Client, Upload } from '../../../../services/api';
+import { Session } from '../../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-form-city-finder",
-  outputs: ["done"],
-  templateUrl: "city-finder.component.html"
+  selector: 'minds-form-city-finder',
+  outputs: ['done'],
+  templateUrl: 'city-finder.component.html',
 })
 export class CityFinderComponent {
-  error: string = "";
+  error: string = '';
   inProgress: boolean = false;
 
-  city: string = "";
+  city: string = '';
   cities: Array<any> = [];
 
   done: EventEmitter<any> = new EventEmitter();
@@ -32,7 +32,7 @@ export class CityFinderComponent {
     }
     this.searching = setTimeout(() => {
       this.client
-        .get("api/v1/geolocation/list", { q: q })
+        .get('api/v1/geolocation/list', { q: q })
         .then((response: any) => {
           this.cities = response.results;
         });
@@ -46,9 +46,9 @@ export class CityFinderComponent {
     this.city = window.Minds.user.city;
     this.inProgress = true;
     this.client
-      .post("api/v1/channel/info", {
-        coordinates: row.lat + "," + row.lon,
-        city: window.Minds.user.city
+      .post('api/v1/channel/info', {
+        coordinates: row.lat + ',' + row.lon,
+        city: window.Minds.user.city,
       })
       .then((response: any) => {
         this.inProgress = false;

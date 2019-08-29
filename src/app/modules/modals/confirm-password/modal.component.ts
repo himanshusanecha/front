@@ -1,20 +1,20 @@
-import { ChangeDetectorRef, Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-confirm-password--modal",
-  templateUrl: "modal.component.html"
+  selector: 'm-confirm-password--modal',
+  templateUrl: 'modal.component.html',
 })
 export class ConfirmPasswordModalComponent {
   minds = window.Minds;
 
   success: boolean = false;
   criticalError: boolean = false;
-  error: string = "";
+  error: string = '';
   inProgress: boolean = false;
   done: any;
   form: FormGroup;
@@ -34,13 +34,13 @@ export class ConfirmPasswordModalComponent {
     public fb: FormBuilder
   ) {
     this.form = fb.group({
-      password: ["", Validators.required]
+      password: ['', Validators.required],
     });
   }
 
   validate() {
     if (!this.form.value.password) {
-      throw new Error("Password should be set.");
+      throw new Error('Password should be set.');
     }
   }
 
@@ -55,7 +55,7 @@ export class ConfirmPasswordModalComponent {
 
   showErrors() {
     if (!this.submitted) {
-      this.error = "";
+      this.error = '';
     }
 
     try {
@@ -80,22 +80,22 @@ export class ConfirmPasswordModalComponent {
     try {
       this.inProgress = true;
       this.submitted = true;
-      this.error = "";
+      this.error = '';
 
-      await this.client.post("api/v2/settings/password/validate", {
-        password: this.form.value.password
+      await this.client.post('api/v2/settings/password/validate', {
+        password: this.form.value.password,
       });
 
       if (this._opts && this._opts.onComplete) {
         this._opts.onComplete({
-          password: this.form.value.password
+          password: this.form.value.password,
         });
         this.overlayModal.dismiss();
       }
     } catch (e) {
       this.inProgress = false;
-      if (e.status === "failed") {
-        this.error = "LoginException::AuthenticationFailed";
+      if (e.status === 'failed') {
+        this.error = 'LoginException::AuthenticationFailed';
       }
     }
   }

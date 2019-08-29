@@ -1,26 +1,26 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../services/api";
-import { MindsTitle } from "../../services/ux/title";
-import { Navigation as NavigationService } from "../../services/navigation";
+import { Client } from '../../services/api';
+import { MindsTitle } from '../../services/ux/title';
+import { Navigation as NavigationService } from '../../services/navigation';
 
 @Component({
   moduleId: module.id,
-  templateUrl: "pages.html"
+  templateUrl: 'pages.html',
 })
 export class Pages {
-  title: string = "";
-  body: string = "";
-  path: string = "";
+  title: string = '';
+  body: string = '';
+  path: string = '';
   header: boolean = false;
   headerTop: number = 0;
 
   pages: Array<any> = [];
-  page: string = "";
-  @ViewChild("body", { read: ElementRef, static: true })
+  page: string = '';
+  @ViewChild('body', { read: ElementRef, static: true })
   bodyElement: ElementRef;
 
   paramsSubscription: Subscription;
@@ -33,12 +33,12 @@ export class Pages {
   ) {}
 
   ngOnInit() {
-    this.titleService.setTitle("...");
+    this.titleService.setTitle('...');
     this.setUpMenu();
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["page"]) {
-        this.page = params["page"];
+      if (params['page']) {
+        this.page = params['page'];
         this.load();
       }
     });
@@ -49,7 +49,7 @@ export class Pages {
   }
 
   load() {
-    this.client.get("api/v1/admin/pages/" + this.page).then((response: any) => {
+    this.client.get('api/v1/admin/pages/' + this.page).then((response: any) => {
       this.title = response.title;
       this.body = response.body;
       this.path = response.path;
@@ -61,6 +61,6 @@ export class Pages {
   }
 
   setUpMenu() {
-    this.pages = this.navigation.getItems("footer");
+    this.pages = this.navigation.getItems('footer');
   }
 }

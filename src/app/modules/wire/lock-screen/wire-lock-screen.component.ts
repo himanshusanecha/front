@@ -4,23 +4,23 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { WireCreatorComponent } from "../creator/creator.component";
-import { SignupModalService } from "../../modals/signup/service";
+  Output,
+} from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { WireCreatorComponent } from '../creator/creator.component';
+import { SignupModalService } from '../../modals/signup/service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wire--lock-screen",
-  templateUrl: "wire-lock-screen.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wire--lock-screen',
+  templateUrl: 'wire-lock-screen.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WireLockScreenComponent {
   @Input() entity: any;
-  @Output("entityChange") update: EventEmitter<any> = new EventEmitter<any>();
+  @Output('entityChange') update: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() preview: any;
 
@@ -51,12 +51,12 @@ export class WireLockScreenComponent {
     this.detectChanges();
 
     this.client
-      .get("api/v1/wire/threshold/" + this.entity.guid)
+      .get('api/v1/wire/threshold/' + this.entity.guid)
       .then((response: any) => {
-        if (response.hasOwnProperty("activity")) {
+        if (response.hasOwnProperty('activity')) {
           this.update.next(response.activity);
           this.detectChanges();
-        } else if (response.hasOwnProperty("entity")) {
+        } else if (response.hasOwnProperty('entity')) {
           this.update.next(response.entity);
           this.detectChanges();
         } else {
@@ -68,7 +68,7 @@ export class WireLockScreenComponent {
       .catch(e => {
         this.inProgress = false;
         this.detectChanges();
-        console.error("got error: ", e);
+        console.error('got error: ', e);
       });
   }
 
@@ -80,7 +80,7 @@ export class WireLockScreenComponent {
     this.overlayModal
       .create(WireCreatorComponent, this.entity, {
         onComplete: () => this.wireSubmitted(),
-        default: this.entity.wire_threshold
+        default: this.entity.wire_threshold,
       })
       .present();
   }
@@ -114,9 +114,9 @@ export class WireLockScreenComponent {
 
     let image =
       window.Minds.cdn_url +
-      "fs/v1/paywall/preview/" +
+      'fs/v1/paywall/preview/' +
       this.entity.ownerObj.guid +
-      "/" +
+      '/' +
       this.entity.ownerObj.merchant.exclusive.background;
 
     return `url(${image})`;

@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Web3WalletService } from "../web3-wallet.service";
+import { Injectable } from '@angular/core';
+import { Web3WalletService } from '../web3-wallet.service';
 
 @Injectable()
 export class TokenDistributionEventService {
@@ -13,15 +13,15 @@ export class TokenDistributionEventService {
     ethAmount: number,
     rate: number,
     gasPriceGwei: number = this.web3Wallet.config.default_gas_price || 1,
-    message: string = ""
+    message: string = ''
   ) {
     await this.web3Wallet.ready();
 
     if (this.web3Wallet.isUnavailable()) {
-      throw new Error("No Ethereum wallets available on your browser.");
+      throw new Error('No Ethereum wallets available on your browser.');
     } else if (!(await this.web3Wallet.unlock())) {
       throw new Error(
-        "Your Ethereum wallet is locked or connected to another network."
+        'Your Ethereum wallet is locked or connected to another network.'
       );
     }
 
@@ -37,9 +37,9 @@ export class TokenDistributionEventService {
       {
         from: wallet,
         to: this.web3Wallet.config.token_distribution_event_address,
-        value: this.web3Wallet.EthJS.toWei(ethAmount, "ether"),
-        gasPrice: this.web3Wallet.EthJS.toWei(gasPriceGwei, "Gwei"),
-        data: "0x"
+        value: this.web3Wallet.EthJS.toWei(ethAmount, 'ether'),
+        gasPrice: this.web3Wallet.EthJS.toWei(gasPriceGwei, 'Gwei'),
+        data: '0x',
       },
       `purchase of ${ethAmount} ETH worth Minds Tokens. ${message}`.trim()
     );

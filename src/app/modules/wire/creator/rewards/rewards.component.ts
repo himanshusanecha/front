@@ -1,15 +1,15 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import {
   WireRewardsType,
   WireRewardsStruc,
-  WireRewardsTiers
-} from "../../interfaces/wire.interfaces";
+  WireRewardsTiers,
+} from '../../interfaces/wire.interfaces';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wire--creator-rewards",
-  templateUrl: "rewards.component.html"
+  selector: 'm-wire--creator-rewards',
+  templateUrl: 'rewards.component.html',
 })
 export class WireCreatorRewardsComponent {
   @Input() rewards: WireRewardsStruc;

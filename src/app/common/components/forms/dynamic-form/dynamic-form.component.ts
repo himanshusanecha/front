@@ -4,19 +4,19 @@ import {
   Input,
   AfterViewChecked,
   OnChanges,
-  SimpleChanges
-} from "@angular/core";
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormControl,
-  Validators
-} from "@angular/forms";
+  Validators,
+} from '@angular/forms';
 
 @Component({
-  selector: "m-dynamic-form",
-  templateUrl: "./dynamic-form.component.html",
-  styleUrls: ["./dynamic-form.component.scss"]
+  selector: 'm-dynamic-form',
+  templateUrl: './dynamic-form.component.html',
+  styleUrls: ['./dynamic-form.component.scss'],
 })
 export class DynamicFormComponent
   implements OnInit, AfterViewChecked, OnChanges {
@@ -38,7 +38,7 @@ export class DynamicFormComponent
     const formGroup = {};
     for (const prop of Object.keys(this.fields)) {
       formGroup[prop] = new FormControl(
-        this.fields[prop].value || "",
+        this.fields[prop].value || '',
         this.mapValidators(this.fields[prop].validation)
       );
     }
@@ -62,13 +62,13 @@ export class DynamicFormComponent
     if (validators) {
       for (const validation of Object.keys(validators)) {
         switch (validation) {
-          case "required":
+          case 'required':
             formValidators.push(Validators.required);
             break;
-          case "min":
+          case 'min':
             formValidators.push(Validators.min(validators[validation]));
             break;
-          case "max":
+          case 'max':
             formValidators.push(Validators.max(validators[validation]));
             break;
         }

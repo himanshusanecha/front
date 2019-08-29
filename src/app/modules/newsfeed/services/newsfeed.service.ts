@@ -1,7 +1,7 @@
-import { EventEmitter, Injectable } from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
-import { NSFWSelectorConsumerService } from "../../../common/components/nsfw-selector/nsfw-selector.service";
+import { EventEmitter, Injectable } from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
+import { NSFWSelectorConsumerService } from '../../../common/components/nsfw-selector/nsfw-selector.service';
 
 @Injectable()
 export class NewsfeedService {
@@ -40,14 +40,14 @@ export class NewsfeedService {
       if (!visible) url += `/stop`;
 
       return await this.client.post(url, {
-        client_meta: clientMeta
+        client_meta: clientMeta,
       });
     }
 
     return await this.client.post(
       `api/v2/analytics/views/activity/${entity.guid}`,
       {
-        client_meta: clientMeta
+        client_meta: clientMeta,
       }
     );
   }

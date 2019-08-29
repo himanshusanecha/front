@@ -2,15 +2,15 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit
-} from "@angular/core";
-import { Client } from "../../../../services/api/client";
+  OnInit,
+} from '@angular/core';
+import { Client } from '../../../../services/api/client';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wallet--balance-rewards",
-  templateUrl: "balance.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wallet--balance-rewards',
+  templateUrl: 'balance.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletBalanceRewardsComponent implements OnInit {
   inProgress: boolean = false;
@@ -31,10 +31,10 @@ export class WalletBalanceRewardsComponent implements OnInit {
         `api/v2/blockchain/rewards/balance`
       );
 
-      if (response && typeof response.balance !== "undefined") {
+      if (response && typeof response.balance !== 'undefined') {
         this.balance = response.balance;
       } else {
-        console.error("No data");
+        console.error('No data');
         this.balance = 0;
       }
     } catch (e) {

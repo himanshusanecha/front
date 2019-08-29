@@ -1,8 +1,8 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "m-androidApp__download",
+  selector: 'm-androidApp__download',
   template: `
     <a routerLink="/mobile" class="m-androidApp__download">
       <i class="material-icons">android</i>
@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
         Android App
       </h2>
     </a>
-  `
+  `,
 })
 export class AndroidAppDownloadComponent {
   minds = window.Minds;

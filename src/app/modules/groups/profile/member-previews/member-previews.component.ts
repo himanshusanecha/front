@@ -1,14 +1,14 @@
-import { Component, ViewChild, ChangeDetectorRef, Input } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { Client } from "../../../../services/api";
-import { UpdateMarkersService } from "../../../../common/services/update-markers.service";
-import { VideoChatService } from "../../../videochat/videochat.service";
-import { timer, Subscription } from "rxjs";
+import { Client } from '../../../../services/api';
+import { UpdateMarkersService } from '../../../../common/services/update-markers.service';
+import { VideoChatService } from '../../../videochat/videochat.service';
+import { timer, Subscription } from 'rxjs';
 
 @Component({
-  selector: "m-group--member-previews",
-  templateUrl: "member-previews.component.html"
+  selector: 'm-group--member-previews',
+  templateUrl: 'member-previews.component.html',
 })
 export class GroupMemberPreviews {
   @Input() group;
@@ -75,7 +75,7 @@ export class GroupMemberPreviews {
 
           if (
             marker.entity_guid === this.group.guid &&
-            marker.marker === "gathering-heartbeat" &&
+            marker.marker === 'gathering-heartbeat' &&
             marker.updated_timestamp > this.currentTimestamp() - 30
           ) {
             this.userIsInGathering(marker.user_guid);

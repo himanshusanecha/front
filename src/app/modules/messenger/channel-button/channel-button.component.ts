@@ -3,19 +3,19 @@ import {
   ElementRef,
   ChangeDetectorRef,
   EventEmitter,
-  Injector
-} from "@angular/core";
+  Injector,
+} from '@angular/core';
 
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { Storage } from "../../../services/storage";
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { Storage } from '../../../services/storage';
 
-import { MessengerConversationDockpanesService } from "../dockpanes/dockpanes.service";
+import { MessengerConversationDockpanesService } from '../dockpanes/dockpanes.service';
 
 @Component({
-  selector: "m-messenger--channel-button",
-  templateUrl: "channel-button.component.html",
-  inputs: ["user"]
+  selector: 'm-messenger--channel-button',
+  templateUrl: 'channel-button.component.html',
+  inputs: ['user'],
 })
 export class MessengerChannelButton {
   minds: Minds = window.Minds;
@@ -37,13 +37,13 @@ export class MessengerChannelButton {
     return {
       guid: this.permutate(),
       participants: [this.user],
-      open: true
+      open: true,
     };
   }
 
   private permutate() {
     let participants = [this.user.guid, this.session.getLoggedInUser().guid];
     participants.sort((a, b) => (a < b ? -1 : 1));
-    return participants.join(":");
+    return participants.join(':');
   }
 }

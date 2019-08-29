@@ -1,15 +1,15 @@
-import { AbbrPipe } from "./abbr";
-import { DomainPipe } from "./domain";
-import { TagsPipe } from "./tags";
-import { SanitizePipe } from "./sanitize";
-import { SafePipe } from "./safe";
-import { ListablePipe } from "./listable";
-import { ExcerptPipe } from "./excerpt";
-import { TokenPipe } from "./token.pipe";
-import { UtcDatePipe } from "./utcdate";
-import { AddressExcerptPipe } from "./address-excerpt";
-import { TimediffPipe } from "./timediff.pipe";
-import { FriendlyDateDiffPipe } from "./friendlydatediff";
+import { AbbrPipe } from './abbr';
+import { DomainPipe } from './domain';
+import { TagsPipe } from './tags';
+import { SanitizePipe } from './sanitize';
+import { SafePipe } from './safe';
+import { ListablePipe } from './listable';
+import { ExcerptPipe } from './excerpt';
+import { TokenPipe } from './token.pipe';
+import { UtcDatePipe } from './utcdate';
+import { AddressExcerptPipe } from './address-excerpt';
+import { TimediffPipe } from './timediff.pipe';
+import { FriendlyDateDiffPipe } from './friendlydatediff';
 
 export const MINDS_PIPES = [
   AbbrPipe,
@@ -23,5 +23,5 @@ export const MINDS_PIPES = [
   UtcDatePipe,
   AddressExcerptPipe,
   TimediffPipe,
-  FriendlyDateDiffPipe
+  FriendlyDateDiffPipe,
 ];

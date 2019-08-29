@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   moduleId: module.id,
-  selector: "m--crypto-token-symbol",
+  selector: 'm--crypto-token-symbol',
   template: `
     <svg
       width="0.71em"
@@ -76,6 +76,6 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
       </g>
     </svg>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MindsTokenSymbolComponent {}

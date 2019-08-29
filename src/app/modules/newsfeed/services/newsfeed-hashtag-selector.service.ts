@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { Subject, Subscription } from "rxjs";
-import { SideBarSelectorChange } from "../../hashtags/sidebar-selector/sidebar-selector.component";
-import { debounceTime } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
+import { SideBarSelectorChange } from '../../hashtags/sidebar-selector/sidebar-selector.component';
+import { debounceTime } from 'rxjs/operators';
 
 @Injectable()
 export class NewsfeedHashtagSelectorService {

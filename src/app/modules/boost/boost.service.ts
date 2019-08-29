@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Client } from "../../services/api";
-import { Session } from "../../services/session";
-import { BoostContractService } from "../blockchain/contracts/boost-contract.service";
+import { Client } from '../../services/api';
+import { Session } from '../../services/session';
+import { BoostContractService } from '../blockchain/contracts/boost-contract.service';
 
 @Injectable()
 export class BoostService {
@@ -23,12 +23,12 @@ export class BoostService {
     return this.client
       .get(`api/v2/boost/${type}/${filter}`, {
         limit: limit || 12,
-        offset: offset || ""
+        offset: offset || '',
       })
-      .then(({ boosts, "load-next": loadNext }) => {
+      .then(({ boosts, 'load-next': loadNext }) => {
         return {
           boosts: boosts && boosts.length ? boosts : [],
-          loadNext: loadNext || ""
+          loadNext: loadNext || '',
         };
       });
   }
@@ -37,12 +37,12 @@ export class BoostService {
    * Accepts a P2P boost.
    */
   async accept(boost): Promise<boolean> {
-    if (this.getBoostType(boost) !== "p2p") {
+    if (this.getBoostType(boost) !== 'p2p') {
       return false;
     }
 
     try {
-      if (boost.currency == "tokens") {
+      if (boost.currency == 'tokens') {
         let tx = await this.boostContractService.accept(boost.guid);
 
         if (!tx) {
@@ -50,12 +50,12 @@ export class BoostService {
         }
       }
 
-      boost.state = "accepted";
+      boost.state = 'accepted';
 
       await this.client.put(`api/v2/boost/peer/${boost.guid}`);
       return true;
     } catch (e) {
-      boost.state = "created";
+      boost.state = 'created';
       return false;
     }
   }
@@ -65,8 +65,8 @@ export class BoostService {
    */
   canAccept(boost): boolean {
     return (
-      boost.state === "created" &&
-      this.getBoostType(boost) === "p2p" &&
+      boost.state === 'created' &&
+      this.getBoostType(boost) === 'p2p' &&
       this.isIncoming(boost)
     );
   }
@@ -75,12 +75,12 @@ export class BoostService {
    * Rejects a P2P boost.
    */
   async reject(boost): Promise<boolean> {
-    if (this.getBoostType(boost) !== "p2p") {
+    if (this.getBoostType(boost) !== 'p2p') {
       return false;
     }
 
     try {
-      if (boost.currency == "tokens") {
+      if (boost.currency == 'tokens') {
         let tx = await this.boostContractService.reject(boost.guid);
 
         if (!tx) {
@@ -88,12 +88,12 @@ export class BoostService {
         }
       }
 
-      boost.state = "rejected";
+      boost.state = 'rejected';
 
       await this.client.delete(`api/v2/boost/peer/${boost.guid}`);
       return true;
     } catch (e) {
-      boost.state = "created";
+      boost.state = 'created';
       return false;
     }
   }
@@ -103,8 +103,8 @@ export class BoostService {
    */
   canReject(boost): boolean {
     return (
-      boost.state === "created" &&
-      this.getBoostType(boost) === "p2p" &&
+      boost.state === 'created' &&
+      this.getBoostType(boost) === 'p2p' &&
       this.isIncoming(boost)
     );
   }
@@ -115,7 +115,7 @@ export class BoostService {
   async revoke(boost): Promise<boolean> {
     let revokeEndpoint;
 
-    if (this.getBoostType(boost) === "p2p") {
+    if (this.getBoostType(boost) === 'p2p') {
       // P2P
       revokeEndpoint = `api/v2/boost/peer/${boost.guid}/revoke`;
     } else {
@@ -132,11 +132,11 @@ export class BoostService {
         }
       }
 
-      boost.state = "revoked";
+      boost.state = 'revoked';
       await this.client.delete(revokeEndpoint);
       return true;
     } catch (e) {
-      boost.state = "created";
+      boost.state = 'created';
       return false;
     }
   }
@@ -146,9 +146,9 @@ export class BoostService {
    */
   canRevoke(boost): boolean {
     return (
-      boost.state === "created" &&
-      ((this.getBoostType(boost) === "p2p" && !this.isIncoming(boost)) ||
-        this.getBoostType(boost) !== "p2p")
+      boost.state === 'created' &&
+      ((this.getBoostType(boost) === 'p2p' && !this.isIncoming(boost)) ||
+        this.getBoostType(boost) !== 'p2p')
     );
   }
 
@@ -159,7 +159,7 @@ export class BoostService {
     if (boost.handler) {
       return boost.handler;
     } else if (boost.destination) {
-      return "p2p";
+      return 'p2p';
     }
 
     return false;
@@ -175,5 +175,5 @@ export class BoostService {
   /**
    * Returns true if the transactionid indicates that the transaction is onChain;
    */
-  isOnChain = (boost: any) => boost.transactionId.startsWith("0x");
+  isOnChain = (boost: any) => boost.transactionId.startsWith('0x');
 }

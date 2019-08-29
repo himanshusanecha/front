@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { TopbarHashtagsService } from "../../../hashtags/service/topbar.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { TopbarHashtagsService } from '../../../hashtags/service/topbar.service';
 
 type Hashtag = {
   value: string;
@@ -7,7 +7,7 @@ type Hashtag = {
 };
 
 @Component({
-  selector: "m-onboarding--topics",
+  selector: 'm-onboarding--topics',
   template: `
     <div class="m-channelOnboarding__slide">
       <h2>Welcome to Minds!</h2>
@@ -56,14 +56,14 @@ type Hashtag = {
         </li>
       </ul>
     </div>
-  `
+  `,
 })
 export class TopicsOnboardingComponent implements OnInit {
-  static items = ["suggested_hashtags"];
+  static items = ['suggested_hashtags'];
   static canSkip: boolean = true;
   @Input() pendingItems: Array<string>;
 
-  input: string = "";
+  input: string = '';
   addingHashtag: boolean = false;
   hashtags: Array<Hashtag> = [];
   error: string;
@@ -91,7 +91,7 @@ export class TopicsOnboardingComponent implements OnInit {
     try {
       await this.service.toggleSelection(hashtag, this);
     } catch (e) {
-      this.error = (e && e.message) || "Sorry, something went wrong";
+      this.error = (e && e.message) || 'Sorry, something went wrong';
       hashtag.selected = !hashtag.selected;
     }
   }
@@ -100,11 +100,11 @@ export class TopicsOnboardingComponent implements OnInit {
     this.addingHashtag = true;
     let hashtag: Hashtag = {
       value: this.service.cleanupHashtag(this.input.toLowerCase()),
-      selected: false
+      selected: false,
     };
     this.hashtags.push(hashtag);
     await this.toggleSelection(hashtag);
-    this.input = ""; // clear input
+    this.input = ''; // clear input
     this.addingHashtag = false;
   }
 

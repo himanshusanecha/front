@@ -2,19 +2,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ViewChild
-} from "@angular/core";
-import { Client } from "../../../../services/api/client";
-import { WithdrawContractService } from "../../../blockchain/contracts/withdraw-contract.service";
-import { Session } from "../../../../services/session";
-import { WalletTokenWithdrawLedgerComponent } from "./ledger/ledger.component";
-import { Web3WalletService } from "../../../blockchain/web3-wallet.service";
+  ViewChild,
+} from '@angular/core';
+import { Client } from '../../../../services/api/client';
+import { WithdrawContractService } from '../../../blockchain/contracts/withdraw-contract.service';
+import { Session } from '../../../../services/session';
+import { WalletTokenWithdrawLedgerComponent } from './ledger/ledger.component';
+import { Web3WalletService } from '../../../blockchain/web3-wallet.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wallet-token--withdraw",
-  templateUrl: "withdraw.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wallet-token--withdraw',
+  templateUrl: 'withdraw.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletTokenWithdrawComponent {
   inProgress: boolean = false;
@@ -22,7 +22,7 @@ export class WalletTokenWithdrawComponent {
   available: number = 0;
   amount: number = 0;
 
-  error: string = "";
+  error: string = '';
   hasWithdrawnToday: boolean = false;
 
   withholding: number = 0;
@@ -43,13 +43,13 @@ export class WalletTokenWithdrawComponent {
     try {
       await this.checkPreviousWithdrawals();
     } catch (e) {
-      this.error = "You can only withdraw once a day";
+      this.error = 'You can only withdraw once a day';
     }
   }
 
   async load() {
     this.inProgress = true;
-    this.error = "";
+    this.error = '';
     this.detectChanges();
 
     try {
@@ -57,7 +57,7 @@ export class WalletTokenWithdrawComponent {
         `api/v2/blockchain/wallet/balance`
       );
 
-      if (response && typeof response.addresses !== "undefined") {
+      if (response && typeof response.addresses !== 'undefined') {
         this.balance = response.addresses[1].balance / Math.pow(10, 18);
         this.available = response.addresses[1].available / Math.pow(10, 18);
 
@@ -67,11 +67,11 @@ export class WalletTokenWithdrawComponent {
 
         this.setAmount(this.available);
       } else {
-        this.error = "Server error";
+        this.error = 'Server error';
       }
     } catch (e) {
       console.error(e);
-      this.error = (e && e.message) || "Server error";
+      this.error = (e && e.message) || 'Server error';
     } finally {
       this.inProgress = false;
       this.detectChanges();
@@ -80,11 +80,11 @@ export class WalletTokenWithdrawComponent {
 
   async checkPreviousWithdrawals() {
     let response: any = await this.client.post(
-      "api/v2/blockchain/transactions/can-withdraw"
+      'api/v2/blockchain/transactions/can-withdraw'
     );
     if (!response.canWithdraw) {
       this.hasWithdrawnToday = true;
-      throw new Error("You can only withdraw once a day");
+      throw new Error('You can only withdraw once a day');
     }
   }
 
@@ -94,13 +94,13 @@ export class WalletTokenWithdrawComponent {
       return;
     }
 
-    if (typeof amount === "number") {
+    if (typeof amount === 'number') {
       this.amount = amount;
       this.detectChanges();
       return;
     }
 
-    amount = amount.replace(/,/g, "");
+    amount = amount.replace(/,/g, '');
     this.amount = parseFloat(amount);
     this.detectChanges();
   }
@@ -116,7 +116,7 @@ export class WalletTokenWithdrawComponent {
 
   async withdraw() {
     this.inProgress = true;
-    this.error = "";
+    this.error = '';
     this.detectChanges();
 
     try {
@@ -125,10 +125,10 @@ export class WalletTokenWithdrawComponent {
       await this.web3Wallet.ready();
 
       if (this.web3Wallet.isUnavailable()) {
-        throw new Error("No Ethereum wallets available on your browser.");
+        throw new Error('No Ethereum wallets available on your browser.');
       } else if (!(await this.web3Wallet.unlock())) {
         throw new Error(
-          "Your Ethereum wallet is locked or connected to another network."
+          'Your Ethereum wallet is locked or connected to another network.'
         );
       }
 
@@ -152,11 +152,11 @@ export class WalletTokenWithdrawComponent {
         this.refresh();
         this.ledgerComponent.prepend(response.entity);
       } else {
-        this.error = "Server error";
+        this.error = 'Server error';
       }
     } catch (e) {
       console.error(e);
-      this.error = (e && e.message) || "Server error";
+      this.error = (e && e.message) || 'Server error';
     } finally {
       this.inProgress = false;
       this.detectChanges();

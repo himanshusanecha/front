@@ -1,11 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "m-helpdesk--dashboard--all",
-  templateUrl: "all.component.html"
+  selector: 'm-helpdesk--dashboard--all',
+  templateUrl: 'all.component.html',
 })
 export class AllHelpdeskDashboardComponent implements OnInit {
   minds = window.Minds;
@@ -25,14 +25,14 @@ export class AllHelpdeskDashboardComponent implements OnInit {
 
   async load() {
     let response: any = await this.client.get(`api/v2/helpdesk/categories`, {
-      limit: 5000
+      limit: 5000,
     });
     this.categories = response.categories.sort(
       (a, b) => a.position - b.position
     );
 
     response = await this.client.get(`api/v2/helpdesk/questions`, {
-      limit: 5000
+      limit: 5000,
     });
     this.questions = response.questions;
 

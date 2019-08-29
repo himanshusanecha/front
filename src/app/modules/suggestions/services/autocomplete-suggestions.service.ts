@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Client } from "../../../services/api/client";
-import autobind from "../../../helpers/autobind";
+import { Injectable } from '@angular/core';
+import { Client } from '../../../services/api/client';
+import autobind from '../../../helpers/autobind';
 
 @Injectable()
 export class AutocompleteSuggestionsService {
@@ -8,23 +8,23 @@ export class AutocompleteSuggestionsService {
 
   @autobind()
   async findSuggestions(searchText: string, triggerCharacter: string) {
-    if (searchText == "") return;
+    if (searchText == '') return;
 
-    let url = "api/v2/search/suggest";
+    let url = 'api/v2/search/suggest';
 
-    if (triggerCharacter === "#") {
-      url += "/tags";
+    if (triggerCharacter === '#') {
+      url += '/tags';
     }
     const response: any = await this.client.get(url, { q: searchText });
 
     let result;
     switch (triggerCharacter) {
-      case "#":
+      case '#':
         result = response.tags.filter(item =>
           item.toLowerCase().includes(searchText.toLowerCase())
         );
         break;
-      case "@":
+      case '@':
         result = response.entities.filter(item =>
           item.username.toLowerCase().includes(searchText.toLowerCase())
         );
@@ -35,10 +35,10 @@ export class AutocompleteSuggestionsService {
   }
 
   getChoiceLabel(choice: any, triggerCharacter: string) {
-    let text = "";
-    if (typeof choice === "string") {
+    let text = '';
+    if (typeof choice === 'string') {
       text = choice;
-    } else if (choice.type && choice.type == "user") {
+    } else if (choice.type && choice.type == 'user') {
       text = choice.username;
     }
     return `${triggerCharacter}${text}`;

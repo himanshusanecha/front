@@ -6,14 +6,14 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
-} from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import { timespanOption } from "../timespanOption";
-import { removeCurrentUnits } from "../../../util";
+  ViewChild,
+} from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import { timespanOption } from '../timespanOption';
+import { removeCurrentUnits } from '../../../util';
 
 @Component({
-  selector: "m-analyticscharts__onchainplus",
+  selector: 'm-analyticscharts__onchainplus',
   template: `
     <div class="m-chart" #chartContainer>
       <div
@@ -28,12 +28,12 @@ import { removeCurrentUnits } from "../../../util";
         *ngIf="!inProgress && !!data"
       ></m-graph>
     </div>
-  `
+  `,
 })
 export class OnchainPlusChartComponent implements OnInit {
   @Output() loaded: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
 
-  @ViewChild("chartContainer", { static: true }) chartContainer: ElementRef;
+  @ViewChild('chartContainer', { static: true }) chartContainer: ElementRef;
 
   timespan: timespanOption;
   init: boolean = false;
@@ -43,30 +43,30 @@ export class OnchainPlusChartComponent implements OnInit {
   layout: any = {
     width: 0,
     height: 0,
-    title: "",
+    title: '',
     font: {
-      family: "Roboto"
+      family: 'Roboto',
     },
     titlefont: {
-      family: "Roboto",
+      family: 'Roboto',
       size: 24,
-      weight: "bold"
+      weight: 'bold',
     },
     xaxis: {
-      type: "-"
+      type: '-',
     },
     yaxis: {
-      type: "log",
-      dtick: 1
+      type: 'log',
+      dtick: 1,
     },
     margin: {
       t: 16,
       b: 32,
-      l: 32
-    }
+      l: 32,
+    },
   };
 
-  @Input("timespan") set _timespan(value: timespanOption) {
+  @Input('timespan') set _timespan(value: timespanOption) {
     this.timespan = value;
     if (this.init) {
       this.getData();
@@ -92,12 +92,12 @@ export class OnchainPlusChartComponent implements OnInit {
     this.loaded.emit(current);
   }
 
-  @HostListener("window:resize")
+  @HostListener('window:resize')
   applyDimensions() {
     this.layout = {
       ...this.layout,
       width: this.chartContainer.nativeElement.clientWidth,
-      height: this.chartContainer.nativeElement.clientHeight - 35
+      height: this.chartContainer.nativeElement.clientHeight - 35,
     };
   }
 }

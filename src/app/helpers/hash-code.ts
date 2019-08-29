@@ -8,7 +8,7 @@ function dths(number: number, padding: number = 0): string {
   return number
     .toString(16)
     .toLowerCase()
-    .padStart(padding, "0");
+    .padStart(padding, '0');
 }
 
 /**
@@ -30,7 +30,7 @@ export function stringHash(str: string) {
 }
 
 export default function hashCode(str: string, precisionChunks: number = 4) {
-  const paddedStr = str.padStart(precisionChunks, " ");
+  const paddedStr = str.padStart(precisionChunks, ' ');
   const chunkLength = Math.ceil(paddedStr.length / precisionChunks);
 
   const hashCode = [stringHash(paddedStr)];
@@ -39,5 +39,5 @@ export default function hashCode(str: string, precisionChunks: number = 4) {
     hashCode.push(stringHash(paddedStr.substr(i * chunkLength, chunkLength)));
   }
 
-  return hashCode.join("-");
+  return hashCode.join('-');
 }

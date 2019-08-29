@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: "m-helpdesk--questions--search",
-  templateUrl: "search.component.html"
+  selector: 'm-helpdesk--questions--search',
+  templateUrl: 'search.component.html',
 })
 export class SearchQuestionsComponent {
-  query: string = "";
+  query: string = '';
   questions: any[] = [];
   searching: boolean = false;
   private throttle;
@@ -45,7 +45,7 @@ export class SearchQuestionsComponent {
           `api/v2/helpdesk/questions/search`,
           {
             q: query,
-            limit: 8
+            limit: 8,
           }
         );
         if (!response.entities) {
@@ -54,7 +54,7 @@ export class SearchQuestionsComponent {
 
         this.questions = response.entities;
       } catch (e) {
-        console.error("Cannot load results", e);
+        console.error('Cannot load results', e);
       }
     });
   }

@@ -1,10 +1,10 @@
-import { Component, Input, ElementRef } from "@angular/core";
+import { Component, Input, ElementRef } from '@angular/core';
 
-import { VideoAdsService } from "./ads.service";
+import { VideoAdsService } from './ads.service';
 
 @Component({
-  selector: "video-ads",
-  template: ``
+  selector: 'video-ads',
+  template: ``,
 })
 export class VideoAds {
   service: VideoAdsService = new VideoAdsService();
@@ -21,7 +21,7 @@ export class VideoAds {
 
   ngOnInit() {
     //this.setupIMA();
-    this.element.nativeElement.style.display = "none";
+    this.element.nativeElement.style.display = 'none';
   }
 
   setupIMA() {
@@ -48,10 +48,10 @@ export class VideoAds {
     var adsRequest = new this.google.ima.AdsRequest();
 
     adsRequest.adTagUrl =
-      "https://pubads.g.doubleclick.net/gampad/ads? " +
-      "sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&" +
-      "impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&" +
-      "cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=";
+      'https://pubads.g.doubleclick.net/gampad/ads? ' +
+      'sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&' +
+      'impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&' +
+      'cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=';
 
     adsRequest.linearAdSlotWidth = this.player.element.clientWidth;
     adsRequest.linearAdSlotHeight = this.player.element.clientHeight;
@@ -115,7 +115,7 @@ export class VideoAds {
       this.playAds();
     } else {
       this.player.element.addEventListener(
-        "volumechange",
+        'volumechange',
         this.playAds.bind(this)
       );
     }
@@ -125,7 +125,7 @@ export class VideoAds {
     if (this.initialized) return;
 
     this.initialized = true;
-    this.element.nativeElement.style.display = "block";
+    this.element.nativeElement.style.display = 'block';
     this.player.autoplay = true;
     this.adContainer.initialize();
 
@@ -139,7 +139,7 @@ export class VideoAds {
       // An error may be thrown if there was a problem with the VAST response.
       //videoContent.play();
       console.log(err);
-      this.element.nativeElement.style.display = "none";
+      this.element.nativeElement.style.display = 'none';
       return false;
     }
 
@@ -168,19 +168,19 @@ export class VideoAds {
       case this.google.ima.AdEvent.Type.COMPLETE:
         //if (ad.isLinear()) {
         //}
-        this.element.nativeElement.style.display = "none";
+        this.element.nativeElement.style.display = 'none';
         break;
     }
   }
 
   onPause(e) {
-    this.element.nativeElement.style.display = "block";
+    this.element.nativeElement.style.display = 'block';
     this.player.element.pause();
   }
 
   onResume(e) {
     this.player.element.play();
-    this.element.nativeElement.style.display = "none";
+    this.element.nativeElement.style.display = 'none';
   }
 
   onError(e) {

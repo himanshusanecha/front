@@ -1,7 +1,7 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: "m-channel--onboarding--groups",
+  selector: 'm-channel--onboarding--groups',
   template: `
     <div class="m-channelOnboarding__slide">
       <h2>Join some popular groups</h2>
@@ -10,10 +10,10 @@ import { Component, Input } from "@angular/core";
         <m-suggestions__sidebarGroups></m-suggestions__sidebarGroups>
       </div>
     </div>
-  `
+  `,
 })
 export class GroupsOnboardingComponent {
-  static items = ["suggested_groups"];
+  static items = ['suggested_groups'];
   static canSkip: boolean = true;
 
   minds = window.Minds;

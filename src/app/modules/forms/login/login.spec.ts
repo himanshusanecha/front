@@ -3,21 +3,21 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
-import { DebugElement } from "@angular/core";
+  tick,
+} from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
 
-import { LoginForm } from "./login";
-import { ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
-import { Client } from "../../../services/api/client";
-import { By } from "@angular/platform-browser";
-import { Session } from "../../../services/session";
-import { clientMock } from "../../../../tests/client-mock.spec";
-import { sessionMock } from "../../../../tests/session-mock.spec";
-import { MockDirective } from "../../../utils/mock";
+import { LoginForm } from './login';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Client } from '../../../services/api/client';
+import { By } from '@angular/platform-browser';
+import { Session } from '../../../services/session';
+import { clientMock } from '../../../../tests/client-mock.spec';
+import { sessionMock } from '../../../../tests/session-mock.spec';
+import { MockDirective } from '../../../utils/mock';
 
-describe("LoginForm", () => {
+describe('LoginForm', () => {
   let comp: LoginForm;
   let fixture: ComponentFixture<LoginForm>;
   let de: DebugElement;
@@ -33,15 +33,15 @@ describe("LoginForm", () => {
   let twoFactorLoginButton: DebugElement;
   let session: Session;
 
-  function login(response, _username = "username") {
+  function login(response, _username = 'username') {
     username.nativeElement.value = _username;
-    username.nativeElement.dispatchEvent(new Event("input"));
-    password.nativeElement.value = "password";
-    password.nativeElement.dispatchEvent(new Event("input"));
+    username.nativeElement.dispatchEvent(new Event('input'));
+    password.nativeElement.value = 'password';
+    password.nativeElement.dispatchEvent(new Event('input'));
 
     clientMock.post.calls.reset();
 
-    clientMock.response["api/v1/authenticate"] = response;
+    clientMock.response['api/v1/authenticate'] = response;
 
     tick();
     fixture.detectChanges();
@@ -52,12 +52,12 @@ describe("LoginForm", () => {
   }
 
   function twoFactorLogin(response) {
-    twoFactorCode.nativeElement.value = "123123";
-    twoFactorCode.nativeElement.dispatchEvent(new Event("input"));
+    twoFactorCode.nativeElement.value = '123123';
+    twoFactorCode.nativeElement.dispatchEvent(new Event('input'));
 
     clientMock.post.calls.reset();
 
-    clientMock.response["api/v1/twofactor/authenticate"] = response;
+    clientMock.response['api/v1/twofactor/authenticate'] = response;
 
     tick();
     fixture.detectChanges();
@@ -71,14 +71,14 @@ describe("LoginForm", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        MockDirective({ selector: "[mdl]", inputs: ["mdl"] }),
-        LoginForm
+        MockDirective({ selector: '[mdl]', inputs: ['mdl'] }),
+        LoginForm,
       ], // declare the test component
       imports: [RouterTestingModule, ReactiveFormsModule],
       providers: [
         { provide: Session, useValue: sessionMock },
-        { provide: Client, useValue: clientMock }
-      ]
+        { provide: Client, useValue: clientMock },
+      ],
     }).compileComponents(); // compile template and css
   }));
 
@@ -90,17 +90,17 @@ describe("LoginForm", () => {
 
     fixture.detectChanges();
 
-    loginForm = fixture.debugElement.query(By.css("form.m-login-box"));
-    username = fixture.debugElement.query(By.css("#username"));
-    password = fixture.debugElement.query(By.css("#password"));
-    loginButton = fixture.debugElement.query(By.css(".m-btn--login"));
-    errorMessage = fixture.debugElement.query(By.css(".m-error-box"));
+    loginForm = fixture.debugElement.query(By.css('form.m-login-box'));
+    username = fixture.debugElement.query(By.css('#username'));
+    password = fixture.debugElement.query(By.css('#password'));
+    loginButton = fixture.debugElement.query(By.css('.m-btn--login'));
+    errorMessage = fixture.debugElement.query(By.css('.m-error-box'));
     twoFactorForm = fixture.debugElement.query(
-      By.css(".minds-login-box:last-of-type")
+      By.css('.minds-login-box:last-of-type')
     );
-    twoFactorCode = fixture.debugElement.query(By.css("#code"));
+    twoFactorCode = fixture.debugElement.query(By.css('#code'));
     twoFactorLoginButton = fixture.debugElement.query(
-      By.css(".mdl-card > button")
+      By.css('.mdl-card > button')
     );
 
     session = comp.session;
@@ -108,36 +108,36 @@ describe("LoginForm", () => {
     clientMock.response = [];
   });
 
-  it("should have username input field", () => {
+  it('should have username input field', () => {
     expect(username).toBeDefined();
   });
 
-  it("should have password input field", () => {
+  it('should have password input field', () => {
     expect(password).toBeDefined();
   });
 
-  it("should have login button", () => {
+  it('should have login button', () => {
     expect(loginButton).toBeDefined();
   });
 
   it("should have 'forgot password' link", () => {
     expect(
-      fixture.debugElement.query(By.css(".m-reset-password-link"))
+      fixture.debugElement.query(By.css('.m-reset-password-link'))
     ).toBeDefined();
   });
 
   it("should have 'migrate from facebook' button", () => {
     expect(
-      fixture.debugElement.query(By.css(".m-fb-login-button"))
+      fixture.debugElement.query(By.css('.m-fb-login-button'))
     ).toBeDefined();
   });
 
-  it("error message should be hidden by default", () => {
+  it('error message should be hidden by default', () => {
     expect(errorMessage.nativeElement.hidden).toBeTruthy();
   });
 
-  it("should spawn error message on incorrect credentials", fakeAsync(() => {
-    login({ status: "failed" });
+  it('should spawn error message on incorrect credentials', fakeAsync(() => {
+    login({ status: 'failed' });
 
     tick();
     fixture.detectChanges();
@@ -145,27 +145,27 @@ describe("LoginForm", () => {
     expect(errorMessage.nativeElement.hidden).toBeFalsy();
   }));
 
-  it("should authenticate on correct credentials", fakeAsync(() => {
-    spyOn(comp, "login").and.callThrough();
+  it('should authenticate on correct credentials', fakeAsync(() => {
+    spyOn(comp, 'login').and.callThrough();
     login({
-      status: "success",
+      status: 'success',
       user: {
-        guid: "714452562123689992",
-        type: "user",
+        guid: '714452562123689992',
+        type: 'user',
         subtype: false,
-        time_created: "1495714764",
+        time_created: '1495714764',
         time_updated: false,
-        container_guid: "0",
-        owner_guid: "0",
+        container_guid: '0',
+        owner_guid: '0',
         site_guid: false,
-        access_id: "2",
-        name: "minds",
-        username: "minds",
-        language: "en",
-        icontime: "1496687850",
+        access_id: '2',
+        name: 'minds',
+        username: 'minds',
+        language: 'en',
+        icontime: '1496687850',
         legacy_guid: false,
         featured_id: false,
-        banned: "no",
+        banned: 'no',
         website: false,
         briefdescription: false,
         dob: false,
@@ -184,32 +184,32 @@ describe("LoginForm", () => {
         subscriber: false,
         subscriptions_count: 1,
         impressions: 0,
-        boost_rating: "2"
-      }
+        boost_rating: '2',
+      },
     });
     expect(comp.login).toHaveBeenCalled();
   }));
 
   it("should've called api/v1/authenticate with correct arguments", fakeAsync(() => {
     login({
-      status: "success",
+      status: 'success',
       user: {
-        guid: "714452562123689992",
-        type: "user",
+        guid: '714452562123689992',
+        type: 'user',
         subtype: false,
-        time_created: "1495714764",
+        time_created: '1495714764',
         time_updated: false,
-        container_guid: "0",
-        owner_guid: "0",
+        container_guid: '0',
+        owner_guid: '0',
         site_guid: false,
-        access_id: "2",
-        name: "minds",
-        username: "minds",
-        language: "en",
-        icontime: "1496687850",
+        access_id: '2',
+        name: 'minds',
+        username: 'minds',
+        language: 'en',
+        icontime: '1496687850',
         legacy_guid: false,
         featured_id: false,
-        banned: "no",
+        banned: 'no',
         website: false,
         briefdescription: false,
         dob: false,
@@ -228,63 +228,63 @@ describe("LoginForm", () => {
         subscriber: false,
         subscriptions_count: 1,
         impressions: 0,
-        boost_rating: "2"
-      }
+        boost_rating: '2',
+      },
     });
-    const calls = clientMock.post["calls"];
+    const calls = clientMock.post['calls'];
     expect(calls.count()).toEqual(1);
-    expect(calls.mostRecent().args[0]).toEqual("api/v1/authenticate");
+    expect(calls.mostRecent().args[0]).toEqual('api/v1/authenticate');
     expect(calls.mostRecent().args[1]).toEqual({
-      username: "username",
-      password: "password"
+      username: 'username',
+      password: 'password',
     });
   }));
 
-  it("login form should hide and two-factor form should appear", fakeAsync(() => {
-    login({ status: "error", code: "403", message: "imaprettymessage" });
+  it('login form should hide and two-factor form should appear', fakeAsync(() => {
+    login({ status: 'error', code: '403', message: 'imaprettymessage' });
 
     expect(loginForm.nativeElement.hidden).toBeTruthy();
     expect(twoFactorForm.nativeElement.hidden).toBeFalsy();
   }));
 
-  it("should spawn error message when incorrect code is written", fakeAsync(() => {
-    login({ status: "error", code: "403", message: "imaprettymessage" });
+  it('should spawn error message when incorrect code is written', fakeAsync(() => {
+    login({ status: 'error', code: '403', message: 'imaprettymessage' });
 
-    twoFactorLogin({ status: "error", message: "Could not verify." });
+    twoFactorLogin({ status: 'error', message: 'Could not verify.' });
 
     expect(errorMessage.nativeElement.hidden).toBeFalsy();
   }));
 
-  it("should spawn error message when an email is entered as a username", fakeAsync(() => {
-    username.nativeElement.value = "test@minds.com";
-    login({ status: "error" }, "test@minds.com");
+  it('should spawn error message when an email is entered as a username', fakeAsync(() => {
+    username.nativeElement.value = 'test@minds.com';
+    login({ status: 'error' }, 'test@minds.com');
     expect(errorMessage.nativeElement.hidden).toBeFalsy();
   }));
 
-  it("should login successfully", fakeAsync(() => {
-    login({ status: "error", code: "403", message: "imaprettymessage" });
+  it('should login successfully', fakeAsync(() => {
+    login({ status: 'error', code: '403', message: 'imaprettymessage' });
 
-    session.login["calls"].reset();
+    session.login['calls'].reset();
 
     twoFactorLogin({
-      status: "success",
+      status: 'success',
       user: {
-        guid: "726889378877546822",
-        type: "user",
+        guid: '726889378877546822',
+        type: 'user',
         subtype: false,
-        time_created: "1498679876",
+        time_created: '1498679876',
         time_updated: false,
-        container_guid: "0",
-        owner_guid: "0",
+        container_guid: '0',
+        owner_guid: '0',
         site_guid: false,
-        access_id: "2",
-        name: "name",
-        username: "username",
-        language: "en",
+        access_id: '2',
+        name: 'name',
+        username: 'username',
+        language: 'en',
         icontime: false,
         legacy_guid: false,
         featured_id: false,
-        banned: "no",
+        banned: 'no',
         website: false,
         briefdescription: false,
         dob: false,
@@ -303,8 +303,8 @@ describe("LoginForm", () => {
         subscribers_count: 3,
         subscriptions_count: 1,
         impressions: 0,
-        boost_rating: "2"
-      }
+        boost_rating: '2',
+      },
     });
 
     expect(session.login).toHaveBeenCalled();

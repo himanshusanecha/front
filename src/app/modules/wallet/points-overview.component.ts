@@ -1,21 +1,21 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from "@angular/core";
+  ChangeDetectorRef,
+} from '@angular/core';
 
-import { Client } from "../../common/api/client.service";
-import { WalletService } from "../../services/wallet";
-import { BlockchainService } from "../blockchain/blockchain.service";
+import { Client } from '../../common/api/client.service';
+import { WalletService } from '../../services/wallet';
+import { BlockchainService } from '../blockchain/blockchain.service';
 
 @Component({
-  selector: "m-wallet--points-overview",
-  templateUrl: "points-overview.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wallet--points-overview',
+  templateUrl: 'points-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PointsOverviewComponent {
   isLoading: boolean = false;
-  currency: string = "points";
+  currency: string = 'points';
   amount: string | number;
 
   constructor(
@@ -29,7 +29,7 @@ export class PointsOverviewComponent {
     this.detectChanges();
 
     let requests = [
-      this.wallet.getBalance(true).catch(() => false)
+      this.wallet.getBalance(true).catch(() => false),
       //      this.blockchain.getBalance(true).catch(() => false)
     ];
 
@@ -38,10 +38,10 @@ export class PointsOverviewComponent {
         this.isLoading = false;
 
         if (results[1]) {
-          this.currency = "tokens";
+          this.currency = 'tokens';
           this.amount = results[1];
         } else {
-          this.currency = "points";
+          this.currency = 'points';
           //this.amount = results[0]; // not used
         }
 

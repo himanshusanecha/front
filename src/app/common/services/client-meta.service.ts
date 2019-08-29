@@ -1,7 +1,7 @@
-import { Injectable, Injector } from "@angular/core";
-import { Location } from "@angular/common";
-import hashCode from "../../helpers/hash-code";
-import { Session } from "../../services/session";
+import { Injectable, Injector } from '@angular/core';
+import { Location } from '@angular/common';
+import hashCode from '../../helpers/hash-code';
+import { Session } from '../../services/session';
 
 let uniqId = 0;
 
@@ -29,7 +29,7 @@ export class ClientMetaService {
     this.timestamp = Date.now();
     this.salt = Math.random()
       .toString(36)
-      .replace(/[^a-z]+/g, "");
+      .replace(/[^a-z]+/g, '');
   }
 
   inherit(injector: Injector) {
@@ -41,7 +41,7 @@ export class ClientMetaService {
     if (parentClientMeta) {
       if (parentClientMeta.getId() === this.id) {
         throw new Error(
-          "[ClientMetaService] Cannot inherit client meta from itself. Did you forget to add to @Component({ providers }) or the @SkipSelf() decorator on Injector?"
+          '[ClientMetaService] Cannot inherit client meta from itself. Did you forget to add to @Component({ providers }) or the @SkipSelf() decorator on Injector?'
         );
       }
 
@@ -68,7 +68,7 @@ export class ClientMetaService {
     this.timestamp = Date.now();
     this.salt = Math.random()
       .toString(36)
-      .replace(/[^a-z]+/g, "");
+      .replace(/[^a-z]+/g, '');
     return this;
   }
 
@@ -115,12 +115,12 @@ export class ClientMetaService {
 
     const tokenParts = [
       this.salt, // NOTE: Salt + hash so individual user activity can't be tracked
-      this.location.path() || "/",
-      user.guid || "000000000000000000",
-      this.timestamp || ""
+      this.location.path() || '/',
+      user.guid || '000000000000000000',
+      this.timestamp || '',
     ];
 
-    return hashCode(tokenParts.join(":"), 5);
+    return hashCode(tokenParts.join(':'), 5);
   }
 
   build(
@@ -136,20 +136,20 @@ export class ClientMetaService {
     this.checkInheritance();
 
     return {
-      platform: "web",
+      platform: 'web',
       source: this.source,
       medium: this.medium,
       page_token: this.buildPageToken(),
       campaign: this.campaign,
       delta: this.buildDelta(),
-      ...overrides
+      ...overrides,
     };
   }
 
   protected checkInheritance() {
     if (!this.inherited) {
       console.warn(
-        "[ClientMetaService] This instance did not call inherit() before doing any operations."
+        '[ClientMetaService] This instance did not call inherit() before doing any operations.'
       );
     }
   }

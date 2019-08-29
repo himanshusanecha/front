@@ -4,13 +4,13 @@ import {
   Component,
   Input,
   OnInit,
-  ViewChild
-} from "@angular/core";
-import { DynamicHostDirective } from "../../common/directives/dynamic-host.directive";
-import { NotificationService } from "./notification.service";
+  ViewChild,
+} from '@angular/core';
+import { DynamicHostDirective } from '../../common/directives/dynamic-host.directive';
+import { NotificationService } from './notification.service';
 
 @Component({
-  selector: "m-notifications--toaster",
+  selector: 'm-notifications--toaster',
   template: `
     <div class="m-notifications--toaster" *ngIf="notifications">
       <minds-notification
@@ -21,7 +21,7 @@ import { NotificationService } from "./notification.service";
       ></minds-notification>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsToasterComponent implements OnInit {
   notifications: Array<any> = [];

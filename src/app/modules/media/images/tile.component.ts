@@ -1,16 +1,16 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
-import { Subscription } from "rxjs";
-import { Session } from "../../../services/session";
-import { AttachmentService } from "../../../services/attachment";
+import { Subscription } from 'rxjs';
+import { Session } from '../../../services/session';
+import { AttachmentService } from '../../../services/attachment';
 
 @Component({
   moduleId: module.id,
-  selector: "m-media--images--tile",
-  templateUrl: "tile.component.html",
+  selector: 'm-media--images--tile',
+  templateUrl: 'tile.component.html',
   host: {
     //'[class]': 'm-media--images--tile-' + getFlex() + '-col'
-  }
+  },
 })
 export class MediaImagesTileComponent {
   @Input() entity;

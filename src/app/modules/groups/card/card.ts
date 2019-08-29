@@ -1,13 +1,13 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject } from '@angular/core';
 
-import { Client } from "../../../services/api";
-import { UpdateMarkersService } from "../../../common/services/update-markers.service";
+import { Client } from '../../../services/api';
+import { UpdateMarkersService } from '../../../common/services/update-markers.service';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-card-group",
-  inputs: ["group"],
-  templateUrl: "card.html"
+  selector: 'minds-card-group',
+  inputs: ['group'],
+  templateUrl: 'card.html',
 })
 export class GroupsCard {
   minds;

@@ -1,20 +1,20 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-import { Client } from "../../../services/api/client";
-import { REASONS, REPORT_ACTIONS } from "../../../services/list-options";
-import { JurySessionService } from "../juryduty/session/session.service";
+import { Client } from '../../../services/api/client';
+import { REASONS, REPORT_ACTIONS } from '../../../services/list-options';
+import { JurySessionService } from '../juryduty/session/session.service';
 
 @Component({
-  selector: "m-report-console",
-  templateUrl: "console.component.html"
+  selector: 'm-report-console',
+  templateUrl: 'console.component.html',
 })
 export class ReportConsoleComponent implements OnInit {
-  filter: string = "review";
+  filter: string = 'review';
 
   appeals: any[] = [];
 
   inProgress: boolean = false;
-  offset: string = "";
+  offset: string = '';
   moreData: boolean = true;
 
   constructor(private client: Client, public service: JurySessionService) {}
@@ -31,7 +31,7 @@ export class ReportConsoleComponent implements OnInit {
   async load(refresh: boolean = false) {
     if (refresh) {
       this.inProgress = false;
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
     }
 
@@ -46,7 +46,7 @@ export class ReportConsoleComponent implements OnInit {
         `api/v2/moderation/appeals/${this.filter}`,
         {
           limit: 12,
-          offset: this.offset
+          offset: this.offset,
         }
       );
 
@@ -58,8 +58,8 @@ export class ReportConsoleComponent implements OnInit {
         this.appeals.push(...response.appeals);
       }
 
-      if (response["load-next"]) {
-        this.offset = response["load-next"];
+      if (response['load-next']) {
+        this.offset = response['load-next'];
       } else {
         this.moreData = false;
       }
@@ -77,18 +77,18 @@ export class ReportConsoleComponent implements OnInit {
       let response: any = await this.client.post(
         `api/v2/moderation/appeals/${appeal.report.urn}`,
         {
-          note: content
+          note: content,
         }
       );
 
       this.appeals.splice(i, 1);
     } catch (e) {
-      alert((e && e.message) || "Error sending appeal");
+      alert((e && e.message) || 'Error sending appeal');
     }
   }
 
   parseAction(action: string) {
-    return typeof REPORT_ACTIONS[action] !== "undefined"
+    return typeof REPORT_ACTIONS[action] !== 'undefined'
       ? REPORT_ACTIONS[action]
       : action;
   }

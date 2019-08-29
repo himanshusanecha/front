@@ -1,12 +1,12 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { Client } from "../../../../services/api";
-import { Session } from "../../../../services/session";
-import { AttachmentService } from "../../../../services/attachment";
+import { Client } from '../../../../services/api';
+import { Session } from '../../../../services/session';
+import { AttachmentService } from '../../../../services/attachment';
 
 @Component({
-  selector: "m-media--grid",
-  inputs: ["_object: object"],
+  selector: 'm-media--grid',
+  inputs: ['_object: object'],
   template: `
     <a
       *ngFor="let item of items"
@@ -27,7 +27,7 @@ import { AttachmentService } from "../../../../services/attachment";
       style="width:100%"
     >
     </infinite-scroll>
-  `
+  `,
 })
 export class MediaGridComponent {
   object: any = {};
@@ -35,7 +35,7 @@ export class MediaGridComponent {
   items: Array<any> = [];
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = "";
+  offset: string = '';
 
   constructor(
     public session: Session,
@@ -53,7 +53,7 @@ export class MediaGridComponent {
     if (this.inProgress) return;
     this.inProgress = true;
     this.client
-      .get("api/v1/media/albums/" + this.object.guid, { offset: this.offset })
+      .get('api/v1/media/albums/' + this.object.guid, { offset: this.offset })
       .then((response: any) => {
         if (!response.entities || response.entities.length === 0) {
           self.inProgress = false;
@@ -62,7 +62,7 @@ export class MediaGridComponent {
         }
 
         self.items = self.items.concat(response.entities);
-        self.offset = response["load-next"];
+        self.offset = response['load-next'];
         self.inProgress = false;
       });
   }

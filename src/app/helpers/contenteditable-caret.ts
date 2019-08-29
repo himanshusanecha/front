@@ -45,7 +45,7 @@ export function getContentEditableCaretCoordinates(elem) {
   }
   let coordinates = {
     start: cum_length[0],
-    end: cum_length[1]
+    end: cum_length[1],
   };
 
   if (cum_length[0] <= cum_length[1]) return coordinates;

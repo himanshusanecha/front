@@ -4,23 +4,23 @@ import {
   ChangeDetectorRef,
   EventEmitter,
   Output,
-  Input
-} from "@angular/core";
+  Input,
+} from '@angular/core';
 
-import { Client } from "../../common/api/client.service";
-import { Web3WalletService } from "../blockchain/web3-wallet.service";
-import { TokenContractService } from "../blockchain/contracts/token-contract.service";
-import { WireService } from "../wire/wire.service";
-import { WireStruc } from "../wire/creator/creator.component";
-import { OverlayModalService } from "../../services/ux/overlay-modal";
-import { SignupModalService } from "../modals/signup/service";
-import { WirePaymentsCreatorComponent } from "../wire/payments-creator/creator.component";
-import { Session } from "../../services/session";
+import { Client } from '../../common/api/client.service';
+import { Web3WalletService } from '../blockchain/web3-wallet.service';
+import { TokenContractService } from '../blockchain/contracts/token-contract.service';
+import { WireService } from '../wire/wire.service';
+import { WireStruc } from '../wire/creator/creator.component';
+import { OverlayModalService } from '../../services/ux/overlay-modal';
+import { SignupModalService } from '../modals/signup/service';
+import { WirePaymentsCreatorComponent } from '../wire/payments-creator/creator.component';
+import { Session } from '../../services/session';
 
 @Component({
-  selector: "m-plus--subscription",
-  templateUrl: "subscription.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-plus--subscription',
+  templateUrl: 'subscription.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlusSubscriptionComponent {
   user = window.Minds.user;
@@ -30,8 +30,8 @@ export class PlusSubscriptionComponent {
   inProgress: boolean = true;
   completed: boolean = false;
   active: boolean = false;
-  @Output("completed") completed$: EventEmitter<any> = new EventEmitter();
-  @Input("showSubscription") showSubscription: boolean;
+  @Output('completed') completed$: EventEmitter<any> = new EventEmitter();
+  @Input('showSubscription') showSubscription: boolean;
   payment: any = {};
   payload: any;
 
@@ -48,7 +48,7 @@ export class PlusSubscriptionComponent {
 
   load(): Promise<any> {
     return this.client
-      .get("api/v1/plus")
+      .get('api/v1/plus')
       .then(({ active }) => {
         if (active) this.active = true;
         return active;
@@ -68,7 +68,7 @@ export class PlusSubscriptionComponent {
     this.purchase();
   }
 
-  async purchase(amount: number = 20, period: "month" | "year" = "month") {
+  async purchase(amount: number = 20, period: 'month' | 'year' = 'month') {
     if (!this.session.isLoggedIn()) {
       this.modal.open();
       return;
@@ -77,7 +77,7 @@ export class PlusSubscriptionComponent {
     this.payment.period = period;
     this.payment.amount = amount;
     this.payment.recurring = true;
-    this.payment.entity_guid = "730071191229833224";
+    this.payment.entity_guid = '730071191229833224';
     this.payment.receiver = this.blockchain.plus_address;
 
     const creator = this.overlayModal.create(
@@ -91,7 +91,7 @@ export class PlusSubscriptionComponent {
           this.active = true;
           this.detectChanges();
           this.completed$.next(true);
-        }
+        },
       }
     );
     creator.present();
@@ -99,10 +99,10 @@ export class PlusSubscriptionComponent {
 
   cancel() {
     this.inProgress = true;
-    this.error = "";
+    this.error = '';
     this.detectChanges();
     return this.client
-      .delete("api/v1/plus/subscription")
+      .delete('api/v1/plus/subscription')
       .then((response: any) => {
         this.inProgress = false;
         this.user.plus = false;

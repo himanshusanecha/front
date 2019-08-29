@@ -1,19 +1,19 @@
-import { Component, EventEmitter } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Component, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-form-fb-register",
-  outputs: ["done"],
-  templateUrl: "fb-register.html"
+  selector: 'minds-form-fb-register',
+  outputs: ['done'],
+  templateUrl: 'fb-register.html',
 })
 export class FbRegisterForm {
   minds = window.Minds;
 
-  errorMessage: string = "";
+  errorMessage: string = '';
 
   inProgress: boolean = false;
   referrer: string;
@@ -24,18 +24,18 @@ export class FbRegisterForm {
 
   constructor(public session: Session, public client: Client, fb: FormBuilder) {
     this.form = fb.group({
-      username: [this.session.getLoggedInUser().username, Validators.required]
+      username: [this.session.getLoggedInUser().username, Validators.required],
     });
   }
 
   complete(e) {
     e.preventDefault();
-    this.errorMessage = "";
+    this.errorMessage = '';
 
     this.inProgress = true;
     this.client
       .post(
-        "api/v1/thirdpartynetworks/facebook/complete-register",
+        'api/v1/thirdpartynetworks/facebook/complete-register',
         this.form.value
       )
       .then((data: any) => {

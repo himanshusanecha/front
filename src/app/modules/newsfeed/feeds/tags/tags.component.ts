@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
-import { ActivatedRoute, Router } from "@angular/router";
-import { ContextService } from "../../../../services/context.service";
-import { MindsTitle } from "../../../../services/ux/title";
-import { Upload } from "../../../../services/api/upload";
-import { Client } from "../../../../services/api";
-import { Navigation } from "../../../../services/navigation";
-import { Storage } from "../../../../services/storage";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ContextService } from '../../../../services/context.service';
+import { MindsTitle } from '../../../../services/ux/title';
+import { Upload } from '../../../../services/api/upload';
+import { Client } from '../../../../services/api';
+import { Navigation } from '../../../../services/navigation';
+import { Storage } from '../../../../services/storage';
 
 @Component({
-  selector: "m-newsfeed--tags",
-  templateUrl: "tags.component.html"
+  selector: 'm-newsfeed--tags',
+  templateUrl: 'tags.component.html',
 })
 export class NewsfeedTagsComponent implements OnDestroy {
   newsfeed: Array<Object>;
@@ -34,16 +34,16 @@ export class NewsfeedTagsComponent implements OnDestroy {
   ) {
     this.minds = window.Minds;
 
-    this.title.setTitle("Newsfeed");
+    this.title.setTitle('Newsfeed');
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["tag"]) {
-        this.tag = params["tag"];
+      if (params['tag']) {
+        this.tag = params['tag'];
       } else {
-        this.router.navigate(["/newsfeed"]);
+        this.router.navigate(['/newsfeed']);
       }
       this.load(true);
     });
-    this.context.set("activity");
+    this.context.set('activity');
   }
 
   ngOnDestroy() {
@@ -68,12 +68,12 @@ export class NewsfeedTagsComponent implements OnDestroy {
     const data = {
       hashtag: this.tag,
       limit: 12,
-      offset: this.offset
+      offset: this.offset,
     };
 
     try {
       const response: any = await this.client.get(
-        "api/v2/entities/suggested/activities",
+        'api/v2/entities/suggested/activities',
         data
       );
 
@@ -88,7 +88,7 @@ export class NewsfeedTagsComponent implements OnDestroy {
       } else {
         this.newsfeed = response.entities;
       }
-      this.offset = response["load-next"];
+      this.offset = response['load-next'];
       this.inProgress = false;
     } catch (e) {
       this.inProgress = false;

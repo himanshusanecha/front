@@ -12,7 +12,7 @@ export let clientMock = new (function() {
       }
       if (
         !res ||
-        ((res.status && res.status === "error") || res.status === "failed")
+        ((res.status && res.status === 'error') || res.status === 'failed')
       )
         reject(res);
 
@@ -20,8 +20,8 @@ export let clientMock = new (function() {
     });
   };
 
-  this.get = jasmine.createSpy("get").and.callFake(callFake);
-  this.put = jasmine.createSpy("put").and.callFake(callFake);
-  this.post = jasmine.createSpy("post").and.callFake(callFake);
-  this.delete = jasmine.createSpy("delete").and.callFake(callFake);
+  this.get = jasmine.createSpy('get').and.callFake(callFake);
+  this.put = jasmine.createSpy('put').and.callFake(callFake);
+  this.post = jasmine.createSpy('post').and.callFake(callFake);
+  this.delete = jasmine.createSpy('delete').and.callFake(callFake);
 })();

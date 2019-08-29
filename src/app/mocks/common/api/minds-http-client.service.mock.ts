@@ -1,7 +1,7 @@
 /**
  * Created by Marcelo on 14/01/2019.
  */
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 export let mindsHttpClientMock = new (function() {
   this.response = null;
@@ -14,7 +14,7 @@ export let mindsHttpClientMock = new (function() {
       }
       if (
         !res ||
-        ((res.status && res.status === "error") || res.status === "failed")
+        ((res.status && res.status === 'error') || res.status === 'failed')
       )
         observer.error(res);
 
@@ -23,8 +23,8 @@ export let mindsHttpClientMock = new (function() {
     });
   };
 
-  this.get = jasmine.createSpy("get").and.callFake(callFake);
-  this.put = jasmine.createSpy("put").and.callFake(callFake);
-  this.post = jasmine.createSpy("post").and.callFake(callFake);
-  this.delete = jasmine.createSpy("delete").and.callFake(callFake);
+  this.get = jasmine.createSpy('get').and.callFake(callFake);
+  this.put = jasmine.createSpy('put').and.callFake(callFake);
+  this.post = jasmine.createSpy('post').and.callFake(callFake);
+  this.delete = jasmine.createSpy('delete').and.callFake(callFake);
 })();

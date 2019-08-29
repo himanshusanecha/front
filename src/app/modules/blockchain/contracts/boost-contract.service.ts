@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Web3WalletService } from "../web3-wallet.service";
-import { TokenContractService } from "./token-contract.service";
+import { Injectable } from '@angular/core';
+import { Web3WalletService } from '../web3-wallet.service';
+import { TokenContractService } from './token-contract.service';
 
 @Injectable()
 export class BoostContractService {
@@ -17,7 +17,7 @@ export class BoostContractService {
     await this.web3Wallet.ready();
 
     this.instance = this.web3Wallet.eth
-      .contract(this.web3Wallet.config.boost.abi, "0x")
+      .contract(this.web3Wallet.config.boost.abi, '0x')
       .at(this.web3Wallet.config.boost.address);
 
     this.boost(); // Refresh default account
@@ -27,7 +27,7 @@ export class BoostContractService {
     gasPriceGwei: number = this.web3Wallet.config.default_gas_price || 1
   ) {
     if (!this.instance) {
-      throw new Error("No boost instance");
+      throw new Error('No boost instance');
     }
 
     if (!this.instance.defaultTxObject) {
@@ -40,7 +40,7 @@ export class BoostContractService {
       this.instance.defaultTxObject.from = await this.web3Wallet.getCurrentWallet();
       this.instance.defaultTxObject.gasPrice = this.web3Wallet.EthJS.toWei(
         gasPriceGwei,
-        "Gwei"
+        'Gwei'
       );
     }
 
@@ -53,28 +53,28 @@ export class BoostContractService {
     guid: string,
     amount: number,
     checksum: string,
-    message: string = ""
+    message: string = ''
   ) {
     return await this.web3Wallet.sendSignedContractMethod(
       await this.tokenContract.token(),
-      "approveAndCall",
+      'approveAndCall',
       [
         this.instance.address,
         this.tokenContract.tokenToUnit(amount),
         this.tokenContract.encodeParams([
           {
-            type: "address",
-            value: this.web3Wallet.config.boost_wallet_address
+            type: 'address',
+            value: this.web3Wallet.config.boost_wallet_address,
           },
           {
-            type: "uint256",
-            value: guid
+            type: 'uint256',
+            value: guid,
           },
           {
-            type: "uint256",
-            value: checksum
-          }
-        ])
+            type: 'uint256',
+            value: checksum,
+          },
+        ]),
       ],
       `Network Boost for ${amount} Tokens. ${message}`.trim(),
       this.tokenContract.tokenToUnit(-amount)
@@ -86,56 +86,56 @@ export class BoostContractService {
     guid: string,
     amount: number,
     checksum: string,
-    message: string = ""
+    message: string = ''
   ) {
     return await this.web3Wallet.sendSignedContractMethod(
       await this.tokenContract.token(),
-      "approveAndCall",
+      'approveAndCall',
       [
         this.instance.address,
         this.tokenContract.tokenToUnit(amount),
         this.tokenContract.encodeParams([
           {
-            type: "address",
-            value: receiver
+            type: 'address',
+            value: receiver,
           },
           {
-            type: "uint256",
-            value: guid
+            type: 'uint256',
+            value: guid,
           },
           {
-            type: "uint256",
-            value: checksum
-          }
-        ])
+            type: 'uint256',
+            value: checksum,
+          },
+        ]),
       ],
       `Channel Boost for ${amount} Tokens to ${receiver}. ${message}`.trim(),
       this.tokenContract.tokenToUnit(-amount)
     );
   }
 
-  async accept(guid: string, message: string = "") {
+  async accept(guid: string, message: string = '') {
     return await this.web3Wallet.sendSignedContractMethod(
       await this.boost(),
-      "accept",
+      'accept',
       [guid],
       `Accept a Channel Boost. ${message}`.trim()
     );
   }
 
-  async reject(guid: string, message: string = "") {
+  async reject(guid: string, message: string = '') {
     return await this.web3Wallet.sendSignedContractMethod(
       await this.boost(),
-      "reject",
+      'reject',
       [guid],
       `Reject a Channel Boost. ${message}`.trim()
     );
   }
 
-  async revoke(guid: string, message: string = "") {
+  async revoke(guid: string, message: string = '') {
     return await this.web3Wallet.sendSignedContractMethod(
       await this.boost(),
-      "revoke",
+      'revoke',
       [guid],
       `Revoke a Boost. ${message}`.trim()
     );

@@ -5,29 +5,29 @@ import {
   EventEmitter,
   Renderer,
   ViewChild,
-  Injector
-} from "@angular/core";
+  Injector,
+} from '@angular/core';
 
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { Storage } from "../../../services/storage";
-import { SocketsService } from "../../../services/sockets";
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { Storage } from '../../../services/storage';
+import { SocketsService } from '../../../services/sockets';
 
-import { MessengerEncryptionService } from "../encryption/encryption.service";
+import { MessengerEncryptionService } from '../encryption/encryption.service';
 
-import { MessengerConversationDockpanesService } from "../dockpanes/dockpanes.service";
-import { MessengerSounds } from "../sounds/service";
-import { BlockListService } from "../../../common/services/block-list.service";
+import { MessengerConversationDockpanesService } from '../dockpanes/dockpanes.service';
+import { MessengerSounds } from '../sounds/service';
+import { BlockListService } from '../../../common/services/block-list.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-messenger--conversation",
+  selector: 'm-messenger--conversation',
   host: {
-    "(window:focus)": "onFocus($event)",
-    "(window:blur)": "onBlur($event)"
+    '(window:focus)': 'onFocus($event)',
+    '(window:blur)': 'onBlur($event)',
   },
-  inputs: ["conversation"],
-  templateUrl: "conversation.component.html"
+  inputs: ['conversation'],
+  templateUrl: 'conversation.component.html',
 })
 export class MessengerConversation {
   minds: Minds = window.Minds;
@@ -40,18 +40,18 @@ export class MessengerConversation {
   conversation;
   participants: Array<any> = [];
   messages: Array<any> = [];
-  offset: string = "";
+  offset: string = '';
   open: boolean = false;
   inProgress: boolean = false;
   live: boolean = true;
 
   scrollEmitter: EventEmitter<any> = new EventEmitter();
 
-  message: string = "";
+  message: string = '';
   showMessages: boolean = true; //TODO: find a better way to work out if encryption has been set
   blockingActionInProgress: boolean = false;
 
-  chatNotice: string = "";
+  chatNotice: string = '';
 
   socketSubscriptions = {
     pushConversationMessage: null,
@@ -59,7 +59,7 @@ export class MessengerConversation {
     connect: null,
     disconnect: null,
     block: null,
-    unblock: null
+    unblock: null,
   };
 
   focused: boolean = true;
@@ -108,7 +108,7 @@ export class MessengerConversation {
   load(opts: any = {}) {
     opts = (<any>Object).assign(
       {
-        limit: 12
+        limit: 12,
       },
       opts
     );
@@ -119,7 +119,7 @@ export class MessengerConversation {
     if (!opts.finish) this.inProgress = true;
 
     this.client
-      .get("api/v2/messenger/conversations/" + this.conversation.guid, opts)
+      .get('api/v2/messenger/conversations/' + this.conversation.guid, opts)
       .then((response: any) => {
         this.inProgress = false;
         if (!response.messages) {
@@ -136,14 +136,14 @@ export class MessengerConversation {
             response.messages.pop();
           }
           this.messages = response.messages.concat(this.messages);
-          this.offset = response["load-previous"];
+          this.offset = response['load-previous'];
 
           this.cd.detectChanges();
           scrollView.scrollTop =
             scrollTop + scrollView.scrollHeight - scrollHeight;
         } else {
           this.messages = response.messages;
-          this.offset = response["load-previous"];
+          this.offset = response['load-previous'];
           this.scrollEmitter.next(true);
         }
 
@@ -165,7 +165,7 @@ export class MessengerConversation {
       this.sockets.join(this.conversation.socketRoomName);
 
       this.socketSubscriptions.pushConversationMessage = this.sockets.subscribe(
-        "pushConversationMessage",
+        'pushConversationMessage',
         (guid, message) => {
           if (guid !== this.conversation.guid) return;
 
@@ -184,16 +184,16 @@ export class MessengerConversation {
           if (!fromSelf) {
             this.invalid = false;
 
-            if (!this.focused && document.title.indexOf("\u2022") === -1)
-              document.title = "\u2022 " + document.title;
+            if (!this.focused && document.title.indexOf('\u2022') === -1)
+              document.title = '\u2022 ' + document.title;
 
-            this.sounds.play("new");
+            this.sounds.play('new');
           }
         }
       );
 
       this.socketSubscriptions.clearConversation = this.sockets.subscribe(
-        "clearConversation",
+        'clearConversation',
         (guid, actor) => {
           if (guid !== this.conversation.guid) return;
 
@@ -203,14 +203,14 @@ export class MessengerConversation {
         }
       );
 
-      this.socketSubscriptions.block = this.sockets.subscribe("block", guid => {
+      this.socketSubscriptions.block = this.sockets.subscribe('block', guid => {
         if (!this.hasParticipant(guid)) return;
 
         this.blocked = true;
       });
 
       this.socketSubscriptions.unblock = this.sockets.subscribe(
-        "unblock",
+        'unblock',
         guid => {
           if (!this.hasParticipant(guid)) return;
 
@@ -219,14 +219,14 @@ export class MessengerConversation {
       );
 
       this.socketSubscriptions.connect = this.sockets.subscribe(
-        "connect",
+        'connect',
         () => {
           this.live = true;
         }
       );
 
       this.socketSubscriptions.disconnect = this.sockets.subscribe(
-        "disconnect",
+        'disconnect',
         () => {
           this.live = false;
         }
@@ -263,15 +263,15 @@ export class MessengerConversation {
         optimisticGuess: true,
         owner: this.session.getLoggedInUser(),
         message: this.message,
-        time_created: Math.floor(Date.now() / 1000)
+        time_created: Math.floor(Date.now() / 1000),
       }),
       currentIndex = newLength - 1;
 
     this.client
-      .post("api/v2/messenger/conversations/" + this.conversation.guid, {
+      .post('api/v2/messenger/conversations/' + this.conversation.guid, {
         message: this.message,
         encrypt: true,
-        tabId: this.tabId
+        tabId: this.tabId,
       })
       .then((response: any) => {
         if (response.message) {
@@ -285,17 +285,17 @@ export class MessengerConversation {
         setTimeout(() => this.scrollEmitter.next(true), 50);
       })
       .catch(e => {
-        console.error("Error while reading conversation", e);
+        console.error('Error while reading conversation', e);
       });
 
-    this.message = "";
+    this.message = '';
     this.scrollEmitter.next(true);
   }
 
   deleteHistory() {
     if (
       !confirm(
-        "All messages will be deleted for all parties. You cannot UNDO this action. Are you sure?"
+        'All messages will be deleted for all parties. You cannot UNDO this action. Are you sure?'
       )
     ) {
       // TODO: Maybe a non-process-blocking popup?
@@ -306,12 +306,12 @@ export class MessengerConversation {
     this.blockingActionInProgress = true;
 
     this.client
-      .delete("api/v2/messenger/conversations/" + this.conversation.guid, {})
+      .delete('api/v2/messenger/conversations/' + this.conversation.guid, {})
       .then((response: any) => {
         this.blockingActionInProgress = false;
       })
       .catch(e => {
-        console.error("Error when deleting history", e);
+        console.error('Error when deleting history', e);
         this.blockingActionInProgress = false;
       });
   }
@@ -323,7 +323,7 @@ export class MessengerConversation {
 
     if (!this.blocked) {
       if (
-        !confirm("This action will block all parties site-wide. Are you sure?")
+        !confirm('This action will block all parties site-wide. Are you sure?')
       ) {
         // TODO: Maybe a non-process-blocking popup?
         return;
@@ -351,7 +351,7 @@ export class MessengerConversation {
         this.blocked = newState;
       })
       .catch(e => {
-        console.error("Error when toggling block on participants", e);
+        console.error('Error when toggling block on participants', e);
         this.blockingActionInProgress = false;
       });
   }
@@ -371,7 +371,7 @@ export class MessengerConversation {
 
   onFocus(e) {
     this.focused = true;
-    if (document.title.indexOf("\u2022") === 0) {
+    if (document.title.indexOf('\u2022') === 0) {
       document.title = document.title.substr(1);
     }
   }

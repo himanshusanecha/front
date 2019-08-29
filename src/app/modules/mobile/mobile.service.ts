@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { FeaturesService } from "../../services/features.service";
-import { Session } from "../../services/session";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FeaturesService } from '../../services/features.service';
+import { Session } from '../../services/session';
 
 const RELEASES_JSON_URL =
-  "https://cdn-assets.minds.com/android/releases/releases.json";
+  'https://cdn-assets.minds.com/android/releases/releases.json';
 
 @Injectable()
 export class MobileService {
@@ -43,7 +43,7 @@ export class MobileService {
   }
 
   shouldBeStable() {
-    return !this.featuresService.has("mobile-canary");
+    return !this.featuresService.has('mobile-canary');
   }
 
   static _(

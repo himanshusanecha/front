@@ -1,36 +1,36 @@
-import { Component, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client, Upload } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { ACCESS, LICENSES } from "../../../services/list-options";
-import { ThumbnailEvent } from "../components/thumbnail-selector.component";
-import { InlineEditorComponent } from "../../../common/components/editors/inline-editor.component";
-import { RecommendedService } from "../components/video/recommended.service";
+import { Client, Upload } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { ACCESS, LICENSES } from '../../../services/list-options';
+import { ThumbnailEvent } from '../components/thumbnail-selector.component';
+import { InlineEditorComponent } from '../../../common/components/editors/inline-editor.component';
+import { RecommendedService } from '../components/video/recommended.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-media--edit",
-  templateUrl: "edit.component.html",
+  selector: 'm-media--edit',
+  templateUrl: 'edit.component.html',
   providers: [
     {
       provide: RecommendedService,
       useFactory: RecommendedService._,
-      deps: [Client]
-    }
-  ]
+      deps: [Client],
+    },
+  ],
 })
 export class MediaEditComponent {
   minds;
   guid: string;
   entity: any = {
-    title: "",
-    description: "",
-    subtype: "",
-    license: "all-rights-reserved",
-    mature: false
+    title: '',
+    description: '',
+    subtype: '',
+    license: 'all-rights-reserved',
+    mature: false,
   };
   inProgress: boolean;
   error: string;
@@ -38,7 +38,7 @@ export class MediaEditComponent {
   licenses = LICENSES;
   access = ACCESS;
 
-  @ViewChild("inlineEditor", { static: true })
+  @ViewChild('inlineEditor', { static: true })
   inlineEditor: InlineEditorComponent;
 
   paramsSubscription: Subscription;
@@ -55,8 +55,8 @@ export class MediaEditComponent {
     this.minds = window.Minds;
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["guid"]) {
-        this.guid = params["guid"];
+      if (params['guid']) {
+        this.guid = params['guid'];
         this.load();
       }
     });
@@ -69,15 +69,15 @@ export class MediaEditComponent {
   load() {
     this.inProgress = true;
     this.client
-      .get("api/v1/entities/entity/" + this.guid, { children: false })
+      .get('api/v1/entities/entity/' + this.guid, { children: false })
       .then((response: any) => {
         this.inProgress = false;
         console.log(response);
         if (response.entity) {
-          if (!response.entity.description) response.entity.description = "";
+          if (!response.entity.description) response.entity.description = '';
 
           if (!response.entity.license)
-            response.entity.license = "all-rights-reserved";
+            response.entity.license = 'all-rights-reserved';
 
           response.entity.mature =
             response.entity.flags && response.entity.flags.mature ? 1 : 0;
@@ -90,13 +90,13 @@ export class MediaEditComponent {
   save() {
     this.inlineEditor.prepareForSave().then(() => {
       this.client
-        .post("api/v1/media/" + this.guid, this.entity)
+        .post('api/v1/media/' + this.guid, this.entity)
         .then((response: any) => {
           console.log(response);
-          this.router.navigate(["/media", this.guid]);
+          this.router.navigate(['/media', this.guid]);
         })
         .catch(e => {
-          this.error = "There was an error while trying to update";
+          this.error = 'There was an error while trying to update';
         });
     });
   }

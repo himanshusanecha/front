@@ -1,18 +1,18 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component
-} from "@angular/core";
-import { Router } from "@angular/router";
+  Component,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wallet-token--contributions",
-  templateUrl: "contributions.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wallet-token--contributions',
+  templateUrl: 'contributions.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletTokenContributionsComponent {
   startDate: string;
@@ -64,7 +64,7 @@ export class WalletTokenContributionsComponent {
         `api/v2/blockchain/contributions`,
         {
           from: Math.floor(+startDate / 1000),
-          to: Math.floor(+endDate / 1000)
+          to: Math.floor(+endDate / 1000),
         }
       );
 
@@ -86,7 +86,7 @@ export class WalletTokenContributionsComponent {
         });
         this.contributions.push(...(response.contributions || []));
       } else {
-        console.error("No data");
+        console.error('No data');
         // TODO: Show
       }
     } catch (e) {

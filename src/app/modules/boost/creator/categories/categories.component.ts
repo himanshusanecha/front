@@ -6,16 +6,16 @@ import {
   ViewChild,
   ElementRef,
   ChangeDetectorRef,
-  EventEmitter
-} from "@angular/core";
-import { CurrencyPipe } from "@angular/common";
+  EventEmitter,
+} from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 
-type CurrencyType = "points" | "usd" | "tokens";
+type CurrencyType = 'points' | 'usd' | 'tokens';
 
 @Component({
   providers: [CurrencyPipe],
-  selector: "m-boost--creator-categories",
-  templateUrl: "categories.component.html"
+  selector: 'm-boost--creator-categories',
+  templateUrl: 'categories.component.html',
 })
 export class BoostCreatorCategoriesComponent {
   @Input() boost;

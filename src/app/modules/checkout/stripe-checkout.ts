@@ -2,12 +2,12 @@ import {
   Component,
   EventEmitter,
   Input,
-  ChangeDetectorRef
-} from "@angular/core";
+  ChangeDetectorRef,
+} from '@angular/core';
 
-import { Client } from "../../services/api";
-import { WalletService } from "../../services/wallet";
-import { Storage } from "../../services/storage";
+import { Client } from '../../services/api';
+import { WalletService } from '../../services/wallet';
+import { Storage } from '../../services/storage';
 
 interface CreditCard {
   number?: number;
@@ -20,8 +20,8 @@ interface CreditCard {
 
 @Component({
   moduleId: module.id,
-  selector: "minds-payments-stripe-checkout",
-  outputs: ["inputed", "done"],
+  selector: 'minds-payments-stripe-checkout',
+  outputs: ['inputed', 'done'],
   template: `
     <div class="m-error mdl-color--red mdl-color-text--white" *ngIf="error">
       {{ error }}
@@ -101,14 +101,14 @@ interface CreditCard {
       ></div>
       <p i18n="@@CHECKOUT__CAPTURING_DETAILS">Capturing card details...</p>
     </div>
-  `
+  `,
 })
 export class StripeCheckout {
   minds = window.Minds;
   loading: boolean = false;
   inProgress: boolean = false;
   confirmation: boolean = false;
-  error: string = "";
+  error: string = '';
   card;
 
   inputed: EventEmitter<any> = new EventEmitter();
@@ -116,13 +116,13 @@ export class StripeCheckout {
 
   @Input() amount: number = 0;
   @Input() merchant_guid;
-  @Input() gateway: string = "merchants";
+  @Input() gateway: string = 'merchants';
 
-  @Input("useMDLStyling") useMDLStyling: boolean = true;
+  @Input('useMDLStyling') useMDLStyling: boolean = true;
 
   stripe;
   bt_checkout;
-  nonce: string = "";
+  nonce: string = '';
 
   cards: any[] = [];
 
@@ -194,7 +194,7 @@ export class StripeCheckout {
         number: this.card.number,
         cvc: this.card.sec,
         exp_month: this.card.month,
-        exp_year: this.card.year
+        exp_year: this.card.year,
       },
       (status, response) => {
         if (response.error) {

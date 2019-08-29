@@ -1,27 +1,27 @@
-import { NgModule } from "@angular/core";
-import { CommonModule as NgCommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CommonModule } from "../../common/common.module";
-import { TokenOnboardingModule } from "../wallet/tokens/onboarding/onboarding.module";
-import { MessengerModule } from "../messenger/messenger.module";
-import { OnboardingCardComponent } from "./card/card.component";
-import { OnboardingFeedComponent } from "./feed.component";
-import { OnboardingService } from "./onboarding.service";
-import { OnboardingModalComponent } from "./modal.component";
-import { ChannelOnboardingService } from "./channel/onboarding.service";
-import { TopicsOnboardingComponent } from "./channel/topics/topics.component";
-import { ChannelOnboardingComponent } from "./channel/onboarding.component";
-import { SubscriptionsOnboardingComponent } from "./channel/subscriptions/subscriptions.component";
-import { ChannelsTileComponent } from "../channels/tile/tile.component";
-import { GroupsOnboardingComponent } from "./channel/groups/groups.component";
-import { GroupsTileComponent } from "../groups/tile/tile.component";
-import { ChannelSetupOnboardingComponent } from "./channel/channel/channel.component";
-import { TokenRewardsOnboardingComponent } from "./channel/rewards/rewards.component";
-import { Client } from "../../services/api/client";
-import { SuggestionsModule } from "../suggestions/suggestions.module";
-import { Session } from "../../services/session";
+import { CommonModule } from '../../common/common.module';
+import { TokenOnboardingModule } from '../wallet/tokens/onboarding/onboarding.module';
+import { MessengerModule } from '../messenger/messenger.module';
+import { OnboardingCardComponent } from './card/card.component';
+import { OnboardingFeedComponent } from './feed.component';
+import { OnboardingService } from './onboarding.service';
+import { OnboardingModalComponent } from './modal.component';
+import { ChannelOnboardingService } from './channel/onboarding.service';
+import { TopicsOnboardingComponent } from './channel/topics/topics.component';
+import { ChannelOnboardingComponent } from './channel/onboarding.component';
+import { SubscriptionsOnboardingComponent } from './channel/subscriptions/subscriptions.component';
+import { ChannelsTileComponent } from '../channels/tile/tile.component';
+import { GroupsOnboardingComponent } from './channel/groups/groups.component';
+import { GroupsTileComponent } from '../groups/tile/tile.component';
+import { ChannelSetupOnboardingComponent } from './channel/channel/channel.component';
+import { TokenRewardsOnboardingComponent } from './channel/rewards/rewards.component';
+import { Client } from '../../services/api/client';
+import { SuggestionsModule } from '../suggestions/suggestions.module';
+import { Session } from '../../services/session';
 
 @NgModule({
   imports: [
@@ -32,7 +32,7 @@ import { Session } from "../../services/session";
     CommonModule,
     TokenOnboardingModule,
     MessengerModule,
-    SuggestionsModule
+    SuggestionsModule,
   ],
   declarations: [
     OnboardingCardComponent,
@@ -43,20 +43,20 @@ import { Session } from "../../services/session";
     SubscriptionsOnboardingComponent,
     GroupsOnboardingComponent,
     ChannelSetupOnboardingComponent,
-    TokenRewardsOnboardingComponent
+    TokenRewardsOnboardingComponent,
   ],
   providers: [
     OnboardingService,
     {
       provide: ChannelOnboardingService,
       deps: [Client, Session],
-      useFactory: ChannelOnboardingService._
-    }
+      useFactory: ChannelOnboardingService._,
+    },
   ],
   exports: [
     OnboardingCardComponent,
     OnboardingFeedComponent,
-    ChannelOnboardingComponent
+    ChannelOnboardingComponent,
   ],
   entryComponents: [
     OnboardingModalComponent,
@@ -66,7 +66,7 @@ import { Session } from "../../services/session";
     GroupsTileComponent,
     GroupsOnboardingComponent,
     ChannelSetupOnboardingComponent,
-    TokenRewardsOnboardingComponent
-  ]
+    TokenRewardsOnboardingComponent,
+  ],
 })
 export class OnboardingModule {}

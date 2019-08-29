@@ -8,46 +8,46 @@ import {
   ViewChild,
   OnInit,
   SkipSelf,
-  Injector
-} from "@angular/core";
+  Injector,
+} from '@angular/core';
 
-import { Client } from "../../../../../services/api";
-import { Session } from "../../../../../services/session";
-import { AttachmentService } from "../../../../../services/attachment";
-import { TranslationService } from "../../../../../services/translation";
-import { OverlayModalService } from "../../../../../services/ux/overlay-modal";
-import { MediaModalComponent } from "../../../../media/modal/modal.component";
-import { BoostCreatorComponent } from "../../../../boost/creator/creator.component";
-import { WireCreatorComponent } from "../../../../wire/creator/creator.component";
-import { MindsVideoComponent } from "../../../../media/components/video/video.component";
-import { EntitiesService } from "../../../../../common/services/entities.service";
-import { Router } from "@angular/router";
-import { BlockListService } from "../../../../../common/services/block-list.service";
-import { ActivityAnalyticsOnViewService } from "./activity-analytics-on-view.service";
-import { NewsfeedService } from "../../../../newsfeed/services/newsfeed.service";
-import { ClientMetaService } from "../../../../../common/services/client-meta.service";
-import { AutocompleteSuggestionsService } from "../../../../suggestions/services/autocomplete-suggestions.service";
-import { FeaturesService } from "../../../../../services/features.service";
-import isMobile from "../../../../../helpers/is-mobile";
+import { Client } from '../../../../../services/api';
+import { Session } from '../../../../../services/session';
+import { AttachmentService } from '../../../../../services/attachment';
+import { TranslationService } from '../../../../../services/translation';
+import { OverlayModalService } from '../../../../../services/ux/overlay-modal';
+import { MediaModalComponent } from '../../../../media/modal/modal.component';
+import { BoostCreatorComponent } from '../../../../boost/creator/creator.component';
+import { WireCreatorComponent } from '../../../../wire/creator/creator.component';
+import { MindsVideoComponent } from '../../../../media/components/video/video.component';
+import { EntitiesService } from '../../../../../common/services/entities.service';
+import { Router } from '@angular/router';
+import { BlockListService } from '../../../../../common/services/block-list.service';
+import { ActivityAnalyticsOnViewService } from './activity-analytics-on-view.service';
+import { NewsfeedService } from '../../../../newsfeed/services/newsfeed.service';
+import { ClientMetaService } from '../../../../../common/services/client-meta.service';
+import { AutocompleteSuggestionsService } from '../../../../suggestions/services/autocomplete-suggestions.service';
+import { FeaturesService } from '../../../../../services/features.service';
+import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-activity",
+  selector: 'minds-activity',
   host: {
-    class: "mdl-card m-border"
+    class: 'mdl-card m-border',
   },
   inputs: [
-    "object",
-    "commentsToggle",
-    "focusedCommentGuid",
-    "visible",
-    "canDelete",
-    "showRatingToggle"
+    'object',
+    'commentsToggle',
+    'focusedCommentGuid',
+    'visible',
+    'canDelete',
+    'showRatingToggle',
   ],
-  outputs: ["_delete: delete", "commentsOpened", "onViewed"],
+  outputs: ['_delete: delete', 'commentsOpened', 'onViewed'],
   providers: [ClientMetaService, ActivityAnalyticsOnViewService],
-  templateUrl: "activity.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'activity.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Activity implements OnInit {
   minds = window.Minds;
@@ -61,13 +61,13 @@ export class Activity implements OnInit {
   translateEvent: EventEmitter<any> = new EventEmitter();
   showBoostOptions: boolean = false;
   @Input() boost: boolean = false;
-  @Input("boost-toggle")
+  @Input('boost-toggle')
   @Input()
   showBoostMenuOptions: boolean = false;
   @Input() slot: number = -1;
 
   visibilityEvents: boolean = true;
-  @Input("visibilityEvents") set _visibilityEvents(visibilityEvents: boolean) {
+  @Input('visibilityEvents') set _visibilityEvents(visibilityEvents: boolean) {
     this.visibilityEvents = visibilityEvents;
 
     if (this.activityAnalyticsOnViewService) {
@@ -104,48 +104,48 @@ export class Activity implements OnInit {
     if (!this.activity || !this.activity.ephemeral) {
       if (this.showBoostMenuOptions) {
         return [
-          "edit",
-          "translate",
-          "share",
-          "follow",
-          "feature",
-          "delete",
-          "report",
-          "set-explicit",
-          "block",
-          "rating"
+          'edit',
+          'translate',
+          'share',
+          'follow',
+          'feature',
+          'delete',
+          'report',
+          'set-explicit',
+          'block',
+          'rating',
         ];
       } else {
         return [
-          "edit",
-          "translate",
-          "share",
-          "follow",
-          "feature",
-          "delete",
-          "report",
-          "set-explicit",
-          "block",
-          "rating"
+          'edit',
+          'translate',
+          'share',
+          'follow',
+          'feature',
+          'delete',
+          'report',
+          'set-explicit',
+          'block',
+          'rating',
         ];
       }
     } else {
       return [
-        "view",
-        "translate",
-        "share",
-        "follow",
-        "feature",
-        "report",
-        "set-explicit",
-        "block",
-        "rating"
+        'view',
+        'translate',
+        'share',
+        'follow',
+        'feature',
+        'report',
+        'set-explicit',
+        'block',
+        'rating',
       ];
     }
   }
 
-  @ViewChild("player", { static: false }) player: MindsVideoComponent;
-  @ViewChild("batchImage", { static: false }) batchImage: ElementRef;
+  @ViewChild('player', { static: false }) player: MindsVideoComponent;
+  @ViewChild('batchImage', { static: false }) batchImage: ElementRef;
 
   protected time_created: any;
 
@@ -177,8 +177,8 @@ export class Activity implements OnInit {
           true,
           null,
           this.clientMetaService.build({
-            campaign: activity.boosted_guid ? activity.urn : "",
-            position: this.slot
+            campaign: activity.boosted_guid ? activity.urn : '',
+            position: this.slot,
           })
         );
 
@@ -195,12 +195,12 @@ export class Activity implements OnInit {
   set object(value: any) {
     if (!value) return;
     this.activity = value;
-    this.activity.url = window.Minds.site_url + "newsfeed/" + value.guid;
+    this.activity.url = window.Minds.site_url + 'newsfeed/' + value.guid;
 
     this.activityAnalyticsOnViewService.setEntity(this.activity);
 
     if (
-      this.activity.custom_type === "batch" &&
+      this.activity.custom_type === 'batch' &&
       this.activity.custom_data &&
       this.activity.custom_data[0].src
     ) {
@@ -211,11 +211,11 @@ export class Activity implements OnInit {
     }
 
     if (!this.activity.message) {
-      this.activity.message = "";
+      this.activity.message = '';
     }
 
     if (!this.activity.title) {
-      this.activity.title = "";
+      this.activity.title = '';
     }
 
     this.boosted = this.activity.boosted || this.activity.p2p_boosted;
@@ -245,7 +245,7 @@ export class Activity implements OnInit {
   }
 
   save() {
-    console.log("trying to save your changes to the server", this.activity);
+    console.log('trying to save your changes to the server', this.activity);
     this.editing = false;
     this.activity.edited = true;
     this.activity.time_created =
@@ -255,7 +255,7 @@ export class Activity implements OnInit {
     if (this.attachment.has()) {
       data = Object.assign(this.activity, this.attachment.exportMeta());
     }
-    this.client.post("api/v1/newsfeed/" + this.activity.guid, data);
+    this.client.post('api/v1/newsfeed/' + this.activity.guid, data);
   }
 
   delete($event: any = {}) {
@@ -337,7 +337,7 @@ export class Activity implements OnInit {
       activity = await this.entitiesService.single(activity.entity_guid);
 
       if (!activity) {
-        throw new Error("Invalid entity");
+        throw new Error('Invalid entity');
       }
     }
 
@@ -361,7 +361,7 @@ export class Activity implements OnInit {
         activity = await this.entitiesService.single(activity.entity_guid);
 
         if (!activity) {
-          throw new Error("Invalid entity");
+          throw new Error('Invalid entity');
         }
       }
 
@@ -387,22 +387,22 @@ export class Activity implements OnInit {
 
   menuOptionSelected(option: string) {
     switch (option) {
-      case "view":
-        this.router.navigate(["/newsfeed", this.activity.guid]);
+      case 'view':
+        this.router.navigate(['/newsfeed', this.activity.guid]);
         break;
-      case "edit":
+      case 'edit':
         this.editing = true;
         break;
-      case "delete":
+      case 'delete':
         this.delete();
         break;
-      case "set-explicit":
+      case 'set-explicit':
         this.setExplicit(true);
         break;
-      case "remove-explicit":
+      case 'remove-explicit':
         this.setExplicit(false);
         break;
-      case "translate":
+      case 'translate':
         this.translateToggle = true;
         break;
     }
@@ -423,7 +423,7 @@ export class Activity implements OnInit {
 
     this.client
       .post(`api/v1/entities/explicit/${this.activity.guid}`, {
-        value: value ? "1" : "0"
+        value: value ? '1' : '0',
       })
       .catch(e => {
         this.activity.mature = oldValue;
@@ -445,7 +445,7 @@ export class Activity implements OnInit {
   }
 
   isUnlisted() {
-    return this.activity.access_id === "0" || this.activity.access_id === 0;
+    return this.activity.access_id === '0' || this.activity.access_id === 0;
   }
 
   propagateTranslation($event) {
@@ -454,8 +454,8 @@ export class Activity implements OnInit {
       this.translationService.isTranslatable(this.activity.remind_object)
     ) {
       this.childEventsEmitter.emit({
-        action: "translate",
-        args: [$event]
+        action: 'translate',
+        args: [$event],
       });
     }
   }
@@ -471,7 +471,7 @@ export class Activity implements OnInit {
       this.blockedUsers = (await this.blockListService.getList()) || [];
       this.detectChanges();
     } catch (e) {
-      console.warn("Activity.loadBlockedUsers", e);
+      console.warn('Activity.loadBlockedUsers', e);
     }
 
     return true;
@@ -482,7 +482,7 @@ export class Activity implements OnInit {
   }
 
   isPending(activity) {
-    return activity && activity.pending && activity.pending !== "0";
+    return activity && activity.pending && activity.pending !== '0';
   }
 
   toggleMatureVisibility() {
@@ -495,7 +495,7 @@ export class Activity implements OnInit {
         {},
         {
           ...this.activity.remind_object,
-          mature_visibility: !this.activity.remind_object.mature_visibility
+          mature_visibility: !this.activity.remind_object.mature_visibility,
         }
       );
     }
@@ -524,15 +524,15 @@ export class Activity implements OnInit {
       return;
     }
 
-    if (!this.featuresService.has("media-modal")) {
+    if (!this.featuresService.has('media-modal')) {
       // Non-canary
       this.goToMediaPage();
       return;
     } else {
       // Canary
       if (
-        this.activity.custom_data[0].width === "0" ||
-        this.activity.custom_data[0].height === "0"
+        this.activity.custom_data[0].width === '0' ||
+        this.activity.custom_data[0].height === '0'
       ) {
         this.setImageDimensions();
       }
@@ -552,7 +552,7 @@ export class Activity implements OnInit {
 
     this.overlayModal
       .create(MediaModalComponent, this.activity, {
-        class: "m-overlayModal--media"
+        class: 'm-overlayModal--media',
       })
       .present();
   }

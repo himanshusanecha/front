@@ -1,9 +1,9 @@
-import { Directive, ElementRef } from "@angular/core";
-import { Material as MaterialService } from "../../../../services/ui";
+import { Directive, ElementRef } from '@angular/core';
+import { Material as MaterialService } from '../../../../services/ui';
 
 @Directive({
-  selector: "[mdlRadio]",
-  inputs: ["mdlRadio", "checked", "mdlRadioValue"]
+  selector: '[mdlRadio]',
+  inputs: ['mdlRadio', 'checked', 'mdlRadioValue'],
 })
 export class MaterialRadio {
   mdlRadio: any;
@@ -18,9 +18,9 @@ export class MaterialRadio {
     MaterialService.updateElement(this.element);
 
     if (value == this.mdlRadioValue) {
-      this.element.classList.add("is-checked");
+      this.element.classList.add('is-checked');
     } else {
-      this.element.classList.remove("is-checked");
+      this.element.classList.remove('is-checked');
     }
   }
 }

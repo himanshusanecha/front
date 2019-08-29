@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Client } from "../../../../../services/api/client";
-import isMobileOrTablet from "../../../../../helpers/is-mobile-or-tablet";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Client } from '../../../../../services/api/client';
+import isMobileOrTablet from '../../../../../helpers/is-mobile-or-tablet';
 
 @Component({
-  selector: "m-referrals--dashboard",
-  templateUrl: "dashboard.component.html"
+  selector: 'm-referrals--dashboard',
+  templateUrl: 'dashboard.component.html',
 })
 export class ReferralsDashboardComponent implements OnInit, OnDestroy {
   minds = window.Minds;
   referrals: Array<any> = [];
-  offset: string = "";
+  offset: string = '';
   limit = 12;
   moreData = true;
   inProgress = false;
@@ -60,8 +60,8 @@ export class ReferralsDashboardComponent implements OnInit, OnDestroy {
           return;
         }
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
         }
@@ -104,7 +104,7 @@ export class ReferralsDashboardComponent implements OnInit, OnDestroy {
 
           return;
         }
-        throw new Error("Error: ping incomplete");
+        throw new Error('Error: ping incomplete');
       })
       .catch(e => {
         referral.pingInProgress = false;

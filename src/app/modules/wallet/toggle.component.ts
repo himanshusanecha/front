@@ -4,25 +4,25 @@ import {
   AfterViewInit,
   OnDestroy,
   ViewChild,
-  ElementRef
-} from "@angular/core";
-import { Subscription } from "rxjs";
+  ElementRef,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { Navigation as NavigationService } from "../../services/navigation";
-import { WalletService } from "./wallet.service";
-import { Session } from "../../services/session";
-import { Storage } from "../../services/storage";
+import { Navigation as NavigationService } from '../../services/navigation';
+import { WalletService } from './wallet.service';
+import { Session } from '../../services/session';
+import { Storage } from '../../services/storage';
 
-import { animations } from "../../animations";
+import { animations } from '../../animations';
 
 @Component({
-  selector: "m-wallet--topbar-toggle",
-  templateUrl: "toggle.component.html",
-  animations: animations
+  selector: 'm-wallet--topbar-toggle',
+  templateUrl: 'toggle.component.html',
+  animations: animations,
 })
 export class WalletToggleComponent implements AfterViewInit, OnDestroy {
   user;
-  walletPopContent: string = "";
+  walletPopContent: string = '';
   walletPopState: any;
   balance: number = 0;
   toggled: boolean = false;
@@ -53,10 +53,10 @@ export class WalletToggleComponent implements AfterViewInit, OnDestroy {
       .onPoints()
       .subscribe(({ batch, total }) => {
         if (total === null) {
-          total = "…";
+          total = '…';
         }
 
-        if (batch && !this.storage.get("disablePointsAnimation")) {
+        if (batch && !this.storage.get('disablePointsAnimation')) {
           this.queueWalletAnimation(batch);
         }
       });

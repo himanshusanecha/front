@@ -1,13 +1,13 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { Session } from "../../../../services/session";
-import { Client } from "../../../../services/api";
-import { SignupModalService } from "../../../../modules/modals/signup/service";
+import { Session } from '../../../../services/session';
+import { Client } from '../../../../services/api';
+import { SignupModalService } from '../../../../modules/modals/signup/service';
 
 // had forwardRef(() => RemindComposerModal)
 @Component({
-  selector: "minds-button-remind",
-  inputs: ["_object: object"],
+  selector: 'minds-button-remind',
+  inputs: ['_object: object'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <a (click)="remind()" [ngClass]="{ selected: object.reminded }">
@@ -25,12 +25,12 @@ import { SignupModalService } from "../../../../modules/modals/signup/service";
       (closed)="remindOpen = false"
       (post)="send($event)"
     ></m-modal-remind-composer>
-  `
+  `,
 })
 export class RemindButton {
   object;
   showModal: boolean = false;
-  message: string = "";
+  message: string = '';
   remindOpen: boolean = false;
 
   constructor(
@@ -65,8 +65,8 @@ export class RemindButton {
     this.object.reminds++;
 
     this.client
-      .post("api/v2/newsfeed/remind/" + this.object.guid, {
-        message: this.message
+      .post('api/v2/newsfeed/remind/' + this.object.guid, {
+        message: this.message,
       })
       .catch(e => {
         this.object.reminded = false;

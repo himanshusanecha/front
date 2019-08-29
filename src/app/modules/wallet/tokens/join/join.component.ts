@@ -1,18 +1,18 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component
-} from "@angular/core";
-import { Router } from "@angular/router";
+  Component,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wallet-token--join",
-  templateUrl: "join.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wallet-token--join',
+  templateUrl: 'join.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletTokenJoinComponent {
   confirming: boolean = false;
@@ -32,7 +32,7 @@ export class WalletTokenJoinComponent {
 
   ngOnInit() {
     if (this.session.getLoggedInUser().tel_no_hash) {
-      console.log("sticking around!");
+      console.log('sticking around!');
       //this.router.navigate(['/wallet/tokens/contributions']);
     }
   }
@@ -70,11 +70,11 @@ export class WalletTokenJoinComponent {
     this.error = null;
     try {
       let response: any = await this.client.post(
-        "api/v2/blockchain/rewards/confirm",
+        'api/v2/blockchain/rewards/confirm',
         {
           number: this.number,
           code: this.code,
-          secret: this.secret
+          secret: this.secret,
         }
       );
 
@@ -89,7 +89,7 @@ export class WalletTokenJoinComponent {
   }
 
   join() {
-    this.router.navigate(["/wallet/tokens/contributions"]);
+    this.router.navigate(['/wallet/tokens/contributions']);
   }
 
   detectChange() {

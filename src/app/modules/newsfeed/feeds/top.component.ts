@@ -1,28 +1,28 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Client, Upload } from "../../../services/api";
-import { MindsTitle } from "../../../services/ux/title";
-import { Navigation as NavigationService } from "../../../services/navigation";
-import { Session } from "../../../services/session";
-import { Storage } from "../../../services/storage";
-import { ContextService } from "../../../services/context.service";
-import { SettingsService } from "../../settings/settings.service";
-import { PosterComponent } from "../poster/poster.component";
-import { HashtagsSelectorModalComponent } from "../../../modules/hashtags/hashtag-selector-modal/hashtags-selector.component";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { NewsfeedService } from "../services/newsfeed.service";
+import { Client, Upload } from '../../../services/api';
+import { MindsTitle } from '../../../services/ux/title';
+import { Navigation as NavigationService } from '../../../services/navigation';
+import { Session } from '../../../services/session';
+import { Storage } from '../../../services/storage';
+import { ContextService } from '../../../services/context.service';
+import { SettingsService } from '../../settings/settings.service';
+import { PosterComponent } from '../poster/poster.component';
+import { HashtagsSelectorModalComponent } from '../../../modules/hashtags/hashtag-selector-modal/hashtags-selector.component';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { NewsfeedService } from '../services/newsfeed.service';
 
 @Component({
-  selector: "m-newsfeed--top",
-  templateUrl: "top.component.html"
+  selector: 'm-newsfeed--top',
+  templateUrl: 'top.component.html',
 })
 export class NewsfeedTopComponent implements OnInit, OnDestroy {
   newsfeed: Array<Object>;
   prepended: Array<any> = [];
-  offset: string = "";
+  offset: string = '';
   inProgress: boolean = false;
   moreData: boolean = true;
   rating: number = 1;
@@ -33,7 +33,7 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
   ratingSubscription: Subscription;
   reloadFeedSubscription: Subscription;
 
-  @ViewChild("poster", { static: false }) private poster: PosterComponent;
+  @ViewChild('poster', { static: false }) private poster: PosterComponent;
 
   constructor(
     public client: Client,
@@ -49,7 +49,7 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
     private overlayModal: OverlayModalService,
     private newsfeedService: NewsfeedService
   ) {
-    this.title.setTitle("Newsfeed");
+    this.title.setTitle('Newsfeed');
 
     if (this.session.isLoggedIn())
       this.rating = this.session.getLoggedInUser().boost_rating;
@@ -72,7 +72,7 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
     this.load();
     this.minds = window.Minds;
 
-    this.context.set("activity");
+    this.context.set('activity');
   }
 
   ngOnDestroy() {
@@ -97,7 +97,7 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
 
     if (refresh) {
       this.moreData = true;
-      this.offset = "";
+      this.offset = '';
       this.newsfeed = [];
     }
 
@@ -105,15 +105,15 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
 
     this.client
       .get(
-        "api/v2/entities/suggested/activities" +
-          (this.allHashtags ? "/all" : ""),
+        'api/v2/entities/suggested/activities' +
+          (this.allHashtags ? '/all' : ''),
         {
           limit: 12,
           offset: this.offset,
-          rating: this.rating
+          rating: this.rating,
         },
         {
-          cache: true
+          cache: true,
         }
       )
       .then((data: any) => {
@@ -132,7 +132,7 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
         } else {
           this.newsfeed = data.entities;
         }
-        this.offset = data["load-next"];
+        this.offset = data['load-next'];
         this.inProgress = false;
       })
       .catch(e => {
@@ -174,10 +174,10 @@ export class NewsfeedTopComponent implements OnInit, OnDestroy {
         {},
         {
           class:
-            "m-overlay-modal--hashtag-selector m-overlay-modal--medium-large",
+            'm-overlay-modal--hashtag-selector m-overlay-modal--medium-large',
           onSelected: () => {
             this.load(true); //refresh list
-          }
+          },
         }
       )
       .present();

@@ -1,33 +1,33 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild } from '@angular/core';
 
-import { GroupsService } from "../../groups-service";
+import { GroupsService } from '../../groups-service';
 
-import { MindsHttpClient } from "../../../../common/api/client.service";
-import { map } from "rxjs/operators";
-import { Session } from "../../../../services/session";
+import { MindsHttpClient } from '../../../../common/api/client.service';
+import { map } from 'rxjs/operators';
+import { Session } from '../../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-groups-profile-members",
+  selector: 'minds-groups-profile-members',
 
-  inputs: ["_group : group"],
-  templateUrl: "members.html"
+  inputs: ['_group : group'],
+  templateUrl: 'members.html',
 })
 export class GroupsProfileMembers {
   minds = window.Minds;
-  @ViewChild("el", { static: true }) el;
+  @ViewChild('el', { static: true }) el;
 
   group: any;
   $group;
 
   invitees: any = [];
   members: Array<any> = [];
-  offset: string = "";
+  offset: string = '';
   inProgress: boolean = false;
   moreData: boolean = true;
   canInvite: boolean = false;
 
-  q: string = "";
+  q: string = '';
 
   private lastQuery;
   private searchDelayTimer;
@@ -59,7 +59,7 @@ export class GroupsProfileMembers {
     if (this.httpSubscription) this.httpSubscription.unsubscribe();
 
     if (refresh) {
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
       this.members = [];
     }
@@ -67,16 +67,16 @@ export class GroupsProfileMembers {
     // TODO: [emi] Send this via API
     this.canInvite = false;
 
-    if (this.group["is:owner"]) {
+    if (this.group['is:owner']) {
       this.canInvite = true;
-    } else if (this.group.membership === 2 && this.group["is:member"]) {
+    } else if (this.group.membership === 2 && this.group['is:member']) {
       this.canInvite = true;
     }
 
     let endpoint = `api/v1/groups/membership/${this.group.guid}`,
       params: { limit; offset; q?: string } = {
         limit: 12,
-        offset: this.offset
+        offset: this.offset,
       };
 
     if (this.q) {
@@ -100,8 +100,8 @@ export class GroupsProfileMembers {
           this.members = this.members.concat(response.members);
         }
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
         }

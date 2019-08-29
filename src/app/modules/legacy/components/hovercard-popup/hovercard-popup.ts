@@ -1,9 +1,9 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { HovercardService } from "../../../../services/hovercard";
+import { HovercardService } from '../../../../services/hovercard';
 
 @Component({
-  selector: "m-hovercard-popup",
+  selector: 'm-hovercard-popup',
   template: `
     <div
       class="minds-avatar-hovercard mdl-shadow--8dp"
@@ -17,7 +17,7 @@ import { HovercardService } from "../../../../services/hovercard";
     >
       <minds-card-user [object]="hovercardService.data"></minds-card-user>
     </div>
-  `
+  `,
 })
 export class HovercardPopup {
   constructor(public hovercardService: HovercardService) {}

@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: "m-post-autocomplete-item-renderer",
-  templateUrl: "posts-autocomplete.component.html"
+  selector: 'm-post-autocomplete-item-renderer',
+  templateUrl: 'posts-autocomplete.component.html',
 })
 export class PostsAutocompleteItemRendererComponent {
   @Input() choice;

@@ -1,7 +1,7 @@
-import Dexie from "dexie";
+import Dexie from 'dexie';
 
-import DexieStorageAdapter from "../lib/minds-sync/adapters/DexieStorageAdapter";
-import InMemoryStorageAdapter from "../lib/minds-sync/adapters/InMemoryStorageAdapter";
+import DexieStorageAdapter from '../lib/minds-sync/adapters/DexieStorageAdapter';
+import InMemoryStorageAdapter from '../lib/minds-sync/adapters/InMemoryStorageAdapter';
 
 export const isDexieSupported = new Promise(async resolve => {
   if (!window.indexedDB) {
@@ -9,7 +9,7 @@ export const isDexieSupported = new Promise(async resolve => {
     return;
   }
 
-  const tmpDbName = "_minds_idb_support_test_2";
+  const tmpDbName = '_minds_idb_support_test_2';
 
   try {
     Dexie.delete(tmpDbName);
@@ -26,18 +26,18 @@ export const isDexieSupported = new Promise(async resolve => {
   try {
     const testDB = new Dexie(tmpDbName);
     testDB.version(1).stores({
-      test: "id"
+      test: 'id',
     });
 
     await testDB.open();
 
-    await testDB.table("test").put({
-      id: Date.now()
+    await testDB.table('test').put({
+      id: Date.now(),
     });
 
     resolve(true);
   } catch (e) {
-    console.warn("IndexedDB/Dexie support check exception", e);
+    console.warn('IndexedDB/Dexie support check exception', e);
     resolve(false);
   }
 });

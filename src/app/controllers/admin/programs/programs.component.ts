@@ -1,22 +1,22 @@
-import { Component } from "@angular/core";
-import { Location } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-admin-programs",
-  templateUrl: "programs.component.html"
+  selector: 'minds-admin-programs',
+  templateUrl: 'programs.component.html',
 })
 export class AdminPrograms {
   applications: any[] = [];
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = "";
+  offset: string = '';
   reviewing: number | null = null;
 
   constructor(public client: Client, private route: ActivatedRoute) {}
@@ -44,8 +44,8 @@ export class AdminPrograms {
         this.applications.push(...response.applications);
         this.inProgress = false;
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
         }
@@ -64,7 +64,7 @@ export class AdminPrograms {
   }
 
   accept(index) {
-    if (!window.confirm("User will be ACCEPTED. There is no UNDO. Proceed?")) {
+    if (!window.confirm('User will be ACCEPTED. There is no UNDO. Proceed?')) {
       return;
     }
 
@@ -83,7 +83,7 @@ export class AdminPrograms {
   }
 
   reject(index) {
-    if (!window.confirm("User will be REJECTED. There is no UNDO. Proceed?")) {
+    if (!window.confirm('User will be REJECTED. There is no UNDO. Proceed?')) {
       return;
     }
 

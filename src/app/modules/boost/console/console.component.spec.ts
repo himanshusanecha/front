@@ -4,35 +4,35 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
+  tick,
+} from '@angular/core/testing';
 import {
   Component,
   DebugElement,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
+  Output,
+} from '@angular/core';
 
-import { Client } from "../../../services/api/client";
-import { clientMock } from "../../../../tests/client-mock.spec";
+import { Client } from '../../../services/api/client';
+import { clientMock } from '../../../../tests/client-mock.spec';
 import {
   BoostConsoleComponent,
   BoostConsoleFilter,
-  BoostConsoleType
-} from "./console.component";
-import { BoostService } from "../boost.service";
-import { TooltipComponentMock } from "../../../mocks/common/components/tooltip/tooltip.component";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ActivatedRoute } from "@angular/router";
-import { Observable, of } from "rxjs";
-import { By } from "@angular/platform-browser";
-import { DateSelectorComponent } from "../../../common/components/date-selector/date-selector.component";
-import { MindsCardMock } from "../../../../tests/minds-card-mock.spec";
+  BoostConsoleType,
+} from './console.component';
+import { BoostService } from '../boost.service';
+import { TooltipComponentMock } from '../../../mocks/common/components/tooltip/tooltip.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { DateSelectorComponent } from '../../../common/components/date-selector/date-selector.component';
+import { MindsCardMock } from '../../../../tests/minds-card-mock.spec';
 
 @Component({
-  selector: "m-date-selector",
-  template: ""
+  selector: 'm-date-selector',
+  template: '',
 })
 export class DateSelectorComponentMock {
   @Input() label: string;
@@ -41,46 +41,46 @@ export class DateSelectorComponentMock {
 }
 
 @Component({
-  selector: "m-boost-console-booster",
-  template: ""
+  selector: 'm-boost-console-booster',
+  template: '',
 })
 export class BoostConsoleBoosterMock {
-  @Input("type") type: BoostConsoleType;
+  @Input('type') type: BoostConsoleType;
 
   load(refresh?: boolean) {}
 }
 
 @Component({
-  selector: "m-third-party-networks-facebook",
-  template: ""
+  selector: 'm-third-party-networks-facebook',
+  template: '',
 })
 export class ThirdPartyNetworksFacebookMock {
   @Output() done: EventEmitter<any> = new EventEmitter(true);
 }
 
 @Component({
-  selector: "m-boost-console-network",
-  template: ""
+  selector: 'm-boost-console-network',
+  template: '',
 })
 export class BoostConsoleNetworkListMock {
-  @Input("type") type: BoostConsoleType;
+  @Input('type') type: BoostConsoleType;
 
   load(refresh?: boolean) {}
 }
 
 @Component({
-  selector: "m-boost-console-p2p",
-  template: ""
+  selector: 'm-boost-console-p2p',
+  template: '',
 })
 export class BoostConsoleP2PListMock {
-  @Input("filter") filter: BoostConsoleFilter;
+  @Input('filter') filter: BoostConsoleFilter;
 
   load(refresh?: boolean) {}
 }
 
 @Component({
-  selector: "m-boost-publisher",
-  template: ""
+  selector: 'm-boost-publisher',
+  template: '',
 })
 export class BoostConsolePublisherMock {
   @Input() filter: BoostConsoleFilter;
@@ -90,37 +90,37 @@ export class BoostConsolePublisherMock {
   toggle() {}
 }
 
-describe("BoostConsoleComponent", () => {
+describe('BoostConsoleComponent', () => {
   let comp: BoostConsoleComponent;
   let fixture: ComponentFixture<BoostConsoleComponent>;
 
   function getBecomeAPublisher(): DebugElement {
     return fixture.debugElement.query(
-      By.css(".m-boost-console--options-toggle > button")
+      By.css('.m-boost-console--options-toggle > button')
     );
   }
 
   function getPointsCount(): DebugElement {
     return fixture.debugElement.query(
-      By.css(".m-boost-console--overview-points-count > span")
+      By.css('.m-boost-console--overview-points-count > span')
     );
   }
 
   function getUSDCount(): DebugElement {
     return fixture.debugElement.query(
-      By.css(".m-boost-console--overview-usd-count > span")
+      By.css('.m-boost-console--overview-usd-count > span')
     );
   }
 
   function getPointEarnings(): DebugElement {
     return fixture.debugElement.query(
-      By.css(".m-boost-console--overview-point-earnings > span")
+      By.css('.m-boost-console--overview-point-earnings > span')
     );
   }
 
   function getUSDEarnings(): DebugElement {
     return fixture.debugElement.query(
-      By.css(".m-boost-console--overview-usd-earnings > span")
+      By.css('.m-boost-console--overview-usd-earnings > span')
     );
   }
 
@@ -134,7 +134,7 @@ describe("BoostConsoleComponent", () => {
         BoostConsoleNetworkListMock,
         BoostConsoleP2PListMock,
         BoostConsolePublisherMock,
-        BoostConsoleComponent
+        BoostConsoleComponent,
       ],
       imports: [RouterTestingModule],
       providers: [
@@ -142,12 +142,12 @@ describe("BoostConsoleComponent", () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({ type: "newsfeed" }),
-            snapshot: { params: { type: "newsfeed" } }
-          }
+            params: of({ type: 'newsfeed' }),
+            snapshot: { params: { type: 'newsfeed' } },
+          },
         },
-        BoostService
-      ]
+        BoostService,
+      ],
     }).compileComponents();
   }));
 
@@ -158,35 +158,35 @@ describe("BoostConsoleComponent", () => {
     fixture = TestBed.createComponent(BoostConsoleComponent);
     comp = fixture.componentInstance;
     window.Minds.user = {
-      guid: "732337264197111809",
-      type: "user",
+      guid: '732337264197111809',
+      type: 'user',
       subtype: false,
-      time_created: "1499978809",
+      time_created: '1499978809',
       time_updated: false,
-      container_guid: "0",
-      owner_guid: "0",
+      container_guid: '0',
+      owner_guid: '0',
       site_guid: false,
-      access_id: "2",
-      name: "minds",
-      username: "minds",
-      language: "en",
-      icontime: "1506690756",
+      access_id: '2',
+      name: 'minds',
+      username: 'minds',
+      language: 'en',
+      icontime: '1506690756',
       legacy_guid: false,
       featured_id: false,
-      banned: "no",
-      website: "",
-      dob: "",
-      gender: "",
-      city: "",
+      banned: 'no',
+      website: '',
+      dob: '',
+      gender: '',
+      city: '',
       merchant: {},
       boostProPlus: false,
       fb: false,
       mature: 0,
-      monetized: "",
+      monetized: '',
       signup_method: false,
       social_profiles: [],
       feature_flags: false,
-      programs: ["affiliate"],
+      programs: ['affiliate'],
       plus: false,
       verified: false,
       disabled_boost: false,
@@ -196,9 +196,9 @@ describe("BoostConsoleComponent", () => {
       subscriber: false,
       subscriptions_count: 1,
       impressions: 10248,
-      boost_rating: "2",
+      boost_rating: '2',
       spam: 0,
-      deleted: 0
+      deleted: 0,
     };
 
     // Set up mock HTTP client

@@ -4,18 +4,18 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter
-} from "@angular/core";
-import { Router } from "@angular/router";
+  EventEmitter,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
-import { MessengerEncryptionService } from "../encryption/encryption.service";
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
+import { MessengerEncryptionService } from '../encryption/encryption.service';
 
 @Component({
-  selector: "m-messenger--onboarding--setup",
-  templateUrl: "setup.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-messenger--onboarding--setup',
+  templateUrl: 'setup.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessengerOnboardingSetupComponent {
   @Input() skippable: boolean = true;
@@ -45,7 +45,7 @@ export class MessengerOnboardingSetupComponent {
         this.inProgress = false;
       })
       .catch(() => {
-        this.error = "Sorry, there was a problem.";
+        this.error = 'Sorry, there was a problem.';
         this.inProgress = false;
       });
 

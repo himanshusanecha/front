@@ -1,13 +1,13 @@
-import { Component, ElementRef, Input, ViewChild } from "@angular/core";
-import { Upload } from "../../../../services/api/upload";
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
-import { MindsUser } from "../../../../interfaces/entities";
-import { fromEvent, Subscription } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Upload } from '../../../../services/api/upload';
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
+import { MindsUser } from '../../../../interfaces/entities';
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: "m-channel--onboarding--onboarding",
+  selector: 'm-channel--onboarding--onboarding',
   template: `
     <div class="m-channelOnboarding__slide">
       <div class="m-channelOnboardingSlide__component">
@@ -55,18 +55,18 @@ import { debounceTime } from "rxjs/operators";
         />
       </div>
     </div>
-  `
+  `,
 })
 export class ChannelSetupOnboardingComponent {
-  static items = ["avatar", "display_name", "briefdescription"];
+  static items = ['avatar', 'display_name', 'briefdescription'];
 
   @Input() pendingItems: Array<string>;
 
   minds = window.Minds;
   user: MindsUser;
 
-  @ViewChild("displayNameInput", { static: true }) displayNameInput: ElementRef;
-  @ViewChild("descriptionInput", { static: true }) descriptionInput: ElementRef;
+  @ViewChild('displayNameInput', { static: true }) displayNameInput: ElementRef;
+  @ViewChild('descriptionInput', { static: true }) descriptionInput: ElementRef;
 
   displayNameSubscription: Subscription;
   descriptionSubscription: Subscription;
@@ -82,7 +82,7 @@ export class ChannelSetupOnboardingComponent {
   ngOnInit() {
     this.displayNameSubscription = fromEvent(
       this.displayNameInput.nativeElement,
-      "keyup"
+      'keyup'
     )
       .pipe(debounceTime(1000))
       .subscribe(() =>
@@ -91,7 +91,7 @@ export class ChannelSetupOnboardingComponent {
 
     this.descriptionSubscription = fromEvent(
       this.descriptionInput.nativeElement,
-      "keyup"
+      'keyup'
     )
       .pipe(debounceTime(1000))
       .subscribe(() =>
@@ -102,11 +102,11 @@ export class ChannelSetupOnboardingComponent {
   async upload_avatar(file) {
     try {
       const response: any = await this.upload.post(
-        "api/v1/channel/avatar",
+        'api/v1/channel/avatar',
         [file],
-        { filekey: "file" }
+        { filekey: 'file' }
       );
-      this.updateUser("icontime", Date.now());
+      this.updateUser('icontime', Date.now());
     } catch (e) {
       console.error(e);
     }
@@ -114,8 +114,8 @@ export class ChannelSetupOnboardingComponent {
 
   async updateUsername(username: string) {
     try {
-      await this.client.post("api/v1/channel/info", { name: username });
-      this.updateUser("name", username);
+      await this.client.post('api/v1/channel/info', { name: username });
+      this.updateUser('name', username);
     } catch (e) {
       console.error(e);
     }
@@ -123,10 +123,10 @@ export class ChannelSetupOnboardingComponent {
 
   async updateDescription(briefDescription: string) {
     try {
-      await this.client.post("api/v1/channel/info", {
-        briefdescription: briefDescription
+      await this.client.post('api/v1/channel/info', {
+        briefdescription: briefDescription,
       });
-      this.updateUser("briefdescription", briefDescription);
+      this.updateUser('briefdescription', briefDescription);
     } catch (e) {
       console.error(e);
     }

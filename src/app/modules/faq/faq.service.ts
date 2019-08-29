@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Client } from "../../services/api";
-import { Session } from "../../services/session";
+import { Client } from '../../services/api';
+import { Session } from '../../services/session';
 
 @Injectable()
 export class FaqService {
@@ -24,7 +24,7 @@ export class FaqService {
       await this.load();
     }
 
-    if (!category || category == "all") {
+    if (!category || category == 'all') {
       return Object.keys(this.faq).map(key => {
         this.faq[key].id = key;
         return this.faq[key];

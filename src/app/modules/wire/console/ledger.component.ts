@@ -1,14 +1,14 @@
-import { Component, ChangeDetectorRef, Input } from "@angular/core";
-import { CurrencyPipe } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { Component, ChangeDetectorRef, Input } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wire-console--ledger",
-  templateUrl: "ledger.component.html",
-  providers: [CurrencyPipe]
+  selector: 'm-wire-console--ledger',
+  templateUrl: 'ledger.component.html',
+  providers: [CurrencyPipe],
 })
 export class WireConsoleLedgerComponent {
   @Input() type: string;
@@ -16,7 +16,7 @@ export class WireConsoleLedgerComponent {
   wires: any[] = [];
   inProgress: boolean = false;
 
-  offset: string = "";
+  offset: string = '';
   moreData: boolean = false;
   startDate: string;
 
@@ -32,20 +32,20 @@ export class WireConsoleLedgerComponent {
 
   ngOnInit() {
     if (!this.type) {
-      this.type = "sent";
+      this.type = 'sent';
 
       if (window.Minds.user.merchant && window.Minds.user.merchant.exclusive) {
-        this.type = "received";
+        this.type = 'received';
       }
     }
 
     if (!this.method) {
-      this.method = "points";
+      this.method = 'points';
 
       if (window.Minds.user.merchant) {
-        this.method = "money";
+        this.method = 'money';
       } else if (window.Minds.user.eth_wallet) {
-        this.method = "tokens";
+        this.method = 'tokens';
       }
     }
 
@@ -71,7 +71,7 @@ export class WireConsoleLedgerComponent {
 
     if (refresh) {
       this.wires = [];
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
     }
 
@@ -81,9 +81,9 @@ export class WireConsoleLedgerComponent {
         limit: 12,
         type: this.type,
         method: this.method,
-        start: Date.parse(this.startDate) / 1000
+        start: Date.parse(this.startDate) / 1000,
       })
-      .then(({ wires, "load-next": loadNext }) => {
+      .then(({ wires, 'load-next': loadNext }) => {
         this.inProgress = false;
 
         if (wires) {

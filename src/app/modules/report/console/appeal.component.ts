@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 
-import { Client } from "../../../services/api/client";
-import { REASONS, REPORT_ACTIONS } from "../../../services/list-options";
-import { JurySessionService } from "../juryduty/session/session.service";
+import { Client } from '../../../services/api/client';
+import { REASONS, REPORT_ACTIONS } from '../../../services/list-options';
+import { JurySessionService } from '../juryduty/session/session.service';
 
 @Component({
-  selector: "m-moderation__appeal",
-  templateUrl: "appeal.component.html"
+  selector: 'm-moderation__appeal',
+  templateUrl: 'appeal.component.html',
 })
 export class ModerationAppealComponent {
   @Input() appeal;
@@ -25,7 +25,7 @@ export class ModerationAppealComponent {
       let response: any = await this.client.post(
         `api/v2/moderation/appeals/${this.appeal.report.urn}`,
         {
-          note: this.note
+          note: this.note,
         }
       );
 
@@ -33,14 +33,14 @@ export class ModerationAppealComponent {
 
       this.detectChanges();
     } catch (e) {
-      alert((e && e.message) || "Error sending appeal");
+      alert((e && e.message) || 'Error sending appeal');
     } finally {
       this.appeal.inProgress = false;
     }
   }
 
   parseAction(action: string) {
-    return typeof REPORT_ACTIONS[action] !== "undefined"
+    return typeof REPORT_ACTIONS[action] !== 'undefined'
       ? REPORT_ACTIONS[action]
       : action;
   }

@@ -1,18 +1,18 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectorRef } from '@angular/core';
 
-import { Client } from "../../../services/api";
-import { WalletService } from "../../../services/wallet";
-import { Storage } from "../../../services/storage";
-import { CreditCard } from "../../../interfaces/card-interface";
+import { Client } from '../../../services/api';
+import { WalletService } from '../../../services/wallet';
+import { Storage } from '../../../services/storage';
+import { CreditCard } from '../../../interfaces/card-interface';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wallet-purchase",
-  templateUrl: "purchase.component.html",
-  inputs: ["toggled"]
+  selector: 'm-wallet-purchase',
+  templateUrl: 'purchase.component.html',
+  inputs: ['toggled'],
 })
 export class WalletPurchaseComponent {
-  card: CreditCard = <CreditCard>{ month: "mm", year: "yyyy" };
+  card: CreditCard = <CreditCard>{ month: 'mm', year: 'yyyy' };
 
   ex: number = 0.01;
   points: number = 10000;
@@ -22,10 +22,10 @@ export class WalletPurchaseComponent {
 
   inProgress: boolean = false;
   confirmation: boolean = false;
-  source: string | number = "";
+  source: string | number = '';
   recurring: boolean = true;
-  coupon: string = "";
-  error: string = "";
+  coupon: string = '';
+  error: string = '';
 
   toggled: boolean = true;
 
@@ -47,7 +47,7 @@ export class WalletPurchaseComponent {
   }
 
   getRate() {
-    this.client.get("api/v1/wallet/count").then((response: any) => {
+    this.client.get('api/v1/wallet/count').then((response: any) => {
       this.ex = response.ex.usd;
       this.detectChanges();
     });
@@ -61,7 +61,7 @@ export class WalletPurchaseComponent {
   calculateUSD() {
     this.usd = this.points * this.ex;
     this.client
-      .post("api/v1/wallet/quote", { points: this.points })
+      .post('api/v1/wallet/quote', { points: this.points })
       .then((response: any) => {
         this.usd = response.usd;
         this.detectChanges();
@@ -69,7 +69,7 @@ export class WalletPurchaseComponent {
   }
 
   getSubscription() {
-    this.client.get("api/v1/wallet/subscription").then((response: any) => {
+    this.client.get('api/v1/wallet/subscription').then((response: any) => {
       if (response.subscription) {
         this.subscription = response.subscription;
       }
@@ -86,30 +86,30 @@ export class WalletPurchaseComponent {
 
   purchase() {
     if (!this.validate()) {
-      this.error = "Sorry, please check your details and try again";
+      this.error = 'Sorry, please check your details and try again';
       this.detectChanges();
       return false;
     }
     this.inProgress = true;
-    this.error = "";
+    this.error = '';
 
     if (this.recurring) {
       if (
         !confirm(
-          "Are you sure you want to repeat this transaction every month and get 10% more points?"
+          'Are you sure you want to repeat this transaction every month and get 10% more points?'
         )
       ) {
         return;
       }
       this.client
-        .post("api/v1/wallet/subscription", {
+        .post('api/v1/wallet/subscription', {
           points: this.points,
           source: this.source,
-          coupon: this.coupon
+          coupon: this.coupon,
         })
         .then((response: any) => {
-          if (response.status !== "success") {
-            this.error = "Please check your payment details and try again.";
+          if (response.status !== 'success') {
+            this.error = 'Please check your payment details and try again.';
             this.inProgress = false;
             this.source = null;
             this.detectChanges();
@@ -127,14 +127,14 @@ export class WalletPurchaseComponent {
         });
     } else {
       this.client
-        .post("api/v1/wallet/purchase-once", {
+        .post('api/v1/wallet/purchase-once', {
           amount: this.usd,
           points: this.points,
-          source: this.source
+          source: this.source,
         })
         .then((response: any) => {
-          if (response.status !== "success") {
-            this.error = "Please check your payment details and try again.";
+          if (response.status !== 'success') {
+            this.error = 'Please check your payment details and try again.';
             this.detectChanges();
             return false;
           }
@@ -154,13 +154,13 @@ export class WalletPurchaseComponent {
   cancelSubscription() {
     if (
       !confirm(
-        "Are you sure you wish to cancel your monthly points subscription?"
+        'Are you sure you wish to cancel your monthly points subscription?'
       )
     ) {
       return false;
     }
 
-    this.client.delete("api/v1/wallet/subscription").then((response: any) => {
+    this.client.delete('api/v1/wallet/subscription').then((response: any) => {
       this.subscription = null;
       this.detectChanges();
     });

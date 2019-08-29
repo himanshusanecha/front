@@ -5,50 +5,50 @@ import {
   fakeAsync,
   TestBed,
   tick,
-  discardPeriodicTasks
-} from "@angular/core/testing";
+  discardPeriodicTasks,
+} from '@angular/core/testing';
 import {
   Component,
   DebugElement,
   EventEmitter,
   forwardRef,
   Input,
-  Output
-} from "@angular/core";
-import { By } from "@angular/platform-browser";
-import { FormsModule, NG_VALUE_ACCESSOR } from "@angular/forms";
+  Output,
+} from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { Client } from "../../../services/api/client";
-import { clientMock } from "../../../../tests/client-mock.spec";
-import { AbbrPipe } from "../../../common/pipes/abbr";
-import { TokenPipe } from "../../../common/pipes/token.pipe";
-import { MaterialMock } from "../../../../tests/material-mock.spec";
-import { MaterialSwitchMock } from "../../../../tests/material-switch-mock.spec";
-import { overlayModalServiceMock } from "../../../../tests/overlay-modal-service-mock.spec";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { Scheduler } from "../../../common/components/scheduler/scheduler";
-import { Web3WalletService } from "../../blockchain/web3-wallet.service";
-import { OffchainPaymentService } from "../../blockchain/offchain-payment.service";
+import { Client } from '../../../services/api/client';
+import { clientMock } from '../../../../tests/client-mock.spec';
+import { AbbrPipe } from '../../../common/pipes/abbr';
+import { TokenPipe } from '../../../common/pipes/token.pipe';
+import { MaterialMock } from '../../../../tests/material-mock.spec';
+import { MaterialSwitchMock } from '../../../../tests/material-switch-mock.spec';
+import { overlayModalServiceMock } from '../../../../tests/overlay-modal-service-mock.spec';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { Scheduler } from '../../../common/components/scheduler/scheduler';
+import { Web3WalletService } from '../../blockchain/web3-wallet.service';
+import { OffchainPaymentService } from '../../blockchain/offchain-payment.service';
 
-import { BoostCreatorComponent } from "./creator.component";
-import { BoostService } from "../boost.service";
-import { TokenContractService } from "../../blockchain/contracts/token-contract.service";
-import { tokenContractServiceMock } from "../../../../tests/token-contract-service-mock.spec";
-import { BoostContractService } from "../../blockchain/contracts/boost-contract.service";
-import { peerBoostContractServiceMock } from "../../../../tests/peer-boost-contract-service-mock.spec";
-import { transactionOverlayServiceMock } from "../../../../tests/transaction-overlay-service-mock.spec";
-import { LocalWalletService } from "../../blockchain/local-wallet.service";
-import { TransactionOverlayService } from "../../blockchain/transaction-overlay/transaction-overlay.service";
-import { localWalletServiceMock } from "../../../../tests/local-wallet-service-mock.spec";
-import { sessionMock } from "../../../../tests/session-mock.spec";
-import { Session } from "../../../services/session";
-import { RouterTestingModule } from "@angular/router/testing";
+import { BoostCreatorComponent } from './creator.component';
+import { BoostService } from '../boost.service';
+import { TokenContractService } from '../../blockchain/contracts/token-contract.service';
+import { tokenContractServiceMock } from '../../../../tests/token-contract-service-mock.spec';
+import { BoostContractService } from '../../blockchain/contracts/boost-contract.service';
+import { peerBoostContractServiceMock } from '../../../../tests/peer-boost-contract-service-mock.spec';
+import { transactionOverlayServiceMock } from '../../../../tests/transaction-overlay-service-mock.spec';
+import { LocalWalletService } from '../../blockchain/local-wallet.service';
+import { TransactionOverlayService } from '../../blockchain/transaction-overlay/transaction-overlay.service';
+import { localWalletServiceMock } from '../../../../tests/local-wallet-service-mock.spec';
+import { sessionMock } from '../../../../tests/session-mock.spec';
+import { Session } from '../../../services/session';
+import { RouterTestingModule } from '@angular/router/testing';
 
 /* tslint:disable */
 @Component({
-  selector: "minds-payments-stripe-checkout",
-  outputs: ["inputed", "done"],
-  template: ""
+  selector: 'minds-payments-stripe-checkout',
+  outputs: ['inputed', 'done'],
+  template: '',
 })
 export class StripeCheckoutMock {
   inputed: EventEmitter<any> = new EventEmitter();
@@ -56,18 +56,18 @@ export class StripeCheckoutMock {
 
   @Input() amount: number = 0;
   @Input() merchant_guid;
-  @Input() gateway: string = "merchants";
+  @Input() gateway: string = 'merchants';
 
-  @Input("useMDLStyling") useMDLStyling: boolean = true;
+  @Input('useMDLStyling') useMDLStyling: boolean = true;
 
   @Input() useCreditCard: boolean = true;
   @Input() useBitcoin: boolean = false;
 }
 
 @Component({
-  selector: "m--categories-selector",
-  outputs: ["inputed", "done"],
-  template: ""
+  selector: 'm--categories-selector',
+  outputs: ['inputed', 'done'],
+  template: '',
 })
 export class CategoriesSelectorMock {
   inputed: EventEmitter<any> = new EventEmitter();
@@ -75,17 +75,17 @@ export class CategoriesSelectorMock {
 
   @Input() amount: number = 0;
   @Input() merchant_guid;
-  @Input() gateway: string = "merchants";
+  @Input() gateway: string = 'merchants';
 
-  @Input("useMDLStyling") useMDLStyling: boolean = true;
+  @Input('useMDLStyling') useMDLStyling: boolean = true;
 
   @Input() useCreditCard: boolean = true;
   @Input() useBitcoin: boolean = false;
 }
 
 @Component({
-  selector: "m-boost--creator-payment-methods",
-  template: ""
+  selector: 'm-boost--creator-payment-methods',
+  template: '',
 })
 export class BoostPaymentMethodsMock {
   @Input() rates;
@@ -94,8 +94,8 @@ export class BoostPaymentMethodsMock {
 }
 
 @Component({
-  selector: "m-boost--creator-categories",
-  template: ""
+  selector: 'm-boost--creator-categories',
+  template: '',
 })
 export class BoostCategorySelectorMock {
   @Input() boost;
@@ -103,8 +103,8 @@ export class BoostCategorySelectorMock {
 }
 
 @Component({
-  selector: "m-boost--creator-p2p-search",
-  template: ""
+  selector: 'm-boost--creator-p2p-search',
+  template: '',
 })
 export class BoostP2PSearchMock {
   @Input() boost;
@@ -112,8 +112,8 @@ export class BoostP2PSearchMock {
 }
 
 @Component({
-  selector: "m-boost--creator-checkout",
-  template: ""
+  selector: 'm-boost--creator-checkout',
+  template: '',
 })
 export class BoostCheckoutMock {
   @Input() boost;
@@ -121,64 +121,64 @@ export class BoostCheckoutMock {
 }
 
 let web3WalletServiceMock = new (function() {
-  this.wallets = ["0x123", "0x1234"];
+  this.wallets = ['0x123', '0x1234'];
   this.balance = 127000000000000000000;
-  this.onChainInterfaceLabel = "Metamask";
+  this.onChainInterfaceLabel = 'Metamask';
   this.unavailable = false;
   this.locked = false;
   this.localWallet = false;
 
-  this.isUnavailable = jasmine.createSpy("isUnavailable").and.callFake(() => {
+  this.isUnavailable = jasmine.createSpy('isUnavailable').and.callFake(() => {
     return this.unavailable;
   });
 
-  this.unlock = jasmine.createSpy("unlock").and.callFake(async () => {
+  this.unlock = jasmine.createSpy('unlock').and.callFake(async () => {
     return !this.locked;
   });
 
-  this.ready = jasmine.createSpy("ready").and.callFake(async () => {
+  this.ready = jasmine.createSpy('ready').and.callFake(async () => {
     return true;
   });
 
-  this.getWallets = jasmine.createSpy("getWallets").and.callFake(async () => {
+  this.getWallets = jasmine.createSpy('getWallets').and.callFake(async () => {
     return this.wallets;
   });
   this.getCurrentWallet = jasmine
-    .createSpy("getCurrentWallet")
+    .createSpy('getCurrentWallet')
     .and.callFake(async () => {
       return this.wallets[0];
     });
-  this.getBalance = jasmine.createSpy("getBalance").and.callFake(async () => {
+  this.getBalance = jasmine.createSpy('getBalance').and.callFake(async () => {
     return this.balance;
   });
 
-  this.isLocal = jasmine.createSpy("isLocal").and.callFake(async () => {
+  this.isLocal = jasmine.createSpy('isLocal').and.callFake(async () => {
     return this.isLocalWallet;
   });
 
   this.getOnChainInterfaceLabel = jasmine
-    .createSpy("getOnChainInterfaceLabel")
+    .createSpy('getOnChainInterfaceLabel')
     .and.callFake(() => {
       return this.onChainInterfaceLabel
         ? this.onChainInterfaceLabel
-        : "Metamask";
+        : 'Metamask';
     });
 })();
 
 export const SELECTED_CATEGORIES_MOCK_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SelectedCategoriesMock),
-  multi: true
+  multi: true,
 };
 
 @Component({
-  selector: "m--selected-categories",
-  outputs: ["inputed", "done"],
-  template: "",
+  selector: 'm--selected-categories',
+  outputs: ['inputed', 'done'],
+  template: '',
   host: {
-    change: "propagateChange($event.target.value)"
+    change: 'propagateChange($event.target.value)',
   },
-  providers: [SELECTED_CATEGORIES_MOCK_VALUE_ACCESSOR]
+  providers: [SELECTED_CATEGORIES_MOCK_VALUE_ACCESSOR],
 })
 export class SelectedCategoriesMock {
   private selectedCategories: Array<any>;
@@ -209,128 +209,128 @@ export class SelectedCategoriesMock {
 }
 
 @Component({
-  selector: "m--crypto-token-symbol",
-  template: ""
+  selector: 'm--crypto-token-symbol',
+  template: '',
 })
 class CryptoTokenSymbolMock {}
 
 @Component({
-  selector: "m-checkout--blockchain",
-  template: ""
+  selector: 'm-checkout--blockchain',
+  template: '',
 })
 class BlockchainCheckoutMock {}
 
-describe("BoostCreatorComponent", () => {
+describe('BoostCreatorComponent', () => {
   let boostComponent: BoostCreatorComponent;
   let fixture: ComponentFixture<BoostCreatorComponent>;
   let submitSection: DebugElement;
   let boostSubmitButton: DebugElement;
 
   window.Minds.categories = {
-    art: "Art",
-    animals: "Animals",
-    music: "Music",
-    science: "Science",
-    technology: "Technology",
-    gaming: "Gaming",
-    history: "History",
-    nature: "Nature",
-    news: "News",
-    politics: "Politics",
-    comedy: "Comedy",
-    film: "Film ",
-    education: "Education",
-    sports: "Sports",
-    food: "Food",
-    modeling: "Modeling",
-    spirituality: "Spirituality ",
-    travel: "Travel",
-    health: "Health"
+    art: 'Art',
+    animals: 'Animals',
+    music: 'Music',
+    science: 'Science',
+    technology: 'Technology',
+    gaming: 'Gaming',
+    history: 'History',
+    nature: 'Nature',
+    news: 'News',
+    politics: 'Politics',
+    comedy: 'Comedy',
+    film: 'Film ',
+    education: 'Education',
+    sports: 'Sports',
+    food: 'Food',
+    modeling: 'Modeling',
+    spirituality: 'Spirituality ',
+    travel: 'Travel',
+    health: 'Health',
   };
 
   const boostUser = {
-    guid: "123",
-    type: "user",
+    guid: '123',
+    type: 'user',
     subtype: false,
-    time_created: "1500037446",
+    time_created: '1500037446',
     time_updated: false,
-    container_guid: "0",
-    owner_guid: "0",
+    container_guid: '0',
+    owner_guid: '0',
     site_guid: false,
-    access_id: "2",
-    name: "minds",
-    username: "minds",
-    language: "en",
+    access_id: '2',
+    name: 'minds',
+    username: 'minds',
+    language: 'en',
     icontime: false,
     legacy_guid: false,
     featured_id: false,
-    banned: "no",
-    website: "",
-    briefdescription: "test",
-    dob: "",
-    gender: "",
-    city: "",
+    banned: 'no',
+    website: '',
+    briefdescription: 'test',
+    dob: '',
+    gender: '',
+    city: '',
     merchant: {
-      service: "stripe",
-      id: "acct_1ApIzEA26BgQpK9C",
-      exclusive: { background: 1502453050, intro: "" }
+      service: 'stripe',
+      id: 'acct_1ApIzEA26BgQpK9C',
+      exclusive: { background: 1502453050, intro: '' },
     },
     boostProPlus: false,
     fb: false,
     mature: 0,
-    monetized: "",
+    monetized: '',
     signup_method: false,
     social_profiles: [],
     feature_flags: false,
-    programs: ["affiliate"],
+    programs: ['affiliate'],
     plus: false,
     verified: false,
     disabled_boost: false,
-    categories: ["news", "film", "spirituality"],
+    categories: ['news', 'film', 'spirituality'],
     wire_rewards: null,
     subscribed: false,
     subscriber: false,
     subscribers_count: 1,
     subscriptions_count: 1,
     impressions: 337,
-    boost_rating: "2"
+    boost_rating: '2',
   };
 
   const boostActivity = {
-    type: "activity",
-    guid: "12345",
-    owner_guid: "54321"
+    type: 'activity',
+    guid: '12345',
+    owner_guid: '54321',
   };
 
   const boostTargetUser = {
-    guid: "100000000000000063",
-    type: "user",
-    username: "mark",
+    guid: '100000000000000063',
+    type: 'user',
+    username: 'mark',
     merchant: {
-      service: "stripe",
-      id: "acct_19QgKYEQcGuFgRfS",
+      service: 'stripe',
+      id: 'acct_19QgKYEQcGuFgRfS',
       exclusive: {
         enabled: true,
         amount: 2,
-        intro: ""
-      }
+        intro: '',
+      },
     },
     subscribers_count: 51467,
     impressions: 758644,
-    boostProPlus: "1",
+    boostProPlus: '1',
     fb: {
-      uuid: "578128092345756",
-      name: 'Mark"s test page'
-    }
+      uuid: '578128092345756',
+      name: 'Mark"s test page',
+    },
   };
 
   const boostBlog = {
-    guid: "111111111",
-    type: "object",
-    title: "MOCK BLOG ENTRY",
-    description: "THIS IS A MOCK BLOCK ENTRY :)",
+    guid: '111111111',
+    type: 'object',
+    title: 'MOCK BLOG ENTRY',
+    description: 'THIS IS A MOCK BLOCK ENTRY :)',
     ownerObj: boostUser,
-    owner_guid: boostUser.guid
+    owner_guid: boostUser.guid,
   };
 
   function getPaymentMethodItem(i: number): DebugElement {
@@ -343,26 +343,26 @@ describe("BoostCreatorComponent", () => {
 
   function getAmountInput(): DebugElement {
     return fixture.debugElement.query(
-      By.css("input.m-boost--creator-wide-input--edit")
+      By.css('input.m-boost--creator-wide-input--edit')
     );
   }
 
   function getAmountLabel(): DebugElement {
     return fixture.debugElement.query(
-      By.css("span.m-boost--creator-wide-input--label")
+      By.css('span.m-boost--creator-wide-input--label')
     );
   }
 
   function getErrorLabel(): DebugElement {
     return fixture.debugElement.query(
-      By.css(".m-boost--creator--submit-error")
+      By.css('.m-boost--creator--submit-error')
     );
   }
 
   function getBoostTypesList(): DebugElement {
     return fixture.debugElement.query(
       By.css(
-        "section.m-boost--creator-section-type > ul.m-boost--creator-selector"
+        'section.m-boost--creator-section-type > ul.m-boost--creator-selector'
       )
     );
   }
@@ -379,7 +379,7 @@ describe("BoostCreatorComponent", () => {
     fixture.debugElement
       .query(
         By.css(
-          "section.m-boost--creator-section-priority .m-boost--creator-toggle"
+          'section.m-boost--creator-section-priority .m-boost--creator-toggle'
         )
       )
       .nativeElement.click();
@@ -389,7 +389,7 @@ describe("BoostCreatorComponent", () => {
   function getSubmitButton(): DebugElement {
     return fixture.debugElement.query(
       By.css(
-        ".m-boost--creator--submit .m-boost--creator-button.m-boost--creator-button--submit"
+        '.m-boost--creator--submit .m-boost--creator-button.m-boost--creator-button--submit'
       )
     );
   }
@@ -397,7 +397,7 @@ describe("BoostCreatorComponent", () => {
   function getNextButton(): DebugElement {
     return fixture.debugElement.query(
       By.css(
-        ".m-boost--creator-section-submit .m-boost--creator--submit button.m-boost--creator-button"
+        '.m-boost--creator-section-submit .m-boost--creator--submit button.m-boost--creator-button'
       )
     );
   }
@@ -419,7 +419,7 @@ describe("BoostCreatorComponent", () => {
         BoostPaymentMethodsMock,
         BoostCategorySelectorMock,
         BoostP2PSearchMock,
-        BoostCheckoutMock
+        BoostCheckoutMock,
       ],
       imports: [FormsModule, RouterTestingModule],
       providers: [
@@ -432,14 +432,14 @@ describe("BoostCreatorComponent", () => {
         { provide: TokenContractService, useValue: tokenContractServiceMock },
         {
           provide: BoostContractService,
-          useValue: peerBoostContractServiceMock
+          useValue: peerBoostContractServiceMock,
         },
         { provide: LocalWalletService, useValue: localWalletServiceMock },
         {
           provide: TransactionOverlayService,
-          useValue: transactionOverlayServiceMock
-        }
-      ]
+          useValue: transactionOverlayServiceMock,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -452,7 +452,7 @@ describe("BoostCreatorComponent", () => {
 
     // Set up mock HTTP client
     clientMock.response = {};
-    clientMock.response["api/v1/guid"] = { status: "success", guid: "123" };
+    clientMock.response['api/v1/guid'] = { status: 'success', guid: '123' };
     // send a boost - POST `api/v1/boost/${boostType}/${this.object.guid}/${this.object.owner_guid}`
     //clientMock.response[`api/v1/boost/peer/${boostActivity.guid}/${boostActivity.owner_guid}`] = { 'status': 'success' };
 
@@ -465,7 +465,7 @@ describe("BoostCreatorComponent", () => {
 
     // boost.component -> GET `api/v1/boost/rates`
     clientMock.response[`api/v2/boost/rates`] = {
-      status: "success",
+      status: 'success',
       balance: 28540,
       hasPaymentMethod: false,
       rate: 1,
@@ -474,15 +474,15 @@ describe("BoostCreatorComponent", () => {
       priority: 1,
       usd: 1000,
       minUsd: 1,
-      tokens: 1000
+      tokens: 1000,
     };
     // boost.component -> GET `api/v1/search`
 
     submitSection = fixture.debugElement.query(
-      By.css("section.m-boost--creator-section-submit")
+      By.css('section.m-boost--creator-section-submit')
     );
     boostSubmitButton = fixture.debugElement.query(
-      By.css(".m-boost--creator--submit > button.m-boost--creator-button")
+      By.css('.m-boost--creator--submit > button.m-boost--creator-button')
     );
 
     fixture.detectChanges();
@@ -500,17 +500,17 @@ describe("BoostCreatorComponent", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should have a title", () => {
+  it('should have a title', () => {
     const title = fixture.debugElement.query(
-      By.css(".m-boost--creator--header h2")
+      By.css('.m-boost--creator--header h2')
     );
     expect(title).not.toBeNull();
-    expect(title.nativeElement.textContent).toContain("Boost");
+    expect(title.nativeElement.textContent).toContain('Boost');
   });
 
-  it("should have a boost type selection section", () => {
+  it('should have a boost type selection section', () => {
     const boostTypeSection = fixture.debugElement.query(
-      By.css("section.m-boost--creator-section-type")
+      By.css('section.m-boost--creator-section-type')
     );
     expect(boostTypeSection).not.toBeNull();
   });
@@ -518,11 +518,11 @@ describe("BoostCreatorComponent", () => {
   it('boost type selection section should have a title that says "Boost Type"', () => {
     const boostTypeTitle = fixture.debugElement.query(
       By.css(
-        "section.m-boost--creator-section-type > .m-boost--creator-section-title--small"
+        'section.m-boost--creator-section-type > .m-boost--creator-section-title--small'
       )
     );
     expect(boostTypeTitle).not.toBeNull();
-    expect(boostTypeTitle.nativeElement.textContent).toContain("Boost Type");
+    expect(boostTypeTitle.nativeElement.textContent).toContain('Boost Type');
   });
 
   it('should only offer "sidebars" boost type when the boosted item is NOT an "activity"', () => {
@@ -534,12 +534,12 @@ describe("BoostCreatorComponent", () => {
     expect(availableBoostTypes).not.toBeNull();
     expect(availableBoostTypes.nativeElement.children.length).toBe(1);
     expect(
-      getBoostTypeItem(1).query(By.css("h4")).nativeElement.textContent
-    ).toContain("Sidebars");
+      getBoostTypeItem(1).query(By.css('h4')).nativeElement.textContent
+    ).toContain('Sidebars');
   });
 
   it('should offer both "offers" (p2p) and "newsfeed" boost types when the boosted item is an "activity"', () => {
-    boostComponent.object = { type: "activity", guid: "123" };
+    boostComponent.object = { type: 'activity', guid: '123' };
     boostComponent.syncAllowedTypes();
     fixture.detectChanges();
 
@@ -547,16 +547,16 @@ describe("BoostCreatorComponent", () => {
     expect(availableBoostTypes).not.toBeNull();
     expect(availableBoostTypes.nativeElement.children.length).toBe(2);
     expect(
-      getBoostTypeItem(1).query(By.css("h4")).nativeElement.textContent
-    ).toContain("Feeds");
+      getBoostTypeItem(1).query(By.css('h4')).nativeElement.textContent
+    ).toContain('Feeds');
     expect(
-      getBoostTypeItem(2).query(By.css("h4")).nativeElement.textContent
-    ).toContain("Offers");
+      getBoostTypeItem(2).query(By.css('h4')).nativeElement.textContent
+    ).toContain('Offers');
   });
 
-  it("should have an amount of views section, with an input and label", () => {
+  it('should have an amount of views section, with an input and label', () => {
     expect(
-      fixture.debugElement.query(By.css(".m-boost--creator--amount"))
+      fixture.debugElement.query(By.css('.m-boost--creator--amount'))
     ).not.toBeNull();
     expect(getAmountInput()).not.toBeNull();
     expect(getAmountLabel()).not.toBeNull();
@@ -565,8 +565,8 @@ describe("BoostCreatorComponent", () => {
   it('changing amount input should change the boost"s amount', () => {
     const amountInput: DebugElement = getAmountInput();
 
-    amountInput.nativeElement.value = "10";
-    amountInput.nativeElement.dispatchEvent(new Event("input"));
+    amountInput.nativeElement.value = '10';
+    amountInput.nativeElement.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
     expect(boostComponent.boost.amount).toBe(10);
@@ -575,18 +575,18 @@ describe("BoostCreatorComponent", () => {
   it('amount of views section should have a title that says "How many views do you want?"', () => {
     const amountSectionTitle = fixture.debugElement.query(
       By.css(
-        "section.m-boost--creator-section-amount > .m-boost--creator-section-title--small"
+        'section.m-boost--creator-section-amount > .m-boost--creator-section-title--small'
       )
     );
     expect(amountSectionTitle).not.toBeNull();
     expect(amountSectionTitle.nativeElement.textContent).toContain(
-      "How many views do you want?"
+      'How many views do you want?'
     );
   });
 
-  it("should have a payment section", () => {
+  it('should have a payment section', () => {
     const paymentSection = fixture.debugElement.query(
-      By.css("section.m-boost--creator-section-payment")
+      By.css('section.m-boost--creator-section-payment')
     );
     expect(paymentSection).not.toBeNull();
   });
@@ -594,65 +594,65 @@ describe("BoostCreatorComponent", () => {
   it('payment section should have a title that says "Payment Method"', () => {
     const paymentTitle = fixture.debugElement.query(
       By.css(
-        "section.m-boost--creator-section-payment > .m-boost--creator-section-title--small"
+        'section.m-boost--creator-section-payment > .m-boost--creator-section-title--small'
       )
     );
     expect(paymentTitle).not.toBeNull();
-    expect(paymentTitle.nativeElement.textContent).toContain("Payment Method");
+    expect(paymentTitle.nativeElement.textContent).toContain('Payment Method');
   });
 
-  it("should have an instance of m-boost--creator-payment-methods", () => {
+  it('should have an instance of m-boost--creator-payment-methods', () => {
     const paymentMethods = fixture.debugElement.query(
       By.css(
-        "section.m-boost--creator-section-payment m-boost--creator-payment-methods"
+        'section.m-boost--creator-section-payment m-boost--creator-payment-methods'
       )
     );
     expect(paymentMethods).not.toBeNull();
   });
 
-  it("should have a priority section if credit card is selected", () => {
-    boostComponent.object = { type: "activity", guid: "123" };
-    boostComponent.boost.currency = "usd";
+  it('should have a priority section if credit card is selected', () => {
+    boostComponent.object = { type: 'activity', guid: '123' };
+    boostComponent.boost.currency = 'usd';
     boostComponent.syncAllowedTypes();
     fixture.detectChanges();
 
     expect(
       fixture.debugElement.query(
-        By.css("section.m-boost--creator-section-priority")
+        By.css('section.m-boost--creator-section-priority')
       )
     ).not.toBeNull();
   });
 
-  it("priority section should not appear if onchain is selected", () => {
-    boostComponent.object = { type: "activity", guid: "123" };
-    boostComponent.boost.currency = "onchain";
+  it('priority section should not appear if onchain is selected', () => {
+    boostComponent.object = { type: 'activity', guid: '123' };
+    boostComponent.boost.currency = 'onchain';
     boostComponent.syncAllowedTypes();
     fixture.detectChanges();
 
     expect(
       fixture.debugElement.query(
-        By.css("section.m-boost--creator-section-priority")
+        By.css('section.m-boost--creator-section-priority')
       )
     ).toBeNull();
   });
 
-  it("priority section should not appear if offchain is selected", () => {
-    boostComponent.object = { type: "activity", guid: "123" };
-    boostComponent.boost.currency = "offchain";
+  it('priority section should not appear if offchain is selected', () => {
+    boostComponent.object = { type: 'activity', guid: '123' };
+    boostComponent.boost.currency = 'offchain';
     boostComponent.syncAllowedTypes();
     fixture.detectChanges();
 
     expect(
       fixture.debugElement.query(
-        By.css("section.m-boost--creator-section-priority")
+        By.css('section.m-boost--creator-section-priority')
       )
     ).toBeNull();
   });
 
-  it("toggling the priority should affect the boost entity", () => {
-    boostComponent.object = { type: "activity", guid: "123" };
+  it('toggling the priority should affect the boost entity', () => {
+    boostComponent.object = { type: 'activity', guid: '123' };
     boostComponent.syncAllowedTypes();
-    boostComponent.boost.currency = "usd";
+    boostComponent.boost.currency = 'usd';
     fixture.detectChanges();
 
     expect(boostComponent.boost.priority).toBeFalsy();
@@ -661,30 +661,30 @@ describe("BoostCreatorComponent", () => {
   });
 
   it('when selecting credit card "next" button should appear', () => {
-    boostComponent.object = { type: "activity", guid: "123" };
+    boostComponent.object = { type: 'activity', guid: '123' };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "usd";
+    boostComponent.boost.currency = 'usd';
     fixture.detectChanges();
 
     expect(getNextButton()).not.toBeNull();
   });
 
   it('when selecting credit card "priority" button should appear', () => {
-    boostComponent.object = { type: "activity", guid: "123" };
+    boostComponent.object = { type: 'activity', guid: '123' };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "usd";
+    boostComponent.boost.currency = 'usd';
     fixture.detectChanges();
 
     expect(getNextButton()).not.toBeNull();
   });
 
   it('"priority" button should toggle boost.priority', () => {
-    boostComponent.object = { type: "activity", guid: "123" };
+    boostComponent.object = { type: 'activity', guid: '123' };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "usd";
+    boostComponent.boost.currency = 'usd';
     fixture.detectChanges();
 
     expect(boostComponent.boost.priority).toBeFalsy();
@@ -695,10 +695,10 @@ describe("BoostCreatorComponent", () => {
   });
 
   it('clicking on the "next" button should show the stripe checkout component', () => {
-    boostComponent.object = { type: "activity", guid: "123" };
+    boostComponent.object = { type: 'activity', guid: '123' };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "usd";
+    boostComponent.boost.currency = 'usd';
     fixture.detectChanges();
 
     getNextButton().nativeElement.click();
@@ -706,16 +706,16 @@ describe("BoostCreatorComponent", () => {
 
     expect(
       fixture.debugElement.query(
-        By.css(".m-boost--creator-section-checkout m-boost--creator-checkout")
+        By.css('.m-boost--creator-section-checkout m-boost--creator-checkout')
       )
     ).not.toBeNull();
   });
 
   it('"boost" button should be disabled by default', () => {
-    boostComponent.object = { type: "activity", guid: "123" };
+    boostComponent.object = { type: 'activity', guid: '123' };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "usd";
+    boostComponent.boost.currency = 'usd';
     fixture.detectChanges();
 
     getNextButton().nativeElement.click();
@@ -725,45 +725,45 @@ describe("BoostCreatorComponent", () => {
   });
 
   it('if nonce is set, "boost" button should be enabled', () => {
-    boostComponent.object = { type: "activity", guid: "123" };
+    boostComponent.object = { type: 'activity', guid: '123' };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "usd";
+    boostComponent.boost.currency = 'usd';
     fixture.detectChanges();
 
     getNextButton().nativeElement.click();
     fixture.detectChanges();
 
-    boostComponent.boost.nonce = "nonce";
+    boostComponent.boost.nonce = 'nonce';
     fixture.detectChanges();
     expect(getSubmitButton().nativeElement.disabled).toBeFalsy();
   });
 
   it('clicking on "boost" should submit the boost', fakeAsync(() => {
     boostComponent.object = {
-      type: "activity",
-      guid: "123",
-      owner_guid: "789"
+      type: 'activity',
+      guid: '123',
+      owner_guid: '789',
     };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "usd";
+    boostComponent.boost.currency = 'usd';
     fixture.detectChanges();
 
     getNextButton().nativeElement.click();
     fixture.detectChanges();
 
-    boostComponent.boost.nonce = "nonce";
+    boostComponent.boost.nonce = 'nonce';
     fixture.detectChanges();
 
     clientMock.response[
       `api/v2/boost/prepare/${boostComponent.object.guid}`
     ] = {
-      status: "success",
-      guid: "456"
+      status: 'success',
+      guid: '456',
     };
 
-    spyOn(boostComponent, "submit").and.callThrough();
+    spyOn(boostComponent, 'submit').and.callThrough();
     clientMock.get.calls.reset();
     clientMock.post.calls.reset();
 
@@ -782,13 +782,13 @@ describe("BoostCreatorComponent", () => {
       `api/v2/boost/${boostComponent.object.type}/${boostComponent.object.guid}/${boostComponent.object.owner_guid}`
     );
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
-      bidType: "usd",
+      bidType: 'usd',
       categories: [],
       checksum: null,
       guid: null,
       impressions: 1000,
-      paymentMethod: "nonce",
-      priority: null
+      paymentMethod: 'nonce',
+      priority: null,
     });
     tick(3000); // timeout for dismissal
     discardPeriodicTasks();
@@ -797,13 +797,13 @@ describe("BoostCreatorComponent", () => {
   it('should fail submitting an "onchain" boost if wallet is unavailable', fakeAsync(() => {
     web3WalletServiceMock.unavailable = true;
     boostComponent.object = {
-      type: "activity",
-      guid: "123",
-      owner_guid: "789"
+      type: 'activity',
+      guid: '123',
+      owner_guid: '789',
     };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "onchain";
+    boostComponent.boost.currency = 'onchain';
     fixture.detectChanges();
 
     clientMock.get.calls.reset();
@@ -811,9 +811,9 @@ describe("BoostCreatorComponent", () => {
     clientMock.response[
       `api/v2/boost/prepare/${boostComponent.object.guid}`
     ] = {
-      status: "success",
-      guid: "456",
-      checksum: "checksum"
+      status: 'success',
+      guid: '456',
+      checksum: 'checksum',
     };
 
     getSubmitButton().nativeElement.click();
@@ -831,7 +831,7 @@ describe("BoostCreatorComponent", () => {
     expect(web3WalletServiceMock.isUnavailable).toHaveBeenCalled();
 
     expect(boostComponent.error).toContain(
-      "No Ethereum wallets available on your browser."
+      'No Ethereum wallets available on your browser.'
     );
   }));
 
@@ -840,13 +840,13 @@ describe("BoostCreatorComponent", () => {
     web3WalletServiceMock.locked = true;
 
     boostComponent.object = {
-      type: "activity",
-      guid: "123",
-      owner_guid: "789"
+      type: 'activity',
+      guid: '123',
+      owner_guid: '789',
     };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "onchain";
+    boostComponent.boost.currency = 'onchain';
     fixture.detectChanges();
     tick();
     jasmine.clock().tick(10);
@@ -854,9 +854,9 @@ describe("BoostCreatorComponent", () => {
     clientMock.response[
       `api/v2/boost/prepare/${boostComponent.object.guid}`
     ] = {
-      status: "success",
-      guid: "456",
-      checksum: "checksum"
+      status: 'success',
+      guid: '456',
+      checksum: 'checksum',
     };
 
     clientMock.get.calls.reset();
@@ -876,7 +876,7 @@ describe("BoostCreatorComponent", () => {
     expect(web3WalletServiceMock.isUnavailable).toHaveBeenCalled();
 
     expect(boostComponent.error).toContain(
-      "Your Ethereum wallet is locked or connected to another network."
+      'Your Ethereum wallet is locked or connected to another network.'
     );
   }));
 
@@ -884,13 +884,13 @@ describe("BoostCreatorComponent", () => {
     web3WalletServiceMock.unavailable = false;
     web3WalletServiceMock.locked = false;
     boostComponent.object = {
-      type: "activity",
-      guid: "123",
-      owner_guid: "789"
+      type: 'activity',
+      guid: '123',
+      owner_guid: '789',
     };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "onchain";
+    boostComponent.boost.currency = 'onchain';
     fixture.detectChanges();
     tick();
     jasmine.clock().tick(10);
@@ -900,15 +900,15 @@ describe("BoostCreatorComponent", () => {
     clientMock.response[
       `api/v2/boost/prepare/${boostComponent.object.guid}`
     ] = {
-      status: "success",
-      guid: "456",
-      checksum: "checksum"
+      status: 'success',
+      guid: '456',
+      checksum: 'checksum',
     };
 
     clientMock.get.calls.reset();
     clientMock.post.calls.reset();
 
-    spyOn(boostComponent, "submit").and.callThrough();
+    spyOn(boostComponent, 'submit').and.callThrough();
 
     getSubmitButton().nativeElement.click();
     fixture.detectChanges();
@@ -933,13 +933,13 @@ describe("BoostCreatorComponent", () => {
       `api/v2/boost/${boostComponent.object.type}/${boostComponent.object.guid}/${boostComponent.object.owner_guid}`
     );
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
-      bidType: "tokens",
+      bidType: 'tokens',
       categories: [],
-      checksum: "checksum",
-      guid: "456",
+      checksum: 'checksum',
+      guid: '456',
       impressions: 1000,
-      paymentMethod: { method: "onchain", txHash: "hash", address: "0x123" },
-      priority: null
+      paymentMethod: { method: 'onchain', txHash: 'hash', address: '0x123' },
+      priority: null,
     });
     tick(3000); // timeout for dismissal
     discardPeriodicTasks();
@@ -949,13 +949,13 @@ describe("BoostCreatorComponent", () => {
     web3WalletServiceMock.unavailable = false;
     web3WalletServiceMock.locked = false;
     boostComponent.object = {
-      type: "activity",
-      guid: "123",
-      owner_guid: "789"
+      type: 'activity',
+      guid: '123',
+      owner_guid: '789',
     };
     boostComponent.syncAllowedTypes();
 
-    boostComponent.boost.currency = "offchain";
+    boostComponent.boost.currency = 'offchain';
     fixture.detectChanges();
     tick();
     jasmine.clock().tick(10);
@@ -965,15 +965,15 @@ describe("BoostCreatorComponent", () => {
     clientMock.response[
       `api/v2/boost/prepare/${boostComponent.object.guid}`
     ] = {
-      status: "success",
-      guid: "456",
-      checksum: "checksum"
+      status: 'success',
+      guid: '456',
+      checksum: 'checksum',
     };
 
     clientMock.get.calls.reset();
     clientMock.post.calls.reset();
 
-    spyOn(boostComponent, "submit").and.callThrough();
+    spyOn(boostComponent, 'submit').and.callThrough();
 
     getSubmitButton().nativeElement.click();
     fixture.detectChanges();
@@ -995,13 +995,13 @@ describe("BoostCreatorComponent", () => {
       `api/v2/boost/${boostComponent.object.type}/${boostComponent.object.guid}/${boostComponent.object.owner_guid}`
     );
     expect(clientMock.post.calls.mostRecent().args[1]).toEqual({
-      bidType: "tokens",
+      bidType: 'tokens',
       categories: [],
-      checksum: "checksum",
-      guid: "456",
+      checksum: 'checksum',
+      guid: '456',
       impressions: 1000,
-      paymentMethod: { method: "offchain", address: "offchain" },
-      priority: null
+      paymentMethod: { method: 'offchain', address: 'offchain' },
+      priority: null,
     });
     tick(3000); // timeout for dismissal
     discardPeriodicTasks();

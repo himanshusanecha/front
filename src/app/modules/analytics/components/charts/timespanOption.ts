@@ -1,1 +1,1 @@
-export type timespanOption = "hourly" | "daily" | "monthly";
+export type timespanOption = 'hourly' | 'daily' | 'monthly';

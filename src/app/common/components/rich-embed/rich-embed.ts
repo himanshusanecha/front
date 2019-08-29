@@ -2,21 +2,21 @@ import {
   Component,
   ElementRef,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
-} from "@angular/core";
-import { DomSanitizer } from "@angular/platform-browser";
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
-import { RichEmbedService } from "../../../services/rich-embed";
-import mediaProxyUrl from "../../../helpers/media-proxy-url";
+import { RichEmbedService } from '../../../services/rich-embed';
+import mediaProxyUrl from '../../../helpers/media-proxy-url';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-rich-embed",
-  inputs: ["_src: src", "_preview: preview", "maxheight", "cropImage"],
-  templateUrl: "rich-embed.html"
+  selector: 'minds-rich-embed',
+  inputs: ['_src: src', '_preview: preview', 'maxheight', 'cropImage'],
+  templateUrl: 'rich-embed.html',
 })
 export class MindsRichEmbed {
-  type: string = "";
+  type: string = '';
   src: any = {};
   preview: any = {};
   maxheight: number = 320;
@@ -37,7 +37,7 @@ export class MindsRichEmbed {
     }
 
     this.src = Object.assign({}, value);
-    this.type = "src";
+    this.type = 'src';
 
     if (this.src.thumbnail_src) {
       this.src.thumbnail_src = mediaProxyUrl(this.src.thumbnail_src);
@@ -52,7 +52,7 @@ export class MindsRichEmbed {
     }
 
     this.preview = Object.assign({}, value);
-    this.type = "preview";
+    this.type = 'preview';
 
     if (this.preview.thumbnail) {
       this.preview.thumbnail = mediaProxyUrl(this.preview.thumbnail);
@@ -123,12 +123,12 @@ export class MindsRichEmbed {
         return {
           id: `video-youtube-${matches[1]}`,
           className:
-            "m-rich-embed-video m-rich-embed-video-iframe m-rich-embed-video-youtube",
+            'm-rich-embed-video m-rich-embed-video-iframe m-rich-embed-video-youtube',
           html: this.sanitizer.bypassSecurityTrustHtml(`<iframe
           src="https://www.youtube.com/embed/${matches[1]}?controls=2&modestbranding=1&origin=${origin}&rel=0"
           frameborder="0"
           allowfullscreen></iframe>`),
-          playable: true
+          playable: true,
         };
       }
     }
@@ -141,12 +141,12 @@ export class MindsRichEmbed {
         return {
           id: `video-vimeo-${matches[1]}`,
           className:
-            "m-rich-embed-video m-rich-embed-video-iframe m-rich-embed-video-vimeo",
+            'm-rich-embed-video m-rich-embed-video-iframe m-rich-embed-video-vimeo',
           html: this.sanitizer.bypassSecurityTrustHtml(`<iframe
           src="https://player.vimeo.com/video/${matches[1]}?autoplay=1&title=0&byline=0&portrait=0"
           frameborder="0"
           webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>`),
-          playable: true
+          playable: true,
         };
       }
     }
@@ -159,13 +159,13 @@ export class MindsRichEmbed {
         return {
           id: `audio-soundcloud-${matches[1]}`,
           className:
-            "m-rich-embed-audio m-rich-embed-audio-iframe m-rich-embed-audio-soundcloud",
+            'm-rich-embed-audio m-rich-embed-audio-iframe m-rich-embed-audio-soundcloud',
           htmlProvisioner: () => {
             return this.service
               .soundcloud(url, this.maxheight)
               .then(response => {
                 if (!response.id) {
-                  return "Error on soundcloud embed";
+                  return 'Error on soundcloud embed';
                 }
                 return this.sanitizer.bypassSecurityTrustHtml(`<iframe
                 width="100%" height="400" scrolling="no" frameborder="no"
@@ -173,7 +173,7 @@ export class MindsRichEmbed {
                 </iframe>`);
               });
           },
-          playable: true
+          playable: true,
         };
       }
     }
@@ -186,12 +186,12 @@ export class MindsRichEmbed {
         return {
           id: `audio-spotify-${matches[1]}`,
           className:
-            "m-rich-embed-audio m-rich-embed-audio-iframe m-rich-embed-audio-spotify",
+            'm-rich-embed-audio m-rich-embed-audio-iframe m-rich-embed-audio-spotify',
           html: this.sanitizer.bypassSecurityTrustHtml(`<iframe
           style="height: ${this.maxheight}px;"
           src="https://embed.spotify.com/?uri=spotify:track:${matches[1]}"
           frameborder="0" allowtransparency="true"></iframe>`),
-          playable: true
+          playable: true,
         };
       }
     }
@@ -201,7 +201,7 @@ export class MindsRichEmbed {
 
     if ((matches = giphy.exec(url)) !== null) {
       if (matches[1]) {
-        let idTokens: string[] = matches[1].split("-"),
+        let idTokens: string[] = matches[1].split('-'),
           id: string = idTokens.pop();
 
         if (!id) {
@@ -211,11 +211,11 @@ export class MindsRichEmbed {
         return {
           id: `image-giphy-${matches[1]}`,
           className:
-            "m-rich-embed-image m-rich-embed-image-iframe m-rich-embed-image-giphy",
+            'm-rich-embed-image m-rich-embed-image-iframe m-rich-embed-image-giphy',
           html: this.sanitizer
             .bypassSecurityTrustHtml(`<iframe src="//giphy.com/embed/${id}"
           frameBorder="0" class="giphy-embed" allowFullScreen></iframe>`),
-          playable: true
+          playable: true,
         };
       }
     }

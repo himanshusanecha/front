@@ -6,14 +6,14 @@ import {
   Output,
   ChangeDetectorRef,
   HostListener,
-  ViewChild
-} from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { HashtagsSelectorModalComponent } from "../hashtag-selector-modal/hashtags-selector.component";
-import { TopbarHashtagsService } from "../service/topbar.service";
-import { Subscription } from "rxjs";
-import { DropdownComponent } from "../../../common/components/dropdown/dropdown.component";
+  ViewChild,
+} from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { HashtagsSelectorModalComponent } from '../hashtag-selector-modal/hashtags-selector.component';
+import { TopbarHashtagsService } from '../service/topbar.service';
+import { Subscription } from 'rxjs';
+import { DropdownComponent } from '../../../common/components/dropdown/dropdown.component';
 
 type Hashtag = {
   value: string;
@@ -21,8 +21,8 @@ type Hashtag = {
 };
 
 @Component({
-  selector: "m-topbar--hashtags",
-  templateUrl: "topbar.component.html"
+  selector: 'm-topbar--hashtags',
+  templateUrl: 'topbar.component.html',
 })
 export class TopbarHashtagsComponent implements OnInit {
   hashtags: Hashtag[] = [];
@@ -30,11 +30,11 @@ export class TopbarHashtagsComponent implements OnInit {
     boolean
   >();
   all: boolean = false;
-  @Input("enabled") enabled: boolean = true;
+  @Input('enabled') enabled: boolean = true;
 
   showMenu: boolean = false;
 
-  @ViewChild("dropdown", { static: false }) dropdown: DropdownComponent;
+  @ViewChild('dropdown', { static: false }) dropdown: DropdownComponent;
 
   private selectionChangeSubscription: Subscription;
 
@@ -69,7 +69,7 @@ export class TopbarHashtagsComponent implements OnInit {
   async load() {
     try {
       const hashtags = await this.service.load(5, {
-        defaults: true
+        defaults: true,
       });
 
       this.hashtags = (hashtags || []).slice(0, 5);
@@ -133,7 +133,7 @@ export class TopbarHashtagsComponent implements OnInit {
         {},
         {
           class:
-            "m-overlay-modal--hashtag-selector m-overlay-modal--medium-large"
+            'm-overlay-modal--hashtag-selector m-overlay-modal--medium-large',
         }
       )
       .onDidDismiss(() => {
@@ -144,7 +144,7 @@ export class TopbarHashtagsComponent implements OnInit {
       .present();
   }
 
-  @HostListener("window:resize") detectWidth() {
+  @HostListener('window:resize') detectWidth() {
     this.showMenu = window.innerWidth < 1200;
   }
 }

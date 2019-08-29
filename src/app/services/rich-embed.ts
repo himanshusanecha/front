@@ -1,4 +1,4 @@
-import { Client } from "./api";
+import { Client } from './api';
 
 export class RichEmbedService {
   static _(client: Client) {
@@ -9,9 +9,9 @@ export class RichEmbedService {
 
   // Soundcloud
   soundcloud(url: string, maxheight: number = 320): Promise<any> {
-    return this.client.get("api/v1/newsfeed/oembed/soundcloud", {
+    return this.client.get('api/v1/newsfeed/oembed/soundcloud', {
       url,
-      maxheight
+      maxheight,
     });
   }
 }

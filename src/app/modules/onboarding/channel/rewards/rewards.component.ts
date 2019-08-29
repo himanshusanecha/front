@@ -3,15 +3,15 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
-import { Client } from "../../../../services/api/client";
-import { Session } from "../../../../services/session";
-import { Subscription } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+  Output,
+} from '@angular/core';
+import { Client } from '../../../../services/api/client';
+import { Session } from '../../../../services/session';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: "m-channel--onboarding--rewards",
+  selector: 'm-channel--onboarding--rewards',
   template: `
     <div class="m-channelOnboarding__slide">
       <h2>Earn tokens for your activity</h2>
@@ -106,10 +106,10 @@ import { ActivatedRoute } from "@angular/router";
         We do not store your phone number in our servers.
       </p>
     </div>
-  `
+  `,
 })
 export class TokenRewardsOnboardingComponent {
-  static items = ["tokens_verification"];
+  static items = ['tokens_verification'];
   static canSkip: boolean = true;
 
   @Input() pendingItems: Array<string>;
@@ -137,9 +137,9 @@ export class TokenRewardsOnboardingComponent {
     this.error = null;
     try {
       let response: any = await this.client.post(
-        "api/v2/blockchain/rewards/verify",
+        'api/v2/blockchain/rewards/verify',
         {
-          number: this.number
+          number: this.number,
         }
       );
       this.secret = response.secret;
@@ -163,11 +163,11 @@ export class TokenRewardsOnboardingComponent {
     this.error = null;
     try {
       let response: any = await this.client.post(
-        "api/v2/blockchain/rewards/confirm",
+        'api/v2/blockchain/rewards/confirm',
         {
           number: this.number,
           code: this.code,
-          secret: this.secret
+          secret: this.secret,
         }
       );
 

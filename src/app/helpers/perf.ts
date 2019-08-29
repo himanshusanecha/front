@@ -7,10 +7,10 @@ export class PerfInstance {
   protected stepTs: number;
 
   constructor(protected label: string) {
-    this.step("Init");
+    this.step('Init');
   }
 
-  step(label: string = "Step") {
+  step(label: string = 'Step') {
     const last = this.stepTs;
     const now = performance.now();
 
@@ -19,11 +19,11 @@ export class PerfInstance {
 
     console.info(
       `${this.label} - ${label} - Step ${this.stepNum}`,
-      last ? `- ${now - last}ms` : ""
+      last ? `- ${now - last}ms` : ''
     );
   }
 
   end() {
-    this.step("End");
+    this.step('End');
   }
 }

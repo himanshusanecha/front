@@ -1,18 +1,18 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Client } from "../../services/api/client";
-import { Session } from "../../services/session";
+import { Client } from '../../services/api/client';
+import { Session } from '../../services/session';
 
-import { EntitiesService } from "./entities.service";
-import { BlockListService } from "./block-list.service";
+import { EntitiesService } from './entities.service';
+import { BlockListService } from './block-list.service';
 
-import MindsClientHttpAdapter from "../../lib/minds-sync/adapters/MindsClientHttpAdapter.js";
-import browserStorageAdapterFactory from "../../helpers/browser-storage-adapter-factory";
-import FeedsSync from "../../lib/minds-sync/services/FeedsSync.js";
+import MindsClientHttpAdapter from '../../lib/minds-sync/adapters/MindsClientHttpAdapter.js';
+import browserStorageAdapterFactory from '../../helpers/browser-storage-adapter-factory';
+import FeedsSync from '../../lib/minds-sync/services/FeedsSync.js';
 
-import hashCode from "../../helpers/hash-code";
-import AsyncStatus from "../../helpers/async-status";
-import { BehaviorSubject, Observable, of, forkJoin, combineLatest } from "rxjs";
+import hashCode from '../../helpers/hash-code';
+import AsyncStatus from '../../helpers/async-status';
+import { BehaviorSubject, Observable, of, forkJoin, combineLatest } from 'rxjs';
 import {
   take,
   switchMap,
@@ -20,8 +20,8 @@ import {
   tap,
   skipWhile,
   first,
-  filter
-} from "rxjs/operators";
+  filter,
+} from 'rxjs/operators';
 
 export type FeedsServiceGetParameters = {
   endpoint: string;
@@ -46,9 +46,9 @@ export class FeedsService {
   limit: BehaviorSubject<number> = new BehaviorSubject(12);
   offset: BehaviorSubject<number> = new BehaviorSubject(0);
   pageSize: Observable<number>;
-  pagingToken: string = "";
+  pagingToken: string = '';
   canFetchMore: boolean = true;
-  endpoint: string = "";
+  endpoint: string = '';
   params: any = { sync: 1 };
   castToActivities: boolean = false;
 
@@ -135,15 +135,15 @@ export class FeedsService {
         ...{
           limit: 150, // Over 12 scrolls
           as_activities: this.castToActivities ? 1 : 0,
-          from_timestamp: this.pagingToken
-        }
+          from_timestamp: this.pagingToken,
+        },
       })
       .then((response: any) => {
         if (!this.offset.getValue()) this.inProgress.next(false);
 
         if (response.entities.length) {
           this.rawFeed.next(this.rawFeed.getValue().concat(response.entities));
-          this.pagingToken = response["load-next"];
+          this.pagingToken = response['load-next'];
         } else {
           this.canFetchMore = false;
         }
@@ -162,7 +162,7 @@ export class FeedsService {
 
   clear(): FeedsService {
     this.offset.next(0);
-    this.pagingToken = "";
+    this.pagingToken = '';
     this.rawFeed.next([]);
     return this;
   }

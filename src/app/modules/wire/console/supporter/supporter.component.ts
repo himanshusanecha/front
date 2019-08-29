@@ -1,15 +1,15 @@
-import { Component, ChangeDetectorRef, Input } from "@angular/core";
-import { CurrencyPipe } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { Component, ChangeDetectorRef, Input } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
-import { Client } from "../../../../services/api";
-import { Session } from "../../../../services/session";
+import { Client } from '../../../../services/api';
+import { Session } from '../../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wire-console--supporter",
-  templateUrl: "supporter.component.html",
-  providers: [CurrencyPipe]
+  selector: 'm-wire-console--supporter',
+  templateUrl: 'supporter.component.html',
+  providers: [CurrencyPipe],
 })
 export class WireConsoleSupporterComponent {
   @Input() guid: string;
@@ -17,7 +17,7 @@ export class WireConsoleSupporterComponent {
 
   @Input() reverse: boolean = false;
 
-  @Input() method: string = "money";
+  @Input() method: string = 'money';
 
   sum: number = 0;
   inProgress: boolean = false;

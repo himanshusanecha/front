@@ -4,41 +4,41 @@ import {
   OnDestroy,
   OnInit,
   SkipSelf,
-  ViewChild
-} from "@angular/core";
-import { Observable, Subscription } from "rxjs";
-import { take, map, mergeMap } from "rxjs/operators";
+  ViewChild,
+} from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { take, map, mergeMap } from 'rxjs/operators';
 
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Client, Upload } from "../../../services/api";
-import { MindsTitle } from "../../../services/ux/title";
-import { Navigation as NavigationService } from "../../../services/navigation";
-import { Session } from "../../../services/session";
-import { Storage } from "../../../services/storage";
-import { ContextService } from "../../../services/context.service";
-import { SettingsService } from "../../settings/settings.service";
-import { PosterComponent } from "../poster/poster.component";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { NewsfeedService } from "../services/newsfeed.service";
-import { TopbarHashtagsService } from "../../hashtags/service/topbar.service";
-import { NewsfeedHashtagSelectorService } from "../services/newsfeed-hashtag-selector.service";
-import { FeedsService } from "../../../common/services/feeds.service";
-import { FeaturesService } from "../../../services/features.service";
-import { ClientMetaService } from "../../../common/services/client-meta.service";
+import { Client, Upload } from '../../../services/api';
+import { MindsTitle } from '../../../services/ux/title';
+import { Navigation as NavigationService } from '../../../services/navigation';
+import { Session } from '../../../services/session';
+import { Storage } from '../../../services/storage';
+import { ContextService } from '../../../services/context.service';
+import { SettingsService } from '../../settings/settings.service';
+import { PosterComponent } from '../poster/poster.component';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { NewsfeedService } from '../services/newsfeed.service';
+import { TopbarHashtagsService } from '../../hashtags/service/topbar.service';
+import { NewsfeedHashtagSelectorService } from '../services/newsfeed-hashtag-selector.service';
+import { FeedsService } from '../../../common/services/feeds.service';
+import { FeaturesService } from '../../../services/features.service';
+import { ClientMetaService } from '../../../common/services/client-meta.service';
 
 @Component({
-  selector: "m-newsfeed--sorted",
+  selector: 'm-newsfeed--sorted',
   providers: [
     ClientMetaService,
-    FeedsService // Fresh feeds per component
+    FeedsService, // Fresh feeds per component
   ],
-  templateUrl: "sorted.component.html"
+  templateUrl: 'sorted.component.html',
 })
 export class NewsfeedSortedComponent implements OnInit, OnDestroy {
-  algorithm: string = "hot";
-  period: string = "12h";
-  customType: string = "activities";
+  algorithm: string = 'hot';
+  period: string = '12h';
+  customType: string = 'activities';
   hashtag: string | null = null;
   all: boolean = false;
   prepended: Array<any> = [];
@@ -53,9 +53,9 @@ export class NewsfeedSortedComponent implements OnInit, OnDestroy {
   reloadFeedSubscription: Subscription;
   selectionChangeSubscription: Subscription;
   hashtagFilterChangeSubscription: Subscription;
-  query: string = "";
+  query: string = '';
 
-  @ViewChild("poster", { static: false }) private poster: PosterComponent;
+  @ViewChild('poster', { static: false }) private poster: PosterComponent;
 
   constructor(
     public client: Client,
@@ -77,12 +77,12 @@ export class NewsfeedSortedComponent implements OnInit, OnDestroy {
     protected clientMetaService: ClientMetaService,
     @SkipSelf() injector: Injector
   ) {
-    this.title.setTitle("Newsfeed");
+    this.title.setTitle('Newsfeed');
 
     this.clientMetaService
       .inherit(injector)
-      .setSource("feed/discovery")
-      .setMedium("feed");
+      .setSource('feed/discovery')
+      .setMedium('feed');
 
     if (this.session.isLoggedIn()) {
       this.rating = this.session.getLoggedInUser().boost_rating;
@@ -105,18 +105,18 @@ export class NewsfeedSortedComponent implements OnInit, OnDestroy {
     );
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      this.algorithm = params["algorithm"] || "hot";
-      this.period = params["period"] || "12h";
-      this.customType = params["type"] || "activities";
-      this.query = params["query"] || "";
+      this.algorithm = params['algorithm'] || 'hot';
+      this.period = params['period'] || '12h';
+      this.customType = params['type'] || 'activities';
+      this.query = params['query'] || '';
 
-      if (typeof params["hashtag"] !== "undefined") {
-        this.hashtag = params["hashtag"] || null;
+      if (typeof params['hashtag'] !== 'undefined') {
+        this.hashtag = params['hashtag'] || null;
         this.all = false;
-      } else if (typeof params["all"] !== "undefined") {
+      } else if (typeof params['all'] !== 'undefined') {
         this.hashtag = null;
         this.all = true;
-      } else if (params["query"]) {
+      } else if (params['query']) {
         this.all = true;
         this.updateSortRoute();
       } else {
@@ -125,10 +125,10 @@ export class NewsfeedSortedComponent implements OnInit, OnDestroy {
       }
 
       if (
-        this.algorithm != "top" &&
-        (this.customType === "channels" || this.customType === "groups")
+        this.algorithm != 'top' &&
+        (this.customType === 'channels' || this.customType === 'groups')
       ) {
-        this.algorithm = "top";
+        this.algorithm = 'top';
         this.updateSortRoute();
       }
 
@@ -138,27 +138,27 @@ export class NewsfeedSortedComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.minds = window.Minds;
-    this.context.set("activity");
+    this.context.set('activity');
 
     this.hashtagFilterChangeSubscription = this.newsfeedHashtagSelectorService.subscribe(
       ({ type, value }) => {
         switch (type) {
-          case "single":
+          case 'single':
             this.hashtag = value;
             this.all = false;
-            this.query = "";
+            this.query = '';
             break;
 
-          case "all":
+          case 'all':
             this.hashtag = null;
             this.all = true;
-            this.query = "";
+            this.query = '';
             break;
 
-          case "preferred":
+          case 'preferred':
             this.hashtag = null;
             this.all = false;
-            this.query = "";
+            this.query = '';
             break;
         }
 
@@ -213,11 +213,11 @@ export class NewsfeedSortedComponent implements OnInit, OnDestroy {
     this.inProgress = true;
 
     try {
-      const hashtags = this.hashtag ? encodeURIComponent(this.hashtag) : "";
-      const period = this.period || "";
-      const all = this.all ? "1" : "";
-      const query = this.query ? encodeURIComponent(this.query) : "";
-      const nsfw = (this.newsfeedService.nsfw || []).join(",");
+      const hashtags = this.hashtag ? encodeURIComponent(this.hashtag) : '';
+      const period = this.period || '';
+      const all = this.all ? '1' : '';
+      const query = this.query ? encodeURIComponent(this.query) : '';
+      const nsfw = (this.newsfeedService.nsfw || []).join(',');
 
       this.feedsService
         .setEndpoint(`api/v2/feeds/global/${this.algorithm}/${this.customType}`)
@@ -226,13 +226,13 @@ export class NewsfeedSortedComponent implements OnInit, OnDestroy {
           period,
           all,
           query,
-          nsfw
+          nsfw,
         })
         .setLimit(12)
         .setCastToActivities(true)
         .fetch();
     } catch (e) {
-      console.error("SortedComponent", e);
+      console.error('SortedComponent', e);
     }
 
     this.inProgress = false;
@@ -277,14 +277,14 @@ export class NewsfeedSortedComponent implements OnInit, OnDestroy {
   }
 
   updateSortRoute() {
-    let route: any[] = ["newsfeed/global", this.algorithm];
+    let route: any[] = ['newsfeed/global', this.algorithm];
     const params: any = {};
 
     if (this.period) {
       params.period = this.period;
     }
 
-    if (this.customType && this.customType !== "activities") {
+    if (this.customType && this.customType !== 'activities') {
       params.type = this.customType;
     }
 
@@ -304,7 +304,7 @@ export class NewsfeedSortedComponent implements OnInit, OnDestroy {
   }
 
   isActivityFeed() {
-    return this.customType != "channels" && this.customType !== "groups";
+    return this.customType != 'channels' && this.customType !== 'groups';
   }
 
   shouldShowBoost(i: number) {

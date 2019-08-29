@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-admin-tagcloud",
-  templateUrl: "tagcloud.component.html"
+  selector: 'minds-admin-tagcloud',
+  templateUrl: 'tagcloud.component.html',
 })
 export class AdminTagcloud implements OnInit {
   tags: string[] = [];
@@ -25,7 +25,7 @@ export class AdminTagcloud implements OnInit {
         ({
           tags,
           age,
-          hidden
+          hidden,
         }: {
           tags: string[];
           age: number;

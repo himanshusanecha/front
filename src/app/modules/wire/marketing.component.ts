@@ -1,15 +1,15 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from "@angular/core";
+  ChangeDetectorRef,
+} from '@angular/core';
 
-import { Client } from "../../common/api/client.service";
+import { Client } from '../../common/api/client.service';
 
 @Component({
-  selector: "m-wire--marketing",
-  templateUrl: "marketing.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-wire--marketing',
+  templateUrl: 'marketing.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WireMarketingComponent {
   minds = window.Minds;

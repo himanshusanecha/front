@@ -1,25 +1,25 @@
-import { Component } from "@angular/core";
-import { Location } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client } from "../../../services/api";
-import { REASONS, REPORT_ACTIONS } from "../../../services/list-options";
+import { Client } from '../../../services/api';
+import { REASONS, REPORT_ACTIONS } from '../../../services/list-options';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-admin-reports",
-  templateUrl: "reports.html"
+  selector: 'minds-admin-reports',
+  templateUrl: 'reports.html',
 })
 export class AdminReports {
-  filter: string = "reports";
-  type: string = "review";
+  filter: string = 'reports';
+  type: string = 'review';
   reports: any[] = [];
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = "";
+  offset: string = '';
   paramsSubscription: Subscription;
 
   reasons: Array<{ value; label }> = REASONS;
@@ -27,15 +27,15 @@ export class AdminReports {
   constructor(public client: Client, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.type = "review";
+    this.type = 'review';
 
     this.paramsSubscription = this.route.params.subscribe((params: any) => {
-      if (params["filter"]) {
-        this.filter = params["filter"];
+      if (params['filter']) {
+        this.filter = params['filter'];
       }
 
-      if (params["type"]) {
-        this.type = params["type"];
+      if (params['type']) {
+        this.type = params['type'];
       }
 
       this.load(true);
@@ -50,7 +50,7 @@ export class AdminReports {
     if (refresh) {
       this.inProgress = false;
       this.reports = [];
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
     }
 
@@ -74,13 +74,13 @@ export class AdminReports {
         this.reports.push(...response.reports);
       }
 
-      if (response["load-next"]) {
-        this.offset = response["load-next"];
+      if (response['load-next']) {
+        this.offset = response['load-next'];
       } else {
         this.moreData = false;
       }
     } catch (e) {
-      alert((e && e.message) || "Error getting list");
+      alert((e && e.message) || 'Error getting list');
     } finally {
       this.inProgress = false;
     }
@@ -99,13 +99,13 @@ export class AdminReports {
   }
 
   parseAction(action: string) {
-    return typeof REPORT_ACTIONS[action] !== "undefined"
+    return typeof REPORT_ACTIONS[action] !== 'undefined'
       ? REPORT_ACTIONS[action]
       : action;
   }
 
   removeFromList(index) {
-    if (this.type === "history") {
+    if (this.type === 'history') {
       return;
     }
 
@@ -122,18 +122,18 @@ export class AdminReports {
       );
 
       if (!response.done) {
-        alert("There was a problem archiving this report. Please reload.");
+        alert('There was a problem archiving this report. Please reload.');
       }
     } catch (e) {
       alert(
         (e && e.message) ||
-          "There was a problem archiving this report. Please reload."
+          'There was a problem archiving this report. Please reload.'
       );
     }
   }
 
   async explicit(report: any, index: number) {
-    if (!confirm("This will make this content explicit. Are you sure?")) {
+    if (!confirm('This will make this content explicit. Are you sure?')) {
       return;
     }
 
@@ -147,19 +147,19 @@ export class AdminReports {
 
       if (!response.done) {
         alert(
-          "There was a problem marking this content as explicit. Please reload."
+          'There was a problem marking this content as explicit. Please reload.'
         );
       }
     } catch (e) {
       alert(
         (e && e.message) ||
-          "There was a problem marking this content as explicit. Please reload."
+          'There was a problem marking this content as explicit. Please reload.'
       );
     }
   }
 
   async spam(report: any, index: number) {
-    if (!confirm("This will mark this content as spam. Are you sure?")) {
+    if (!confirm('This will mark this content as spam. Are you sure?')) {
       return;
     }
 
@@ -173,19 +173,19 @@ export class AdminReports {
 
       if (!response.done) {
         alert(
-          "There was a problem marking this content as spam. Please reload."
+          'There was a problem marking this content as spam. Please reload.'
         );
       }
     } catch (e) {
       alert(
         (e && e.message) ||
-          "There was a problem marking this content as spam. Please reload."
+          'There was a problem marking this content as spam. Please reload.'
       );
     }
   }
 
   async delete(report: any, index: number) {
-    if (!confirm("This will delete this from Minds. Are you sure?")) {
+    if (!confirm('This will delete this from Minds. Are you sure?')) {
       return;
     }
 
@@ -198,12 +198,12 @@ export class AdminReports {
       );
 
       if (!response.done) {
-        alert("There was a problem deleting this content. Please reload.");
+        alert('There was a problem deleting this content. Please reload.');
       }
     } catch (e) {
       alert(
         (e && e.message) ||
-          "There was a problem deleting this content. Please reload."
+          'There was a problem deleting this content. Please reload.'
       );
     }
   }

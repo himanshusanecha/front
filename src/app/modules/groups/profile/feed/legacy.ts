@@ -1,12 +1,12 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild } from '@angular/core';
 
-import { GroupsService } from "../../groups-service";
+import { GroupsService } from '../../groups-service';
 
-import { Client } from "../../../../services/api";
-import { Session } from "../../../../services/session";
-import { PosterComponent } from "../../../newsfeed/poster/poster.component";
-import { Subscription } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { Client } from '../../../../services/api';
+import { Session } from '../../../../services/session';
+import { PosterComponent } from '../../../newsfeed/poster/poster.component';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 interface MindsGroupResponse {
   group: MindsGroup;
@@ -20,30 +20,30 @@ interface MindsGroup {
 
 @Component({
   moduleId: module.id,
-  selector: "minds-groups-profile-feed",
-  templateUrl: "legacy.html"
+  selector: 'minds-groups-profile-feed',
+  templateUrl: 'legacy.html',
 })
 export class GroupsProfileLegacyFeed {
   guid;
   group: any;
   $group;
 
-  filter: "activity" | "review" | "image" | "video" = "activity";
+  filter: 'activity' | 'review' | 'image' | 'video' = 'activity';
 
   activity: Array<any> = [];
   pinned: Array<any> = [];
-  offset: string | number = "";
+  offset: string | number = '';
   inProgress: boolean = false;
   moreData: boolean = true;
 
   pollingTimer: any;
-  pollingOffset: string = "";
+  pollingOffset: string = '';
   pollingNewPosts: number = 0;
 
   kicking: any;
   paramsSubscription: Subscription;
 
-  @ViewChild("poster", { static: false }) private poster: PosterComponent;
+  @ViewChild('poster', { static: false }) private poster: PosterComponent;
 
   constructor(
     public session: Session,
@@ -59,7 +59,7 @@ export class GroupsProfileLegacyFeed {
     });
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      this.filter = params["filter"] ? params["filter"] : "activity";
+      this.filter = params['filter'] ? params['filter'] : 'activity';
 
       this.load(true);
       this.setUpPoll();
@@ -72,20 +72,20 @@ export class GroupsProfileLegacyFeed {
     this.pollingTimer = setInterval(() => {
       this.client
         .get(
-          "api/v1/newsfeed/container/" + this.guid,
+          'api/v1/newsfeed/container/' + this.guid,
           { offset: this.pollingOffset, count: true },
           { cache: true }
         )
         .then((response: any) => {
-          if (typeof response.count === "undefined") {
+          if (typeof response.count === 'undefined') {
             return;
           }
 
           this.pollingNewPosts = response.count;
-          this.pollingOffset = response["load-previous"];
+          this.pollingOffset = response['load-previous'];
         })
         .catch(e => {
-          console.error("Newsfeed polling", e);
+          console.error('Newsfeed polling', e);
         });
     }, 60000);
   }
@@ -112,7 +112,7 @@ export class GroupsProfileLegacyFeed {
 
     let opts: any = {
       limit: 12,
-      offset: this.offset
+      offset: this.offset,
     };
 
     if (
@@ -137,8 +137,8 @@ export class GroupsProfileLegacyFeed {
           this.activity = [];
         }
 
-        if (typeof response["adminqueue:count"] !== "undefined") {
-          this.group["adminqueue:count"] = response["adminqueue:count"];
+        if (typeof response['adminqueue:count'] !== 'undefined') {
+          this.group['adminqueue:count'] = response['adminqueue:count'];
         }
 
         if (!response.activity) {
@@ -156,7 +156,7 @@ export class GroupsProfileLegacyFeed {
             ) {
               entity.pinned = true;
             }
-            if (!(this.group["is:moderator"] || this.group["is:owner"])) {
+            if (!(this.group['is:moderator'] || this.group['is:owner'])) {
               entity.dontPin = true;
             }
             return entity;
@@ -165,12 +165,12 @@ export class GroupsProfileLegacyFeed {
 
         this.activity.push(...(response.activity || []));
 
-        if (typeof this.activity[0] !== "undefined") {
+        if (typeof this.activity[0] !== 'undefined') {
           this.pollingOffset = response.activity[0].guid;
         }
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
         }
@@ -196,8 +196,8 @@ export class GroupsProfileLegacyFeed {
           this.activity = [];
         }
 
-        if (typeof response["adminqueue:count"] !== "undefined") {
-          this.group["adminqueue:count"] = response["adminqueue:count"];
+        if (typeof response['adminqueue:count'] !== 'undefined') {
+          this.group['adminqueue:count'] = response['adminqueue:count'];
         }
 
         if (!response.entities || response.entities.length === 0) {
@@ -207,9 +207,9 @@ export class GroupsProfileLegacyFeed {
 
         for (let entity of response.entities) {
           let fakeActivity = {
-            custom_type: this.filter === "image" ? "batch" : "video",
+            custom_type: this.filter === 'image' ? 'batch' : 'video',
             custom_data:
-              this.filter === "image"
+              this.filter === 'image'
                 ? [{ src: entity.thumbnail_src }]
                 : entity,
             guid: entity.guid,
@@ -221,23 +221,23 @@ export class GroupsProfileLegacyFeed {
             container_guid: entity.container_guid,
             containerObj: entity.containerObj,
             access_id: entity.access_id,
-            "thumbs:up:count": entity["thumbs:up:count"],
-            "thumbs:up:user_guids": entity["thumbs:up:user_guids"],
-            "thumbs:down:count": entity["thumbs:down:count"],
-            "thumbs:down:user_guids": entity["thumbs:down:user_guids"],
+            'thumbs:up:count': entity['thumbs:up:count'],
+            'thumbs:up:user_guids': entity['thumbs:up:user_guids'],
+            'thumbs:down:count': entity['thumbs:down:count'],
+            'thumbs:down:user_guids': entity['thumbs:down:user_guids'],
             wire_totals: entity.wire_totals,
             title: entity.title,
-            message: entity.message
+            message: entity.message,
           };
           this.activity.push(fakeActivity);
         }
 
-        if (typeof this.activity[0] !== "undefined") {
+        if (typeof this.activity[0] !== 'undefined') {
           this.pollingOffset = response.entities[0].guid;
         }
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
         }
@@ -255,17 +255,17 @@ export class GroupsProfileLegacyFeed {
     }
 
     if (refresh) {
-      this.offset = "";
-      this.pollingOffset = "";
+      this.offset = '';
+      this.pollingOffset = '';
       this.pollingNewPosts = 0;
       this.activity = [];
     }
 
     switch (this.filter) {
-      case "activity":
+      case 'activity':
         return this.loadActivities(refresh);
-      case "image":
-      case "video":
+      case 'image':
+      case 'video':
         return this.loadMedia(refresh);
     }
   }
@@ -284,7 +284,7 @@ export class GroupsProfileLegacyFeed {
     if (!this.poster || !this.poster.attachment) return true;
     const progress = this.poster.attachment.getUploadProgress();
     if (progress > 0 && progress < 100) {
-      return confirm("Your file is still uploading. Are you sure?");
+      return confirm('Your file is still uploading. Are you sure?');
     }
     return true;
   }

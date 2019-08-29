@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { MindsHttpClient } from "../api/client.service";
-import { Session } from "../../../app/services/session";
-import { BehaviorSubject } from "rxjs";
-import { SocketsService } from "../../services/sockets";
+import { Injectable } from '@angular/core';
+import { MindsHttpClient } from '../api/client.service';
+import { Session } from '../../../app/services/session';
+import { BehaviorSubject } from 'rxjs';
+import { SocketsService } from '../../services/sockets';
 
-import { map, concatAll } from "rxjs/operators";
+import { map, concatAll } from 'rxjs/operators';
 
 @Injectable()
 export class UpdateMarkersService {
@@ -24,8 +24,8 @@ export class UpdateMarkersService {
 
   get() {
     return this.http
-      .get("api/v2/notifications/markers", {
-        type: "group"
+      .get('api/v2/notifications/markers', {
+        type: 'group',
       })
       .pipe(map((response: any) => response.markers));
   }
@@ -76,13 +76,13 @@ export class UpdateMarkersService {
   }
 
   markAsRead(opts) {
-    if (!opts.entity_guid) throw "entity guid must be set";
-    if (!opts.entity_type) throw "entity type must be set";
-    if (!opts.marker) throw "marker must be set";
+    if (!opts.entity_guid) throw 'entity guid must be set';
+    if (!opts.entity_type) throw 'entity type must be set';
+    if (!opts.marker) throw 'marker must be set';
 
     if (!opts.noReply) {
       this.http
-        .post("api/v2/notifications/markers/read", opts)
+        .post('api/v2/notifications/markers/read', opts)
         .subscribe(res => null, err => console.warn(err));
     }
 

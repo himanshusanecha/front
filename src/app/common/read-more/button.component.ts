@@ -1,12 +1,12 @@
 import {
   Component,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
-} from "@angular/core";
-import { ReadMoreDirective } from "./read-more.directive";
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { ReadMoreDirective } from './read-more.directive';
 
 @Component({
-  selector: "m-read-more--button",
+  selector: 'm-read-more--button',
   template: `
     <div class="m-read-more--button" *ngIf="content && content.expandable">
       <span
@@ -17,7 +17,7 @@ import { ReadMoreDirective } from "./read-more.directive";
       >
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReadMoreButtonComponent {
   content: ReadMoreDirective;

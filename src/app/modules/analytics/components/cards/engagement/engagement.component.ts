@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { AnalyticsCardComponent } from "../card/card.component";
-import { Client } from "../../../../../services/api/client";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AnalyticsCardComponent } from '../card/card.component';
+import { Client } from '../../../../../services/api/client';
 
 @Component({
-  selector: "m-analyticsengagement__card",
-  templateUrl: "engagement.component.html"
+  selector: 'm-analyticsengagement__card',
+  templateUrl: 'engagement.component.html',
 })
 export class EngagementCardComponent implements OnInit {
-  @ViewChild("posts", { static: true }) posts: AnalyticsCardComponent;
-  @ViewChild("comments", { static: true }) comments: AnalyticsCardComponent;
-  @ViewChild("votes", { static: true }) votes: AnalyticsCardComponent;
-  @ViewChild("reminds", { static: true }) reminds: AnalyticsCardComponent;
+  @ViewChild('posts', { static: true }) posts: AnalyticsCardComponent;
+  @ViewChild('comments', { static: true }) comments: AnalyticsCardComponent;
+  @ViewChild('votes', { static: true }) votes: AnalyticsCardComponent;
+  @ViewChild('reminds', { static: true }) reminds: AnalyticsCardComponent;
 
   avgPosts: number = 0;
   avgPostingUsers: number = 0;
@@ -52,9 +52,9 @@ export class EngagementCardComponent implements OnInit {
 
   private async getAvgPosts() {
     try {
-      const response: any = await this.client.get("api/v2/analytics/posts", {
-        key: "avg",
-        timespan: this.posts.selectedOption
+      const response: any = await this.client.get('api/v2/analytics/posts', {
+        key: 'avg',
+        timespan: this.posts.selectedOption,
       });
 
       this.avgPosts = response.data.posts;
@@ -66,9 +66,9 @@ export class EngagementCardComponent implements OnInit {
 
   private async getAvgComments() {
     try {
-      const response: any = await this.client.get("api/v2/analytics/comments", {
-        key: "avg",
-        timespan: this.comments.selectedOption
+      const response: any = await this.client.get('api/v2/analytics/comments', {
+        key: 'avg',
+        timespan: this.comments.selectedOption,
       });
 
       this.avgComments = response.data.comments;
@@ -80,9 +80,9 @@ export class EngagementCardComponent implements OnInit {
 
   private async getAvgVotes() {
     try {
-      const response: any = await this.client.get("api/v2/analytics/votes", {
-        key: "avg",
-        timespan: this.votes.selectedOption
+      const response: any = await this.client.get('api/v2/analytics/votes', {
+        key: 'avg',
+        timespan: this.votes.selectedOption,
       });
 
       this.avgVotes = response.data.votes;
@@ -94,9 +94,9 @@ export class EngagementCardComponent implements OnInit {
 
   private async getAvgReminds() {
     try {
-      const response: any = await this.client.get("api/v2/analytics/reminds", {
-        key: "avg",
-        timespan: this.reminds.selectedOption
+      const response: any = await this.client.get('api/v2/analytics/reminds', {
+        key: 'avg',
+        timespan: this.reminds.selectedOption,
       });
 
       this.avgReminds = response.data.reminds;

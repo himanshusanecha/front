@@ -6,16 +6,16 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild
-} from "@angular/core";
+  ViewChild,
+} from '@angular/core';
 
-import { ChannelsTileComponent } from "../../channels/tile/tile.component";
-import { GroupsTileComponent } from "../../groups/tile/tile.component";
-import { DynamicHostDirective } from "../../../common/directives/dynamic-host.directive";
+import { ChannelsTileComponent } from '../../channels/tile/tile.component';
+import { GroupsTileComponent } from '../../groups/tile/tile.component';
+import { DynamicHostDirective } from '../../../common/directives/dynamic-host.directive';
 
 @Component({
-  selector: "m-newsfeed__entity",
-  templateUrl: "entity.component.html"
+  selector: 'm-newsfeed__entity',
+  templateUrl: 'entity.component.html',
 })
 export class NewsfeedEntityComponent {
   @ViewChild(DynamicHostDirective, { static: false })
@@ -27,14 +27,14 @@ export class NewsfeedEntityComponent {
     protected cd: ChangeDetectorRef
   ) {}
 
-  @Input("entity") set setEntity(entity) {
+  @Input('entity') set setEntity(entity) {
     this.entity = entity;
     this.updateComponents();
   }
 
   // Return the component to use
   private getComponent(type: string) {
-    return type === "user" ? ChannelsTileComponent : GroupsTileComponent;
+    return type === 'user' ? ChannelsTileComponent : GroupsTileComponent;
   }
 
   @Input() slot: number;
@@ -50,7 +50,7 @@ export class NewsfeedEntityComponent {
   updateComponents() {
     if (
       this.entity &&
-      (this.entity.type === "user" || this.entity.type === "group")
+      (this.entity.type === 'user' || this.entity.type === 'group')
     ) {
       this.clear();
 

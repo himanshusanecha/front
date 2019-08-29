@@ -1,27 +1,27 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { MindsTitle } from "../../../services/ux/title";
-import { ScrollService } from "../../../services/ux/scroll";
-import { AnalyticsService } from "../../../services/analytics";
-import { MindsBlogEntity } from "../../../interfaces/entities";
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { MindsTitle } from '../../../services/ux/title';
+import { ScrollService } from '../../../services/ux/scroll';
+import { AnalyticsService } from '../../../services/analytics';
+import { MindsBlogEntity } from '../../../interfaces/entities';
 
-import { AttachmentService } from "../../../services/attachment";
-import { ContextService } from "../../../services/context.service";
-import { optimizedResize } from "../../../utils/optimized-resize";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { ShareModalComponent } from "../../../modules/modals/share/share";
+import { AttachmentService } from '../../../services/attachment';
+import { ContextService } from '../../../services/context.service';
+import { optimizedResize } from '../../../utils/optimized-resize';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { ShareModalComponent } from '../../../modules/modals/share/share';
 
 @Component({
   moduleId: module.id,
-  selector: "m-blog-view",
-  inputs: ["_blog: blog", "_index: index"],
+  selector: 'm-blog-view',
+  inputs: ['_blog: blog', '_index: index'],
   host: {
-    class: "m-blog"
+    class: 'm-blog',
   },
-  templateUrl: "view.html"
+  templateUrl: 'view.html',
 })
 export class BlogView {
   minds;
@@ -41,18 +41,18 @@ export class BlogView {
   scroll_listener;
 
   menuOptions: Array<string> = [
-    "edit",
-    "follow",
-    "feature",
-    "delete",
-    "report",
-    "subscribe",
-    "set-explicit",
-    "remove-explicit",
-    "rating"
+    'edit',
+    'follow',
+    'feature',
+    'delete',
+    'report',
+    'subscribe',
+    'set-explicit',
+    'remove-explicit',
+    'rating',
   ];
 
-  @ViewChild("lockScreen", { read: ElementRef, static: false }) lockScreen;
+  @ViewChild('lockScreen', { read: ElementRef, static: false }) lockScreen;
 
   constructor(
     public session: Session,
@@ -74,7 +74,7 @@ export class BlogView {
 
   ngOnInit() {
     this.isVisible();
-    this.context.set("object:blog");
+    this.context.set('object:blog');
   }
 
   isVisible() {
@@ -95,8 +95,8 @@ export class BlogView {
           if (!this.visible) {
             window.history.pushState(null, this.blog.title, url);
             this.title.setTitle(this.blog.title);
-            this.analyticsService.send("pageview", {
-              url: `/blog/view/${this.blog.guid}`
+            this.analyticsService.send('pageview', {
+              url: `/blog/view/${this.blog.guid}`,
             });
           }
           this.visible = true;
@@ -125,9 +125,9 @@ export class BlogView {
 
   delete() {
     this.client
-      .delete("api/v1/blog/" + this.blog.guid)
+      .delete('api/v1/blog/' + this.blog.guid)
       .then((response: any) => {
-        this.router.navigate(["/blog/owner"]);
+        this.router.navigate(['/blog/owner']);
       });
   }
 
@@ -137,16 +137,16 @@ export class BlogView {
 
   menuOptionSelected(option: string) {
     switch (option) {
-      case "edit":
-        this.router.navigate(["/blog/edit", this.blog.guid]);
+      case 'edit':
+        this.router.navigate(['/blog/edit', this.blog.guid]);
         break;
-      case "delete":
+      case 'delete':
         this.delete();
         break;
-      case "set-explicit":
+      case 'set-explicit':
         this.setExplicit(true);
         break;
-      case "remove-explicit":
+      case 'remove-explicit':
         this.setExplicit(false);
         break;
     }
@@ -157,7 +157,7 @@ export class BlogView {
 
     this.client
       .post(`api/v1/entities/explicit/${this.blog.guid}`, {
-        value: value ? "1" : "0"
+        value: value ? '1' : '0',
       })
       .catch(e => {
         this.blog.mature = this.blog.mature;
@@ -167,7 +167,7 @@ export class BlogView {
   calculateLockScreenHeight() {
     if (!this.lockScreen) return;
     const lockScreenOverlay = this.lockScreen.nativeElement.querySelector(
-      ".m-wire--lock-screen"
+      '.m-wire--lock-screen'
     );
     if (lockScreenOverlay) {
       const rect = lockScreenOverlay.getBoundingClientRect();
@@ -179,11 +179,11 @@ export class BlogView {
   openShareModal() {
     const url: string =
       this.minds.site_url +
-      (this.blog.route ? this.blog.route : "blog/view/" + this.blog.guid);
+      (this.blog.route ? this.blog.route : 'blog/view/' + this.blog.guid);
 
     this.overlayModal
       .create(ShareModalComponent, url, {
-        class: "m-overlay-modal--medium m-overlayModal__share"
+        class: 'm-overlay-modal--medium m-overlayModal__share',
       })
       .present();
   }

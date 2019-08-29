@@ -7,36 +7,36 @@ import {
   NgZone,
   ViewChild,
   ElementRef,
-  forwardRef
-} from "@angular/core";
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
-import { ReCaptchaService } from "./recaptcha.service";
+  forwardRef,
+} from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ReCaptchaService } from './recaptcha.service';
 
 @Component({
-  selector: "re-captcha",
-  template: "<div #target></div>",
+  selector: 're-captcha',
+  template: '<div #target></div>',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ReCaptchaComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class ReCaptchaComponent implements OnInit, ControlValueAccessor {
   @Input() site_key: string = null;
-  @Input() theme = "light";
-  @Input() type = "image";
-  @Input() size = "normal";
+  @Input() theme = 'light';
+  @Input() type = 'image';
+  @Input() size = 'normal';
   @Input() tabindex = 0;
-  @Input() badge = "bottomright";
+  @Input() badge = 'bottomright';
   /* Available languages: https://developers.google.com/recaptcha/docs/language */
   @Input() language: string = null;
 
   @Output() captchaResponse = new EventEmitter<string>();
   @Output() captchaExpired = new EventEmitter();
 
-  @ViewChild("target", { static: true }) targetRef: ElementRef;
+  @ViewChild('target', { static: true }) targetRef: ElementRef;
   widgetId: any = null;
 
   onChange: Function = () => {
@@ -68,9 +68,9 @@ export class ReCaptchaComponent implements OnInit, ControlValueAccessor {
             ((response: any) =>
               this._zone.run(this.recaptchaCallback.bind(this, response)))
           ),
-          "expired-callback": <any>(
+          'expired-callback': <any>(
             (() => this._zone.run(this.recaptchaExpiredCallback.bind(this)))
-          )
+          ),
         }
       );
     });

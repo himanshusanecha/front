@@ -1,16 +1,16 @@
-import { Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subscription } from "rxjs";
-import { Session } from "../../../services/session";
+import { Subscription } from 'rxjs';
+import { Session } from '../../../services/session';
 
 @Component({
   moduleId: module.id,
-  selector: "m-wallet-transactions",
-  templateUrl: "transactions.component.html"
+  selector: 'm-wallet-transactions',
+  templateUrl: 'transactions.component.html',
 })
 export class WalletTransactionsComponent {
-  type: string = "";
+  type: string = '';
   togglePurchase: boolean = false;
   paramsSubscription: Subscription;
 
@@ -21,19 +21,19 @@ export class WalletTransactionsComponent {
   ) {}
 
   ngOnInit() {
-    this.type = "points";
+    this.type = 'points';
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["type"]) {
-        this.type = params["type"];
+      if (params['type']) {
+        this.type = params['type'];
       }
-      if (params["stub"] && params["stub"] === "purchase") {
+      if (params['stub'] && params['stub'] === 'purchase') {
         this.togglePurchase = true;
       }
     });
 
     this.route.url.subscribe(url => {
-      if (url[0].path === "purchase") this.togglePurchase = true;
+      if (url[0].path === 'purchase') this.togglePurchase = true;
     });
   }
 

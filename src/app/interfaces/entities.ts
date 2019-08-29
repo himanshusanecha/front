@@ -1,7 +1,7 @@
 /**
  * Activity Object
  */
-import { WireRewardsStruc } from "../modules/wire/interfaces/wire.interfaces";
+import { WireRewardsStruc } from '../modules/wire/interfaces/wire.interfaces';
 
 export interface MindsActivityObject {
   activity: Array<any>;

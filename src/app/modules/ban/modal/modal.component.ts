@@ -4,35 +4,35 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef
-} from "@angular/core";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { REASONS } from "../../../services/list-options";
-import { MindsUser } from "../../../interfaces/entities";
+  ChangeDetectorRef,
+} from '@angular/core';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { REASONS } from '../../../services/list-options';
+import { MindsUser } from '../../../interfaces/entities';
 
 @Component({
   moduleId: module.id,
-  selector: "m-modal--ban",
-  templateUrl: "modal.component.html"
+  selector: 'm-modal--ban',
+  templateUrl: 'modal.component.html',
 })
 export class BanModalComponent implements AfterViewInit {
   subject: number = 0;
-  note: string = "";
+  note: string = '';
   user: MindsUser;
-  guid: string = "";
+  guid: string = '';
 
   initialized: boolean = false;
   inProgress: boolean = false;
 
   success: boolean = false;
-  error: string = "";
+  error: string = '';
   subjects = REASONS;
 
   next: boolean = false;
 
-  @Input("object") set data(user) {
+  @Input('object') set data(user) {
     this.user = user;
     this.guid = user ? user.guid : null;
   }
@@ -74,7 +74,7 @@ export class BanModalComponent implements AfterViewInit {
    * Shows visible report errors
    */
   showErrors() {
-    this.error = "";
+    this.error = '';
 
     try {
       this.validate();
@@ -104,17 +104,17 @@ export class BanModalComponent implements AfterViewInit {
     this.client
       .put(`api/v1/admin/ban/${this.guid}`, {
         subject: this.subjects[subject],
-        note
+        note,
       })
       .then(() => {
         this.inProgress = false;
-        this.user.banned = "yes";
+        this.user.banned = 'yes';
         this.success = true;
         this.overlayModal.dismiss();
       })
       .catch(e => {
         this.inProgress = false;
-        this.user.banned = "no";
+        this.user.banned = 'no';
 
         alert(e.message ? e.message : e);
       });

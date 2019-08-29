@@ -3,29 +3,29 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
+  tick,
+} from '@angular/core/testing';
 
-import { BlockchainWalletAddressNoticeComponent } from "./wallet-address-notice.component";
-import { ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
-import { MockComponent, MockService } from "../../../utils/mock";
-import { BlockchainService } from "../blockchain.service";
-import { Web3WalletService } from "../web3-wallet.service";
-import { By } from "@angular/platform-browser";
-import { Router } from "@angular/router";
+import { BlockchainWalletAddressNoticeComponent } from './wallet-address-notice.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MockComponent, MockService } from '../../../utils/mock';
+import { BlockchainService } from '../blockchain.service';
+import { Web3WalletService } from '../web3-wallet.service';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 let walletService = MockService(Web3WalletService, {
   ready: true,
-  getCurrentWallet: "0x1234"
+  getCurrentWallet: '0x1234',
 });
 let blockchainService: any = MockService(BlockchainService, {
-  getWallet: null
+  getWallet: null,
 });
 
-let routerMock = { navigate: jasmine.createSpy("navigate") };
+let routerMock = { navigate: jasmine.createSpy('navigate') };
 
-describe("BlockchainWalletAddressNoticeComponent", () => {
+describe('BlockchainWalletAddressNoticeComponent', () => {
   let comp: BlockchainWalletAddressNoticeComponent;
   let fixture: ComponentFixture<BlockchainWalletAddressNoticeComponent>;
 
@@ -33,17 +33,17 @@ describe("BlockchainWalletAddressNoticeComponent", () => {
     TestBed.configureTestingModule({
       declarations: [
         MockComponent({
-          selector: "m-announcement",
-          template: "<ng-content></ng-content>"
+          selector: 'm-announcement',
+          template: '<ng-content></ng-content>',
         }),
-        BlockchainWalletAddressNoticeComponent
+        BlockchainWalletAddressNoticeComponent,
       ],
       imports: [RouterTestingModule, ReactiveFormsModule],
       providers: [
         { provide: Web3WalletService, useValue: walletService },
         { provide: BlockchainService, useValue: blockchainService },
-        { provide: Router, useValue: routerMock }
-      ]
+        { provide: Router, useValue: routerMock },
+      ],
     }).compileComponents();
   }));
 
@@ -66,21 +66,21 @@ describe("BlockchainWalletAddressNoticeComponent", () => {
     }
   });
 
-  it("should have an m-announcement with a prompt to set up the wallet", fakeAsync(() => {
+  it('should have an m-announcement with a prompt to set up the wallet', fakeAsync(() => {
     fixture.detectChanges();
-    const announcement = fixture.debugElement.query(By.css("m-announcement"));
+    const announcement = fixture.debugElement.query(By.css('m-announcement'));
     expect(announcement).not.toBeNull();
 
-    const text = fixture.debugElement.query(By.css("m-announcement span"));
+    const text = fixture.debugElement.query(By.css('m-announcement span'));
     expect(text).not.toBeNull();
     expect(text.nativeElement.textContent).toContain(
-      "Hey, do you want to setup your Tokens wallet?"
+      'Hey, do you want to setup your Tokens wallet?'
     );
   }));
 
-  it("clicking on the text should set up the wallet and navigate to /wallet/tokens/addresses", fakeAsync(() => {
-    spyOn(comp, "setWallet").and.callThrough();
-    const text = fixture.debugElement.query(By.css("m-announcement span"));
+  it('clicking on the text should set up the wallet and navigate to /wallet/tokens/addresses', fakeAsync(() => {
+    spyOn(comp, 'setWallet').and.callThrough();
+    const text = fixture.debugElement.query(By.css('m-announcement span'));
     text.nativeElement.click();
 
     expect(comp.setWallet).toHaveBeenCalled();
@@ -90,11 +90,11 @@ describe("BlockchainWalletAddressNoticeComponent", () => {
     expect(blockchainService.setWallet).toHaveBeenCalled();
 
     expect(blockchainService.setWallet.calls.mostRecent().args[0]).toEqual({
-      address: "0x1234"
+      address: '0x1234',
     });
     expect(routerMock.navigate).toHaveBeenCalled();
     expect(routerMock.navigate.calls.mostRecent().args[0]).toEqual([
-      "/wallet/tokens/addresses"
+      '/wallet/tokens/addresses',
     ]);
   }));
 });

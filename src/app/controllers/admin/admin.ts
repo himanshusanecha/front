@@ -1,17 +1,17 @@
-import { Component } from "@angular/core";
-import { Location } from "@angular/common";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Subscription } from "rxjs";
-import { Client, Upload } from "../../services/api";
-import { MindsTitle } from "../../services/ux/title";
-import { Session } from "../../services/session";
+import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Client, Upload } from '../../services/api';
+import { MindsTitle } from '../../services/ux/title';
+import { Session } from '../../services/session';
 
 @Component({
-  selector: "minds-admin",
-  templateUrl: "admin.html"
+  selector: 'minds-admin',
+  templateUrl: 'admin.html',
 })
 export class Admin {
-  filter: string = "";
+  filter: string = '';
   paramsSubscription: Subscription;
 
   constructor(
@@ -23,13 +23,13 @@ export class Admin {
 
   ngOnInit() {
     if (!this.session.isAdmin()) {
-      this.router.navigate(["/"]);
+      this.router.navigate(['/']);
     }
 
-    this.title.setTitle("Admin");
+    this.title.setTitle('Admin');
     this.paramsSubscription = this.route.params.subscribe((params: any) => {
-      if (params["filter"]) {
-        this.filter = params["filter"];
+      if (params['filter']) {
+        this.filter = params['filter'];
       }
     });
   }

@@ -2,16 +2,16 @@ import {
   OnInit,
   Component,
   ComponentFactoryResolver,
-  ViewChild
-} from "@angular/core";
-import { DynamicHostDirective } from "../../../common/directives/dynamic-host.directive";
-import { TokenRewardsOnboardingComponent } from "../../wallet/tokens/onboarding/rewards/rewards.component";
+  ViewChild,
+} from '@angular/core';
+import { DynamicHostDirective } from '../../../common/directives/dynamic-host.directive';
+import { TokenRewardsOnboardingComponent } from '../../wallet/tokens/onboarding/rewards/rewards.component';
 
 @Component({
-  selector: "m-blockchain--marketing--onboard",
+  selector: 'm-blockchain--marketing--onboard',
   template: `
     <ng-template dynamic-host></ng-template>
-  `
+  `,
 })
 export class BlockchainMarketingOnboardComponent implements OnInit {
   @ViewChild(DynamicHostDirective, { static: true }) host: DynamicHostDirective;

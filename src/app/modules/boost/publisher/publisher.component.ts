@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
-import { BoostConsoleFilter } from "../console/console.component";
+import { Component, Input } from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
+import { BoostConsoleFilter } from '../console/console.component';
 
 @Component({
-  selector: "m-boost-publisher",
-  templateUrl: "publisher.component.html"
+  selector: 'm-boost-publisher',
+  templateUrl: 'publisher.component.html',
 })
 export class BoostPublisherComponent {
   _filter: BoostConsoleFilter;
@@ -24,12 +24,12 @@ export class BoostPublisherComponent {
     usd_earnings: 0,
     token_earnings: 0,
     total_count: 0,
-    total_earnings: 0
+    total_earnings: 0,
   };
 
-  @Input("filter") set filter(value: BoostConsoleFilter) {
+  @Input('filter') set filter(value: BoostConsoleFilter) {
     this._filter = value;
-    if (this._filter === "earnings") {
+    if (this._filter === 'earnings') {
       this.getStatistics();
     }
   }
@@ -42,7 +42,7 @@ export class BoostPublisherComponent {
 
   getStatistics() {
     this.client
-      .get("api/v2/boost/sums", { start: Date.parse(this.startDate) })
+      .get('api/v2/boost/sums', { start: Date.parse(this.startDate) })
       .then((res: any) => {
         this.stats.points_count = res.sums.points_count;
         this.stats.points_earnings = res.sums.points_earnings;
@@ -60,7 +60,7 @@ export class BoostPublisherComponent {
     this.minds.user.show_boosts = true;
     this.client
       .post(`api/v1/settings/${this.minds.user.guid}`, {
-        show_boosts: publisher
+        show_boosts: publisher,
       })
       .then(() => {
         this.inProgress = false;
@@ -84,7 +84,7 @@ export class BoostPublisherComponent {
   requestPayout() {
     this.payoutRequestInProgress = true;
     this.client
-      .post("api/v1/payout")
+      .post('api/v1/payout')
       .then(() => {
         this.payoutRequestInProgress = false;
       })

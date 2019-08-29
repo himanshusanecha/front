@@ -4,22 +4,22 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
+  tick,
+} from '@angular/core/testing';
 import {
   Component,
   DebugElement,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { By } from "@angular/platform-browser";
-import { Router } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { CommonModule as NgCommonModule } from "@angular/common";
-import { MindsVideoVolumeSlider } from "./volume-slider.component";
-import { MindsPlayerInterface } from "../players/player.interface";
+  Output,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { MindsVideoVolumeSlider } from './volume-slider.component';
+import { MindsPlayerInterface } from '../players/player.interface';
 
 class MindsVideoDirectHttpPlayerMock implements MindsPlayerInterface {
   @Input() muted: boolean;
@@ -52,19 +52,19 @@ class MindsVideoDirectHttpPlayerMock implements MindsPlayerInterface {
     return false;
   };
 
-  requestFullScreen = jasmine.createSpy("requestFullScreen").and.stub();
+  requestFullScreen = jasmine.createSpy('requestFullScreen').and.stub();
 
   getInfo = () => {};
 }
 
-describe("MindsVideoVolumeSlider", () => {
+describe('MindsVideoVolumeSlider', () => {
   let comp: MindsVideoVolumeSlider;
   let fixture: ComponentFixture<MindsVideoVolumeSlider>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MindsVideoVolumeSlider], // declare the test component
-      imports: [FormsModule, RouterTestingModule, NgCommonModule]
+      imports: [FormsModule, RouterTestingModule, NgCommonModule],
     }).compileComponents(); // compile template and css
   }));
 
@@ -76,8 +76,8 @@ describe("MindsVideoVolumeSlider", () => {
     fixture = TestBed.createComponent(MindsVideoVolumeSlider);
     comp = fixture.componentInstance;
 
-    const video = document.createElement("video");
-    video.src = "thisisavideo.mp4";
+    const video = document.createElement('video');
+    video.src = 'thisisavideo.mp4';
     comp.element = video;
 
     const playerRef = new MindsVideoDirectHttpPlayerMock();
@@ -101,15 +101,15 @@ describe("MindsVideoVolumeSlider", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should render a hidden slider", () => {
+  it('should render a hidden slider', () => {
     const wrapper = fixture.debugElement.query(
-      By.css(".m-video--volume-control-wrapper")
+      By.css('.m-video--volume-control-wrapper')
     );
     const control = fixture.debugElement.query(
-      By.css(".m-video--volume-control")
+      By.css('.m-video--volume-control')
     );
-    const icon = fixture.debugElement.query(By.css(".material-icons"));
-    const input = fixture.debugElement.query(By.css("input"));
+    const icon = fixture.debugElement.query(By.css('.material-icons'));
+    const input = fixture.debugElement.query(By.css('input'));
     expect(control).not.toBeNull();
     expect(input).not.toBeNull();
     expect(icon).not.toBeNull();

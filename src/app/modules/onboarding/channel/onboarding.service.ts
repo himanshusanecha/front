@@ -1,10 +1,10 @@
-import { TopicsOnboardingComponent } from "./topics/topics.component";
-import { SubscriptionsOnboardingComponent } from "./subscriptions/subscriptions.component";
-import { ChannelSetupOnboardingComponent } from "./channel/channel.component";
-import { TokenRewardsOnboardingComponent } from "./rewards/rewards.component";
-import { EventEmitter } from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
+import { TopicsOnboardingComponent } from './topics/topics.component';
+import { SubscriptionsOnboardingComponent } from './subscriptions/subscriptions.component';
+import { ChannelSetupOnboardingComponent } from './channel/channel.component';
+import { TokenRewardsOnboardingComponent } from './rewards/rewards.component';
+import { EventEmitter } from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
 
 export class ChannelOnboardingService {
   slides = [
@@ -12,7 +12,7 @@ export class ChannelOnboardingService {
     SubscriptionsOnboardingComponent,
     // GroupsOnboardingComponent,
     ChannelSetupOnboardingComponent,
-    TokenRewardsOnboardingComponent
+    TokenRewardsOnboardingComponent,
   ];
 
   currentSlide: number = 0;
@@ -46,7 +46,7 @@ export class ChannelOnboardingService {
   async checkProgress() {
     if (!this.session.isLoggedIn()) return;
     try {
-      const response: any = await this.client.get("api/v2/onboarding/progress");
+      const response: any = await this.client.get('api/v2/onboarding/progress');
 
       this.completedPercentage =
         (response.completed_items.length * 100) / response.all_items.length;
@@ -59,7 +59,7 @@ export class ChannelOnboardingService {
 
   async showModal(force: boolean = false) {
     if (!force) {
-      const status = localStorage.getItem("already_onboarded");
+      const status = localStorage.getItem('already_onboarded');
 
       if (status !== null) {
         return false;
@@ -75,10 +75,10 @@ export class ChannelOnboardingService {
     }
 
     if (force) {
-      localStorage.setItem("already_onboarded", "1");
+      localStorage.setItem('already_onboarded', '1');
       return true;
     } else if (this.showOnboarding) {
-      localStorage.setItem("already_onboarded", "1");
+      localStorage.setItem('already_onboarded', '1');
       return true;
     }
 

@@ -1,14 +1,14 @@
-import { AfterViewInit, Directive, ViewContainerRef } from "@angular/core";
-import { Material as MaterialService } from "../../../services/ui";
+import { AfterViewInit, Directive, ViewContainerRef } from '@angular/core';
+import { Material as MaterialService } from '../../../services/ui';
 
 @Directive({
-  selector: "[mdlSlider]",
-  inputs: ["mdlSlider", "ngModel", "value"]
+  selector: '[mdlSlider]',
+  inputs: ['mdlSlider', 'ngModel', 'value'],
 })
 export class MaterialSlider implements AfterViewInit {
   element: any;
   mdlSlider: any;
-  value: string = "0";
+  value: string = '0';
 
   constructor(viewContainer: ViewContainerRef) {
     this.element = viewContainer.element.nativeElement;

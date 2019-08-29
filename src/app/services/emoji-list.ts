@@ -3,502 +3,502 @@
 export const EmojiList = [
   {
     codePoint: 128161,
-    name: "ELECTRIC LIGHT BULB"
+    name: 'ELECTRIC LIGHT BULB',
   },
   {
     codePoint: 128514,
-    name: "FACE WITH TEARS OF JOY"
+    name: 'FACE WITH TEARS OF JOY',
   },
   {
     codePoint: 9829,
-    name: "BLACK HEART SUIT"
+    name: 'BLACK HEART SUIT',
   },
   {
     codePoint: 10084,
-    name: "HEAVY BLACK HEART"
+    name: 'HEAVY BLACK HEART',
   },
   {
     codePoint: 128525,
-    name: "SMILING FACE WITH HEART-SHAPED EYES"
+    name: 'SMILING FACE WITH HEART-SHAPED EYES',
   },
   {
     codePoint: 128530,
-    name: "UNAMUSED FACE"
+    name: 'UNAMUSED FACE',
   },
   {
     codePoint: 128522,
-    name: "SMILING FACE WITH SMILING EYES"
+    name: 'SMILING FACE WITH SMILING EYES',
   },
   {
     codePoint: 128557,
-    name: "LOUDLY CRYING FACE"
+    name: 'LOUDLY CRYING FACE',
   },
   {
     codePoint: 128536,
-    name: "FACE THROWING A KISS"
+    name: 'FACE THROWING A KISS',
   },
   {
     codePoint: 128149,
-    name: "TWO HEARTS"
+    name: 'TWO HEARTS',
   },
   {
     codePoint: 9786,
-    name: "WHITE SMILING FACE"
+    name: 'WHITE SMILING FACE',
   },
   {
     codePoint: 128553,
-    name: "WEARY FACE"
+    name: 'WEARY FACE',
   },
   {
     codePoint: 128076,
-    name: "OK HAND SIGN"
+    name: 'OK HAND SIGN',
   },
   {
     codePoint: 128532,
-    name: "PENSIVE FACE"
+    name: 'PENSIVE FACE',
   },
   {
     codePoint: 128527,
-    name: "SMIRKING FACE"
+    name: 'SMIRKING FACE',
   },
   {
     codePoint: 128513,
-    name: "GRINNING FACE WITH SMILING EYES"
+    name: 'GRINNING FACE WITH SMILING EYES',
   },
   {
     codePoint: 128521,
-    name: "WINKING FACE"
+    name: 'WINKING FACE',
   },
   {
     codePoint: 128077,
-    name: "THUMBS UP SIGN"
+    name: 'THUMBS UP SIGN',
   },
   {
     codePoint: 128591,
-    name: "PERSON WITH FOLDED HANDS"
+    name: 'PERSON WITH FOLDED HANDS',
   },
   {
     codePoint: 128524,
-    name: "RELIEVED FACE"
+    name: 'RELIEVED FACE',
   },
   {
     codePoint: 9851,
-    name: "BLACK UNIVERSAL RECYCLING SYMBOL"
+    name: 'BLACK UNIVERSAL RECYCLING SYMBOL',
   },
   {
     codePoint: 128563,
-    name: "FLUSHED FACE"
+    name: 'FLUSHED FACE',
   },
   {
     codePoint: 128588,
-    name: "PERSON RAISING BOTH HANDS IN CELEBRATION"
+    name: 'PERSON RAISING BOTH HANDS IN CELEBRATION',
   },
   {
     codePoint: 127926,
-    name: "MULTIPLE MUSICAL NOTES"
+    name: 'MULTIPLE MUSICAL NOTES',
   },
   {
     codePoint: 128584,
-    name: "SEE-NO-EVIL MONKEY"
+    name: 'SEE-NO-EVIL MONKEY',
   },
   {
     codePoint: 9996,
-    name: "VICTORY HAND"
+    name: 'VICTORY HAND',
   },
   {
     codePoint: 128526,
-    name: "SMILING FACE WITH SUNGLASSES"
+    name: 'SMILING FACE WITH SUNGLASSES',
   },
   {
     codePoint: 128546,
-    name: "CRYING FACE"
+    name: 'CRYING FACE',
   },
   {
     codePoint: 128064,
-    name: "EYES"
+    name: 'EYES',
   },
   {
     codePoint: 128517,
-    name: "SMILING FACE WITH OPEN MOUTH AND COLD SWEAT"
+    name: 'SMILING FACE WITH OPEN MOUTH AND COLD SWEAT',
   },
   {
     codePoint: 10024,
-    name: "SPARKLES"
+    name: 'SPARKLES',
   },
   {
     codePoint: 128564,
-    name: "SLEEPING FACE"
+    name: 'SLEEPING FACE',
   },
   {
     codePoint: 128516,
-    name: "SMILING FACE WITH OPEN MOUTH AND SMILING EYES"
+    name: 'SMILING FACE WITH OPEN MOUTH AND SMILING EYES',
   },
   {
     codePoint: 128156,
-    name: "PURPLE HEART"
+    name: 'PURPLE HEART',
   },
   {
     codePoint: 128175,
-    name: "HUNDRED POINTS SYMBOL"
+    name: 'HUNDRED POINTS SYMBOL',
   },
   {
     codePoint: 128529,
-    name: "EXPRESSIONLESS FACE"
+    name: 'EXPRESSIONLESS FACE',
   },
   {
     codePoint: 128150,
-    name: "SPARKLING HEART"
+    name: 'SPARKLING HEART',
   },
   {
     codePoint: 128148,
-    name: "BROKEN HEART"
+    name: 'BROKEN HEART',
   },
   {
     codePoint: 128129,
-    name: "INFORMATION DESK PERSON"
+    name: 'INFORMATION DESK PERSON',
   },
   {
     codePoint: 128153,
-    name: "BLUE HEART"
+    name: 'BLUE HEART',
   },
   {
     codePoint: 128533,
-    name: "CONFUSED FACE"
+    name: 'CONFUSED FACE',
   },
   {
     codePoint: 128540,
-    name: "FACE WITH STUCK-OUT TONGUE AND WINKING EYE"
+    name: 'FACE WITH STUCK-OUT TONGUE AND WINKING EYE',
   },
   {
     codePoint: 128542,
-    name: "DISAPPOINTED FACE"
+    name: 'DISAPPOINTED FACE',
   },
   {
     codePoint: 128523,
-    name: "FACE SAVOURING DELICIOUS FOOD"
+    name: 'FACE SAVOURING DELICIOUS FOOD',
   },
   {
     codePoint: 128528,
-    name: "NEUTRAL FACE"
+    name: 'NEUTRAL FACE',
   },
   {
     codePoint: 128079,
-    name: "CLAPPING HANDS SIGN"
+    name: 'CLAPPING HANDS SIGN',
   },
   {
     codePoint: 128554,
-    name: "SLEEPY FACE"
+    name: 'SLEEPY FACE',
   },
   {
     codePoint: 128152,
-    name: "HEART WITH ARROW"
+    name: 'HEART WITH ARROW',
   },
   {
     codePoint: 128158,
-    name: "REVOLVING HEARTS"
+    name: 'REVOLVING HEARTS',
   },
   {
     codePoint: 128151,
-    name: "GROWING HEART"
+    name: 'GROWING HEART',
   },
   {
     codePoint: 128586,
-    name: "SPEAK-NO-EVIL MONKEY"
+    name: 'SPEAK-NO-EVIL MONKEY',
   },
   {
     codePoint: 9995,
-    name: "RAISED HAND"
+    name: 'RAISED HAND',
   },
   {
     codePoint: 128139,
-    name: "KISS MARK"
+    name: 'KISS MARK',
   },
   {
     codePoint: 128073,
-    name: "WHITE RIGHT POINTING BACKHAND INDEX"
+    name: 'WHITE RIGHT POINTING BACKHAND INDEX',
   },
   {
     codePoint: 127800,
-    name: "CHERRY BLOSSOM"
+    name: 'CHERRY BLOSSOM',
   },
   {
     codePoint: 128561,
-    name: "FACE SCREAMING IN FEAR"
+    name: 'FACE SCREAMING IN FEAR',
   },
   {
     codePoint: 128520,
-    name: "SMILING FACE WITH HORNS"
+    name: 'SMILING FACE WITH HORNS',
   },
   {
     codePoint: 11013,
-    name: "LEFTWARDS BLACK ARROW"
+    name: 'LEFTWARDS BLACK ARROW',
   },
   {
     codePoint: 128545,
-    name: "POUTING FACE"
+    name: 'POUTING FACE',
   },
   {
     codePoint: 128293,
-    name: "FIRE"
+    name: 'FIRE',
   },
   {
     codePoint: 128515,
-    name: "SMILING FACE WITH OPEN MOUTH"
+    name: 'SMILING FACE WITH OPEN MOUTH',
   },
   {
     codePoint: 128074,
-    name: "FISTED HAND SIGN"
+    name: 'FISTED HAND SIGN',
   },
   {
     codePoint: 128555,
-    name: "TIRED FACE"
+    name: 'TIRED FACE',
   },
   {
     codePoint: 127881,
-    name: "PARTY POPPER"
+    name: 'PARTY POPPER',
   },
   {
     codePoint: 128541,
-    name: "FACE WITH STUCK-OUT TONGUE AND TIGHTLY-CLOSED EYES"
+    name: 'FACE WITH STUCK-OUT TONGUE AND TIGHTLY-CLOSED EYES',
   },
   {
     codePoint: 127801,
-    name: "ROSE"
+    name: 'ROSE',
   },
   {
     codePoint: 9728,
-    name: "BLACK SUN WITH RAYS"
+    name: 'BLACK SUN WITH RAYS',
   },
   {
     codePoint: 128170,
-    name: "FLEXED BICEPS"
+    name: 'FLEXED BICEPS',
   },
   {
     codePoint: 128548,
-    name: "FACE WITH LOOK OF TRIUMPH"
+    name: 'FACE WITH LOOK OF TRIUMPH',
   },
   {
     codePoint: 128128,
-    name: "SKULL"
+    name: 'SKULL',
   },
   {
     codePoint: 128531,
-    name: "FACE WITH COLD SWEAT"
+    name: 'FACE WITH COLD SWEAT',
   },
   {
     codePoint: 128072,
-    name: "WHITE LEFT POINTING BACKHAND INDEX"
+    name: 'WHITE LEFT POINTING BACKHAND INDEX',
   },
   {
     codePoint: 128155,
-    name: "YELLOW HEART"
+    name: 'YELLOW HEART',
   },
   {
     codePoint: 128518,
-    name: "SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES"
+    name: 'SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES',
   },
   {
     codePoint: 127770,
-    name: "NEW MOON WITH FACE"
+    name: 'NEW MOON WITH FACE',
   },
   {
     codePoint: 10004,
-    name: "HEAVY CHECK MARK"
+    name: 'HEAVY CHECK MARK',
   },
   {
     codePoint: 128247,
-    name: "CAMERA"
+    name: 'CAMERA',
   },
   {
     codePoint: 128571,
-    name: "SMILING CAT FACE WITH HEART-SHAPED EYES"
+    name: 'SMILING CAT FACE WITH HEART-SHAPED EYES',
   },
   {
     codePoint: 128075,
-    name: "WAVING HAND SIGN"
+    name: 'WAVING HAND SIGN',
   },
   {
     codePoint: 128567,
-    name: "FACE WITH MEDICAL MASK"
+    name: 'FACE WITH MEDICAL MASK',
   },
   {
     codePoint: 128547,
-    name: "PERSEVERING FACE"
+    name: 'PERSEVERING FACE',
   },
   {
     codePoint: 128154,
-    name: "GREEN HEART"
+    name: 'GREEN HEART',
   },
   {
     codePoint: 128512,
-    name: "GRINNING FACE"
+    name: 'GRINNING FACE',
   },
   {
     codePoint: 128147,
-    name: "BEATING HEART"
+    name: 'BEATING HEART',
   },
   {
     codePoint: 128538,
-    name: "KISSING FACE WITH CLOSED EYES"
+    name: 'KISSING FACE WITH CLOSED EYES',
   },
   {
     codePoint: 128081,
-    name: "CROWN"
+    name: 'CROWN',
   },
   {
     codePoint: 128549,
-    name: "DISAPPOINTED BUT RELIEVED FACE"
+    name: 'DISAPPOINTED BUT RELIEVED FACE',
   },
   {
     codePoint: 9654,
-    name: "BLACK RIGHT-POINTING TRIANGLE"
+    name: 'BLACK RIGHT-POINTING TRIANGLE',
   },
   {
     codePoint: 128539,
-    name: "FACE WITH STUCK-OUT TONGUE"
+    name: 'FACE WITH STUCK-OUT TONGUE',
   },
   {
     codePoint: 127911,
-    name: "HEADPHONE"
+    name: 'HEADPHONE',
   },
   {
     codePoint: 128534,
-    name: "CONFOUNDED FACE"
+    name: 'CONFOUNDED FACE',
   },
   {
     codePoint: 9989,
-    name: "WHITE HEAVY CHECK MARK"
+    name: 'WHITE HEAVY CHECK MARK',
   },
   {
     codePoint: 128519,
-    name: "SMILING FACE WITH HALO"
+    name: 'SMILING FACE WITH HALO',
   },
   {
     codePoint: 128544,
-    name: "ANGRY FACE"
+    name: 'ANGRY FACE',
   },
   {
     codePoint: 128299,
-    name: "PISTOL"
+    name: 'PISTOL',
   },
   {
     codePoint: 128587,
-    name: "HAPPY PERSON RAISING ONE HAND"
+    name: 'HAPPY PERSON RAISING ONE HAND',
   },
   {
     codePoint: 127775,
-    name: "GLOWING STAR"
+    name: 'GLOWING STAR',
   },
   {
     codePoint: 128556,
-    name: "GRIMACING FACE"
+    name: 'GRIMACING FACE',
   },
   {
     codePoint: 128078,
-    name: "THUMBS DOWN SIGN"
+    name: 'THUMBS DOWN SIGN',
   },
   {
     codePoint: 10145,
-    name: "BLACK RIGHTWARDS ARROW"
+    name: 'BLACK RIGHTWARDS ARROW',
   },
   {
     codePoint: 128131,
-    name: "DANCER"
+    name: 'DANCER',
   },
   {
     codePoint: 127925,
-    name: "MUSICAL NOTE"
+    name: 'MUSICAL NOTE',
   },
   {
     codePoint: 128566,
-    name: "FACE WITHOUT MOUTH"
+    name: 'FACE WITHOUT MOUTH',
   },
   {
     codePoint: 9994,
-    name: "RAISED FIST"
+    name: 'RAISED FIST',
   },
   {
     codePoint: 128171,
-    name: "DIZZY SYMBOL"
+    name: 'DIZZY SYMBOL',
   },
   {
     codePoint: 128581,
-    name: "FACE WITH NO GOOD GESTURE"
+    name: 'FACE WITH NO GOOD GESTURE',
   },
   {
     codePoint: 128165,
-    name: "COLLISION SYMBOL"
+    name: 'COLLISION SYMBOL',
   },
   {
     codePoint: 128071,
-    name: "WHITE DOWN POINTING BACKHAND INDEX"
+    name: 'WHITE DOWN POINTING BACKHAND INDEX',
   },
   {
     codePoint: 128308,
-    name: "LARGE RED CIRCLE"
+    name: 'LARGE RED CIRCLE',
   },
   {
     codePoint: 169,
-    name: "COPYRIGHT SIGN"
+    name: 'COPYRIGHT SIGN',
   },
   {
     codePoint: 128169,
-    name: "PILE OF POO"
+    name: 'PILE OF POO',
   },
   {
     codePoint: 128173,
-    name: "THOUGHT BALLOON"
+    name: 'THOUGHT BALLOON',
   },
   {
     codePoint: 128142,
-    name: "GEM STONE"
+    name: 'GEM STONE',
   },
   {
     codePoint: 127829,
-    name: "SLICE OF PIZZA"
+    name: 'SLICE OF PIZZA',
   },
   {
     codePoint: 128582,
-    name: "FACE WITH OK GESTURE"
+    name: 'FACE WITH OK GESTURE',
   },
   {
     codePoint: 128560,
-    name: "FACE WITH OPEN MOUTH AND COLD SWEAT"
+    name: 'FACE WITH OPEN MOUTH AND COLD SWEAT',
   },
   {
     codePoint: 128039,
-    name: "PENGUIN"
+    name: 'PENGUIN',
   },
   {
     codePoint: 128069,
-    name: "TONGUE"
+    name: 'TONGUE',
   },
   {
     codePoint: 127774,
-    name: "SUN WITH FACE"
+    name: 'SUN WITH FACE',
   },
   {
     codePoint: 128694,
-    name: "PEDESTRIAN"
+    name: 'PEDESTRIAN',
   },
   {
     codePoint: 128569,
-    name: "CAT FACE WITH TEARS OF JOY"
+    name: 'CAT FACE WITH TEARS OF JOY',
   },
   {
     codePoint: 128166,
-    name: "SPLASHING SWEAT SYMBOL"
+    name: 'SPLASHING SWEAT SYMBOL',
   },
   {
     codePoint: 128164,
-    name: "SLEEPING SYMBOL"
+    name: 'SLEEPING SYMBOL',
   },
   {
     codePoint: 127811,
-    name: "LEAF FLUTTERING IN WIND"
+    name: 'LEAF FLUTTERING IN WIND',
   },
   {
     codePoint: 9992,
-    name: "AIRPLANE"
-  }
+    name: 'AIRPLANE',
+  },
 ];

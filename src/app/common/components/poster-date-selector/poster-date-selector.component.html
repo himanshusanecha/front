@@ -1,17 +1,18 @@
-<div 
-    class="m-poster-date-selector--input" 
-    [class.selected]="hasDateSelected()" 
-    mdl-datetime-picker [date]="date" 
-    (dateChange)="onDateChange($event)"
+<div
+  class="m-poster-date-selector--input"
+  [class.selected]="hasDateSelected()"
+  mdl-datetime-picker
+  [date]="date"
+  (dateChange)="onDateChange($event)"
 >
-    <input 
-        type="text" 
-        [ngModel]="date | date:dateFormat" 
-        (ngModelChange)="onDateChange($event)" 
-        [hidden]="true"
-    >
-    <m-tooltip icon="date_range"> 
-        {{tooltipDate || 'now'}} 
-    </m-tooltip>
-    <span></span>
+  <input
+    type="text"
+    [ngModel]="date | date: dateFormat"
+    (ngModelChange)="onDateChange($event)"
+    [hidden]="true"
+  />
+  <m-tooltip icon="date_range">
+    {{ tooltipDate || 'now' }}
+  </m-tooltip>
+  <span></span>
 </div>

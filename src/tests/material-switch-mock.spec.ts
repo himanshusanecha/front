@@ -1,8 +1,8 @@
-import { Directive, ElementRef } from "@angular/core";
+import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: "[mdlSwitch]",
-  inputs: ["mdlSwitch", "toggled"]
+  selector: '[mdlSwitch]',
+  inputs: ['mdlSwitch', 'toggled'],
 })
 export class MaterialSwitchMock {
   mdlSwitch: any;
@@ -13,6 +13,6 @@ export class MaterialSwitchMock {
   }
 
   set toggled(value: boolean) {
-    if (value) this.element.classList.add("is-checked");
+    if (value) this.element.classList.add('is-checked');
   }
 }

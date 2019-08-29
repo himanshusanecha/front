@@ -1,14 +1,14 @@
-import { Component } from "@angular/core";
-import { CurrencyPipe } from "@angular/common";
+import { Component } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 
-import { ChartColumn } from "../../../common/components/chart/chart.component";
-import { Client } from "../../../services/api";
+import { ChartColumn } from '../../../common/components/chart/chart.component';
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "m-revenue--graph",
-  templateUrl: "graph.component.html",
-  providers: [CurrencyPipe]
+  selector: 'm-revenue--graph',
+  templateUrl: 'graph.component.html',
+  providers: [CurrencyPipe],
 })
 export class RevenueGraphComponent {
   inProgress: boolean = false;
@@ -27,11 +27,11 @@ export class RevenueGraphComponent {
 
     //default
     let defaultChart = {
-      columns: [{ label: "Date" }, { label: "Amount", type: "currency" }],
-      rows: []
+      columns: [{ label: 'Date' }, { label: 'Amount', type: 'currency' }],
+      rows: [],
     };
     for (let i = 0; i < 14; i++) {
-      defaultChart.rows[i] = ["0/0", 0];
+      defaultChart.rows[i] = ['0/0', 0];
     }
     this.chart = this._parseChart(defaultChart);
 
@@ -55,13 +55,13 @@ export class RevenueGraphComponent {
       // @todo: type correctly
       title: data.title || void 0,
       columns: [],
-      rows: []
+      rows: [],
     };
 
     for (let dataColumn of data.columns || []) {
       let column = { ...dataColumn }; // clone
-      if (column.type === "currency") {
-        column.type = "number";
+      if (column.type === 'currency') {
+        column.type = 'number';
       }
 
       chart.columns.push(column);
@@ -71,11 +71,11 @@ export class RevenueGraphComponent {
       for (let colIndex = 0; colIndex < dataRow.length; colIndex++) {
         if (
           data.columns[colIndex] &&
-          data.columns[colIndex].type === "currency"
+          data.columns[colIndex].type === 'currency'
         ) {
           dataRow[colIndex] = {
             v: dataRow[colIndex],
-            f: this.currencyPipe.transform(dataRow[colIndex], "USD", true)
+            f: this.currencyPipe.transform(dataRow[colIndex], 'USD', true),
           };
         }
       }

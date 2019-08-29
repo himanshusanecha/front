@@ -1,50 +1,50 @@
-import { Component, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subscription, Observable } from "rxjs";
+import { Subscription, Observable } from 'rxjs';
 
-import { MindsTitle } from "../../../services/ux/title";
-import { ACCESS, LICENSES } from "../../../services/list-options";
-import { Client, Upload } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { InlineEditorComponent } from "../../../common/components/editors/inline-editor.component";
-import { WireThresholdInputComponent } from "../../wire/threshold-input/threshold-input.component";
-import { HashtagsSelectorComponent } from "../../hashtags/selector/selector.component";
-import { Tag } from "../../hashtags/types/tag";
-import { InMemoryStorageService } from "../../../services/in-memory-storage.service";
-import { DialogService } from "../../../common/services/confirm-leave-dialog.service";
+import { MindsTitle } from '../../../services/ux/title';
+import { ACCESS, LICENSES } from '../../../services/list-options';
+import { Client, Upload } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { InlineEditorComponent } from '../../../common/components/editors/inline-editor.component';
+import { WireThresholdInputComponent } from '../../wire/threshold-input/threshold-input.component';
+import { HashtagsSelectorComponent } from '../../hashtags/selector/selector.component';
+import { Tag } from '../../hashtags/types/tag';
+import { InMemoryStorageService } from '../../../services/in-memory-storage.service';
+import { DialogService } from '../../../common/services/confirm-leave-dialog.service';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-blog-edit",
+  selector: 'minds-blog-edit',
   host: {
-    class: "m-blog"
+    class: 'm-blog',
   },
-  templateUrl: "edit.html"
+  templateUrl: 'edit.html',
 })
 export class BlogEdit {
   minds = window.Minds;
 
   guid: string;
   blog: any = {
-    guid: "new",
-    title: "",
-    description: "<p><br></p>",
+    guid: 'new',
+    title: '',
+    description: '<p><br></p>',
     time_created: Math.floor(Date.now() / 1000),
     access_id: 2,
     tags: [],
-    license: "attribution-sharealike-cc",
-    fileKey: "header",
+    license: 'attribution-sharealike-cc',
+    fileKey: 'header',
     mature: 0,
     monetized: 0,
     published: 0,
     wire_threshold: null,
     custom_meta: {
-      title: "",
-      description: "",
-      author: ""
+      title: '',
+      description: '',
+      author: '',
     },
-    slug: ""
+    slug: '',
   };
   banner: any;
   banner_top: number = 0;
@@ -53,7 +53,7 @@ export class BlogEdit {
   canSave: boolean = true;
   inProgress: boolean = false;
   validThreshold: boolean = true;
-  error: string = "";
+  error: string = '';
   pendingUploads: string[] = [];
   categories: { id; label; selected }[];
 
@@ -62,11 +62,11 @@ export class BlogEdit {
   existingBanner: boolean;
 
   paramsSubscription: Subscription;
-  @ViewChild("inlineEditor", { static: false })
+  @ViewChild('inlineEditor', { static: false })
   inlineEditor: InlineEditorComponent;
-  @ViewChild("thresholdInput", { static: false })
+  @ViewChild('thresholdInput', { static: false })
   thresholdInput: WireThresholdInputComponent;
-  @ViewChild("hashtagsSelector", { static: false })
+  @ViewChild('hashtagsSelector', { static: false })
   hashtagsSelector: HashtagsSelectorComponent;
 
   protected time_created: any;
@@ -84,13 +84,13 @@ export class BlogEdit {
     this.getCategories();
 
     window.addEventListener(
-      "attachment-preview-loaded",
+      'attachment-preview-loaded',
       (event: CustomEvent) => {
         this.pendingUploads.push(event.detail.timestamp);
       }
     );
     window.addEventListener(
-      "attachment-upload-finished",
+      'attachment-upload-finished',
       (event: CustomEvent) => {
         this.pendingUploads.splice(
           this.pendingUploads.findIndex(value => {
@@ -104,35 +104,35 @@ export class BlogEdit {
 
   ngOnInit() {
     if (!this.session.isLoggedIn()) {
-      this.router.navigate(["/login"]);
+      this.router.navigate(['/login']);
       return;
     }
 
-    this.title.setTitle("New Blog");
+    this.title.setTitle('New Blog');
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["guid"]) {
-        this.guid = params["guid"];
+      if (params['guid']) {
+        this.guid = params['guid'];
 
         this.blog = {
-          guid: "new",
-          title: "",
-          description: "<p><br></p>",
+          guid: 'new',
+          title: '',
+          description: '<p><br></p>',
           access_id: 2,
-          category: "",
-          license: "",
-          fileKey: "header",
+          category: '',
+          license: '',
+          fileKey: 'header',
           mature: 0,
           monetized: 0,
           published: 0,
           wire_threshold: null,
           custom_meta: {
-            title: "",
-            description: "",
-            author: ""
+            title: '',
+            description: '',
+            author: '',
           },
-          slug: "",
-          tags: []
+          slug: '',
+          tags: [],
         };
 
         this.banner = void 0;
@@ -142,20 +142,20 @@ export class BlogEdit {
         this.canSave = true;
         this.existingBanner = false;
 
-        if (this.guid !== "new") {
+        if (this.guid !== 'new') {
           this.load();
         } else {
           const description: string = this.inMemoryStorageService.once(
-            "newBlogContent"
+            'newBlogContent'
           );
 
           if (description) {
             let htmlDescription = description
-              .replace(/&/g, "&amp;")
-              .replace(/</g, "&lt;")
-              .replace(/>/g, "&gt;")
-              .replace(/"/g, "&quot;")
-              .replace(/\n+/g, "</p><p>");
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/\n+/g, '</p><p>');
 
             this.blog.description = `<p>${htmlDescription}</p>`;
           }
@@ -169,7 +169,7 @@ export class BlogEdit {
       return true;
     }
 
-    return this.dialogService.confirm("Discard changes?");
+    return this.dialogService.confirm('Discard changes?');
   }
 
   ngOnDestroy() {
@@ -185,7 +185,7 @@ export class BlogEdit {
       this.categories.push({
         id: category,
         label: window.Minds.categories[category],
-        selected: false
+        selected: false,
       });
     }
 
@@ -193,7 +193,7 @@ export class BlogEdit {
   }
 
   load() {
-    this.client.get("api/v1/blog/" + this.guid, {}).then((response: any) => {
+    this.client.get('api/v1/blog/' + this.guid, {}).then((response: any) => {
       if (response.blog) {
         this.blog = response.blog;
         this.guid = response.blog.guid;
@@ -206,9 +206,9 @@ export class BlogEdit {
           this.blog.access_id = response.blog.draft_access_id;
         }
 
-        if (!this.blog.category) this.blog.category = "";
+        if (!this.blog.category) this.blog.category = '';
 
-        if (!this.blog.license) this.blog.license = "";
+        if (!this.blog.license) this.blog.license = '';
 
         this.blog.time_created =
           response.blog.time_created || Math.floor(Date.now() / 1000);
@@ -225,14 +225,14 @@ export class BlogEdit {
   onTagsRemoved(tags: Tag[]) {}
 
   validate() {
-    this.error = "";
+    this.error = '';
 
     if (!this.blog.description) {
-      this.error = "error:no-description";
+      this.error = 'error:no-description';
       return false;
     }
     if (!this.blog.title) {
-      this.error = "error:no-title";
+      this.error = 'error:no-title';
       return false;
     }
 
@@ -244,7 +244,7 @@ export class BlogEdit {
 
     if (!this.validate()) return;
 
-    this.error = "";
+    this.error = '';
 
     this.inlineEditor.prepareForSave().then(() => {
       const blog = Object.assign({}, this.blog);
@@ -261,20 +261,20 @@ export class BlogEdit {
       this.check_for_banner()
         .then(() => {
           this.upload
-            .post("api/v1/blog/" + this.guid, [this.banner], blog)
+            .post('api/v1/blog/' + this.guid, [this.banner], blog)
             .then((response: any) => {
               this.inProgress = false;
               this.canSave = true;
               this.blog.time_created = null;
 
-              if (response.status !== "success") {
+              if (response.status !== 'success') {
                 this.error = response.message;
                 return;
               }
               this.router.navigate(
                 response.route
-                  ? ["/" + response.route]
-                  : ["/blog/view", response.guid]
+                  ? ['/' + response.route]
+                  : ['/blog/view', response.guid]
               );
             })
             .catch(e => {
@@ -283,7 +283,7 @@ export class BlogEdit {
             });
         })
         .catch(() => {
-          this.error = "error:no-banner";
+          this.error = 'error:no-banner';
           this.inProgress = false;
           this.canSave = true;
         });
@@ -326,8 +326,8 @@ export class BlogEdit {
 
   onCategoryClick(category) {
     category.selected = !category.selected;
-    if (!this.blog.hasOwnProperty("categories") || !this.blog.categories) {
-      this.blog["categories"] = [];
+    if (!this.blog.hasOwnProperty('categories') || !this.blog.categories) {
+      this.blog['categories'] = [];
     }
 
     if (category.selected) {

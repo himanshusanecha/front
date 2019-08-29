@@ -1,13 +1,13 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
-import { interval, Subscription } from "rxjs";
-import { Session } from "../../../services/session";
-import { UpdateMarkersService } from "../../../common/services/update-markers.service";
-import { map, startWith, throttle } from "rxjs/operators";
+import { interval, Subscription } from 'rxjs';
+import { Session } from '../../../services/session';
+import { UpdateMarkersService } from '../../../common/services/update-markers.service';
+import { map, startWith, throttle } from 'rxjs/operators';
 
 @Component({
-  selector: "m-groups--tile",
-  templateUrl: "tile.component.html"
+  selector: 'm-groups--tile',
+  templateUrl: 'tile.component.html',
 })
 export class GroupsTileComponent {
   minds = window.Minds;
@@ -32,7 +32,7 @@ export class GroupsTileComponent {
             markers.filter(
               marker =>
                 marker.entity_guid == this.entity.guid &&
-                marker.marker == "gathering-heartbeat" &&
+                marker.marker == 'gathering-heartbeat' &&
                 marker.updated_timestamp > Date.now() / 1000 - 60 //1 minute tolerance
             ).length > 0
         )

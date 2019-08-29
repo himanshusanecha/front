@@ -38,7 +38,7 @@ class OptimizedResize {
   // public method to add additional callback
   public add(callback) {
     if (!this.callbacks.length) {
-      window.addEventListener("resize", this.resize.bind(this));
+      window.addEventListener('resize', this.resize.bind(this));
     }
     this.addCallback(callback);
   }

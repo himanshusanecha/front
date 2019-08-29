@@ -3,19 +3,19 @@ import {
   ComponentFactoryResolver,
   Input,
   ViewChild,
-  ViewContainerRef
-} from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+  ViewContainerRef,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { BoostConsoleType } from "../console.component";
-import { Client } from "../../../../services/api";
-import { Session } from "../../../../services/session";
-import { PosterComponent } from "../../../newsfeed/poster/poster.component";
+import { BoostConsoleType } from '../console.component';
+import { Client } from '../../../../services/api';
+import { Session } from '../../../../services/session';
+import { PosterComponent } from '../../../newsfeed/poster/poster.component';
 
 @Component({
   moduleId: module.id,
-  selector: "m-boost-console-booster",
-  templateUrl: "booster.component.html"
+  selector: 'm-boost-console-booster',
+  templateUrl: 'booster.component.html',
 })
 export class BoostConsoleBooster {
   inProgress: boolean = false;
@@ -24,12 +24,12 @@ export class BoostConsoleBooster {
   posts: any[] = [];
   media: any[] = [];
 
-  @Input("type") type: BoostConsoleType;
+  @Input('type') type: BoostConsoleType;
 
   componentRef;
   componentInstance: PosterComponent;
 
-  @ViewChild("poster", { read: ViewContainerRef, static: false })
+  @ViewChild('poster', { read: ViewContainerRef, static: false })
   poster: ViewContainerRef;
 
   constructor(
@@ -58,8 +58,8 @@ export class BoostConsoleBooster {
     this.inProgress = true;
 
     let promises = [
-      this.client.get("api/v1/newsfeed/personal"),
-      this.client.get("api/v1/entities/owner")
+      this.client.get('api/v1/newsfeed/personal'),
+      this.client.get('api/v1/entities/owner'),
     ];
 
     return Promise.all(promises)
@@ -82,9 +82,9 @@ export class BoostConsoleBooster {
   loadComponent() {
     this.poster.clear();
     if (
-      ((this.type === "offers" || this.type === "newsfeed") &&
+      ((this.type === 'offers' || this.type === 'newsfeed') &&
         this.posts.length === 0) ||
-      (this.type === "content" && this.media.length === 0)
+      (this.type === 'content' && this.media.length === 0)
     ) {
       const componentFactory = this._componentFactoryResolver.resolveComponentFactory(
         PosterComponent

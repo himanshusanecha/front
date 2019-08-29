@@ -4,25 +4,25 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
-} from "@angular/core/testing";
-import { DebugElement } from "@angular/core";
+  tick,
+} from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
 
-import { Mock, MockComponent } from "../../../utils/mock";
+import { Mock, MockComponent } from '../../../utils/mock';
 
-import { CommonModule as NgCommonModule } from "@angular/common";
-import { Router } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { Client } from "../../../services/api/client";
-import { By } from "@angular/platform-browser";
-import { sessionMock } from "../../../../tests/session-mock.spec";
-import { MaterialMock } from "../../../../tests/material-mock.spec";
-import { FormsModule } from "@angular/forms";
-import { MaterialSwitchMock } from "../../../../tests/material-switch-mock.spec";
-import { ChannelsTileComponent } from "./tile.component";
-import { Session } from "../../../services/session";
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Client } from '../../../services/api/client';
+import { By } from '@angular/platform-browser';
+import { sessionMock } from '../../../../tests/session-mock.spec';
+import { MaterialMock } from '../../../../tests/material-mock.spec';
+import { FormsModule } from '@angular/forms';
+import { MaterialSwitchMock } from '../../../../tests/material-switch-mock.spec';
+import { ChannelsTileComponent } from './tile.component';
+import { Session } from '../../../services/session';
 
-describe("ChannelsTileComponent", () => {
+describe('ChannelsTileComponent', () => {
   let comp: ChannelsTileComponent;
   let fixture: ComponentFixture<ChannelsTileComponent>;
 
@@ -33,36 +33,36 @@ describe("ChannelsTileComponent", () => {
         MaterialSwitchMock,
         ChannelsTileComponent,
         MockComponent({
-          selector: "m-channel--social-profiles",
-          inputs: ["user", "editing"]
+          selector: 'm-channel--social-profiles',
+          inputs: ['user', 'editing'],
         }),
         MockComponent({
-          selector: "minds-button-feature",
-          inputs: ["object"]
+          selector: 'minds-button-feature',
+          inputs: ['object'],
         }),
         MockComponent({
-          selector: "minds-avatar",
-          inputs: ["object", "src", "editMode", "waitForDoneSignal"]
+          selector: 'minds-avatar',
+          inputs: ['object', 'src', 'editMode', 'waitForDoneSignal'],
         }),
         MockComponent({
-          selector: "m-channel--badges",
-          inputs: ["user", "badges"]
+          selector: 'm-channel--badges',
+          inputs: ['user', 'badges'],
         }),
         MockComponent({
-          selector: "minds-button-subscribe",
-          inputs: ["user"]
+          selector: 'minds-button-subscribe',
+          inputs: ['user'],
         }),
         MockComponent({
-          selector: "m-safe-toggle",
-          inputs: ["entity"]
+          selector: 'm-safe-toggle',
+          inputs: ['entity'],
         }),
         MockComponent({
-          selector: "minds-button-boost",
-          inputs: ["object"]
-        })
+          selector: 'minds-button-boost',
+          inputs: ['object'],
+        }),
       ],
       imports: [FormsModule, RouterTestingModule, NgCommonModule],
-      providers: [{ provide: Session, useValue: sessionMock }]
+      providers: [{ provide: Session, useValue: sessionMock }],
     }).compileComponents(); // compile template and css
   }));
 
@@ -73,45 +73,45 @@ describe("ChannelsTileComponent", () => {
     fixture = TestBed.createComponent(ChannelsTileComponent);
     comp = fixture.componentInstance;
     comp.entity = {
-      guid: "guidguid",
-      name: "name",
-      username: "username",
-      city: "awasa",
+      guid: 'guidguid',
+      name: 'name',
+      username: 'username',
+      city: 'awasa',
       icontime: 11111,
       subscribers_count: 182,
-      impressions: 18200
+      impressions: 18200,
     };
 
     window.Minds.user = {
-      guid: "guidguid",
-      type: "user",
+      guid: 'guidguid',
+      type: 'user',
       subtype: false,
-      time_created: "1499978809",
+      time_created: '1499978809',
       time_updated: false,
-      container_guid: "0",
-      owner_guid: "0",
+      container_guid: '0',
+      owner_guid: '0',
       site_guid: false,
-      access_id: "2",
-      name: "minds",
-      username: "minds",
-      language: "en",
-      icontime: "1506690756",
+      access_id: '2',
+      name: 'minds',
+      username: 'minds',
+      language: 'en',
+      icontime: '1506690756',
       legacy_guid: false,
       featured_id: false,
-      banned: "no",
-      website: "",
-      dob: "",
-      gender: "",
-      city: "",
+      banned: 'no',
+      website: '',
+      dob: '',
+      gender: '',
+      city: '',
       merchant: {},
       boostProPlus: false,
       fb: false,
       mature: 0,
-      monetized: "",
+      monetized: '',
       signup_method: false,
       social_profiles: [],
       feature_flags: false,
-      programs: ["affiliate"],
+      programs: ['affiliate'],
       plus: false,
       verified: false,
       disabled_boost: false,
@@ -121,9 +121,9 @@ describe("ChannelsTileComponent", () => {
       subscriber: false,
       subscriptions_count: 1,
       impressions: 10248,
-      boost_rating: "2",
+      boost_rating: '2',
       spam: 0,
-      deleted: 0
+      deleted: 0,
     };
 
     fixture.detectChanges();
@@ -141,13 +141,13 @@ describe("ChannelsTileComponent", () => {
     jasmine.clock().uninstall();
   });
 
-  it("Should load correctly", () => {
-    const tile = fixture.debugElement.query(By.css(".m-channels--tile"));
+  it('Should load correctly', () => {
+    const tile = fixture.debugElement.query(By.css('.m-channels--tile'));
     const subscribe = fixture.debugElement.query(
-      By.css("minds-button-subscribe")
+      By.css('minds-button-subscribe')
     );
-    const feature = fixture.debugElement.query(By.css("minds-button-feature"));
-    const boost = fixture.debugElement.queryAll(By.css("minds-button-boost"));
+    const feature = fixture.debugElement.query(By.css('minds-button-feature'));
+    const boost = fixture.debugElement.queryAll(By.css('minds-button-boost'));
     expect(tile).not.toBeNull();
     expect(subscribe).not.toBeNull();
     expect(boost).not.toBeNull();

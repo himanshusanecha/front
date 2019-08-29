@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 let _uniqueId = 1000;
 
 @Component({
-  selector: "m-switch",
-  templateUrl: "switch.component.html"
+  selector: 'm-switch',
+  templateUrl: 'switch.component.html',
 })
 export class SwitchComponent {
   switchId: string;
@@ -15,8 +15,8 @@ export class SwitchComponent {
     | string
     | string[]
     | Set<string>
-    | { [key: string]: any } = "";
-  @Input() labelPosition: "left" | "right" = "right";
+    | { [key: string]: any } = '';
+  @Input() labelPosition: 'left' | 'right' = 'right';
 
   @Output() mModelChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() change: EventEmitter<Event> = new EventEmitter<Event>();

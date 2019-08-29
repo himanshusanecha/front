@@ -3,84 +3,84 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  tick
-} from "@angular/core/testing";
+  tick,
+} from '@angular/core/testing';
 
 import {
   Component,
   DebugElement,
   ChangeDetectorRef,
   Input,
-  Output
-} from "@angular/core";
-import { WalletTokenAddressesComponent } from "./addresses.component";
-import { clientMock } from "../../../../../tests/client-mock.spec";
-import { Client } from "../../../../services/api/client";
-import { Web3WalletService } from "../../../blockchain/web3-wallet.service";
+  Output,
+} from '@angular/core';
+import { WalletTokenAddressesComponent } from './addresses.component';
+import { clientMock } from '../../../../../tests/client-mock.spec';
+import { Client } from '../../../../services/api/client';
+import { Web3WalletService } from '../../../blockchain/web3-wallet.service';
 
-import { of } from "rxjs/internal/observable/of";
-import { ActivatedRoute, Router } from "@angular/router";
+import { of } from 'rxjs/internal/observable/of';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   MockComponent,
   MockDirective,
-  MockService
-} from "../../../../utils/mock";
-import { MindsTitle } from "../../../../services/ux/title";
-import { Session } from "../../../../services/session";
-import { MindsBlogListResponse } from "../../../../interfaces/responses";
-import { ContextService } from "../../../../services/context.service";
-import { RouterTestingModule } from "@angular/router/testing";
-import { BlockchainService } from "../../../blockchain/blockchain.service";
-import { By } from "@angular/platform-browser";
-import { sessionMock } from "../../../../../tests/session-mock.spec";
+  MockService,
+} from '../../../../utils/mock';
+import { MindsTitle } from '../../../../services/ux/title';
+import { Session } from '../../../../services/session';
+import { MindsBlogListResponse } from '../../../../interfaces/responses';
+import { ContextService } from '../../../../services/context.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BlockchainService } from '../../../blockchain/blockchain.service';
+import { By } from '@angular/platform-browser';
+import { sessionMock } from '../../../../../tests/session-mock.spec';
 
 let web3walletMock = new (function() {
   this.getWallets = jasmine
-    .createSpy("getWallets")
+    .createSpy('getWallets')
     .and.stub()
     .and.returnValue(222);
   this.getCurrentWallet = jasmine
-    .createSpy("getCurrentWallet")
-    .and.returnValue("aaa");
-  this.getBalance = jasmine.createSpy("getBalance").and.stub();
-  this.isLocal = jasmine.createSpy("isLocal").and.stub();
-  this.unlock = jasmine.createSpy("unlock").and.stub();
-  this.isSameNetwork = jasmine.createSpy("isSameNetwork").and.stub();
-  this.setUp = jasmine.createSpy("setUp").and.stub();
-  this.ready = jasmine.createSpy("ready").and.stub();
-  this.isUnavailable = jasmine.createSpy("isUnavailable").and.stub();
+    .createSpy('getCurrentWallet')
+    .and.returnValue('aaa');
+  this.getBalance = jasmine.createSpy('getBalance').and.stub();
+  this.isLocal = jasmine.createSpy('isLocal').and.stub();
+  this.unlock = jasmine.createSpy('unlock').and.stub();
+  this.isSameNetwork = jasmine.createSpy('isSameNetwork').and.stub();
+  this.setUp = jasmine.createSpy('setUp').and.stub();
+  this.ready = jasmine.createSpy('ready').and.stub();
+  this.isUnavailable = jasmine.createSpy('isUnavailable').and.stub();
   this.sendSignedContractMethodWithValue = jasmine
-    .createSpy("sendSignedContractMethodWithValue")
+    .createSpy('sendSignedContractMethodWithValue')
     .and.stub();
   this.sendSignedContractMethod = jasmine
-    .createSpy("sendSignedContractMethod")
+    .createSpy('sendSignedContractMethod')
     .and.stub();
   this.getOnChainInterfaceLabel = jasmine
-    .createSpy("getOnChainInterfaceLabel")
+    .createSpy('getOnChainInterfaceLabel')
     .and.stub();
-  this.sendTransaction = jasmine.createSpy("sendTransaction").and.stub();
+  this.sendTransaction = jasmine.createSpy('sendTransaction').and.stub();
   this.config = {
-    rate: 0.4
+    rate: 0.4,
   };
 })();
 
-describe("WalletTokenAddressesComponent", () => {
+describe('WalletTokenAddressesComponent', () => {
   let comp: WalletTokenAddressesComponent;
   let fixture: ComponentFixture<WalletTokenAddressesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        MockComponent({ selector: "m-token--onboarding--onchain" }),
-        WalletTokenAddressesComponent
+        MockComponent({ selector: 'm-token--onboarding--onchain' }),
+        WalletTokenAddressesComponent,
       ],
       providers: [
         { provide: Client, useValue: clientMock },
         { provide: ChangeDetectorRef, useValue: ChangeDetectorRef },
         { provide: Web3WalletService, useValue: web3walletMock },
         { provide: Router, useValue: RouterTestingModule },
-        { provide: Session, useValue: sessionMock }
-      ]
+        { provide: Session, useValue: sessionMock },
+      ],
     }).compileComponents(); // compile template and css
   }));
 
@@ -107,7 +107,7 @@ describe("WalletTokenAddressesComponent", () => {
     jasmine.clock().uninstall();
   });
 
-  it("should show onboarding", fakeAsync(() => {
+  it('should show onboarding', fakeAsync(() => {
     tick();
 
     expect(comp.editing).toBeTruthy();
@@ -117,7 +117,7 @@ describe("WalletTokenAddressesComponent", () => {
     expect(fixture.debugElement.query(By.css(`.m-card--subtext`))).toBeNull();
   }));
 
-  it("should disable editing", fakeAsync(() => {
+  it('should disable editing', fakeAsync(() => {
     expect(comp.editing).toBeTruthy();
     comp.disableEditing();
     fixture.detectChanges();

@@ -3,16 +3,16 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Output,
-  EventEmitter
-} from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+  EventEmitter,
+} from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Client } from "../../../common/api/client.service";
+import { Client } from '../../../common/api/client.service';
 
 @Component({
-  selector: "m-plus--verify",
-  templateUrl: "verify.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-plus--verify',
+  templateUrl: 'verify.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlusVerifyComponent {
   form: FormGroup;
@@ -28,9 +28,9 @@ export class PlusVerifyComponent {
 
   ngOnInit() {
     this.form = this.fb.group({
-      link1: ["", Validators.required],
-      link2: ["", Validators.required],
-      description: ["", Validators.required]
+      link1: ['', Validators.required],
+      link2: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
 
@@ -38,7 +38,7 @@ export class PlusVerifyComponent {
     this.inProgress = true;
     this.detectChanges();
     this.client
-      .post("api/v1/plus/verify", this.form.value)
+      .post('api/v1/plus/verify', this.form.value)
       .then(response => {
         this.inProgress = false;
         this.open = false;

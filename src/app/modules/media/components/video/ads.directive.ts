@@ -1,9 +1,9 @@
-import { Directive, Input } from "@angular/core";
+import { Directive, Input } from '@angular/core';
 
-import { VideoAdsService } from "./ads.service";
+import { VideoAdsService } from './ads.service';
 
 @Directive({
-  selector: "[videoAds]"
+  selector: '[videoAds]',
 })
 export class VideoAdsDirective {
   @Input() autoplay: boolean = true;

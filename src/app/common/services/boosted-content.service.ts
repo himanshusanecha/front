@@ -1,17 +1,17 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { Client } from "../../services/api/client";
-import { Session } from "../../services/session";
+import { Client } from '../../services/api/client';
+import { Session } from '../../services/session';
 
-import { EntitiesService } from "./entities.service";
-import { BlockListService } from "./block-list.service";
-import { SettingsService } from "../../modules/settings/settings.service";
+import { EntitiesService } from './entities.service';
+import { BlockListService } from './block-list.service';
+import { SettingsService } from '../../modules/settings/settings.service';
 
-import MindsClientHttpAdapter from "../../lib/minds-sync/adapters/MindsClientHttpAdapter.js";
-import browserStorageAdapterFactory from "../../helpers/browser-storage-adapter-factory";
-import BoostedContentSync from "../../lib/minds-sync/services/BoostedContentSync.js";
+import MindsClientHttpAdapter from '../../lib/minds-sync/adapters/MindsClientHttpAdapter.js';
+import browserStorageAdapterFactory from '../../helpers/browser-storage-adapter-factory';
+import BoostedContentSync from '../../lib/minds-sync/services/BoostedContentSync.js';
 
-import AsyncStatus from "../../helpers/async-status";
+import AsyncStatus from '../../helpers/async-status';
 
 @Injectable()
 export class BoostedContentService {

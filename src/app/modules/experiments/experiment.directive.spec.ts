@@ -1,18 +1,18 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
   tick,
-  fakeAsync
-} from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { ExperimentsModule } from "./experiments.module";
-import { ExperimentDirective } from "./experiment.directive";
-import { ExperimentsService } from "./experiments.service";
+  fakeAsync,
+} from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { ExperimentsModule } from './experiments.module';
+import { ExperimentDirective } from './experiment.directive';
+import { ExperimentsService } from './experiments.service';
 
-import { Client } from "../../common/api/client.service";
-import { clientMock } from "../../../tests/client-mock.spec";
-import { Storage } from "../../services/storage";
+import { Client } from '../../common/api/client.service';
+import { clientMock } from '../../../tests/client-mock.spec';
+import { Storage } from '../../services/storage';
 
 @Component({
   template: `
@@ -24,11 +24,11 @@ import { Storage } from "../../services/storage";
       *mExperiment="'homepage'; bucket: 'variant1'"
       class="homepage-bucket-variant1"
     ></div>
-  `
+  `,
 })
 class ExperimentsTestComponent {}
 
-describe("Directive: ExperimentDirective", () => {
+describe('Directive: ExperimentDirective', () => {
   let fixture: ComponentFixture<ExperimentsTestComponent>;
 
   beforeEach(async () => {
@@ -36,18 +36,18 @@ describe("Directive: ExperimentDirective", () => {
       providers: [
         ExperimentsService,
         { provide: Client, useValue: clientMock },
-        Storage
+        Storage,
       ],
-      declarations: [ExperimentDirective, ExperimentsTestComponent]
+      declarations: [ExperimentDirective, ExperimentsTestComponent],
     }).compileComponents();
     clientMock.response = {};
   });
 
-  it("should load base", fakeAsync(() => {
+  it('should load base', fakeAsync(() => {
     const url = `api/v2/experiments/homepage`;
     clientMock.response = {
-      status: "success",
-      bucketId: "base"
+      status: 'success',
+      bucketId: 'base',
     };
 
     fixture = TestBed.createComponent(ExperimentsTestComponent);
@@ -56,11 +56,11 @@ describe("Directive: ExperimentDirective", () => {
     jasmine.clock().tick(100);
     tick();
 
-    expect(!!fixture.debugElement.query(By.css(".homepage-bucket-base"))).toBe(
+    expect(!!fixture.debugElement.query(By.css('.homepage-bucket-base'))).toBe(
       true
     );
     expect(
-      !!fixture.debugElement.query(By.css(".homepage-bucket-variant1"))
+      !!fixture.debugElement.query(By.css('.homepage-bucket-variant1'))
     ).toBe(false);
   }));
 });

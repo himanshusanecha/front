@@ -1,20 +1,20 @@
-import { NgModule } from "@angular/core";
-import { CommonModule as NgCommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CommonModule } from "../../common/common.module";
-import { MindsFormsModule } from "../forms/forms.module";
+import { CommonModule } from '../../common/common.module';
+import { MindsFormsModule } from '../forms/forms.module';
 
-import { ConfirmModal } from "./confirm/confirm";
-import { RemindComposerModal } from "./remind-composer/remind-composer";
-import { ShareModalComponent } from "./share/share";
-import { SignupOnActionModal } from "./signup/signup-on-action";
-import { SignupOnScrollModal } from "./signup/signup-on-scroll";
-import { ConfirmPasswordModalComponent } from "./confirm-password/modal.component";
-import { SignupModal } from "./signup/signup";
-import { TOSUpdatedModal } from "./tos-updated/tos.component";
-import { TextInputAutocompleteModule } from "../../common/components/autocomplete";
+import { ConfirmModal } from './confirm/confirm';
+import { RemindComposerModal } from './remind-composer/remind-composer';
+import { ShareModalComponent } from './share/share';
+import { SignupOnActionModal } from './signup/signup-on-action';
+import { SignupOnScrollModal } from './signup/signup-on-scroll';
+import { ConfirmPasswordModalComponent } from './confirm-password/modal.component';
+import { SignupModal } from './signup/signup';
+import { TOSUpdatedModal } from './tos-updated/tos.component';
+import { TextInputAutocompleteModule } from '../../common/components/autocomplete';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import { TextInputAutocompleteModule } from "../../common/components/autocomplet
     FormsModule,
     ReactiveFormsModule,
     MindsFormsModule,
-    TextInputAutocompleteModule
+    TextInputAutocompleteModule,
   ],
   declarations: [
     ConfirmModal,
@@ -34,7 +34,7 @@ import { TextInputAutocompleteModule } from "../../common/components/autocomplet
     SignupOnScrollModal,
     SignupModal,
     ConfirmPasswordModalComponent,
-    TOSUpdatedModal
+    TOSUpdatedModal,
   ],
   entryComponents: [ConfirmPasswordModalComponent],
   exports: [
@@ -44,7 +44,7 @@ import { TextInputAutocompleteModule } from "../../common/components/autocomplet
     SignupOnActionModal,
     SignupOnScrollModal,
     SignupModal,
-    TOSUpdatedModal
-  ]
+    TOSUpdatedModal,
+  ],
 })
 export class ModalsModule {}

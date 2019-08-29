@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   filter,
   first,
@@ -6,9 +6,9 @@ import {
   switchMap,
   mergeMap,
   skip,
-  take
-} from "rxjs/operators";
-import { FeedsService } from "../../services/feeds.service";
+  take,
+} from 'rxjs/operators';
+import { FeedsService } from '../../services/feeds.service';
 
 @Injectable()
 export class FeaturedContentService {
@@ -18,7 +18,7 @@ export class FeaturedContentService {
     this.feedsService
       .setLimit(12)
       .setOffset(0)
-      .setEndpoint("api/v2/boost/feed")
+      .setEndpoint('api/v2/boost/feed')
       .fetch();
   }
 

@@ -1,8 +1,8 @@
-import { Component, EventEmitter, ElementRef } from "@angular/core";
+import { Component, EventEmitter, ElementRef } from '@angular/core';
 
 @Component({
-  selector: "google-ad",
-  inputs: ["type", "location"],
+  selector: 'google-ad',
+  inputs: ['type', 'location'],
   template: `
     <ins
       *ngIf="type == 'square'"
@@ -24,19 +24,19 @@ import { Component, EventEmitter, ElementRef } from "@angular/core";
     </script>
   `,
   host: {
-    "[class]":
-      "'m-ad-block m-ad-block-google ' + type + ' m-ad-block-' + location"
-  }
+    '[class]':
+      "'m-ad-block m-ad-block-google ' + type + ' m-ad-block-' + location",
+  },
 })
 export class GoogleAds {
   visible: boolean = false;
-  type: string = "square";
-  location: string = "default";
+  type: string = 'square';
+  location: string = 'default';
 
   constructor(element: ElementRef) {
     GoogleAdsService.load().then(() => {
       this.visible = true;
-      console.log("ads ready to show");
+      console.log('ads ready to show');
     });
   }
 
@@ -51,9 +51,9 @@ class GoogleAdsService {
   static load() {
     return new Promise(resolve => {
       if (!GoogleAdsService.script) {
-        GoogleAdsService.script = document.createElement("script");
+        GoogleAdsService.script = document.createElement('script');
         GoogleAdsService.script.src =
-          "//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+          '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
         GoogleAdsService.script.async = true;
         document.body.appendChild(GoogleAdsService.script);
         resolve(true);

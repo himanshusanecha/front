@@ -1,33 +1,33 @@
-import { Component, ViewChild } from "@angular/core";
-import { Location } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { Component, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { Client, Upload } from "../../../services/api";
-import { InlineEditorComponent } from "../../../common/components/editors/inline-editor.component";
+import { Client, Upload } from '../../../services/api';
+import { InlineEditorComponent } from '../../../common/components/editors/inline-editor.component';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-admin-pages",
-  templateUrl: "pages.html"
+  selector: 'minds-admin-pages',
+  templateUrl: 'pages.html',
 })
 export class AdminPages {
   pages: Array<any> = [];
   page: any = {
-    title: "New Page",
-    body: "",
-    path: "",
-    menuContainer: "footer",
+    title: 'New Page',
+    body: '',
+    path: '',
+    menuContainer: 'footer',
     header: false,
     headerTop: 0,
-    subtype: "page"
+    subtype: 'page',
   };
-  path: string = "";
-  status: string = "saved";
+  path: string = '';
+  status: string = 'saved';
   headerFile: File;
   paramsSubscription: Subscription;
-  @ViewChild("inlineEditor", { static: true })
+  @ViewChild('inlineEditor', { static: true })
   private editor: InlineEditorComponent;
 
   constructor(
@@ -38,7 +38,7 @@ export class AdminPages {
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe(params => {
-      this.path = params["path"];
+      this.path = params['path'];
       this.load();
     });
   }
@@ -48,27 +48,27 @@ export class AdminPages {
   }
 
   load() {
-    this.client.get("api/v1/admin/pages").then((response: any) => {
+    this.client.get('api/v1/admin/pages').then((response: any) => {
       this.pages = response.pages;
     });
   }
 
   save(page, allowHeaderUpload = true) {
-    this.status = "saving";
+    this.status = 'saving';
     this.editor.prepareForSave().then(() => {
       this.client
-        .post("api/v1/admin/pages", {
+        .post('api/v1/admin/pages', {
           title: page.title,
           body: page.body,
           path: page.path,
           menuContainer: page.menuContainer,
-          subtype: page.subtype
+          subtype: page.subtype,
         })
         .then((response: any) => {
           if (allowHeaderUpload) {
             this.uploadHeader(page);
           }
-          this.status = "saved";
+          this.status = 'saved';
         });
     });
   }
@@ -82,7 +82,7 @@ export class AdminPages {
       return;
     }
 
-    if (page.subtype === "link") {
+    if (page.subtype === 'link') {
       this.newLink();
     } else {
       this.newPage();
@@ -109,24 +109,24 @@ export class AdminPages {
 
   uploadHeader(page) {
     this.upload.post(
-      "api/v1/admin/pages/" + page.path + "/header",
+      'api/v1/admin/pages/' + page.path + '/header',
       [this.headerFile],
       {
         headerTop: page.headerTop,
-        path: page.path
+        path: page.path,
       }
     );
   }
 
   newPage() {
     this.page = {
-      title: "New Page",
-      body: "<p><br></p>",
-      path: "new",
-      menuContainer: "footer",
+      title: 'New Page',
+      body: '<p><br></p>',
+      path: 'new',
+      menuContainer: 'footer',
       header: false,
       headerTop: 0,
-      subtype: "page"
+      subtype: 'page',
     };
     this.editor.reset();
     this.pages.push(this.page);
@@ -134,13 +134,13 @@ export class AdminPages {
 
   newLink() {
     this.page = {
-      title: "New Link",
-      body: "",
-      path: "http://",
-      menuContainer: "footer",
+      title: 'New Link',
+      body: '',
+      path: 'http://',
+      menuContainer: 'footer',
       header: false,
       headerTop: 0,
-      subtype: "link"
+      subtype: 'link',
     };
     this.editor.reset();
     this.pages.push(this.page);

@@ -6,21 +6,21 @@ import {
   ViewChild,
   ElementRef,
   ChangeDetectorRef,
-  EventEmitter
-} from "@angular/core";
-import { CurrencyPipe } from "@angular/common";
-import { Web3WalletService } from "../../../blockchain/web3-wallet.service";
-import { Client } from "../../../../services/api/client";
-import { TokenContractService } from "../../../blockchain/contracts/token-contract.service";
-import { OverlayModalService } from "../../../../services/ux/overlay-modal";
-import { Router } from "@angular/router";
+  EventEmitter,
+} from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { Web3WalletService } from '../../../blockchain/web3-wallet.service';
+import { Client } from '../../../../services/api/client';
+import { TokenContractService } from '../../../blockchain/contracts/token-contract.service';
+import { OverlayModalService } from '../../../../services/ux/overlay-modal';
+import { Router } from '@angular/router';
 
-type CurrencyType = "offchain" | "usd" | "onchain" | "creditcard";
+type CurrencyType = 'offchain' | 'usd' | 'onchain' | 'creditcard';
 
 @Component({
   providers: [CurrencyPipe],
-  selector: "m-boost--creator-payment-methods",
-  templateUrl: "payment-methods.component.html"
+  selector: 'm-boost--creator-payment-methods',
+  templateUrl: 'payment-methods.component.html',
 })
 export class BoostCreatorPaymentMethodsComponent {
   minds: Minds = window.Minds;
@@ -36,14 +36,14 @@ export class BoostCreatorPaymentMethodsComponent {
     tokens: 1000,
     minUsd: 1,
     priority: 1,
-    maxCategories: 3
+    maxCategories: 3,
   };
 
   balances = {
     onchain: null,
     offchain: null,
-    onChainAddress: "",
-    isReceiverOnchain: false
+    onChainAddress: '',
+    isReceiverOnchain: false,
   };
 
   constructor(
@@ -108,7 +108,7 @@ export class BoostCreatorPaymentMethodsComponent {
       return;
     }
     this.boost.currency = currency;
-    localStorage.setItem("preferred-payment-method", currency);
+    localStorage.setItem('preferred-payment-method', currency);
     this.boost.nonce = null;
     this.roundAmount();
   }
@@ -118,14 +118,14 @@ export class BoostCreatorPaymentMethodsComponent {
    */
   roundAmount() {
     if (
-      this.boost.type === "p2p" &&
-      (!this.boost.currency || this.boost.currency === "usd")
+      this.boost.type === 'p2p' &&
+      (!this.boost.currency || this.boost.currency === 'usd')
     ) {
       this.boost.amount =
         Math.round(parseFloat(`${this.boost.amount}`) * 100) / 100;
     } else if (
-      this.boost.currency === "tokens" ||
-      this.boost.currency === "offchain"
+      this.boost.currency === 'tokens' ||
+      this.boost.currency === 'offchain'
     ) {
       this.boost.amount =
         Math.round(parseFloat(`${this.boost.amount}`) * 10000) / 10000;
@@ -139,7 +139,7 @@ export class BoostCreatorPaymentMethodsComponent {
    */
   calcBaseCharges(type: string): number {
     // P2P should just round down amount points. It's bid based.
-    if (this.boost.type === "p2p") {
+    if (this.boost.type === 'p2p') {
       return <number>this.boost.amount;
     }
 
@@ -147,16 +147,16 @@ export class BoostCreatorPaymentMethodsComponent {
 
     // Non-P2P should do the views <-> currency conversion
     switch (type) {
-      case "usd":
+      case 'usd':
         const usdFixRate = this.rates.usd / 100;
         return Math.ceil(<number>this.boost.amount / usdFixRate) / 100;
 
-      case "offchain":
-      case "tokens":
+      case 'offchain':
+      case 'tokens':
         return Math.ceil(<number>this.boost.amount / tokensFixRate) / 10000;
     }
 
-    throw new Error("Unknown currency");
+    throw new Error('Unknown currency');
   }
 
   /**
@@ -180,7 +180,7 @@ export class BoostCreatorPaymentMethodsComponent {
    */
   getPriorityRate(force?: boolean): number {
     // NOTE: No priority on P2P
-    if (force || (this.boost.type !== "p2p" && this.boost.priority)) {
+    if (force || (this.boost.type !== 'p2p' && this.boost.priority)) {
       return this.rates.priority;
     }
 
@@ -193,6 +193,6 @@ export class BoostCreatorPaymentMethodsComponent {
 
   buyTokens() {
     this.overlayService.dismiss();
-    this.router.navigate(["/token"]);
+    this.router.navigate(['/token']);
   }
 }

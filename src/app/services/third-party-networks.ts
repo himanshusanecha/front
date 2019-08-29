@@ -1,10 +1,10 @@
-import { NgZone } from "@angular/core";
-import { Client } from "./api";
+import { NgZone } from '@angular/core';
+import { Client } from './api';
 
 export class ThirdPartyNetworksService {
   inProgress: boolean = false;
 
-  private siteUrl: string = "";
+  private siteUrl: string = '';
 
   private status: any = {};
   private integrations: any;
@@ -24,7 +24,7 @@ export class ThirdPartyNetworksService {
   getStatus(refresh: boolean = false): Promise<any> {
     if (!this.statusReady || refresh) {
       this.statusReady = this.client
-        .get("api/v1/thirdpartynetworks/status")
+        .get('api/v1/thirdpartynetworks/status')
         .then((response: any) => {
           this.overrideStatus(response.thirdpartynetworks);
         });
@@ -47,26 +47,26 @@ export class ThirdPartyNetworksService {
 
   connect(network) {
     switch (network) {
-      case "facebook":
+      case 'facebook':
         return this.connectFb();
 
-      case "twitter":
+      case 'twitter':
         return this.connectTw();
     }
 
-    throw new Error("Unknown Third-Party Network");
+    throw new Error('Unknown Third-Party Network');
   }
 
   disconnect(network) {
     switch (network) {
-      case "facebook":
+      case 'facebook':
         return this.removeFb();
 
-      case "twitter":
+      case 'twitter':
         return this.removeTw();
     }
 
-    throw new Error("Unknown Third-Party Network");
+    throw new Error('Unknown Third-Party Network');
   }
 
   // Helper methods
@@ -84,7 +84,7 @@ export class ThirdPartyNetworksService {
   }
 
   isConnected(network: string): boolean {
-    return this.getStatusKey(network, "connected");
+    return this.getStatusKey(network, 'connected');
   }
 
   getIntegrations(): any {
@@ -99,12 +99,12 @@ export class ThirdPartyNetworksService {
     this.inProgress = true;
 
     return this.client
-      .delete("api/v1/thirdpartynetworks/facebook/login")
+      .delete('api/v1/thirdpartynetworks/facebook/login')
       .then(() => {
         this.inProgress = false;
 
         if (window.Minds.user) {
-          window.Minds.user.signup_method = "ex-facebook";
+          window.Minds.user.signup_method = 'ex-facebook';
         }
       })
       .catch(e => {
@@ -137,8 +137,8 @@ export class ThirdPartyNetworksService {
 
       window.open(
         `${this.siteUrl}api/v1/thirdpartynetworks/facebook/link?no_pages=1`,
-        "Login with Facebook",
-        "toolbar=no, location=no, directories=no, status=no, menubar=no, copyhistory=no, width=600, height=400, top=100, left=100"
+        'Login with Facebook',
+        'toolbar=no, location=no, directories=no, status=no, menubar=no, copyhistory=no, width=600, height=400, top=100, left=100'
       );
     });
   }
@@ -147,10 +147,10 @@ export class ThirdPartyNetworksService {
     this.inProgress = true;
 
     return this.client
-      .delete("api/v1/thirdpartynetworks/facebook")
+      .delete('api/v1/thirdpartynetworks/facebook')
       .then(() => {
         this.inProgress = false;
-        this.setStatusKey("facebook", { connected: false });
+        this.setStatusKey('facebook', { connected: false });
       })
       .catch(e => {
         this.inProgress = false;
@@ -179,8 +179,8 @@ export class ThirdPartyNetworksService {
 
       window.open(
         `${this.siteUrl}api/v1/thirdpartynetworks/twitter/link`,
-        "Login with Twitter",
-        "toolbar=no, location=no, directories=no, status=no, menubar=no, copyhistory=no, width=600, height=400, top=100, left=100"
+        'Login with Twitter',
+        'toolbar=no, location=no, directories=no, status=no, menubar=no, copyhistory=no, width=600, height=400, top=100, left=100'
       );
     });
   }
@@ -189,10 +189,10 @@ export class ThirdPartyNetworksService {
     this.inProgress = true;
 
     return this.client
-      .delete("api/v1/thirdpartynetworks/twitter")
+      .delete('api/v1/thirdpartynetworks/twitter')
       .then(() => {
         this.inProgress = false;
-        this.setStatusKey("twitter", { connected: false });
+        this.setStatusKey('twitter', { connected: false });
       })
       .catch(e => {
         this.inProgress = false;

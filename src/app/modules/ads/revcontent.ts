@@ -1,13 +1,13 @@
-import { Component, EventEmitter, ElementRef } from "@angular/core";
+import { Component, EventEmitter, ElementRef } from '@angular/core';
 
 @Component({
-  selector: "revcontent",
+  selector: 'revcontent',
   template: `
     <!-- ads will load into here -->
   `,
   host: {
-    class: "m-ad-block m-ad-block-revcontent"
-  }
+    class: 'm-ad-block m-ad-block-revcontent',
+  },
 })
 export class RevContent {
   visible: boolean = false;
@@ -31,15 +31,15 @@ class RevContentService {
   static load(element: any) {
     return new Promise(resolve => {
       if (!RevContentService.script) {
-        RevContentService.script = document.createElement("script");
-        RevContentService.script.id = "rc_" + Math.floor(Math.random() * 1000);
-        RevContentService.script.type = "text/javascript";
+        RevContentService.script = document.createElement('script');
+        RevContentService.script.id = 'rc_' + Math.floor(Math.random() * 1000);
+        RevContentService.script.type = 'text/javascript';
         RevContentService.script.src =
-          "https://trends.revcontent.com/serve.js.php?w=11364&t=" +
+          'https://trends.revcontent.com/serve.js.php?w=11364&t=' +
           RevContentService.script.id +
-          "&c=" +
+          '&c=' +
           new Date().getTime() +
-          "&width=" +
+          '&width=' +
           (window.outerWidth || document.documentElement.clientWidth);
         RevContentService.script.async = true;
         //var rcds = document.getElementById("rcjsload_7c87b6");
@@ -52,7 +52,7 @@ class RevContentService {
   }
 
   static unload(element: any) {
-    element.innerHTML = "";
+    element.innerHTML = '';
     if (RevContentService.script) {
       RevContentService.script.remove();
       RevContentService.script = null;

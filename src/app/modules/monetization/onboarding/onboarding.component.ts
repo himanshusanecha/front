@@ -4,16 +4,16 @@ import {
   Output,
   EventEmitter,
   Input,
-  ChangeDetectorRef
-} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Client } from "../../../services/api";
+  ChangeDetectorRef,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Client } from '../../../services/api';
 
-import { requiredFor, optionalFor } from "./onboarding.validators";
+import { requiredFor, optionalFor } from './onboarding.validators';
 
 @Component({
-  selector: "m-monetization--onboarding",
-  templateUrl: "onboarding.component.html"
+  selector: 'm-monetization--onboarding',
+  templateUrl: 'onboarding.component.html',
 })
 export class MonetizationOnboardingComponent implements OnInit {
   form: FormGroup;
@@ -36,22 +36,22 @@ export class MonetizationOnboardingComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      country: ["", Validators.required],
-      ssn: ["", requiredFor(["US"], { ignore: this.edit })],
+      country: ['', Validators.required],
+      ssn: ['', requiredFor(['US'], { ignore: this.edit })],
       personalIdNumber: [
-        "",
-        requiredFor(["CA", "HK", "SG"], { ignore: this.edit })
+        '',
+        requiredFor(['CA', 'HK', 'SG'], { ignore: this.edit }),
       ],
-      firstName: ["", optionalFor(["JP"])],
-      lastName: ["", optionalFor(["JP"])],
-      gender: ["", requiredFor(["JP"])],
-      dob: ["", Validators.required],
-      street: ["", optionalFor(["JP"])],
-      city: ["", optionalFor(["JP", "SG"])],
-      state: ["", requiredFor(["AU", "CA", "IE", "US"])],
-      postCode: ["", optionalFor(["HK", "IE", "JP"])],
-      phoneNumber: ["", requiredFor(["JP"])],
-      stripeAgree: ["", Validators.required]
+      firstName: ['', optionalFor(['JP'])],
+      lastName: ['', optionalFor(['JP'])],
+      gender: ['', requiredFor(['JP'])],
+      dob: ['', Validators.required],
+      street: ['', optionalFor(['JP'])],
+      city: ['', optionalFor(['JP', 'SG'])],
+      state: ['', requiredFor(['AU', 'CA', 'IE', 'US'])],
+      postCode: ['', optionalFor(['HK', 'IE', 'JP'])],
+      phoneNumber: ['', requiredFor(['JP'])],
+      stripeAgree: ['', Validators.required],
     });
 
     this.restrictAsVerified = false;
@@ -68,7 +68,7 @@ export class MonetizationOnboardingComponent implements OnInit {
     this.disableRestrictedFields();
   }
 
-  @Input("merchant") set _merchant(value) {
+  @Input('merchant') set _merchant(value) {
     if (!value) {
       return;
     }
@@ -102,15 +102,15 @@ export class MonetizationOnboardingComponent implements OnInit {
     }
 
     this.inProgress = true;
-    this.error = "";
+    this.error = '';
 
     this.client
-      .post("api/v1/merchant/onboard", this.form.value)
+      .post('api/v1/merchant/onboard', this.form.value)
       .then((response: any) => {
         this.inProgress = false;
 
         if (!this.minds.user.programs) this.minds.user.programs = [];
-        this.minds.user.programs.push("affiliate");
+        this.minds.user.programs.push('affiliate');
 
         this.completed.emit(response);
         this.detectChanges();
@@ -128,10 +128,10 @@ export class MonetizationOnboardingComponent implements OnInit {
     }
 
     this.inProgress = true;
-    this.error = "";
+    this.error = '';
 
     this.client
-      .post("api/v1/merchant/update", this.form.value)
+      .post('api/v1/merchant/update', this.form.value)
       .then((response: any) => {
         this.inProgress = false;
         this.completed.emit(response);
@@ -149,7 +149,7 @@ export class MonetizationOnboardingComponent implements OnInit {
       return;
     }
 
-    const action = this.restrictAsVerified ? "disable" : "enable";
+    const action = this.restrictAsVerified ? 'disable' : 'enable';
 
     this.form.controls.firstName[action]();
     this.form.controls.lastName[action]();

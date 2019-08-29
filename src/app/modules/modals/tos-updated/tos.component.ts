@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { Client } from "../../../services/api/client";
-import { Session } from "../../../services/session";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Client } from '../../../services/api/client';
+import { Session } from '../../../services/session';
 
 @Component({
-  selector: "m-modal--tos-updated",
-  templateUrl: "tos.component.html"
+  selector: 'm-modal--tos-updated',
+  templateUrl: 'tos.component.html',
 })
 export class TOSUpdatedModal {
   user = window.Minds.user;
@@ -24,7 +24,7 @@ export class TOSUpdatedModal {
 
   async updateUser() {
     try {
-      const response: any = await this.client.post("api/v2/settings/tos");
+      const response: any = await this.client.post('api/v2/settings/tos');
       this.user.last_accepted_tos = response.timestamp;
     } catch (e) {
       console.error(e);

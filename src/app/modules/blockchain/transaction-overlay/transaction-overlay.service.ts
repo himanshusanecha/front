@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { TransactionOverlayComponent } from "./transaction-overlay.component";
-import { Subscription } from "rxjs";
+import { Injectable } from '@angular/core';
+import { TransactionOverlayComponent } from './transaction-overlay.component';
+import { Subscription } from 'rxjs';
 
 @Injectable()
 export class TransactionOverlayService {
@@ -19,7 +19,7 @@ export class TransactionOverlayService {
         if (data && !(data instanceof Error)) {
           resolve(data);
         } else {
-          reject((data && data.message) || "User cancelled");
+          reject((data && data.message) || 'User cancelled');
         }
       });
     });
@@ -35,7 +35,7 @@ export class TransactionOverlayService {
         if (data && !(data instanceof Error)) {
           resolve(data);
         } else {
-          reject((data && data.message) || "User cancelled");
+          reject((data && data.message) || 'User cancelled');
         }
       });
     });
@@ -43,7 +43,7 @@ export class TransactionOverlayService {
 
   waitForLocalTxObject(
     defaultTxObject: Object = {},
-    message: string = "",
+    message: string = '',
     tokenDelta: number = 0
   ): Promise<any> {
     let compEventEmitter = this.comp.show(
@@ -60,13 +60,13 @@ export class TransactionOverlayService {
         if (data && !(data instanceof Error)) {
           resolve(data);
         } else {
-          reject(data || new Error("User cancelled"));
+          reject(data || new Error('User cancelled'));
         }
       });
     });
   }
 
-  async waitForExternalTx(fn: Function, message: string = ""): Promise<string> {
+  async waitForExternalTx(fn: Function, message: string = ''): Promise<string> {
     this.comp.show(this.comp.COMP_METAMASK, message);
 
     let result = null;
@@ -77,12 +77,12 @@ export class TransactionOverlayService {
       if (
         e.value &&
         e.value.message &&
-        e.value.message.includes("User denied transaction signature")
+        e.value.message.includes('User denied transaction signature')
       ) {
-        throw new Error("User denied the transaction");
+        throw new Error('User denied the transaction');
       } else {
         console.error(e);
-        throw new Error("Unexpected error. Is your wallet unlocked?");
+        throw new Error('Unexpected error. Is your wallet unlocked?');
       }
     } finally {
       this.comp.hide();

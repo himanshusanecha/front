@@ -3,20 +3,20 @@ import {
   forwardRef,
   OnChanges,
   OnDestroy,
-  OnInit
-} from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+  OnInit,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export const SELECTED_CATEGORIES_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => CategoriesSelectedComponent),
-  multi: true
+  multi: true,
 };
 
 type Category = { id: string; label: string; children?: string };
 
 @Component({
-  selector: "m-categories--selected",
+  selector: 'm-categories--selected',
   template: `
     <div class="m-categories-selected--categories">
       <div
@@ -28,7 +28,7 @@ type Category = { id: string; label: string; children?: string };
       </div>
     </div>
   `,
-  providers: [SELECTED_CATEGORIES_VALUE_ACCESSOR]
+  providers: [SELECTED_CATEGORIES_VALUE_ACCESSOR],
 })
 export class CategoriesSelectedComponent
   implements ControlValueAccessor, OnChanges {

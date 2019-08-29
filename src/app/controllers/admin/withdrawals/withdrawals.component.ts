@@ -1,26 +1,26 @@
-import { Component } from "@angular/core";
-import { Client } from "../../../services/api";
-import { ActivatedRoute } from "@angular/router";
+import { Component } from '@angular/core';
+import { Client } from '../../../services/api';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-admin-withdrawals",
-  templateUrl: "withdrawals.component.html"
+  selector: 'minds-admin-withdrawals',
+  templateUrl: 'withdrawals.component.html',
 })
 export class AdminWithdrawals {
   withdrawals: any[] = [];
 
   inProgress: boolean = false;
   moreData: boolean = true;
-  offset: string = "";
+  offset: string = '';
 
-  user: string = "";
+  user: string = '';
 
   constructor(protected client: Client, protected route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.user = params["user"] || "";
+      this.user = params['user'] || '';
 
       this.load(true);
     });
@@ -35,7 +35,7 @@ export class AdminWithdrawals {
 
     if (refresh) {
       this.withdrawals = [];
-      this.offset = "";
+      this.offset = '';
       this.moreData = true;
     }
 
@@ -49,7 +49,7 @@ export class AdminWithdrawals {
       .get(`api/v2/admin/rewards/withdrawals`, {
         limit: 50,
         offset: this.offset,
-        user: this.user
+        user: this.user,
       })
       .then((response: any) => {
         if (!response.withdrawals) {
@@ -61,8 +61,8 @@ export class AdminWithdrawals {
         this.withdrawals.push(...response.withdrawals);
         this.inProgress = false;
 
-        if (response["load-next"]) {
-          this.offset = response["load-next"];
+        if (response['load-next']) {
+          this.offset = response['load-next'];
         } else {
           this.moreData = false;
         }

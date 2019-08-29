@@ -16,29 +16,29 @@ export class EmbedVideo {
 
   constructor(options: Options) {
     this.options = { ...options };
-    this.button = document.createElement("button");
-    this.button.className = "medium-editor-action";
-    this.button.innerHTML = options.buttonText || "</>";
+    this.button = document.createElement('button');
+    this.button.className = 'medium-editor-action';
+    this.button.innerHTML = options.buttonText || '</>';
     this.button.onclick = this.handleClick.bind(this);
   }
 
   public init() {
-    this.$element = document.querySelector(".medium-editor-element");
+    this.$element = document.querySelector('.medium-editor-element');
 
-    this.base.subscribe("editableInput", () => {
+    this.base.subscribe('editableInput', () => {
       if (this.updated) {
         return;
       }
       this.updated = true;
-      const $embeds = this.$element.querySelectorAll(".medium-insert-embeds");
+      const $embeds = this.$element.querySelectorAll('.medium-insert-embeds');
 
       for (let i: number = 0; i < $embeds.length; ++i) {
         const item = $embeds[i];
 
-        item.setAttribute("contenteditable", false);
-        if (!item.querySelector(".medium-insert-embeds-overlay")) {
-          const div = document.createElement("div");
-          div.classList.add("medium-insert-embeds-overlay");
+        item.setAttribute('contenteditable', false);
+        if (!item.querySelector('.medium-insert-embeds-overlay')) {
+          const div = document.createElement('div');
+          div.classList.add('medium-insert-embeds-overlay');
           item.appendChild(div);
         }
       }
@@ -52,8 +52,8 @@ export class EmbedVideo {
   }
 
   private createP(): HTMLParagraphElement {
-    const p = document.createElement("p");
-    p.innerHTML = "<br>";
+    const p = document.createElement('p');
+    p.innerHTML = '<br>';
     return p;
   }
 
@@ -67,7 +67,7 @@ export class EmbedVideo {
       range = sel.getRangeAt(0);
     }
     if (this.$place) {
-      const p = document.createElement("p");
+      const p = document.createElement('p');
       p.appendChild(div);
       this.$place.parentNode.replaceChild(p, this.$place);
 
@@ -95,9 +95,9 @@ export class EmbedVideo {
   }
 
   private getHTML(html) {
-    const div = document.createElement("div");
-    div.classList.add("medium-insert-embeds");
-    div.setAttribute("contenteditable", "false");
+    const div = document.createElement('div');
+    div.classList.add('medium-insert-embeds');
+    div.setAttribute('contenteditable', 'false');
     div.innerHTML = `
         <figure>
           <div class="medium-insert-embed">
@@ -120,8 +120,8 @@ export class EmbedVideo {
   }
 
   public events() {
-    this.base.subscribe("action-videos", (data, editable) => {
-      let $place = this.$element.querySelector(".medium-insert-active");
+    this.base.subscribe('action-videos', (data, editable) => {
+      let $place = this.$element.querySelector('.medium-insert-active');
 
       if (this.urlRegex.exec(data.link)) {
         this.$place = $place;
@@ -133,7 +133,7 @@ export class EmbedVideo {
 
   public prepare() {
     let elements = this.$element.querySelectorAll(
-      ".medium-insert-embeds-overlay"
+      '.medium-insert-embeds-overlay'
     );
 
     for (let i: number = 0; i < elements.length; ++i) {
@@ -141,17 +141,17 @@ export class EmbedVideo {
       item.remove();
     }
 
-    elements = this.$element.querySelectorAll(".medium-insert-embeds");
+    elements = this.$element.querySelectorAll('.medium-insert-embeds');
     for (let i: number = 0; i < elements.length; ++i) {
       const item = elements[i];
-      item.setAttribute("contenteditable", "false");
+      item.setAttribute('contenteditable', 'false');
     }
   }
 
   public processLink(src) {
     const url = src.trim();
 
-    if (url === "") {
+    if (url === '') {
       return;
     }
 
@@ -160,7 +160,7 @@ export class EmbedVideo {
 
   public async parseUrl(url, pasted = null) {
     let html;
-    url = url.replace(/\n?/g, "");
+    url = url.replace(/\n?/g, '');
 
     html = url
       .replace(
@@ -204,7 +204,7 @@ export class EmbedVideo {
       html +=
         '<div class="medium-insert-embeds-meta"><script type="text/json">' +
         JSON.stringify({}) +
-        "</script></div>";
+        '</script></div>';
     }
 
     if (pasted) {
@@ -218,18 +218,18 @@ export class EmbedVideo {
     let $div;
 
     if (!html) {
-      alert("Incorrect URL format specified");
+      alert('Incorrect URL format specified');
       return false;
     }
-    if (html.indexOf("</script>") > -1) {
+    if (html.indexOf('</script>') > -1) {
       $div = document
-        .createElement("div")
+        .createElement('div')
         .setAttribute(
-          "data-embed-code",
-          (document.createElement("div").innerText = html.innerHTML)
+          'data-embed-code',
+          (document.createElement('div').innerText = html.innerHTML)
         );
       $div.innerHTML = html;
-      html = document.createElement("div").appendChild($div).innerHTML;
+      html = document.createElement('div').appendChild($div).innerHTML;
     }
 
     this.insertHTML(html);
@@ -240,14 +240,14 @@ export class EmbedVideo {
       JSONP.send(
         `http://soundcloud.com/oembed?format=js&url=${url}&callback=getSoundcloudEmbed`,
         {
-          callbackName: "getSoundcloudEmbed",
+          callbackName: 'getSoundcloudEmbed',
           onSuccess: function(json) {
             resolve(json.html);
           },
           onTimeout: function() {
             reject();
           },
-          timeout: 10
+          timeout: 10,
         }
       );
     });
@@ -256,7 +256,7 @@ export class EmbedVideo {
 
 class JSONP {
   public static send(src, options) {
-    var callback_name = options.callbackName || "callback",
+    var callback_name = options.callbackName || 'callback',
       on_success = options.onSuccess || function() {},
       on_timeout = options.onTimeout || function() {},
       timeout = options.timeout || 10; // sec
@@ -264,20 +264,20 @@ class JSONP {
     var timeout_trigger = window.setTimeout(function() {
       window[callback_name] = function() {};
       on_timeout();
-      document.getElementsByTagName("head")[0].removeChild(script);
+      document.getElementsByTagName('head')[0].removeChild(script);
     }, timeout * 1000);
 
     window[callback_name] = function(data) {
       window.clearTimeout(timeout_trigger);
       on_success(data);
-      document.getElementsByTagName("head")[0].removeChild(script);
+      document.getElementsByTagName('head')[0].removeChild(script);
     };
 
-    var script = document.createElement("script");
-    script.type = "text/javascript";
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
     script.async = true;
     script.src = src;
 
-    document.getElementsByTagName("head")[0].appendChild(script);
+    document.getElementsByTagName('head')[0].appendChild(script);
   }
 }

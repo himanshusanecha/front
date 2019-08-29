@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Client } from "../../../services/api";
+import { Client } from '../../../services/api';
 
 @Component({
   moduleId: module.id,
-  selector: "minds-paywall-cancel-button",
-  templateUrl: "paywall-cancel.component.html"
+  selector: 'minds-paywall-cancel-button',
+  templateUrl: 'paywall-cancel.component.html',
 })
 export class PaywallCancelButton {
   @Input() target: string;

@@ -1,13 +1,13 @@
-import { Directive, EventEmitter, ElementRef } from "@angular/core";
-import { AnchorPosition } from "../../services/ux/anchor-position";
+import { Directive, EventEmitter, ElementRef } from '@angular/core';
+import { AnchorPosition } from '../../services/ux/anchor-position';
 
 @Directive({
-  selector: "[emoji]",
-  outputs: ["emoji"],
-  exportAs: "emoji",
+  selector: '[emoji]',
+  outputs: ['emoji'],
+  exportAs: 'emoji',
   host: {
-    "(click)": "toggle()"
-  }
+    '(click)': 'toggle()',
+  },
 })
 export class Emoji {
   emoji: EventEmitter<any> = new EventEmitter();
@@ -28,7 +28,7 @@ export class Emoji {
   }
 
   open() {
-    let position = AnchorPosition.getFixed(this._element, ["right", "top"]);
+    let position = AnchorPosition.getFixed(this._element, ['right', 'top']);
 
     if (!position) {
       return;
@@ -39,7 +39,7 @@ export class Emoji {
       top: position.top,
       right: position.right,
       bottom: position.bottom,
-      left: position.left
+      left: position.left,
     };
   }
 

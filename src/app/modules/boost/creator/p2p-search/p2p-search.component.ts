@@ -6,18 +6,18 @@ import {
   ViewChild,
   ElementRef,
   ChangeDetectorRef,
-  EventEmitter
-} from "@angular/core";
-import { CurrencyPipe } from "@angular/common";
+  EventEmitter,
+} from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 
-import { Client } from "../../../../services/api/client";
+import { Client } from '../../../../services/api/client';
 
-type CurrencyType = "points" | "usd" | "tokens";
+type CurrencyType = 'points' | 'usd' | 'tokens';
 
 @Component({
   providers: [CurrencyPipe],
-  selector: "m-boost--creator-p2p-search",
-  templateUrl: "p2p-search.component.html"
+  selector: 'm-boost--creator-p2p-search',
+  templateUrl: 'p2p-search.component.html',
 })
 export class BoostCreatorP2PSearchComponent {
   @Input() boost;
@@ -32,15 +32,15 @@ export class BoostCreatorP2PSearchComponent {
     tokens: 1000,
     minUsd: 1,
     priority: 1,
-    maxCategories: 3
+    maxCategories: 3,
   };
 
-  query: string = "";
+  query: string = '';
   results: any[] = [];
   searching: boolean = false;
   private throttle;
 
-  @ViewChild("input", { static: true }) private input: ElementRef;
+  @ViewChild('input', { static: true }) private input: ElementRef;
 
   constructor(private client: Client, private cd: ChangeDetectorRef) {}
 
@@ -75,12 +75,12 @@ export class BoostCreatorP2PSearchComponent {
       this.throttle = void 0;
     }
 
-    if (this.query.charAt(0) !== "@") {
-      this.query = "@" + this.query;
+    if (this.query.charAt(0) !== '@') {
+      this.query = '@' + this.query;
     }
 
     let query = this.query;
-    if (query.charAt(0) === "@") {
+    if (query.charAt(0) === '@') {
       query = query.substr(1);
     }
 
@@ -94,7 +94,7 @@ export class BoostCreatorP2PSearchComponent {
         .get(`api/v2/search/suggest/user`, {
           q: query,
           limit: 8,
-          hydrate: 1
+          hydrate: 1,
         })
         .then(({ entities }) => {
           if (!entities) {
@@ -103,7 +103,7 @@ export class BoostCreatorP2PSearchComponent {
 
           this.results = entities;
         })
-        .catch(e => console.error("Cannot load results", e));
+        .catch(e => console.error('Cannot load results', e));
     });
   }
 
@@ -117,7 +117,7 @@ export class BoostCreatorP2PSearchComponent {
 
     this.boost.target = { ...target };
     this.results = [];
-    this.query = "@" + target.username;
+    this.query = '@' + target.username;
     this.boostChanged.emit(this.boost);
   }
 

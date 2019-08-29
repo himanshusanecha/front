@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Client } from "../../common/api/client.service";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Client } from '../../common/api/client.service';
 
-import { FaqService } from "./faq.service";
-import { MindsTitle } from "../../services/ux/title";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FaqComponent } from "./faq.component";
+import { FaqService } from './faq.service';
+import { MindsTitle } from '../../services/ux/title';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FaqComponent } from './faq.component';
 
 @Component({
-  selector: "m-faq--page",
-  templateUrl: "faq.page.html"
+  selector: 'm-faq--page',
+  templateUrl: 'faq.page.html',
 })
 export class FaqPage implements OnInit {
   @ViewChild(FaqComponent, { static: true }) faq: FaqComponent;
-  category: string = "all";
+  category: string = 'all';
   inProgress: boolean = false;
 
   constructor(
@@ -22,7 +22,7 @@ export class FaqPage implements OnInit {
     public route: ActivatedRoute,
     public router: Router
   ) {
-    this.title.setTitle("FAQ");
+    this.title.setTitle('FAQ');
   }
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class FaqPage implements OnInit {
       this.inProgress = true;
       this.service.get(categoryParam).then(faq => {
         if (faq.length === 0) {
-          this.router.navigate(["/faq"]);
+          this.router.navigate(['/faq']);
         } else {
           this.category = categoryParam;
 

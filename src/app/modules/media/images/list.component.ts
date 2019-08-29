@@ -1,33 +1,33 @@
-import { Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { MindsTitle } from "../../../services/ux/title";
-import { Client } from "../../../services/api";
-import { Session } from "../../../services/session";
-import { ContextService } from "../../../services/context.service";
-import { OverlayModalService } from "../../../services/ux/overlay-modal";
-import { ModalPosterComponent } from "../../newsfeed/poster/poster-modal.component";
-import { HashtagsSelectorModalComponent } from "../../hashtags/hashtag-selector-modal/hashtags-selector.component";
-import { FeaturesService } from "../../../services/features.service";
+import { MindsTitle } from '../../../services/ux/title';
+import { Client } from '../../../services/api';
+import { Session } from '../../../services/session';
+import { ContextService } from '../../../services/context.service';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { ModalPosterComponent } from '../../newsfeed/poster/poster-modal.component';
+import { HashtagsSelectorModalComponent } from '../../hashtags/hashtag-selector-modal/hashtags-selector.component';
+import { FeaturesService } from '../../../services/features.service';
 
 @Component({
   moduleId: module.id,
-  selector: "m-media--images-list",
-  templateUrl: "list.component.html"
+  selector: 'm-media--images-list',
+  templateUrl: 'list.component.html',
 })
 export class MediaImagesListComponent {
-  filter: string = "featured";
-  owner: string = "";
+  filter: string = 'featured';
+  owner: string = '';
   entities: Array<Object> = [];
   moreData: boolean = true;
-  offset: string | number = "";
+  offset: string | number = '';
   inProgress: boolean = false;
   rating: number = 1; //safe by default
   all: boolean = false;
 
-  city: string = "";
+  city: string = '';
   cities: Array<any> = [];
   nearby: boolean = false;
   hasNearby: boolean = false;
@@ -47,51 +47,51 @@ export class MediaImagesListComponent {
   ) {}
 
   ngOnInit() {
-    this.title.setTitle("Images");
+    this.title.setTitle('Images');
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (params["filter"]) {
-        this.filter = params["filter"];
-        this.owner = "";
+      if (params['filter']) {
+        this.filter = params['filter'];
+        this.owner = '';
 
         switch (this.filter) {
-          case "all":
+          case 'all':
             break;
-          case "network":
-            this.filter = "network";
+          case 'network':
+            this.filter = 'network';
             break;
-          case "top":
-            this.router.navigate(["/newsfeed/global/top", { type: "images" }]);
+          case 'top':
+            this.router.navigate(['/newsfeed/global/top', { type: 'images' }]);
 
             // if (!this.session.isLoggedIn()) {
             //   this.router.navigate(['/login']);
             // }
             // this.filter = 'trending';
             break;
-          case "suggested":
+          case 'suggested':
             if (!this.session.isLoggedIn()) {
-              this.router.navigate(["/login"]);
+              this.router.navigate(['/login']);
             }
-            this.filter = "trending";
+            this.filter = 'trending';
             break;
-          case "my":
-            this.filter = "owner";
+          case 'my':
+            this.filter = 'owner';
             this.owner = this.session.getLoggedInUser().username;
             break;
           // case 'owner': // This case never worked
           default:
             this.owner = this.filter;
-            this.filter = "owner";
+            this.filter = 'owner';
         }
 
-        if (this.featuresService.has("es-feeds") && this.filter === "owner") {
-          this.router.navigate(["/", this.owner, "images"], {
-            replaceUrl: true
+        if (this.featuresService.has('es-feeds') && this.filter === 'owner') {
+          this.router.navigate(['/', this.owner, 'images'], {
+            replaceUrl: true,
           });
         }
       }
 
-      this.context.set("object:image");
+      this.context.set('object:image');
 
       this.inProgress = false;
       this.moreData = true;
@@ -114,7 +114,7 @@ export class MediaImagesListComponent {
       {},
       {
         class:
-          "m-overlay-modal--no-padding m-overlay-modal--top m-overlay-modal--medium m-overlay-modal--overflow"
+          'm-overlay-modal--no-padding m-overlay-modal--top m-overlay-modal--medium m-overlay-modal--overflow',
       }
     );
     creator.present();
@@ -129,32 +129,32 @@ export class MediaImagesListComponent {
     if (this.inProgress) return false;
 
     if (refresh) {
-      this.offset = "";
+      this.offset = '';
       this.entities = [];
     }
 
     this.inProgress = true;
 
     let endpoint;
-    if (this.filter === "trending") {
-      endpoint = "api/v2/entities/suggested/images";
-      if (this.all) endpoint += "/all";
+    if (this.filter === 'trending') {
+      endpoint = 'api/v2/entities/suggested/images';
+      if (this.all) endpoint += '/all';
     } else {
-      endpoint = "api/v1/entities/" + this.filter + "/images/" + this.owner;
+      endpoint = 'api/v1/entities/' + this.filter + '/images/' + this.owner;
     }
 
     this.client
       .get(endpoint, {
         limit: 12,
         offset: this.offset,
-        rating: this.rating
+        rating: this.rating,
       })
       .then((data: any) => {
         if (!data.entities || !data.entities.length) {
           this.moreData = false;
           this.inProgress = false;
 
-          if (this.filter === "trending") {
+          if (this.filter === 'trending') {
             this.openHashtagsSelector();
           }
           return false;
@@ -169,7 +169,7 @@ export class MediaImagesListComponent {
 
         console.log(this.entities);
 
-        this.offset = data["load-next"];
+        this.offset = data['load-next'];
         if (!this.offset) this.moreData = false;
         this.inProgress = false;
       })
@@ -200,10 +200,10 @@ export class MediaImagesListComponent {
         {},
         {
           class:
-            "m-overlay-modal--hashtag-selector m-overlay-modal--medium-large",
+            'm-overlay-modal--hashtag-selector m-overlay-modal--medium-large',
           onSelected: () => {
             this.load(true); //refresh list
-          }
+          },
         }
       )
       .present();

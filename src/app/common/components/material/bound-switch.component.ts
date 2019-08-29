@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { UniqueId } from "../../../helpers/unique-id.helper";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UniqueId } from '../../../helpers/unique-id.helper';
 
 @Component({
   moduleId: module.id,
-  selector: "m-material--bound-switch",
+  selector: 'm-material--bound-switch',
   template: `
     <label
       class="mdl-switch mdl-js-switch mdl-js-ripple-effect"
@@ -37,7 +37,7 @@ import { UniqueId } from "../../../helpers/unique-id.helper";
         [disabled]="disabled"
       />
     </label>
-  `
+  `,
 })
 export class MaterialBoundSwitchComponent {
   id: string;
@@ -45,7 +45,7 @@ export class MaterialBoundSwitchComponent {
   @Input() toggled: boolean = false;
   @Input() disabled: boolean = false;
 
-  @Output("change") changeEmitter: EventEmitter<any> = new EventEmitter<any>();
+  @Output('change') changeEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnInit() {
     this.id = UniqueId.generate();

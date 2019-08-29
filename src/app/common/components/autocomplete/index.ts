@@ -1,4 +1,4 @@
-export * from "./text-input-autocomplete.module";
+export * from './text-input-autocomplete.module';
 export {
-  TextInputAutocompleteMenuComponent
-} from "./text-input-autocomplete-menu.component";
+  TextInputAutocompleteMenuComponent,
+} from './text-input-autocomplete-menu.component';

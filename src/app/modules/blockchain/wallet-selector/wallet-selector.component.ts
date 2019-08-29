@@ -4,28 +4,28 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
-import { Web3WalletService } from "../web3-wallet.service";
+  Output,
+} from '@angular/core';
+import { Web3WalletService } from '../web3-wallet.service';
 
 type Wallet = { address: string; label: string };
 
 @Component({
   moduleId: module.id,
-  selector: "m-blockchain--wallet-selector",
-  templateUrl: "wallet-selector.component.html",
-  exportAs: "BlockchainWalletSelector",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'm-blockchain--wallet-selector',
+  templateUrl: 'wallet-selector.component.html',
+  exportAs: 'BlockchainWalletSelector',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockchainWalletSelector {
   @Input() current: string;
   @Input() autoselect: boolean;
   @Input() allowOffchain: boolean = false;
 
-  @Output("select") selectEventEmitter: EventEmitter<string> = new EventEmitter<
+  @Output('select') selectEventEmitter: EventEmitter<string> = new EventEmitter<
     string
   >();
-  @Output("autoselectChange") autoselectChangeEmitter: EventEmitter<
+  @Output('autoselectChange') autoselectChangeEmitter: EventEmitter<
     boolean
   > = new EventEmitter<boolean>();
 
@@ -54,8 +54,8 @@ export class BlockchainWalletSelector {
   setWeb3Wallets(wallets: Wallet[] = []) {
     if (this.allowOffchain) {
       wallets.push({
-        address: "offchain",
-        label: "Offchain Wallet"
+        address: 'offchain',
+        label: 'Offchain Wallet',
       });
     }
 
@@ -74,7 +74,7 @@ export class BlockchainWalletSelector {
 
     let wallets = (await this.web3Wallet.getWallets()).map(address => ({
       address,
-      label: address
+      label: address,
     }));
 
     this.web3Unavailable = false;
