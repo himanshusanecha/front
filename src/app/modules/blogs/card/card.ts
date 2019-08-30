@@ -8,16 +8,13 @@ import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { FeaturesService } from '../../../services/features.service';
 import isMobile from '../../../helpers/is-mobile';
 
-
 @Component({
   moduleId: module.id,
   selector: 'minds-card-blog',
   inputs: ['_blog : object'],
-  templateUrl: 'card.html'
+  templateUrl: 'card.html',
 })
-
 export class BlogCard {
-
   minds;
   blog;
   access = ACCESS;
