@@ -32,6 +32,7 @@ import {
 import { Scheduler } from './components/scheduler/scheduler';
 import { Modal } from './components/modal/modal.component';
 import { MindsRichEmbed } from './components/rich-embed/rich-embed';
+import { QRCodeComponent } from './components/qr-code/qr-code.component';
 
 import { MDL_DIRECTIVES } from './directives/material';
 import { AutoGrow } from './directives/autogrow';
@@ -137,6 +138,7 @@ import { ShareModalComponent } from '../modules/modals/share/share';
     MindsRichEmbed,
     TagcloudComponent,
     DropdownComponent,
+    QRCodeComponent,
 
     AutoGrow,
     InlineAutoGrow,
@@ -222,6 +224,7 @@ import { ShareModalComponent } from '../modules/modals/share/share';
     MindsRichEmbed,
     TagcloudComponent,
     DropdownComponent,
+    QRCodeComponent,
 
     AutoGrow,
     InlineAutoGrow,
