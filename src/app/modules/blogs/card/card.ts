@@ -21,11 +21,11 @@ export class BlogCard {
 
   constructor(
     public session: Session,
-    public attachment: AttachmentService,
-    // private router: Router,
-    // protected featuresService: FeaturesService,
-    // private overlayModal: OverlayModalService
-  ) {
+    public attachment: AttachmentService
+  ) // private router: Router,
+  // protected featuresService: FeaturesService,
+  // private overlayModal: OverlayModalService
+  {
     this.minds = window.Minds;
   }
 
