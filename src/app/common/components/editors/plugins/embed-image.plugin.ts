@@ -309,6 +309,9 @@ export class EmbedImage {
     this.$currentImage = null;
   }
 
+  /**
+   * Move caret at the beginning of the empty paragraph
+   */
   private moveCaret($el, position = 0) {
     let range, sel, el, textEl;
 
