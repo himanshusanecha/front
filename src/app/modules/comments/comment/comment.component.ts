@@ -98,7 +98,7 @@ export class CommentComponentV2 implements OnChanges {
     private timeDiffService: TimeDiffService,
     private el: ElementRef,
     private router: Router,
-    protected featuresService: FeaturesService,
+    protected featuresService: FeaturesService
   ) {}
 
   ngOnInit() {
@@ -350,7 +350,10 @@ export class CommentComponentV2 implements OnChanges {
       this.router.navigate([pageUrl]);
       return;
     } else {
-      if (this.comment.custom_data[0].width === '0' || this.comment.custom_data[0].height === '0') {
+      if (
+        this.comment.custom_data[0].width === '0' ||
+        this.comment.custom_data[0].height === '0'
+      ) {
         this.setImageDimensions();
       }
       this.openModal();
@@ -360,9 +363,10 @@ export class CommentComponentV2 implements OnChanges {
   openModal() {
     this.comment.modal_source_url = this.router.url;
 
-    this.overlayModal.create(MediaModalComponent, this.comment, {
-      class: 'm-overlayModal--media'
-    }).present();
+    this.overlayModal
+      .create(MediaModalComponent, this.comment, {
+        class: 'm-overlayModal--media',
+      })
+      .present();
   }
-
 }

@@ -24,7 +24,7 @@ export class BlogCard {
     public attachment: AttachmentService,
     private router: Router,
     protected featuresService: FeaturesService,
-    private overlayModal: OverlayModalService,
+    private overlayModal: OverlayModalService
   ) {
     this.minds = window.Minds;
   }
@@ -36,7 +36,9 @@ export class BlogCard {
   }
 
   showMediaModal() {
-    const route = this.blog.route ? `/${this.blog.route}` : `/blog/view${this.blog.guid}`;
+    const route = this.blog.route
+      ? `/${this.blog.route}`
+      : `/blog/view${this.blog.guid}`;
     const isNotTablet = Math.min(screen.width, screen.height) < 768;
 
     if (isMobile() && isNotTablet) {
@@ -50,10 +52,11 @@ export class BlogCard {
     } else {
       this.blog.modal_source_url = this.router.url;
 
-      this.overlayModal.create(MediaModalComponent, this.blog, {
-        class: 'm-overlayModal--media'
-      }).present();
+      this.overlayModal
+        .create(MediaModalComponent, this.blog, {
+          class: 'm-overlayModal--media',
+        })
+        .present();
     }
   }
-
 }

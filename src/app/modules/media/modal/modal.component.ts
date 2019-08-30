@@ -117,7 +117,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     switch (this.entity.type) {
       case 'activity':
-        this.title = this.entity.message || this.entity.title || `${this.entity.ownerObj.name}'s post`;
+        this.title =
+          this.entity.message ||
+          this.entity.title ||
+          `${this.entity.ownerObj.name}'s post`;
         this.entity.guid = this.entity.entity_guid || this.entity.guid;
         this.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.entity_guid}/xlarge`;
         switch (this.entity.custom_type) {
@@ -146,8 +149,13 @@ export class MediaModalComponent implements OnInit, OnDestroy {
         }
         break;
       case 'comment':
-        this.contentType = this.entity.custom_type === 'video' ? 'video' : 'image';
-        this.title = this.entity.message || this.entity.title || this.entity.description || `${this.entity.ownerObj.name}'s post`;
+        this.contentType =
+          this.entity.custom_type === 'video' ? 'video' : 'image';
+        this.title =
+          this.entity.message ||
+          this.entity.title ||
+          this.entity.description ||
+          `${this.entity.ownerObj.name}'s post`;
         this.entity.guid = this.entity.attachment_guid;
         this.entity.entity_guid = this.entity.attachment_guid;
         this.thumbnail = `${this.minds.cdn_url}fs/v1/thumbnail/${this.entity.attachment_guid}/xlarge`;
@@ -157,7 +165,9 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     if (this.contentType !== 'blog') {
       this.pageUrl = `/media/${this.entity.entity_guid}`;
     } else {
-      this.pageUrl = this.entity.route ? `/${this.entity.route}` : `/blog/view${this.entity.guid}`;
+      this.pageUrl = this.entity.route
+        ? `/${this.entity.route}`
+        : `/blog/view${this.entity.guid}`;
     }
 
     this.boosted = this.entity.boosted || this.entity.p2p_boosted || false;
@@ -169,9 +179,12 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.ownerIconTime = this.entity.ownerObj.icontime;
     }
 
-    this.isTablet = isMobileOrTablet() && Math.min(screen.width, screen.height) >= 768;
+    this.isTablet =
+      isMobileOrTablet() && Math.min(screen.width, screen.height) >= 768;
 
-    this.analyticsService.send('pageview', {url: `${this.pageUrl}?ismodal=true`});
+    this.analyticsService.send('pageview', {
+      url: `${this.pageUrl}?ismodal=true`,
+    });
 
     // * LOCATION & ROUTING * -----------------------------------------------------------------------------------
     // Change the url to point to media page so user can easily share link
@@ -197,7 +210,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     // * DIMENSION CALCULATIONS * ---------------------------------------------------------------------
 
-    switch (this.contentType){
+    switch (this.contentType) {
       case 'video':
         this.entityWidth = this.entity.custom_data.dimensions.width;
         this.entityHeight = this.entity.custom_data.dimensions.height;
@@ -223,15 +236,22 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   calculateDimensions() {
     if (!this.isFullscreen) {
-
       if (this.contentType === 'blog') {
-        this.mediaHeight = Math.max(this.minStageHeight, window.innerHeight - this.padding * 2);
-        this.mediaWidth = Math.max(this.minStageWidth, window.innerWidth - this.contentWidth - this.padding * 2);
+        this.mediaHeight = Math.max(
+          this.minStageHeight,
+          window.innerHeight - this.padding * 2
+        );
+        this.mediaWidth = Math.max(
+          this.minStageWidth,
+          window.innerWidth - this.contentWidth - this.padding * 2
+        );
         this.stageHeight = this.mediaHeight;
         this.stageWidth = this.mediaWidth;
         this.modalWidth = this.stageWidth + this.contentWidth;
 
-        if (this.isLoading) { this.isLoaded(); }
+        if (this.isLoading) {
+          this.isLoaded();
+        }
 
         return;
       }
@@ -239,7 +259,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.setHeightsAsTallAsPossible();
 
       // After heights are set, check that scaled width isn't too wide or narrow
-      this.maxStageWidth = Math.max(window.innerWidth - this.contentWidth + (this.padding * 2), this.minStageWidth);
+      this.maxStageWidth = Math.max(
+        window.innerWidth - this.contentWidth + this.padding * 2,
+        this.minStageWidth
+      );
 
       if (this.mediaWidth >= this.maxStageWidth) {
         // Too wide :(
@@ -275,14 +298,16 @@ export class MediaModalComponent implements OnInit, OnDestroy {
           return;
         case 'image':
           // For images, set mediaHeight as tall as possible but not taller than instrinsic height
-          this.mediaHeight = this.entityHeight < windowHeight ? this.entityHeight : windowHeight;
+          this.mediaHeight =
+            this.entityHeight < windowHeight ? this.entityHeight : windowHeight;
           break;
         case 'video':
           // It's ok if videos are taller than intrinsic height
           this.mediaHeight = windowHeight;
       }
 
-      this.mediaWidth = this.contentType === 'blog' ? windowWidth : this.scaleWidth();
+      this.mediaWidth =
+        this.contentType === 'blog' ? windowWidth : this.scaleWidth();
 
       if (this.mediaWidth > windowWidth) {
         // Width was too wide, need to rescale heights so width fits

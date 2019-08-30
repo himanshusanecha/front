@@ -9,9 +9,8 @@ import {
   OnChanges,
   Input,
   ViewChild,
-  ElementRef
+  ElementRef,
 } from '@angular/core';
-
 
 import { Session } from '../../../services/session';
 import { Upload } from '../../../services/api/upload';
@@ -99,7 +98,7 @@ export class CommentComponent implements OnChanges {
     private cd: ChangeDetectorRef,
     private router: Router,
     private timeDiffService: TimeDiffService,
-    protected featuresService: FeaturesService,
+    protected featuresService: FeaturesService
   ) {}
 
   ngOnInit() {
@@ -342,7 +341,10 @@ export class CommentComponent implements OnChanges {
       this.router.navigate([pageUrl]);
       return;
     } else {
-      if (this.comment.custom_data[0].width === '0' || this.comment.custom_data[0].height === '0') {
+      if (
+        this.comment.custom_data[0].width === '0' ||
+        this.comment.custom_data[0].height === '0'
+      ) {
         this.setImageDimensions();
       }
       this.openModal();
@@ -352,9 +354,10 @@ export class CommentComponent implements OnChanges {
   openModal() {
     this.comment.modal_source_url = this.router.url;
 
-    this.overlayModal.create(MediaModalComponent, this.comment, {
-      class: 'm-overlayModal--media'
-    }).present();
+    this.overlayModal
+      .create(MediaModalComponent, this.comment, {
+        class: 'm-overlayModal--media',
+      })
+      .present();
   }
-
 }

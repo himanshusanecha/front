@@ -64,7 +64,6 @@ m-overlay-modal {
         display: inline-block;
         text-align: left;
 
-
         .m-mediaModal__theater {
           position: relative;
           z-index: 9999996;
@@ -164,13 +163,12 @@ m-overlay-modal {
       max-width: 100%;
     }
 
-    .m-actions-block, m-comments__tree {
+    .m-actions-block,
+    m-comments__tree {
       display: none;
     }
-
   }
 }
-
 
 .m-mediaModal__overlayContainer {
   left: 0;
