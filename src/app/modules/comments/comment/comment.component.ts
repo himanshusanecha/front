@@ -318,6 +318,7 @@ export class CommentComponentV2 implements OnChanges {
 
   setVideoDimensions($event) {
     this.videoDimensions = $event.dimensions;
+    this.comment.custom_data.dimensions = this.videoDimensions;
   }
 
   setImageDimensions() {
@@ -327,30 +328,23 @@ export class CommentComponentV2 implements OnChanges {
   }
 
   clickedImage() {
-    // Check if is mobile (not tablet)
-    if (isMobile() && Math.min(screen.width, screen.height) < 768) {
-      this.goToMediaPage();
+    const isNotTablet = Math.min(screen.width, screen.height) < 768;
+    const pageUrl = `/media/${this.comment.entity_guid}`;
+
+    if (isMobile() && isNotTablet) {
+      this.router.navigate([pageUrl]);
       return;
     }
 
     if (!this.featuresService.has('media-modal')) {
-      // Non-canary
-      this.goToMediaPage();
+      this.router.navigate([pageUrl]);
       return;
     } else {
-      // Canary
       if (this.comment.custom_data[0].width === '0' || this.comment.custom_data[0].height === '0') {
         this.setImageDimensions();
       }
       this.openModal();
     }
-  }
-
-  clickedVideo() {
-    // Already filtered out mobile users/non-canary in video.component.ts
-    // So this is just applicable to desktop/tablet in canary and should always show modal
-    this.comment.custom_data.dimensions = this.videoDimensions;
-    this.openModal();
   }
 
   openModal() {
@@ -360,10 +354,5 @@ export class CommentComponentV2 implements OnChanges {
       class: 'm-overlayModal--media'
     }).present();
   }
-
-  goToMediaPage() {
-    this.router.navigate([`/media/${this.comment.entity_guid}`]);
-  }
-
 
 }

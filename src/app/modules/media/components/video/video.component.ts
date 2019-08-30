@@ -402,13 +402,15 @@ export class MindsVideoComponent implements OnDestroy {
       return;
     }
 
-    if (isMobile() && Math.min(screen.width, screen.height) < 768) {
+    const isNotTablet = Math.min(screen.width, screen.height) < 768;
+
+    if (isMobile() && isNotTablet) {
       this.isMobile = true;
       this.toggle();
       return;
     }
 
-    if (this.shouldPlayInModal && this.featuresService.has('media-modal')){
+    if (this.shouldPlayInModal && this.featuresService.has('media-modal')) {
       this.mediaModalRequested.emit();
       return;
     }
