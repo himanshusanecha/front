@@ -14,7 +14,7 @@
   bottom: 8px;
 }
 
-.m-channel--name > div > textarea {
+.m-channel--name > div > input {
   margin: 0;
   font-size: 28px;
   font-weight: 800;
@@ -22,6 +22,10 @@
   line-height: 32px;
   text-rendering: optimizeLegibilty;
   -webkit-font-smoothing: antialiased;
+  text-align: center;
+  @include m-theme() {
+    border: 1px solid themed($m-grey-100);
+  }
 }
 
 .m-channel-bio-field {

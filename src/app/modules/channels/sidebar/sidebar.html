@@ -10,13 +10,13 @@
       class="minds-editable-container mdl-card__supporting-text m-channel--name--editor"
       *ngIf="editing && isOwner()"
     >
-      <textarea
+      <input
         [autoGrow]
         class="mdl-textfield__input"
         type="text"
         name="briefdescription"
         [(ngModel)]="user.name"
-      ></textarea>
+      />
     </div>
     <span
       class="minds-button-edit"
