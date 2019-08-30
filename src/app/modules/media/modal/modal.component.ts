@@ -260,7 +260,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
       // After heights are set, check that scaled width isn't too wide or narrow
       this.maxStageWidth = Math.max(
-        window.innerWidth - this.contentWidth + this.padding * 2,
+        window.innerWidth - this.contentWidth - this.padding * 2,
         this.minStageWidth
       );
 
