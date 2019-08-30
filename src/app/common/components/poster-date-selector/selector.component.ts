@@ -35,7 +35,7 @@ export class PosterDateSelectorComponent {
 
   validate(newDate) {
     const date = new Date(newDate);
-    
+
     const threeMonths = new Date();
     threeMonths.setMonth(threeMonths.getMonth() + 3);
     if (date >= threeMonths) {
