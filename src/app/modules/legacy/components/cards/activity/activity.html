@@ -183,6 +183,7 @@
     <m-poster-date-selector
       [date]="activity.time_created"
       (dateChange)="onTimeCreatedChange($event)"
+      (onError)="posterDateSelectorError($event)"
     ></m-poster-date-selector>
     <button
       class="mdl-button mdl-button--raised mdl-color--blue-grey-100"

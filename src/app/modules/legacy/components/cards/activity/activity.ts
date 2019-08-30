@@ -569,4 +569,8 @@ export class Activity implements OnInit {
   onTimeCreatedChange(newDate) {
     this.activity.time_created = newDate;
   }
+
+  posterDateSelectorError(msg) {
+    throw new Error(msg);
+  }
 }

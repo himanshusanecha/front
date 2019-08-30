@@ -74,7 +74,7 @@ export class ChannelSortedComponent implements OnInit {
     protected clientMetaService: ClientMetaService,
     @SkipSelf() injector: Injector,
     protected cd: ChangeDetectorRef,
-    public client: Client
+    public client: Client,
   ) {
     this.clientMetaService
       .inherit(injector)

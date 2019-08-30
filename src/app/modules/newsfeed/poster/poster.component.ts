@@ -296,4 +296,8 @@ export class PosterComponent {
   onTimeCreatedChange(newDate) {
     this.meta.time_created = newDate;
   }
+
+  posterDateSelectorError(msg) {
+    this.errorMessage = msg;
+  }
 }

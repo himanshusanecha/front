@@ -99,6 +99,7 @@
         <m-poster-date-selector
           [date]="meta.time_created"
           (dateChange)="onTimeCreatedChange($event)"
+          (onError)="posterDateSelectorError($event)"
         ></m-poster-date-selector>
 
         <button

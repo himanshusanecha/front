@@ -239,6 +239,10 @@ export class BlogEdit {
     return true;
   }
 
+  posterDateSelectorError(msg) {
+    this.error = msg;
+  }
+
   save() {
     if (!this.canSave) return;
 

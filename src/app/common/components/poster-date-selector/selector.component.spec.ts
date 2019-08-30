@@ -5,7 +5,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { PosterDateSelectorComponent } from './poster-date-selector.component';
+import { PosterDateSelectorComponent } from './selector.component';
 import { MaterialDateTimePickerDirective } from '../../directives/material/datetimepicker.directive';
 import { FormsModule } from '@angular/forms';
 import { MockComponent } from '../../../utils/mock';
