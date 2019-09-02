@@ -53,9 +53,34 @@ describe('PosterDateSelectorComponent', () => {
 
   it('should emit when onDateChange is called', fakeAsync(() => {
     spyOn(comp.dateChange, 'emit');
-    comp.onDateChange('8/1/19, 11:00 AM');
-    let newDate = new Date('8/1/19, 11:00 AM').getTime();
-    newDate = Math.floor(+newDate / 1000);
-    expect(comp.dateChange.emit).toHaveBeenCalledWith(newDate);
+    const testDate = new Date();
+    testDate.setMonth(testDate.getMonth() + 1);
+    comp.onDateChange(testDate.toString());
+    let timeDate = testDate.getTime();
+    timeDate = Math.floor(timeDate / 1000);
+    expect(comp.dateChange.emit).toHaveBeenCalledWith(timeDate);
+  }));
+
+  it('should emit onError when date more than 3 months', fakeAsync(() => {
+    spyOn(comp.onError, 'emit');
+    const testDate = new Date();
+    testDate.setMonth(testDate.getMonth() + 4);
+    comp.onDateChange(testDate.toString());
+    let timeDate = testDate.getTime();
+    timeDate = Math.floor(timeDate / 1000);
+    expect(comp.onError.emit).toHaveBeenCalledWith(
+      "Scheduled date can't be 3 months or more"
+    );
+  }));
+
+  it('should emit onError when date less than 5 minutes', fakeAsync(() => {
+    spyOn(comp.onError, 'emit');
+    const testDate = new Date();
+    comp.onDateChange(testDate.toString());
+    let timeDate = testDate.getTime();
+    timeDate = Math.floor(timeDate / 1000);
+    expect(comp.onError.emit).toHaveBeenCalledWith(
+      "Scheduled date can't be less than 5 minutes"
+    );
   }));
 });
