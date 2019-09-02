@@ -78,7 +78,7 @@ export class BoostConsoleBooster {
     this.feedsService
       .setEndpoint(
         this.type === 'content'
-          ? `api/v2/feeds/container/${this.minds.user.guid}/channels`
+          ? `api/v2/feeds/container/${this.minds.user.guid}/all`
           : `api/v2/feeds/container/${this.minds.user.guid}/activities`
       )
       .setParams({ sync: true })
