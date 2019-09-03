@@ -1,7 +1,8 @@
 context('Registration', () => {
 
+  const username = Math.random().toString(36).replace('0.', '');
   const email = 'test@minds.com';
-  const password = 'Passw0rd!';
+  const password = `${Math.random().toString(36).replace('0.', '')}0oA!`;
   const noSymbolPass = 'Passw0rd';
 
   const welcomeText = "Welcome to Minds!";
@@ -16,25 +17,30 @@ context('Registration', () => {
   const submitButton = 'minds-form-register .mdl-card__actions button';
   const errorContainer = 'div:nth-child(2) > minds-form-register > div > div';
 
+  before(() => {
+    cy.server();
+    cy.route("POST", "**/api/v1/register").as("register");
+  });
+
   beforeEach(() => {
     cy.visit('/login');
     cy.location('pathname').should('eq', '/login');
-    cy.wait(1000)
   });
 
   it('should allow a user to register', () => {
     //type values
-    cy.get(usernameField).focus().type(Math.random().toString(36).replace('0.', ''));
+    cy.get(usernameField).focus().type(username);
     cy.get(emailField).focus().type(email);
     cy.get(passwordField).focus().type(password);
-    cy.wait(500);
 
     cy.get(password2Field).focus().type(password);
     cy.get(checkbox).click();
-    
+
     //submit
-    cy.get(submitButton).click();
-    cy.wait(5000);
+    cy.get(submitButton).click()
+      .wait('@register').then((xhr) => {
+        expect(xhr.status).to.equal(200);
+      });
   
     //onboarding modal shown
     cy.get('m-onboarding--topics > div > h2:nth-child(1)')
@@ -51,8 +57,10 @@ context('Registration', () => {
     cy.get(checkbox).click();
 
     //submit
-    cy.get(submitButton).click();
-    cy.wait(1000);
+    cy.get(submitButton).click()
+      .wait('@register').then((xhr) => {
+        expect(xhr.status).to.equal(200);
+      });
 
     cy.scrollTo('top');
     cy.get(errorContainer)
@@ -70,7 +78,10 @@ context('Registration', () => {
     
     //submit
     cy.get(submitButton).click();
-    cy.wait(1000);
+    cy.get(submitButton).click()
+    .wait('@register').then((xhr) => {
+      expect(xhr.status).to.equal(200);
+    });
 
     cy.scrollTo('top');
     cy.get(errorContainer)
