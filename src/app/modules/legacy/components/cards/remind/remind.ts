@@ -138,6 +138,10 @@ export class Remind {
     return activity && activity.pending && activity.pending !== '0';
   }
 
+  isScheduled(time_created) {
+    return false;
+  }
+
   openComments() {
     /* NOOP */
   }

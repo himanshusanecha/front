@@ -516,3 +516,11 @@
 >
   This post is awaiting moderation.
 </div>
+
+<!-- Pending block -->
+<div
+  class="mdl-card__supporting-text m-activity--pending"
+  *ngIf="isScheduled(activity.time_created)"
+>
+  This is a scheduled post.
+</div>

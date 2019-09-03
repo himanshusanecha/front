@@ -485,6 +485,10 @@ export class Activity implements OnInit {
     return activity && activity.pending && activity.pending !== '0';
   }
 
+  isScheduled(time_created) {
+    return time_created && time_created * 1000 > Date.now();
+  }
+
   toggleMatureVisibility() {
     this.activity.mature_visibility = !this.activity.mature_visibility;
 
