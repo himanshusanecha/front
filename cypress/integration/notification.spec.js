@@ -31,13 +31,14 @@ context('Notification', () => {
   
     cy.login();
     cy.post(postText);
-    cy.logout();
+    cy.clearCookies();
   });
 
   /**
    * After all log into new user and delete user.
    */
   after(() => {
+    cy.clearCookies();
     cy.login(true, username, password);
     cy.deleteUser(username, password);
   });
@@ -48,6 +49,7 @@ context('Notification', () => {
    * then switch users and check for the notification.
    */
   beforeEach(() => {
+    cy.clearCookies();
     cy.login(false, username, password);
     
     cy.location('pathname')
@@ -55,13 +57,6 @@ context('Notification', () => {
     
     cy.visit(`/${Cypress.env().username}`);
   });
-
-  /**
-   * After each logout to refresh state.
-   */
-  afterEach(() => {
-    cy.logout(); //force to get out of notif modal  
-  })
 
   it('should alert the user that a post has been commented on', () => {
     // Comment on generated 2nd users post.

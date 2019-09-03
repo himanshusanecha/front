@@ -23,7 +23,8 @@ context('Wire', () => {
     cy.preserveCookies();
   });
 
-  it('should allow a user to send a wire to another user', () => {
+  //TODO: Remove me when we get user to user wires working on the review environment 
+  it.skip('should allow a user to send a wire to another user', () => {
     // Visit users page.
     cy.visit('/minds');
 

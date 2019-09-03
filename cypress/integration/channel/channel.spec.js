@@ -13,6 +13,14 @@ context('Channel', () => {
     cy.preserveCookies();
   });
 
+  after(()=> {
+    cy.get('.m-channel-mode-selector--dropdown')
+    .click()
+    .find(".m-dropdown--list--item:contains('Public')")
+    .should('be.visible')
+    .click();
+  });
+
   it('should change channel mode to public', () => {
     cy.get('.m-channel-mode-selector--dropdown')
       .click()
