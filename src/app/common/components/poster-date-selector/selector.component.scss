@@ -31,3 +31,9 @@ m-poster-date-selector {
     width: 125px;
   }
 }
+
+@media screen and (max-height: 570px) {
+  div.c-datepicker {
+    min-height: 560px;
+  }
+}
