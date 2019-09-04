@@ -4,20 +4,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class ActivityService {
+  public allowComment$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    true
+  );
 
-  public allowComment$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-
-  constructor(
-    private client: Client
-  ) {}
+  constructor(private client: Client) {}
 
   public async toggleAllowComments(entity: any, areAllowed: boolean) {
     const payload = {
-      allowed: areAllowed
+      allowed: areAllowed,
     };
     const oldValue = entity['allow_comments'];
     try {
-      await this.client.post(`api/v2/permissions/comments/${entity.guid}`, payload);
+      await this.client.post(
+        `api/v2/permissions/comments/${entity.guid}`,
+        payload
+      );
       this.allowComment$.next(areAllowed);
       return areAllowed;
     } catch (ex) {
@@ -25,5 +27,4 @@ export class ActivityService {
       return oldValue;
     }
   }
-
 }

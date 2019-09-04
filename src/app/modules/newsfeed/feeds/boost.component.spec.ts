@@ -26,7 +26,7 @@ import { contextServiceMock } from '../../../../tests/context-service-mock.spec'
 
 @Component({
   selector: 'm-newsfeed--boost-rotator',
-  template: ''
+  template: '',
 })
 class NewsfeedBoostRotatorComponentMock {
   @Input() interval: any;
@@ -35,7 +35,7 @@ class NewsfeedBoostRotatorComponentMock {
 
 @Component({
   selector: 'minds-activity',
-  template: ''
+  template: '',
 })
 class MindsActivityMock {
   @Input() object: any;
@@ -46,24 +46,31 @@ class MindsActivityMock {
 }
 
 describe('NewsfeedBoostComponent', () => {
-
   let comp: NewsfeedBoostComponent;
   let fixture: ComponentFixture<NewsfeedBoostComponent>;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [
         MockDirective({ selector: '[mdl]', inputs: ['mdl'] }),
-        MockComponent({ selector: 'm-newsfeed--boost-rotator', template: '', inputs: ['interval', 'channel'] }),
+        MockComponent({
+          selector: 'm-newsfeed--boost-rotator',
+          template: '',
+          inputs: ['interval', 'channel'],
+        }),
         MindsActivityMock,
         MockComponent({
           selector: 'infinite-scroll',
           inputs: ['inProgress', 'moreData', 'inProgress'],
         }),
-        NewsfeedBoostComponent
+        NewsfeedBoostComponent,
       ],
-      imports: [RouterTestingModule, ReactiveFormsModule, CommonModule, FormsModule],
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        CommonModule,
+        FormsModule,
+      ],
       providers: [
         { provide: Session, useValue: sessionMock },
         { provide: Client, useValue: clientMock },
@@ -72,12 +79,11 @@ describe('NewsfeedBoostComponent', () => {
         { provide: Upload, useValue: uploadMock },
         { provide: Storage, useValue: storageMock },
         { provide: ContextService, useValue: contextServiceMock },
-      ]
-    })
-      .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
-  beforeEach((done) => {
+  beforeEach(done => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 10;
     jasmine.clock().install();
 
@@ -90,23 +96,24 @@ describe('NewsfeedBoostComponent', () => {
       status: 'success',
       boosts: [
         {
-          'guid': '1',
-          'type': 'activity',
-          'time_created': '1525457795',
-          'time_updated': '1525457795',
-          'title': '',
-          'message': 'test',
-          'boosted': true,
-          'boosted_guid': '1'
-        }, {
-          'guid': '2',
-          'type': 'activity',
-          'message': 'test2',
-          'boosted': true,
-          'boosted_guid': 2
-        }
+          guid: '1',
+          type: 'activity',
+          time_created: '1525457795',
+          time_updated: '1525457795',
+          title: '',
+          message: 'test',
+          boosted: true,
+          boosted_guid: '1',
+        },
+        {
+          guid: '2',
+          type: 'activity',
+          message: 'test2',
+          boosted: true,
+          boosted_guid: 2,
+        },
       ],
-      'load-next': ''
+      'load-next': '',
     };
 
     fixture.detectChanges();
@@ -114,11 +121,10 @@ describe('NewsfeedBoostComponent', () => {
     if (fixture.isStable()) {
       done();
     } else {
-      fixture.whenStable()
-        .then(() => {
-          fixture.detectChanges();
-          done()
-        });
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        done();
+      });
     }
   });
 
@@ -127,7 +133,9 @@ describe('NewsfeedBoostComponent', () => {
   });
 
   it('should have a boost rotator', () => {
-    expect(fixture.debugElement.query(By.css('m-newsfeed--boost-rotator'))).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('m-newsfeed--boost-rotator'))
+    ).toBeTruthy();
   });
 
   it('should have an infinite-scroll', () => {
@@ -144,5 +152,4 @@ describe('NewsfeedBoostComponent', () => {
     const list = fixture.debugElement.query(By.css('.minds-list'));
     expect(list.nativeElement.children.length).toBe(4); // 2 activities + boost rotator + infinite-scroll
   });
-
 });

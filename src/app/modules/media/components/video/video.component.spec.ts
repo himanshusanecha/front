@@ -1,6 +1,19 @@
 ///<reference path="../../../../../../node_modules/@types/jasmine/index.d.ts"/>
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Component, DebugElement, EventEmitter, Input, Output, Directive } from '@angular/core';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
+import {
+  Component,
+  DebugElement,
+  EventEmitter,
+  Input,
+  Output,
+  Directive,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -23,7 +36,7 @@ import { MindsPlayerInterface } from './players/player.interface';
 
 @Component({
   selector: 'm-video--direct-http-player',
-  template: ''
+  template: '',
 })
 class MindsVideoDirectHttpPlayerMock implements MindsPlayerInterface {
   @Input() muted: boolean;
@@ -34,7 +47,10 @@ class MindsVideoDirectHttpPlayerMock implements MindsPlayerInterface {
   @Output() onPlay: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onPause: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onEnd: EventEmitter<HTMLVideoElement> = new EventEmitter();
-  @Output() onError: EventEmitter<{ player: HTMLVideoElement, e }> = new EventEmitter();
+  @Output() onError: EventEmitter<{
+    player: HTMLVideoElement;
+    e;
+  }> = new EventEmitter();
 
   getPlayer = (): HTMLVideoElement => {
     return null;
@@ -64,7 +80,7 @@ class HTMLVideoElementMock {
 
 @Component({
   selector: 'm-video--torrent-player',
-  template: ''
+  template: '',
 })
 class MindsVideoTorrentPlayerMock implements MindsPlayerInterface {
   @Input() muted: boolean;
@@ -75,7 +91,10 @@ class MindsVideoTorrentPlayerMock implements MindsPlayerInterface {
   @Output() onPlay: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onPause: EventEmitter<HTMLVideoElement> = new EventEmitter();
   @Output() onEnd: EventEmitter<HTMLVideoElement> = new EventEmitter();
-  @Output() onError: EventEmitter<{ player: HTMLVideoElement, e }> = new EventEmitter();
+  @Output() onError: EventEmitter<{
+    player: HTMLVideoElement;
+    e;
+  }> = new EventEmitter();
 
   getPlayer = (): HTMLVideoElement => {
     return null;
@@ -85,9 +104,7 @@ class MindsVideoTorrentPlayerMock implements MindsPlayerInterface {
   pause = () => {};
   toggle = () => {};
 
-  resumeFromTime = () => {
-
-  };
+  resumeFromTime = () => {};
 
   isLoading = (): boolean => {
     return false;
@@ -103,7 +120,7 @@ class MindsVideoTorrentPlayerMock implements MindsPlayerInterface {
 
 @Component({
   selector: 'm-video--volume-slider',
-  template: ''
+  template: '',
 })
 export class MindsVideoVolumeSliderMock {
   @Input() player;
@@ -112,7 +129,7 @@ export class MindsVideoVolumeSliderMock {
 
 @Component({
   selector: 'm-video--quality-selector',
-  template: ''
+  template: '',
 })
 export class MindsVideoQualitySelectorMock {
   @Input('qualities') qualities: Array<string>;
@@ -122,32 +139,27 @@ export class MindsVideoQualitySelectorMock {
 
 @Component({
   selector: 'm-video--progress-bar',
-  template: ''
+  template: '',
 })
 export class MindsVideoProgressBarMock {
   @Input() player;
 
-  getSeeker() {
-
-  }
+  getSeeker() {}
 
   bindToElement() {}
 }
 
 @Directive({
   selector: '[mdl]',
-  inputs: ['mdl']
+  inputs: ['mdl'],
 })
-export class MDLMock {
-}
-
+export class MDLMock {}
 
 describe('MindsVideo', () => {
   let comp: MindsVideoComponent;
   let fixture: ComponentFixture<MindsVideoComponent>;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [
         MDLMock,
@@ -160,22 +172,17 @@ describe('MindsVideo', () => {
         MindsVideoComponent,
         TooltipComponent,
       ], // declare the test component
-      imports: [
-        FormsModule,
-        RouterTestingModule,
-        NgCommonModule,
-      ],
+      imports: [FormsModule, RouterTestingModule, NgCommonModule],
       providers: [
         { provide: ScrollService, useValue: scrollServiceMock },
         { provide: Client, useValue: clientMock },
-        { provide: WebtorrentService, useValue: webtorrentServiceMock }
-      ]
-    })
-      .compileComponents();  // compile template and css
+        { provide: WebtorrentService, useValue: webtorrentServiceMock },
+      ],
+    }).compileComponents(); // compile template and css
   }));
 
   // synchronous beforeEach
-  beforeEach((done) => {
+  beforeEach(done => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 10;
     jasmine.clock().uninstall();
     jasmine.clock().install();
@@ -185,7 +192,7 @@ describe('MindsVideo', () => {
     comp.guid = '1';
     comp.current = {
       type: 'direct-http',
-      src: 'thisisavideo.mp4'
+      src: 'thisisavideo.mp4',
     };
 
     fixture.detectChanges(); // re-render
@@ -215,8 +222,12 @@ describe('MindsVideo', () => {
   });
 
   it('should have a Play icon and a Control bar', () => {
-    const playIcon = fixture.debugElement.query(By.css('.minds-video-play-icon'));
-    const videoBar = fixture.debugElement.query(By.css('.minds-video-bar-full'));
+    const playIcon = fixture.debugElement.query(
+      By.css('.minds-video-play-icon')
+    );
+    const videoBar = fixture.debugElement.query(
+      By.css('.minds-video-bar-full')
+    );
     expect(playIcon).not.toBeNull();
     expect(videoBar).not.toBeNull();
   });
@@ -241,7 +252,9 @@ describe('MindsVideo', () => {
     comp.log = '1';
     fixture.detectChanges();
     const calls = clientMock.get['calls'];
-    expect(calls.mostRecent().args[0]).toEqual('api/v1/analytics/@counter/play/1');
+    expect(calls.mostRecent().args[0]).toEqual(
+      'api/v1/analytics/@counter/play/1'
+    );
   });
 
   it('If error loading then try to confirm that is being transcoded', fakeAsync(() => {

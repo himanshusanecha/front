@@ -13,11 +13,9 @@ import { PosterComponent } from '../poster/poster.component';
 
 @Component({
   selector: 'm-newsfeed--boost',
-  templateUrl: 'boost.component.html'
+  templateUrl: 'boost.component.html',
 })
-
 export class NewsfeedBoostComponent {
-
   newsfeed: Array<Object>;
   prepended: Array<any> = [];
   offset: string = '';
@@ -43,13 +41,12 @@ export class NewsfeedBoostComponent {
     public title: MindsTitle,
     private storage: Storage,
     private context: ContextService,
-    private session: Session,
+    private session: Session
   ) {
     this.title.setTitle('Boost Newsfeed');
   }
 
   ngOnInit() {
-
     this.load();
     this.minds = window.Minds;
 
@@ -71,8 +68,7 @@ export class NewsfeedBoostComponent {
   }
 
   load(refresh: boolean = false) {
-    if (this.inProgress)
-      return false;
+    if (this.inProgress) return false;
 
     if (refresh) {
       this.offset = '';
@@ -84,7 +80,12 @@ export class NewsfeedBoostComponent {
 
     this.inProgress = true;
 
-    this.client.get('api/v1/boost/fetch/newsfeed', { limit: 12, offset: this.offset }, { cache: true })
+    this.client
+      .get(
+        'api/v1/boost/fetch/newsfeed',
+        { limit: 12, offset: this.offset },
+        { cache: true }
+      )
       .then((data: any) => {
         if (!data.boosts) {
           this.moreData = false;
@@ -100,7 +101,7 @@ export class NewsfeedBoostComponent {
         this.storage.set('boost:offset:boostfeed', this.offset);
         this.inProgress = false;
       })
-      .catch((e) => {
+      .catch(e => {
         this.inProgress = false;
       });
   }
@@ -119,8 +120,5 @@ export class NewsfeedBoostComponent {
         return;
       }
     }
-
   }
-
 }
-

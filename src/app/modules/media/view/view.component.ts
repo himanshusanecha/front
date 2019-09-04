@@ -20,14 +20,12 @@ import { ActivityService } from '../../../common/services/activity.service';
     {
       provide: RecommendedService,
       useFactory: RecommendedService._,
-      deps: [Client]
+      deps: [Client],
     },
-    ActivityService
+    ActivityService,
   ],
 })
-
 export class MediaViewComponent implements OnInit, OnDestroy {
-
   minds = window.Minds;
   guid: string;
   entity: any = {};
@@ -38,10 +36,19 @@ export class MediaViewComponent implements OnInit, OnDestroy {
   theaterMode: boolean = false;
   allowComments = true;
 
-  menuOptions: Array<string> = ['edit', 'follow', 'feature',
-    'delete', 'report', 'set-explicit',
-    'subscribe', 'remove-explicit', 'rating',
-    'allow-comments', 'disable-comments'];
+  menuOptions: Array<string> = [
+    'edit',
+    'follow',
+    'feature',
+    'delete',
+    'report',
+    'set-explicit',
+    'subscribe',
+    'remove-explicit',
+    'rating',
+    'allow-comments',
+    'disable-comments',
+  ];
 
   paramsSubscription: Subscription;
   queryParamsSubscription$: Subscription;
@@ -57,7 +64,7 @@ export class MediaViewComponent implements OnInit, OnDestroy {
     public context: ContextService,
     private cd: ChangeDetectorRef,
     protected activityService: ActivityService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.title.setTitle('');
@@ -69,12 +76,14 @@ export class MediaViewComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.queryParamsSubscription$ = this.route.queryParamMap.subscribe(params => {
-      this.focusedCommentGuid = params.get('comment_guid');
-      if (this.focusedCommentGuid) {
-        window.scrollTo(0, 500);
+    this.queryParamsSubscription$ = this.route.queryParamMap.subscribe(
+      params => {
+        this.focusedCommentGuid = params.get('comment_guid');
+        if (this.focusedCommentGuid) {
+          window.scrollTo(0, 500);
+        }
       }
-    });
+    );
   }
 
   ngOnDestroy() {
@@ -88,7 +97,8 @@ export class MediaViewComponent implements OnInit, OnDestroy {
       this.detectChanges();
     }
     this.inProgress = true;
-    this.client.get('api/v1/media/' + this.guid, { children: false })
+    this.client
+      .get('api/v1/media/' + this.guid, { children: false })
       .then((response: any) => {
         this.inProgress = false;
         if (response.entity.type !== 'object') {
@@ -117,16 +127,18 @@ export class MediaViewComponent implements OnInit, OnDestroy {
 
         this.detectChanges();
       })
-      .catch((e) => {
+      .catch(e => {
         this.inProgress = false;
         this.error = 'Sorry, there was problem.';
       });
   }
 
   delete() {
-    this.client.delete('api/v1/media/' + this.guid)
+    this.client
+      .delete('api/v1/media/' + this.guid)
       .then((response: any) => {
-        const type: string = this.entity.subtype === 'video' ? 'videos': 'images';
+        const type: string =
+          this.entity.subtype === 'video' ? 'videos' : 'images';
         this.router.navigate([`/media/${type}/my`]);
       })
       .catch(e => {
@@ -135,22 +147,21 @@ export class MediaViewComponent implements OnInit, OnDestroy {
   }
 
   getNext() {
-    if (this.entity.container_guid === this.entity.owner_guid
-      || !this.entity.album_children_guids
-      || this.entity.album_children_guids.length <= 1) {
+    if (
+      this.entity.container_guid === this.entity.owner_guid ||
+      !this.entity.album_children_guids ||
+      this.entity.album_children_guids.length <= 1
+    ) {
       return;
     }
 
     let pos = this.entity['album_children_guids'].indexOf(this.entity.guid);
     //bump up if less than 0
-    if (pos <= 0)
-      pos = 1;
+    if (pos <= 0) pos = 1;
     //bump one up if we are in the same position as ourself
-    if (this.entity['album_children_guids'][pos] === this.entity.guid)
-      pos++;
+    if (this.entity['album_children_guids'][pos] === this.entity.guid) pos++;
     //reset back to 0 if we are are the end
-    if (pos >= this.entity['album_children_guids'].length)
-      pos = 0;
+    if (pos >= this.entity['album_children_guids'].length) pos = 0;
 
     return this.entity['album_children_guids'][pos];
   }
@@ -181,11 +192,13 @@ export class MediaViewComponent implements OnInit, OnDestroy {
   }
 
   setExplicit(value: boolean) {
-
     this.entity.mature = value;
     this.detectChanges();
 
-    this.client.post(`api/v1/entities/explicit/${this.entity.guid}`, { value: value ? '1': '0' })
+    this.client
+      .post(`api/v1/entities/explicit/${this.entity.guid}`, {
+        value: value ? '1' : '0',
+      })
       .catch(e => {
         this.entity.mature = !!this.entity.mature;
         this.detectChanges();
@@ -200,7 +213,7 @@ export class MediaViewComponent implements OnInit, OnDestroy {
     if (this.entity.subtype === 'album') {
       return false;
     }
-    return (this.entity['comments:count'] >= 1);
+    return this.entity['comments:count'] >= 1;
   }
 
   private detectChanges() {

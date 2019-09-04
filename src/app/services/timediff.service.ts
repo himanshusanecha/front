@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class TimeDiffService {
-    public source = interval(1000);
+  public source = interval(1000);
 
-    static _() {
-        return new TimeDiffService();
-    }
+  static _() {
+    return new TimeDiffService();
+  }
 }

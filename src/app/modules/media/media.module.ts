@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule as NgCommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule as NgFormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule as NgFormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 import { CommonModule } from '../../common/common.module';
 import { LegacyModule } from '../legacy/legacy.module';
@@ -74,8 +77,6 @@ const routes: Routes = [
     MediaImagesListComponent,
     MediaEditComponent,
     MediaViewComponent,
-  ]
+  ],
 })
-
-export class MediaModule {
-}
+export class MediaModule {}

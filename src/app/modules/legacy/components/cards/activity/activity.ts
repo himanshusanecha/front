@@ -19,30 +19,39 @@ import { OverlayModalService } from '../../../../../services/ux/overlay-modal';
 import { BoostCreatorComponent } from '../../../../boost/creator/creator.component';
 import { WireCreatorComponent } from '../../../../wire/creator/creator.component';
 import { MindsVideoComponent } from '../../../../media/components/video/video.component';
-import { EntitiesService } from "../../../../../common/services/entities.service";
-import { Router } from "@angular/router";
-import { BlockListService } from "../../../../../common/services/block-list.service";
-import { ActivityAnalyticsOnViewService } from "./activity-analytics-on-view.service";
-import { NewsfeedService } from "../../../../newsfeed/services/newsfeed.service";
-import { ClientMetaService } from "../../../../../common/services/client-meta.service";
-import { AutocompleteSuggestionsService } from "../../../../suggestions/services/autocomplete-suggestions.service";
+import { EntitiesService } from '../../../../../common/services/entities.service';
+import { Router } from '@angular/router';
+import { BlockListService } from '../../../../../common/services/block-list.service';
+import { ActivityAnalyticsOnViewService } from './activity-analytics-on-view.service';
+import { NewsfeedService } from '../../../../newsfeed/services/newsfeed.service';
+import { ClientMetaService } from '../../../../../common/services/client-meta.service';
+import { AutocompleteSuggestionsService } from '../../../../suggestions/services/autocomplete-suggestions.service';
 import { ActivityService } from '../../../../../common/services/activity.service';
 
 @Component({
   moduleId: module.id,
   selector: 'minds-activity',
   host: {
-    'class': 'mdl-card m-border'
+    class: 'mdl-card m-border',
   },
-  inputs: ['object', 'commentsToggle', 'focusedCommentGuid', 'visible', 'canDelete', 'showRatingToggle'],
+  inputs: [
+    'object',
+    'commentsToggle',
+    'focusedCommentGuid',
+    'visible',
+    'canDelete',
+    'showRatingToggle',
+  ],
   outputs: ['_delete: delete', 'commentsOpened', 'onViewed'],
-  providers: [ ClientMetaService, ActivityAnalyticsOnViewService, ActivityService ],
+  providers: [
+    ClientMetaService,
+    ActivityAnalyticsOnViewService,
+    ActivityService,
+  ],
   templateUrl: 'activity.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class Activity implements OnInit {
-
   minds = window.Minds;
 
   activity: any;
@@ -56,7 +65,8 @@ export class Activity implements OnInit {
   allowComments = true;
   @Input() boost: boolean = false;
   @Input('boost-toggle')
-  @Input() showBoostMenuOptions: boolean = false;
+  @Input()
+  showBoostMenuOptions: boolean = false;
   @Input() slot: number = -1;
 
   visibilityEvents: boolean = true;
@@ -64,8 +74,7 @@ export class Activity implements OnInit {
     this.visibilityEvents = visibilityEvents;
 
     if (this.activityAnalyticsOnViewService) {
-      this.activityAnalyticsOnViewService
-        .setEnabled(this.visibilityEvents);
+      this.activityAnalyticsOnViewService.setEnabled(this.visibilityEvents);
     }
   }
 
@@ -81,7 +90,10 @@ export class Activity implements OnInit {
   @Input() focusedCommentGuid: string;
 
   childEventsEmitter: EventEmitter<any> = new EventEmitter();
-  onViewed: EventEmitter<{activity, visible}> = new EventEmitter<{activity, visible}>();
+  onViewed: EventEmitter<{ activity; visible }> = new EventEmitter<{
+    activity;
+    visible;
+  }>();
 
   isTranslatable: boolean;
   canDelete: boolean = false;
@@ -91,22 +103,48 @@ export class Activity implements OnInit {
 
   get menuOptions(): Array<string> {
     if (!this.activity || !this.activity.ephemeral) {
-      if (this.showBoostMenuOptions)  {
-        return ['edit', 'translate', 'share',
-          'follow', 'feature', 'delete',
-          'report', 'set-explicit', 'block',
-          'rating', 'allow-comments'];
+      if (this.showBoostMenuOptions) {
+        return [
+          'edit',
+          'translate',
+          'share',
+          'follow',
+          'feature',
+          'delete',
+          'report',
+          'set-explicit',
+          'block',
+          'rating',
+          'allow-comments',
+        ];
       } else {
-        return ['edit', 'translate', 'share',
-          'follow', 'feature', 'delete',
-          'report', 'set-explicit', 'block',
-          'rating', 'allow-comments'];
+        return [
+          'edit',
+          'translate',
+          'share',
+          'follow',
+          'feature',
+          'delete',
+          'report',
+          'set-explicit',
+          'block',
+          'rating',
+          'allow-comments',
+        ];
       }
     } else {
-      return ['view', 'translate', 'share',
-        'follow', 'feature', 'report',
-        'set-explicit', 'block', 'rating',
-        'allow-comments'];
+      return [
+        'view',
+        'translate',
+        'share',
+        'follow',
+        'feature',
+        'report',
+        'set-explicit',
+        'block',
+        'rating',
+        'allow-comments',
+      ];
     }
   }
 
@@ -128,44 +166,49 @@ export class Activity implements OnInit {
     public suggestions: AutocompleteSuggestionsService,
     protected activityService: ActivityService,
     @SkipSelf() injector: Injector,
-    elementRef: ElementRef,
+    elementRef: ElementRef
   ) {
-    this.clientMetaService
-      .inherit(injector);
+    this.clientMetaService.inherit(injector);
 
     this.activityAnalyticsOnViewService
       .setElementRef(elementRef)
       .onView(activity => {
-        this.newsfeedService.recordView(activity, true, null, this.clientMetaService.build({
-          campaign: activity.boosted_guid ? activity.urn : '',
-          position: this.slot,
-        }));
+        this.newsfeedService.recordView(
+          activity,
+          true,
+          null,
+          this.clientMetaService.build({
+            campaign: activity.boosted_guid ? activity.urn : '',
+            position: this.slot,
+          })
+        );
 
         this.onViewed.emit({ activity: activity, visible: true });
       });
   }
 
   ngOnInit() {
-    this.activityAnalyticsOnViewService
-      .setEnabled(this.visibilityEvents);
+    this.activityAnalyticsOnViewService.setEnabled(this.visibilityEvents);
 
     this.loadBlockedUsers();
   }
 
   set object(value: any) {
-    if (!value)
-      return;
+    if (!value) return;
     this.activity = value;
     this.activity.url = window.Minds.site_url + 'newsfeed/' + value.guid;
 
     this.activityAnalyticsOnViewService.setEntity(this.activity);
 
     if (
-      this.activity.custom_type == 'batch'
-      && this.activity.custom_data
-      && this.activity.custom_data[0].src
+      this.activity.custom_type == 'batch' &&
+      this.activity.custom_data &&
+      this.activity.custom_data[0].src
     ) {
-      this.activity.custom_data[0].src = this.activity.custom_data[0].src.replace(this.minds.site_url, this.minds.cdn_url);
+      this.activity.custom_data[0].src = this.activity.custom_data[0].src.replace(
+        this.minds.site_url,
+        this.minds.cdn_url
+      );
     }
 
     if (!this.activity.message) {
@@ -178,17 +221,17 @@ export class Activity implements OnInit {
 
     this.boosted = this.activity.boosted || this.activity.p2p_boosted;
 
-    this.isTranslatable = (
+    this.isTranslatable =
       this.translationService.isTranslatable(this.activity) ||
-      (this.activity.remind_object && this.translationService.isTranslatable(this.activity.remind_object))
-    );
+      (this.activity.remind_object &&
+        this.translationService.isTranslatable(this.activity.remind_object));
 
     this.allowComments = this.activity.allow_comments;
   }
 
   getOwnerIconTime() {
     let session = this.session.getLoggedInUser();
-    if(session && session.guid === this.activity.ownerObj.guid) {
+    if (session && session.guid === this.activity.ownerObj.guid) {
       return session.icontime;
     } else {
       return this.activity.ownerObj.icontime;
@@ -217,7 +260,8 @@ export class Activity implements OnInit {
     if ($event.inProgress) {
       $event.inProgress.emit(true);
     }
-    this.client.delete(`api/v1/newsfeed/${this.activity.guid}`)
+    this.client
+      .delete(`api/v1/newsfeed/${this.activity.guid}`)
       .then((response: any) => {
         if ($event.inProgress) {
           $event.inProgress.emit(false);
@@ -270,7 +314,6 @@ export class Activity implements OnInit {
   }
 
   async togglePin() {
-
     if (this.session.getLoggedInUser().guid != this.activity.owner_guid) {
       return;
     }
@@ -299,7 +342,10 @@ export class Activity implements OnInit {
       }
     }
 
-    const boostModal = this.overlayModal.create(BoostCreatorComponent, activity);
+    const boostModal = this.overlayModal.create(
+      BoostCreatorComponent,
+      activity
+    );
 
     boostModal.onDidDismiss(() => {
       this.showBoostOptions = false;
@@ -309,7 +355,7 @@ export class Activity implements OnInit {
   }
 
   async showWire() {
-    if(this.session.getLoggedInUser().guid !== this.activity.owner_guid) {
+    if (this.session.getLoggedInUser().guid !== this.activity.owner_guid) {
       let activity = this.activity;
 
       if (activity.ephemeral) {
@@ -320,17 +366,21 @@ export class Activity implements OnInit {
         }
       }
 
-      this.overlayModal.create(WireCreatorComponent,
-        activity.remind_object ? activity.remind_object : activity,
-        { onComplete: wire => this.wireSubmitted(wire) })
-          .present();
+      this.overlayModal
+        .create(
+          WireCreatorComponent,
+          activity.remind_object ? activity.remind_object : activity,
+          { onComplete: wire => this.wireSubmitted(wire) }
+        )
+        .present();
     }
   }
 
   async wireSubmitted(wire?) {
     if (wire && this.activity.wire_totals) {
       this.activity.wire_totals.tokens =
-        parseFloat(this.activity.wire_totals.tokens) + (wire.amount * Math.pow(10, 18));
+        parseFloat(this.activity.wire_totals.tokens) +
+        wire.amount * Math.pow(10, 18);
 
       this.detectChanges();
     }
@@ -339,7 +389,7 @@ export class Activity implements OnInit {
   menuOptionSelected(option: string) {
     switch (option) {
       case 'view':
-        this.router.navigate(['/newsfeed', this.activity.guid ]);
+        this.router.navigate(['/newsfeed', this.activity.guid]);
         break;
       case 'edit':
         this.editing = true;
@@ -373,7 +423,10 @@ export class Activity implements OnInit {
       this.activity.custom_data.mature = value;
     }
 
-    this.client.post(`api/v1/entities/explicit/${this.activity.guid}`, { value: value ? '1' : '0' })
+    this.client
+      .post(`api/v1/entities/explicit/${this.activity.guid}`, {
+        value: value ? '1' : '0',
+      })
       .catch(e => {
         this.activity.mature = oldValue;
         this.activity.mature_visibility = oldMatureVisibility;
@@ -386,7 +439,7 @@ export class Activity implements OnInit {
       });
   }
 
-  onNSWFSelections(reasons: Array<{ value, label, selected}>) {
+  onNSWFSelections(reasons: Array<{ value; label; selected }>) {
     if (this.attachment.has()) {
       this.attachment.setNSFW(reasons);
     }
@@ -398,10 +451,13 @@ export class Activity implements OnInit {
   }
 
   propagateTranslation($event) {
-    if (this.activity.remind_object && this.translationService.isTranslatable(this.activity.remind_object)) {
+    if (
+      this.activity.remind_object &&
+      this.translationService.isTranslatable(this.activity.remind_object)
+    ) {
       this.childEventsEmitter.emit({
         action: 'translate',
-        args: [$event]
+        args: [$event],
       });
     }
   }
@@ -437,10 +493,13 @@ export class Activity implements OnInit {
     if (this.activity.remind_object) {
       // this.activity.remind_object.mature_visibility = !this.activity.remind_object.mature_visibility;
 
-      this.activity.remind_object = Object.assign({}, {
-        ...this.activity.remind_object,
-        mature_visibility: !this.activity.remind_object.mature_visibility
-      });
+      this.activity.remind_object = Object.assign(
+        {},
+        {
+          ...this.activity.remind_object,
+          mature_visibility: !this.activity.remind_object.mature_visibility,
+        }
+      );
     }
 
     this.detectChanges();
@@ -451,10 +510,7 @@ export class Activity implements OnInit {
   }
 
   shouldShowComments() {
-    return (
-      this.activity.allow_comments
-      || this.activity['comments:count'] >= 0
-    );
+    return this.activity.allow_comments || this.activity['comments:count'] >= 0;
   }
 
   detectChanges() {

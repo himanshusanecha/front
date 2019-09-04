@@ -1,17 +1,17 @@
-import { 
+import {
   Component,
   EventEmitter,
   Output,
   ViewEncapsulation,
   forwardRef,
-  ChangeDetectorRef, 
+  ChangeDetectorRef,
   ChangeDetectionStrategy,
   OnChanges,
   Input,
   ElementRef,
   OnInit,
   OnDestroy,
-  AfterViewInit
+  AfterViewInit,
 } from '@angular/core';
 
 import { Session } from '../../../services/session';
@@ -32,7 +32,7 @@ import { ActivityService } from '../../../common/services/activity.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   outputs: ['_delete: delete', '_saved: saved'],
   host: {
-    '(keydown.esc)': 'editing = false'
+    '(keydown.esc)': 'editing = false',
   },
   templateUrl: 'comment.component.html',
   providers: [
@@ -40,12 +40,11 @@ import { ActivityService } from '../../../common/services/activity.service';
     {
       provide: CommentsListComponent,
       useValue: forwardRef(() => CommentsListComponent),
-     },
+    },
   ],
 })
-
-export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterViewInit {
-
+export class CommentComponentV2
+  implements OnChanges, OnInit, OnDestroy, AfterViewInit {
   comment: any;
   editing: boolean = false;
   minds = window.Minds;
@@ -71,7 +70,7 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
     target: '',
     error: false,
     description: '',
-    source: null
+    source: null,
   };
   isTranslatable: boolean;
   translationInProgress: boolean;
@@ -84,7 +83,6 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
   @Input() hideToolbar: boolean = false;
 
   @Output() onReply = new EventEmitter();
-
 
   constructor(
     public session: Session,
@@ -99,11 +97,12 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
   ) {}
 
   ngOnInit() {
-    this.commentAge$ = this.timeDiffService.source.pipe(map(secondsElapsed => {
-      return (this.comment.time_created - secondsElapsed * 0.01) * 1000;
-    }));
+    this.commentAge$ = this.timeDiffService.source.pipe(
+      map(secondsElapsed => {
+        return (this.comment.time_created - secondsElapsed * 0.01) * 1000;
+      })
+    );
   }
-
 
   ngAfterViewInit() {
     if (this.comment.focused) {
@@ -132,9 +131,12 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
   }
 
   saveEnabled() {
-    return !this.inProgress
-      && this.canPost
-      && ((this.comment.description && this.comment.description.trim() !== '') || this.attachment.has());
+    return (
+      !this.inProgress &&
+      this.canPost &&
+      ((this.comment.description && this.comment.description.trim() !== '') ||
+        this.attachment.has())
+    );
   }
 
   save() {
@@ -149,12 +151,13 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
 
     this.editing = false;
     this.inProgress = true;
-    this.client.post('api/v1/comments/update/' + this.comment.guid, data)
+    this.client
+      .post('api/v1/comments/update/' + this.comment.guid, data)
       .then((response: any) => {
         this.inProgress = false;
         if (response.comment) {
           this._saved.next({
-            comment: response.comment
+            comment: response.comment,
           });
         }
         this.comment.edited = true;
@@ -188,12 +191,12 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
   }
 
   delete() {
-    if (!confirm('Do you want to delete this comment?\n\nThere\'s no UNDO.')) {
+    if (!confirm("Do you want to delete this comment?\n\nThere's no UNDO.")) {
       return;
     }
 
     this.client.delete('api/v1/comments/' + this.comment.guid);
-    if(this.parent.type === 'comment'){
+    if (this.parent.type === 'comment') {
       this.parent.replies_count -= 1;
     }
     this._delete.next(true);
@@ -203,7 +206,8 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
     this.canPost = false;
     this.triedToPost = false;
 
-    this.attachment.upload(file)
+    this.attachment
+      .upload(file)
       .then(guid => {
         this.canPost = true;
         this.triedToPost = false;
@@ -221,15 +225,18 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
     this.canPost = false;
     this.triedToPost = false;
 
-    this.attachment.remove(file).then(() => {
-      this.canPost = true;
-      this.triedToPost = false;
-      file.value = '';
-    }).catch(e => {
-      console.error(e);
-      this.canPost = true;
-      this.triedToPost = false;
-    });
+    this.attachment
+      .remove(file)
+      .then(() => {
+        this.canPost = true;
+        this.triedToPost = false;
+        file.value = '';
+      })
+      .catch(e => {
+        console.error(e);
+        this.canPost = true;
+        this.triedToPost = false;
+      });
   }
 
   getPostPreview(message) {
@@ -250,12 +257,14 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
     }
 
     this.translation.target = '';
-    this.translationService.getLanguageName($event.selected)
-      .then(name => this.translation.target = name);
+    this.translationService
+      .getLanguageName($event.selected)
+      .then(name => (this.translation.target = name));
 
     this.translationInProgress = true;
 
-    this.translationService.translate(this.comment.guid, $event.selected)
+    this.translationService
+      .translate(this.comment.guid, $event.selected)
       .then((translation: any) => {
         this.translationInProgress = false;
         this.translation.source = null;
@@ -266,8 +275,9 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
 
           if (this.translation.source === null && translation[field].source) {
             this.translation.source = '';
-            this.translationService.getLanguageName(translation[field].source)
-              .then(name => this.translation.source = name);
+            this.translationService
+              .getLanguageName(translation[field].source)
+              .then(name => (this.translation.source = name));
           }
         }
       })
@@ -288,8 +298,7 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
   }
 
   showReport() {
-    this.overlayModal.create(ReportCreatorComponent, this.comment)
-      .present();
+    this.overlayModal.create(ReportCreatorComponent, this.comment).present();
   }
 
   toggleReplies() {
@@ -297,7 +306,7 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
   }
 
   ngOnChanges(changes) {
-  //  console.log('[comment:card]: on changes', changes);
+    //  console.log('[comment:card]: on changes', changes);
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
@@ -305,13 +314,12 @@ export class CommentComponentV2 implements OnChanges, OnInit, OnDestroy, AfterVi
   ngDoCheck() {
     this.changesDetected = false;
     if (this.comment.error != this.error) {
-        this.error = this.comment.error;
-        this.changesDetected = true;
+      this.error = this.comment.error;
+      this.changesDetected = true;
     }
 
     if (this.changesDetected) {
       this.cd.detectChanges();
     }
   }
-
 }

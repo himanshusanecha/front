@@ -1,8 +1,14 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Renderer,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Renderer,
   ViewChild,
   OnInit,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 
 import { Client } from '../../../services/api/client';
@@ -16,21 +22,25 @@ import { ActivityService } from '../../../common/services/activity.service';
 @Component({
   moduleId: module.id,
   selector: 'minds-comments',
-  inputs: ['_object : object', '_reversed : reversed', 'limit', 'focusOnInit', 'scrollable'],
+  inputs: [
+    '_object : object',
+    '_reversed : reversed',
+    'limit',
+    'focusOnInit',
+    'scrollable',
+  ],
   templateUrl: 'list.component.html',
   providers: [
     {
       provide: AttachmentService,
       useFactory: AttachmentService._,
-      deps: [Session, Client, Upload]
+      deps: [Session, Client, Upload],
     },
-    ActivityService
+    ActivityService,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class CommentsListComponent implements OnInit, OnDestroy {
-
   minds;
   object;
   guid: string = '';
@@ -63,7 +73,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
 
   socketRoomName: string;
   socketSubscriptions: any = {
-    comment: null
+    comment: null,
   };
   error: string;
 
@@ -85,7 +95,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     public sockets: SocketsService,
     private renderer: Renderer,
     private cd: ChangeDetectorRef,
-    public activityService: ActivityService,
+    public activityService: ActivityService
   ) {
     this.minds = window.Minds;
   }
@@ -127,7 +137,10 @@ export class CommentsListComponent implements OnInit, OnDestroy {
       this.socketRoomName = void 0;
     }
 
-    if ((this.ascendingInProgress && !descending) || (this.descendingInProgress && descending)) {
+    if (
+      (this.ascendingInProgress && !descending) ||
+      (this.descendingInProgress && descending)
+    ) {
       return;
     }
 
@@ -139,15 +152,16 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     }
     this.detectChanges();
 
-    const parent_path = this.parent.child_path || "0:0:0"; 
+    const parent_path = this.parent.child_path || '0:0:0';
 
-    this.client.get(`api/v1/comments/${this.guid}/0/${parent_path}`, {
-      limit: refresh ? 5 : this.limit, 
-      token: descending ? this.earlierToken : this.laterToken,
-      offset: this.focusedCommentGuid || '',
-      include_offset: !this.focusedCommentGuid == descending,
-      descending: descending,
-    })
+    this.client
+      .get(`api/v1/comments/${this.guid}/0/${parent_path}`, {
+        limit: refresh ? 5 : this.limit,
+        token: descending ? this.earlierToken : this.laterToken,
+        offset: this.focusedCommentGuid || '',
+        include_offset: !this.focusedCommentGuid == descending,
+        descending: descending,
+      })
       .then((response: any) => {
         if (!this.socketRoomName && response.socketRoomName) {
           this.socketRoomName = response.socketRoomName;
@@ -207,7 +221,7 @@ export class CommentsListComponent implements OnInit, OnDestroy {
 
         this.detectChanges();
       })
-      .catch((e) => {
+      .catch(e => {
         if (descending) {
           this.descendingInProgress = false;
         } else {
@@ -244,7 +258,8 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     this.overscrollAmount += deltaY;
 
     this.overscrollTimer = setTimeout(() => {
-      if (this.overscrollAmount < -75) { // 75px
+      if (this.overscrollAmount < -75) {
+        // 75px
         this.autoloadPrevious();
       }
 
@@ -285,44 +300,53 @@ export class CommentsListComponent implements OnInit, OnDestroy {
   }
 
   listen() {
-    this.socketSubscriptions.comment = this.sockets.subscribe('comment', (entity_guid, owner_guid, guid) => {
-      if (entity_guid !== this.guid) {
-        return;
+    this.socketSubscriptions.comment = this.sockets.subscribe(
+      'comment',
+      (entity_guid, owner_guid, guid) => {
+        if (entity_guid !== this.guid) {
+          return;
+        }
+
+        if (
+          this.session.isLoggedIn() &&
+          owner_guid === this.session.getLoggedInUser().guid
+        ) {
+          return;
+        }
+
+        const parent_path = this.parent.child_path || '0:0:0';
+
+        this.client
+          .get(`api/v1/comments/${this.guid}/${guid}/${parent_path}`, {
+            limit: 1,
+            reversed: false,
+            descending: true,
+          })
+          .then((response: any) => {
+            if (!response.comments || response.comments.length === 0) {
+              return;
+            }
+
+            // if the list is scrolled to the bottom
+            const scrolledToBottom =
+              this.scrollView.nativeElement.scrollTop +
+                this.scrollView.nativeElement.clientHeight >=
+              this.scrollView.nativeElement.scrollHeight;
+
+            if (response.comments[0]._guid == guid) {
+              this.comments.push(response.comments[0]);
+            }
+
+            this.detectChanges();
+
+            if (scrolledToBottom) {
+              this.commentsScrollEmitter.emit('bottom');
+            }
+          });
       }
+    );
 
-      if (this.session.isLoggedIn() && owner_guid === this.session.getLoggedInUser().guid) {
-        return;
-      }
-
-      const parent_path = this.parent.child_path || '0:0:0';
-
-      this.client.get(`api/v1/comments/${this.guid}/${guid}/${parent_path}`, {
-          limit: 1,
-          reversed: false,
-          descending: true,
-        })
-        .then((response: any) => {
-          if (!response.comments || response.comments.length === 0) {
-            return;
-          }
-
-          // if the list is scrolled to the bottom
-          const scrolledToBottom = this.scrollView.nativeElement.scrollTop
-            + this.scrollView.nativeElement.clientHeight >= this.scrollView.nativeElement.scrollHeight;
-
-          if (response.comments[0]._guid == guid) {
-            this.comments.push(response.comments[0]);
-          }
-
-          this.detectChanges();
-
-          if (scrolledToBottom) {
-            this.commentsScrollEmitter.emit('bottom');
-          }
-        });
-    });
-
-    this.sockets.subscribe('reply', (guid) => {
+    this.sockets.subscribe('reply', guid => {
       for (let i = 0; i < this.comments.length; i++) {
         if (this.comments[i]._guid == guid) {
           this.comments[i].replies_count++;
@@ -332,39 +356,47 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     });
 
     this.sockets.subscribe('vote', (guid, owner_guid, direction) => {
-      if (this.session.isLoggedIn() && owner_guid === this.session.getLoggedInUser().guid) {
+      if (
+        this.session.isLoggedIn() &&
+        owner_guid === this.session.getLoggedInUser().guid
+      ) {
         return;
       }
       const key = 'thumbs:' + direction + ':count';
       for (let i = 0; i < this.comments.length; i++) {
-         if (this.comments[i]._guid == guid) {
-           this.comments[i][key]++;
-           this.detectChanges();
-         }
-       }
-       // this.comments = this.comments.slice(0);
-       this.detectChanges();
-     });
+        if (this.comments[i]._guid == guid) {
+          this.comments[i][key]++;
+          this.detectChanges();
+        }
+      }
+      // this.comments = this.comments.slice(0);
+      this.detectChanges();
+    });
 
-     this.sockets.subscribe('vote:cancel', (guid, owner_guid, direction) => {
-       if (this.session.isLoggedIn() && owner_guid === this.session.getLoggedInUser().guid) {
-         return;
-       }
-       let key = 'thumbs:' + direction + ':count';
-       for (let i = 0; i < this.comments.length; i++) {
-         if (this.comments[i]._guid == guid) {
-           this.comments[i][key]--;
-           this.detectChanges();
-         }
-       }
-     });
+    this.sockets.subscribe('vote:cancel', (guid, owner_guid, direction) => {
+      if (
+        this.session.isLoggedIn() &&
+        owner_guid === this.session.getLoggedInUser().guid
+      ) {
+        return;
+      }
+      let key = 'thumbs:' + direction + ':count';
+      for (let i = 0; i < this.comments.length; i++) {
+        if (this.comments[i]._guid == guid) {
+          this.comments[i][key]--;
+          this.detectChanges();
+        }
+      }
+    });
   }
 
   postEnabled() {
-    return !this.descendingInProgress
-      && !this.ascendingInProgress
-      && this.canPost
-      && ((this.content && this.content.trim() !== '') || this.attachment.has());
+    return (
+      !this.descendingInProgress &&
+      !this.ascendingInProgress &&
+      this.canPost &&
+      ((this.content && this.content.trim() !== '') || this.attachment.has())
+    );
   }
 
   keypress(e: KeyboardEvent) {
@@ -380,7 +412,11 @@ export class CommentsListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.descendingInProgress || this.ascendingInProgress || !this.postEnabled()) {
+    if (
+      this.descendingInProgress ||
+      this.ascendingInProgress ||
+      !this.postEnabled()
+    ) {
       this.triedToPost = true;
       this.detectChanges();
 
@@ -393,14 +429,16 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     data['comment'] = this.content;
     data['parent_path'] = this.parent.child_path || '0:0:0';
 
-    const newLength = this.comments.push({ // Optimistic
-      description: this.content,
-      guid: 0,
-      ownerObj: this.session.getLoggedInUser(),
-      owner_guid: this.session.getLoggedInUser().guid,
-      time_created: Date.now() / 1000,
-      type: 'comment',
-    }), currentIndex = newLength - 1;
+    const newLength = this.comments.push({
+        // Optimistic
+        description: this.content,
+        guid: 0,
+        ownerObj: this.session.getLoggedInUser(),
+        owner_guid: this.session.getLoggedInUser().guid,
+        time_created: Date.now() / 1000,
+        type: 'comment',
+      }),
+      currentIndex = newLength - 1;
 
     this.attachment.reset();
     this.content = '';
@@ -410,10 +448,14 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     this.commentsScrollEmitter.emit('bottom');
 
     try {
-      const response: any = await this.client.post('api/v1/comments/' + this.guid, data);
+      const response: any = await this.client.post(
+        'api/v1/comments/' + this.guid,
+        data
+      );
       this.comments[currentIndex] = response.comment;
     } catch (e) {
-      this.comments[currentIndex].error = (e && e.message) || 'There was an error';
+      this.comments[currentIndex].error =
+        (e && e.message) || 'There was an error';
       console.error('Error posting', e);
     }
 
@@ -428,7 +470,6 @@ export class CommentsListComponent implements OnInit, OnDestroy {
       this.detectChanges();
     }
   }
-
 
   delete(index: number) {
     this.comments.splice(index, 1);
@@ -452,7 +493,8 @@ export class CommentsListComponent implements OnInit, OnDestroy {
 
     this.attachment.setHidden(true);
     this.attachment.setContainer(this.object);
-    this.attachment.upload(file)
+    this.attachment
+      .upload(file)
       .then(guid => {
         this.canPost = true;
         this.triedToPost = false;
@@ -472,15 +514,18 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     this.canPost = false;
     this.triedToPost = false;
 
-    this.attachment.remove(file).then(() => {
-      this.canPost = true;
-      this.triedToPost = false;
-      file.value = '';
-    }).catch(e => {
-      console.error(e);
-      this.canPost = true;
-      this.triedToPost = false;
-    });
+    this.attachment
+      .remove(file)
+      .then(() => {
+        this.canPost = true;
+        this.triedToPost = false;
+        file.value = '';
+      })
+      .catch(e => {
+        console.error(e);
+        this.canPost = true;
+        this.triedToPost = false;
+      });
 
     this.detectChanges();
   }
@@ -510,7 +555,9 @@ export class CommentsListComponent implements OnInit, OnDestroy {
 
   getAvatar() {
     if (this.session.isLoggedIn()) {
-      return `${this.minds.cdn_url}icon/${this.session.getLoggedInUser().guid}/small/${this.session.getLoggedInUser().icontime}`;
+      return `${this.minds.cdn_url}icon/${
+        this.session.getLoggedInUser().guid
+      }/small/${this.session.getLoggedInUser().icontime}`;
     } else {
       return `${this.minds.cdn_assets_url}assets/avatars/default-small.png`;
     }
@@ -520,5 +567,4 @@ export class CommentsListComponent implements OnInit, OnDestroy {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }

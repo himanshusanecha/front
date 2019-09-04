@@ -1,4 +1,11 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { Client } from '../../../../../services/api';
 import { Session } from '../../../../../services/session';
@@ -13,9 +20,7 @@ import { ActivityService } from '../../../../../common/services/activity.service
   templateUrl: '../activity/activity.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class Remind {
-
   minds = window.Minds;
 
   activity: any;
@@ -35,7 +40,9 @@ export class Remind {
   menuOptions: any = [];
   canDelete: boolean = false;
 
-  @Output('matureVisibilityChange') onMatureVisibilityChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output('matureVisibilityChange') onMatureVisibilityChange: EventEmitter<
+    any
+  > = new EventEmitter<any>();
 
   constructor(
     public session: Session,
@@ -69,17 +76,20 @@ export class Remind {
     this.activity.boosted = this.boosted;
 
     if (
-      this.activity.custom_type == 'batch' 
-      && this.activity.custom_data 
-      && this.activity.custom_data[0].src
+      this.activity.custom_type == 'batch' &&
+      this.activity.custom_data &&
+      this.activity.custom_data[0].src
     ) {
-      this.activity.custom_data[0].src = this.activity.custom_data[0].src.replace(this.minds.site_url, this.minds.cdn_url);
+      this.activity.custom_data[0].src = this.activity.custom_data[0].src.replace(
+        this.minds.site_url,
+        this.minds.cdn_url
+      );
     }
   }
 
   getOwnerIconTime() {
     let session = this.session.getLoggedInUser();
-    if(session && session.guid === this.activity.ownerObj.guid) {
+    if (session && session.guid === this.activity.ownerObj.guid) {
       return session.icontime;
     } else {
       return this.activity.ownerObj.icontime;
@@ -108,21 +118,33 @@ export class Remind {
     return;
   }
 
-  save() { /* NOOP */ }
+  save() {
+    /* NOOP */
+  }
 
   isPending(activity) {
     return activity && activity.pending && activity.pending !== '0';
   }
 
-  openComments() { /* NOOP */ }
+  openComments() {
+    /* NOOP */
+  }
 
-  showBoost() { /* NOOP */ }
+  showBoost() {
+    /* NOOP */
+  }
 
-  showWire() { /* NOOP */ }
+  showWire() {
+    /* NOOP */
+  }
 
-  togglePin() { /* NOOP */ }
+  togglePin() {
+    /* NOOP */
+  }
 
-  menuOptionSelected(e) { /* NOOP */ }
+  menuOptionSelected(e) {
+    /* NOOP */
+  }
 
   toggleMatureVisibility() {
     this.activity.mature_visibility = !this.activity.mature_visibility;

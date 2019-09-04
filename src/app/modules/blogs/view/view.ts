@@ -1,4 +1,11 @@
-import { Component, ElementRef, ViewChild, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  ChangeDetectorRef,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Client } from '../../../services/api';
@@ -13,20 +20,17 @@ import { ContextService } from '../../../services/context.service';
 import { optimizedResize } from '../../../utils/optimized-resize';
 import { ActivityService } from '../../../common/services/activity.service';
 
- 
 @Component({
   moduleId: module.id,
   selector: 'm-blog-view',
   inputs: ['_blog: blog', '_index: index'],
   host: {
-    'class': 'm-blog'
+    class: 'm-blog',
   },
   templateUrl: 'view.html',
-  providers: [ActivityService]
+  providers: [ActivityService],
 })
-
 export class BlogView implements OnInit, OnDestroy {
-
   minds;
   guid: string;
   blog: MindsBlogEntity;
@@ -43,13 +47,20 @@ export class BlogView implements OnInit, OnDestroy {
 
   scroll_listener;
 
-  menuOptions: Array<string> = ['edit', 'follow', 'feature',
-    'delete', 'report', 'subscribe',
-    'set-explicit', 'remove-explicit', 'rating',
-    'allow-comments'];
+  menuOptions: Array<string> = [
+    'edit',
+    'follow',
+    'feature',
+    'delete',
+    'report',
+    'subscribe',
+    'set-explicit',
+    'remove-explicit',
+    'rating',
+    'allow-comments',
+  ];
 
   @ViewChild('lockScreen', { read: ElementRef, static: false }) lockScreen;
-
 
   constructor(
     public session: Session,
@@ -63,13 +74,12 @@ export class BlogView implements OnInit, OnDestroy {
     public analytics: AnalyticsService,
     public analyticsService: AnalyticsService,
     protected activityService: ActivityService,
-    private cd: ChangeDetectorRef,
+    private cd: ChangeDetectorRef
   ) {
     this.minds = window.Minds;
     this.element = _element.nativeElement;
     optimizedResize.add(this.onResize.bind(this));
   }
-
 
   ngOnInit() {
     this.isVisible();
@@ -78,25 +88,34 @@ export class BlogView implements OnInit, OnDestroy {
 
   isVisible() {
     // listens every 0.6 seconds
-    this.scroll_listener = this.scroll.listen((e) => {
-      const bounds = this.element.getBoundingClientRect();
-      if (bounds.top < this.scroll.view.clientHeight && bounds.top + bounds.height > this.scroll.view.clientHeight) {
-        let url = `${this.minds.site_url}blog/view/${this.blog.guid}`;
+    this.scroll_listener = this.scroll.listen(
+      e => {
+        const bounds = this.element.getBoundingClientRect();
+        if (
+          bounds.top < this.scroll.view.clientHeight &&
+          bounds.top + bounds.height > this.scroll.view.clientHeight
+        ) {
+          let url = `${this.minds.site_url}blog/view/${this.blog.guid}`;
 
-        if (this.blog.route) {
-          url = `${this.minds.site_url}${this.blog.route}`;
-        }
+          if (this.blog.route) {
+            url = `${this.minds.site_url}${this.blog.route}`;
+          }
 
-        if (!this.visible) {
-          window.history.pushState(null, this.blog.title, url);
-          this.title.setTitle(this.blog.title);
-          this.analyticsService.send('pageview', {url: `/blog/view/${this.blog.guid}`});
+          if (!this.visible) {
+            window.history.pushState(null, this.blog.title, url);
+            this.title.setTitle(this.blog.title);
+            this.analyticsService.send('pageview', {
+              url: `/blog/view/${this.blog.guid}`,
+            });
+          }
+          this.visible = true;
+        } else {
+          this.visible = false;
         }
-        this.visible = true;
-      } else {
-        this.visible = false;
-      }
-    }, 0, 300);
+      },
+      0,
+      300
+    );
   }
 
   set _blog(value: MindsBlogEntity) {
@@ -114,7 +133,8 @@ export class BlogView implements OnInit, OnDestroy {
   }
 
   delete() {
-    this.client.delete('api/v1/blog/' + this.blog.guid)
+    this.client
+      .delete('api/v1/blog/' + this.blog.guid)
       .then((response: any) => {
         this.router.navigate(['/blog/owner']);
       });
@@ -146,7 +166,10 @@ export class BlogView implements OnInit, OnDestroy {
   setExplicit(value: boolean) {
     this.blog.mature = value;
 
-    this.client.post(`api/v1/entities/explicit/${this.blog.guid}`, { value: value ? '1' : '0' })
+    this.client
+      .post(`api/v1/entities/explicit/${this.blog.guid}`, {
+        value: value ? '1' : '0',
+      })
       .catch(e => {
         this.blog.mature = this.blog.mature;
       });
@@ -156,7 +179,9 @@ export class BlogView implements OnInit, OnDestroy {
     if (!this.lockScreen) {
       return;
     }
-    const lockScreenOverlay = this.lockScreen.nativeElement.querySelector('.m-wire--lock-screen');
+    const lockScreenOverlay = this.lockScreen.nativeElement.querySelector(
+      '.m-wire--lock-screen'
+    );
     if (lockScreenOverlay) {
       const rect = lockScreenOverlay.getBoundingClientRect();
 

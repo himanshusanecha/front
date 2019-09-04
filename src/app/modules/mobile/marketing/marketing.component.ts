@@ -1,7 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {MindsTitle} from '../../../services/ux/title';
-import {Session} from '../../../services/session';
-import {MobileService} from "../mobile.service";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
+import { MindsTitle } from '../../../services/ux/title';
+import { Session } from '../../../services/session';
+import { MobileService } from '../mobile.service';
 
 @Component({
   selector: 'm-mobile--marketing',
@@ -20,9 +24,8 @@ export class MobileMarketingComponent {
     protected title: MindsTitle,
     protected session: Session,
     protected service: MobileService,
-    protected cd: ChangeDetectorRef,
-  ) {
-  }
+    protected cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.title.setTitle('Mobile');

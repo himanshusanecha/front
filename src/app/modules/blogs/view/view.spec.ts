@@ -1,6 +1,14 @@
 ///<reference path="../../../../../node_modules/@types/jasmine/index.d.ts"/>
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, EventEmitter, Input, Output, Pipe, PipeTransform, NO_ERRORS_SCHEMA } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  Pipe,
+  PipeTransform,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule as NgCommonModule } from '@angular/common';
 import { MindsBlogEntity } from '../../../interfaces/entities';
@@ -31,20 +39,13 @@ describe('Blog view component', () => {
     title: 'test blog',
     description: 'description',
     ownerObj: {},
-    allow_comments: true
+    allow_comments: true,
   };
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
-      declarations: [
-        BlogView,
-        SafePipe
-      ], // declare the test component
-      imports: [
-        NgCommonModule,
-        RouterTestingModule,
-      ],
+      declarations: [BlogView, SafePipe], // declare the test component
+      imports: [NgCommonModule, RouterTestingModule],
       providers: [
         { provide: ActivityService, useValue: activityServiceMock },
         { provide: AnalyticsService, useValue: analyticsServiceMock },
@@ -55,12 +56,10 @@ describe('Blog view component', () => {
         { provide: ScrollService, useValue: scrollServiceMock },
         { provide: Session, useValue: sessionMock },
       ],
-      schemas: [
-        NO_ERRORS_SCHEMA,
-      ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
-    .overrideProvider( ActivityService, { useValue: activityServiceMock })
-    .compileComponents();  // compile template and css
+      .overrideProvider(ActivityService, { useValue: activityServiceMock })
+      .compileComponents(); // compile template and css
   }));
 
   // synchronous beforeEach

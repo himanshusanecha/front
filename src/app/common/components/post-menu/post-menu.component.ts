@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+} from '@angular/core';
 import { Session } from '../../../services/session';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { Client } from '../../../services/api/client';
@@ -10,7 +18,7 @@ import { ActivityService } from '../../../common/services/activity.service';
 import { FeaturesService } from '../../../services/features.service';
 
 type Option =
-  'edit'
+  | 'edit'
   | 'view'
   | 'translate'
   | 'share'
@@ -34,9 +42,8 @@ type Option =
   moduleId: module.id,
   selector: 'm-post-menu',
   templateUrl: 'post-menu.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class PostMenuComponent implements OnInit {
   @Input() entity: any;
   @Input() options: Array<Option>;
@@ -69,7 +76,8 @@ export class PostMenuComponent implements OnInit {
     public signupModal: SignupModalService,
     protected blockListService: BlockListService,
     protected activityService: ActivityService,
-    public featuresService: FeaturesService) {
+    public featuresService: FeaturesService
+  ) {
     this.initCategories();
   }
 
@@ -98,7 +106,8 @@ export class PostMenuComponent implements OnInit {
     this.asyncFollowInProgress = true;
     this.detectChanges();
 
-    this.client.get(`api/v2/notifications/follow/${this.entity.guid}`)
+    this.client
+      .get(`api/v2/notifications/follow/${this.entity.guid}`)
       .then((response: any) => {
         this.asyncFollowInProgress = false;
         this.asyncFollow = true;
@@ -115,7 +124,8 @@ export class PostMenuComponent implements OnInit {
   follow() {
     this.entity['is:following'] = true;
 
-    this.client.put(`api/v2/notifications/follow/${this.entity.guid}`)
+    this.client
+      .put(`api/v2/notifications/follow/${this.entity.guid}`)
       .then((response: any) => {
         if (response.done) {
           this.entity['is:following'] = true;
@@ -136,7 +146,8 @@ export class PostMenuComponent implements OnInit {
   unfollow() {
     this.entity['is:following'] = false;
 
-    this.client.delete(`api/v2/notifications/follow/${this.entity.guid}`)
+    this.client
+      .delete(`api/v2/notifications/follow/${this.entity.guid}`)
       .then((response: any) => {
         if (response.done) {
           this.entity['is:following'] = false;
@@ -162,7 +173,8 @@ export class PostMenuComponent implements OnInit {
     this.detectChanges();
 
     //Owner
-    this.client.get(`api/v1/block/${this.entity.ownerObj.guid}`)
+    this.client
+      .get(`api/v1/block/${this.entity.ownerObj.guid}`)
       .then((response: any) => {
         this.asyncBlockInProgress = false;
         this.asyncBlock = response.blocked;
@@ -175,14 +187,15 @@ export class PostMenuComponent implements OnInit {
   }
 
   unBlock() {
-    this.client.delete('api/v1/block/' + this.entity.ownerObj.guid, {})
+    this.client
+      .delete('api/v1/block/' + this.entity.ownerObj.guid, {})
       .then((response: any) => {
         this.asyncBlock = false;
         this.detectChanges();
 
         this.blockListService.remove(`${this.entity.ownerObj.guid}`);
       })
-      .catch((e) => {
+      .catch(e => {
         this.asyncBlock = true;
         this.detectChanges();
       });
@@ -190,14 +203,15 @@ export class PostMenuComponent implements OnInit {
   }
 
   block() {
-    this.client.put('api/v1/block/' + this.entity.ownerObj.guid, {})
+    this.client
+      .put('api/v1/block/' + this.entity.ownerObj.guid, {})
       .then((response: any) => {
         this.asyncBlock = true;
         this.detectChanges();
 
         this.blockListService.add(`${this.entity.ownerObj.guid}`);
       })
-      .catch((e) => {
+      .catch(e => {
         this.asyncBlock = false;
         this.detectChanges();
       });
@@ -216,7 +230,10 @@ export class PostMenuComponent implements OnInit {
     }
     this.entity.featured = true;
 
-    this.client.put('api/v1/admin/feature/' + this.entity.guid + '/' + this.featuredCategory)
+    this.client
+      .put(
+        'api/v1/admin/feature/' + this.entity.guid + '/' + this.featuredCategory
+      )
       .catch(() => {
         this.entity.featured = false;
         this.detectChanges();
@@ -227,11 +244,10 @@ export class PostMenuComponent implements OnInit {
   unFeature() {
     this.entity.featured = false;
 
-    this.client.delete('api/v1/admin/feature/' + this.entity.guid)
-      .catch(() => {
-        this.entity.featured = true;
-        this.detectChanges();
-      });
+    this.client.delete('api/v1/admin/feature/' + this.entity.guid).catch(() => {
+      this.entity.featured = true;
+      this.detectChanges();
+    });
     this.selectOption('unfeature');
   }
 
@@ -241,44 +257,48 @@ export class PostMenuComponent implements OnInit {
   }
 
   report() {
-    console.warn(this.user, this.entity, this.session.getLoggedInUser().guid, this.entity.ownerObj.guid);
-    this.overlayModal.create(ReportCreatorComponent, this.entity)
-      .present();
+    console.warn(
+      this.user,
+      this.entity,
+      this.session.getLoggedInUser().guid,
+      this.entity.ownerObj.guid
+    );
+    this.overlayModal.create(ReportCreatorComponent, this.entity).present();
     this.selectOption('report');
   }
 
   setExplicit(explicit: boolean) {
-    this.selectOption(explicit ? 'set-explicit': 'remove-explicit');
+    this.selectOption(explicit ? 'set-explicit' : 'remove-explicit');
   }
 
   monetize() {
-    if (this.entity.monetized)
-      return this.unMonetize();
+    if (this.entity.monetized) return this.unMonetize();
 
     this.entity.monetized = true;
 
-    this.client.put('api/v1/monetize/' + this.entity.guid, {})
-      .catch((e) => {
-        this.entity.monetized = false;
-      });
+    this.client.put('api/v1/monetize/' + this.entity.guid, {}).catch(e => {
+      this.entity.monetized = false;
+    });
   }
 
   unMonetize() {
     this.entity.monetized = false;
-    this.client.delete('api/v1/monetize/' + this.entity.guid, {})
-      .catch((e) => {
-        this.entity.monetized = true;
-      });
+    this.client.delete('api/v1/monetize/' + this.entity.guid, {}).catch(e => {
+      this.entity.monetized = true;
+    });
   }
 
   subscribe() {
     if (!this.session.isLoggedIn()) {
-      this.signupModal.setSubtitle('You need to have a channel in order to subscribe').open();
+      this.signupModal
+        .setSubtitle('You need to have a channel in order to subscribe')
+        .open();
       return false;
     }
 
     this.user.subscribed = true;
-    this.client.post('api/v1/subscribe/' + this.user.guid, {})
+    this.client
+      .post('api/v1/subscribe/' + this.user.guid, {})
       .then((response: any) => {
         if (response && response.error) {
           throw 'error';
@@ -286,19 +306,20 @@ export class PostMenuComponent implements OnInit {
 
         this.user.subscribed = true;
       })
-      .catch((e) => {
+      .catch(e => {
         this.user.subscribed = false;
-        alert('You can\'t subscribe to this user.');
+        alert("You can't subscribe to this user.");
       });
   }
 
   unSubscribe() {
     this.user.subscribed = false;
-    this.client.delete('api/v1/subscribe/' + this.user.guid, {})
+    this.client
+      .delete('api/v1/subscribe/' + this.user.guid, {})
       .then((response: any) => {
         this.user.subscribed = false;
       })
-      .catch((e) => {
+      .catch(e => {
         this.user.subscribed = true;
       });
   }
@@ -314,13 +335,13 @@ export class PostMenuComponent implements OnInit {
     this.featureToggle = false;
   }
 
-
   detectChanges() {
     this.cd.markForCheck();
   }
 
   setRating(rating: number) {
-    this.client.post(`api/v1/admin/rating/${this.entity.guid}/${rating}`, {})
+    this.client
+      .post(`api/v1/admin/rating/${this.entity.guid}/${rating}`, {})
       .then((response: any) => {
         this.entity.rating = rating;
         this.detectChanges();
@@ -328,7 +349,7 @@ export class PostMenuComponent implements OnInit {
     this.selectOption('rating');
   }
 
-  onNSFWSelected(reasons: Array<{ label, value, selected}>) {
+  onNSFWSelected(reasons: Array<{ label; value; selected }>) {
     const nsfw = reasons.map(reason => reason.value);
     this.client.post(`api/v2/admin/nsfw/${this.entity.guid}`, { nsfw });
     this.entity.nsfw = nsfw;
@@ -336,10 +357,12 @@ export class PostMenuComponent implements OnInit {
 
   async allowComments(areAllowed: boolean) {
     this.entity.allow_comments = areAllowed;
-    const result = await this.activityService.toggleAllowComments(this.entity, areAllowed);
+    const result = await this.activityService.toggleAllowComments(
+      this.entity,
+      areAllowed
+    );
     if (result !== areAllowed) {
       this.entity.allow_comments = result;
     }
   }
-
 }

@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { MindsVideoProgressBar } from './progress-bar/progress-bar.component';
 import { MindsVideoVolumeSlider } from './volume-slider/volume-slider.component';
 
@@ -6,18 +14,20 @@ import { Client } from '../../../../services/api';
 import { ScrollService } from '../../../../services/ux/scroll';
 import { MindsPlayerInterface } from './players/player.interface';
 import { WebtorrentService } from '../../../webtorrent/webtorrent.service';
-import { SOURCE_CANDIDATE_PICK_ZIGZAG, SourceCandidates } from './source-candidates';
+import {
+  SOURCE_CANDIDATE_PICK_ZIGZAG,
+  SourceCandidates,
+} from './source-candidates';
 
 @Component({
   selector: 'm-video',
   host: {
     '(mouseenter)': 'onMouseEnter()',
-    '(mouseleave)': 'onMouseLeave()'
+    '(mouseleave)': 'onMouseLeave()',
   },
   templateUrl: 'video.component.html',
 })
 export class MindsVideoComponent {
-
   @Input() guid: string | number;
   @Input() log: string | number;
   @Input() muted: boolean = false;
@@ -25,8 +35,10 @@ export class MindsVideoComponent {
 
   @Output('finished') finished: EventEmitter<any> = new EventEmitter();
 
-  @ViewChild('progressBar', { static: false }) progressBar: MindsVideoProgressBar;
-  @ViewChild('volumeSlider', { static: false }) volumeSlider: MindsVideoVolumeSlider;
+  @ViewChild('progressBar', { static: false })
+  progressBar: MindsVideoProgressBar;
+  @ViewChild('volumeSlider', { static: false })
+  volumeSlider: MindsVideoVolumeSlider;
   @ViewChild('player', { static: false }) playerRef: MindsPlayerInterface;
 
   src: any[];
@@ -53,7 +65,7 @@ export class MindsVideoComponent {
   playCount: number = -1;
   playCountDisabled: boolean = false;
 
-  current: { type: 'torrent' | 'direct-http', src: string };
+  current: { type: 'torrent' | 'direct-http'; src: string };
   protected candidates: SourceCandidates = new SourceCandidates();
 
   torrentInfo: boolean = false;
@@ -69,8 +81,8 @@ export class MindsVideoComponent {
     public scroll: ScrollService,
     public client: Client,
     protected webtorrent: WebtorrentService,
-    protected cd: ChangeDetectorRef,
-  ) { }
+    protected cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.torrentEnabled = this.webtorrent.isEnabled();
@@ -84,7 +96,8 @@ export class MindsVideoComponent {
     }
 
     if (!this.playCountDisabled && this.log && this.playCount === -1) {
-      this.client.get(`api/v1/analytics/@counter/play/${this.log}`)
+      this.client
+        .get(`api/v1/analytics/@counter/play/${this.log}`)
         .then((response: any) => {
           if (!response.data) {
             return;
@@ -101,7 +114,10 @@ export class MindsVideoComponent {
 
   autoplay: boolean = false;
   @Input('autoplay') set _autoplay(value: boolean) {
-    if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+    if (
+      navigator.userAgent.match(/iPhone/i) ||
+      navigator.userAgent.match(/iPod/i)
+    ) {
       this.autoplay = false;
     } else {
       this.autoplay = value;
@@ -119,7 +135,7 @@ export class MindsVideoComponent {
     this.playCount = value;
   }
 
-  onError({ player, e }: { player?, e? } = {}) {
+  onError({ player, e }: { player?; e? } = {}) {
     console.error('Received error when trying to reproduce video', e, player);
 
     setTimeout(() => this.fallback(), 0);
@@ -133,10 +149,10 @@ export class MindsVideoComponent {
     this.sendFinished();
   }
 
-  onPause() { }
+  onPause() {}
 
-  sendFinished(){
-    this.finished.emit( true );
+  sendFinished() {
+    this.finished.emit(true);
   }
 
   addViewCount() {
@@ -144,12 +160,11 @@ export class MindsVideoComponent {
       return;
     }
 
-    this.client.put('api/v1/analytics/play/' + this.log)
-      .then(() => {
-        if (!this.playCountDisabled) {
-          this.playCount++;
-        }
-      });
+    this.client.put('api/v1/analytics/play/' + this.log).then(() => {
+      if (!this.playCountDisabled) {
+        this.playCount++;
+      }
+    });
     this.playedOnce = true;
   }
 
@@ -208,8 +223,7 @@ export class MindsVideoComponent {
   }
 
   ngOnDestroy() {
-    if (this.scroll_listener)
-      this.scroll.unListen(this.scroll_listener);
+    if (this.scroll_listener) this.scroll.unListen(this.scroll_listener);
   }
 
   pause() {
@@ -232,7 +246,9 @@ export class MindsVideoComponent {
 
     if (!success) {
       try {
-        let response: any = await this.client.get(`api/v1/media/transcoding/${this.guid}`);
+        let response: any = await this.client.get(
+          `api/v1/media/transcoding/${this.guid}`
+        );
         this.transcoding = response.transcoding;
       } catch (e) {
         this.transcodingError = e.error;
@@ -266,7 +282,10 @@ export class MindsVideoComponent {
   }
 
   pickNextBestSource() {
-    const bestSource = this.candidates.pick([ 'torrent', 'direct-http' ], SOURCE_CANDIDATE_PICK_ZIGZAG);
+    const bestSource = this.candidates.pick(
+      ['torrent', 'direct-http'],
+      SOURCE_CANDIDATE_PICK_ZIGZAG
+    );
 
     if (!bestSource) {
       // Keep the last player active
@@ -275,7 +294,7 @@ export class MindsVideoComponent {
 
     this.current = {
       type: bestSource.type,
-      src: bestSource.value
+      src: bestSource.value,
     };
 
     return !!this.current;
@@ -306,7 +325,9 @@ export class MindsVideoComponent {
   reorderSourcesBasedOnQuality() {
     // Torrent
     if (this.torrent && this.torrent.length > 0) {
-      const torrentI: number = this.torrent.findIndex(s => s.res === this.currentQuality);
+      const torrentI: number = this.torrent.findIndex(
+        s => s.res === this.currentQuality
+      );
 
       if (torrentI > -1) {
         this.torrent.unshift(...this.torrent.splice(torrentI, 1));
@@ -315,7 +336,9 @@ export class MindsVideoComponent {
 
     // Src
     if (this.src && this.src.length > 0) {
-      const srcI: number = this.src.findIndex(s => s.res === this.currentQuality);
+      const srcI: number = this.src.findIndex(
+        s => s.res === this.currentQuality
+      );
 
       if (srcI > -1) {
         this.src.unshift(...this.src.splice(srcI, 1));
@@ -327,7 +350,6 @@ export class MindsVideoComponent {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
-
 }
 
 export { VideoAds } from './ads.component';
