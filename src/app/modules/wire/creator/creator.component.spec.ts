@@ -220,7 +220,7 @@ describe('WireCreatorComponent', () => {
         { provide: WireContractService, useValue: wireContractServiceMock },
         { provide: WireService, useValue: wireServiceMock },
         Web3WalletService,
-        { provide: FeaturesService, useValue: featuresServiceMock},
+        { provide: FeaturesService, useValue: featuresServiceMock },
         { provide: Web3WalletService, useValue: web3WalletServiceMock },
         { provide: OverlayModalService, useValue: overlayModalServiceMock },
         { provide: TokenContractService, useValue: tokenContractServiceMock },
