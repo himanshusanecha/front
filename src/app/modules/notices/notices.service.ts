@@ -15,7 +15,7 @@ export class NoticesService {
     this.notices = (<{ notices }>(
       await this.client.get(`${NOTICES_JSON_URL}?t=${timestamp}`).toPromise()
     )).notices;
-    console.log(this.notices);
+    // console.log(this.notices);
     return this.notices;
   }
 }

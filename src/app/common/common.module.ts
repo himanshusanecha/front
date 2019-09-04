@@ -32,6 +32,7 @@ import {
 import { Scheduler } from './components/scheduler/scheduler';
 import { Modal } from './components/modal/modal.component';
 import { MindsRichEmbed } from './components/rich-embed/rich-embed';
+import { QRCodeComponent } from './components/qr-code/qr-code.component';
 
 import { MDL_DIRECTIVES } from './directives/material';
 import { AutoGrow } from './directives/autogrow';
@@ -101,6 +102,7 @@ import { SettingsService } from '../modules/settings/settings.service';
 import { ThemeService } from './services/theme.service';
 import { HorizontalInfiniteScroll } from './components/infinite-scroll/horizontal-infinite-scroll.component';
 import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/links/links.component';
+import { ShareModalComponent } from '../modules/modals/share/share';
 
 @NgModule({
   imports: [NgCommonModule, RouterModule, FormsModule, ReactiveFormsModule],
@@ -135,6 +137,7 @@ import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/link
     MindsRichEmbed,
     TagcloudComponent,
     DropdownComponent,
+    QRCodeComponent,
 
     AutoGrow,
     InlineAutoGrow,
@@ -219,6 +222,7 @@ import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/link
     MindsRichEmbed,
     TagcloudComponent,
     DropdownComponent,
+    QRCodeComponent,
 
     AutoGrow,
     InlineAutoGrow,
@@ -332,6 +336,10 @@ import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/link
       deps: [FeedsService],
     },
   ],
-  entryComponents: [NotificationsToasterComponent, ReferralsLinksComponent],
+  entryComponents: [
+    NotificationsToasterComponent,
+    ReferralsLinksComponent,
+    ShareModalComponent,
+  ],
 })
 export class CommonModule {}

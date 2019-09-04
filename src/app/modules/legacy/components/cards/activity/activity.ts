@@ -16,6 +16,7 @@ import { Session } from '../../../../../services/session';
 import { AttachmentService } from '../../../../../services/attachment';
 import { TranslationService } from '../../../../../services/translation';
 import { OverlayModalService } from '../../../../../services/ux/overlay-modal';
+import { MediaModalComponent } from '../../../../media/modal/modal.component';
 import { BoostCreatorComponent } from '../../../../boost/creator/creator.component';
 import { WireCreatorComponent } from '../../../../wire/creator/creator.component';
 import { MindsVideoComponent } from '../../../../media/components/video/video.component';
@@ -27,6 +28,8 @@ import { NewsfeedService } from '../../../../newsfeed/services/newsfeed.service'
 import { ClientMetaService } from '../../../../../common/services/client-meta.service';
 import { AutocompleteSuggestionsService } from '../../../../suggestions/services/autocomplete-suggestions.service';
 import { ActivityService } from '../../../../../common/services/activity.service';
+import { FeaturesService } from '../../../../../services/features.service';
+import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
   moduleId: module.id,
@@ -101,6 +104,8 @@ export class Activity implements OnInit {
 
   blockedUsers: string[] = [];
 
+  videoDimensions: Array<any> = null;
+
   get menuOptions(): Array<string> {
     if (!this.activity || !this.activity.ephemeral) {
       if (this.showBoostMenuOptions) {
@@ -149,6 +154,7 @@ export class Activity implements OnInit {
   }
 
   @ViewChild('player', { static: false }) player: MindsVideoComponent;
+  @ViewChild('batchImage', { static: false }) batchImage: ElementRef;
 
   constructor(
     public session: Session,
@@ -163,6 +169,7 @@ export class Activity implements OnInit {
     protected activityAnalyticsOnViewService: ActivityAnalyticsOnViewService,
     protected newsfeedService: NewsfeedService,
     protected clientMetaService: ClientMetaService,
+    protected featuresService: FeaturesService,
     public suggestions: AutocompleteSuggestionsService,
     protected activityService: ActivityService,
     @SkipSelf() injector: Injector,
@@ -201,7 +208,7 @@ export class Activity implements OnInit {
     this.activityAnalyticsOnViewService.setEntity(this.activity);
 
     if (
-      this.activity.custom_type == 'batch' &&
+      this.activity.custom_type === 'batch' &&
       this.activity.custom_data &&
       this.activity.custom_data[0].src
     ) {
@@ -511,6 +518,50 @@ export class Activity implements OnInit {
 
   shouldShowComments() {
     return this.activity.allow_comments || this.activity['comments:count'] >= 0;
+  }
+
+  setVideoDimensions($event) {
+    this.videoDimensions = $event.dimensions;
+    this.activity.custom_data.dimensions = this.videoDimensions;
+  }
+
+  setImageDimensions() {
+    const img: HTMLImageElement = this.batchImage.nativeElement;
+    this.activity.custom_data[0].width = img.naturalWidth;
+    this.activity.custom_data[0].height = img.naturalHeight;
+  }
+
+  clickedImage() {
+    const isNotTablet = Math.min(screen.width, screen.height) < 768;
+    const pageUrl = `/media/${this.activity.entity_guid}`;
+
+    if (isMobile() && isNotTablet) {
+      this.router.navigate([pageUrl]);
+      return;
+    }
+
+    if (!this.featuresService.has('media-modal')) {
+      this.router.navigate([pageUrl]);
+      return;
+    } else {
+      if (
+        this.activity.custom_data[0].width === '0' ||
+        this.activity.custom_data[0].height === '0'
+      ) {
+        this.setImageDimensions();
+      }
+      this.openModal();
+    }
+  }
+
+  openModal() {
+    this.activity.modal_source_url = this.router.url;
+
+    this.overlayModal
+      .create(MediaModalComponent, this.activity, {
+        class: 'm-overlayModal--media',
+      })
+      .present();
   }
 
   detectChanges() {

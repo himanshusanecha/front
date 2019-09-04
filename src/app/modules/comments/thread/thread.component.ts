@@ -314,4 +314,8 @@ export class CommentsThreadComponent implements OnInit {
     this.detectChanges();
     return true;
   }
+
+  ngOnChanges(changes) {
+    //  console.log('[comment:list]: on changes', changes);
+  }
 }

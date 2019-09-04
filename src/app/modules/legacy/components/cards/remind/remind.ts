@@ -5,12 +5,20 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
+
+import { Router } from '@angular/router';
 
 import { Client } from '../../../../../services/api';
 import { Session } from '../../../../../services/session';
 import { AttachmentService } from '../../../../../services/attachment';
 import { ActivityService } from '../../../../../common/services/activity.service';
+import { OverlayModalService } from '../../../../../services/ux/overlay-modal';
+import { MediaModalComponent } from '../../../../media/modal/modal.component';
+import { FeaturesService } from '../../../../../services/features.service';
+import isMobile from '../../../../../helpers/is-mobile';
 
 @Component({
   moduleId: module.id,
@@ -39,16 +47,22 @@ export class Remind {
   isTranslatable: boolean = false;
   menuOptions: any = [];
   canDelete: boolean = false;
+  videoDimensions: Array<any> = null;
 
   @Output('matureVisibilityChange') onMatureVisibilityChange: EventEmitter<
     any
   > = new EventEmitter<any>();
 
+  @ViewChild('batchImage', { static: false }) batchImage: ElementRef;
+
   constructor(
     public session: Session,
     public client: Client,
     public attachment: AttachmentService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private overlayModal: OverlayModalService,
+    private router: Router,
+    protected featuresService: FeaturesService
   ) {
     this.hideTabs = true;
   }
@@ -150,5 +164,48 @@ export class Remind {
     this.activity.mature_visibility = !this.activity.mature_visibility;
 
     this.onMatureVisibilityChange.emit();
+  }
+
+  setVideoDimensions($event) {
+    this.videoDimensions = $event.dimensions;
+    this.activity.custom_data.dimensions = this.videoDimensions;
+  }
+
+  setImageDimensions() {
+    const img: HTMLImageElement = this.batchImage.nativeElement;
+    this.activity.custom_data[0].width = img.naturalWidth;
+    this.activity.custom_data[0].height = img.naturalHeight;
+  }
+
+  clickedImage() {
+    const isNotTablet = Math.min(screen.width, screen.height) < 768;
+    const pageUrl = `/media/${this.activity.entity_guid}`;
+
+    if (isMobile() && isNotTablet) {
+      this.router.navigate([pageUrl]);
+    }
+
+    if (!this.featuresService.has('media-modal')) {
+      this.router.navigate([pageUrl]);
+    } else {
+      // Canary
+      if (
+        this.activity.custom_data[0].width === '0' ||
+        this.activity.custom_data[0].height === '0'
+      ) {
+        this.setImageDimensions();
+      }
+      this.openModal();
+    }
+  }
+
+  openModal() {
+    this.activity.modal_source_url = this.router.url;
+
+    this.overlayModal
+      .create(MediaModalComponent, this.activity, {
+        class: 'm-overlayModal--media',
+      })
+      .present();
   }
 }

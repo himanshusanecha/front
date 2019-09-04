@@ -107,8 +107,12 @@ export class NewsfeedBoostRotatorComponent {
 
     this.feedsService.feed.subscribe(async boosts => {
       if (!boosts.length) return;
+      this.boosts = [];
       for (const boost of boosts) {
         if (boost) this.boosts.push(await boost.pipe(first()).toPromise());
+      }
+      if (this.currentPosition >= this.boosts.length) {
+        this.currentPosition = 0;
       }
       if (this.currentPosition === 0) {
         this.recordImpression(this.currentPosition, true);
@@ -118,12 +122,14 @@ export class NewsfeedBoostRotatorComponent {
 
   load() {
     try {
+      this.feedsService.clear(); // Fresh each time
       this.feedsService
         .setEndpoint('api/v2/boost/feed')
         .setParams({
           rating: this.rating,
+          rotator: 1,
         })
-        .setLimit(10)
+        .setLimit(12)
         .setOffset(0)
         .fetch();
     } catch (e) {
@@ -193,6 +199,7 @@ export class NewsfeedBoostRotatorComponent {
     //ensure was seen for at least 1 second
     if (
       (Date.now() > this.lastTs + 1000 || force) &&
+      this.boosts[position] &&
       this.boosts[position].boosted_guid
     ) {
       this.newsfeedService.recordView(
@@ -214,10 +221,11 @@ export class NewsfeedBoostRotatorComponent {
       );
     }
     this.lastTs = Date.now();
-    window.localStorage.setItem(
-      'boost-rotator-offset',
-      this.boosts[position].boosted_guid
-    );
+    if (this.boosts[position] && this.boosts[position].boosted_guid)
+      window.localStorage.setItem(
+        'boost-rotator-offset',
+        this.boosts[position].boosted_guid
+      );
   }
 
   active() {
@@ -255,7 +263,7 @@ export class NewsfeedBoostRotatorComponent {
     if (this.currentPosition + 1 > this.boosts.length - 1) {
       //this.currentPosition = 0;
       try {
-        this.feedsService.loadMore();
+        this.load();
         this.currentPosition++;
       } catch (e) {
         this.currentPosition = 0;

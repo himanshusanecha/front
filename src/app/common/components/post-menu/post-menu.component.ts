@@ -16,6 +16,7 @@ import { SignupModalService } from '../../../modules/modals/signup/service';
 import { BlockListService } from '../../services/block-list.service';
 import { ActivityService } from '../../../common/services/activity.service';
 import { FeaturesService } from '../../../services/features.service';
+import { ShareModalComponent } from '../../../modules/modals/share/share';
 
 type Option =
   | 'edit'
@@ -62,7 +63,6 @@ export class PostMenuComponent implements OnInit {
 
   opened: boolean = false;
 
-  shareToggle: boolean = false;
   deleteToggle: boolean = false;
   featureToggle: boolean = false;
 
@@ -218,11 +218,6 @@ export class PostMenuComponent implements OnInit {
     this.selectOption('block');
   }
 
-  share() {
-    this.shareToggle = true;
-    this.selectOption('share');
-  }
-
   feature() {
     if (this.askForCategoriesWhenFeaturing && !this.featureToggle) {
       this.featureToggle = true;
@@ -364,5 +359,15 @@ export class PostMenuComponent implements OnInit {
     if (result !== areAllowed) {
       this.entity.allow_comments = result;
     }
+  }
+
+  openShareModal() {
+    this.overlayModal
+      .create(ShareModalComponent, this.entity.url, {
+        class: 'm-overlay-modal--medium m-overlayModal__share',
+      })
+      .present();
+
+    this.selectOption('share');
   }
 }

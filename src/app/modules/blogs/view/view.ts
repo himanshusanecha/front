@@ -18,7 +18,9 @@ import { MindsBlogEntity } from '../../../interfaces/entities';
 import { AttachmentService } from '../../../services/attachment';
 import { ContextService } from '../../../services/context.service';
 import { optimizedResize } from '../../../utils/optimized-resize';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { ActivityService } from '../../../common/services/activity.service';
+import { ShareModalComponent } from '../../../modules/modals/share/share';
 
 @Component({
   moduleId: module.id,
@@ -34,7 +36,7 @@ export class BlogView implements OnInit, OnDestroy {
   minds;
   guid: string;
   blog: MindsBlogEntity;
-  sharetoggle: boolean = false;
+  // sharetoggle: boolean = false;
   deleteToggle: boolean = false;
   element;
 
@@ -74,7 +76,8 @@ export class BlogView implements OnInit, OnDestroy {
     public analytics: AnalyticsService,
     public analyticsService: AnalyticsService,
     protected activityService: ActivityService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private overlayModal: OverlayModalService
   ) {
     this.minds = window.Minds;
     this.element = _element.nativeElement;
@@ -142,7 +145,7 @@ export class BlogView implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.scroll_listener) {
-      this.scroll.unListen(this.scroll_listener);
+this.scroll.unListen(this.scroll_listener);
     }
   }
 
@@ -187,6 +190,18 @@ export class BlogView implements OnInit, OnDestroy {
 
       lockScreenOverlay.style.height = `calc(100vh - ${rect.top}px)`;
     }
+  }
+
+  openShareModal() {
+    const url: string =
+      this.minds.site_url +
+      (this.blog.route ? this.blog.route : 'blog/view/' + this.blog.guid);
+
+    this.overlayModal
+      .create(ShareModalComponent, url, {
+        class: 'm-overlay-modal--medium m-overlayModal__share',
+      })
+      .present();
   }
 
   /**

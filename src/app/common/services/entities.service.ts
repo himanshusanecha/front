@@ -64,7 +64,7 @@ export class EntitiesService {
     }
 
     for (const feedItem of feed) {
-      if (blockedGuids.indexOf(feedItem.owner_guid) < 0)
+      if (!blockedGuids || blockedGuids.indexOf(feedItem.owner_guid) < 0)
         entities.push(this.entities.get(feedItem.urn));
     }
 

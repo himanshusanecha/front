@@ -6,7 +6,17 @@ import {
   EventEmitter,
   ViewChild,
   ChangeDetectorRef,
+  OnDestroy,
+  HostListener,
 } from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { MindsVideoProgressBar } from './progress-bar/progress-bar.component';
 import { MindsVideoVolumeSlider } from './volume-slider/volume-slider.component';
 
@@ -18,22 +28,50 @@ import {
   SOURCE_CANDIDATE_PICK_ZIGZAG,
   SourceCandidates,
 } from './source-candidates';
+import { FeaturesService } from '../../../../services/features.service';
+import isMobile from '../../../../helpers/is-mobile';
 
 @Component({
   selector: 'm-video',
   host: {
     '(mouseenter)': 'onMouseEnter()',
     '(mouseleave)': 'onMouseLeave()',
+    '[class.clickable]': 'metadataLoaded',
   },
   templateUrl: 'video.component.html',
+  animations: [
+    trigger('fadeAnimation', [
+      state(
+        'in',
+        style({
+          visibility: 'visible',
+          opacity: 1,
+        })
+      ),
+      state(
+        'out',
+        style({
+          visibility: 'hidden',
+          opacity: 0,
+        })
+      ),
+      transition('in <=> out', [animate('300ms ease-in')]),
+    ]),
+  ],
 })
-export class MindsVideoComponent {
+export class MindsVideoComponent implements OnDestroy {
   @Input() guid: string | number;
   @Input() log: string | number;
   @Input() muted: boolean = false;
   @Input() poster: string = '';
+  @Input() isModal: boolean = false;
+  @Input() shouldPlayInModal: boolean = false;
 
   @Output('finished') finished: EventEmitter<any> = new EventEmitter();
+
+  @Output() videoMetadataLoaded: EventEmitter<any> = new EventEmitter();
+  @Output() videoCanPlayThrough: EventEmitter<any> = new EventEmitter();
+  @Output() mediaModalRequested: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('progressBar', { static: false })
   progressBar: MindsVideoProgressBar;
@@ -64,6 +102,13 @@ export class MindsVideoComponent {
   playedOnce: boolean = false;
   playCount: number = -1;
   playCountDisabled: boolean = false;
+  stageHover: boolean = false;
+  showControls: boolean = false;
+  stopSeekerTimeout: any = null;
+  metadataLoaded: boolean = false;
+  canPlayThrough: boolean = false;
+  isFullscreen: boolean = false;
+  isMobile: boolean = false;
 
   current: { type: 'torrent' | 'direct-http'; src: string };
   protected candidates: SourceCandidates = new SourceCandidates();
@@ -81,7 +126,9 @@ export class MindsVideoComponent {
     public scroll: ScrollService,
     public client: Client,
     protected webtorrent: WebtorrentService,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    protected featuresService: FeaturesService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -169,13 +216,31 @@ export class MindsVideoComponent {
   }
 
   onMouseEnter() {
-    this.progressBar.getSeeker();
-    this.progressBar.enableKeyControls();
+    if (this.shouldPlayInModal && this.featuresService.has('media-modal')) {
+      return;
+    }
+    if (this.videoMetadataLoaded) {
+      this.progressBar.getSeeker();
+      this.progressBar.enableKeyControls();
+      this.showControls = true;
+    }
   }
 
   onMouseLeave() {
-    this.progressBar.stopSeeker();
+    if (
+      this.featuresService.has('media-modal') &&
+      (this.stageHover || this.shouldPlayInModal)
+    ) {
+      return;
+    }
+
+    clearTimeout(this.stopSeekerTimeout);
+    this.stopSeekerTimeout = setTimeout(() => {
+      this.progressBar.stopSeeker();
+    }, 300);
+
     this.progressBar.disableKeyControls();
+    this.showControls = false;
   }
 
   selectedQuality(quality) {
@@ -224,6 +289,10 @@ export class MindsVideoComponent {
 
   ngOnDestroy() {
     if (this.scroll_listener) this.scroll.unListen(this.scroll_listener);
+
+    if (this.stopSeekerTimeout) {
+      clearTimeout(this.stopSeekerTimeout);
+    }
   }
 
   pause() {
@@ -238,8 +307,21 @@ export class MindsVideoComponent {
     this.playerRef.toggle();
   }
 
-  // Sources
+  loadedMetadata() {
+    const dimensions = {
+      width: this.playerRef.getPlayer().videoWidth,
+      height: this.playerRef.getPlayer().videoHeight,
+    };
+    this.metadataLoaded = true;
+    this.videoMetadataLoaded.emit({ dimensions: dimensions });
+  }
 
+  onCanPlayThrough() {
+    this.canPlayThrough = true;
+    this.videoCanPlayThrough.emit();
+  }
+
+  // Sources
   async fallback() {
     this.candidates.setAsBlacklisted(this.current.type, this.current.src);
     const success = this.pickNextBestSource();
@@ -303,7 +385,7 @@ export class MindsVideoComponent {
   // Qualities
 
   updateAvailableQualities() {
-    let qualities = [];
+    const qualities = [];
 
     if (this.src && this.src.length) {
       this.src.forEach(item => qualities.push(item.res));
@@ -346,9 +428,94 @@ export class MindsVideoComponent {
     }
   }
 
+  // Prevent extra toggles from bubbling up when click control bar that overlays player
+  controlBarToggle($event) {
+    $event.stopPropagation();
+    this.toggle();
+  }
+
+  clickedVideo() {
+    if (!this.metadataLoaded) {
+      return;
+    }
+
+    const isNotTablet = Math.min(screen.width, screen.height) < 768;
+
+    if (isMobile() && isNotTablet) {
+      this.isMobile = true;
+      this.toggle();
+      return;
+    }
+
+    if (this.shouldPlayInModal && this.featuresService.has('media-modal')) {
+      this.mediaModalRequested.emit();
+      return;
+    }
+
+    this.toggle();
+  }
+
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
+  }
+
+  // * FULLSCREEN * --------------------------------------------------------------------------------
+  // Listen for fullscreen change event in case user enters/exits full screen without clicking button
+  @HostListener('document:fullscreenchange', ['$event'])
+  @HostListener('document:webkitfullscreenchange', ['$event'])
+  @HostListener('document:mozfullscreenchange', ['$event'])
+  @HostListener('document:MSFullscreenChange', ['$event'])
+  onFullscreenChange(event) {
+    if (
+      !document.fullscreenElement &&
+      !document['webkitFullscreenElement'] &&
+      !document['mozFullScreenElement'] &&
+      !document['msFullscreenElement']
+    ) {
+      this.isFullscreen = false;
+    } else {
+      this.isFullscreen = true;
+    }
+  }
+
+  toggleFullscreen($event) {
+    // This will only work on the main video on a media page (not comment attachments)
+    // TODO: make this work on pages with more than one m-video (i.e. feeds)
+    const elem = document.querySelector('m-video');
+
+    // If fullscreen is not already enabled
+    if (
+      !document['fullscreenElement'] &&
+      !document['webkitFullscreenElement'] &&
+      !document['mozFullScreenElement'] &&
+      !document['msFullscreenElement']
+    ) {
+      // Request full screen
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem['webkitRequestFullscreen']) {
+        elem['webkitRequestFullscreen']();
+      } else if (elem['mozRequestFullScreen']) {
+        elem['mozRequestFullScreen']();
+      } else if (elem['msRequestFullscreen']) {
+        elem['msRequestFullscreen']();
+      }
+      this.isFullscreen = true;
+      return;
+    }
+
+    // If fullscreen is already enabled, exit it
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document['webkitExitFullscreen']) {
+      document['webkitExitFullscreen']();
+    } else if (document['mozCancelFullScreen']) {
+      document['mozCancelFullScreen']();
+    } else if (document['msExitFullscreen']) {
+      document['msExitFullscreen']();
+    }
+    this.isFullscreen = false;
   }
 }
 
