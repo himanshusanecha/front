@@ -145,7 +145,7 @@ export class BlogView implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.scroll_listener) {
-this.scroll.unListen(this.scroll_listener);
+      this.scroll.unListen(this.scroll_listener);
     }
   }
 

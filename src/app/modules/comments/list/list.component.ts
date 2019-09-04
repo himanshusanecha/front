@@ -111,9 +111,9 @@ export class CommentsListComponent implements OnInit, OnDestroy {
 
   set _reversed(value: boolean) {
     if (value) {
- this.reversed = true;
+      this.reversed = true;
     } else {
-    this.reversed = false;
+      this.reversed = false;
     }
   }
 
