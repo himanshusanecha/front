@@ -44,7 +44,7 @@ export class ChannelModeSelectorComponent implements AfterViewInit {
     try {
       await this.client.post('api/v1/channel/info', this.user);
     } catch (ex) {
-      console.error(`ex`);
+      console.error(ex);
     }
   }
 }
