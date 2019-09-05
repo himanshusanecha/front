@@ -25,7 +25,7 @@ export class MaterialDateTimePickerDirective {
     if (!this.open) {
       let options = {};
       if (this.date) {
-        options = {default: new Date(this.date).toString()};
+        options = { default: new Date(this.date).toString() };
       }
       this.picker = new DateTimePicker(options)
         .on('submit', this.submitCallback.bind(this))
