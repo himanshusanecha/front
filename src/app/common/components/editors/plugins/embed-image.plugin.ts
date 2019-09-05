@@ -237,7 +237,7 @@ export class EmbedImage {
   public selectImage(e) {
     let $image = e.target;
 
-    if (!$image || $image.tagname === null) {
+    if (!$image || $image.tagName === null) {
       return;
     }
 
@@ -274,7 +274,7 @@ export class EmbedImage {
     let $el = e.target,
       $image = document.querySelector('.medium-insert-image-active');
 
-    if (!$image || !$el || $el.tagname === null) {
+    if (!$image || !$el || $el.tagName === null) {
       return;
     }
 
