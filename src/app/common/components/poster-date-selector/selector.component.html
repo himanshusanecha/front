@@ -2,7 +2,7 @@
   class="m-poster-date-selector--input"
   [class.selected]="hasDateSelected()"
   mdl-datetime-picker
-  [date]="date"
+  [date]="getDate()"
   (dateChange)="onDateChange($event)"
 >
   <input
@@ -12,7 +12,7 @@
     [hidden]="true"
   />
   <m-tooltip icon="date_range">
-    {{ tooltipDate || 'now' }}
+    {{ getDate() || 'Post Immediately' }}
   </m-tooltip>
   <span></span>
 </div>

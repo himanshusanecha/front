@@ -14,8 +14,6 @@ export class PosterDateSelectorComponent {
 
   @Input() dateFormat: string = 'short';
 
-  tooltipDate: string;
-
   onDateChange(newDate) {
     const validation = this.validate(newDate);
     if (validation !== true) {
@@ -23,14 +21,14 @@ export class PosterDateSelectorComponent {
       return;
     }
 
-    this.date = this.tooltipDate = newDate;
+    this.date = newDate;
     newDate = new Date(newDate).getTime();
     newDate = Math.floor(+newDate / 1000);
     this.dateChange.emit(newDate);
   }
 
   hasDateSelected() {
-    return this.tooltipDate && this.tooltipDate !== '';
+    return this.date && this.date !== '';
   }
 
   validate(newDate) {
@@ -49,5 +47,13 @@ export class PosterDateSelectorComponent {
     }
 
     return true;
+  }
+
+  getDate() {
+    const tempDate = parseInt(this.date);
+    if (tempDate) {
+      this.date = new Date(tempDate * 1000).toString();
+    }
+    return this.date;
   }
 }

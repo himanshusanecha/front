@@ -32,7 +32,7 @@ export class PosterComponent {
   meta: any = {
     message: '',
     wire_threshold: null,
-    time_created: Math.floor(Date.now() / 1000),
+    time_created: null,
   };
   tags = [];
   minds = window.Minds;
@@ -55,8 +55,6 @@ export class PosterComponent {
   protected resizeSubscription: Subscription;
 
   protected resizeSubject: Subject<number> = new Subject<number>();
-
-  protected time_created: any;
 
   constructor(
     public session: Session,
@@ -195,7 +193,6 @@ export class PosterComponent {
         this.attachment.reset();
         this.meta = { wire_threshold: null };
         this.inProgress = false;
-        this.time_created = null;
       })
       .catch(e => {
         this.inProgress = false;
