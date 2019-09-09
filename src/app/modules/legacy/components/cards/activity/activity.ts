@@ -579,6 +579,8 @@ export class Activity implements OnInit {
   }
 
   getTimeCreated() {
-    return this.activity.time_created > Math.floor(Date.now() / 1000) ? this.activity.time_created : null;
+    return this.activity.time_created > Math.floor(Date.now() / 1000)
+      ? this.activity.time_created
+      : null;
   }
 }
