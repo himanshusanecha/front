@@ -215,9 +215,7 @@
           i18n-title="@@M__COMMON__MATURE_CONTENT"
           >explicit</i
         >
-        <span i18n="@@M__COMMON__CONFIRM_18"
-          >Click to confirm your are 18+</span
-        >
+        <span i18n="@@M__COMMON__CONFIRM_18">Click to confirm you are 18+</span>
       </span>
     </div>
     <minds-rich-embed [src]="activity" [maxheight]="480"></minds-rich-embed>
@@ -288,9 +286,7 @@
           i18n-title="@@M__COMMON__MATURE_CONTENT"
           >explicit</i
         >
-        <span i18n="@@M__COMMON__CONFIRM_18"
-          >Click to confirm your are 18+</span
-        >
+        <span i18n="@@M__COMMON__CONFIRM_18">Click to confirm you are 18+</span>
       </span>
     </div>
 
@@ -303,9 +299,9 @@
       [guid]="activity.custom_data.guid"
       [playCount]="activity['play:count']"
       [torrent]="[{ res: '360', key: activity.custom_data.guid + '/360.mp4' }]"
-      [isActivity]="true"
+      [shouldPlayInModal]="true"
       (videoMetadataLoaded)="setVideoDimensions($event)"
-      (mediaModalRequested)="clickedVideo()"
+      (mediaModalRequested)="openModal()"
       #player
     >
       <video-ads [player]="player" *ngIf="activity.monetized"></video-ads>
@@ -326,9 +322,7 @@
           i18n-title="@@M__COMMON__MATURE_CONTENT"
           >explicit</i
         >
-        <span i18n="@@M__COMMON__CONFIRM_18"
-          >Click to confirm your are 18+</span
-        >
+        <span i18n="@@M__COMMON__CONFIRM_18">Click to confirm you are 18+</span>
       </span>
     </div>
 
@@ -354,9 +348,7 @@
           i18n-title="@@M__COMMON__MATURE_CONTENT"
           >explicit</i
         >
-        <span i18n="@@M__COMMON__CONFIRM_18"
-          >Click to confirm your are 18+</span
-        >
+        <span i18n="@@M__COMMON__CONFIRM_18">Click to confirm you are 18+</span>
       </span>
     </div>
     <a class="m-activity--image-link">
