@@ -17,7 +17,7 @@
             [object]="entity | async"
             class="m-border"
             hostClass="mdl-card"
-            *ngIf="(entity | async).entity"
+            *ngIf="(entity | async)?.entity"
           ></minds-card>
         </ng-container>
       </div>
@@ -50,13 +50,16 @@
         <div
           class="mdl-cell mdl-cell--6-col"
           *ngFor="let entity of feed$ | async"
-        >
-        
-          <minds-card
-            [object]="entity | async"
-            hostClass="mdl-shadow--2dp"
-          ></minds-card>
-          <minds-button type="boost" [object]="entity | async"></minds-button>
+        >        
+          <ng-container  
+            *ngIf="(entity | async)?.entity"
+          >
+            <minds-card
+              [object]="entity | async"
+              hostClass="mdl-shadow--2dp"
+            ></minds-card>
+            <minds-button type="boost" [object]="entity | async"></minds-button>
+          </ng-container>
         </div>
       </div>
     </ng-container>
