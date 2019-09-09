@@ -344,4 +344,8 @@ export class BlogEdit {
   onTimeCreatedChange(newDate) {
     this.blog.time_created = newDate;
   }
+
+  getTimeCreated() {
+    return this.blog.time_created > Math.floor(Date.now() / 1000) ? this.blog.time_created : null;
+  }
 }

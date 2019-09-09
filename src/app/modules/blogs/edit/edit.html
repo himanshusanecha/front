@@ -171,7 +171,7 @@
       #thresholdInput
     ></m-wire-threshold-input>
     <m-poster-date-selector
-      [date]="blog.time_created"
+      [date]="getTimeCreated()"
       (dateChange)="onTimeCreatedChange($event)"
       (onError)="posterDateSelectorError($event)"
     ></m-poster-date-selector>

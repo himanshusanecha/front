@@ -577,4 +577,8 @@ export class Activity implements OnInit {
   posterDateSelectorError(msg) {
     throw new Error(msg);
   }
+
+  getTimeCreated() {
+    return this.activity.time_created > Math.floor(Date.now() / 1000) ? this.activity.time_created : null;
+  }
 }

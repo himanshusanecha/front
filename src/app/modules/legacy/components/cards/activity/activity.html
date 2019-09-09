@@ -181,7 +181,7 @@
       [(enabled)]="activity.paywall"
     ></m-wire-threshold-input>
     <m-poster-date-selector
-      [date]="activity.time_created"
+      [date]="getTimeCreated()"
       (dateChange)="onTimeCreatedChange($event)"
       (onError)="posterDateSelectorError($event)"
     ></m-poster-date-selector>
