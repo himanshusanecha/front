@@ -350,4 +350,11 @@ export class BlogEdit {
       ? this.blog.time_created
       : null;
   }
+
+  checkTimePublished() {
+    return (
+      !this.blog.time_published ||
+      this.blog.time_published > Math.floor(Date.now() / 1000)
+    );
+  }
 }

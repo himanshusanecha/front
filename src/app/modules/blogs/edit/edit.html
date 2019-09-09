@@ -171,7 +171,7 @@
       #thresholdInput
     ></m-wire-threshold-input>
     <m-poster-date-selector
-      *ngIf="!blog.time_published"
+      *ngIf="checkTimePublished()"
       [date]="getTimeCreated()"
       (dateChange)="onTimeCreatedChange($event)"
       (onError)="posterDateSelectorError($event)"
