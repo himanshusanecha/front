@@ -18,14 +18,21 @@ context('Registration', () => {
   const errorContainer = 'div:nth-child(2) > minds-form-register > div > div';
 
   before(() => {
-    cy.server();
-    cy.route("POST", "**/api/v1/register").as("register");
   });
 
   beforeEach(() => {
     cy.visit('/login');
     cy.location('pathname').should('eq', '/login');
+    cy.server();
+    cy.route("POST", "**/api/v1/register").as("register");
   });
+
+  after(() => {
+    cy.visit('/login');
+    cy.location('pathname').should('eq', '/login');
+    cy.login(false, username, password);
+    cy.deleteUser(username, password);
+  })
 
   it('should allow a user to register', () => {
     //type values
@@ -52,7 +59,8 @@ context('Registration', () => {
     cy.get(usernameField).focus().type(Math.random().toString(36).replace('0.', ''));
     cy.get(emailField).focus().type(email);
     cy.get(passwordField).focus().type(noSymbolPass);
-    cy.wait(500);    
+    cy.wait(500);
+
     cy.get(password2Field).focus().type(noSymbolPass);
     cy.get(checkbox).click();
 
@@ -78,10 +86,6 @@ context('Registration', () => {
     
     //submit
     cy.get(submitButton).click();
-    cy.get(submitButton).click()
-    .wait('@register').then((xhr) => {
-      expect(xhr.status).to.equal(200);
-    });
 
     cy.scrollTo('top');
     cy.get(errorContainer)
