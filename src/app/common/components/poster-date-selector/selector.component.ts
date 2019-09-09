@@ -43,7 +43,7 @@ export class PosterDateSelectorComponent {
     const fiveMinutes = new Date();
     fiveMinutes.setMinutes(fiveMinutes.getMinutes() + 5);
     if (date < fiveMinutes) {
-      return "Scheduled date can't be less than 5 minutes";
+      return "Scheduled date can't be less than 5 minutes or in the past";
     }
 
     return true;
