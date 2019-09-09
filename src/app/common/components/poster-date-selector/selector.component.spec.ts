@@ -73,14 +73,14 @@ describe('PosterDateSelectorComponent', () => {
     );
   }));
 
-  it('should emit onError when date less than 5 minutes', fakeAsync(() => {
+  it('should emit onError when date less than 5 minutes or in the past', fakeAsync(() => {
     spyOn(comp.onError, 'emit');
     const testDate = new Date();
     comp.onDateChange(testDate.toString());
     let timeDate = testDate.getTime();
     timeDate = Math.floor(timeDate / 1000);
     expect(comp.onError.emit).toHaveBeenCalledWith(
-      "Scheduled date can't be less than 5 minutes"
+      "Scheduled date can't be less than 5 minutes or in the past"
     );
   }));
 });
