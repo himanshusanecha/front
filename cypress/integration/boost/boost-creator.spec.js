@@ -73,7 +73,7 @@ context('Boost Creation', () => {
         expect(xhr.response.body.status).to.deep.equal("error");
       });
     
-    cy.get('[data-cy=error]')
+    cy.get('[data-cy=boost-creation-error]')
       .contains(duplicateError);
   });
 
@@ -94,7 +94,7 @@ context('Boost Creation', () => {
       .first()
       .click({force: true});
 
-    cy.get('[data-cy=error]')
+    cy.get('[data-cy=boost-creation-error]')
       .contains(nonParticipationError);
   });
 
