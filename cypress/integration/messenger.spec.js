@@ -50,6 +50,10 @@ context('Messenger', () => {
       .click({multiple: true});
   });
 
+  after(() => {
+    cy.deleteUser(testUsername, testPassword);
+  });
+
   it('should allow a new user to set a password and send a message', () => {
     cy.get(userSearch)
       .type(Cypress.env().username)
