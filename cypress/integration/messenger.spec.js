@@ -18,13 +18,13 @@ context('Messenger', () => {
   const passwordInput = (i) => `input[type=password]:nth-child(${i})`;
   const submitPassword = 'm-messenger--encryption > div > button';
   const messageInput = '.m-messenger--conversation-composer > textarea';
-  const sendButton = '[data-cy=send]';
+  const sendButton = '[data-cy=conversation-send]';
   const messageBubble = '.m-messenger--conversation-message-bubble';
 
-  const settingsButton = '[data-cy=options]';
-  const closeButton = '[data-cy=close]';
+  const settingsButton = '[data-cy=conversation-options]';
+  const closeButton = '[data-cy=conversation-close]';
 
-  const destroyButton = '[data-cy=destroy]';
+  const destroyButton = '[data-cy=conversation-destroy]';
 
   before(() => {
     cy.newUser(testUsername, testPassword);

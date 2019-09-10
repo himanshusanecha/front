@@ -19,13 +19,16 @@
       <i class="material-icons mdl-color-text--blue-grey-100" [hidden]="live"
         >sync_problem</i
       >
-      <i class="material-icons" (click)="ribbonToggle()" data-cy="options"
+      <i
+        class="material-icons"
+        (click)="ribbonToggle()"
+        data-cy="conversation-options"
         >more_vert</i
       >
       <i
         class="material-icons"
         (click)="dockpanes.close(conversation)"
-        data-cy="close"
+        data-cy="conversation-close"
         >close</i
       >
     </div>
@@ -49,7 +52,7 @@
         >
         <ng-container
           i18n="@@MESSENGER__CONVERSATION__DESTROY"
-          data-cy="destroy"
+          data-cy="conversation-destroy"
           >Destroy</ng-container
         >
       </div>
@@ -251,7 +254,7 @@
       <i
         class="material-icons mdl-color-text--blue-grey-600"
         (click)="send($event); emoji.close()"
-        data-cy="send"
+        data-cy="conversation-send"
         >send_arrow</i
       >
       <minds-emoji [localDirective]="emoji"></minds-emoji>
