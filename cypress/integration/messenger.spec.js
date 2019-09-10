@@ -18,13 +18,13 @@ context('Messenger', () => {
   const passwordInput = (i) => `input[type=password]:nth-child(${i})`;
   const submitPassword = 'm-messenger--encryption > div > button';
   const messageInput = '.m-messenger--conversation-composer > textarea';
-  const sendButton = '.m-messenger--conversation-composer > i:nth-child(3)';
+  const sendButton = '[data-cy=send]';
   const messageBubble = '.m-messenger--conversation-message-bubble';
 
-  const settingsButton = '.m-messenger--dockpane-tab-actions > i:nth-child(2)';
-  const closeButton = '.m-messenger--dockpane-tab-actions > i:nth-child(3)';
+  const settingsButton = '[data-cy=options]';
+  const closeButton = '[data-cy=close]';
 
-  const destroyButton = '.m-messenger--dockpane-tab-ribbon > div:nth-child(1) > i';
+  const destroyButton = '[data-cy=destroy]';
 
   before(() => {
     cy.newUser(testUsername, testPassword);
@@ -34,8 +34,8 @@ context('Messenger', () => {
     cy.preserveCookies();
     cy.server();
     cy.route('GET', '**/api/v2/messenger/search?*').as('search');
-    cy.route('POST', '**/api/v2/messenger/conversations/**').as('send');
     cy.route('GET', '**/api/v2/messenger/conversations/**').as('conversations');
+    cy.route('POST', '**/api/v2/messenger/conversations/**').as('send');
     cy.route('POST', '**/api/v2/messenger/keys/setup**').as('keys')
   
     cy.get(openMessenger)
