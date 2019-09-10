@@ -28,7 +28,8 @@ context('Boost Creation', () => {
   it('should redirect a user to buy tokens when clicked', () => {    
     openTopModal();
 
-    cy.get('.m-boost--creator-section-row .m-boost--creator-section-payment m-boost--creator-payment-methods > ul > li:nth-child(3) > i')
+    cy.get('m-boost--creator-payment-methods li h5 span')
+      .contains('Buy Tokens')
       .click();
 
     cy.location('pathname', { timeout: 30000 })
@@ -72,14 +73,15 @@ context('Boost Creation', () => {
         expect(xhr.response.body.status).to.deep.equal("error");
       });
     
-    cy.get('m-boost--creator > div > section > div > div > span')
+    cy.get('[data-cy=error]')
       .contains(duplicateError);
   });
 
   it('should display an error if boost offer receiver has not signed up for rewards', () => {
     openTopModal();
 
-    cy.get('.m-boost--creator-section.m-boost--creator-section-type > ul > li:nth-child(2) > h4')
+    cy.get('h4')
+      .contains('Offers')
       .click();
     
     cy.get('m-boost--creator-p2p-search .m-boost--creator-wide-input input')
@@ -92,7 +94,7 @@ context('Boost Creation', () => {
       .first()
       .click({force: true});
 
-    cy.get('m-boost--creator > div > section > div > div > span')
+    cy.get('[data-cy=error]')
       .contains(nonParticipationError);
   });
 
