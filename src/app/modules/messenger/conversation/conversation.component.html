@@ -22,13 +22,13 @@
       <i
         class="material-icons"
         (click)="ribbonToggle()"
-        data-cy="conversation-options"
+        data-cy="data-minds-conversation-options"
         >more_vert</i
       >
       <i
         class="material-icons"
         (click)="dockpanes.close(conversation)"
-        data-cy="conversation-close"
+        data-cy="data-minds-conversation-close"
         >close</i
       >
     </div>
@@ -52,7 +52,7 @@
         >
         <ng-container
           i18n="@@MESSENGER__CONVERSATION__DESTROY"
-          data-cy="conversation-destroy"
+          data-cy="data-minds-conversation-destroy"
           >Destroy</ng-container
         >
       </div>
@@ -254,7 +254,7 @@
       <i
         class="material-icons mdl-color-text--blue-grey-600"
         (click)="send($event); emoji.close()"
-        data-cy="conversation-send"
+        data-cy="data-minds-conversation-send"
         >send_arrow</i
       >
       <minds-emoji [localDirective]="emoji"></minds-emoji>

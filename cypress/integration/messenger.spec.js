@@ -21,10 +21,10 @@ context('Messenger', () => {
   const sendButton = '[data-cy=conversation-send]';
   const messageBubble = '.m-messenger--conversation-message-bubble';
 
-  const settingsButton = '[data-cy=conversation-options]';
-  const closeButton = '[data-cy=conversation-close]';
+  const settingsButton = '[data-cy=data-minds-conversation-options]';
+  const closeButton = '[data-cy=data-minds-conversation-close]';
 
-  const destroyButton = '[data-cy=conversation-destroy]';
+  const destroyButton = '[data-cy=data-minds-conversation-destroy]';
 
   before(() => {
     cy.newUser(testUsername, testPassword);
