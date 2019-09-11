@@ -18,7 +18,7 @@ context('Messenger', () => {
   const passwordInput = (i) => `input[type=password]:nth-child(${i})`;
   const submitPassword = 'm-messenger--encryption > div > button';
   const messageInput = '.m-messenger--conversation-composer > textarea';
-  const sendButton = '[data-cy=conversation-send]';
+  const sendButton = '[data-cy=data-minds-conversation-send]';
   const messageBubble = '.m-messenger--conversation-message-bubble';
 
   const settingsButton = '[data-cy=data-minds-conversation-options]';
