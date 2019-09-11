@@ -181,6 +181,7 @@
       [(enabled)]="activity.paywall"
     ></m-wire-threshold-input>
     <m-poster-date-selector
+      *ngIf="checkCreated()"
       [date]="getTimeCreated()"
       (dateChange)="onTimeCreatedChange($event)"
       (onError)="posterDateSelectorError($event)"
