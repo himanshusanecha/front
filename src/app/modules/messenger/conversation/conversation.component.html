@@ -43,6 +43,7 @@
       <div
         class="m-messenger--dockpane-tab-icon mdl-color-text--blue-grey-300"
         (click)="deleteHistory(); ribbonOpened = false"
+        data-cy="data-minds-conversation-destroy"
       >
         <i
           class="material-icons mdl-color-text--blue-grey-100"
@@ -50,9 +51,7 @@
           i18n-title="@@MESSENGER__CONVERSATION__DELETE_TOOLTIP"
           >delete</i
         >
-        <ng-container
-          i18n="@@MESSENGER__CONVERSATION__DESTROY"
-          data-cy="data-minds-conversation-destroy"
+        <ng-container i18n="@@MESSENGER__CONVERSATION__DESTROY"
           >Destroy</ng-container
         >
       </div>
