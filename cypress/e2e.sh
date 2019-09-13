@@ -14,12 +14,12 @@ function usage()
 
 Intended to serve as an interaction wrapper around Cypress.
 
-Example: ./e2e.sh -u nemofin -p 1 -v true -url http://www.minds.com/
+Example: ./e2e.sh -u nemofin -p password123 -v true -url http://www.minds.com/
 
 Options (* indicates it is required):"
   local help_options="
    *\-p ,\--password \<Parameter>\ The password of the user. 
-    \-url ,\--url \<Parameter>\ The URL of the host e.g. https://www.minds.com - defaults to use localhost. 
+    \-url ,\--url \<Parameter>\ The URL of the host e.g. https://www.minds.com/ - defaults to use localhost. 
     \-u ,\--username \<Parameter>\ The username - defaults to cypress_e2e_test.
     \-v ,\---video \<Parameter>\ true if you want video providing.
 "
@@ -99,4 +99,4 @@ done
 }
 init_args $@
 
-yarn e2e-open --config baseUrl=$url,video=$_video --env username=$username,password=$password
+npm run e2e-open --config baseUrl=$url,video=$_video --env username=$username,password=$password
