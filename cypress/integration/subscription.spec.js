@@ -4,7 +4,6 @@ context('Subscription', () => {
   const subscribeButton = 'minds-button-subscribe > button';
   const messageButton = 'm-messenger--channel-button > button';
   const userDropdown = 'minds-button-user-dropdown > button';
-  const unsubscribeOption = 'minds-button-user-dropdown > ul > li:nth-child(4)';
 
   beforeEach(()=> {
     cy.login(true);
@@ -30,7 +29,7 @@ context('Subscription', () => {
 
   function unsubscribe() {
     cy.get(userDropdown).click();
-    cy.get(unsubscribeOption).click();
+    cy.contains('Unsubscribe').click();
     cy.get(subscribeButton).should('be.visible');
   }
 
