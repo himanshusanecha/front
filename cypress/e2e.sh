@@ -14,7 +14,7 @@ function usage()
 
 Intended to serve as an interaction wrapper around Cypress.
 
-Example: e2e.sh [ENTER YOUR EXAMPLE ARGUMENTS HERE]
+Example: ./e2e.sh -u nemofin -p 1 -v true -url http://www.minds.com/
 
 Options (* indicates it is required):"
   local help_options="
