@@ -57,14 +57,14 @@ context('Newsfeed', () => {
     cy.get('minds-newsfeed-poster textarea').type('This is a post');
 
     // set scheduled date
-    cy.get('.m-poster-date-selector--input').click();
+    cy.get('.m-poster-date-selector__input').click();
     cy.get('button.c-datepicker__next').click();
     cy.get('tr.c-datepicker__days-row:nth-child(2) td.c-datepicker__day-body:first-child').click();
     cy.get('a.c-btn.c-btn--flat.js-ok').click();
 
     // get setted date to compare
     let scheduledDate;
-    cy.get('div.m-poster-date-selector--input div.m-tooltip--bubble')
+    cy.get('div.m-poster-date-selector__input div.m-tooltip--bubble')
       .invoke('text').then((text) => {
         scheduledDate = text;
       });
@@ -88,13 +88,13 @@ context('Newsfeed', () => {
     // edit the activity
     cy.get('.minds-list > minds-activity:first-child m-post-menu > button.minds-more').click();
     cy.get('.minds-list > minds-activity:first-child li.mdl-menu__item:first-child').click();
-    cy.get('.minds-list > minds-activity:first-child .m-poster-date-selector--input').click();
+    cy.get('.minds-list > minds-activity:first-child .m-poster-date-selector__input').click();
     cy.get('button.c-datepicker__next').click();
     cy.get('tr.c-datepicker__days-row:nth-child(3) td.c-datepicker__day-body:first-child').click();
     cy.get('a.c-btn.c-btn--flat.js-ok').click();
 
     // get setted date to compare
-    cy.get('.minds-list > minds-activity:first-child div.m-poster-date-selector--input div.m-tooltip--bubble')
+    cy.get('.minds-list > minds-activity:first-child div.m-poster-date-selector__input div.m-tooltip--bubble')
       .invoke('text').then((text) => {
         scheduledDate = text;
       });

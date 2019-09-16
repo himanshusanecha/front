@@ -183,13 +183,13 @@ context('Blogs', () => {
     cy.get('.m-mature-info a span').contains('Mature content');
 
     // set scheduled date
-    cy.get('.m-poster-date-selector--input').click();
+    cy.get('.m-poster-date-selector__input').click();
     cy.get('td.c-datepicker__day-body.c-datepicker__day--selected + td').click();
     cy.get('a.c-btn.c-btn--flat.js-ok').click();
 
     // get setted date to compare
     let scheduledDate;
-    cy.get('div.m-poster-date-selector--input div.m-tooltip--bubble')
+    cy.get('div.m-poster-date-selector__input div.m-tooltip--bubble')
       .invoke('text').then((text) => {
         scheduledDate = text;
       });
