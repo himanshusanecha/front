@@ -52,7 +52,7 @@ POSITIONAL=()
 
 # set default arguments
 url="http://localhost"
-username="cypress_e2e_test"
+username="minds_cypress_tests"
 _video=false
 
 while [[ $# -gt 0 ]]
