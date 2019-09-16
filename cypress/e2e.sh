@@ -98,5 +98,9 @@ for i in "${REQ_ARGS[@]}"; do
 done
 }
 init_args $@
-cd ..
+
+# cd to project root.
+while [[ $PWD != '/' && ${PWD##*/} != 'front' ]]; do cd ..; done
+
+#run cypress with args.
 ./node_modules/cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password
