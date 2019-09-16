@@ -98,5 +98,5 @@ for i in "${REQ_ARGS[@]}"; do
 done
 }
 init_args $@
-
-npm run e2e-open --config baseUrl=$url,video=$_video --env username=$username,password=$password
+cd ..
+./node_modules/cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password
