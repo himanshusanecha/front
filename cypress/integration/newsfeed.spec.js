@@ -102,7 +102,7 @@ context('Newsfeed', () => {
       .type(newContent);
     cy.get('.m-button--submit').click();
     cy.wait('@mediaEDIT').then(xhr => {
-      expect(xhr.status).to.equal(code);
+      expect(xhr.status).to.equal(200);
     });
 
     navigateToNewsfeed();
