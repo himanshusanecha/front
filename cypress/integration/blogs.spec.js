@@ -3,14 +3,15 @@
 context('Blogs', () => {
   before(() => {
     cy.clearCookies();
-    cy.getCookie('minds_sess').then(sessionCookie => {
+    cy.getCookie('minds_sess')
+    .then((sessionCookie) => {
       if (sessionCookie === null) {
         return cy.login(true);
       }
     });
   });
 
-  beforeEach(() => {
+  beforeEach(()=> {
     cy.preserveCookies();
   });
 
