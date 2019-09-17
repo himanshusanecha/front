@@ -281,6 +281,7 @@ context('Newsfeed', () => {
   })
 
   it('should post an activity with an image attachment', () => {
+    navigateToNewsfeed();
     const identifier = Math.floor(Math.random() * 100);
     const content = 'This is a post with an image ' + identifier;
     newActivityContent(content);
