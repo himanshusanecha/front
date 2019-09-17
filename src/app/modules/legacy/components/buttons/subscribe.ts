@@ -9,12 +9,24 @@ import { SignupModalService } from '../../../../modules/modals/signup/service';
   template: `
     <button
       class="m-btn m-btn--with-icon m-btn--subscribe"
-      *ngIf="!_user.subscribed"
+      *ngIf="!_user.subscribed && !_user.pending_subscribe"
       (click)="subscribe($event)"
     >
       <i class="material-icons">person_add</i>
       <span>
         <ng-container i18n="@@M__ACTION__SUBSCRIBE">Subscribe</ng-container>
+      </span>
+    </button>
+    <button
+      class="m-btn m-btn--with-icon m-btn--subscribe subscribed"
+      *ngIf="_user.pending_subscribe"
+      (click)="unSubscribe($event)"
+    >
+      <i class="material-icons">close</i>
+      <span>
+        <ng-container i18n="@@MINDS__BUTTONS__UNSUBSCRIBE__SUBSCRIBED_LABEL"
+          >Pending</ng-container
+        >
       </span>
     </button>
     <button
@@ -63,6 +75,10 @@ export class SubscribeButton {
       return false;
     }
 
+    if (this._user.mode === 2) {
+      return this.request();
+    }
+
     this._user.subscribed = true;
     this.onSubscribed.next();
 
@@ -79,6 +95,17 @@ export class SubscribeButton {
         this._user.subscribed = false;
         alert("You can't subscribe to this user.");
       });
+  }
+
+  async request() {
+    this._user.pending_subscribe = true;
+
+    try {
+      await this.client.put(`api/v2/subscriptions/outgoing/${this._user.guid}`);
+    } catch (err) {
+      this._user.pending_subscribe = false;
+      alert('There was an error requesting to subscribe');
+    }
   }
 
   unSubscribe(e) {

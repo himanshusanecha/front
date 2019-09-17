@@ -117,6 +117,13 @@
           i18n="@@MINDS__CHANNELS__SUBSCRIPTIONS_WITH_COUNT"
           >Subscriptions ({{ user.subscriptions_count }})</a
         >
+        <a
+          [routerLink]="['/', user.username, 'requests']"
+          *ngIf="user.mode === 2 && user.guid == session.getLoggedInUser().guid"
+          class="mdl-tabs__tab"
+          [ngClass]="{ 'is-active': filter === 'requests' }"
+          >Requests</a
+        >
       </div>
     </div>
 
@@ -144,6 +151,13 @@
           i18n="@@MINDS__CHANNELS__SUBSCRIPTIONS_WITH_COUNT"
           >Subscriptions ({{ user.subscriptions_count }})</a
         >
+        <a
+          [routerLink]="['/', user.username, 'requests']"
+          *ngIf="user.mode === 2 && user.guid == session.getLoggedInUser().guid"
+          class="mdl-tabs__tab"
+          [ngClass]="{ 'is-active': filter === 'requests' }"
+          >Requests</a
+        >
       </div>
     </div>
 
@@ -151,6 +165,10 @@
       [channel]="user"
       class="mdl-grid"
     ></m-channel--subscribers>
+  </section>
+
+  <section class="mdl-cell mdl-cell--8-col" *ngIf="filter == 'requests'">
+    <m-subscriptionsRequests__list></m-subscriptionsRequests__list>
   </section>
 </div>
 
