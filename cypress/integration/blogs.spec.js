@@ -3,15 +3,14 @@
 context('Blogs', () => {
   before(() => {
     cy.clearCookies();
-    cy.getCookie('minds_sess')
-    .then((sessionCookie) => {
+    cy.getCookie('minds_sess').then(sessionCookie => {
       if (sessionCookie === null) {
         return cy.login(true);
       }
     });
   });
 
-  beforeEach(()=> {
+  beforeEach(() => {
     cy.preserveCookies();
   });
 
@@ -26,7 +25,7 @@ context('Blogs', () => {
     cy.get('.m-channel--name .minds-button-edit button:last-child').click();
   };
 
-  const createBlogPost = (title, body, nsfw = false) => {
+  const createBlogPost = (title, body, nsfw = false, schedule = false) => {
     cy.visit('/blog/edit/new');
 
     cy.uploadFile(
@@ -90,6 +89,24 @@ context('Blogs', () => {
       cy.get('.m-mature-info a span').contains('Mature content');
     }
 
+    if (schedule) {
+      cy.get('.m-poster-date-selector__input').click();
+      cy.get(
+        'td.c-datepicker__day-body.c-datepicker__day--selected + td'
+      ).click();
+      cy.get('a.c-btn.c-btn--flat.js-ok').click();
+
+      // get setted date to compare
+      let scheduledDate;
+      cy.get('div.m-poster-date-selector__input div.m-tooltip--bubble')
+        .invoke('text')
+        .then(text => {
+          scheduledDate = text;
+        });
+
+      cy.wait(1000);
+    }
+
     cy.server();
     cy.route('POST', '**/api/v1/blog/new').as('postBlog');
     cy.route('GET', '**/api/v1/blog/**').as('getBlog');
@@ -107,7 +124,7 @@ context('Blogs', () => {
       expect(xhr.response.body).to.have.property('blog');
     });
 
-    cy.location('pathname').should(
+    cy.location('pathname', { timeout: 30000 }).should(
       'contains',
       `/${Cypress.env().username}/blog`
     );
@@ -116,6 +133,18 @@ context('Blogs', () => {
     cy.get('.minds-blog-body p').contains(body);
 
     cy.get('.m-license-info span').contains('all-rights-reserved');
+
+    if (schedule) {
+      cy.wait(1000);
+
+      cy.get('div.m-blog-container div.mdl-grid div.minds-body span')
+        .invoke('text')
+        .then(text => {
+          const time_created = new Date(text).getTime();
+          scheduledDate = new Date(scheduledDate).getTime();
+          expect(scheduledDate).to.equal(time_created);
+        });
+    }
   };
 
   const deleteBlogPost = () => {
@@ -164,6 +193,12 @@ context('Blogs', () => {
     cy.get('.m-blog--title').contains(title);
     cy.get('.minds-blog-body p').contains(body);
   };
+
+  it('should be able to create a new scheduled blog', () => {
+    uploadAvatar();
+    createBlogPost('Title', 'Content', true, true);
+    deleteBlogPost();
+  });
 
   it('should not be able to create a new blog if no title or banner are specified', () => {
     cy.visit('/blog/edit/new');
