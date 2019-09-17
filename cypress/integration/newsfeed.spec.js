@@ -71,10 +71,20 @@ context('Newsfeed', () => {
     ).click();
     cy.get('.minds-list > minds-activity:first textarea').clear();
     cy.get('.minds-list > minds-activity:first textarea').type(newContent);
-    cy.get('.minds-list > minds-activity:first .mdl-button--colored').click();
+    cy.get('.minds-list > minds-activity:first .minds-editable-container .mdl-button--colored').click();
     cy.wait('@newsfeedEDIT').then(xhr => {
       expect(xhr.status).to.equal(200);
     });
+  };
+
+  const navigateToMediaPageFromNewsfeed = () => {
+    cy.get('.minds-list > minds-activity:first  .item-image img').should(
+      'be.visible'
+    );
+    cy.get('.minds-list > minds-activity:first  .item-image img').click();
+    cy.get('.m-mediaModal__stage').trigger('mouseenter');
+    cy.get('.m-mediaModal__overlayContainer', {timeout: 10000}).click();
+    cy.location('pathname', { timeout: 20000 }).should('contains', 'media');
   };
 
   it('editing media post propagates to activity', () => {
@@ -86,14 +96,10 @@ context('Newsfeed', () => {
     postActivityAndAwaitResponse(200);
 
     cy.get('.minds-list > minds-activity:first .message').contains(content);
-    cy.get('.minds-list > minds-activity:first  .item-image img').should(
-      'be.visible'
-    );
 
-    cy.get('.minds-list > minds-activity:first  .item-image img').click();
-    cy.get('m-media--modal .permalink').click();
-    cy.location('pathname', { timeout: 20000 }).should('contains', 'media');
-    cy.get('.m-media-content--heading').contains(content);
+    navigateToMediaPageFromNewsfeed();
+
+    cy.get('.m-media-content--heading', { timeout: 10000 }).contains(content);
     cy.get('.minds-button-edit').click();
 
     const newContent = content + ' changed';
@@ -128,10 +134,11 @@ context('Newsfeed', () => {
     const newContent = content + ' changed';
     editActivityContent(newContent);
 
-    cy.get('.minds-list > minds-activity:first  .item-image img').click();
-    cy.get('m-media--modal .permalink').click();
-    cy.location('pathname', { timeout: 20000 }).should('contains', 'media');
-    cy.get('.m-media-content--heading').contains(newContent);
+    cy.get('.minds-list > minds-activity:first .message').contains(content);
+
+    navigateToMediaPageFromNewsfeed();
+
+    cy.get('.m-media-content--heading', { timeout: 10000 }).contains(newContent);
 
     navigateToNewsfeed();
     deleteActivityFromNewsfeed();
@@ -277,23 +284,13 @@ context('Newsfeed', () => {
     const identifier = Math.floor(Math.random() * 100);
     const content = 'This is a post with an image ' + identifier;
     newActivityContent(content);
-
-    cy.uploadFile(
-      '#attachment-input-poster',
-      '../fixtures/international-space-station-1776401_1920.jpg',
-      'image/jpg'
-    );
-
-    cy.wait('@mediaPOST').then(xhr => {
-      expect(xhr.status).to.equal(200);
-    });
-
+    attachImageToActivity();
     postActivityAndAwaitResponse(200);
 
-    cy.get('.minds-list > minds-activity:first-child .message').contains(
+    cy.get('.minds-list > minds-activity:first .message', {timeout: 20000 }).contains(
       content
     );
-    cy.get('.minds-list > minds-activity:first-child  .item-image img').should(
+    cy.get('.minds-list > minds-activity:first  .item-image img').should(
       'be.visible'
     );
 
