@@ -287,6 +287,11 @@ m-hashtags-selector {
         white-space: normal;
       }
     }
+
+    m-poster-date-selector {
+      padding-right: $minds-padding;
+    }
+
     .m-posterActionBar__CreateBlog {
       cursor: pointer;
     }
