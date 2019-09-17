@@ -74,7 +74,7 @@ describe('AdminFirehose', () => {
           useValue: newsfeedHashtagSelectorServiceMock,
         },
         { provide: OverlayModalService, useValue: overlayModalServiceMock },
-        { provide: ActivityService, useValue: activityServiceMock}
+        { provide: ActivityService, useValue: activityServiceMock },
       ],
     }).compileComponents();
   }));

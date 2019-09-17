@@ -146,7 +146,7 @@ describe('AdminBoosts', () => {
       providers: [
         { provide: Client, useValue: clientMock },
         { provide: OverlayModalService, useValue: overlayModalServiceMock },
-        { provide: ActivityService, useValue: activityServiceMock }
+        { provide: ActivityService, useValue: activityServiceMock },
       ],
     }).compileComponents(); // compile template and css
   }));

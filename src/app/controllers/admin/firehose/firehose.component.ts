@@ -32,7 +32,6 @@ export class AdminFirehoseComponent implements OnInit, OnDestroy {
     protected newsfeedHashtagSelectorService: NewsfeedHashtagSelectorService,
     private overlayModal: OverlayModalService,
     protected activityService: ActivityService
-
   ) {
     this.paramsSubscription = this.route.params.subscribe(params => {
       this.algorithm = params['algorithm'] || 'latest';
