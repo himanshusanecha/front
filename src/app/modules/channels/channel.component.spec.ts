@@ -61,6 +61,10 @@ describe('ChannelComponent', () => {
           inputs: ['channel'],
         }),
         MockComponent({
+          selector: 'm-subscriptionsRequests__list',
+          inputs: [],
+        }),
+        MockComponent({
           selector: 'm-channel--carousel',
           inputs: ['banners', 'editMode'],
         }),
