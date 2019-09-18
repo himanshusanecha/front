@@ -2,7 +2,7 @@
  * @author Ben Hayward
  * @desc E2E testing for Minds Boost Console pages.
  */
-import generateRandomId from '../support/utilities';
+import generateRandomId from '../../support/utilities';
 
 context('Boost Console', () => {
   const postContent = "Test boost, please reject..." + generateRandomId();
@@ -19,6 +19,7 @@ context('Boost Console', () => {
 
   beforeEach(() => {
     cy.server();
+    cy.route("POST", '**/api/v2/boost/**').as('boostPost');
     cy.preserveCookies();
     cy.visit('/boost/console/newsfeed/history');  
   });
@@ -73,8 +74,10 @@ context('Boost Console', () => {
   })
 
   function newBoost(text, views) {
-    cy.visit('/newsfeed/subscribed');
+    cy.server();
     cy.route("POST", '**/api/v2/boost/**').as('boostPost');
+
+    cy.visit('/newsfeed/subscribed');
     cy.post(text);
 
     cy.get('#boost-actions')
