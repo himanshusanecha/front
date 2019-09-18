@@ -65,4 +65,11 @@ export class NewsfeedEntityComponent {
       componentRef.changeDetectorRef.detectChanges();
     }
   }
+
+  /**
+   * Sets entity to null and by extension hides it.
+   */
+  delete(): void {
+    this.entity = null;
+  }
 }
