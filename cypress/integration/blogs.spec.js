@@ -12,10 +12,14 @@ context('Blogs', () => {
 
   beforeEach(() => {
     cy.preserveCookies();
+    cy.server();
+    cy.route('POST', '**/api/v1/blog/new').as('postBlog');
+    cy.route('GET', '**/api/v1/blog/**').as('getBlog');
+    cy.route('DELETE', '**/api/v1/blog/**').as('deleteBlog');
   });
 
   const uploadAvatar = () => {
-    cy.visit(`/${Cypress.env().username}`);
+    cy.visit(`/${Cypress.env().username}`, { timeout: 30000 });
     cy.get('.m-channel--name .minds-button-edit button:first-child').click();
     cy.uploadFile(
       '.minds-avatar input[type=file]',
@@ -26,7 +30,7 @@ context('Blogs', () => {
   };
 
   const createBlogPost = (title, body, nsfw = false, schedule = false) => {
-    cy.visit('/blog/edit/new');
+    cy.visit('/blog/edit/new', { timeout: 30000 });
 
     cy.uploadFile(
       '.minds-banner input[type=file]',
@@ -35,7 +39,6 @@ context('Blogs', () => {
     );
 
     cy.get('minds-textarea .m-editor').type(title);
-
     cy.get('m-inline-editor .medium-editor-element').type(body);
 
     // click on plus button
@@ -103,15 +106,9 @@ context('Blogs', () => {
         .then(text => {
           scheduledDate = text;
         });
-
-      cy.wait(1000);
     }
 
-    cy.server();
-    cy.route('POST', '**/api/v1/blog/new').as('postBlog');
-    cy.route('GET', '**/api/v1/blog/**').as('getBlog');
-
-    cy.get('.m-button--submit').click({ force: true }); // TODO: Investigate why disabled flag is being detected
+    cy.get('.m-button--submit', { timeout: 5000 }).click({ force: true }); // TODO: Investigate why disabled flag is being detected
 
     cy.wait('@postBlog').then(xhr => {
       expect(xhr.status).to.equal(200);
@@ -153,6 +150,10 @@ context('Blogs', () => {
       .contains('Delete')
       .click();
     cy.get('m-post-menu m-modal-confirm .mdl-button--colored').click();
+    cy.wait('@deleteBlog').then(xhr => {
+      expect(xhr.status).to.equal(200);
+      expect(xhr.response.body.status).to.equal('success');
+    });
   };
 
   const editBlogPost = (title, body) => {
@@ -167,10 +168,6 @@ context('Blogs', () => {
     cy.location('pathname').should('contains', '/blog/edit');
     cy.get('minds-textarea .m-editor').type(title);
     cy.get('m-inline-editor .medium-editor-element').type(body);
-
-    cy.server();
-    cy.route('POST', '**/api/v1/blog/edit').as('postBlog');
-    cy.route('GET', '**/api/v1/blog/**').as('getBlog');
 
     cy.get('.m-button--submit').click();
 
@@ -201,7 +198,7 @@ context('Blogs', () => {
   });
 
   it('should not be able to create a new blog if no title or banner are specified', () => {
-    cy.visit('/blog/edit/new');
+    cy.visit('/blog/edit/new', { timeout: 30000 });
     cy.get('.m-button--submit').click();
     cy.get('.m-blog--edit--error').contains('Error: You must provide a title');
     cy.get('minds-textarea .m-editor').type('Title');
@@ -225,12 +222,13 @@ context('Blogs', () => {
 
     createBlogPost(title, body);
     cy.visit(`/${Cypress.env().username}`);
-    cy.get('.m-channel-feed minds-activity:first .m-blurb').contains(body);
-    cy.get('.m-channel-feed minds-activity:first .m-rich-embed--title')
+    //:nth-child(3) > .mdl-card > .m-rich-embed > minds-rich-embed > .m-rich-embed-src > .meta > .m-rich-embed--title
+    cy.get('minds-activity:first .m-blurb').contains(body);
+    cy.get('minds-activity:first .m-rich-embed--title')
       .first()
       .contains(title);
 
-    cy.get('.m-channel-feed minds-activity:first .thumbnail')
+    cy.get('minds-activity:first .thumbnail')
       .should('have.attr', 'href')
       .then(href => {
         cy.visit(href);
@@ -240,6 +238,10 @@ context('Blogs', () => {
       `/${Cypress.env().username}/blog`
     );
     deleteBlogPost();
+    cy.location('pathname').should(
+      'contains',
+      `/blog/owner`
+    );
   });
 
   it('should update the activity when blog is updated', () => {
@@ -249,12 +251,12 @@ context('Blogs', () => {
 
     createBlogPost(title, body);
     cy.visit(`/${Cypress.env().username}`);
-    cy.get('.m-channel-feed minds-activity:first .m-blurb').contains(body);
-    cy.get('.m-channel-feed minds-activity:first .m-rich-embed--title')
+    cy.get('minds-activity:first .m-blurb').contains(body);
+    cy.get('minds-activity:first .m-rich-embed--title')
       .first()
       .contains(title);
 
-    cy.get('.m-channel-feed minds-activity:first .thumbnail')
+    cy.get('minds-activity:first .thumbnail')
       .should('have.attr', 'href')
       .then(href => {
         cy.visit(href);
@@ -265,12 +267,12 @@ context('Blogs', () => {
     editBlogPost(newtitle, newbody);
 
     cy.visit(`/${Cypress.env().username}`);
-    cy.get('.m-channel-feed minds-activity:first .m-blurb').contains(body);
-    cy.get('.m-channel-feed minds-activity:first .m-rich-embed--title')
+    cy.get('minds-activity:first .m-blurb').contains(body);
+    cy.get('minds-activity:first .m-rich-embed--title')
       .first()
       .contains(title);
 
-    cy.get('.m-channel-feed minds-activity:first .thumbnail')
+    cy.get('minds-activity:first .thumbnail')
       .should('have.attr', 'href')
       .then(href => {
         cy.visit(href);
