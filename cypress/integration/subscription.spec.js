@@ -5,14 +5,22 @@ context('Subscription', () => {
   const messageButton = 'm-messenger--channel-button > button';
   const userDropdown = 'minds-button-user-dropdown > button';
 
-  beforeEach(()=> {
-    cy.login(true);
+  before(() => {
+    cy.getCookie('minds_sess')
+    .then((sessionCookie) => {
+      if (sessionCookie === null) {
+        return cy.login(true);
+      }
+    });
+  });
 
+  beforeEach(() => {
+    cy.preserveCookies();
     cy.location('pathname', { timeout: 30000 })
       .should('eq', `/newsfeed/subscriptions`);
     
     cy.visit(`/${user}`);
-  })
+  });
 
   it('should allow a user to subscribe to another', () => {
     subscribe();
@@ -20,7 +28,7 @@ context('Subscription', () => {
 
   it('should allow a user to unsubscribe',() => {
     unsubscribe();
-  })
+  });
 
   function subscribe() {
     cy.get(subscribeButton).click();

@@ -1,4 +1,4 @@
-context('Channel image upload', () => {
+context.skip('Channel image upload', () => {
   before(() => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {

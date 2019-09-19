@@ -19,9 +19,10 @@ Example: ./e2e.sh -u nemofin -p password123 -v true -url http://www.minds.com/
 Options (* indicates it is required):"
   local help_options="
    *\-p ,\--password \<Parameter>\ The password of the user. 
-    \-url ,\--url \<Parameter>\ The URL of the host e.g. https://www.minds.com/ - defaults to use localhost. 
+    \-h ,\--url \<Parameter>\ The URL of the host e.g. https://www.minds.com/ - defaults to use localhost. 
     \-u ,\--username \<Parameter>\ The username - defaults to cypress_e2e_test.
     \-v ,\---video \<Parameter>\ true if you want video providing.
+
 "
 
   if [ "$missing_required" != "" ]
@@ -53,14 +54,14 @@ POSITIONAL=()
 # set default arguments
 url="http://localhost"
 username="minds_cypress_tests"
+env=""
 _video=false
-
 while [[ $# -gt 0 ]]
 do
 key="$1"
 
 case $key in
-	-url|--url)
+	-h|--url)
 		url="$2"
 		shift 2
 		;;
@@ -72,8 +73,12 @@ case $key in
 		password="$2"
 		shift 2
 		;;
-	-v|---video)
+	-v|--video)
 		_video="$2"
+		shift 2
+		;;
+	-e|--env)
+		env="$2"
 		shift 2
 		;;
 	*)
@@ -103,4 +108,5 @@ init_args $@
 while [[ $PWD != '/' && ${PWD##*/} != 'front' ]]; do cd ..; done
 
 #run cypress with args.
-./node_modules/cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password
+echo ./node_modules/cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password,$env $POSITIONAL
+./node_modules/cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password,$env $POSITIONAL 
