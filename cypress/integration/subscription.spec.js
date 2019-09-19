@@ -16,10 +16,13 @@ context('Subscription', () => {
 
   beforeEach(() => {
     cy.preserveCookies();
-    cy.location('pathname', { timeout: 30000 })
-      .should('eq', `/newsfeed/subscriptions`);
-    
+    cy.server();
+    cy.route("POST", "**/api/v1/subscribe/*").as("subscribe");
+    cy.route("DELETE", "**/api/v1/subscribe/*").as("unsubscribe");
+
     cy.visit(`/${user}`);
+    cy.location('pathname')
+      .should('eq', `/${user}`);
   });
 
   it('should allow a user to subscribe to another', () => {
@@ -31,13 +34,23 @@ context('Subscription', () => {
   });
 
   function subscribe() {
-    cy.get(subscribeButton).click();
-    cy.get(messageButton).should('be.visible');
+    cy.get(subscribeButton)
+      .click()
+      .wait('@subscribe').then((xhr) => {
+      expect(xhr.status).to.equal(200);
+      expect(xhr.response.body.status).to.equal("success");
+    });
+    cy.get(messageButton).should('be.visible')
   }
 
   function unsubscribe() {
     cy.get(userDropdown).click();
-    cy.contains('Unsubscribe').click();
+    cy.contains('Unsubscribe')
+      .click()
+      .wait('@unsubscribe').then((xhr) => {
+        expect(xhr.status).to.equal(200);
+        expect(xhr.response.body.status).to.equal("success");
+      });
     cy.get(subscribeButton).should('be.visible');
   }
 
