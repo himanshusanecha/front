@@ -113,12 +113,12 @@ context('Blogs', () => {
     cy.wait('@postBlog').then(xhr => {
       expect(xhr.status).to.equal(200);
       expect(xhr.response.body.status).to.equal('success');
-    });
 
-    cy.wait('@getBlog').then(xhr => {
-      expect(xhr.status).to.equal(200);
-      expect(xhr.response.body.status).to.equal('success');
-      expect(xhr.response.body).to.have.property('blog');
+      cy.wait('@getBlog').then(xhr => {
+        expect(xhr.status).to.equal(200);
+        expect(xhr.response.body.status).to.equal('success');
+        expect(xhr.response.body).to.have.property('blog');
+      });
     });
 
     cy.location('pathname', { timeout: 30000 }).should(
@@ -162,6 +162,7 @@ context('Blogs', () => {
       `/${Cypress.env().username}/blog`
     );
 
+    cy.get('m-post-menu').click();
     cy.get('.minds-dropdown-menu li')
       .first()
       .click();
@@ -174,12 +175,12 @@ context('Blogs', () => {
     cy.wait('@postBlog').then(xhr => {
       expect(xhr.status).to.equal(200);
       expect(xhr.response.body.status).to.equal('success');
-    });
 
-    cy.wait('@getBlog').then(xhr => {
-      expect(xhr.status).to.equal(200);
-      expect(xhr.response.body.status).to.equal('success');
-      expect(xhr.response.body).to.have.property('blog');
+      cy.wait('@getBlog').then(xhr => {
+        expect(xhr.status).to.equal(200);
+        expect(xhr.response.body.status).to.equal('success');
+        expect(xhr.response.body).to.have.property('blog');
+      });
     });
 
     cy.location('pathname').should(
