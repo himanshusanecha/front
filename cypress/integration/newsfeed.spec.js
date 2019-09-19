@@ -82,8 +82,14 @@ context('Newsfeed', () => {
       'be.visible'
     );
     cy.get('.minds-list > minds-activity:first  .item-image img').click();
-    cy.get('.m-mediaModal__stage').trigger('mouseenter');
-    cy.get('.m-mediaModal__overlayContainer', {timeout: 10000}).click();
+
+    cy.get('m-overlay-modal').then(($modalOverlay) => {
+      if ($modalOverlay.find('.m-mediaModal__stage').length) {
+        cy.get('.m-mediaModal__stage').trigger('mouseenter');
+        cy.get('.m-mediaModal__overlayContainer', {timeout: 10000}).click();
+      }
+    });
+
     cy.location('pathname', { timeout: 20000 }).should('contains', 'media');
   };
 
