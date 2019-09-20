@@ -5,40 +5,60 @@
  * @desc Spec tests for Wire transactions.
  */
 
-context('Wire', () => {
-  if (!Cypress.env().production) {
-    const wireButton = 'm-wire-channel > div > button';
-    const sendButton = '.m-wire--creator-section--last > div > button';
-    const modal = 'm-overlay-modal > div.m-overlay-modal';
+import generateRandomId from "../support/utilities";
 
-    before(() => {
-      cy.getCookie('minds_sess')
-      .then((sessionCookie) => {
-        if (sessionCookie === null) {
-          return cy.login(true);
-        }
-      });
-    });
+// Issue to re-enable https://gitlab.com/minds/front/issues/1846
+context.skip('Wire', () => {
 
-    beforeEach(()=> {
-      cy.preserveCookies();
-    });
-
-    //TODO: Remove me when we get user to user wires working on the review environment 
-    it.skip('should allow a user to send a wire to another user', () => {
-      // Visit users page.
-      cy.visit('/minds');
-
-      // Click profile wire button
-      cy.get(wireButton).click();
-      cy.wait(2000);
-
-      // Click send button
-      cy.get(sendButton).click();
-      cy.wait(5000);
-      
-      //Make sure modal is hidden after 5 seconds.
-      cy.get(modal).should('be.hidden');
-    });
+  const receiver = {
+    username: generateRandomId(),
+    password: generateRandomId()+'F!',
   }
+  const sendAmount = 5000;
+  const wireButton = 'm-wire-channel > div > button';
+  const sendButton = '.m-wire--creator-section--last > div > button';
+  const modal = 'm-overlay-modal > div.m-overlay-modal';
+
+  before(() => {
+    cy.newUser(receiver.username, receiver.password);
+    cy.logout();
+    
+  });
+
+  beforeEach(()=> {
+    cy.preserveCookies();
+    cy.login(true);
+  });
+
+  afterEach(() => {
+    // cy.login(true, receiver.username, receiver.password);
+    cy.visit(`/${Cypress.env().username}`);
+
+    // Click profile wire button
+    cy.get(wireButton).click();
+    cy.wait(2000);
+
+    // Click send button
+    cy.get(sendButton).click();
+    cy.wait(5000);
+    
+    //Make sure modal is hidden after 5 seconds.
+    cy.get(modal).should('be.hidden');
+  });
+
+  it('should allow a user to send a wire to another user', () => {
+    // Visit users page.
+    cy.visit(`/${receiver.username}`);
+
+    // Click profile wire button
+    cy.get(wireButton).click();
+    cy.wait(2000);
+
+    // Click send button
+    cy.get(sendButton).click();
+    cy.wait(5000);
+    
+    //Make sure modal is hidden after 5 seconds.
+    cy.get(modal).should('be.hidden');
+  });
 })
