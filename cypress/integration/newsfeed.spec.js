@@ -2,17 +2,19 @@ context('Newsfeed', () => {
   before(() => {
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
-      if (sessionCookie === null) {
+      if (!sessionCookie) {
         return cy.login(true);
       }
-    });  
+    });
+    cy.visit('/newsfeed/subscriptions');
   })
 
   beforeEach(()=> {
     cy.preserveCookies();
     cy.server();
     cy.route("POST", "**/api/v1/newsfeed").as("newsfeedPOST");
-    cy.route("POST", "**/api/v1/media").as("mediaPOST");  
+    cy.route("POST", "**/api/v1/media").as("mediaPOST");
+    // cy.visit('/newsfeed/subscriptions')
   });
 
   it('should post an activity picking hashtags from the dropdown', () => {
