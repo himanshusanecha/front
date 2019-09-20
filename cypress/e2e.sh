@@ -78,7 +78,7 @@ case $key in
 		shift 2
 		;;
 	-e|--env)
-		env="$2"
+		env=",$2"
 		shift 2
 		;;
 	*)
@@ -105,8 +105,8 @@ done
 init_args $@
 
 # cd to project root.
-while [[ $PWD != '/' && ${PWD##*/} != 'front' ]]; do cd ..; done
+# while [[ $PWD != '/' && ${PWD##*/} != 'front' ]]; do cd ..; done
 
 #run cypress with args.
-echo ./node_modules/cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password,$env $POSITIONAL
-./node_modules/cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password,$env $POSITIONAL 
+echo $(npm bin)/../cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password$env $POSITIONAL 
+$(npm bin)/../cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password$env $POSITIONAL 
