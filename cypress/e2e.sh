@@ -108,5 +108,5 @@ init_args $@
 # while [[ $PWD != '/' && ${PWD##*/} != 'front' ]]; do cd ..; done
 
 #run cypress with args.
-echo $(npm bin)/../cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password$env $POSITIONAL 
-$(npm bin)/../cypress/bin/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password$env $POSITIONAL 
+echo $(npm bin)/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password$env $POSITIONAL 
+$(npm bin)/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password$env $POSITIONAL 
