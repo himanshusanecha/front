@@ -21,8 +21,8 @@ export class ProChannelLoginComponent {
     return this.service.currentChannel.pro_settings;
   }
 
-  get autoSubscribe() {
-    return window.Minds.pro ? this.service.currentChannel : null;
+  get referrerGuid() {
+    return this.service.currentChannel.guid;
   }
 
   constructor(

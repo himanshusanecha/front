@@ -21,7 +21,10 @@
           </a>
         </span>
 
-        <minds-form-register (done)="registered()"></minds-form-register>
+        <minds-form-register
+          [referrer]="referrerGuid"
+          (done)="registered()"
+        ></minds-form-register>
       </ng-container>
     </div>
   </div>
