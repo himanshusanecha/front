@@ -18,9 +18,9 @@ import { ThemeService } from './common/services/theme.service';
 import { BannedService } from './modules/report/banned/banned.service';
 import { DiagnosticsService } from './services/diagnostics.service';
 import { SiteService } from './common/services/site.service';
-import { PRO_DOMAIN_ROUTES, proRoutes } from './modules/pro/pro.module';
 import { Subscription } from 'rxjs';
 import { RouterHistoryService } from './common/services/router-history.service';
+import { PRO_DOMAIN_ROUTES } from './modules/pro/pro.module';
 
 @Component({
   moduleId: module.id,
@@ -72,32 +72,8 @@ export class Minds {
     this.diagnostics.setUser(this.minds.user);
     this.diagnostics.listen(); // Listen for user changes
 
-    if (this.site.isProDomain) {
+    if (!this.site.isProDomain) {
       this.notificationService.getNotifications();
-
-      this.router$ = this.router.events.subscribe(
-        (navigationEvent: NavigationEnd) => {
-          try {
-            if (navigationEvent instanceof NavigationEnd) {
-              if (!navigationEvent.urlAfterRedirects) {
-                return;
-              }
-
-              let url = navigationEvent.url
-                .substring(1, navigationEvent.url.length)
-                .split('/')[0]
-                .split(';')[0]
-                .split('?')[0];
-
-              if (!this.searchRoutes(url, proRoutes)) {
-                window.open(window.Minds.site_url + url, '_blank');
-              }
-            }
-          } catch (e) {
-            console.error('Minds: router hook(SearchBar)', e);
-          }
-        }
-      );
     }
 
     this.session.isLoggedIn(async is => {
@@ -144,16 +120,6 @@ export class Minds {
     this.webtorrent.setUp();
 
     this.themeService.setUp();
-  }
-
-  private searchRoutes(url: string, routes: Array<string>): boolean {
-    for (let route of routes) {
-      if (route.includes(url)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   ngOnDestroy() {
