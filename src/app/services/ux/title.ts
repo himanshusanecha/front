@@ -1,5 +1,5 @@
 import { Title } from '@angular/platform-browser';
-import { SiteService } from '../site.service';
+import { SiteService } from '../../common/services/site.service';
 
 export class MindsTitle {
   private counter: number;

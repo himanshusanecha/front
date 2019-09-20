@@ -1,6 +1,6 @@
 import { Cookie } from '../cookie';
 import { HttpClient } from '@angular/common/http';
-import { SiteService } from '../site.service';
+import { SiteService } from '../../common/services/site.service';
 
 /**
  * API Class

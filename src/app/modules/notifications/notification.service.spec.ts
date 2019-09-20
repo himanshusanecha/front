@@ -5,7 +5,7 @@ import { socketMock } from '../../../tests/socket-mock.spec';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { mindsTitleMock } from '../../mocks/services/ux/minds-title.service.mock.spec';
 import { MockService } from '../../utils/mock';
-import { SiteService } from '../../services/site.service';
+import { SiteService } from '../../common/services/site.service';
 import { EventEmitter } from '@angular/core';
 
 export let siteServiceMock = new (function() {

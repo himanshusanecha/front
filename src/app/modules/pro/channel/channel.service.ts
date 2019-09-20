@@ -9,7 +9,7 @@ import { Session } from '../../../services/session';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WireCreatorComponent } from '../../wire/creator/creator.component';
 import { SessionsStorageService } from '../../../services/session-storage.service';
-import { SiteService } from '../../../services/site.service';
+import { SiteService } from '../../../common/services/site.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 export type RouterLinkToType =

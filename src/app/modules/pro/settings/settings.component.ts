@@ -10,7 +10,7 @@ import { Session } from '../../../services/session';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MindsTitle } from '../../../services/ux/title';
 import { Subscription } from 'rxjs';
-import { SiteService } from '../../../services/site.service';
+import { SiteService } from '../../../common/services/site.service';
 
 @Component({
   selector: 'm-pro--settings',

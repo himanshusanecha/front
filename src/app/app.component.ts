@@ -17,7 +17,7 @@ import { FeaturesService } from './services/features.service';
 import { ThemeService } from './common/services/theme.service';
 import { BannedService } from './modules/report/banned/banned.service';
 import { DiagnosticsService } from './services/diagnostics.service';
-import { SiteService } from './services/site.service';
+import { SiteService } from './common/services/site.service';
 import { PRO_DOMAIN_ROUTES, proRoutes } from './modules/pro/pro.module';
 import { Subscription } from 'rxjs';
 import { RouterHistoryService } from './common/services/router-history.service';

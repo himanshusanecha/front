@@ -4,7 +4,7 @@ import { SocketsService } from '../../services/sockets';
 import { Session } from '../../services/session';
 import { MindsTitle } from '../../services/ux/title';
 import { Subscription, timer } from 'rxjs';
-import { SiteService } from '../../services/site.service';
+import { SiteService } from '../../common/services/site.service';
 
 export class NotificationService {
   socketSubscriptions: any = {

@@ -2,7 +2,7 @@ import { Cookie } from '../cookie';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Location } from '@angular/common';
-import { SiteService } from '../site.service';
+import { SiteService } from '../../common/services/site.service';
 
 /**
  * API Class

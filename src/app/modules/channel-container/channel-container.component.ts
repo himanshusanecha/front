@@ -13,7 +13,7 @@ import { MindsChannelResponse } from '../../interfaces/responses';
 import { ChannelComponent } from '../channels/channel.component';
 import { ProChannelComponent } from '../pro/channel/channel.component';
 import { Session } from '../../services/session';
-import { SiteService } from '../../services/site.service';
+import { SiteService } from '../../common/services/site.service';
 import { FeaturesService } from '../../services/features.service';
 
 @Component({
