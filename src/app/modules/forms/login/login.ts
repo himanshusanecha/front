@@ -1,21 +1,16 @@
-import { Component, EventEmitter, Input, NgZone, Output } from '@angular/core';
+import { Component, EventEmitter, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Client } from '../../../services/api';
 import { Session } from '../../../services/session';
-import { MindsUser } from '../../../interfaces/entities';
 
 @Component({
   moduleId: module.id,
   selector: 'minds-form-login',
+  outputs: ['done', 'doneRegistered'],
   templateUrl: 'login.html',
 })
 export class LoginForm {
-  @Input() autoSubscribe: MindsUser;
-
-  @Output() done: EventEmitter<any> = new EventEmitter();
-  @Output() doneRegistered: EventEmitter<any> = new EventEmitter();
-
   errorMessage: string = '';
   twofactorToken: string = '';
   hideLogin: boolean = false;
@@ -24,6 +19,9 @@ export class LoginForm {
   minds = window.Minds;
 
   form: FormGroup;
+
+  done: EventEmitter<any> = new EventEmitter();
+  doneRegistered: EventEmitter<any> = new EventEmitter();
 
   //Taken from advice in https://stackoverflow.com/a/1373724
   private emailRegex: RegExp = new RegExp(
@@ -56,18 +54,11 @@ export class LoginForm {
 
     this.errorMessage = '';
     this.inProgress = true;
-
-    let opts = {
-      username: username,
-      password: this.form.value.password,
-    };
-
-    if (this.autoSubscribe) {
-      opts['from'] = this.autoSubscribe.guid;
-    }
-
     this.client
-      .post('api/v1/authenticate', opts)
+      .post('api/v1/authenticate', {
+        username: username,
+        password: this.form.value.password,
+      })
       .then((data: any) => {
         // TODO: [emi/sprint/bison] Find a way to reset controls. Old implementation throws Exception;
         this.inProgress = false;
