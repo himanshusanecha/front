@@ -97,6 +97,6 @@ context('Boost Console', () => {
 
     cy.get('.m-overlay-modal')
       .should('not.be.visible')
-  }  
+  }
 
 })

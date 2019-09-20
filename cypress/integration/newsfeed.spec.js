@@ -14,7 +14,6 @@ context('Newsfeed', () => {
     cy.server();
     cy.route("POST", "**/api/v1/newsfeed").as("newsfeedPOST");
     cy.route("POST", "**/api/v1/media").as("mediaPOST");
-    // cy.visit('/newsfeed/subscriptions')
   });
 
   it('should post an activity picking hashtags from the dropdown', () => {

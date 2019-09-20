@@ -4,9 +4,6 @@
  */
 import generateRandomId from '../support/utilities';
 
-// Skipped until notifications are fixed on sandboxes
-// See https://gitlab.com/minds/engine/issues/732
-
 context('Notification', () => {
 
   //secondary user for testing.
@@ -40,7 +37,7 @@ context('Notification', () => {
   after(() => {
     cy.clearCookies();
   
-    cy.login(true, username, password)
+    cy.login(true, username, password);
     cy.visit(`/${Cypress.env().username}`);
     cy.deleteUser(username, password);
   });
