@@ -17,7 +17,7 @@ export class SubscriptionsRequestsListComponent {
 
   async load() {
     const { requests } = <any>(
-      await this.client.get(`api/v2/subscriptions/incoming/all`)
+      await this.client.get(`api/v2/subscriptions/incoming`)
     );
     this.requests = requests;
   }
