@@ -112,7 +112,7 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
   }
 
   get isAdmin() {
-    return this.site.isAdmin;
+    return this.session.isAdmin();
   }
 
   get proEnabled() {

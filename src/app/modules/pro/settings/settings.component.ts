@@ -50,7 +50,7 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.param$ = this.route.params.subscribe(params => {
-      if (this.site.isAdmin) {
+      if (this.session.isAdmin()) {
         this.user = params['user'] || null;
       }
 
@@ -139,6 +139,6 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
   }
 
   get isAdmin() {
-    return this.site.isAdmin;
+    return this.session.isAdmin();
   }
 }
