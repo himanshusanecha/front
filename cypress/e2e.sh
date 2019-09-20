@@ -22,7 +22,7 @@ Options (* indicates it is required):"
     \-h ,\--url \<Parameter>\ The URL of the host e.g. https://www.minds.com/ - defaults to use localhost. 
     \-u ,\--username \<Parameter>\ The username - defaults to cypress_e2e_test.
     \-v ,\---video \<Parameter>\ true if you want video providing.
-
+    \-e, \--env \<Parameter>\ add additional env variables e.g. production=true
 "
 
   if [ "$missing_required" != "" ]
