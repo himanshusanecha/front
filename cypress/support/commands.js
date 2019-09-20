@@ -111,9 +111,8 @@ Cypress.Commands.add('logout', () => {
  * @returns void
  */
 Cypress.Commands.add('newUser', (username = '', password = '') => {
-  cy.visit('/login');
-    
-  cy.location('pathname', { timeout: 30000 })
+  cy.visit('/login')
+    .location('pathname')
     .should('eq', `/login`);
 
   cy.server();
