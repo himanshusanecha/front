@@ -21,8 +21,8 @@ export class ProChannelLoginComponent {
     return this.service.currentChannel.pro_settings;
   }
 
-  get referrerGuid() {
-    return this.service.currentChannel.guid;
+  get referrer() {
+    return this.service.currentChannel.username;
   }
 
   constructor(
