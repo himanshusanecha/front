@@ -216,6 +216,16 @@ Cypress.Commands.add('post', (message) => {
 });
 
 /**
+ * Sets the feature flag cookie.
+ * @param { Object } flags - JSON object containing flags to turn on 
+ * e.g. { dark mode:false, es-feeds: true }
+ * @returns void
+ */
+Cypress.Commands.add('overrideFeatureFlag', (flags) => {
+  cy.setCookie('staging-features', btoa(flags));
+});
+
+/**
  * Converts base64 to blob format
  * @param { string } b64Data - The base64 data.
  * @param { string } contentType - The type of content.

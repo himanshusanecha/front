@@ -1,5 +1,5 @@
 
-context.skip('Comment Permissions', () => {
+context('Comment Permissions', () => {
 
   const postMenu = 'minds-activity:first > div > m-post-menu';
   const deletePostOption = "m-post-menu > ul > li:visible:contains('Delete')";
@@ -8,6 +8,19 @@ context.skip('Comment Permissions', () => {
 
   before(() => {
     //make a post new.
+    cy.overrideFeatureFlag({
+      'blockchain_creditcard': true,
+      'suggested-users': true,
+      'helpdesk': true,
+      'top-feeds': true,
+      'es-feeds': true,
+      'allow-comments-toggle': true,
+      'permissions': true,
+      'wire-multi-currency': true,
+      'dark-mode': true,
+      'pro': true
+    });
+  
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
