@@ -222,7 +222,8 @@ Cypress.Commands.add('post', (message) => {
  * @returns void
  */
 Cypress.Commands.add('overrideFeatureFlag', (flags) => {
-  cy.setCookie('staging-features', btoa(flags));
+  const base64 = Buffer.from(JSON.stringify(flags)).toString("base64");
+  cy.setCookie('staging-features', base64);
 });
 
 /**
