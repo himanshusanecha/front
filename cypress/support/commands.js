@@ -145,7 +145,7 @@ Cypress.Commands.add('newUser', (username = '', password = '') => {
 });
 
 Cypress.Commands.add('preserveCookies', () => {
-  Cypress.Cookies.preserveOnce('staging', 'minds_sess', 'mwa', 'XSRF-TOKEN');
+  Cypress.Cookies.preserveOnce('staging', 'minds_sess', 'mwa', 'XSRF-TOKEN', 'staging-features');
 });
 
 /**

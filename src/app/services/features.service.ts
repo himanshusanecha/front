@@ -22,10 +22,9 @@ export class FeaturesService {
       // Inverted check. Useful for *mIfFeature
       return !this.has(feature.substring(1));
     }
-
     const overrides = JSON.parse(atob(this.cookie.get('staging-features')));
     if (feature in overrides) {
-      return true;
+      return overrides[feature];
     }
 
     if (typeof this._features[feature] === 'undefined') {

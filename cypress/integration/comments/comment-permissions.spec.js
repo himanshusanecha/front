@@ -7,20 +7,10 @@ context('Comment Permissions', () => {
  
 
   before(() => {
-    //make a post new.
     cy.overrideFeatureFlag({
-      'blockchain_creditcard': true,
-      'suggested-users': true,
-      'helpdesk': true,
-      'top-feeds': true,
-      'es-feeds': true,
-      'allow-comments-toggle': true,
-      'permissions': true,
-      'wire-multi-currency': true,
-      'dark-mode': true,
-      'pro': true
+      'allow-comments-toggle': false,
     });
-  
+    //make a post new.
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
