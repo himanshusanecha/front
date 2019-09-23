@@ -1,8 +1,5 @@
 context('Channel image upload', () => {
   before(() => {
-    cy.overrideFeatureFlag({
-      'permissions': true,
-    });
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {
