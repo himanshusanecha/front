@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Client } from './api/client';
-import { SiteService } from './site.service';
+import { SiteService } from '../common/services/site.service';
 
 @Injectable()
 export class AnalyticsService {

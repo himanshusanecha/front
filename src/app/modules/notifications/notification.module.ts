@@ -17,7 +17,7 @@ import { NotificationsComponent } from './notifications.component';
 
 import { NotificationService } from './notification.service';
 import { NotificationsToasterComponent } from './toaster.component';
-import { SiteService } from '../../services/site.service';
+import { SiteService } from '../../common/services/site.service';
 
 @NgModule({
   imports: [

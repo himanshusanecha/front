@@ -1,5 +1,5 @@
 import { Title } from '@angular/platform-browser';
-import { SiteService } from '../site.service';
+import { SiteService } from '../../common/services/site.service';
 
 export class MindsTitle {
   private counter: number;
@@ -13,7 +13,7 @@ export class MindsTitle {
 
   constructor(public title: Title, protected site: SiteService) {
     if (this.site.isProDomain) {
-      this.default_title = this.site.oneLineHeadline + ' | ' + this.site.title;
+      this.default_title = this.site.title + ' - ' + this.site.oneLineHeadline;
     }
   }
 

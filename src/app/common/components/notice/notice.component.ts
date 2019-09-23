@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Client } from '../../../services/api/client';
 import { Storage } from '../../../services/storage';
-import { SiteService } from '../../../services/site.service';
+import { SiteService } from '../../services/site.service';
 
 @Component({
   selector: 'm-cookies-notice',

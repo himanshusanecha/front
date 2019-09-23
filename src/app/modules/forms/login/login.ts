@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, NgZone, Output } from '@angular/core';
+import { Component, EventEmitter, NgZone, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Client } from '../../../services/api';
 import { Session } from '../../../services/session';
-import { MindsUser } from '../../../interfaces/entities';
 
 @Component({
   moduleId: module.id,

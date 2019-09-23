@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Session } from '../../../../services/session';
-import { SiteService } from '../../../../services/site.service';
+import { SiteService } from '../../../../common/services/site.service';
 import { ProChannelService } from '../channel.service';
 import { ProUnsubscribeModalComponent } from '../unsubscribe-modal/modal.component';
 import { MindsUser } from '../../../../interfaces/entities';

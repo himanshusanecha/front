@@ -43,7 +43,7 @@ import { FeedsService } from '../common/services/feeds.service';
 import { ThemeService } from '../common/services/theme.service';
 import { GlobalScrollService } from './ux/global-scroll.service';
 import { AuthService } from './auth.service';
-import { SiteService } from './site.service';
+import { SiteService } from '../common/services/site.service';
 import { SessionsStorageService } from './session-storage.service';
 import { DiagnosticsService } from './diagnostics.service';
 

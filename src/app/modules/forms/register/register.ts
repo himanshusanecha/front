@@ -21,6 +21,7 @@ import { RouterHistoryService } from '../../../common/services/router-history.se
 })
 export class RegisterForm {
   @Input() referrer: string;
+  @Input() parentId: string = '';
 
   @Output() done: EventEmitter<any> = new EventEmitter();
 
@@ -31,7 +32,6 @@ export class RegisterForm {
   captcha: string;
   takenUsername: boolean = false;
   usernameValidationTimeout: any;
-  @Input() parentId: string = '';
 
   showFbForm: boolean = false;
 

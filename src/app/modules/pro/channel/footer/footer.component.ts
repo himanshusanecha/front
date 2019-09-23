@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ProChannelService } from '../channel.service';
 import { Session } from '../../../../services/session';
 import { AuthService } from '../../../../services/auth.service';
-import { SiteService } from '../../../../services/site.service';
+import { SiteService } from '../../../../common/services/site.service';
 import {
   getSocialProfileMeta,
   socialProfileMeta,

@@ -22,7 +22,7 @@ import { AnalyticsService } from '../../../services/analytics';
 import { MindsVideoComponent } from '../components/video/video.component';
 import isMobileOrTablet from '../../../helpers/is-mobile-or-tablet';
 import { ActivityService } from '../../../common/services/activity.service';
-import { SiteService } from '../../../services/site.service';
+import { SiteService } from '../../../common/services/site.service';
 
 export type MediaModalParams = {
   redirectUrl?: string;

@@ -10,7 +10,7 @@ import { Session } from '../../../services/session';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MindsTitle } from '../../../services/ux/title';
 import { Subscription } from 'rxjs';
-import { SiteService } from '../../../services/site.service';
+import { SiteService } from '../../../common/services/site.service';
 
 @Component({
   selector: 'm-pro--settings',
@@ -50,7 +50,7 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.param$ = this.route.params.subscribe(params => {
-      if (this.site.isAdmin) {
+      if (this.session.isAdmin()) {
         this.user = params['user'] || null;
       }
 
@@ -139,6 +139,6 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
   }
 
   get isAdmin() {
-    return this.site.isAdmin;
+    return this.session.isAdmin();
   }
 }

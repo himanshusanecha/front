@@ -22,7 +22,7 @@ import { SignupModalService } from '../../modals/signup/service';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { OverlayModalComponent } from '../../../common/components/overlay-modal/overlay-modal.component';
 import { SessionsStorageService } from '../../../services/session-storage.service';
-import { SiteService } from '../../../services/site.service';
+import { SiteService } from '../../../common/services/site.service';
 
 @Component({
   providers: [ProChannelService, OverlayModalService],

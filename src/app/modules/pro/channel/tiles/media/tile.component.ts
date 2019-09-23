@@ -14,7 +14,7 @@ import { OverlayModalService } from '../../../../../services/ux/overlay-modal';
 import { Router } from '@angular/router';
 import { ProChannelService } from '../../channel.service';
 import isMobile from '../../../../../helpers/is-mobile';
-import { SiteService } from '../../../../../services/site.service';
+import { SiteService } from '../../../../../common/services/site.service';
 
 @Component({
   selector: 'm-pro--channel-tile',
