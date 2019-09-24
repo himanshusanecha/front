@@ -1,10 +1,15 @@
 <div class="m-pro__channel" *ngIf="channel">
   <div class="m-proChannel__topbar">
-    <img
-      class="m-proChannelTopbar__logo"
-      [src]="channel.pro_settings.logo_image"
-      [routerLink]="homeRouterLink"
-    />
+    <ng-container *ngIf="!channel.pro_settings.logo_guid; else customLogo">
+      <minds-avatar [object]="channel"> </minds-avatar>
+    </ng-container>
+    <ng-template #customLogo>
+      <img
+        class="m-proChannelTopbar__logo"
+        [src]="channel.pro_settings.logo_image"
+        [routerLink]="homeRouterLink"
+      />
+    </ng-template>
 
     <div class="m-proChannelTopbar__searchBox">
       <m-pro__searchBox

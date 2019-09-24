@@ -83,6 +83,7 @@ export interface MindsUser {
   pro?: boolean;
   pro_settings?: {
     logo_image: string;
+    logo_guid: string;
     tag_list?: Tag[];
     background_image: string;
     title: string;
