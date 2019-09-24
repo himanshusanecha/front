@@ -42,11 +42,11 @@ context('Blogs', () => {
     cy.get('m-inline-editor .medium-editor-element').type(body);
 
     // click on plus button
-    //cy.get('.medium-editor-element > .medium-insert-buttons > button.medium-insert-buttons-show').click();
+    cy.get('.medium-editor-element > .medium-insert-buttons > button.medium-insert-buttons-show').click();
     // click on camera
-    //cy.get('ul.medium-insert-buttons-addons > li > button.medium-insert-action:first-child').contains('photo_camera').click();
+    cy.get('ul.medium-insert-buttons-addons > li > button.medium-insert-action:first-child').contains('photo_camera').click();
     // upload the image
-    //cy.uploadFile('.medium-media-file-input', '../fixtures/international-space-station-1776401_1920.jpg', 'image/jpg');
+    cy.uploadFile('.medium-media-file-input', '../fixtures/international-space-station-1776401_1920.jpg', 'image/jpg');
 
     // open license dropdown & select first license
     cy.get('.m-license-info select').select('All rights reserved');
