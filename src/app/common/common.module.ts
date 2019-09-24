@@ -312,7 +312,7 @@ import { SiteService } from './services/site.service';
     {
       provide: MindsHttpClient,
       useFactory: MindsHttpClient._,
-      deps: [HttpClient],
+      deps: [HttpClient, SiteService],
     },
     {
       provide: NSFWSelectorCreatorService,

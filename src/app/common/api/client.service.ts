@@ -12,15 +12,11 @@ export class MindsHttpClient {
   origin: string = '';
   cookie: Cookie = new Cookie();
 
-  static _(http: HttpClient, location: Location, site: SiteService) {
-    return new MindsHttpClient(http, location, site);
+  static _(http: HttpClient, site: SiteService) {
+    return new MindsHttpClient(http, site);
   }
 
-  constructor(
-    public http: HttpClient,
-    public location: Location,
-    protected site: SiteService
-  ) {
+  constructor(public http: HttpClient, protected site: SiteService) {
     if (this.site.isProDomain) {
       this.base = window.Minds.site_url;
       this.origin = document.location.host;
