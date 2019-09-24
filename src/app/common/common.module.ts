@@ -108,6 +108,7 @@ import { ShareModalComponent } from '../modules/modals/share/share';
 import { RouterHistoryService } from './services/router-history.service';
 import { DraggableListComponent } from './components/draggable-list/list.component';
 import { DndModule } from 'ngx-drag-drop';
+import { SiteService } from './services/site.service';
 
 @NgModule({
   imports: [
@@ -295,6 +296,7 @@ import { DndModule } from 'ngx-drag-drop';
     DraggableListComponent,
   ],
   providers: [
+    SiteService,
     {
       provide: AttachmentService,
       useFactory: AttachmentService._,
