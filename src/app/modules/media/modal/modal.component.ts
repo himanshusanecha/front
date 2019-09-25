@@ -106,7 +106,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   routerSubscription: Subscription;
 
   @Input('entity') set data(params: MediaModalParams) {
-    this.entity = params.entity;
+    this.entity = JSON.parse(JSON.stringify(params.entity)); // deep clone
     this.redirectUrl = params.redirectUrl || null;
   }
 
