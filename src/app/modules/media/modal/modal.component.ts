@@ -139,8 +139,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
         switch (this.entity.custom_type) {
           case 'video':
             this.contentType = 'video';
-            this.entity.width = this.entity.custom_data.width;
-            this.entity.height = this.entity.custom_data.height;
+            this.entity.width = this.entity.custom_data.dimensions.width;
+            this.entity.height = this.entity.custom_data.dimensions.height;
             this.entity.thumbnail_src = this.entity.custom_data.thumbnail_src;
             break;
           case 'batch':
