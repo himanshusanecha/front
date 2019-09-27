@@ -6,6 +6,7 @@ import { includes } from 'lodash';
 
 @Injectable()
 export class FeaturesService {
+  private overrides = [];
   protected _features: any;
   protected _warnedCache: { [key: string]: number } = {};
   private cookie: Cookie = new Cookie();
@@ -22,9 +23,15 @@ export class FeaturesService {
       // Inverted check. Useful for *mIfFeature
       return !this.has(feature.substring(1));
     }
-    const overrides = JSON.parse(atob(this.cookie.get('staging-features')));
-    if (feature in overrides) {
-      return overrides[feature];
+    if (this.cookie.get('staging-features')) {
+      try {
+        this.overrides = JSON.parse(atob(this.cookie.get('staging-features')));
+      } catch (e) {
+        // Do nothing
+      }
+    }
+    if (feature in this.overrides) {
+      return this.overrides[feature];
     }
 
     if (typeof this._features[feature] === 'undefined') {

@@ -16,6 +16,8 @@ context('Pro Page', () => {
     { label: 'Minds', link: 'https://www.minds.com/' },
     { label: 'Careers', link: 'https://www.minds.com/careers' },
   ];
+  
+  const proButton = 'data-minds-sidebar-admin-pro-button';
 
   function resetSettings() {
     cy.visit(`/pro/settings`);
@@ -120,6 +122,14 @@ context('Pro Page', () => {
   beforeEach(() => {
     cy.server();
     cy.preserveCookies();
+  });
+
+  after(() => {
+    cy.logout();
+    cy.clearCookies();
+    cy.login(false, 'minds','Password00!');
+    cy.visit(`/${Cypress.env().username}`);
+    cy.get(proButton).click();
   });
 
   it('should load the feed tab', () => {

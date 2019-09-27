@@ -81,12 +81,13 @@ Cypress.Commands.add('login', (canary = false, username, password) => {
   cy.server();
   cy.route("POST", "/api/v1/authenticate").as("postLogin");
 
-  cy.get(loginForm.username).type(username);
-  cy.get(loginForm.password).type(password);
+  cy.get(loginForm.username).focus().type(username);
+  cy.get(loginForm.password).focus().type(password);
   
-  cy.get(loginForm.submit).click();
-
-  cy.wait('@postLogin').then((xhr) => {
+  cy.get(loginForm.submit)
+    .focus()
+    .click({force: true})
+    .wait('@postLogin').then((xhr) => {
     expect(xhr.status).to.equal(200);
     expect(xhr.response.body.status).to.equal('success');
   });
@@ -97,8 +98,7 @@ Cypress.Commands.add('login', (canary = false, username, password) => {
  * @returns void
  */
 Cypress.Commands.add('logout', () => {
-  cy.get(nav.hamburgerMenu).click();
-  cy.get(nav.logoutButton).click();  
+  cy.visit('/logout')
 });
 
 /**
