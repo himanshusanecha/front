@@ -46,6 +46,7 @@ import { AuthService } from './auth.service';
 import { SiteService } from '../common/services/site.service';
 import { SessionsStorageService } from './session-storage.service';
 import { DiagnosticsService } from './diagnostics.service';
+import { PermissionsService } from '../common/services/permissions.service';
 
 export const MINDS_PROVIDERS: any[] = [
   SiteService,
@@ -69,6 +70,7 @@ export const MINDS_PROVIDERS: any[] = [
     useFactory: Client._,
     deps: [HttpClient, Location, SiteService],
   },
+  PermissionsService,
   {
     provide: Upload,
     useFactory: Upload._,

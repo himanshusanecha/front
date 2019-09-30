@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { DialogService } from '../../common/services/confirm-leave-dialog.service';
 import { BlockListService } from '../../common/services/block-list.service';
 import { ChannelSortedComponent } from './sorted/sorted.component';
+import { PermissionsService } from '../../common/services/permissions.service';
 import { ClientMetaService } from '../../common/services/client-meta.service';
 
 @Component({
@@ -56,6 +57,7 @@ export class ChannelComponent {
     private context: ContextService,
     private dialogService: DialogService,
     private blockListService: BlockListService,
+    private permissions: PermissionsService,
     private clientMetaService: ClientMetaService,
     @SkipSelf() injector: Injector
   ) {
@@ -152,6 +154,10 @@ export class ChannelComponent {
           console.log('couldnt load channel', e);
         }
       });
+  }
+
+  onSubscribed() {
+    // TODO do something here
   }
 
   isOwner() {
