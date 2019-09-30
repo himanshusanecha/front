@@ -39,6 +39,7 @@ import { BlockListService } from '../../common/services/block-list.service';
 import { ChannelMode } from '../../interfaces/entities';
 import { ClientMetaService } from '../../common/services/client-meta.service';
 import { clientMetaServiceMock } from '../../../tests/client-meta-service-mock.spec';
+import { PermissionsService } from '../../common/services/permissions.service';
 
 describe('ChannelComponent', () => {
   let comp: ChannelComponent;
@@ -50,6 +51,14 @@ describe('ChannelComponent', () => {
         MaterialMock,
         MaterialSwitchMock,
         ChannelComponent,
+        MockComponent({
+          selector: 'minds-avatar',
+          inputs: ['object', 'src', 'editMode', 'waitForDoneSignal'],
+        }),
+        MockComponent({
+          selector: 'minds-button-subscribe',
+          inputs: ['user', 'request'],
+        }),
         MockComponent({
           selector: 'm-channel--supporters',
           inputs: ['channel'],
@@ -112,6 +121,10 @@ describe('ChannelComponent', () => {
         { provide: FeaturesService, useValue: featuresServiceMock },
         { provide: BlockListService, useValue: MockService(BlockListService) },
         { provide: ClientMetaService, useValue: clientMetaServiceMock },
+        {
+          provide: PermissionsService,
+          useValue: MockService(PermissionsService),
+        },
       ],
     }).compileComponents(); // compile template and css
   }));
@@ -126,6 +139,7 @@ describe('ChannelComponent', () => {
     featuresServiceMock.mock('es-feeds', false);
     featuresServiceMock.mock('top-feeds', false);
     featuresServiceMock.mock('channel-filter-feeds', false);
+    featuresServiceMock.mock('permissions', false);
     comp = fixture.componentInstance;
     comp.username = 'username';
     comp.user = {
