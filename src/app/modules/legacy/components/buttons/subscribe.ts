@@ -85,7 +85,7 @@ export class SubscribeButton {
     }
 
     if (this._user.mode === 2) {
-      return this.request();
+      return this.requestSubscribe();
     }
 
     this._user.subscribed = true;
@@ -106,7 +106,7 @@ export class SubscribeButton {
       });
   }
 
-  async request() {
+  async requestSubscribe() {
     this._user.pending_subscribe = true;
 
     try {
