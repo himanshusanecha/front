@@ -95,6 +95,7 @@ export interface MindsUser {
     featured_content?: Array<string>;
     tile_ratio?: string;
     styles?: { [key: string]: string };
+    domain: string;
   };
   mode: ChannelMode;
 }
