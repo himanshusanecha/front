@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule as NgCommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MINDS_PIPES } from './pipes/pipes';
@@ -105,9 +105,19 @@ import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/link
 import { PosterDateSelectorComponent } from './components/poster-date-selector/selector.component';
 import { ChannelModeSelectorComponent } from './components/channel-mode-selector/channel-mode-selector.component';
 import { ShareModalComponent } from '../modules/modals/share/share';
+import { RouterHistoryService } from './services/router-history.service';
+import { DraggableListComponent } from './components/draggable-list/list.component';
+import { DndModule } from 'ngx-drag-drop';
+import { SiteService } from './services/site.service';
 
 @NgModule({
-  imports: [NgCommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    NgCommonModule,
+    DndModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   declarations: [
     MINDS_PIPES,
 
@@ -195,8 +205,8 @@ import { ShareModalComponent } from '../modules/modals/share/share';
     SwitchComponent,
 
     FeaturedContentComponent,
-
     PosterDateSelectorComponent,
+    DraggableListComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -283,8 +293,10 @@ import { ShareModalComponent } from '../modules/modals/share/share';
     FeaturedContentComponent,
     PosterDateSelectorComponent,
     ChannelModeSelectorComponent,
+    DraggableListComponent,
   ],
   providers: [
+    SiteService,
     {
       provide: AttachmentService,
       useFactory: AttachmentService._,
@@ -300,7 +312,7 @@ import { ShareModalComponent } from '../modules/modals/share/share';
     {
       provide: MindsHttpClient,
       useFactory: MindsHttpClient._,
-      deps: [HttpClient],
+      deps: [HttpClient, SiteService],
     },
     {
       provide: NSFWSelectorCreatorService,
@@ -341,6 +353,11 @@ import { ShareModalComponent } from '../modules/modals/share/share';
       useFactory: boostedContentService =>
         new FeaturedContentService(boostedContentService),
       deps: [FeedsService],
+    },
+    {
+      provide: RouterHistoryService,
+      useFactory: router => new RouterHistoryService(router),
+      deps: [Router],
     },
   ],
   entryComponents: [
