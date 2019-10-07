@@ -1,6 +1,6 @@
 context('Boost Creation', () => {
   const duplicateError = "There's already an ongoing boost for this entity";
-  const postContent = "Test boost, please reject..." + Math.random().toString(36).substring(8);
+  const postContent = "Testing, please reject..." + Math.random().toString(36).substring(8);
   const nonParticipationError = 'Boost target should participate in the Rewards program.'
 
   beforeEach(() => {
@@ -11,11 +11,11 @@ context('Boost Creation', () => {
       .route("GET", '**/api/v2/search/suggest/**').as('suggest');
 
     cy.getCookie('minds_sess')
-    .then((sessionCookie) => {
-      if (sessionCookie === null) {
-        return cy.login(true);
-      }
-    });
+      .then((sessionCookie) => {
+        if (sessionCookie === null) {
+          return cy.login(true);
+        }
+      });
 
     cy.visit(`/${Cypress.env().username}/`)
       .location('pathname')
@@ -28,7 +28,17 @@ context('Boost Creation', () => {
     cy.visit('/boost/console/newsfeed/history');  
     cy.contains('Revoke')
       .click({multiple: true});
-  })
+  });
+
+  before(() => {
+    cy.getCookie('minds_sess')
+      .then((sessionCookie) => {
+        if (sessionCookie === null) {
+          return cy.login(true);
+        }
+      });
+    cy.post(postContent);
+  });
 
   it('should redirect a user to buy tokens when clicked', () => {    
     openTopModal();
@@ -41,13 +51,11 @@ context('Boost Creation', () => {
       .should('eq', `/token`);
   });
 
-  it('should allow a user to make an offchain boost for 5000 tokens', () => {    
-    cy.post(postContent);
-
+  it('should allow a user to make an offchain boost for 500 tokens', () => {    
     openTopModal();
   
     cy.get('.m-boost--creator-section-amount input')
-      .type(5000);
+      .type(500);
   
     cy.get('m-overlay-modal > div.m-overlay-modal > m-boost--creator button')
       .click()
@@ -66,7 +74,7 @@ context('Boost Creation', () => {
   it('should error if the boost is a duplicate', () => {
     openTopModal();  
     cy.get('.m-boost--creator-section-amount input')
-      .type(5000);
+      .type(500);
 
     cy.get('m-overlay-modal > div.m-overlay-modal > m-boost--creator button')
       .click()
@@ -104,8 +112,10 @@ context('Boost Creation', () => {
   });
 
   function openTopModal() {
-    cy.get('#boost-actions')
-      .first()
+    cy.contains(postContent)
+      .parentsUntil('m-newsfeed__entity')
+      .children()
+      .contains('Boost')
       .click()
       .wait('@balance').then((xhr) => {
         expect(xhr.status).to.equal(200);
