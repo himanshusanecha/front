@@ -4,7 +4,7 @@
  */
 import generateRandomId from '../support/utilities';
 
-context('Notification', () => {
+context.skip('Notification', () => {
 
   //secondary user for testing.
   const username = generateRandomId();
