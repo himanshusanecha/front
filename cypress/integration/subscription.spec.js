@@ -20,9 +20,9 @@ context('Subscription', () => {
     cy.route("POST", "**/api/v1/subscribe/*").as("subscribe");
     cy.route("DELETE", "**/api/v1/subscribe/*").as("unsubscribe");
 
-    cy.visit(`/${user}`);
+    cy.visit(`/${user}/`);
     cy.location('pathname')
-      .should('eq', `/${user}`);
+      .should('eq', `/${user}/`);
   });
 
   it('should allow a user to subscribe to another', () => {
