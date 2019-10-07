@@ -56,8 +56,8 @@ POSITIONAL=()
 # set default arguments
 url="http://localhost"
 username="minds_cypress_tests"
-pro_username="minds_cypress_tests_pro"
-pro_password="123123213"
+pro_username="minds_pro_cypress_tests"
+pro_password=""
 env=""
 _video=false
 while [[ $# -gt 0 ]]
