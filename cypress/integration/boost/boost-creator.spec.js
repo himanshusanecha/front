@@ -41,7 +41,7 @@ context('Boost Creation', () => {
   });
 
   it('should redirect a user to buy tokens when clicked', () => {    
-    openTopModal();
+    openModal(postContent);
 
     cy.get('m-boost--creator-payment-methods li h5 span')
       .contains('Buy Tokens')
@@ -52,7 +52,7 @@ context('Boost Creation', () => {
   });
 
   it('should allow a user to make an offchain boost for 500 tokens', () => {    
-    openTopModal();
+    openModal(postContent);
   
     cy.get('.m-boost--creator-section-amount input')
       .type(500);
@@ -72,7 +72,7 @@ context('Boost Creation', () => {
   });
 
   it('should error if the boost is a duplicate', () => {
-    openTopModal();  
+    openModal(postContent);  
     cy.get('.m-boost--creator-section-amount input')
       .type(500);
 
@@ -91,7 +91,7 @@ context('Boost Creation', () => {
   });
 
   it('should display an error if boost offer receiver has not signed up for rewards', () => {
-    openTopModal();
+    openModal(postContent);
 
     cy.get('h4')
       .contains('Offers')
@@ -111,8 +111,14 @@ context('Boost Creation', () => {
       .contains(nonParticipationError);
   });
 
-  function openTopModal() {
-    cy.contains(postContent)
+  /*
+   * Finds the post containing the post content,
+   * then gets the parent entity before m-newsfeed__entity.
+   * Following that, we get all of the children, and look
+   * for the one that contains Boost, and clicks. 
+   */
+  function openModal(postText) {
+    cy.contains(postText)
       .parentsUntil('m-newsfeed__entity')
       .children()
       .contains('Boost')
