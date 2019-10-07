@@ -17,9 +17,9 @@ context('Boost Creation', () => {
       }
     });
 
-    cy.visit('/newsfeed/subscriptions')
+    cy.visit(`/${Cypress.env().username}/`)
       .location('pathname')
-      .should('eq', `/newsfeed/subscriptions`);
+      .should('eq', `/${Cypress.env().username}/`);
   });
 
   // Revoke all boosts visible on the screen - 
