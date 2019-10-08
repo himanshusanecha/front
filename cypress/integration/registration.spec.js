@@ -19,6 +19,7 @@ context('Registration', () => {
   const submitButton = 'minds-form-register .mdl-card__actions button';
 
   beforeEach(() => {
+    cy.clearCookies();
     cy.visit('/login');
     cy.location('pathname').should('eq', '/login');
     cy.server();

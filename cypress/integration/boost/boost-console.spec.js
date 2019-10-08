@@ -18,9 +18,9 @@ context('Boost Console', () => {
   });
 
   beforeEach(() => {
+    cy.preserveCookies();
     cy.server();
     cy.route("POST", '**/api/v2/boost/**').as('boostPost');
-    cy.preserveCookies();
     cy.visit('/boost/console/newsfeed/history');  
   });
   

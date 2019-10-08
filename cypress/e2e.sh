@@ -12,9 +12,9 @@ function usage()
 
   local help="Usage: e2e.sh [OPTIONS]
 
-Intended to serve as an interaction wrapper around Cypress.
+Intended to serve as an interaction wrapper around Cypress. Ensure that you run from within the project.
 
-Example: ./e2e.sh -u nemofin -p password123 -v true -url http://www.minds.com/
+Example: ./e2e.sh -u nemofin -p password123 -v true -h http://www.minds.com/
 
 Options (* indicates it is required):"
   local help_options="
@@ -117,7 +117,7 @@ done
 init_args $@
 
 # cd to project root.
-# while [[ $PWD != '/' && ${PWD##*/} != 'front' ]]; do cd ..; done
+while [[ $PWD != '/' && ${PWD##*/} != 'front' ]]; do cd ..; done
 
 #run cypress with args.
 echo $(npm bin)/cypress open --config baseUrl=$url,video=$_video --env username=$username,password=$password,pro_username=$pro_username,pro_password=$pro_password$env $POSITIONAL

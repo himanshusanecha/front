@@ -72,9 +72,10 @@ const poster = {
  * @returns void
  */
 Cypress.Commands.add('login', (canary = false, username, password) => {
+  cy.clearCookies();
+  cy.setCookie('staging', "1"); // Run in staging mode. Note: does not impact review sites
   username =  username ? username : Cypress.env().username;
   password =  password ? password : Cypress.env().password;
-  cy.setCookie('staging', "1"); // Run in stagin mode. Note: does not impact review sites
 
   cy.visit('/login');
 

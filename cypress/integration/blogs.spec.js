@@ -3,21 +3,24 @@
 context('Blogs', () => {
   before(() => {
     cy.getCookie('minds_sess')
-      .then((sessionCookie) => {
-        if (sessionCookie === null) {
-          return cy.login(true);
-        }
-      });
-    cy.visit('/newsfeed/global/top');
+    .then((sessionCookie) => {
+      if (sessionCookie === null) {
+        return cy.login(true);
+      }
+    });
   });
 
-  beforeEach(() => {
+  beforeEach(()=> {
     cy.preserveCookies();
     cy.server();
     cy.route('POST', '**/api/v1/blog/new').as('postBlog');
     cy.route('POST', '**/api/v1/media**').as('postMedia');
     cy.route('GET', '**/api/v1/blog/**').as('getBlog');
     cy.route('DELETE', '**/api/v1/blog/**').as('deleteBlog');
+
+    cy.visit('/newsfeed/global/top')
+      .location('pathname')
+      .should('eq', '/newsfeed/global/top');
   });
 
   const uploadAvatar = () => {
@@ -195,16 +198,6 @@ context('Blogs', () => {
     cy.get('.minds-blog-body p').contains(body);
   };
 
-  /**
-   * Skipping until the scheduling options are visible on sandboxes
-   * currently they are not, missing setting perhaps?
-   */ 
-  it.skip('should be able to create a new scheduled blog', () => {
-    uploadAvatar();
-    createBlogPost('Title', 'Content', true, true);
-    deleteBlogPost();
-  });
-
   it('should not be able to create a new blog if no title or banner are specified', () => {
     cy.visit('/blog/edit/new');
     cy.get('.m-button--submit').click();
@@ -220,6 +213,16 @@ context('Blogs', () => {
 
     uploadAvatar();
     createBlogPost(title, body, true);
+    deleteBlogPost();
+  });
+
+  /**
+   * Skipping until the scheduling options are visible on sandboxes
+   * currently they are not, missing setting perhaps?
+   */ 
+  it.skip('should be able to create a new scheduled blog', () => {
+    uploadAvatar();
+    createBlogPost('Title', 'Content', true, true);
     deleteBlogPost();
   });
 
