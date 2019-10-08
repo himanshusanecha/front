@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class FeaturesService {
-  private overrides = [];
   protected _features: any;
   protected _warnedCache: { [key: string]: number } = {};
 
