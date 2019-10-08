@@ -7,9 +7,6 @@ context.skip('Comment Permissions', () => {
  
 
   before(() => {
-    cy.overrideFeatureFlag({
-      'allow-comments-toggle': true,
-    });
     //make a post new.
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {

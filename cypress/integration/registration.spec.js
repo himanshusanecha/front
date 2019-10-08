@@ -31,6 +31,7 @@ context('Registration', () => {
     cy.location('pathname').should('eq', '/login');
     cy.login(false, username, password);
     cy.deleteUser(username, password);
+    cy.clearCookies();
   })
 
   it('should allow a user to register', () => {

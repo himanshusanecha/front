@@ -3,14 +3,14 @@
 context('Blogs', () => {
   before(() => {
     cy.getCookie('minds_sess')
-    .then((sessionCookie) => {
-      if (sessionCookie === null) {
-        return cy.login(true);
-      }
-    });
+      .then((sessionCookie) => {
+        if (sessionCookie === null) {
+          return cy.login(true);
+        }
+      });
   });
 
-  beforeEach(()=> {
+  beforeEach(() => {
     cy.preserveCookies();
     cy.server();
     cy.route('POST', '**/api/v1/blog/new').as('postBlog');
