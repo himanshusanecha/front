@@ -222,10 +222,10 @@ Cypress.Commands.add('post', (message) => {
  * e.g. { dark mode:false, es-feeds: true }
  * @returns void
  */
-Cypress.Commands.add('overrideFeatureFlag', (flags) => {
-  const base64 = Buffer.from(JSON.stringify(flags)).toString("base64");
-  cy.setCookie('staging-features', base64);
-});
+// Cypress.Commands.add('overrideFeatureFlag', (flags) => {
+//   const base64 = Buffer.from(JSON.stringify(flags)).toString("base64");
+//   cy.setCookie('staging-features', base64);
+// });
 
 /**
  * Converts base64 to blob format

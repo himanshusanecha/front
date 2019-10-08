@@ -1,9 +1,6 @@
 // skipped until feat release
 context.skip('Channel', () => {
   before(() => {
-    cy.overrideFeatureFlag({
-      'permissions': true,
-    });
     cy.getCookie('minds_sess')
     .then((sessionCookie) => {
       if (sessionCookie === null) {

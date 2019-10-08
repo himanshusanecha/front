@@ -14,7 +14,7 @@ context('Boost Console', () => {
         return cy.login(true);
       }
     });
-    newBoost(postContent, 100);
+    newBoost(postContent, 500);
   });
 
   beforeEach(() => {
