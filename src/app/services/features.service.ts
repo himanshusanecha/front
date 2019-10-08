@@ -1,15 +1,12 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { Session } from './session';
 import { Router } from '@angular/router';
-import { Cookie } from '../services/cookie';
-import { includes } from 'lodash';
 
 @Injectable()
 export class FeaturesService {
   private overrides = [];
   protected _features: any;
   protected _warnedCache: { [key: string]: number } = {};
-  private cookie: Cookie = new Cookie();
 
   constructor(private session: Session, private router: Router) {
     this._features = window.Minds.features || {};
@@ -22,16 +19,6 @@ export class FeaturesService {
     if (feature.indexOf('!') === 0) {
       // Inverted check. Useful for *mIfFeature
       return !this.has(feature.substring(1));
-    }
-    if (this.cookie.get('staging-features')) {
-      try {
-        this.overrides = JSON.parse(atob(this.cookie.get('staging-features')));
-      } catch (e) {
-        // Do nothing
-      }
-    }
-    if (feature in this.overrides) {
-      return this.overrides[feature];
     }
 
     if (typeof this._features[feature] === 'undefined') {
@@ -82,7 +69,7 @@ export class FeaturesService {
     return this._warnedCache[feature] + 5000 < Date.now();
   }
 
-  static _(session: Session, router: Router, cookie: Cookie) {
+  static _(session: Session, router: Router) {
     return new FeaturesService(session, router);
   }
 }
