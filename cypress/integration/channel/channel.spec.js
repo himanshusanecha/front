@@ -1,5 +1,5 @@
 // skipped until feat release
-context('Channel', () => {
+context.skip('Channel', () => {
   before(() => {
     cy.overrideFeatureFlag({
       'permissions': true,
