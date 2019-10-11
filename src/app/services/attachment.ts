@@ -6,7 +6,7 @@ import {
   HttpEvent,
   HttpEventType,
 } from '@angular/common/http';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { map, tap, last } from 'rxjs/operators';
 
 import { Client, Upload } from './api';
@@ -18,15 +18,15 @@ export class AttachmentService {
   private attachment: any = {};
 
   public progress: BehaviorSubject<number> = new BehaviorSubject(0);
+  public response: BehaviorSubject<HttpEvent<any>>;
+  private uploadSubscription: Subscription;
 
-  response: any;
   private container: any = {};
   private accessId: any = 2;
 
   private previewTimeout: any = null;
 
   private pendingDelete: boolean = false;
-  uploadSubscription: any;
   private xhr: XMLHttpRequest = null;
 
   static _(session: Session, client: Client, upload: Upload, http: HttpClient) {
