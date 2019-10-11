@@ -6,7 +6,7 @@ import {
   HttpEvent,
   HttpEventType,
 } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { map, tap, last } from 'rxjs/operators';
 
 import { Client, Upload } from './api';
@@ -19,13 +19,14 @@ export class AttachmentService {
 
   public progress: BehaviorSubject<number> = new BehaviorSubject(0);
 
+  response: any;
   private container: any = {};
   private accessId: any = 2;
 
   private previewTimeout: any = null;
 
   private pendingDelete: boolean = false;
-
+  uploadSubscription: any;
   private xhr: XMLHttpRequest = null;
 
   static _(session: Session, client: Client, upload: Upload, http: HttpClient) {
@@ -210,40 +211,40 @@ export class AttachmentService {
     });
 
     // Upload directly to S3
-    const response = this.http.request(req);
+    const upload$ = this.http.request(req);
 
-    // Track upload progress && wait for completion
-    await response
-      .pipe(
-        map((event: HttpEvent<any>, file) => {
-          switch (event.type) {
-            case HttpEventType.Sent:
-              return 0;
-            case HttpEventType.UploadProgress:
-              return Math.round((100 * event.loaded) / event.total);
-            case HttpEventType.Response:
-              return 100;
-            default:
-              return -1;
-          }
-        }),
-        tap(pct => {
-          if (pct >= 0) this.progress.next(pct);
-        }),
-        last()
-      )
-      .toPromise();
-
-    // Complete the upload
-    await this.clientService.put(
-      `api/v2/media/upload/complete/${lease.media_type}/${lease.guid}`
+    // Track upload progress &&
+    const uploadProgress$ = upload$.pipe(
+      map((event: HttpEvent<any>, file) => {
+        switch (event.type) {
+          case HttpEventType.Sent:
+            return 0;
+          case HttpEventType.UploadProgress:
+            return Math.round((100 * event.loaded) / event.total);
+          case HttpEventType.Response:
+            return 100;
+          default:
+            return -1;
+        }
+      })
     );
+
+    if (this.uploadSubscription) this.uploadSubscription.unsubscribe();
+
+    this.uploadSubscription = uploadProgress$.subscribe(pct => {
+      if (pct >= 0) this.progress.next(pct);
+    });
+
+    // wait for completion
+    await uploadProgress$.pipe(last()).toPromise();
 
     return lease;
   }
 
   abort() {
     if (this.xhr) {
+      this.progress.next(-1);
+      this.uploadSubscription.unsubscribe();
       this.xhr.abort();
       this.xhr = null;
 
