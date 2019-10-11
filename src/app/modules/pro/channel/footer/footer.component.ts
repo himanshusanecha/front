@@ -94,6 +94,6 @@ export class ProChannelFooterComponent {
       ? this.user.pro_settings.domain
       : window.Minds.site_url;
     const regex = new RegExp(`/${domain}/`);
-    return regex.exec(link.href) ? '_blank' : '_self';
+    return regex.exec(link.href) ? '_self' : '_blank';
   }
 }
