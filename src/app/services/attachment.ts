@@ -27,6 +27,7 @@ export class AttachmentService {
   private previewTimeout: any = null;
 
   private pendingDelete: boolean = false;
+
   private xhr: XMLHttpRequest = null;
 
   static _(session: Session, client: Client, upload: Upload, http: HttpClient) {
@@ -243,7 +244,6 @@ export class AttachmentService {
 
   abort() {
     if (this.xhr) {
-      this.progress.next(-1);
       this.uploadSubscription.unsubscribe();
       this.xhr.abort();
       this.xhr = null;
