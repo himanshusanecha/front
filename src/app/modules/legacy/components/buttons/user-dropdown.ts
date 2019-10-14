@@ -285,6 +285,7 @@ export class UserDropdownButton {
       .catch(e => {
         this.user.subscribed = false;
       });
+    this.showMenu = false;
   }
 
   unSubscribe() {
@@ -297,6 +298,7 @@ export class UserDropdownButton {
       .catch(e => {
         this.user.subscribed = true;
       });
+    this.showMenu = false;
   }
 
   ban() {
