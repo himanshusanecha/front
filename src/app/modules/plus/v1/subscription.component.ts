@@ -9,22 +9,22 @@ import {
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Client } from '../../common/api/client.service';
-import { Web3WalletService } from '../blockchain/web3-wallet.service';
-import { TokenContractService } from '../blockchain/contracts/token-contract.service';
-import { WireService } from '../wire/wire.service';
-import { WireStruc } from '../wire/creator/creator.component';
-import { OverlayModalService } from '../../services/ux/overlay-modal';
-import { SignupModalService } from '../modals/signup/service';
-import { Session } from '../../services/session';
-import { WirePaymentsCreatorComponent } from '../wire/creator/payments/payments.creator.component';
-import { WirePaymentHandlersService } from '../wire/wire-payment-handlers.service';
+import { Client } from '../../../common/api/client.service';
+import { Web3WalletService } from '../../blockchain/web3-wallet.service';
+import { TokenContractService } from '../../blockchain/contracts/token-contract.service';
+import { WireService } from '../../wire/wire.service';
+import { WireStruc } from '../../wire/creator/creator.component';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { SignupModalService } from '../../modals/signup/service';
+import { Session } from '../../../services/session';
+import { WirePaymentsCreatorComponent } from '../../wire/creator/payments/payments.creator.component';
+import { WirePaymentHandlersService } from '../../wire/wire-payment-handlers.service';
 
-@Component({
-  selector: 'm-plus--subscription',
-  templateUrl: 'subscription.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
+// @Component({
+//   selector: 'm-plus--subscription',
+//   templateUrl: 'subscription.component.html',
+//   changeDetection: ChangeDetectionStrategy.OnPush,
+// })
 export class PlusSubscriptionComponent {
   user = window.Minds.user;
   blockchain = window.Minds.blockchain;
