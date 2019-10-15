@@ -1,6 +1,7 @@
 .m-marketing__main,
 .m-marketing__section {
   // Common
+  overflow-x: hidden;
 
   .m-marketing--hideMobile {
     @media screen and (max-width: $m-grid-min-vp) {
