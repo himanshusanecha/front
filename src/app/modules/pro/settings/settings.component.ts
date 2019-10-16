@@ -118,7 +118,6 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
 
     try {
       const { logo, background, ...settings } = this.settings;
-      await this.service.set(settings, this.user);
 
       if (logo) {
         await this.service.upload('logo', logo, this.user);
@@ -131,7 +130,7 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
           }
         }
 
-        this.settings.logo = null;
+        settings.has_custom_logo = true;
       }
 
       if (background) {
@@ -145,8 +144,12 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
           }
         }
 
-        this.settings.background = null;
+        settings.has_custom_background = true;
       }
+
+      this.settings = settings;
+
+      await this.service.set(this.settings, this.user);
     } catch (e) {
       this.error = e.message;
     }
