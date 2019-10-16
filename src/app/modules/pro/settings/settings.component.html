@@ -209,12 +209,26 @@
               </div>
 
               <div class="m-proSettings__field">
-                <label for="logo_guid" i18n>Logo Asset GUID</label>
+                <label for="logo" i18n>Logo Image</label>
                 <input
-                  type="text"
-                  id="logo_guid"
-                  name="logo_guid"
-                  [(ngModel)]="settings.logo_guid"
+                  type="file"
+                  id="logo"
+                  name="logo"
+                  accept="image/*"
+                  (change)="onLogoFileSelect(logoField.files)"
+                  #logoField
+                />
+              </div>
+
+              <div class="m-proSettings__field">
+                <label for="background" i18n>Background</label>
+                <input
+                  type="file"
+                  id="background"
+                  name="background"
+                  accept="image/*"
+                  (change)="onBackgroundFileSelect(backgroundField.files)"
+                  #backgroundField
                 />
               </div>
             </ng-template>

@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { ProService } from '../pro.service';
 import { Session } from '../../../services/session';
@@ -37,6 +39,12 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
   error: string;
 
   protected param$: Subscription;
+
+  @ViewChild('logoField', { static: false })
+  protected logoField: ElementRef<HTMLInputElement>;
+
+  @ViewChild('backgroundField', { static: false })
+  protected backgroundField: ElementRef<HTMLInputElement>;
 
   constructor(
     protected service: ProService,
@@ -81,13 +89,64 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
     this.detectChanges();
   }
 
+  onLogoFileSelect(files: FileList | null) {
+    if (!files || !files.item(0)) {
+      this.settings.logo = null;
+      this.detectChanges();
+      return;
+    }
+
+    this.settings.logo = files.item(0);
+    this.detectChanges();
+  }
+
+  onBackgroundFileSelect(files: FileList | null) {
+    if (!files || !files.item(0)) {
+      this.settings.background = null;
+      this.detectChanges();
+      return;
+    }
+
+    this.settings.background = files.item(0);
+    this.detectChanges();
+  }
+
   async save() {
     this.error = null;
     this.inProgress = true;
     this.detectChanges();
 
     try {
-      await this.service.set(this.settings, this.user);
+      const { logo, background, ...settings } = this.settings;
+      await this.service.set(settings, this.user);
+
+      if (logo) {
+        await this.service.upload('logo', logo, this.user);
+
+        if (this.logoField.nativeElement) {
+          try {
+            this.logoField.nativeElement.value = '';
+          } catch (e) {
+            console.warn('Browser prevented logoField resetting');
+          }
+        }
+
+        this.settings.logo = null;
+      }
+
+      if (background) {
+        await this.service.upload('background', background, this.user);
+
+        if (this.backgroundField.nativeElement) {
+          try {
+            this.backgroundField.nativeElement.value = '';
+          } catch (e) {
+            console.warn('Browser prevented backgroundField resetting');
+          }
+        }
+
+        this.settings.background = null;
+      }
     } catch (e) {
       this.error = e.message;
     }
