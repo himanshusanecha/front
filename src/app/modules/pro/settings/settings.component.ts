@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MindsTitle } from '../../../services/ux/title';
 import { Subscription } from 'rxjs';
 import { SiteService } from '../../../common/services/site.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'm-pro--settings',
@@ -54,7 +55,8 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
     protected route: ActivatedRoute,
     protected cd: ChangeDetectorRef,
     protected title: MindsTitle,
-    protected site: SiteService
+    protected site: SiteService,
+    protected sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -115,6 +117,22 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
         console.warn(`Browser prevented ${type} field resetting`);
       }
     }
+  }
+
+  getPreviewAssetSrc(type: string): string | SafeUrl {
+    if (this.settings[type]) {
+      if (!this.settings[type]._mindsBlobUrl) {
+        this.settings[type]._mindsBlobUrl = URL.createObjectURL(this.settings[
+          type
+        ] as File);
+      }
+
+      return this.sanitizer.bypassSecurityTrustUrl(
+        this.settings[type]._mindsBlobUrl
+      );
+    }
+
+    return this.settings[`${type}_image`];
   }
 
   async save() {

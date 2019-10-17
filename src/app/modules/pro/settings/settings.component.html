@@ -229,28 +229,61 @@
 
               <div class="m-proSettings__field">
                 <label for="logo" i18n>Logo Image</label>
-                <input
-                  type="file"
-                  id="logo"
-                  name="logo"
-                  accept="image/*"
-                  (change)="onAssetFileSelect('logo', logoField.files)"
-                  #logoField
-                />
+
+                <label
+                  for="logo"
+                  class="m-proSettingsField__filePreview m-proSettingsField__logoFilePreview"
+                  [ngStyle]="{
+                    backgroundColor: settings.plain_background_color
+                  }"
+                >
+                  <input
+                    type="file"
+                    id="logo"
+                    name="logo"
+                    accept="image/*"
+                    (change)="onAssetFileSelect('logo', logoField.files)"
+                    #logoField
+                  />
+
+                  <img
+                    *ngIf="getPreviewAssetSrc('logo')"
+                    [src]="getPreviewAssetSrc('logo')"
+                  />
+
+                  <span class="m-proSettingsFieldFilePreview__overlay">
+                    <i class="material-icons">cloud_upload</i>
+                  </span>
+                </label>
               </div>
 
               <div class="m-proSettings__field">
                 <label for="background" i18n>Background</label>
-                <input
-                  type="file"
-                  id="background"
-                  name="background"
-                  accept="image/*"
-                  (change)="
-                    onAssetFileSelect('background', backgroundField.files)
-                  "
-                  #backgroundField
-                />
+
+                <label
+                  for="background"
+                  class="m-proSettingsField__filePreview m-proSettingsField__backgroundFilePreview"
+                >
+                  <input
+                    type="file"
+                    id="background"
+                    name="background"
+                    accept="image/*"
+                    (change)="
+                      onAssetFileSelect('background', backgroundField.files)
+                    "
+                    #backgroundField
+                  />
+
+                  <img
+                    *ngIf="getPreviewAssetSrc('background')"
+                    [src]="getPreviewAssetSrc('background')"
+                  />
+
+                  <span class="m-proSettingsFieldFilePreview__overlay">
+                    <i class="material-icons">cloud_upload</i>
+                  </span>
+                </label>
               </div>
             </ng-template>
 
