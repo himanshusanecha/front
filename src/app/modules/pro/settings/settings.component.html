@@ -26,6 +26,17 @@
 
         <a
           class="m-topbar--navigation--item"
+          [class.m-topbar--navigation--item-active]="currentTab === 'assets'"
+          (click)="currentTab = 'assets'"
+        >
+          <span i18n>Assets</span>
+          <m-tooltip icon="help" i18n>
+            Upload a custom logo and background.
+          </m-tooltip>
+        </a>
+
+        <a
+          class="m-topbar--navigation--item"
           [class.m-topbar--navigation--item-active]="currentTab === 'hashtags'"
           (click)="currentTab = 'hashtags'"
         >
@@ -207,6 +218,14 @@
                   </label>
                 </ng-container>
               </div>
+            </ng-template>
+
+            <!-- Assets -->
+
+            <ng-template ngSwitchCase="assets">
+              <p class="m-proSettings__note" i18n>
+                Upload a custom logo and background.
+              </p>
 
               <div class="m-proSettings__field">
                 <label for="logo" i18n>Logo Image</label>
@@ -215,7 +234,7 @@
                   id="logo"
                   name="logo"
                   accept="image/*"
-                  (change)="onLogoFileSelect(logoField.files)"
+                  (change)="onAssetFileSelect('logo', logoField.files)"
                   #logoField
                 />
               </div>
@@ -227,7 +246,9 @@
                   id="background"
                   name="background"
                   accept="image/*"
-                  (change)="onBackgroundFileSelect(backgroundField.files)"
+                  (change)="
+                    onAssetFileSelect('background', backgroundField.files)
+                  "
                   #backgroundField
                 />
               </div>
@@ -395,8 +416,8 @@
             </ng-template>
           </ng-container>
 
-          <div class="m-proSettings__error" *ngIf="!!error">
-            {{ error }}
+          <div class="m-proSettings__error" *ngIf="error">
+            Error: {{ error }}
           </div>
 
           <div

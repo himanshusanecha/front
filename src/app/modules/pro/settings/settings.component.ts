@@ -29,6 +29,7 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
   currentTab:
     | 'general'
     | 'theme'
+    | 'assets'
     | 'hashtags'
     | 'footer'
     | 'domain'
@@ -89,26 +90,31 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
     this.detectChanges();
   }
 
-  onLogoFileSelect(files: FileList | null) {
+  onAssetFileSelect(type: string, files: FileList | null) {
     if (!files || !files.item(0)) {
-      this.settings.logo = null;
+      this.settings[type] = null;
       this.detectChanges();
       return;
     }
 
-    this.settings.logo = files.item(0);
+    this.settings[type] = files.item(0);
     this.detectChanges();
   }
 
-  onBackgroundFileSelect(files: FileList | null) {
-    if (!files || !files.item(0)) {
-      this.settings.background = null;
-      this.detectChanges();
-      return;
-    }
+  protected async uploadAsset(
+    type: string,
+    file: File,
+    htmlInputFileElementRef: ElementRef<HTMLInputElement> | null = null
+  ): Promise<void> {
+    await this.service.upload(type, file, this.user);
 
-    this.settings.background = files.item(0);
-    this.detectChanges();
+    if (htmlInputFileElementRef && htmlInputFileElementRef.nativeElement) {
+      try {
+        htmlInputFileElementRef.nativeElement.value = '';
+      } catch (e) {
+        console.warn(`Browser prevented ${type} field resetting`);
+      }
+    }
   }
 
   async save() {
@@ -119,36 +125,23 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
     try {
       const { logo, background, ...settings } = this.settings;
 
+      const uploads: Promise<any>[] = [];
+
       if (logo) {
-        await this.service.upload('logo', logo, this.user);
-
-        if (this.logoField.nativeElement) {
-          try {
-            this.logoField.nativeElement.value = '';
-          } catch (e) {
-            console.warn('Browser prevented logoField resetting');
-          }
-        }
-
+        uploads.push(this.uploadAsset('logo', logo, this.logoField));
         settings.has_custom_logo = true;
       }
 
       if (background) {
-        await this.service.upload('background', background, this.user);
-
-        if (this.backgroundField.nativeElement) {
-          try {
-            this.backgroundField.nativeElement.value = '';
-          } catch (e) {
-            console.warn('Browser prevented backgroundField resetting');
-          }
-        }
-
+        uploads.push(
+          this.uploadAsset('background', background, this.backgroundField)
+        );
         settings.has_custom_background = true;
       }
 
-      this.settings = settings;
+      await Promise.all(uploads);
 
+      this.settings = settings;
       await this.service.set(this.settings, this.user);
     } catch (e) {
       this.error = e.message;

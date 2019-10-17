@@ -75,7 +75,14 @@ export class ProService {
       endpoint.push(remoteUser);
     }
 
-    await this.uploadClient.post(endpoint.join('/'), [file]);
+    const response = (await this.uploadClient.post(endpoint.join('/'), [
+      file,
+    ])) as any;
+
+    if (!response || response.status !== 'success') {
+      throw new Error(response.message || 'Invalid server response');
+    }
+
     return true;
   }
 }
