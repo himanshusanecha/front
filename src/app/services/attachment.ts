@@ -239,6 +239,9 @@ export class AttachmentService {
     // wait for completion
     await uploadProgress$.pipe(last()).toPromise();
 
+    await this.clientService.put(
+      `api/v2/media/upload/complete/${lease.media_type}/${lease.guid}`
+    );
     return lease;
   }
 
