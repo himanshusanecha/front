@@ -358,4 +358,8 @@ export class BlogEdit {
       this.blog.time_published > Math.floor(Date.now() / 1000)
     );
   }
+
+  onNSWFSelections(nsfw) {
+    this.blog.nsfw = nsfw.map(reason => reason.value);
+  }
 }
