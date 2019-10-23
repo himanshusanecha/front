@@ -245,6 +245,10 @@ describe('BlogEdit', () => {
           inputs: ['date', 'dateFormat'],
           outputs: ['dateChange'],
         }),
+        MockComponent({
+          selector: 'm-nsfw-selector',
+          outputs: ['selected'],
+        }),
         MockDirective({
           selector: '[mIfFeature]',
           inputs: ['mIfFeature'],
