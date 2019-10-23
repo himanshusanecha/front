@@ -155,6 +155,8 @@
       </select>
     </div>
 
+    <m-nsfw-selector (selected)="onNSWFSelections($event)"> </m-nsfw-selector>
+
     <m-wire-threshold-input
       [(threshold)]="blog.wire_threshold"
       [(enabled)]="blog.paywall"
