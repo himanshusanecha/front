@@ -359,6 +359,10 @@ export class BlogEdit {
     );
   }
 
+  /**
+   * Sets this blog NSFW
+   * @param { array } nsfw - Numerical indexes for reasons in an array e.g. [1, 2].
+   */
   onNSWFSelections(nsfw) {
     this.blog.nsfw = nsfw.map(reason => reason.value);
   }

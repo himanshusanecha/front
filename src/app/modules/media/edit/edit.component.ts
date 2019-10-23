@@ -106,4 +106,12 @@ export class MediaEditComponent {
     this.entity.file = file.source;
     this.entity.thumbnail = file.seconds;
   }
+
+  /**
+   * Sets this blog NSFW
+   * @param { array } nsfw - Numerical indexes for reasons in an array e.g. [1, 2].
+   */
+  onNSWFSelections(nsfw) {
+    this.entity.nsfw = nsfw.map(reason => reason.value);
+  }
 }
