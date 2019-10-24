@@ -36,6 +36,7 @@ export class NSFWSelectorComponent {
       this.service.reasons.map(r => this.toggle(r.value));
     }
   }
+
   get service() {
     switch (this.serviceRef) {
       case 'editing':
