@@ -31,6 +31,11 @@ export class NSFWSelectorComponent {
     private storage: Storage
   ) {}
 
+  ngOnInit() {
+    if (this.service.reasons) {
+      this.service.reasons.map(r => this.toggle(r.value));
+    }
+  }
   get service() {
     switch (this.serviceRef) {
       case 'editing':
