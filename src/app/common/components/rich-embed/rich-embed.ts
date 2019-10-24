@@ -3,6 +3,8 @@ import {
   ElementRef,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -23,6 +25,8 @@ export class MindsRichEmbed {
   inlineEmbed: any = null;
   embeddedInline: boolean = false;
   cropImage: boolean = false;
+
+  @Output() mediaModalRequested: EventEmitter<any> = new EventEmitter();
   private lastInlineEmbedParsed: string;
 
   constructor(
@@ -83,6 +87,11 @@ export class MindsRichEmbed {
   }
 
   action($event) {
+    // if (this.shouldPlayInModal && this.featuresService.has('media-modal')) {
+    this.mediaModalRequested.emit();
+    return;
+    // }
+
     if (this.inlineEmbed && !this.embeddedInline) {
       $event.preventDefault();
       $event.stopPropagation();

@@ -138,7 +138,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Prevent dismissal of modal when it's just been opened
     this.isOpenTimeout = setTimeout(() => (this.isOpen = true), 20);
-
     switch (this.entity.type) {
       case 'activity':
         this.title =
@@ -165,6 +164,17 @@ export class MediaModalComponent implements OnInit, OnDestroy {
             this.contentType = 'image';
             this.entity.width = this.entity.custom_data[0].width;
             this.entity.height = this.entity.custom_data[0].height;
+        }
+        if (this.entity.perma_url && this.entity.title) {
+          this.contentType = 'video';
+          this.entity.width = this.entity.custom_data.dimensions
+            ? this.entity.custom_data.dimensions.width
+            : 1280;
+          this.entity.height = this.entity.custom_data.dimensions
+            ? this.entity.custom_data.dimensions.height
+            : 720;
+          this.entity.thumbnail_src = this.entity.custom_data.thumbnail_src;
+          break;
         }
         break;
       case 'object':
