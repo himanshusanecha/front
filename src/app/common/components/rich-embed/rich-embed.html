@@ -12,11 +12,11 @@
     rel="noopener noreferrer"
     *ngIf="src.thumbnail_src || inlineEmbed"
   >
-    <div
+    <!-- <div
       class="mdl-progress mdl-js-progress mdl-progress__indeterminate m-html-loading"
       *ngIf="embeddedInline && (!inlineEmbed || !inlineEmbed.html)"
       [mdl]
-    ></div>
+    ></div> -->
 
     <img
       *ngIf="!cropImage && (src.thumbnail_src || !inlineEmbed)"

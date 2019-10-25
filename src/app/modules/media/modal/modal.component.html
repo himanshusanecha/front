@@ -15,7 +15,10 @@
         (touchend)="showOverlaysOnTablet()"
       >
         <!-- LOADING PANEL -->
-        <div class="m-mediaModal__loadingPanel" *ngIf="isLoading">
+        <div
+          class="m-mediaModal__loadingPanel"
+          *ngIf="isLoading && contentType !== 'rich-embed'"
+        >
           <div class="mdl-spinner mdl-js-spinner is-active" [mdl]></div>
         </div>
 
@@ -103,7 +106,7 @@
           >
             <div
               class="m-mediaModal__overlayTitleWrapper"
-              *ngIf="this.contentType !== 'blog'"
+              *ngIf="contentType !== 'blog' && contentType !== 'rich-embed'"
             >
               <!-- TITLE -->
               <span

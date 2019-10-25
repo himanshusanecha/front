@@ -68,14 +68,11 @@ export class MindsRichEmbed {
   }
 
   init() {
-    if (this.mediaModalRequested.observers.length > 0) {
-      this.openModal = true;
-    }
+    this.openModal = this.mediaModalRequested.observers.length > 0;
+
     // Inline Embedding
     let inlineEmbed = this.parseInlineEmbed(this.inlineEmbed);
 
-    // console.dir('inlineEmbed',inlineEmbed);
-    // this.action(null);
     if (
       inlineEmbed &&
       inlineEmbed.id &&
@@ -93,7 +90,7 @@ export class MindsRichEmbed {
     this.inlineEmbed = inlineEmbed;
 
     if (this.openModal) {
-      if (this.inlineEmbed.htmlProvisioner) {
+      if (this.inlineEmbed && this.inlineEmbed.htmlProvisioner) {
         console.log('htmlProvisioner');
         this.inlineEmbed.htmlProvisioner().then(html => {
           this.inlineEmbed.html = html;

@@ -528,6 +528,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   // Show overlay and video controls
   onMouseEnterStage() {
+    if (this.contentType === 'rich-embed') {
+      this.overlayVisible = false;
+    }
+
     this.overlayVisible = true;
 
     if (this.contentType === 'video') {
