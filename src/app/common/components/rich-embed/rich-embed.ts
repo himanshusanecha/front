@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   Output,
+  Input,
   EventEmitter,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -75,6 +76,17 @@ export class MindsRichEmbed {
       this.inlineEmbed &&
       this.inlineEmbed.id
     ) {
+      // this.action(null);
+      if (this.openModal) {
+        if (this.inlineEmbed.htmlProvisioner) {
+          this.inlineEmbed.htmlProvisioner().then(html => {
+            this.inlineEmbed.html = html;
+            this.detectChanges();
+          });
+
+          // @todo: catch any error here and forcefully window.open to destination
+        }
+      }
       // Do not replace if ID codes are the same
       // This is needed because angular sometimes replaces the innerHTML
       // of the embedded player and restarts the videos
@@ -85,12 +97,16 @@ export class MindsRichEmbed {
 
     this.inlineEmbed = inlineEmbed;
   }
+  @Input() openModal = false;
 
   action($event) {
-    // if (this.shouldPlayInModal && this.featuresService.has('media-modal')) {
-    this.mediaModalRequested.emit();
-    return;
-    // }
+    if (this.openModal) {
+      // if (this.shouldPlayInModal && this.featuresService.has('media-modal')) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      this.mediaModalRequested.emit();
+      return;
+    }
 
     if (this.inlineEmbed && !this.embeddedInline) {
       $event.preventDefault();

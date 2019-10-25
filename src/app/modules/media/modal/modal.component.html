@@ -71,6 +71,15 @@
             </m-video>
           </div>
 
+          <!-- RICH-EMBED -->
+          <div
+            class="m-mediaModal__mediaWrapper m-mediaModal__mediaWrapper--richEmbed"
+            *ngIf="contentType === 'rich-embed'"
+          >
+            <minds-rich-embed [src]="entity" [maxheight]="480">
+            </minds-rich-embed>
+          </div>
+
           <!-- MEDIA: BLOG -->
           <div
             class="m-mediaModal__mediaWrapper m-mediaModal__mediaWrapper--blog"

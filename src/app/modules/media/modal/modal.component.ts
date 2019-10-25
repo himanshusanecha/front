@@ -166,7 +166,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
             this.entity.height = this.entity.custom_data[0].height;
         }
         if (this.entity.perma_url && this.entity.title) {
-          this.contentType = 'video';
+          this.contentType = 'rich-embed';
           this.entity.width = this.entity.custom_data.dimensions
             ? this.entity.custom_data.dimensions.width
             : 1280;

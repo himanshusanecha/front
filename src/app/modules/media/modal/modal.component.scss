@@ -99,6 +99,10 @@ m-overlay-modal {
   }
 }
 
+.m-mediaModal__mediaWrapper--richEmbed {
+  height: 100%;
+}
+
 .m-mediaModal__mediaWrapper--blog {
   line-height: initial;
   overflow-y: auto;
