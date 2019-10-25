@@ -6,6 +6,7 @@ import {
   Output,
   Input,
   EventEmitter,
+  ɵConsole,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -26,7 +27,7 @@ export class MindsRichEmbed {
   inlineEmbed: any = null;
   embeddedInline: boolean = false;
   cropImage: boolean = false;
-
+  openModal = false;
   @Output() mediaModalRequested: EventEmitter<any> = new EventEmitter();
   private lastInlineEmbedParsed: string;
 
@@ -67,26 +68,20 @@ export class MindsRichEmbed {
   }
 
   init() {
+    if (this.mediaModalRequested.observers.length > 0) {
+      this.openModal = true;
+    }
     // Inline Embedding
     let inlineEmbed = this.parseInlineEmbed(this.inlineEmbed);
 
+    // console.dir('inlineEmbed',inlineEmbed);
+    // this.action(null);
     if (
       inlineEmbed &&
       inlineEmbed.id &&
       this.inlineEmbed &&
       this.inlineEmbed.id
     ) {
-      // this.action(null);
-      if (this.openModal) {
-        if (this.inlineEmbed.htmlProvisioner) {
-          this.inlineEmbed.htmlProvisioner().then(html => {
-            this.inlineEmbed.html = html;
-            this.detectChanges();
-          });
-
-          // @todo: catch any error here and forcefully window.open to destination
-        }
-      }
       // Do not replace if ID codes are the same
       // This is needed because angular sometimes replaces the innerHTML
       // of the embedded player and restarts the videos
@@ -96,8 +91,19 @@ export class MindsRichEmbed {
     }
 
     this.inlineEmbed = inlineEmbed;
+
+    if (this.openModal) {
+      if (this.inlineEmbed.htmlProvisioner) {
+        console.log('htmlProvisioner');
+        this.inlineEmbed.htmlProvisioner().then(html => {
+          this.inlineEmbed.html = html;
+          this.detectChanges();
+        });
+
+        // @todo: catch any error here and forcefully window.open to destination
+      }
+    }
   }
-  @Input() openModal = false;
 
   action($event) {
     if (this.openModal) {
