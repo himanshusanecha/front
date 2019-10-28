@@ -184,13 +184,13 @@ export class AdminBoosts {
   }
 
   onKeyPress(e: KeyboardEvent) {
-    if (this.reasonModalOpened || e.ctrlKey || e.altKey || e.shiftKey) {
+    //If an input is focused, disregard.
+    if (document.activeElement.tagName === 'INPUT') {
       return;
     }
     e.stopPropagation();
 
     // numbers
-
     switch (e.key.toLowerCase()) {
       case 'n':
         //mark as nsfw and accept
