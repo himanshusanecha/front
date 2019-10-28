@@ -46,7 +46,8 @@
     text-overflow: ellipsis;
     text-align: left;
 
-    a {
+    a,
+    div {
       padding: 0 8px 0 0;
       text-decoration: none;
       width: 100%;
@@ -98,7 +99,8 @@
         border-bottom: 1px solid themed($m-grey-50);
       }
 
-      a {
+      a,
+      div {
         padding: 8px;
       }
       &.m-dropdown--list--item--selected,
