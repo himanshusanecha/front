@@ -101,12 +101,12 @@
           <!-- OVERLAY -->
           <div
             class="m-mediaModal__overlayContainer"
-            *ngIf="overlayVisible"
+            *ngIf="overlayVisible && contentType !== 'rich-embed'"
             @fastFadeAnimation
           >
             <div
               class="m-mediaModal__overlayTitleWrapper"
-              *ngIf="contentType !== 'blog' && contentType !== 'rich-embed'"
+              *ngIf="contentType !== 'blog'"
             >
               <!-- TITLE -->
               <span
