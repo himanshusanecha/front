@@ -66,4 +66,25 @@ export class ProService {
     await this.client.post(endpoint.join('/'), settings);
     return true;
   }
+
+  async domainCheck(
+    domain: string,
+    remoteUser: string | null = null
+  ): Promise<{ isValid: boolean }> {
+    const endpoint = ['api/v2/pro/settings/domain'];
+
+    if (remoteUser) {
+      endpoint.push(remoteUser);
+    }
+
+    const { isValid } = (await this.client.get(
+      endpoint.join('/'),
+      {
+        domain,
+      },
+      { cache: false }
+    )) as any;
+
+    return { isValid };
+  }
 }
