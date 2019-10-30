@@ -4,14 +4,13 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   Output,
-  Input,
   EventEmitter,
-  ɵConsole,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { RichEmbedService } from '../../../services/rich-embed';
 import mediaProxyUrl from '../../../helpers/media-proxy-url';
+import { FeaturesService } from 'src/app/services/features.service';
 
 @Component({
   moduleId: module.id,
@@ -27,14 +26,15 @@ export class MindsRichEmbed {
   inlineEmbed: any = null;
   embeddedInline: boolean = false;
   cropImage: boolean = false;
-  openModal = false;
+  openModal: boolean = false;
   @Output() mediaModalRequested: EventEmitter<any> = new EventEmitter();
   private lastInlineEmbedParsed: string;
 
   constructor(
     private sanitizer: DomSanitizer,
     private service: RichEmbedService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private featureService: FeaturesService
   ) {}
 
   set _src(value: any) {
@@ -103,8 +103,7 @@ export class MindsRichEmbed {
   }
 
   action($event) {
-    if (this.openModal) {
-      // if (this.shouldPlayInModal && this.featuresService.has('media-modal')) {
+    if (this.openModal && this.featureService.has('media-modal')) {
       $event.preventDefault();
       $event.stopPropagation();
       this.mediaModalRequested.emit();
