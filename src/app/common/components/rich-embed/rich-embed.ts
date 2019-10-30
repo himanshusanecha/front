@@ -91,7 +91,6 @@ export class MindsRichEmbed {
 
     if (this.openModal) {
       if (this.inlineEmbed && this.inlineEmbed.htmlProvisioner) {
-        console.log('htmlProvisioner');
         this.inlineEmbed.htmlProvisioner().then(html => {
           this.inlineEmbed.html = html;
           this.detectChanges();
