@@ -27,7 +27,7 @@ export class MindsRichEmbed {
   inlineEmbed: any = null;
   embeddedInline: boolean = false;
   cropImage: boolean = false;
-  openModal: boolean = false;
+  modalRequestSubscribed: boolean = false;
   @Output() mediaModalRequested: EventEmitter<any> = new EventEmitter();
   private lastInlineEmbedParsed: string;
 
@@ -35,7 +35,7 @@ export class MindsRichEmbed {
     private sanitizer: DomSanitizer,
     private service: RichEmbedService,
     private cd: ChangeDetectorRef,
-    private featureService: FeaturesService
+    protected featureService: FeaturesService
   ) {}
 
   set _src(value: any) {
@@ -76,7 +76,8 @@ export class MindsRichEmbed {
       this.featureService.has('media-modal') &&
       this.mediaSource === 'youtube'
     ) {
-      this.openModal = this.mediaModalRequested.observers.length > 0;
+      this.modalRequestSubscribed =
+        this.mediaModalRequested.observers.length > 0;
     }
 
     if (
@@ -96,7 +97,7 @@ export class MindsRichEmbed {
     this.inlineEmbed = inlineEmbed;
 
     if (
-      this.openModal &&
+      this.modalRequestSubscribed &&
       this.featureService.has('media-modal') &&
       this.mediaSource === 'youtube'
     ) {
@@ -113,7 +114,7 @@ export class MindsRichEmbed {
 
   action($event) {
     if (
-      this.openModal &&
+      this.modalRequestSubscribed &&
       this.featureService.has('media-modal') &&
       this.mediaSource === 'youtube'
     ) {
@@ -185,7 +186,7 @@ export class MindsRichEmbed {
           className:
             'm-rich-embed-video m-rich-embed-video-iframe m-rich-embed-video-vimeo',
           html: this.sanitizer.bypassSecurityTrustHtml(`<iframe
-          src="https://player.vimeo.com/video/${matches[1]}?autoplay=1&title=0&byline=0&portrait=0"
+          src="https://player.vimeo.com/video/${matches[1]}?title=0&byline=0&portrait=0"
           frameborder="0"
           webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>`),
           playable: true,
@@ -223,6 +224,7 @@ export class MindsRichEmbed {
 
     // Spotify
     let spotify = /^(?:https?:\/\/)?open\.spotify\.com\/track\/([a-z0-9]+)/i;
+
     if ((matches = spotify.exec(url)) !== null) {
       if (matches[1]) {
         this.mediaSource = 'spotify';
@@ -269,7 +271,9 @@ export class MindsRichEmbed {
 
   hasInlineContentLoaded() {
     return this.featureService.has('media-modal')
-      ? !this.openModal && this.inlineEmbed && this.inlineEmbed.html
+      ? !this.modalRequestSubscribed &&
+          this.inlineEmbed &&
+          this.inlineEmbed.html
       : this.embeddedInline && this.inlineEmbed && this.inlineEmbed.html;
   }
 
