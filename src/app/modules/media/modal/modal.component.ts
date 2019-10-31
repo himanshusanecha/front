@@ -164,18 +164,34 @@ export class MediaModalComponent implements OnInit, OnDestroy {
             this.contentType = 'image';
             this.entity.width = this.entity.custom_data[0].width;
             this.entity.height = this.entity.custom_data[0].height;
+            break;
+          default:
+            if (
+              this.entity.perma_url &&
+              this.entity.title &&
+              !this.entity.entity_guid
+            ) {
+              this.contentType = 'rich-embed';
+              this.entity.width = this.entity.custom_data.dimensions
+                ? this.entity.custom_data.dimensions.width
+                : 1280;
+              this.entity.height = this.entity.custom_data.dimensions
+                ? this.entity.custom_data.dimensions.height
+                : 720;
+              this.entity.thumbnail_src = this.entity.custom_data.thumbnail_src;
+              break;
+            } else {
+              // Modal not implemented, redirect.
+              this.router.navigate([
+                this.entity.route
+                  ? `/${this.entity.route}`
+                  : `/blog/view/${this.entity.guid}`,
+              ]);
+              // Close modal.
+              this.clickedBackdrop(null);
+            }
         }
-        if (this.entity.perma_url && this.entity.title) {
-          this.contentType = 'rich-embed';
-          this.entity.width = this.entity.custom_data.dimensions
-            ? this.entity.custom_data.dimensions.width
-            : 1280;
-          this.entity.height = this.entity.custom_data.dimensions
-            ? this.entity.custom_data.dimensions.height
-            : 720;
-          this.entity.thumbnail_src = this.entity.custom_data.thumbnail_src;
-          break;
-        }
+
         break;
       case 'object':
         switch (this.entity.subtype) {
@@ -213,12 +229,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     if (this.redirectUrl) {
       this.pageUrl = this.redirectUrl;
-    } else if (this.contentType !== 'blog') {
-      this.pageUrl = `/media/${this.entity.entity_guid}`;
+    } else if (this.contentType === 'rich-embed') {
+      this.pageUrl = `/newsfeed/${this.entity.guid}`;
     } else {
-      this.pageUrl = this.entity.route
-        ? `/${this.entity.route}`
-        : `/blog/view${this.entity.guid}`;
+      this.pageUrl = `/media/${this.entity.entity_guid}`;
     }
 
     this.boosted = this.entity.boosted || this.entity.p2p_boosted || false;

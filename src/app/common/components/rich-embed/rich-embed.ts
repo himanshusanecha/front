@@ -10,7 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { RichEmbedService } from '../../../services/rich-embed';
 import mediaProxyUrl from '../../../helpers/media-proxy-url';
-import { FeaturesService } from 'src/app/services/features.service';
+import { FeaturesService } from '../../../services/features.service';
 
 @Component({
   moduleId: module.id,
