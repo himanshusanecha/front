@@ -40,7 +40,7 @@ export class AnalyticsFilterComponent implements OnInit {
 
   updateFilter(option: Option) {
     this.expanded = false;
-    if (!option.available) {
+    if ('available' in option && !option.available) {
       return;
     }
     this.selectedOption = option;
