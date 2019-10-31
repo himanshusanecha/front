@@ -26,6 +26,7 @@ import isMobileOrTablet from '../../../helpers/is-mobile-or-tablet';
 import { ActivityService } from '../../../common/services/activity.service';
 import { SiteService } from '../../../common/services/site.service';
 import { ClientMetaService } from '../../../common/services/client-meta.service';
+import { FeaturesService } from '../../../services/features.service';
 
 export type MediaModalParams = {
   redirectUrl?: string;
@@ -127,6 +128,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     private location: Location,
     private site: SiteService,
     private clientMetaService: ClientMetaService,
+    private featureService: FeaturesService,
     @SkipSelf() injector: Injector
   ) {
     this.clientMetaService
@@ -167,6 +169,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
             break;
           default:
             if (
+              this.featureService.has('media-modal') &&
               this.entity.perma_url &&
               this.entity.title &&
               !this.entity.entity_guid
@@ -542,12 +545,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   // Show overlay and video controls
   onMouseEnterStage() {
-    if (this.contentType === 'rich-embed') {
-      this.overlayVisible = false;
-    }
-
     this.overlayVisible = true;
-
     if (this.contentType === 'video') {
       // Make sure progress bar seeker is updating when video controls are visible
       this.videoComponent.stageHover = true;
