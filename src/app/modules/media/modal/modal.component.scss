@@ -114,14 +114,14 @@ m-overlay-modal {
     white-space: pre-wrap;
 
     @include m-theme() {
-      color: themed($m-grey-50);
+      color: themed($m-white-always);
       border-top: 1px dotted themed($m-grey-700);
     }
 
     h2 {
       padding-bottom: ($minds-padding * 2);
       @include m-theme() {
-        color: themed($m-grey-50);
+        color: themed($m-white-always);
       }
     }
   }
