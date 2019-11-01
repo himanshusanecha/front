@@ -5,10 +5,10 @@
  * @desc Spec tests for Wire transactions.
  */
 
-import generateRandomId from "../support/utilities";
+import generateRandomId from "../../support/utilities";
 
 // Issue to re-enable https://gitlab.com/minds/front/issues/1846
-context.skip('Wire', () => {
+context.skip('Wire Creator', () => {
 
   const receiver = {
     username: generateRandomId(),
