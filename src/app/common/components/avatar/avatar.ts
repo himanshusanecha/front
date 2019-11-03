@@ -54,7 +54,7 @@ export class MindsAvatar {
   file: any;
   added: EventEmitter<any> = new EventEmitter();
 
-  constructor(protected userAvatarService: UserAvatarService) {}
+  constructor(public userAvatarService: UserAvatarService) {}
 
   set _object(value: any) {
     if (!value) return;
