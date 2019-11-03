@@ -1,4 +1,4 @@
-import { Component, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { UserAvatarService } from '../../services/user-avatar.service';
 import { of, Observable } from 'rxjs';
 

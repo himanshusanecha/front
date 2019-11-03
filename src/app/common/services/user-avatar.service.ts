@@ -1,7 +1,10 @@
+/**
+ * @author Ben Hayward
+ * @desc Singleton service used to store the current user avatar as a BehaviorSubject.
+ */
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-// Singleton
 @Injectable({
   providedIn: 'root',
 })
