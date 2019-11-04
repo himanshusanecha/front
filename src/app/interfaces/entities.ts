@@ -76,14 +76,15 @@ export interface MindsUser {
   subscribed?: boolean;
   rating?: number;
   eth_wallet?: string;
+  is_admin?: boolean;
   is_mature?: boolean;
   mature_lock?: boolean;
   tags?: Array<string>;
   toaster_notifications?: boolean;
   pro?: boolean;
+  pro_published?: boolean;
   pro_settings?: {
     logo_image: string;
-    logo_guid: string;
     tag_list?: Tag[];
     background_image: string;
     title: string;
@@ -96,6 +97,8 @@ export interface MindsUser {
     tile_ratio?: string;
     styles?: { [key: string]: string };
     domain: string;
+    has_custom_logo?: boolean;
+    has_custom_background?: boolean;
   };
   mode: ChannelMode;
 }

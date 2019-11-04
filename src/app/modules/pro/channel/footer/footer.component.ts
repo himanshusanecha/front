@@ -38,6 +38,10 @@ export class ProChannelFooterComponent {
     return this.channelService.currentChannel.social_profiles;
   }
 
+  onUserChange() {
+    this.channelService.onChannelChange.next(this.user);
+  }
+
   get user() {
     return this.channelService.currentChannel;
   }
