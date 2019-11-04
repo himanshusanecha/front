@@ -4,17 +4,28 @@
  */
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Session } from '../../services/session';
+import { MindsUser } from '../../interfaces/entities';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserAvatarService {
   private minds = window.Minds;
-  public src$: BehaviorSubject<string> = new BehaviorSubject(null);
+  private user: MindsUser;
+  public src$: BehaviorSubject<string>;
 
-  constructor() {
-    this.src$.next(
-      `${this.minds.cdn_url}icon/${this.minds.user.guid}/large/${this.minds.user.icontime}`
+  constructor(public session: Session) {
+    this.init();
+  }
+
+  /**
+   * Sets the current user and avatar src.
+   */
+  public init(): void {
+    this.user = this.session.getLoggedInUser();
+    this.src$ = new BehaviorSubject(
+      `${this.minds.cdn_url}icon/${this.user.guid}/large/${this.user.icontime}`
     );
   }
 }
