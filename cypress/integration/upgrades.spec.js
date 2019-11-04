@@ -15,8 +15,7 @@ context('Upgrades page', () => {
   it('should scroll to upgrades table', () => {
     cy.viewport(1200, 600); // Only on desktop
 
-    const scrollButton =
-      '.m-marketing__mainWrapper .m-marketing__body a.mf-button';
+    const scrollButton = '[data-cy="m-upgrades__upgrade-now-button"]';
     const heading = '.m-upgradesUpgradeOptions__header h2';
 
     cy.get(scrollButton)
@@ -67,7 +66,7 @@ context('Upgrades page', () => {
 
   it('should navigate to Plus and trigger a Wire', () => {
     const upgradeButton = cy.get(
-      '.mf-button.m-upgradesUpgradeOptionsPlan__action:eq(0)'
+      '[data-cy="m-upgradeOptions__upgrade-to-plus-button"]'
     );
 
     upgradeButton.click();
@@ -77,7 +76,7 @@ context('Upgrades page', () => {
 
   it('should navigate to Pro and trigger a Wire', () => {
     const upgradeButton = cy.get(
-      '.mf-button.m-upgradesUpgradeOptionsPlan__action:eq(1)'
+      '[data-cy="m-upgradeOptions__upgrade-to-pro-button"]'
     );
 
     upgradeButton.click();
@@ -87,7 +86,7 @@ context('Upgrades page', () => {
 
   it('should navigate to Nodes', () => {
     const upgradeButton = cy.get(
-      '.mf-button.m-upgradesUpgradeOptionsPlan__action:eq(2)'
+      '[data-cy="m-upgradeOptions__contact-us-nodes-button"]'
     );
 
     upgradeButton.click();
