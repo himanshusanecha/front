@@ -98,8 +98,7 @@
         border-bottom: 1px solid themed($m-grey-50);
       }
 
-      a,
-      div {
+      > * {
         padding: 8px;
       }
       &.m-dropdown--list--item--selected,
