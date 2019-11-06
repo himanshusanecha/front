@@ -20,11 +20,13 @@ export class UserAvatarService {
     this.init();
 
     // Subscribe to loggedIn$ and on login, update src$.
-    this.loggedIn$ = this.session.loggedinEmitter.subscribe(is => {
-      if (is) {
-        this.src$.next(this.getSrc());
-      }
-    });
+    if (this.session.loggedinEmitter) {
+      this.loggedIn$ = this.session.loggedinEmitter.subscribe(is => {
+        if (is) {
+          this.src$.next(this.getSrc());
+        }
+      });
+    }
   }
 
   /**
