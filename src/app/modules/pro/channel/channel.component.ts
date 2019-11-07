@@ -148,7 +148,7 @@ export class ProChannelComponent implements OnInit, AfterViewInit, OnDestroy {
     ];
 
     if (!this.channel || !this.channel.pro_settings.background_image) {
-      classes.push('m-pro-channel__plainBackground');
+      classes.push('m-pro-channel--plainBackground');
     }
 
     return classes.join(' ');
