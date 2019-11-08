@@ -13,7 +13,7 @@ import { MindsUser } from '../../interfaces/entities';
 export class UserAvatarService {
   private minds = window.Minds;
   private user: MindsUser;
-  public src$: BehaviorSubject<string>;
+  public src$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public loggedIn$: Subscription;
 
   constructor(public session: Session) {
@@ -34,7 +34,7 @@ export class UserAvatarService {
    */
   public init(): void {
     this.user = this.session.getLoggedInUser();
-    this.src$ = new BehaviorSubject(this.getSrc());
+    this.src$.next(this.getSrc());
   }
 
   /**
