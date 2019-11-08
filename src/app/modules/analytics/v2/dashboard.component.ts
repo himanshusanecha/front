@@ -63,6 +63,8 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
       this.updateCategory(cat);
       if (cat === 'summary') {
         this.layout = 'summary';
+      } else {
+        this.layout = 'chart';
       }
     });
 
