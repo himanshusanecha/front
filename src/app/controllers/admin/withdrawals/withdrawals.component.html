@@ -1,11 +1,10 @@
 <div class="mdl-grid m-admin-withdrawals" style="max-width: 900px">
-  <div
-    class="m-admin-withdrawals--user"
-    *ngIf="user"
-    i18n="@@M__ADMIN__WITHDRAWALS__USERNAME_TITLE"
-  >
-    <b>@{{ user }}</b
-    >'s withdrawals
+  <div class="m-admin-withdrawals--user">
+    <ng-container *ngIf="user"
+      ><b>@{{ user }}</b
+      >'s withdrawals</ng-container
+    >
+    <ng-container *ngIf="!user">Pending Withdrawals</ng-container>
   </div>
 
   <table class="mdl-data-table mdl-js-data-table m-border" [mdl]>
@@ -29,11 +28,8 @@
         >
           Amount
         </th>
-        <th
-          class="mdl-data-table__cell--non-numeric m-data-title"
-          i18n="@@M__ADMIN__WITHDRAWALS__COMPLETED_COL"
-        >
-          Completed?
+        <th class="mdl-data-table__cell--non-numeric m-data-title">
+          &nbsp;
         </th>
       </tr>
     </thead>
@@ -50,7 +46,15 @@
           </td>
           <td>{{ withdrawal.amount | token: 18 | number: '1.0-4' }}</td>
           <td class="mdl-data-table__cell--non-numeric">
-            {{ withdrawal.completed ? 'Yes' : 'No' }}
+            <ng-container
+              *ngIf="withdrawal.status === 'pending_approval'; else showStatus"
+            >
+              <button (click)="approve(withdrawal)">Approve</button>
+              <button (click)="reject(withdrawal)">Reject</button>
+            </ng-container>
+            <ng-template #showStatus>
+              {{ withdrawal.status.toUpperCase() }}
+            </ng-template>
           </td>
         </tr>
       </ng-container>
