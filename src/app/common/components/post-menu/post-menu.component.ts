@@ -345,6 +345,7 @@ export class PostMenuComponent implements OnInit {
   }
 
   onNSFWSelected(reasons: Array<{ label; value; selected }>) {
+    console.log('yo');
     const nsfw = reasons.map(reason => reason.value);
     this.client.post(`api/v2/admin/nsfw/${this.entity.guid}`, { nsfw });
     this.entity.nsfw = nsfw;
