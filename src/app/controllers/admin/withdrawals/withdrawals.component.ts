@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   moduleId: module.id,
-  selector: 'minds-admin-withdrawals',
+  selector: 'm-admin-withdrawals',
   templateUrl: 'withdrawals.component.html',
 })
 export class AdminWithdrawals {
@@ -80,6 +80,10 @@ export class AdminWithdrawals {
   }
 
   async approve(withdrawal) {
+    if (!confirm("Do you want to approve this withdrawal? There's no UNDO.")) {
+      return;
+    }
+
     try {
       const endpoint = `api/v2/admin/rewards/withdrawals/${[
         withdrawal.user_guid,
@@ -96,6 +100,10 @@ export class AdminWithdrawals {
   }
 
   async reject(withdrawal) {
+    if (!confirm("Do you want to reject this withdrawal? There's no UNDO.")) {
+      return;
+    }
+
     try {
       const endpoint = `api/v2/admin/rewards/withdrawals/${[
         withdrawal.user_guid,
