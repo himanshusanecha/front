@@ -89,6 +89,7 @@
 
           <button
             class="mf-button mf-button--smaller"
+            [disabled]="inProgress"
             (click)="approve(request)"
           >
             Approve
@@ -96,6 +97,7 @@
 
           <button
             class="mf-button mf-button--destructive mf-button--smaller"
+            [disabled]="inProgress"
             (click)="reject(request)"
           >
             Reject

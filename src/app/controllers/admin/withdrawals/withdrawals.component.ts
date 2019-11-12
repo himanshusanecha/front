@@ -84,6 +84,8 @@ export class AdminWithdrawals {
       return;
     }
 
+    this.inProgress = true;
+
     try {
       const endpoint = `api/v2/admin/rewards/withdrawals/${[
         withdrawal.user_guid,
@@ -95,14 +97,21 @@ export class AdminWithdrawals {
 
       withdrawal.status = 'approved';
     } catch (e) {
-      alert('There was an issue while approving withdrawal');
+      alert(
+        `There was an issue while approving withdrawal: ${(e && e.message) ||
+          'Unknown server error'}`
+      );
     }
+
+    this.inProgress = false;
   }
 
   async reject(withdrawal) {
     if (!confirm("Do you want to reject this withdrawal? There's no UNDO.")) {
       return;
     }
+
+    this.inProgress = true;
 
     try {
       const endpoint = `api/v2/admin/rewards/withdrawals/${[
@@ -115,7 +124,12 @@ export class AdminWithdrawals {
 
       withdrawal.status = 'rejected';
     } catch (e) {
-      alert('There was an issue while rejecting withdrawal');
+      alert(
+        `There was an issue while rejecting withdrawal: ${(e && e.message) ||
+          'Unknown server error'}`
+      );
     }
+
+    this.inProgress = false;
   }
 }
