@@ -9,19 +9,13 @@ import { SiteService } from '../services/site.service';
  */
 export class MindsHttpClient {
   base: string = '/';
-  origin: string = '';
   cookie: Cookie = new Cookie();
 
   static _(http: HttpClient, site: SiteService) {
     return new MindsHttpClient(http, site);
   }
 
-  constructor(public http: HttpClient, protected site: SiteService) {
-    if (this.site.isProDomain) {
-      this.base = window.Minds.site_url;
-      this.origin = document.location.host;
-    }
-  }
+  constructor(public http: HttpClient, protected site: SiteService) {}
 
   /**
    * Return a GET request
@@ -81,21 +75,10 @@ export class MindsHttpClient {
       'X-VERSION': environment.version,
     };
 
-    if (this.origin) {
-      const PRO_XSRF_JWT = this.cookie.get('PRO-XSRF-JWT') || '';
-
-      headers['X-MINDS-ORIGIN'] = this.origin;
-      headers['X-PRO-XSRF-JWT'] = PRO_XSRF_JWT;
-    }
-
     const builtOptions = {
       headers: new HttpHeaders(headers),
       cache: true,
     };
-
-    if (this.origin) {
-      builtOptions['withCredentials'] = true;
-    }
 
     return Object.assign(options, builtOptions);
   }

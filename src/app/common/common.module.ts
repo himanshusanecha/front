@@ -121,6 +121,7 @@ import { PageLayoutComponent } from './components/page-layout/page-layout.compon
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
 import { ShadowboxLayoutComponent } from './components/shadowbox-layout/shadowbox-layout.component';
 import { ShadowboxHeaderComponent } from './components/shadowbox-header/shadowbox-header.component';
+import { SsoService } from './services/sso.service';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -330,6 +331,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
   ],
   providers: [
     SiteService,
+    SsoService,
     {
       provide: AttachmentService,
       useFactory: AttachmentService._,

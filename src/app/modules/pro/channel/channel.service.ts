@@ -85,9 +85,9 @@ export class ProChannelService implements OnDestroy {
 
       this.currentChannel = response.channel;
 
-      if (this.site.isProDomain && response.me) {
-        this.session.login(response.me);
-      }
+      // if (this.site.isProDomain && response.me) {
+      //   this.session.login(response.me);
+      // }
 
       if (!this.currentChannel.pro_settings.tag_list) {
         this.currentChannel.pro_settings.tag_list = [];
