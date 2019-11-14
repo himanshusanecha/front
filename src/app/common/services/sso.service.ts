@@ -23,7 +23,7 @@ export class SsoService {
         `${this.minds.site_url}api/v2/sso/connect`
       );
 
-      if (connect && connect.status === 'success') {
+      if (connect && connect.token && connect.status === 'success') {
         // TODO: Use headers
         const authorization: any = await this.client.post(
           'api/v2/sso/authorize',
