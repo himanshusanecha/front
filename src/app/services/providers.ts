@@ -67,12 +67,12 @@ export const MINDS_PROVIDERS: any[] = [
   {
     provide: Client,
     useFactory: Client._,
-    deps: [HttpClient, Location, SiteService],
+    deps: [HttpClient, Location],
   },
   {
     provide: Upload,
     useFactory: Upload._,
-    deps: [HttpClient, SiteService],
+    deps: [HttpClient],
   },
   {
     provide: Storage,

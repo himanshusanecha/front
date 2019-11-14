@@ -2,7 +2,6 @@ import { Cookie } from '../cookie';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Location } from '@angular/common';
-import { SiteService } from '../../common/services/site.service';
 
 /**
  * API Class
@@ -11,15 +10,11 @@ export class Client {
   base: string = '/';
   cookie: Cookie = new Cookie();
 
-  static _(http: HttpClient, location: Location, site: SiteService) {
-    return new Client(http, location, site);
+  static _(http: HttpClient, location: Location) {
+    return new Client(http, location);
   }
 
-  constructor(
-    public http: HttpClient,
-    public location: Location,
-    protected site: SiteService
-  ) {}
+  constructor(public http: HttpClient, public location: Location) {}
 
   /**
    * Return a GET request
@@ -60,21 +55,23 @@ export class Client {
   getRaw(endpoint: string, data: Object = {}, options: Object = {}) {
     endpoint += '?' + this.buildParams(data);
     return new Promise((resolve, reject) => {
-      this.http.get(this.base + endpoint, this.buildOptions(options)).subscribe(
-        res => {
-          return resolve(res);
-        },
-        err => {
-          if (err.data && !err.data()) {
-            return reject(err || new Error('GET error'));
-          }
-          if (err.status === 401 && err.error.loggedin === false) {
-            window.location.href = '/login';
+      this.http
+        .get(this.base + endpoint, this.buildOptions(options, true))
+        .subscribe(
+          res => {
+            return resolve(res);
+          },
+          err => {
+            if (err.data && !err.data()) {
+              return reject(err || new Error('GET error'));
+            }
+            if (err.status === 401 && err.error.loggedin === false) {
+              window.location.href = '/login';
+              return reject(err);
+            }
             return reject(err);
           }
-          return reject(err);
-        }
-      );
+        );
     });
   }
 
@@ -122,7 +119,7 @@ export class Client {
   postRaw(url: string, data: Object = {}, options: Object = {}) {
     return new Promise((resolve, reject) => {
       this.http
-        .post(url, JSON.stringify(data), this.buildOptions(options))
+        .post(url, JSON.stringify(data), this.buildOptions(options, true))
         .subscribe(
           res => {
             var data: any = res;
@@ -227,7 +224,7 @@ export class Client {
   /**
    * Build the options
    */
-  private buildOptions(options: Object) {
+  private buildOptions(options: Object, withCredentials: boolean = false) {
     const XSRF_TOKEN = this.cookie.get('XSRF-TOKEN') || '';
 
     const headers = {
@@ -240,7 +237,9 @@ export class Client {
       cache: true,
     };
 
-    builtOptions['withCredentials'] = true;
+    if (withCredentials) {
+      builtOptions['withCredentials'] = true;
+    }
 
     return Object.assign(options, builtOptions);
   }

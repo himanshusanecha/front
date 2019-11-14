@@ -1,8 +1,6 @@
 import { Cookie } from '../../services/cookie';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Location } from '@angular/common';
-import { SiteService } from '../services/site.service';
 
 /**
  * API Class
@@ -11,11 +9,11 @@ export class MindsHttpClient {
   base: string = '/';
   cookie: Cookie = new Cookie();
 
-  static _(http: HttpClient, site: SiteService) {
-    return new MindsHttpClient(http, site);
+  static _(http: HttpClient) {
+    return new MindsHttpClient(http);
   }
 
-  constructor(public http: HttpClient, protected site: SiteService) {}
+  constructor(public http: HttpClient) {}
 
   /**
    * Return a GET request

@@ -1,6 +1,5 @@
 import { Cookie } from '../cookie';
 import { HttpClient } from '@angular/common/http';
-import { SiteService } from '../../common/services/site.service';
 
 /**
  * API Class
@@ -9,11 +8,11 @@ export class Upload {
   base: string = '/';
   cookie: Cookie = new Cookie();
 
-  static _(http: HttpClient, site: SiteService) {
-    return new Upload(http, site);
+  static _(http: HttpClient) {
+    return new Upload(http);
   }
 
-  constructor(public http: HttpClient, protected site: SiteService) {}
+  constructor(public http: HttpClient) {}
 
   /**
    * Return a POST request

@@ -347,7 +347,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     {
       provide: MindsHttpClient,
       useFactory: MindsHttpClient._,
-      deps: [HttpClient, SiteService],
+      deps: [HttpClient],
     },
     {
       provide: NSFWSelectorCreatorService,
