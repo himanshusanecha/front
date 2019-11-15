@@ -13,6 +13,16 @@
 
     <title><?php echo $index->getTitle() ?></title>
 
+    <script>
+        var ua = window.navigator.userAgent;
+        if (
+            ua.indexOf("MSIE") > -1 ||
+            (ua.indexOf("Android 4.3") > -1 && !(ua.indexOf('Chrome') > -1)) //android 4.3, but not chrome browser
+        ) {
+            window.location.href = '/not-supported';
+        }
+    </script>
+
     <!-- inject:css -->
     <!-- endinject -->
 
@@ -97,16 +107,6 @@
 <!-- endinject -->
 
 <?php echo $index->getTailHtml() ?>
-
-<script>
-    var ua = window.navigator.userAgent;
-    if (
-        ua.indexOf("MSIE") > -1 ||
-        (ua.indexOf("Android 4.3") > -1 && !(ua.indexOf('Chrome') > -1)) //android 4.3, but not chrome browser
-    ) {
-        window.location.href = window.Minds.site_url + 'not-supported';
-    }
-</script>
 
 </body>
 </html>
