@@ -112,6 +112,7 @@ export const MINDS_PROVIDERS: any[] = [
   {
     provide: Session,
     useFactory: Session._,
+    deps: [SiteService],
   },
   {
     provide: ThirdPartyNetworksService,
