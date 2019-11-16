@@ -121,6 +121,7 @@ import { PageLayoutComponent } from './components/page-layout/page-layout.compon
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
 import { ShadowboxLayoutComponent } from './components/shadowbox-layout/shadowbox-layout.component';
 import { ShadowboxHeaderComponent } from './components/shadowbox-header/shadowbox-header.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -132,6 +133,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
     FormsModule,
     ReactiveFormsModule,
     PlotlyModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   declarations: [
     MINDS_PIPES,
