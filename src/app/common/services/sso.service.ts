@@ -42,7 +42,9 @@ export class SsoService {
           }
         );
 
-        this.session.inject(window.Minds.user);
+        if (authorization && authorization.user) {
+          this.session.inject(authorization.user);
+        }
       }
     } catch (e) {
       console.error(e);
