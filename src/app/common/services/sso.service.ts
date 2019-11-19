@@ -34,7 +34,6 @@ export class SsoService {
       );
 
       if (connect && connect.token && connect.status === 'success') {
-        // TODO: Use headers
         const authorization: any = await this.client.post(
           'api/v2/sso/authorize',
           {
@@ -56,7 +55,6 @@ export class SsoService {
       const connect: any = await this.client.post('api/v2/sso/connect');
 
       if (connect && connect.token && connect.status === 'success') {
-        // TODO: Use headers
         await this.client.postRaw(
           `${this.minds.site_url}api/v2/sso/authorize`,
           {
