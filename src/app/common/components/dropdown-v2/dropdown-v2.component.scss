@@ -190,17 +190,15 @@ m-dropdownV2 {
         width: 120px;
       }
     }
-    .m-dropdownV2__wrapper {
-      > * {
-        width: 140px;
-      }
-    }
   }
 }
 
 @media screen and (max-width: $max-mobile) {
   m-dropdownV2 {
     .m-dropdownV2__wrapper {
+      > * {
+        width: 160px;
+      }
       .m-dropdownV2__header {
         padding-right: 10px;
         i {

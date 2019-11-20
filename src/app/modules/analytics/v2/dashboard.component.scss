@@ -30,20 +30,12 @@ m-analytics__dashboard {
       }
     }
   }
-  m-analytics__filter {
+  m-dropdownV2 {
     margin: 0;
   }
-  .m-analyticsFilter__wrapper {
+  .m-dropdownV2__wrapper {
     > * {
       width: 180px;
-    }
-  }
-  .m-analyticsDashboard__timespanFilter {
-    .m-analytics__filterWrapper {
-      margin-top: 0px;
-    }
-    .m-analytics__filterLabel {
-      display: none;
     }
   }
 }
@@ -64,9 +56,9 @@ m-analytics__dashboard {
 
 @media screen and (max-width: $min-tablet) {
   .m-dashboardLayout__header {
-    m-analytics__filter {
+    m-dropdownV2 {
       margin: 0 16px 8px 0;
-      .m-analyticsFilter__wrapper {
+      .m-dropdownV2__wrapper {
         > * {
           width: 160px;
         }
@@ -80,7 +72,7 @@ m-analytics__dashboard {
 
 @media screen and (max-width: $max-mobile) {
   .m-dashboardLayout__header {
-    .m-analyticsFilter__wrapper {
+    .m-dropdownV2__wrapper {
       > * {
         width: 140px;
       }
