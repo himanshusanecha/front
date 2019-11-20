@@ -286,7 +286,7 @@ export class PosterComponent {
     this.router.navigate(['/blog/edit/new']);
   }
 
-  onNSWFSelections(reasons: Array<{ value; label; selected }>) {
+  onNSFWSelections(reasons: Array<{ value; label; selected }>) {
     this.attachment.setNSFW(reasons);
   }
 

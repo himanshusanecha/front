@@ -71,6 +71,7 @@
         <option *ngFor="let a of access" [value]="a.value">{{ a.text }}</option>
       </select>
     </div>
-    <m-nsfw-selector (selected)="onNSWFSelections($event)"> </m-nsfw-selector>
+    <m-nsfw-selector (selectedChange)="onNSWFSelections($event)">
+    </m-nsfw-selector>
   </div>
 </form>
