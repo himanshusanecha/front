@@ -16,13 +16,14 @@
                 <m-analytics__search></m-analytics__search>
               </div> -->
           <!-- <div class="m-analyticsDashboard__channelFilter" *ngIf="session.isAdmin()">
-                <m-analytics__filter [filter]="channelFilter"></m-analytics__filter>
+                <m-dropdownV2 [filter]="channelFilter"></m-dropdownV2>
               </div> -->
           <div class="m-analyticsDashboard__timespanFilter">
-            <m-analytics__filter
+            <m-dropdownV2
               [filter]="timespanFilter"
               [showLabel]="false"
-            ></m-analytics__filter>
+              (selectionMade)="filterSelectionMade($event)"
+            ></m-dropdownV2>
           </div>
         </div>
       </ng-container>
