@@ -247,7 +247,8 @@ describe('BlogEdit', () => {
         }),
         MockComponent({
           selector: 'm-nsfw-selector',
-          outputs: ['selected'],
+          outputs: ['selectedChanged'],
+          inputs: ['selected'],
         }),
         MockDirective({
           selector: '[mIfFeature]',
