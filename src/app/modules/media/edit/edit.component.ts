@@ -30,7 +30,7 @@ export class MediaEditComponent {
     description: '',
     subtype: '',
     license: 'all-rights-reserved',
-    mature: false,
+    nsfw: [],
   };
   inProgress: boolean;
   error: string;
@@ -72,7 +72,7 @@ export class MediaEditComponent {
       .get('api/v1/entities/entity/' + this.guid, { children: false })
       .then((response: any) => {
         this.inProgress = false;
-        console.log(response);
+
         if (response.entity) {
           if (!response.entity.description) response.entity.description = '';
 
@@ -82,6 +82,7 @@ export class MediaEditComponent {
           response.entity.mature =
             response.entity.flags && response.entity.flags.mature ? 1 : 0;
 
+          this.entity.nsfw = response.entity.nsfw;
           this.entity = response.entity;
         }
       });
@@ -111,7 +112,7 @@ export class MediaEditComponent {
    * Sets this blog NSFW
    * @param { array } nsfw - Numerical indexes for reasons in an array e.g. [1, 2].
    */
-  onNSWFSelections(nsfw) {
+  onNSFWSelections(nsfw) {
     this.entity.nsfw = nsfw.map(reason => reason.value);
   }
 }
