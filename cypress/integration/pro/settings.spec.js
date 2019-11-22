@@ -23,11 +23,8 @@ context('Pro Settings', () => {
 
     const theme = {
       textColor: data('textColor'),
-      // textColorPicker: data('textColorPicker'),
       primaryColor: data('primaryColor'),
-      // primaryColorPicker: data('primaryColorPicker'),
       plainBgColor: data('plainBgColor'),
-      // plainBgColorPicker: data('plainBgColorPicker'),
       schemeLight: data('schemeLight'),
       schemeDark: data('schemeDark'),
       aspectRatio: {
@@ -43,15 +40,15 @@ context('Pro Settings', () => {
         textColorRgb: 'rgb(70, 144, 223)',
         primaryColorRgb: 'rgb(203, 120, 72)',
         plainBgColorRgba: 'rgba(180, 187, 240, 0.627)',
+        resetColor: '#ffffff',
       },
     };
 
-    //TODOOJM
     const assets = {
       logo: data('logo'),
       background: data('background'),
       strings: {
-        logoFixture: '../../fixtures/avatar.jpg',
+        logoFixture: '../../fixtures/avatar.jpeg',
         backgroundFixture:
           '../../fixtures/international-space-station-1776401_1920.jpg',
       },
@@ -82,9 +79,6 @@ context('Pro Settings', () => {
         linkHref: 'https://www.minds.com/',
       },
     };
-
-    // TODO
-    // const domain = {};
 
     const payouts = {
       strings: {
@@ -117,6 +111,9 @@ context('Pro Settings', () => {
           'eq',
           '/pro/' + Cypress.env().pro_username + '/settings/general'
         );
+
+      // ensure window is wide enough to find pro topbar links
+      cy.viewport(1300, 768);
     });
 
     it('should update the title and headline', () => {
@@ -132,30 +129,35 @@ context('Pro Settings', () => {
         .type(general.strings.headline);
 
       saveAndPreview();
-      //check tab title.
+      //check tab title
       cy.title().should(
         'eq',
         general.strings.title + ' - ' + general.strings.headline + ' | Minds'
       );
     });
 
-    // it('should enable pro theme', () => {
-    // cy.get(general.publish).check();
-
-    // saveAndPreview();
-
-    // });
-
-    // it('should disable pro theme', () => {
-    // cy.get(general.publish).uncheck();
-
-    // saveAndPreview();
-
-    // });
-
     it('should allow the user to set theme colors', () => {
       cy.contains('Theme').click();
 
+      // reset colors so changes will be submitted
+      cy.get(theme.textColor)
+        .click()
+        .clear()
+        .type(theme.strings.resetColor);
+
+      cy.get(theme.primaryColor)
+        .click()
+        .clear()
+        .type(theme.strings.resetColor);
+
+      cy.get(theme.plainBgColor)
+        .click()
+        .clear()
+        .type(theme.strings.resetColor);
+
+      save();
+
+      // set colors to be tested
       cy.get(theme.textColor)
         .click()
         .clear()
@@ -173,7 +175,7 @@ context('Pro Settings', () => {
 
       saveAndPreview();
 
-      cy.contains('feed')
+      cy.get('.m-proChannelTopbar__navItem')
         .should('have.css', 'color')
         .and('eq', theme.strings.textColorRgb);
 
@@ -183,14 +185,17 @@ context('Pro Settings', () => {
         theme.strings.plainBgColorRgba
       );
 
-      cy.contains('feed').should(
+      cy.contains('Videos').should(
         'have.css',
         'color',
         theme.strings.textColorRgb
       );
       // .and('eq', theme.strings.textColorRgb);
 
-      cy.contains('feed').click();
+      cy.contains('Videos').click();
+
+      // make window narrow enough to show hamburger icon
+      cy.viewport('ipad-mini');
       cy.get('.m-proHamburgerMenu__trigger')
         .click()
         .get('.m-proHamburgerMenu__item--active')
@@ -201,7 +206,9 @@ context('Pro Settings', () => {
     it('should allow the user to set a dark theme for posts', () => {
       cy.contains('Theme').click();
 
-      cy.get(theme.schemeDark).click();
+      // Toggle radio to enable submit button
+      cy.get(theme.schemeLight).click({ force: true });
+      cy.get(theme.schemeDark).click({ force: true });
 
       saveAndPreview();
 
@@ -215,31 +222,35 @@ context('Pro Settings', () => {
     it('should allow the user to set a light theme for posts', () => {
       cy.contains('Theme').click();
 
-      cy.get(theme.schemeLight).click();
+      // Toggle radio to enable submit button
+      cy.contains('Dark').click();
+      cy.contains('Light').click();
 
       saveAndPreview();
 
-      cy.contains('Feed').click();
+      cy.contains('Videos').click();
 
       cy.get(activityContainer)
         .should('have.css', 'background-color')
         .and('eq', 'rgb(255, 255, 255)');
     });
 
-    it('should allow the user to upload logo and background images', () => {
-      cy.uploadFile(assets.logo, assets.strings.logoFixture, 'image/jpg');
-      // // upload the image
-      // cy.uploadFile('.medium-media-file-input', '../fixtures/international-space-station-1776401_1920.jpg', 'image/jpg')
-      //   .wait('@postMedia').then(xhr => {
-      //     expect(xhr.status).to.equal(200);
-      //     expect(xhr.response.body.status).to.equal('success');
-      //   });
+    it.skip('should allow the user to upload logo and background images', () => {
+      cy.contains('Assets').click();
+
+      cy.uploadFile(assets.logo, assets.strings.logoFixture, 'image/jpeg');
 
       cy.uploadFile(
         assets.background,
         assets.strings.backgroundFixture,
         'image/jpg'
       );
+
+      saveAndPreview();
+
+      // cy.get('.m-proChannelTopbar__logo').should('have.attr', 'src', Cypress.env().url + '/fs/v1/pro/930229554033729554/logo/1574379135');
+
+      // cy.get(m-proChannel).should('have.attr', 'background-image', 'url(' + Cypress.env().url + '/fs/v1/banners/998753812159717376/fat/1563497464)');
     });
 
     it('should allow the user to set category hashtags', () => {
@@ -300,16 +311,15 @@ context('Pro Settings', () => {
       cy.get(footer.text).should('contain', footer.strings.text);
     });
 
-    it('should allow the user to set payout method', () => {
+    it.skip('should allow the user to set payout method', () => {
       cy.contains('Payouts').click();
 
       cy.contains(payouts.method).check();
 
-      // session.getLoggedInUser().merchant.service: "stripe"
+      // TODO check something like this? session.getLoggedInUser().merchant.service: "stripe"
     });
 
-    //save, await response, preview.
-    function saveAndPreview() {
+    function save() {
       //save and await response
       cy.contains('Save')
         .click()
@@ -318,9 +328,13 @@ context('Pro Settings', () => {
           expect(xhr.status).to.equal(200);
           expect(xhr.response.body).to.deep.equal({ status: 'success' });
         });
+    }
+
+    function saveAndPreview() {
+      save();
 
       //go to pro page
-      cy.contains('View Pro Channel').click();
+      cy.visit('/pro/' + Cypress.env().pro_username);
     }
 
     function clearHashtags() {
