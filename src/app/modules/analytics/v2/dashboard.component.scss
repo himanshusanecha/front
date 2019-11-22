@@ -30,10 +30,10 @@ m-analytics__dashboard {
       }
     }
   }
-  m-filter {
+  m-dropdownSelector {
     margin: 0;
   }
-  .m-filter__wrapper {
+  .m-dropdownSelector__wrapper {
     > * {
       width: 180px;
     }
@@ -56,9 +56,9 @@ m-analytics__dashboard {
 
 @media screen and (max-width: $min-tablet) {
   .m-dashboardLayout__header {
-    m-filter {
+    m-dropdownSelector {
       margin: 0 16px 8px 0;
-      .m-filter__wrapper {
+      .m-dropdownSelector__wrapper {
         > * {
           width: 180px;
         }
@@ -72,8 +72,8 @@ m-analytics__dashboard {
 
 @media screen and (max-width: $max-mobile) {
   .m-dashboardLayout__header {
-    m-filter {
-      .m-filter__wrapper {
+    m-dropdownSelector {
+      .m-dropdownSelector__wrapper {
         > * {
           width: 160px;
         }
