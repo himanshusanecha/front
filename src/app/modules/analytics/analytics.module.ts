@@ -71,16 +71,7 @@ const routes: Routes = [
     path: 'analytics',
     component: AnalyticsComponent,
     children: [
-      { path: '', redirectTo: 'channel', pathMatch: 'full' },
-      {
-        path: 'channel',
-        component: ChannelAnalyticsComponent,
-        children: [
-          { path: '', redirectTo: 'activity', pathMatch: 'full' },
-          { path: 'activity', component: ChannelGeneralAnalyticsComponent },
-          { path: 'reach', component: ChannelReachAnalyticsComponent },
-        ],
-      },
+      { path: '', redirectTo: 'dashboard/traffic', pathMatch: 'full' },
       {
         path: 'admin',
         component: AdminAnalyticsComponent,
@@ -92,7 +83,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'dashboard/',
+        path: 'dashboard',
         redirectTo: 'dashboard/traffic',
         pathMatch: 'full',
       },
