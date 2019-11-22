@@ -1,0 +1,38 @@
+<div class="m-group__list">
+  <span *ngIf="error && !inProgress" class="m-groupList__empty">
+    {{ error }}
+  </span>
+  <span
+    *ngIf="!error && !inProgress && !suggestions.length"
+    class="m-groupList__empty"
+  >
+    You have no suggestions at this time
+  </span>
+  <ul class="m-groupList__list" *ngIf="suggestions.length">
+    <li *ngFor="let suggestion of suggestions" class="m-groupList__item">
+      <a [routerLink]="['/', suggestion.entity.name]">
+        <div
+          class="m-groupListItem__avatar"
+          [style.background-image]="
+            'url(' + minds.cdn_url + '/icon/' + suggestion.entity.guid + ')'
+          "
+        ></div>
+        <div class="m-groupListItem__body">
+          <div [title]="suggestion.entity.name">
+            <h4>{{ suggestion.entity.name }}</h4>
+            <span i18n
+              >{{ suggestion.entity['members:count'] | abbr }} members</span
+            >
+          </div>
+          <div class="m-layout__spacer"></div>
+          <m-join [entity]="suggestion.entity"></m-join>
+        </div>
+      </a>
+    </li>
+  </ul>
+  <div
+    class="mdl-spinner mdl-js-spinner is-active"
+    [mdl]
+    [hidden]="!inProgress"
+  ></div>
+</div>

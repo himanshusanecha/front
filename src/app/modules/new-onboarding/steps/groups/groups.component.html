@@ -1,0 +1,22 @@
+<div class="m-onboarding__form">
+  <h2>
+    Profile Setup
+  </h2>
+
+  <m-onboarding__progressbar [steps]="steps"></m-onboarding__progressbar>
+
+  <div class="m-onboarding__controls">
+    <div class="m-onboarding__list">
+      <m-group__list [entityType]="'group'"></m-group__list>
+    </div>
+
+    <div class="m-onboarding__actionButtons">
+      <button class="mf-button mf-button--hollow" (click)="skip()" i18n>
+        Skip
+      </button>
+      <button class="mf-button mf-button--alt" (click)="continue()" i18n>
+        Continue
+      </button>
+    </div>
+  </div>
+</div>

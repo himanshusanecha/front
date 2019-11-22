@@ -40,5 +40,6 @@ const routes: Routes = [{ path: '', component: HomepageComponent }];
     PopoverComponent,
   ],
   entryComponents: [HomepageComponent],
+  exports: [HomepageRegisterComponent],
 })
 export class HomepageModule {}

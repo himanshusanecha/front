@@ -1,0 +1,23 @@
+<div class="m-onboarding__form">
+  <div class="m-notice__wavingEmoji">👋</div>
+
+  <h1 i18n>
+    Welcome to the Minds Community
+  </h1>
+  <h2>@{{ user.username }}</h2>
+
+  <p class="m-onboarding__description" i18n>
+    Your privacy is our priority. You are free to provide as much or as little
+    information as you wish for better recomendations and to connect with people
+    in your local area.
+  </p>
+
+  <div class="m-onboarding__actionButtons">
+    <button class="mf-button mf-button--alt" (click)="continue()" i18n>
+      Let's Get Setup
+    </button>
+    <a (click)="skip()" i18n>
+      No thanks, I'll do it later
+    </a>
+  </div>
+</div>

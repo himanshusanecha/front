@@ -23,7 +23,7 @@
 
         <button
           class="mf-button mf-button--alt m-homepage__joinButton"
-          (click)="goToLoginPage()"
+          (click)="goToOnboardingPage()"
           i18n
         >
           Join Minds Now
@@ -62,7 +62,9 @@
         class="m-grid__column-5 m-grid__column-12--mobile"
         *mExperiment="'Homepage121119'; bucket: 'form'"
       >
-        <m-homepage__registerForm></m-homepage__registerForm>
+        <m-homepage__registerForm
+          (done)="goToOnboardingPage()"
+        ></m-homepage__registerForm>
       </div>
     </div>
   </div>
@@ -183,7 +185,10 @@
 
     <!-- Final section -->
 
-    <div class="m-marketing__section m-marketing__section--tail">
+    <div
+      class="m-marketing__section m-marketing__section--tail"
+      *mExperiment="'Homepage121119'; bucket: 'base'"
+    >
       <div class="m-grid m-marketing__wrapper">
         <div class="m-grid__column-12 m-marketing__body">
           <h3 class="m-marketingTitle__centered" i18n>
@@ -193,7 +198,7 @@
           <div class="m-marketing__actionButtons">
             <button
               class="mf-button mf-button--alt"
-              (click)="goToLoginPage()"
+              (click)="goToOnboardingPage()"
               i18n
             >
               Join Minds Now

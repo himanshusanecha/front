@@ -1,0 +1,43 @@
+<div class="m-onboarding__form">
+  <h2>
+    Profile Setup
+  </h2>
+
+  <m-onboarding__progressbar [steps]="steps"></m-onboarding__progressbar>
+
+  <div class="m-onboarding__controls">
+    <div class="m-onboarding__description" i18n>
+      Select some hashtags that are of interest to you.
+    </div>
+
+    <ul class="m-hashtags__list">
+      <div
+        class="mdl-spinner mdl-js-spinner is-active"
+        [mdl]
+        [hidden]="!inProgress"
+      ></div>
+
+      <li
+        class="m-hashtagsList__item"
+        [class.m-hashtagsList__item--selected]="hashtag.selected"
+        *ngFor="let hashtag of hashtags"
+      >
+        <span
+          [ngClass]="{ selected: hashtag.selected }"
+          (click)="toggleSelection(hashtag)"
+        >
+          {{ hashtag.value }}
+        </span>
+      </li>
+    </ul>
+
+    <div class="m-onboarding__actionButtons">
+      <button class="mf-button mf-button--hollow" (click)="skip()" i18n>
+        Skip
+      </button>
+      <button class="mf-button mf-button--alt" (click)="continue()" i18n>
+        Continue
+      </button>
+    </div>
+  </div>
+</div>

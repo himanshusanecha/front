@@ -1,0 +1,32 @@
+m-hashtags__step {
+  ul.m-hashtags__list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    list-style: none;
+    width: calc(100% - 16px);
+    margin: 0;
+    padding: 0;
+
+    li.m-hashtagsList__item {
+      align-self: center;
+      cursor: pointer;
+      margin: 2px;
+      padding: 6px;
+
+      border-radius: 5px;
+
+      font-size: 18px;
+      line-height: 44px;
+
+      &.m-hashtagsList__item--selected {
+        color: #5dbac0;
+        border: 1px solid #ececec;
+      }
+    }
+  }
+
+  .m-onboarding__actionButtons {
+    justify-content: flex-end;
+  }
+}

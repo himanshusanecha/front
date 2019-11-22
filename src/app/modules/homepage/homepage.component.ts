@@ -51,15 +51,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.toggleTopbarBackground(false);
   }
 
-  goToLoginPage() {
-    this.router.navigate(['/login']);
-  }
-
-  registered() {
-    this.loginReferrer.navigate({
-      defaultUrl:
-        '/' + this.session.getLoggedInUser().username + ';onboarding=1',
-    });
+  goToOnboardingPage() {
+    this.router.navigate(['/onboarding']);
   }
 
   @HostListener('window:resize')

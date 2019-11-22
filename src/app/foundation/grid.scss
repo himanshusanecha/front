@@ -16,7 +16,7 @@
     }
   }
 
-  @media screen and (max-width: $min-desktop) {
+  @media screen and (max-width: $min-desktop) and (min-width: $max-mobile) {
     @for $i from 1 through $m-grid-cols {
       .m-grid__column-#{$i}--tablet {
         grid-column: auto / span $i;

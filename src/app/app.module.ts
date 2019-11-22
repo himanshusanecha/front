@@ -73,6 +73,7 @@ import { ChannelContainerModule } from './modules/channel-container/channel-cont
 import { UpgradesModule } from './modules/upgrades/upgrades.module';
 
 import * as Sentry from '@sentry/browser';
+import { NewOnboardingModule } from './modules/new-onboarding/onboarding.module';
 
 Sentry.init({
   dsn: 'https://3f786f8407e042db9053434a3ab527a2@sentry.io/1538008', // TODO: do not hardcard
@@ -127,6 +128,7 @@ export class SentryErrorHandler implements ErrorHandler {
     PaymentsModule,
     MindsFormsModule,
     OnboardingModule,
+    NewOnboardingModule,
     NotificationModule,
     GroupsModule,
     BlogModule,

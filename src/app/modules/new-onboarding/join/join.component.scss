@@ -1,0 +1,21 @@
+m-join {
+  & > div {
+    height: 34px;
+    width: 34px;
+    border: 1px solid #ececec;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > i {
+      color: #ececec;
+    }
+
+    &.m-join__subscribed {
+      & > i {
+        color: #5dbac0;
+      }
+    }
+  }
+}

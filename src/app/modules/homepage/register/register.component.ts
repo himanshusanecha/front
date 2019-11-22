@@ -13,6 +13,7 @@ import { Session } from '../../../services/session';
 import { Client } from '../../../services/api';
 import { ExperimentsService } from '../../experiments/experiments.service';
 import { RouterHistoryService } from '../../../common/services/router-history.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'm-homepage__registerForm',
@@ -46,7 +47,8 @@ export class HomepageRegisterComponent implements OnInit {
     fb: FormBuilder,
     public zone: NgZone,
     private experiments: ExperimentsService,
-    private routerHistoryService: RouterHistoryService
+    private routerHistoryService: RouterHistoryService,
+    private router: Router
   ) {
     this.form = fb.group({
       username: ['', Validators.required],
@@ -98,8 +100,6 @@ export class HomepageRegisterComponent implements OnInit {
     this.client
       .post('api/v1/register', opts)
       .then((data: any) => {
-        // TODO: [emi/sprint/bison] Find a way to reset controls. Old implementation throws Exception;
-
         this.inProgress = false;
         this.session.login(data.user);
 

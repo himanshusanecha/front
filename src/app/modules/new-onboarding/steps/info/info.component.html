@@ -1,0 +1,78 @@
+<div class="m-onboarding__form">
+  <h2>
+    Profile Setup
+  </h2>
+
+  <m-onboarding__progressbar [steps]="steps"></m-onboarding__progressbar>
+
+  <div class="m-onboarding__controls">
+    <div class="m-onboarding__input">
+      <label i18n>Mobile Phone Number</label>
+      <!-- tooltip -->
+
+      <m-tooltip anchor="left">
+        <span m-tooltip--anchor>𝒊</span>
+        <ng-container i18n>
+          Your mobile number may be used for additional account security, unique
+          identification and to help your friends find you. This data is private
+          and encrypted.
+        </ng-container>
+      </m-tooltip>
+
+      <span i18n>Optional</span>
+
+      <m-phone-input [(ngModel)]="number" ngDefaultControl></m-phone-input>
+    </div>
+
+    <div class="m-onboarding__input">
+      <label i18n>Location</label>
+
+      <m-tooltip anchor="left">
+        <span m-tooltip--anchor>𝒊</span>
+        <ng-container i18n>
+          Your mobile number may be used for additional account security, unique
+          identification and to help your friends find you. This data is private
+          and encrypted.
+        </ng-container>
+      </m-tooltip>
+
+      <span i18n>Optional</span>
+
+      <input type="text" [(ngModel)]="location" />
+    </div>
+
+    <div class="m-onboarding__input">
+      <label i18n>Date of Birth</label>
+
+      <m-tooltip anchor="left">
+        <span m-tooltip--anchor>𝒊</span>
+        <ng-container i18n>
+          Your mobile number may be used for additional account security, unique
+          identification and to help your friends find you. This data is private
+          and encrypted.
+        </ng-container>
+      </m-tooltip>
+
+      <div class="m-onboarding__dropdowns">
+        <select [ngModel]="selectedMonth" (ngModelChange)="selectMonth($event)">
+          <option *ngFor="let month of monthNames">{{ month }}</option>
+        </select>
+        <select [(ngModel)]="selectedDay">
+          <option *ngFor="let day of days">{{ day }}</option>
+        </select>
+        <select [ngModel]="selectedYear" (ngModelChange)="selectYear($event)">
+          <option *ngFor="let year of years">{{ year }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="m-onboarding__actionButtons">
+      <button class="mf-button mf-button--hollow" (click)="skip()" i18n>
+        Skip
+      </button>
+      <button class="mf-button mf-button--alt" (click)="continue()" i18n>
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
