@@ -11,11 +11,11 @@ import { Session } from '../../../services/session';
 import { Filter, Option } from '../../../interfaces/dashboard';
 
 @Component({
-  selector: 'm-dropdownV2',
-  templateUrl: './dropdown-v2.component.html',
+  selector: 'm-filter',
+  templateUrl: './filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DropdownV2Component implements OnInit {
+export class FilterComponent implements OnInit {
   @Input() filter: Filter;
   @Input() dropUp: boolean = false;
   @Input() showLabel: boolean = true;

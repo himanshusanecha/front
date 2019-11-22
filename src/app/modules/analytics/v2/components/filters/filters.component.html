@@ -1,10 +1,9 @@
 <div class="m-analytics__filtersContainer">
   <ng-container *ngFor="let filter of filters">
-    <m-dropdownV2
-      class="filter"
+    <m-filter
       [filter]="filter"
       [dropUp]="true"
       (selectionMade)="selectionMade($event)"
-    ></m-dropdownV2>
+    ></m-filter>
   </ng-container>
 </div>

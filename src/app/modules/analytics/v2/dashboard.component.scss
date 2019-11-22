@@ -30,10 +30,10 @@ m-analytics__dashboard {
       }
     }
   }
-  m-dropdownV2 {
+  m-filter {
     margin: 0;
   }
-  .m-dropdownV2__wrapper {
+  .m-filter__wrapper {
     > * {
       width: 180px;
     }
@@ -56,11 +56,11 @@ m-analytics__dashboard {
 
 @media screen and (max-width: $min-tablet) {
   .m-dashboardLayout__header {
-    m-dropdownV2 {
+    m-filter {
       margin: 0 16px 8px 0;
-      .m-dropdownV2__wrapper {
+      .m-filter__wrapper {
         > * {
-          width: 160px;
+          width: 180px;
         }
       }
     }
@@ -72,9 +72,11 @@ m-analytics__dashboard {
 
 @media screen and (max-width: $max-mobile) {
   .m-dashboardLayout__header {
-    .m-dropdownV2__wrapper {
-      > * {
-        width: 140px;
+    m-filter {
+      .m-filter__wrapper {
+        > * {
+          width: 160px;
+        }
       }
     }
   }

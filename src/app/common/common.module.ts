@@ -121,7 +121,7 @@ import { PageLayoutComponent } from './components/page-layout/page-layout.compon
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
 import { ShadowboxLayoutComponent } from './components/shadowbox-layout/shadowbox-layout.component';
 import { ShadowboxHeaderComponent } from './components/shadowbox-header/shadowbox-header.component';
-import { DropdownV2Component } from './components/dropdown-v2/dropdown-v2.component';
+import { FilterComponent } from './components/filter/filter.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -233,7 +233,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     DashboardLayoutComponent,
     ShadowboxLayoutComponent,
     ShadowboxHeaderComponent,
-    DropdownV2Component,
+    FilterComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -329,7 +329,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     PageLayoutComponent,
     DashboardLayoutComponent,
     ShadowboxLayoutComponent,
-    DropdownV2Component,
+    FilterComponent,
   ],
   providers: [
     SiteService,

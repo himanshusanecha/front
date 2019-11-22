@@ -1,13 +1,13 @@
 $rounded-top: 3px 3px 0 0;
 $rounded-bottom: 0 0 3px 3px;
 
-m-dropdownV2 {
+m-filter {
   position: relative;
   margin: 0 24px 36px 0;
   z-index: 2;
   display: block;
 }
-.m-dropdownV2__labelWrapper {
+.m-filter__labelWrapper {
   position: absolute;
   bottom: 115%;
   white-space: nowrap;
@@ -45,7 +45,7 @@ m-dropdownV2 {
   }
 }
 
-.m-dropdownV2__wrapper {
+.m-filter__wrapper {
   cursor: pointer;
 
   &:focus {
@@ -56,31 +56,31 @@ m-dropdownV2 {
     @include m-theme() {
       box-shadow: 0px 1px 15px 0 rgba(themed($m-black), 0.15);
     }
-    .m-dropdownV2__header {
+    .m-filter__header {
       @include m-theme() {
         border-color: themed($m-blue);
       }
     }
-    .m-dropdownV2__optionsContainer {
+    .m-filter__optionsContainer {
       display: block;
     }
 
     &:not(.dropUp) {
-      .m-dropdownV2__header {
+      .m-filter__header {
         @include m-theme() {
           border-radius: $rounded-top;
         }
       }
-      .m-dropdownV2__optionsContainer {
+      .m-filter__optionsContainer {
         border-top: none;
         border-radius: $rounded-bottom;
       }
     }
     &.dropUp {
-      .m-dropdownV2__header {
+      .m-filter__header {
         border-radius: $rounded-bottom;
       }
-      .m-dropdownV2__optionsContainer {
+      .m-filter__optionsContainer {
         bottom: 100%;
         border-radius: $rounded-top;
         border-bottom: none;
@@ -97,7 +97,7 @@ m-dropdownV2 {
   }
 }
 
-.m-dropdownV2__header {
+.m-filter__header {
   position: relative;
   border-radius: 3px;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
@@ -109,7 +109,7 @@ m-dropdownV2 {
   @include m-theme() {
     border: 1px solid themed($m-grey-100);
   }
-  .m-dropdownV2__label {
+  .m-filter__label {
     margin-right: 10px;
   }
   i {
@@ -118,14 +118,14 @@ m-dropdownV2 {
     height: 24px;
     padding-top: 2px;
   }
-  .m-dropdownV2__option {
+  .m-filter__option {
     @include m-theme() {
       color: themed($m-grey-500);
     }
   }
 }
 
-.m-dropdownV2__optionsContainer {
+.m-filter__optionsContainer {
   box-sizing: border-box;
   position: absolute;
   display: none;
@@ -139,7 +139,7 @@ m-dropdownV2 {
     box-shadow: 0px 8px 16px 0px rgba(themed($m-black), 0.15);
   }
 
-  .m-dropdownV2__option {
+  .m-filter__option {
     &:hover:not(.unavailable) {
       @include m-theme() {
         color: themed($m-grey-500);
@@ -155,13 +155,13 @@ m-dropdownV2 {
   }
 }
 
-.m-dropdownV2__header {
+.m-filter__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-right: 10px;
 }
-.m-dropdownV2__option {
+.m-filter__option {
   display: inline-block;
   padding: 10px 20px;
   box-sizing: border-box;
@@ -184,8 +184,8 @@ m-dropdownV2 {
 }
 
 @media screen and (max-width: $min-tablet) {
-  m-dropdownV2 {
-    .m-dropdownV2__labelWrapper {
+  m-filter {
+    .m-filter__labelWrapper {
       .m-tooltip--bubble {
         width: 120px;
       }
@@ -194,19 +194,19 @@ m-dropdownV2 {
 }
 
 @media screen and (max-width: $max-mobile) {
-  m-dropdownV2 {
-    .m-dropdownV2__wrapper {
+  m-filter {
+    .m-filter__wrapper {
       > * {
         width: 160px;
       }
-      .m-dropdownV2__header {
+      .m-filter__header {
         padding-right: 10px;
         i {
           display: none;
         }
       }
-      .m-dropdownV2__optionsContainer {
-        .m-dropdownV2__option {
+      .m-filter__optionsContainer {
+        .m-filter__option {
           &:first-child {
             padding-top: 11px;
           }
@@ -215,7 +215,7 @@ m-dropdownV2 {
           }
         }
       }
-      .m-dropdownV2__option {
+      .m-filter__option {
         margin-right: 0;
         padding: 8px 18px;
       }
