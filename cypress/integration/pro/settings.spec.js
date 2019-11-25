@@ -61,8 +61,8 @@ context('Pro Settings', () => {
       label1: data('tag__label--1'),
       tag1: data('tag__tag--1'),
       strings: {
-        label0: 'myLabel0',
-        label1: 'myLabel1',
+        label0: 'Label0',
+        label1: 'Label1',
         tag0: '#hashtag0',
         tag1: '#hashtag1',
       },
@@ -80,24 +80,19 @@ context('Pro Settings', () => {
       },
     };
 
-    const payouts = {
-      strings: {
-        method: 'USD',
-      },
-    };
-
     before(() => {
       cy.login(true, Cypress.env().pro_username, Cypress.env().pro_password);
-    });
 
-    after(() => {
-      cy.visit('/pro/' + Cypress.env().pro_username + '/settings/hashtags')
-        .location('pathname')
-        .should(
-          'eq',
-          '/pro/' + Cypress.env().pro_username + '/settings/hashtags'
-        );
-      clearHashtags();
+      // Make a post
+      cy.route('POST', '**/api/v1/newsfeed').as('newsfeed');
+      cy.visit('/newsfeed/subscriptions');
+      cy.get('minds-newsfeed-poster textarea')
+        .click()
+        .type('Testing 1-2-3');
+      cy.get('minds-newsfeed-poster .m-posterActionBar__PostButton').click();
+      cy.wait('@newsfeed').then(xhr => {
+        expect(xhr.status).to.equal(200);
+      });
     });
 
     beforeEach(() => {
@@ -157,7 +152,7 @@ context('Pro Settings', () => {
 
       save();
 
-      // set colors to be tested
+      // set theme colors to be tested
       cy.get(theme.textColor)
         .click()
         .clear()
@@ -175,24 +170,19 @@ context('Pro Settings', () => {
 
       saveAndPreview();
 
-      cy.get('.m-proChannelTopbar__navItem')
-        .should('have.css', 'color')
-        .and('eq', theme.strings.textColorRgb);
-
       cy.get('.m-pro__searchBox input').should(
         'have.css',
         'background-color',
         theme.strings.plainBgColorRgba
       );
 
-      cy.contains('Videos').should(
-        'have.css',
-        'color',
-        theme.strings.textColorRgb
-      );
-      // .and('eq', theme.strings.textColorRgb);
+      cy.get('.m-proChannelTopbar__navItem')
+        .contains('Videos')
+        .should('have.css', 'color', theme.strings.textColorRgb);
 
-      cy.contains('Videos').click();
+      cy.get('.m-proChannelTopbar__navItem')
+        .contains('Feed')
+        .click();
 
       // make window narrow enough to show hamburger icon
       cy.viewport('ipad-mini');
@@ -212,7 +202,9 @@ context('Pro Settings', () => {
 
       saveAndPreview();
 
-      cy.contains('Feed').click();
+      cy.get('.m-proChannelTopbar__navItem')
+        .contains('Feed')
+        .click();
 
       cy.get(activityContainer)
         .should('have.css', 'background-color')
@@ -223,12 +215,14 @@ context('Pro Settings', () => {
       cy.contains('Theme').click();
 
       // Toggle radio to enable submit button
-      cy.contains('Dark').click();
-      cy.contains('Light').click();
+      cy.get(theme.schemeDark).click({ force: true });
+      cy.get(theme.schemeLight).click({ force: true });
 
       saveAndPreview();
 
-      cy.contains('Videos').click();
+      cy.get('.m-proChannelTopbar__navItem')
+        .contains('Feed')
+        .click();
 
       cy.get(activityContainer)
         .should('have.css', 'background-color')
@@ -257,6 +251,9 @@ context('Pro Settings', () => {
       cy.contains('Hashtags').click();
 
       cy.get(hashtags.add).click();
+      cy.contains('clear').click({ multiple: true });
+
+      cy.get(hashtags.add).click();
 
       cy.get(hashtags.label0)
         .clear()
@@ -279,8 +276,8 @@ context('Pro Settings', () => {
       saveAndPreview();
 
       //check the labels are present and clickable.
+      cy.contains(hashtags.strings.label0);
       cy.contains(hashtags.strings.label1);
-      cy.contains(hashtags.strings.label2);
     });
 
     it('should allow the user to set footer', () => {
@@ -311,18 +308,10 @@ context('Pro Settings', () => {
       cy.get(footer.text).should('contain', footer.strings.text);
     });
 
-    it.skip('should allow the user to set payout method', () => {
-      cy.contains('Payouts').click();
-
-      cy.contains(payouts.method).check();
-
-      // TODO check something like this? session.getLoggedInUser().merchant.service: "stripe"
-    });
-
     function save() {
       //save and await response
       cy.contains('Save')
-        .click()
+        .click({ force: true })
         .wait('@settings')
         .then(xhr => {
           expect(xhr.status).to.equal(200);
@@ -336,35 +325,5 @@ context('Pro Settings', () => {
       //go to pro page
       cy.visit('/pro/' + Cypress.env().pro_username);
     }
-
-    function clearHashtags() {
-      cy.contains('Hashtags').click();
-
-      cy.get(hashtags.add).click();
-
-      cy.contains('clear').click({ multiple: true });
-      saveAndPreview();
-    }
-
-    //
-    // it.only('should update the theme', () => {
-    //   // nav to theme tab
-    //   cy.contains('Theme')
-    //     .click();
-
-    //   cy.get(theme.plainBgColor).then(elem => {
-    //     elem.val('#00dd00');
-    //         //save and await response
-    //     cy.contains('Save')
-    //     .click()
-    //     .wait('@settings').then((xhr) => {
-    //       expect(xhr.status).to.equal(200);
-    //       expect(xhr.response.body).to.deep.equal({ status: 'success' });
-    //     });
-
-    //   //go to pro page
-    // cy.contains('View Pro Channel').click();
-
-    // })
   }
 });
