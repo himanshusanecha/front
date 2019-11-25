@@ -5,11 +5,12 @@
 context('Pro Settings', () => {
   if (Cypress.env().pro_password) {
     // required to run tests against pro user only.
-    const activityContainer = 'minds-activity';
-
     function data(str) {
       return `[data-minds=${str}]`;
     }
+
+    const activityContainer = 'minds-activity';
+    const sidebarMenu = data('sidebarMenuLinks');
 
     const general = {
       title: data('title'),
@@ -132,7 +133,9 @@ context('Pro Settings', () => {
     });
 
     it('should allow the user to set theme colors', () => {
-      cy.contains('Theme').click();
+      cy.get(sidebarMenu)
+        .contains('Theme')
+        .click();
 
       // reset colors so changes will be submitted
       cy.get(theme.textColor)
@@ -184,7 +187,7 @@ context('Pro Settings', () => {
         .contains('Feed')
         .click();
 
-      // make window narrow enough to show hamburger icon
+      // make window narrow enough to show hamburger icon/menu
       cy.viewport('ipad-mini');
       cy.get('.m-proHamburgerMenu__trigger')
         .click()
@@ -193,8 +196,11 @@ context('Pro Settings', () => {
         .and('eq', theme.strings.primaryColorRgb);
     });
 
-    it('should allow the user to set a dark theme for posts', () => {
-      cy.contains('Theme').click();
+    // Skipping until Emi changes feeds from 'top' to 'latest'
+    it.skip('should allow the user to set a dark theme for posts', () => {
+      cy.get(sidebarMenu)
+        .contains('Theme')
+        .click();
 
       // Toggle radio to enable submit button
       cy.get(theme.schemeLight).click({ force: true });
@@ -211,8 +217,11 @@ context('Pro Settings', () => {
         .and('eq', 'rgb(35, 35, 35)');
     });
 
-    it('should allow the user to set a light theme for posts', () => {
-      cy.contains('Theme').click();
+    // Skipping until Emi changes feeds from 'top' to 'latest'
+    it.skip('should allow the user to set a light theme for posts', () => {
+      cy.get(sidebarMenu)
+        .contains('Theme')
+        .click();
 
       // Toggle radio to enable submit button
       cy.get(theme.schemeDark).click({ force: true });
@@ -230,7 +239,9 @@ context('Pro Settings', () => {
     });
 
     it.skip('should allow the user to upload logo and background images', () => {
-      cy.contains('Assets').click();
+      cy.get(sidebarMenu)
+        .contains('Assets')
+        .click();
 
       cy.uploadFile(assets.logo, assets.strings.logoFixture, 'image/jpeg');
 
@@ -248,10 +259,14 @@ context('Pro Settings', () => {
     });
 
     it('should allow the user to set category hashtags', () => {
-      cy.contains('Hashtags').click();
+      cy.get(sidebarMenu)
+        .contains('Hashtags')
+        .click();
 
       cy.get(hashtags.add).click();
-      cy.contains('clear').click({ multiple: true });
+      cy.get('m-draggableList')
+        .contains('clear')
+        .click({ multiple: true });
 
       cy.get(hashtags.add).click();
 
@@ -281,7 +296,15 @@ context('Pro Settings', () => {
     });
 
     it('should allow the user to set footer', () => {
-      cy.contains('Footer').click();
+      cy.get(sidebarMenu)
+        .contains('Footer')
+        .click();
+
+      // clear any existing footer links
+      cy.get(footer.add).click();
+      cy.get('m-draggableList')
+        .contains('clear')
+        .click({ multiple: true });
 
       // add a new footer link
       cy.get(footer.add).click();
@@ -301,16 +324,17 @@ context('Pro Settings', () => {
 
       saveAndPreview();
 
-      cy.contains(footer.strings.footerTitle)
+      cy.contains(footer.strings.linkTitle)
         .should('have.attr', 'href')
-        .should('contain', footer.strings.footerHref);
+        .should('contain', footer.strings.linkHref);
 
       cy.get(footer.text).should('contain', footer.strings.text);
     });
 
     function save() {
       //save and await response
-      cy.contains('Save')
+      cy.get('.m-shadowboxSubmitButton')
+        .contains('Save')
         .click({ force: true })
         .wait('@settings')
         .then(xhr => {
