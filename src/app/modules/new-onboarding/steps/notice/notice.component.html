@@ -1,10 +1,19 @@
 <div class="m-onboarding__form">
-  <div class="m-notice__wavingEmoji">👋</div>
+  <div
+    class="m-notice__wavingEmoji"
+    [class.m-notice__wavingEmoji--mobile]="isMobile()"
+  >
+    👋
+  </div>
 
-  <h1 i18n>
+  <h1 class="m-onboarding__mobileTitle" *ngIf="isMobile()" i18n>
+    Welcome
+  </h1>
+
+  <h1 *ngIf="!isMobile()" i18n>
     Welcome to the Minds Community
   </h1>
-  <h2>@{{ user.username }}</h2>
+  <h2 [class.m-onboarding__mobileTitle]="isMobile()">@{{ user.username }}</h2>
 
   <p class="m-onboarding__description" i18n>
     Your privacy is our priority. You are free to provide as much or as little
@@ -13,8 +22,8 @@
   </p>
 
   <div class="m-onboarding__actionButtons">
-    <button class="mf-button mf-button--alt" (click)="continue()" i18n>
-      Let's Get Setup
+    <button class="mf-button mf-button--alt" (click)="continue()">
+      <span i18n>Let's Get Setup</span>
     </button>
     <a (click)="skip()" i18n>
       No thanks, I'll do it later

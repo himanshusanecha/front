@@ -28,7 +28,7 @@ export class GroupsStepComponent {
   constructor(private router: Router) {}
 
   skip() {
-    this.router.navigate(['/newsfeed']);
+    this.router.navigate(['/onboarding', 'channels']);
   }
 
   continue() {

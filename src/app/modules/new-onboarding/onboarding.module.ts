@@ -16,9 +16,9 @@ import { HomepageModule } from '../homepage/homepage.module';
 import { InfoStepComponent } from './steps/info/info.component';
 import { ProgressbarComponent } from './progressbar/progressbar.component';
 import { ChannelListComponent } from './steps/channels/list/list.component';
-import { LegacyModule } from '../legacy/legacy.module';
 import { JoinComponent } from './join/join.component';
 import { GroupListComponent } from './steps/groups/list/list.component';
+import { MindsFormsModule } from '../forms/forms.module';
 
 const routes: Routes = [
   {
@@ -64,6 +64,7 @@ const routes: Routes = [
     MessengerModule,
     SuggestionsModule,
     HomepageModule,
+    MindsFormsModule,
   ],
   exports: [],
   declarations: [

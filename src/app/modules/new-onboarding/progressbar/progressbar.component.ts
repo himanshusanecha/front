@@ -26,7 +26,7 @@ export class ProgressbarComponent implements OnInit {
   }
 
   isMobile() {
-    return window.innerWidth < 740;
+    return window.innerWidth <= 740;
   }
 
   @HostListener('window:resize')

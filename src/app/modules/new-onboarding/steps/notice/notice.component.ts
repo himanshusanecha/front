@@ -23,4 +23,8 @@ export class NoticeStepComponent implements OnInit {
   skip() {
     this.router.navigate(['/newsfeed']);
   }
+
+  isMobile() {
+    return window.innerWidth <= 480;
+  }
 }

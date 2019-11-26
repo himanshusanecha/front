@@ -1,0 +1,101 @@
+m-registration__step {
+  display: block;
+  filter: drop-shadow(-1px 0px 8px rgba(50, 50, 0, 0.5));
+
+  minds-form-register {
+    display: block;
+    background-color: #fcfcfc;
+
+    padding: 50px 37px;
+
+    clip-path: polygon(0 0, 100% 8px, 99.99% 99%, 0% 100%);
+
+    h3 {
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: bold;
+    }
+
+    .mdl-cell {
+      margin: 0;
+      padding-bottom: 14px;
+    }
+
+    form {
+      background: transparent !important;
+
+      .mdl-card__supporting-text {
+        overflow: visible;
+      }
+
+      input:not([type='checkbox']) {
+        padding: 10px 15px;
+        height: 37px;
+        font-weight: normal;
+      }
+    }
+
+    span,
+    label {
+      font-size: 14px;
+      line-height: 19px;
+    }
+
+    label.mdl-checkbox {
+      display: flex;
+      align-items: center;
+      padding-top: 0;
+      margin-bottom: 33px;
+    }
+
+    .mdl-card__actions {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 14px;
+      padding: 0;
+
+      & > *:not(button) {
+        color: #4a4a4a !important;
+      }
+
+      a {
+        color: #4a90e2;
+      }
+
+      button {
+        align-self: flex-end;
+        @include m-theme() {
+          background-color: themed($m-aqua);
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $max-mobile) {
+    margin: 30px 26px 50px;
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 393px;
+      height: 193px;
+      top: -66px;
+      //bottom: 190px;
+      left: -144px;
+      transform: translate(45px, 32px);
+      background: url('<%= APP_CDN %>/assets/marketing/deco_2-straight.svg')
+        no-repeat;
+      z-index: -1;
+    }
+
+    minds-form-register {
+      padding: 48px 25px;
+    }
+  }
+
+  @media screen and (min-width: $max-mobile) and (max-width: 760px) {
+    minds-form-register {
+      padding: 40px 20px;
+    }
+  }
+}

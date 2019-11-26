@@ -26,7 +26,7 @@
           [ngClass]="{ selected: hashtag.selected }"
           (click)="toggleSelection(hashtag)"
         >
-          {{ hashtag.value }}
+          #{{ hashtag.value | titlecase }}
         </span>
       </li>
     </ul>

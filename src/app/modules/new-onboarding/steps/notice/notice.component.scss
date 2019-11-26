@@ -2,5 +2,20 @@ m-notice__step {
   .m-notice__wavingEmoji {
     font-size: 36px;
     line-height: 25px;
+
+    &.m-notice__wavingEmoji--mobile {
+      margin: 0 auto;
+      width: 52px;
+    }
+  }
+
+  @media screen and(max-width: $max-mobile) {
+    .m-onboarding__actionButtons {
+      flex-direction: column-reverse;
+
+      & > *:not(:first-child) {
+        margin: 0 0 50px;
+      }
+    }
   }
 }

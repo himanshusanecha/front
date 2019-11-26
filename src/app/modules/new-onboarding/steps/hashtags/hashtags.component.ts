@@ -46,7 +46,7 @@ export class HashtagsStepComponent implements OnInit {
     this.inProgress = true;
 
     try {
-      this.hashtags = await this.service.load(50);
+      this.hashtags = await this.service.load(14);
     } catch (e) {
       console.error(e);
     }
@@ -64,7 +64,7 @@ export class HashtagsStepComponent implements OnInit {
   }
 
   skip() {
-    this.router.navigate(['/newsfeed']);
+    this.router.navigate(['/onboarding', 'channels']);
   }
 
   continue() {

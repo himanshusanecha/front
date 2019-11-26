@@ -19,9 +19,19 @@ m-hashtags__step {
       font-size: 18px;
       line-height: 44px;
 
+      @media screen and(max-width: $max-mobile) {
+        font-size: 16px;
+        line-height: 35px;
+      }
+
       &.m-hashtagsList__item--selected {
-        color: #5dbac0;
-        border: 1px solid #ececec;
+        @include m-theme() {
+          color: themed($aqua);
+        }
+
+        @media screen and (min-width: $max-mobile) {
+          border: 1px solid #ececec;
+        }
       }
     }
   }

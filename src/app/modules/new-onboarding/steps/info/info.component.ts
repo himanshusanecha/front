@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Session } from '../../../../services/session';
 import { MindsUser } from '../../../../interfaces/entities';
 import { Client } from '../../../../services/api';
@@ -52,6 +58,7 @@ export class InfoStepComponent {
   selectedMonth = 'January';
   selectedDay = '1';
   selectedYear = new Date().getFullYear();
+  tooltipAnchor: 'top' | 'left' = 'left';
 
   number: number;
   location: string;
@@ -65,6 +72,8 @@ export class InfoStepComponent {
     this.years = this.range(100, this.selectedYear, false);
     this.selectedYear = this.years[0];
     this.selectMonth('January');
+
+    this.onResize();
   }
 
   selectMonth(month: string) {
@@ -133,12 +142,17 @@ export class InfoStepComponent {
 
   skip() {
     this.saveData();
-    this.router.navigate(['/newsfeed']);
+    this.router.navigate(['/onboarding', 'hashtags']);
   }
 
   continue() {
     this.saveData();
     this.router.navigate(['/onboarding', 'groups']);
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.tooltipAnchor = window.innerWidth <= 480 ? 'top' : 'left';
   }
 
   private saveData() {

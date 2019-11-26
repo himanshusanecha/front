@@ -3,29 +3,27 @@
     {{ error }}
   </span>
   <span
-    *ngIf="!error && !inProgress && !suggestions.length"
+    *ngIf="!error && !inProgress && !entities.length"
     class="m-channelList__empty"
   >
     You have no suggestions at this time
   </span>
-  <ul class="m-channelList__list" *ngIf="suggestions.length">
-    <li *ngFor="let suggestion of suggestions" class="m-channelList__item">
-      <a [routerLink]="['/', suggestion.entity.username]">
+  <ul class="m-channelList__list" *ngIf="entities.length">
+    <li class="m-channelList__item" *ngFor="let entity of entities">
+      <a [routerLink]="['/', entity.username]" target="_blank">
         <div
           class="m-channelListItem__avatar"
           [style.background-image]="
-            'url(' + minds.cdn_url + '/icon/' + suggestion.entity.guid + ')'
+            'url(' + minds.cdn_url + '/icon/' + entity.guid + ')'
           "
         ></div>
         <div class="m-channelListItem__body">
-          <div [title]="suggestion.entity.briefdescription">
-            <h4>{{ suggestion.entity.username }}</h4>
-            <span i18n
-              >{{ suggestion.entity.subscribers_count | abbr }} members</span
-            >
+          <div [title]="entity.briefdescription">
+            <h4>{{ entity.username }}</h4>
+            <span i18n>{{ entity.subscribers_count | abbr }} members</span>
           </div>
           <div class="m-layout__spacer"></div>
-          <m-join [entity]="suggestion.entity"></m-join>
+          <m-join [entity]="entity"></m-join>
         </div>
       </a>
     </li>

@@ -34,6 +34,6 @@ const routes: Routes = [{ path: '', component: HomepageComponent }];
   ],
   declarations: [HomepageComponent],
   entryComponents: [HomepageComponent],
-  exports: [HomepageRegisterComponent],
+  exports: [],
 })
 export class HomepageModule {}

@@ -3,29 +3,30 @@
     {{ error }}
   </span>
   <span
-    *ngIf="!error && !inProgress && !suggestions.length"
+    *ngIf="!error && !inProgress && !entities.length"
     class="m-groupList__empty"
   >
     You have no suggestions at this time
   </span>
-  <ul class="m-groupList__list" *ngIf="suggestions.length">
-    <li *ngFor="let suggestion of suggestions" class="m-groupList__item">
-      <a [routerLink]="['/', suggestion.entity.name]">
+  <ul class="m-groupList__list" *ngIf="entities.length">
+    <li
+      class="m-groupList__item"
+      *ngFor="let entity of entities; let i = index"
+    >
+      <a [routerLink]="['/groups/profile', entity.guid]" target="_blank">
         <div
           class="m-groupListItem__avatar"
           [style.background-image]="
-            'url(' + minds.cdn_url + '/icon/' + suggestion.entity.guid + ')'
+            'url(' + minds.cdn_url + '/icon/' + entity.guid + ')'
           "
         ></div>
         <div class="m-groupListItem__body">
-          <div [title]="suggestion.entity.name">
-            <h4>{{ suggestion.entity.name }}</h4>
-            <span i18n
-              >{{ suggestion.entity['members:count'] | abbr }} members</span
-            >
+          <div [title]="entity.name">
+            <h4>{{ entity.name }}</h4>
+            <span i18n>{{ entity['members:count'] | abbr }} members</span>
           </div>
           <div class="m-layout__spacer"></div>
-          <m-join [entity]="suggestion.entity"></m-join>
+          <m-join [entity]="entity | async"></m-join>
         </div>
       </a>
     </li>
