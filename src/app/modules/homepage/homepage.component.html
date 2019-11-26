@@ -4,7 +4,7 @@
   <div class="m-marketing__main m-marketing__section--style-2">
     <div class="m-grid m-marketing__wrapper">
       <div
-        class="m-grid__column-7 m-grid__column-7--tablet m-grid__column-12--mobile m-marketing__body"
+        class="m-grid__column-7 m-grid__column-6--tablet m-grid__column-12--mobile m-marketing__body"
       >
         <h1 i18n>Minds <span class="m-homepage__yellowLine"></span></h1>
 
@@ -18,53 +18,68 @@
           together.
         </p>
         <p class="m-marketing__description" i18n>
-          Take back control of your social media
+          Take back control of your social media.
         </p>
 
-        <button
-          class="mf-button mf-button--alt m-homepage__joinButton"
-          (click)="goToOnboardingPage()"
-          i18n
-        >
-          Join Minds Now
-        </button>
+        <ng-container *ngIf="!isMobile()">
+          <button
+            class="mf-button mf-button--alt m-homepage__joinButton m-homepage__joinButton--first"
+            (click)="goToOnboardingPage()"
+            *mExperiment="'Homepage121119'; bucket: 'base'"
+            i18n
+          >
+            Join Minds Now
+          </button>
+        </ng-container>
 
         <div class="m-homepage__appButtons">
-          <a
-            href="https://itunes.apple.com/app/minds-com/id961771928"
-            target="_blank"
-          >
-            <img [src]="cdnAssetsUrl + 'assets/app-store.png'" />
-          </a>
-
           <a
             href="https://play.google.com/store/apps/details?id=com.minds.mobile"
             target="_blank"
           >
-            <img [src]="cdnAssetsUrl + 'assets/google-play.png'" />
+            <img [src]="cdnAssetsUrl + 'assets/homepage/android.png'" />
+          </a>
+          <a
+            href="https://itunes.apple.com/app/minds-com/id961771928"
+            target="_blank"
+          >
+            <img [src]="cdnAssetsUrl + 'assets/homepage/app-store.png'" />
           </a>
         </div>
+
+        <ng-container *ngIf="isMobile()">
+          <button
+            class="mf-button mf-button--alt m-homepage__joinButton"
+            (click)="goToOnboardingPage()"
+            *mExperiment="'Homepage121119'; bucket: 'base'"
+            i18n
+          >
+            Join Minds Now
+          </button>
+        </ng-container>
       </div>
 
       <div
-        class="m-grid__column-5 m-grid__column-5--tablet m-grid__column-12--mobile m-marketing__image"
+        class="m-grid__column-5 m-grid__column-6--tablet m-grid__column-12--mobile m-marketing__image"
         *mExperiment="'Homepage121119'; bucket: 'base'"
       >
-        <span>
-          <img
-            class="m-homepage__cellphone"
-            [src]="cdnAssetsUrl + 'assets/homepage/homepage-1.png'"
-          />
+        <span class="m-homepage__cellphone">
+          <img [src]="cdnAssetsUrl + 'assets/homepage/homepage-1.png'" />
         </span>
       </div>
 
       <div
-        class="m-grid__column-5 m-grid__column-12--mobile"
+        class="m-grid__column-5 m-grid__column-6--tablet m-grid__column-12--mobile m-homepage__registerForm"
         *mExperiment="'Homepage121119'; bucket: 'form'"
       >
-        <m-homepage__registerForm
+        <minds-form-register
+          [showTitle]="true"
+          [showBigButton]="true"
+          [showPromotions]="false"
+          [showLabels]="true"
           (done)="goToOnboardingPage()"
-        ></m-homepage__registerForm>
+        >
+        </minds-form-register>
       </div>
     </div>
   </div>
@@ -197,7 +212,7 @@
 
           <div class="m-marketing__actionButtons">
             <button
-              class="mf-button mf-button--alt"
+              class="mf-button mf-button--alt m-homepage__joinButton"
               (click)="goToOnboardingPage()"
               i18n
             >

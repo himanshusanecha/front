@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Navigation as NavigationService } from '../../services/navigation';
 import { LoginReferrerService } from '../../services/login-referrer.service';
 import { Session } from '../../services/session';
+import { V2TopbarService } from '../../common/layout/v2-topbar/v2-topbar.service';
 
 @Component({
   selector: 'm-homepage',
@@ -12,8 +13,6 @@ import { Session } from '../../services/session';
 })
 export class HomepageComponent implements OnInit, OnDestroy {
   readonly cdnAssetsUrl: string = window.Minds.cdn_assets_url;
-
-  topbar: HTMLElement;
 
   minds = window.Minds;
 
@@ -26,11 +25,10 @@ export class HomepageComponent implements OnInit, OnDestroy {
     public title: MindsTitle,
     public router: Router,
     public navigation: NavigationService,
+    public session: Session,
     private loginReferrer: LoginReferrerService,
-    public session: Session
+    private topbarService: V2TopbarService
   ) {
-    this.topbar = document.querySelector('.m-v2-topbar__Top');
-
     this.title.setTitle('Minds Social Network', false);
 
     if (this.session.isLoggedIn()) {
@@ -41,6 +39,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
     if (/iP(hone|od)/.test(window.navigator.userAgent)) {
       this.flags.canPlayInlineVideos = false;
     }
+
+    this.topbarService.toggleMarketingPages(true);
   }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.toggleTopbarBackground(false);
+    this.topbarService.toggleMarketingPages(false);
   }
 
   goToOnboardingPage() {
@@ -57,8 +57,6 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize')
   onResize() {
-    this.toggleTopbarBackground(window.innerWidth > 640);
-
     const tick: HTMLSpanElement = document.querySelector(
       '.m-marketing__imageUX > .m-marketing__imageTick'
     );
@@ -71,11 +69,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleTopbarBackground(value: boolean) {
-    if (value) {
-      this.topbar.classList.add('m-v2-topbar__noBackground');
-    } else {
-      this.topbar.classList.remove('m-v2-topbar__noBackground');
-    }
+  isMobile() {
+    return window.innerWidth < 480;
   }
 }
