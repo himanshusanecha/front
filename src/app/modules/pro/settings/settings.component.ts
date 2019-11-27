@@ -43,6 +43,7 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
     'footer',
     'domain',
     'payouts',
+    'subscription',
   ];
 
   settings: any;
@@ -102,6 +103,9 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
     }),
     payouts: this.fb.group({
       method: ['usd'],
+    }),
+    subscription: this.fb.group({
+      enabled: [true],
     }),
   });
 
@@ -171,6 +175,9 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
       },
       payouts: {
         method: settings.payout_method,
+      },
+      subscription: {
+        enabled: !!this.session.getLoggedInUser().pro,
       },
     });
 
@@ -281,6 +288,12 @@ export class ProSettingsComponent implements OnInit, OnDestroy {
           this.uploadAsset('background', background, this.backgroundField)
         );
         settings.has_custom_background = true;
+      }
+
+      if (!this.form.value.subscription.enabled) {
+        await this.service.disable();
+        this.router.navigate(['/', window.Minds.user.name]);
+        return;
       }
 
       await Promise.all(uploads);

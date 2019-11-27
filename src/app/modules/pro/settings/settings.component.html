@@ -42,6 +42,11 @@
               equivalent to $100 or greater.
             </h4>
           </ng-template>
+          <ng-template ngSwitchCase="subscription">
+            <h4 class="m-shadowboxHeader__subtitle">
+              Manage your subscription
+            </h4>
+          </ng-template>
         </ng-container>
       </div>
 
@@ -846,6 +851,60 @@
                             class="m-proSettings__customInput--radio"
                           ></span>
                         </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template ngSwitchCase="subscription">
+                <div class="m-shadowboxLayout__body">
+                  <div
+                    class="m-proSettings__tab--subscription"
+                    formGroupName="subscription"
+                  >
+                    <div class="m-proSettings__field--radio hasValidationRow">
+                      <div class="m-proSettings__field--radio">
+                        <div class="m-proSettings__row--label">
+                          <label i18n>
+                            Subscription
+                          </label>
+                        </div>
+                        <div class="m-proSettings__row--input">
+                          <label
+                            for="subscription_enable"
+                            class="m-proSettings__customInputContainer--radio"
+                            i18n
+                            >Enabled
+                            <input
+                              type="radio"
+                              id="subscription_enable"
+                              name="enabled"
+                              [value]="true"
+                              formControlName="enabled"
+                              class="form-control"
+                            />
+                            <span
+                              class="m-proSettings__customInput--radio"
+                            ></span>
+                          </label>
+                          <label
+                            for="subscription_disable"
+                            class="m-proSettings__customInputContainer--radio"
+                            i18n
+                            >Disabled
+                            <input
+                              type="radio"
+                              id="subscription_disable"
+                              name="enabled"
+                              [value]="false"
+                              formControlName="enabled"
+                              class="form-control"
+                            />
+                            <span
+                              class="m-proSettings__customInput--radio"
+                            ></span>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>

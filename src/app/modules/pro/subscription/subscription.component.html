@@ -1,5 +1,5 @@
 <ng-container *ngIf="!inProgress; else inProgressSpinner">
-  <div *ngIf="!active; else cancelButton">
+  <div>
     <div class="m-proSubscriptionPlan__toggleContainer">
       <div class="m-proSubscriptionPlan__toggle">
         <span i18n>Yearly</span>
@@ -8,6 +8,7 @@
             [(mModel)]="interval"
             leftValue="yearly"
             rightValue="monthly"
+            [disabled]="active"
           ></m-toggle
         ></span>
         <span i18n>Monthly</span>
@@ -20,6 +21,7 @@
             [(mModel)]="currency"
             leftValue="usd"
             rightValue="tokens"
+            [disabled]="active"
           ></m-toggle
         ></span>
         <span i18n>Tokens</span>
@@ -42,14 +44,29 @@
 
     <div>
       <ng-container *mIfFeature="'purchase-pro'; else comingSoon">
-        <button
-          class="mf-button mf-button--alt"
-          [disabled]="inProgress || criticalError"
-          (click)="enable()"
-          i18n
-        >
-          Upgrade to Pro
-        </button>
+        <div class="m-proSubscription__button">
+          <button
+            class="mf-button mf-button--alt"
+            [disabled]="active || inProgress || criticalError"
+            (click)="enable()"
+            i18n
+          >
+            Upgrade to Pro
+          </button>
+          <div class="m-proSubscription__alreadyAMemberNotice" *ngIf="active">
+            <span>You're already a Pro member.</span>
+            <a
+              [routerLink]="[
+                '/pro',
+                minds.user.username,
+                'settings',
+                'subscription'
+              ]"
+            >
+              Manage membership.
+            </a>
+          </div>
+        </div>
       </ng-container>
       <ng-template #comingSoon>
         <button class="mf-button mf-button--alt" i18n>
@@ -61,32 +78,16 @@
         <a
           href="https://cdn-assets.minds.com/pro-terms-27-11-2019.pdf"
           target="_blank"
-          >Terms &amp; Conditions</a
+        >
+          Terms &amp; Conditions </a
         >.
       </p>
     </div>
   </div>
 
-  <ng-template #cancelButton>
-    <div>
-      <button
-        class="mf-button mf-button--destructive"
-        [disabled]="inProgress || criticalError"
-        (click)="disable()"
-        i18n
-      >
-        Cancel Pro
-      </button>
+  <ng-template #inProgressSpinner>
+    <div class="m-proSubscription__inProgress">
+      <div class="mdl-spinner mdl-js-spinner is-active" [mdl]></div>
     </div>
   </ng-template>
-
-  <span *ngIf="error" class="m-proSubscription__error">
-    {{ error }}
-  </span>
 </ng-container>
-
-<ng-template #inProgressSpinner>
-  <div class="m-proSubscription__inProgress">
-    <div class="mdl-spinner mdl-js-spinner is-active" [mdl]></div>
-  </div>
-</ng-template>

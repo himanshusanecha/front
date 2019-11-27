@@ -74,6 +74,16 @@ m-pro--subscription {
     }
   }
 
+  .m-proSubscription__button {
+    display: flex;
+
+    .m-proSubscription__alreadyAMemberNotice {
+      margin-left: 25px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
   .m-proSubscription__error {
     display: block;
     font-weight: bold;
