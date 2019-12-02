@@ -46,6 +46,10 @@ m-marketing {
     max-width: 1084px;
     margin: 0 auto;
     box-sizing: border-box;
+
+    @media screen and(max-width: $m-grid-min-vp) and (min-width: $max-mobile) {
+      max-width: 81vw;
+    }
   }
 
   .m-marketing__subText {
