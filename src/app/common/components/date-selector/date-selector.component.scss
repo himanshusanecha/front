@@ -38,3 +38,11 @@
     }
   }
 }
+
+.m-tooltip--hidden {
+  .m-tooltip--bubble {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}

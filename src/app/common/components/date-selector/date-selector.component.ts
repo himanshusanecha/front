@@ -1,15 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 /**
- * Date picker / selector - can be adapted to add time.
+ * Date picker / selector.
  */
 @Component({
   moduleId: module.id,
   selector: 'm-date-selector',
   template: `
-    <label class="m-dateSelector__label" *ngIf="label">{{ label }}</label>
+    <label class="m-dateSelector__label" *ngIf="label">{{ label }} </label>
     <input
       class="m-dateSelector__input"
+      [ngClass]="{ 'm-dateSelector__input--hidden': hideInput }"
       [owlDateTimeTrigger]="dt"
       [owlDateTime]="dt"
       [min]="min"
@@ -17,7 +18,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       [(ngModel)]="date"
       (ngModelChange)="onDateChange($event)"
     />
-    <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
+    <owl-date-time [pickerType]="calendarType" #dt></owl-date-time>
+    <m-tooltip
+      *ngIf="tooltipIcon"
+      icon="{{ tooltipIcon }}"
+      [owlDateTimeTrigger]="dt"
+      i18n-label="{{ i18n }}"
+    >
+      {{ tooltipText }}
+    </m-tooltip>
   `,
 })
 export class DateSelectorComponent {
@@ -25,6 +34,13 @@ export class DateSelectorComponent {
 
   @Input() dateFormat: string = 'short'; // legacy. TODO: implement localization.
   @Input() label: string; // label for input.
+
+  @Input() hideInput = false; // text input showing the date.
+  @Input() calendarType = 'calendar'; // timer/calendar/both.
+
+  @Input() i18n?: string; // i18n string to accompany tooltip text.
+  @Input() tooltipIcon?: string; // tooltip icon.
+  @Input() tooltipText?: string; // tooltip text.
 
   protected _date: Date;
 
