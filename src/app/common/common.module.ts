@@ -122,6 +122,11 @@ import { DashboardLayoutComponent } from './components/dashboard-layout/dashboar
 import { ShadowboxLayoutComponent } from './components/shadowbox-layout/shadowbox-layout.component';
 import { ShadowboxHeaderComponent } from './components/shadowbox-header/shadowbox-header.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { DropdownSelectorComponent } from './components/dropdown-selector/dropdown-selector.component';
+import { ShadowboxSubmitButtonComponent } from './components/shadowbox-submit-button/shadowbox-submit-button.component';
+import { FormDescriptorComponent } from './components/form-descriptor/form-descriptor.component';
+import { FormToastComponent } from './components/form-toast/form-toast.component';
+import { SsoService } from './services/sso.service';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -235,6 +240,10 @@ PlotlyModule.plotlyjs = PlotlyJS;
     DashboardLayoutComponent,
     ShadowboxLayoutComponent,
     ShadowboxHeaderComponent,
+    DropdownSelectorComponent,
+    FormDescriptorComponent,
+    FormToastComponent,
+    ShadowboxSubmitButtonComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -330,9 +339,14 @@ PlotlyModule.plotlyjs = PlotlyJS;
     PageLayoutComponent,
     DashboardLayoutComponent,
     ShadowboxLayoutComponent,
+    DropdownSelectorComponent,
+    FormDescriptorComponent,
+    FormToastComponent,
+    ShadowboxSubmitButtonComponent,
   ],
   providers: [
     SiteService,
+    SsoService,
     {
       provide: AttachmentService,
       useFactory: AttachmentService._,
@@ -348,7 +362,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     {
       provide: MindsHttpClient,
       useFactory: MindsHttpClient._,
-      deps: [HttpClient, SiteService],
+      deps: [HttpClient],
     },
     {
       provide: NSFWSelectorCreatorService,

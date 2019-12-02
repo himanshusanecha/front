@@ -54,7 +54,6 @@ import { AnalyticsLayoutChartComponent } from './v2/layouts/layout-chart/layout-
 import { AnalyticsLayoutSummaryComponent } from './v2/layouts/layout-summary/layout-summary.component';
 import { AnalyticsMetricsComponent } from './v2/components/metrics/metrics.component';
 import { AnalyticsFiltersComponent } from './v2/components/filters/filters.component';
-import { AnalyticsFilterComponent } from './v2/components/filter/filter.component';
 import { AnalyticsChartComponent } from './v2/components/chart/chart.component';
 import { AnalyticsTableComponent } from './v2/components/table/table.component';
 import { AnalyticsDashboardService } from './v2/dashboard.service';
@@ -71,16 +70,7 @@ const routes: Routes = [
     path: 'analytics',
     component: AnalyticsComponent,
     children: [
-      { path: '', redirectTo: 'channel', pathMatch: 'full' },
-      {
-        path: 'channel',
-        component: ChannelAnalyticsComponent,
-        children: [
-          { path: '', redirectTo: 'activity', pathMatch: 'full' },
-          { path: 'activity', component: ChannelGeneralAnalyticsComponent },
-          { path: 'reach', component: ChannelReachAnalyticsComponent },
-        ],
-      },
+      { path: '', redirectTo: 'dashboard/traffic', pathMatch: 'full' },
       {
         path: 'admin',
         component: AdminAnalyticsComponent,
@@ -92,7 +82,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'dashboard/',
+        path: 'dashboard',
         redirectTo: 'dashboard/traffic',
         pathMatch: 'full',
       },
@@ -165,7 +155,6 @@ const routes: Routes = [
     AnalyticsLayoutSummaryComponent,
     AnalyticsMetricsComponent,
     AnalyticsFiltersComponent,
-    AnalyticsFilterComponent,
     AnalyticsChartComponent,
     AnalyticsTableComponent,
     AnalyticsSearchComponent,
