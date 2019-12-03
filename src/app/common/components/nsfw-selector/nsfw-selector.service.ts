@@ -2,7 +2,6 @@ import { Storage } from '../../../services/storage';
 
 export class NSFWSelectorService {
   cacheKey: string = '';
-  override: boolean = false;
 
   reasons: Array<any> = [
     { value: 1, label: 'Nudity', selected: false, locked: false },
@@ -18,11 +17,9 @@ export class NSFWSelectorService {
   onInit() {}
 
   build(): NSFWSelectorService {
-    if (!this.override) {
-      let reasons = this.storage.get(`nsfw:${this.cacheKey}`) || [];
-      for (let reason of this.reasons) {
-        reason.selected = reasons.indexOf(reason.value) > -1;
-      }
+    let reasons = this.storage.get(`nsfw:${this.cacheKey}`) || [];
+    for (let reason of this.reasons) {
+      reason.selected = reasons.indexOf(reason.value) > -1;
     }
     return this;
   }
@@ -34,12 +31,10 @@ export class NSFWSelectorService {
     for (let r of this.reasons) {
       if (r.value === reason.value) r.selected = !r.selected;
     }
-    if (!this.override) {
-      this.storage.set(
-        `nsfw:${this.cacheKey}`,
-        this.reasons.filter(r => r.selected).map(r => r.value)
-      );
-    }
+    this.storage.set(
+      `nsfw:${this.cacheKey}`,
+      this.reasons.filter(r => r.selected).map(r => r.value)
+    );
   }
 }
 
@@ -49,6 +44,10 @@ export class NSFWSelectorCreatorService extends NSFWSelectorService {
 export class NSFWSelectorConsumerService extends NSFWSelectorService {
   cacheKey: string = 'consumer';
 }
+
+/**
+ * Editing service, overrides build to allow pre-setting of values.
+ */
 export class NSFWSelectorEditingService extends NSFWSelectorService {
   cacheKey: string = 'editing';
 
