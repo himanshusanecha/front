@@ -72,7 +72,7 @@ export class MediaEditComponent {
       .get('api/v1/entities/entity/' + this.guid, { children: false })
       .then((response: any) => {
         this.inProgress = false;
-
+        console.log(response);
         if (response.entity) {
           if (!response.entity.description) response.entity.description = '';
 
