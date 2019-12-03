@@ -157,8 +157,7 @@
 
     <m-nsfw-selector
       (selectedChange)="onNSFWSelections($event)"
-      (init)="onNSFWSelections($event)"
-      [selected]="editing && blog.nsfw != [] ? blog.nsfw : null"
+      [selected]="editing && blog.nsfw != [] ? blog.nsfw : []"
     >
     </m-nsfw-selector>
 

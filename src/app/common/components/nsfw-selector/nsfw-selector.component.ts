@@ -23,7 +23,6 @@ export class NSFWSelectorComponent {
   @Input('consumer') consumer: false;
   @Input('expanded') expanded: false;
   @Output('selectedChange') onSelected: EventEmitter<any> = new EventEmitter();
-  @Output('init') init: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public creatorService: NSFWSelectorCreatorService,
@@ -33,11 +32,8 @@ export class NSFWSelectorComponent {
   ) {}
 
   ngOnInit() {
-    if (!this.selected && this.service.reasons) {
-      for (const reason of this.service.reasons) {
-        this.toggle(reason.value, false);
-      }
-      this.init.emit(this.service.reasons.filter(r => r.selected));
+    for (const reason of this.service.reasons) {
+      this.toggle(reason.value, false);
     }
   }
 
@@ -54,9 +50,12 @@ export class NSFWSelectorComponent {
 
   @Input('selected') set selected(selected: Array<number>) {
     this.serviceRef = 'editing';
-    for (let i in this.service.reasons) {
-      this.service.reasons[i].selected =
-        selected.indexOf(this.service.reasons[i].value) > -1;
+
+    if (!this.selected && this.service.reasons) {
+      for (let i in this.service.reasons) {
+        this.service.reasons[i].selected =
+          selected.indexOf(this.service.reasons[i].value) > -1;
+      }
     }
   }
 
