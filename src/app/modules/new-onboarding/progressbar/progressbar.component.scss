@@ -65,7 +65,7 @@
       z-index: 2;
     }
 
-    &.onboardingProgressbar__item--selected {
+    &.m-onboardingProgressbar__item--selected {
       .m-onboardingProgressbarItem__selector {
         //background-color: red;
         @include m-theme() {

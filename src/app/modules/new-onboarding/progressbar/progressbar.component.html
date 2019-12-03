@@ -5,7 +5,7 @@
   <ng-container *ngIf="!isMobile(); else mobileBlock">
     <div
       class="m-onboardingProgressbar__item"
-      [class.onboardingProgressbar__item--selected]="step.selected"
+      [class.m-onboardingProgressbar__item--selected]="step.selected"
       *ngFor="let step of steps; let i = index"
     >
       <span>{{ i + 1 }}</span>
