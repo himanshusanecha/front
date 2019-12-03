@@ -32,8 +32,10 @@ export class NSFWSelectorComponent {
   ) {}
 
   ngOnInit() {
-    for (const reason of this.service.reasons) {
-      this.toggle(reason.value, false);
+    if (this.service.reasons) {
+      for (const reason of this.service.reasons) {
+        this.toggle(reason.value, false);
+      }
     }
   }
 
