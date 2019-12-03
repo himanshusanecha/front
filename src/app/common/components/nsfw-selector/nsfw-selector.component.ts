@@ -53,9 +53,6 @@ export class NSFWSelectorComponent {
   }
 
   @Input('selected') set selected(selected: Array<number>) {
-    if (!selected) {
-      return;
-    }
     this.serviceRef = 'editing';
     for (let i in this.service.reasons) {
       this.service.reasons[i].selected =
