@@ -10,6 +10,8 @@ context('Onboarding', () => {
         }
       });
     cy.visit(`/onboarding`);
+
+    // create two test groups
   });
 
   beforeEach(() => {
@@ -92,6 +94,15 @@ context('Onboarding', () => {
 
     // should be in the Groups step
 
+    // should have a groups list
+    cy.get('.m-groupList__list').should('exist');
+
+    // clicking on a group join button should join the group
+    // cy.get('.m-groupList__list .m-groupList__item:first-child .m-join__subscribe').contains('add').click();
+    // // button should change to a check, and clicking on it should leave the group
+    // cy.get('.m-groupList__list .m-groupList__item:first-child .m-join__subscribed').contains('check').click();
+    // cy.get('.m-groupList__list .m-groupList__item:first-child .m-join__subscribe i').contains('add');
+
     // should have a continue and a skip button
     cy.get('button.mf-button--hollow').contains('Skip');
     cy.get('button.mf-button--alt').contains('Continue').click();
@@ -99,9 +110,19 @@ context('Onboarding', () => {
 
     // should be in the Channels step
 
+    // should have a channels list
+    // cy.get('.m-channelList__list').should('exist');
+    // // clicking on a group join button should join the group
+    // cy.get('.m-channelList__list .m-channelList__item:first-child .m-join__subscribe').contains('add').click();
+    // // button should change to a check, and clicking on it should leave the channel
+    // cy.get('.m-channelList__list .m-channelList__item:first-child .m-join__subscribed').contains('check').click();
+    // cy.get('.m-channelList__list .m-channelList__item:first-child .m-join__subscribe i').contains('add');
+
     // should have a continue and a skip button
     cy.get('button.mf-button--hollow').contains('Skip');
     cy.get('button.mf-button--alt').contains('Finish').click();
 
+    // should be in the newsfeed
+    cy.location('pathname').should('eq', '/newsfeed/subscriptions');
   });
 });
