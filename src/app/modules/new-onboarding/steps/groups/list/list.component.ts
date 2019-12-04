@@ -32,7 +32,7 @@ export class GroupListComponent implements OnInit {
     private storage: Storage
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.feedsService.feed.subscribe(async entities => {
       if (!entities.length) {
         return;
@@ -46,10 +46,10 @@ export class GroupListComponent implements OnInit {
       this.detectChanges();
     });
 
-    this.load();
+    this.load(true);
   }
 
-  async load(refresh: boolean = false, forceSync: boolean = false) {
+  async load(refresh: boolean = false) {
     if (refresh) {
       this.feedsService.clear();
     }
@@ -65,7 +65,7 @@ export class GroupListComponent implements OnInit {
       const nsfw = [];
 
       this.feedsService
-        .setEndpoint(`api/v2/feeds/global/top/channels`)
+        .setEndpoint(`api/v2/feeds/global/top/groups`)
         .setParams({
           hashtags,
           period,
@@ -73,7 +73,7 @@ export class GroupListComponent implements OnInit {
           query,
           nsfw,
         })
-        .setLimit(12)
+        .setLimit(3)
         .setCastToActivities(true)
         .fetch();
     } catch (e) {
@@ -81,27 +81,6 @@ export class GroupListComponent implements OnInit {
     }
 
     this.inProgress = false;
-    this.detectChanges();
-  }
-
-  async pass(suggestion, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.entities.splice(this.entities.indexOf(suggestion), 1);
-    this.storage.set(
-      `user:suggestion:${suggestion.entity_guid}:removed`,
-      suggestion.entity_guid
-    );
-    await this.client.put(`api/v2/suggestions/pass/${suggestion.entity_guid}`);
-    this.detectChanges();
-  }
-
-  remove(suggestion) {
-    this.entities.splice(this.entities.indexOf(suggestion), 1);
-    this.storage.set(
-      `user:suggestion:${suggestion.entity_guid}:removed`,
-      suggestion.entity_guid
-    );
     this.detectChanges();
   }
 

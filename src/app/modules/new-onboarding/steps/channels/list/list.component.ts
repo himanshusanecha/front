@@ -15,7 +15,7 @@ type EntityType = 'group' | 'user';
 @Component({
   selector: 'm-channel__list',
   templateUrl: 'list.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChannelListComponent implements OnInit {
   @Input() entityType: EntityType = 'user';
@@ -31,7 +31,8 @@ export class ChannelListComponent implements OnInit {
     private storage: Storage
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.feedsService.clear();
     this.feedsService.feed.subscribe(async entities => {
       if (!entities.length) {
         return;
@@ -45,10 +46,10 @@ export class ChannelListComponent implements OnInit {
       this.detectChanges();
     });
 
-    this.load();
+    this.load(true);
   }
 
-  async load(refresh: boolean = false, forceSync: boolean = false) {
+  async load(refresh: boolean = false) {
     if (refresh) {
       this.feedsService.clear();
     }
@@ -72,7 +73,7 @@ export class ChannelListComponent implements OnInit {
           query,
           nsfw,
         })
-        .setLimit(12)
+        .setLimit(3)
         .setCastToActivities(true)
         .fetch();
     } catch (e) {
@@ -80,27 +81,6 @@ export class ChannelListComponent implements OnInit {
     }
 
     this.inProgress = false;
-    this.detectChanges();
-  }
-
-  async pass(suggestion, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.entities.splice(this.entities.indexOf(suggestion), 1);
-    this.storage.set(
-      `user:suggestion:${suggestion.entity_guid}:removed`,
-      suggestion.entity_guid
-    );
-    await this.client.put(`api/v2/suggestions/pass/${suggestion.entity_guid}`);
-    this.detectChanges();
-  }
-
-  remove(suggestion) {
-    this.entities.splice(this.entities.indexOf(suggestion), 1);
-    this.storage.set(
-      `user:suggestion:${suggestion.entity_guid}:removed`,
-      suggestion.entity_guid
-    );
     this.detectChanges();
   }
 
