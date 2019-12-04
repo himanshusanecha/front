@@ -109,7 +109,7 @@ export class MediaEditComponent {
   }
 
   /**
-   * Sets this blog NSFW
+   * Sets this blog NSFW.
    * @param { array } nsfw - Numerical indexes for reasons in an array e.g. [1, 2].
    */
   onNSFWSelections(nsfw) {
