@@ -71,12 +71,6 @@ export class SidebarSelectorComponent implements OnInit {
       console.error('SidebarSelector', e);
     }
 
-    if (this.initialized) {
-      this.filterChange.emit({
-        type: this.preferred ? 'preferred' : 'all',
-      });
-    }
-
     this.loading = false;
     this.detectChanges();
   }
@@ -201,6 +195,7 @@ export class SidebarSelectorComponent implements OnInit {
   toggleTrending() {
     this.showTrending = !this.showTrending;
     this.hashtags = [];
+
     this.load();
   }
 
