@@ -39,10 +39,9 @@
   }
 }
 
-.m-tooltip--hidden {
-  .m-tooltip--bubble {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
+.m-dateSelector__input--hidden {
+  visibility: hidden;
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
