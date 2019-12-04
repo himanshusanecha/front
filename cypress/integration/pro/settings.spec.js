@@ -112,7 +112,7 @@ context('Pro Settings', () => {
       cy.viewport(1300, 768);
     });
 
-    it('should update the title and headline', () => {
+    it.skip('should update the title and headline', () => {
       //enter data
       cy.get(general.title)
         .focus()
