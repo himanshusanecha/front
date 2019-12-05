@@ -156,6 +156,7 @@
     </div>
 
     <m-nsfw-selector
+      service="editing"
       (selectedChange)="onNSFWSelections($event)"
       [selected]="editing && blog.nsfw != [] ? blog.nsfw : []"
     >

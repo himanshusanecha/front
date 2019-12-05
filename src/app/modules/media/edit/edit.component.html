@@ -72,6 +72,7 @@
       </select>
     </div>
     <m-nsfw-selector
+      service="editing"
       (selectedChange)="onNSFWSelections($event)"
       [selected]="entity.nsfw"
     >

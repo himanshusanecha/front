@@ -51,7 +51,6 @@ export class NSFWSelectorComponent {
   }
 
   @Input('selected') set selected(selected: Array<number>) {
-    this.serviceRef = 'editing';
     for (let i in this.service.reasons) {
       this.service.reasons[i].selected =
         selected.indexOf(this.service.reasons[i].value) > -1;
