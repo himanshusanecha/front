@@ -25,14 +25,12 @@ declare var tinymce;
       m-attachment-paste
       tabindex="0"
     ></div>
-    <span
-      *ngIf="placeholder && model.length === 0"
-      class="m-placeholder"
-    >{{ placeholder }}</span>
+    <span *ngIf="placeholder && model.length === 0" class="m-placeholder">{{
+      placeholder
+    }}</span>
   `,
-  exportAs: 'Textarea'
+  exportAs: 'Textarea',
 })
-
 export class Textarea implements OnChanges {
   @ViewChild('editor', { static: true }) editorControl: ElementRef;
 
@@ -42,7 +40,9 @@ export class Textarea implements OnChanges {
   @Input('disabled') disabled: boolean = false;
   @Input('placeholder') placeholder: string = '';
 
-  @Output('onFilePaste') onFilePaste: EventEmitter<File> = new EventEmitter<File>();
+  @Output('onFilePaste') onFilePaste: EventEmitter<File> = new EventEmitter<
+    File
+  >();
 
   getControlText(): string {
     return this.editorControl.nativeElement.innerText;
@@ -73,7 +73,10 @@ export class Textarea implements OnChanges {
     if (e.clipboardData && e.clipboardData.getData) {
       text = e.clipboardData.getData('text/plain');
       document.execCommand('insertHTML', false, text);
-    } else if ((<any>window).clipboardData && (<any>window).clipboardData.getData) {
+    } else if (
+      (<any>window).clipboardData &&
+      (<any>window).clipboardData.getData
+    ) {
       text = (<any>window).clipboardData.getData('Text');
       this.insertTextAtCursor(text);
     }
@@ -83,10 +86,8 @@ export class Textarea implements OnChanges {
     if (
       changes.model &&
       this.getControlText() !== changes.model.currentValue &&
-      (
-        changes.model.isFirstChange() ||
-        changes.model.previousValue !== changes.model.currentValue
-      )
+      (changes.model.isFirstChange() ||
+        changes.model.previousValue !== changes.model.currentValue)
     ) {
       this.setControlText(this.model);
     }
@@ -108,13 +109,19 @@ export class Textarea implements OnChanges {
         range.deleteContents();
         range.insertNode(document.createTextNode(text));
       }
-    } else if ((<any>document).selection && (<any>document).selection.createRange) {
+    } else if (
+      (<any>document).selection &&
+      (<any>document).selection.createRange
+    ) {
       (<any>document).selection.createRange().text = text;
     }
   }
 
   private _placeCaretAtEnd(el: HTMLElement) {
-    if (typeof window.getSelection !== 'undefined' && typeof document.createRange !== 'undefined') {
+    if (
+      typeof window.getSelection !== 'undefined' &&
+      typeof document.createRange !== 'undefined'
+    ) {
       var range = document.createRange();
       range.selectNodeContents(el);
       range.collapse(false);
