@@ -21,12 +21,8 @@ context('Blogs', () => {
     });
   });
 
-  
-
   beforeEach(() => {
     cy.preserveCookies();
-    cy.setCookie('staging', ''); // Run in staging mode. Note: does not impact review sites
-
     cy.server();
     cy.route('POST', '**/api/v1/blog/new').as('postBlog');
     cy.route('POST', '**/api/v1/media**').as('postMedia');
