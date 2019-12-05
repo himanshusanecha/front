@@ -6,7 +6,7 @@
   <m-onboarding__progressbar [steps]="steps"></m-onboarding__progressbar>
 
   <div class="m-onboarding__controls">
-    <div class="m-onboarding__input">
+    <div class="m-onboarding__input" *ngIf="!confirming; else confirmBlock">
       <label i18n>Mobile Phone Number</label>
       <!-- tooltip -->
 
@@ -21,8 +21,43 @@
 
       <span i18n>Optional</span>
 
-      <m-phone-input [(ngModel)]="number" ngDefaultControl></m-phone-input>
+      <div class="m-onboarding__phoneInput">
+        <m-phone-input
+          [(ngModel)]="number"
+          (keypress)="phoneInputKeypress($event)"
+          ngDefaultControl
+        ></m-phone-input>
+
+        <div
+          *ngIf="inProgress"
+          class="mdl-spinner mdl-js-spinner is-active"
+          [mdl]
+        ></div>
+      </div>
     </div>
+
+    <ng-template #confirmBlock>
+      <div class="m-onboarding__input">
+        <label i18n>Verification Code</label>
+
+        <m-tooltip [anchor]="tooltipAnchor">
+          <span m-tooltip--anchor>𝒊</span>
+          <ng-container i18n>
+            Please enter the code we just sent to +{{ number }}, to verify your
+            number.
+          </ng-container>
+        </m-tooltip>
+
+        <input
+          type="number"
+          [(ngModel)]="code"
+          (focusout)="confirm()"
+          (keypress)="codeKeypress($event)"
+          placeholder="eg. 198349"
+          i18n-placeholder
+        />
+      </div>
+    </ng-template>
 
     <div class="m-onboarding__input">
       <label i18n>Location</label>

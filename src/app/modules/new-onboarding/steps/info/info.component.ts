@@ -1,15 +1,7 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Session } from '../../../../services/session';
 import { MindsUser } from '../../../../interfaces/entities';
 import { Client } from '../../../../services/api';
-import { fromEvent, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
@@ -59,9 +51,15 @@ export class InfoStepComponent {
   selectedDay = '1';
   selectedYear = new Date().getFullYear();
   tooltipAnchor: 'top' | 'left' = 'left';
+  confirming: boolean = false;
+  inProgress: boolean = false;
 
   number: number;
+  code: number;
+  secret: string;
   location: string;
+
+  error: string;
 
   constructor(
     private session: Session,
@@ -140,6 +138,69 @@ export class InfoStepComponent {
     return date;
   }
 
+  phoneInputKeypress(event: any) {
+    if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+      if (!this.inProgress) {
+        this.verify();
+      }
+    }
+  }
+
+  codeKeypress(event: any) {
+    if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+      if (!this.inProgress) {
+        this.confirm();
+      }
+    }
+  }
+
+  async verify() {
+    this.inProgress = true;
+    this.error = null;
+    try {
+      const response: any = await this.client.post(
+        'api/v2/blockchain/rewards/verify',
+        {
+          number: this.number,
+        }
+      );
+      this.secret = response.secret;
+      this.confirming = true;
+    } catch (e) {
+      this.error = e.message;
+    }
+    this.inProgress = false;
+  }
+
+  async confirm() {
+    this.inProgress = true;
+    this.error = null;
+    try {
+      const response: any = await this.client.post(
+        'api/v2/blockchain/rewards/confirm',
+        {
+          number: this.number,
+          code: this.code,
+          secret: this.secret,
+        }
+      );
+
+      window.Minds.user.rewards = true;
+    } catch (e) {
+      this.error = e.message;
+    }
+
+    this.inProgress = false;
+  }
+
+  cancel() {
+    this.confirming = false;
+    this.code = null;
+    this.secret = null;
+    this.inProgress = false;
+    this.error = null;
+  }
+
   skip() {
     this.saveData();
     this.router.navigate(['/onboarding', 'hashtags']);
@@ -154,6 +215,8 @@ export class InfoStepComponent {
   onResize() {
     this.tooltipAnchor = window.innerWidth <= 480 ? 'top' : 'left';
   }
+
+  private validate() {}
 
   private saveData() {
     this.updateMobileNumber();

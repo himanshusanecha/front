@@ -207,25 +207,36 @@ m-onboarding {
             top: 0;
           }
 
-          & > input[type='text'] {
+          input[type='text'],
+          input[type='number'] {
             display: block;
             width: 100%;
             height: 36px;
             border: 1px solid #e8e8e8;
           }
 
-          & > m-phone-input {
-            display: flex;
+          .m-onboarding__phoneInput {
+            position: relative;
 
-            .m-phone-input--wrapper {
-              justify-content: flex-start;
-              flex-wrap: nowrap;
-              width: 100%;
-              border-radius: 0;
+            m-phone-input {
+              display: flex;
 
-              input {
+              .m-phone-input--wrapper {
+                justify-content: flex-start;
+                flex-wrap: nowrap;
                 width: 100%;
+                border-radius: 0;
+
+                input {
+                  width: 100%;
+                }
               }
+            }
+
+            .mdl-spinner {
+              position: absolute;
+              top: 5px;
+              right: 5px;
             }
           }
 
