@@ -2,10 +2,10 @@ import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Directive({ selector: '[m-attachment-paste]' })
 export class AttachmentPasteDirective {
-  @Output('onFilePaste') onFilePaste: EventEmitter<File> = new EventEmitter<File>();
+  @Output('onFilePaste')
+  onFilePaste: EventEmitter<File> = new EventEmitter<File>();
 
   private focused: boolean = false;
-
 
   @HostListener('focus') onFocus() {
     this.focused = true;
