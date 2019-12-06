@@ -39,12 +39,14 @@
         ></m-featured-content>
       </ng-container>
 
-      <div
-        *ngIf="i === (feedsService.fallbackAtIndex | async)"
-        class="m-feeds-sorted__fallbackLegend"
-      >
-        <span i18n>Posts older than {{ period | uppercase }}</span>
-      </div>
+      <ng-container *mIfFeature="'top-feeds-by-age'">
+        <div
+          *ngIf="i === (feedsService.fallbackAtIndex | async)"
+          class="m-feeds-sorted__fallbackLegend"
+        >
+          <span i18n>Posts older than {{ period | uppercase }}</span>
+        </div>
+      </ng-container>
 
       <ng-container *ngIf="entity$ | async as entity">
         <m-newsfeed__entity
