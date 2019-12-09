@@ -19,7 +19,7 @@ context('Pro Product Page', () => {
 
     cy.get(upgradeButton)
       .should('be.visible')
-      .should('contain', 'Coming soon')
+      .should('contain', 'Upgrade to Pro')
       .click();
   });
 
