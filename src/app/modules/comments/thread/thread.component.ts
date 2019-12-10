@@ -21,7 +21,8 @@ import { SocketsService } from '../../../services/sockets';
 import { CommentsService } from '../comments.service';
 import { BlockListService } from '../../../common/services/block-list.service';
 import { ActivityService } from '../../../common/services/activity.service';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
@@ -111,15 +112,22 @@ export class CommentsThreadComponent implements OnInit {
 
     let response: any = <
       { comments; 'load-next'; 'load-previous'; socketRoomName }
-    >await this.commentsService.get({
-      entity_guid: this.guid,
-      parent_path,
-      level: this.level,
-      limit: 12,
-      loadNext: descending ? null : this.loadNext,
-      loadPrevious: descending ? this.loadPrevious : null,
-      descending,
-    });
+    >await this.commentsService
+      .get({
+        entity_guid: this.guid,
+        parent_path,
+        level: this.level,
+        limit: 12,
+        loadNext: descending ? null : this.loadNext,
+        loadPrevious: descending ? this.loadPrevious : null,
+        descending,
+      })
+      .catch(e => console.error(e));
+
+    if (!response) {
+      this.inProgress = false;
+      return;
+    }
 
     let comments = response.comments;
 

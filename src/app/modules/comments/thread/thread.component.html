@@ -113,6 +113,15 @@
   </div>
 </div>
 
+<span
+  *ngIf="sockets.error$ | async"
+  class="m-commentsThread__connectionLost"
+  i18n="@@MINDS__COMMENTS__SOCKET_DISCONNECTED"
+>
+  There appears to be a problem<br />
+  You may need to refresh to see new comments.
+</span>
+
 <m-comment__poster
   *ngIf="activityService.allowComment$ | async"
   [guid]="guid"
