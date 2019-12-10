@@ -21,8 +21,7 @@ import { SocketsService } from '../../../services/sockets';
 import { CommentsService } from '../comments.service';
 import { BlockListService } from '../../../common/services/block-list.service';
 import { ActivityService } from '../../../common/services/activity.service';
-import { Subscription, BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
