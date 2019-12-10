@@ -110,22 +110,22 @@ export class CommentsThreadComponent implements OnInit {
     let el = this.scrollView.nativeElement;
     const previousScrollHeightMinusTop = el.scrollHeight - el.scrollTop;
 
-    let response: any = <
-      { comments; 'load-next'; 'load-previous'; socketRoomName }
-    >await this.commentsService
-      .get({
-        entity_guid: this.guid,
-        parent_path,
-        level: this.level,
-        limit: 12,
-        loadNext: descending ? null : this.loadNext,
-        loadPrevious: descending ? this.loadPrevious : null,
-        descending,
-      })
-      .catch(e => console.error(e));
+    let response: any = null;
+    try {
+      response = <{ comments; 'load-next'; 'load-previous'; socketRoomName }>(
+        await this.commentsService.get({
+          entity_guid: this.guid,
+          parent_path,
+          level: this.level,
+          limit: 12,
+          loadNext: descending ? null : this.loadNext,
+          loadPrevious: descending ? this.loadPrevious : null,
+          descending,
+        })
+      );
+    } catch (e) {}
 
-    if (!response) {
-      this.inProgress = false;
+    if (!response || !response.comments) {
       return;
     }
 
