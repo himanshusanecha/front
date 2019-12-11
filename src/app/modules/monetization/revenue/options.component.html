@@ -70,7 +70,7 @@
         <m-phone-input #phone></m-phone-input>
         <br />
         <button
-          (click)="addPhoneNumber(phone.value)"
+          (click)="updateField('phone', phone.value)"
           class="m-btn m-btn--action m-btn--slim"
         >
           <ng-container *ngIf="!editing">Save</ng-container>
@@ -81,6 +81,28 @@
         *ngIf="account.requirement.indexOf('external_account') > -1"
       >
         <b>Complete the payout method step below</b>
+      </ng-container>
+      <ng-container
+        *ngIf="account.requirement.indexOf('individual.id_number') > -1"
+      >
+        <b
+          >Provide your Personal ID / Social Security Number (SSN) / National
+          Insurance Number</b
+        >
+        <br />
+        <input
+          class="m-input m-revenueOptions__input"
+          #personalId
+          placeholder="Personal Id"
+        />
+        <br />
+        <button
+          (click)="updateField('id_number', personalId.value)"
+          class="m-btn m-btn--action m-btn--slim"
+        >
+          <ng-container *ngIf="!editing">Save</ng-container>
+          <ng-container *ngIf="editing">Saving...</ng-container>
+        </button>
       </ng-container>
     </p>
   </div>

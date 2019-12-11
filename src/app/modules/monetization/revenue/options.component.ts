@@ -113,6 +113,17 @@ export class RevenueOptionsComponent {
     this.getSettings();
   }
 
+  async updateField(fieldName: string, value: string) {
+    this.editing = true;
+    this.detectChanges();
+    let body = {};
+    body[fieldName] = value;
+    await this.client.post('api/v2/payments/stripe/connect/update', body);
+    this.editing = false;
+    this.account = null;
+    this.getSettings();
+  }
+
   async acceptTos() {
     this.editing = true;
     this.detectChanges();
