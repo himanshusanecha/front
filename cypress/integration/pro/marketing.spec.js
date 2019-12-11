@@ -15,7 +15,9 @@ context('Pro Product Page', () => {
   const wirePaymentsComponent = 'm-wire__paymentscreator .m-wire--creator';
 
   it('should show a coming soon button', () => {
-    cy.visit('/pro');
+    cy.visit('/pro')
+      .location('pathname')
+      .should('eq', '/pro/');
 
     cy.get(upgradeButton)
       .should('be.visible')
