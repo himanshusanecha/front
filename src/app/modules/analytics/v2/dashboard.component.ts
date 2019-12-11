@@ -16,6 +16,8 @@ import { Session } from '../../../services/session';
 
 import { AnalyticsDashboardService } from './dashboard.service';
 import { Filter } from './../../../interfaces/dashboard';
+import sidebarMenu from './sidebar-menu.default';
+import { Menu } from '../../../common/components/sidebar-menu/sidebar-menu.component';
 
 @Component({
   selector: 'm-analytics__dashboard',
@@ -24,6 +26,7 @@ import { Filter } from './../../../interfaces/dashboard';
   providers: [AnalyticsDashboardService],
 })
 export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
+  menu: Menu = sidebarMenu;
   paramsSubscription: Subscription;
 
   ready$ = this.analyticsService.ready$;
@@ -38,6 +41,7 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     options: [],
   };
   channelFilter: Filter;
+  layout = 'chart';
 
   constructor(
     public client: Client,
@@ -58,7 +62,11 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     this.title.setTitle('Analytics');
 
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.updateCategory(params.get('category'));
+      const cat = params.get('category');
+      this.updateCategory(cat);
+      if (cat === 'summary') {
+        this.layout = 'summary';
+      }
     });
 
     this.paramsSubscription = this.route.queryParams.subscribe(params => {
@@ -93,6 +101,12 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
       this.analyticsService.updateFilter('channel::self');
     } else {
       this.analyticsService.updateFilter('channel::all');
+    }
+  }
+
+  filterSelectionMade($event) {
+    if ($event.filterId === 'timespan') {
+      this.analyticsService.updateTimespan($event.option.id);
     }
   }
 

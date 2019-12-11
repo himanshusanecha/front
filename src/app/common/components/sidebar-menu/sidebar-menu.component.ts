@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Session } from '../../../services/session';
-import menuCategories from './categories.default';
 
-interface MenuCategory {
-  category: MenuLink;
-  subcategories?: MenuLink[];
+interface Menu {
+  header: MenuLink;
+  links?: MenuLink[];
   expanded?: boolean;
 }
-export { MenuCategory };
+export { Menu };
 
 interface MenuLink {
   id: string;
@@ -16,6 +15,7 @@ interface MenuLink {
   permissions?: string[];
   permissionGranted?: boolean;
   path?: string;
+  newWindow?: boolean;
 }
 export { MenuLink };
 
@@ -24,9 +24,9 @@ export { MenuLink };
   templateUrl: './sidebar-menu.component.html',
 })
 export class SidebarMenuComponent implements OnInit {
-  cats: MenuCategory[] = menuCategories;
+  @Input() menu: Menu;
+
   mobileMenuExpanded = false;
-  activeCat;
   minds: Minds;
   user;
   userRoles: string[] = ['user'];
@@ -37,36 +37,37 @@ export class SidebarMenuComponent implements OnInit {
     this.minds = window.Minds;
     this.user = this.session.getLoggedInUser();
     this.getUserRoles();
-    this.grantPermissionsAndFindActiveCat();
+    this.grantPermissions();
   }
 
   getUserRoles() {
     if (this.session.isAdmin()) {
       this.userRoles.push('admin');
     }
-    // TODO: define & handle other userRole options, e.g. pro, loggedIn
+    if (this.minds.user.pro) {
+      this.userRoles.push('pro');
+    }
   }
 
-  grantPermissionsAndFindActiveCat() {
-    this.cats.forEach(catObj => {
-      catObj.category['permissionGranted'] = catObj.category.permissions
-        ? this.checkForRoleMatch(catObj.category.permissions)
-        : true;
+  grantPermissions() {
+    this.menu.header['permissionGranted'] = this.menu.header.permissions
+      ? this.checkForRoleMatch(this.menu.header.permissions)
+      : true;
 
-      if (catObj.subcategories) {
-        catObj.subcategories.forEach(subCat => {
-          subCat['permissionGranted'] = subCat.permissions
-            ? this.checkForRoleMatch(subCat.permissions)
-            : true;
-        });
-      }
-      if (location.pathname.indexOf(catObj.category.path) !== -1) {
-        catObj.category['expanded'] = true;
-        this.activeCat = catObj;
-      } else {
-        catObj.category['expanded'] = false;
-      }
-    });
+    if (this.menu.links) {
+      this.menu.links.forEach(link => {
+        link['permissionGranted'] = link.permissions
+          ? this.checkForRoleMatch(link.permissions)
+          : true;
+
+        if (link.id === ':username') {
+          link.id = this.user.username;
+        }
+        if (link.path) {
+          link.path = link.path.replace(':username', this.user.username);
+        }
+      });
+    }
   }
 
   checkForRoleMatch(permissionsArray) {

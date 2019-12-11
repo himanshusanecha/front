@@ -34,8 +34,6 @@ export class ProChannelListComponent implements OnInit, OnDestroy {
 
   entities: any[] = [];
 
-  algorithm: string;
-
   query: string;
 
   period: string;
@@ -60,9 +58,9 @@ export class ProChannelListComponent implements OnInit, OnDestroy {
           const entity = element.getValue();
           return (
             entity.type === 'group' ||
-            (!!entity.thumbnail_src ||
-              !!entity.custom_data ||
-              (entity.thumbnails && entity.thumbnails.length > 0))
+            !!entity.thumbnail_src ||
+            !!entity.custom_data ||
+            (entity.thumbnails && entity.thumbnails.length > 0)
           );
         });
       })
@@ -97,7 +95,7 @@ export class ProChannelListComponent implements OnInit, OnDestroy {
         default:
           throw new Error('Unknown type');
       }
-      this.algorithm = params['algorithm'] || 'top';
+
       this.query = params['query'] || '';
       this.period = params['period'] || '';
       this.selectedHashtag = params['hashtag'] || 'all';
@@ -149,7 +147,7 @@ export class ProChannelListComponent implements OnInit, OnDestroy {
       params.sync = 1;
     }
 
-    let url = `api/v2/pro/content/${this.channelService.currentChannel.guid}/${this.type}/${this.algorithm}`;
+    let url = `api/v2/pro/content/${this.channelService.currentChannel.guid}/${this.type}`;
 
     try {
       this.feedsService

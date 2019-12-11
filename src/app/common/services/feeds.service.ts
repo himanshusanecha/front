@@ -6,40 +6,8 @@ import { Session } from '../../services/session';
 import { EntitiesService } from './entities.service';
 import { BlockListService } from './block-list.service';
 
-import MindsClientHttpAdapter from '../../lib/minds-sync/adapters/MindsClientHttpAdapter.js';
-import browserStorageAdapterFactory from '../../helpers/browser-storage-adapter-factory';
-import FeedsSync from '../../lib/minds-sync/services/FeedsSync.js';
-
-import hashCode from '../../helpers/hash-code';
-import AsyncStatus from '../../helpers/async-status';
-import { BehaviorSubject, Observable, of, forkJoin, combineLatest } from 'rxjs';
-import {
-  take,
-  switchMap,
-  map,
-  tap,
-  skipWhile,
-  first,
-  filter,
-} from 'rxjs/operators';
-
-export type FeedsServiceGetParameters = {
-  endpoint: string;
-  timebased: boolean;
-
-  //
-  limit: number;
-  offset?: number;
-
-  //
-  syncPageSize?: number;
-  forceSync?: boolean;
-};
-
-export type FeedsServiceGetResponse = {
-  entities: any[];
-  next?: number;
-};
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { switchMap, map, tap, first } from 'rxjs/operators';
 
 /**
  * Enables the grabbing of data through observable feeds.
@@ -48,6 +16,8 @@ export type FeedsServiceGetResponse = {
 export class FeedsService {
   limit: BehaviorSubject<number> = new BehaviorSubject(12);
   offset: BehaviorSubject<number> = new BehaviorSubject(0);
+  fallbackAt: number | null = null;
+  fallbackAtIndex: BehaviorSubject<number | null> = new BehaviorSubject(null);
   pageSize: Observable<number>;
   pagingToken: string = '';
   canFetchMore: boolean = true;
@@ -69,6 +39,7 @@ export class FeedsService {
     this.pageSize = this.offset.pipe(
       map(offset => this.limit.getValue() + offset)
     );
+
     this.feed = this.rawFeed.pipe(
       tap(feed => {
         if (feed.length) this.inProgress.next(true);
@@ -82,11 +53,28 @@ export class FeedsService {
           .getFromFeed(feed)
       ),
       tap(feed => {
+        if (feed.length && this.fallbackAt) {
+          for (let i = 0; i < feed.length; i++) {
+            const entity: any = feed[i].getValue();
+
+            if (
+              entity &&
+              entity.time_created &&
+              entity.time_created < this.fallbackAt
+            ) {
+              this.fallbackAtIndex.next(i);
+              break;
+            }
+          }
+        }
+      }),
+      tap(feed => {
         if (feed.length)
           // We should have skipped but..
           this.inProgress.next(false);
       })
     );
+
     this.hasMore = combineLatest(
       this.rawFeed,
       this.inProgress,
@@ -173,6 +161,8 @@ export class FeedsService {
           response.entities = response.activity;
         }
         if (response.entities.length) {
+          this.fallbackAt = response['fallback_at'];
+          this.fallbackAtIndex.next(null);
           this.rawFeed.next(this.rawFeed.getValue().concat(response.entities));
           this.pagingToken = response['load-next'];
         } else {
@@ -198,6 +188,8 @@ export class FeedsService {
    * To clear data.
    */
   clear(): FeedsService {
+    this.fallbackAt = null;
+    this.fallbackAtIndex.next(null);
     this.offset.next(0);
     this.pagingToken = '';
     this.rawFeed.next([]);
