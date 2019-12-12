@@ -81,8 +81,6 @@ export class AnalyticsMetricsComponent implements OnInit {
             metric['delta'] = delta;
             metric['hasChanged'] = hasChanged;
             metric['positiveTrend'] = positiveTrend;
-
-            console.log(metric);
           }
         }
         return metrics;
