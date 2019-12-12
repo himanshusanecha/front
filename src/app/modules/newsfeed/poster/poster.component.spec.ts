@@ -182,6 +182,8 @@ describe('PosterComponent', () => {
 
     attachmentServiceMock.rich = true;
 
+    comp = fixture.componentInstance;
+
     spyOn(comp.session, 'isLoggedIn').and.callFake(() => {
       return true;
     });
