@@ -34,7 +34,7 @@
             [placeholder]="
               conversation ? 'Enter your message' : 'Enter your comment'
             "
-            (onFilePaste)="uploadAttachment($event)"
+            (filePaste)="uploadAttachment($event)"
             mTextInputAutocomplete
             [findChoices]="suggestions.findSuggestions"
             [getChoiceLabel]="suggestions.getChoiceLabel"
