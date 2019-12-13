@@ -81,6 +81,7 @@ export class ChartV2Component implements OnInit, OnDestroy {
       this.segments.reverse();
       // Current line should be blue, not grey
       this.swapSegmentColors();
+      this.detectChanges();
     }
     this.themeSubscription = this.themeService.isDark$.subscribe(isDark => {
       this.isDark = isDark;
@@ -131,7 +132,9 @@ export class ChartV2Component implements OnInit, OnDestroy {
     this.segments.forEach((segment, index) => {
       const segmentMarkerFills = [];
       for (let i = 0; i < this.pointsPerSegment; i++) {
-        segmentMarkerFills[i] = this.getColor('m-white');
+        segmentMarkerFills[i] = this.getColor(
+          chartPalette.segmentColorIds[index]
+        );
       }
       this.markerFills.push(segmentMarkerFills);
     });
@@ -241,7 +244,7 @@ export class ChartV2Component implements OnInit, OnDestroy {
       margin: {
         t: this.isMini ? 0 : 16,
         b: this.isMini ? 0 : 80,
-        l: this.isMini ? 0 : 0,
+        l: 0,
         r: this.isMini ? 0 : 80,
         pad: 16,
       },
@@ -252,7 +255,7 @@ export class ChartV2Component implements OnInit, OnDestroy {
 
   onHover($event) {
     this.hoverPoint = $event.points[0].pointIndex;
-    this.addMarkerFill();
+    this.emptyMarkerFill();
     if (!this.isMini) {
       this.showShape($event);
     }
@@ -265,7 +268,7 @@ export class ChartV2Component implements OnInit, OnDestroy {
   }
 
   onUnhover($event) {
-    this.emptyMarkerFill();
+    this.addMarkerFill();
     this.hideShape();
     this.hoverInfoDiv.style.opacity = 0;
     this.detectChanges();
@@ -377,7 +380,7 @@ export class ChartV2Component implements OnInit, OnDestroy {
     return rows.map(row => {
       if (key === 'date') {
         return row[key].slice(0, 10);
-      } else if (this.segments[0].unit === 'usd') {
+      } else if (this.rawData.unit && this.rawData.unit === 'usd') {
         return row[key] / 100;
       } else {
         return row[key];
