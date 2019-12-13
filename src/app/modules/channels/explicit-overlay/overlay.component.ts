@@ -8,8 +8,8 @@ import { Storage } from '../../../services/storage';
   templateUrl: 'overlay.component.html',
 })
 export class ExplicitOverlayComponent {
-  protected hidden = true;
-  protected _channel: any;
+  public hidden = true;
+  public _channel: any;
 
   @Input() set channel(value: any) {
     this._channel = value;
@@ -42,15 +42,19 @@ export class ExplicitOverlayComponent {
    * Determines whether the channel overlay should be shown
    * over the a channel.
    */
-  private showOverlay(): void {
+  public showOverlay(): void {
     if (!this._channel) {
       return;
     }
 
-    this.hidden =
-      !this._channel.mature_visibility &&
-      (this._channel.isMature ||
-        this._channel.nsfw.length === undefined ||
-        this._channel.nsfw.length <= 1);
+    if (this._channel.mature_visibility) {
+      this.hidden = true;
+    } else if (this._channel.mature) {
+      this.hidden = false;
+    } else if (this._channel.nsfw && this._channel.nsfw.length > 0) {
+      this.hidden = false;
+    } else {
+      this.hidden = true;
+    }
   }
 }
