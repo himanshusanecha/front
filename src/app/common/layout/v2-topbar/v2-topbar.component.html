@@ -35,7 +35,8 @@
 
 <div
   class="m-v2-topbar__Top"
-  [class.m-v2-topbar__marketingPages]="!showBackground"
+  [class.m-v2-topbar__marketingPages]="marketingPages"
+  [class.m-v2-topbar__noBackground]="!showBackground"
 >
   <div class="m-v2-topbar">
     <div class="m-v2-topbar__Container--left">
@@ -117,7 +118,7 @@
   </div>
 </div>
 
-<div class="m-v2-topbar__Bottom">
+<div class="m-v2-topbar__Bottom" *ngIf="showBottombar">
   <ng-container *ngTemplateOutlet="navLinks"></ng-container>
 </div>
 

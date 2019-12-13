@@ -1,4 +1,10 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Client } from '../../services/api/client';
 import { MindsTitle } from '../../services/ux/title';
 import { Router } from '@angular/router';
@@ -6,12 +12,15 @@ import { Navigation as NavigationService } from '../../services/navigation';
 import { LoginReferrerService } from '../../services/login-referrer.service';
 import { Session } from '../../services/session';
 import { V2TopbarService } from '../../common/layout/v2-topbar/v2-topbar.service';
+import { RegisterForm } from '../forms/register/register';
 
 @Component({
   selector: 'm-homepage',
   templateUrl: 'homepage.component.html',
 })
 export class HomepageComponent implements OnInit, OnDestroy {
+  @ViewChild('registerForm', { static: false }) registerForm: RegisterForm;
+
   readonly cdnAssetsUrl: string = window.Minds.cdn_assets_url;
 
   minds = window.Minds;
@@ -40,7 +49,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
       this.flags.canPlayInlineVideos = false;
     }
 
-    this.topbarService.toggleMarketingPages(true);
+    this.topbarService.toggleMarketingPages(true, false);
   }
 
   ngOnInit() {
@@ -70,6 +79,6 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   isMobile() {
-    return window.innerWidth < 480;
+    return window.innerWidth <= 540;
   }
 }

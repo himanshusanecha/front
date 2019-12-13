@@ -27,12 +27,17 @@
     width: 100%;
   }
 
+  &.m-v2-topbar__noBackground {
+    @include m-theme() {
+      background-color: transparent;
+    }
+  }
+
   &.m-v2-topbar__marketingPages {
     flex-direction: row;
 
     @include m-theme() {
       border: none;
-      background-color: transparent;
     }
 
     .m-v2-topbar {

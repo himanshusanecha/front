@@ -6,6 +6,7 @@ import {
   OnInit,
   OnDestroy,
   ViewChild,
+  HostListener,
 } from '@angular/core';
 import { Session } from '../../../services/session';
 import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
@@ -24,6 +25,8 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   isTouchScreen = false;
   showBackground: boolean = true;
   showSeparateLoginBtns: boolean = false;
+  marketingPages: boolean = false;
+  showBottombar: boolean = true;
 
   @ViewChild(DynamicHostDirective, { static: true })
   notificationsToasterHost: DynamicHostDirective;
@@ -64,11 +67,21 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   /**
    * Marketing pages set this to true in order to change how the topbar looks
    * @param value
+   * @param showBottombar
    */
-  toggleMarketingPages(value: boolean) {
-    this.showBackground = !value;
+  toggleMarketingPages(value: boolean, showBottombar = true) {
+    this.marketingPages = value;
     this.showSeparateLoginBtns = value;
+    this.showBottombar = value && showBottombar;
+    this.onScroll();
     this.detectChanges();
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    this.showBackground = this.marketingPages
+      ? window.document.body.scrollTop > 52
+      : true;
   }
 
   detectChanges() {
