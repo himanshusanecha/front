@@ -18,6 +18,7 @@ import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { InMemoryStorageService } from '../../../services/in-memory-storage.service';
 import { AutocompleteSuggestionsService } from '../../suggestions/services/autocomplete-suggestions.service';
+import { NSFWSelectorComponent } from '../../../common/components/nsfw-selector/nsfw-selector.component';
 
 @Component({
   moduleId: module.id,
@@ -46,6 +47,9 @@ export class PosterComponent {
   errorMessage: string = null;
 
   @ViewChild('hashtagsSelector', { static: false })
+  @ViewChild('nsfwSelector', { static: false })
+  nsfwSelector: NSFWSelectorComponent;
+
   hashtagsSelector: HashtagsSelectorComponent;
 
   showActionBarLabels: boolean = false;
@@ -79,6 +83,7 @@ export class PosterComponent {
 
   ngAfterViewInit() {
     this.resizeSubject.next(Date.now());
+    console.dir(this.nsfwSelector.selected);
   }
 
   ngOnDestroy() {

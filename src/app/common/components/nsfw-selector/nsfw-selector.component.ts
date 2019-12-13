@@ -23,7 +23,6 @@ export class NSFWSelectorComponent {
   @Input('consumer') consumer: false;
   @Input('expanded') expanded: false;
   @Output('selectedChange') onSelected: EventEmitter<any> = new EventEmitter();
-  @Output('init') init: EventEmitter<string[]> = new EventEmitter();
 
   constructor(
     public creatorService: NSFWSelectorCreatorService,
@@ -38,7 +37,6 @@ export class NSFWSelectorComponent {
         this.toggle(reason.value, false);
       }
     }
-    this.init.emit(this.service.reasons.filter(r => r.selected));
   }
 
   get service() {
