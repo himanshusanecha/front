@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Session } from '../../../services/session';
 import { Router } from '@angular/router';
 import { Storage } from '../../../services/storage';
@@ -8,16 +8,12 @@ import { Storage } from '../../../services/storage';
   templateUrl: 'overlay.component.html',
 })
 export class ExplicitOverlayComponent {
-  @HostBinding('hidden') hidden: boolean;
-  _channel: any;
+  protected hidden = true;
+  protected _channel: any;
 
   @Input() set channel(value: any) {
     this._channel = value;
-
-    this.hidden =
-      !this._channel ||
-      !this._channel.is_mature ||
-      this._channel.mature_visibility;
+    this.showOverlay();
   }
 
   constructor(
@@ -34,8 +30,27 @@ export class ExplicitOverlayComponent {
     this.router.navigate(['/login']);
   }
 
-  disableFilter() {
+  /**
+   * Disables overlay screen, revealing channel.
+   */
+  protected disableFilter(): void {
     this._channel.mature_visibility = true;
     this.hidden = true;
+  }
+
+  /**
+   * Determines whether the channel overlay should be shown
+   * over the a channel.
+   */
+  private showOverlay(): void {
+    if (!this._channel) {
+      return;
+    }
+
+    this.hidden =
+      !this._channel.mature_visibility &&
+      (this._channel.isMature ||
+        this._channel.nsfw.length === undefined ||
+        this._channel.nsfw.length <= 1);
   }
 }
