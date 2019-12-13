@@ -191,20 +191,21 @@ m-onboarding {
           }
         }
 
-        .m-onboarding__input {
+        .m-onboarding__control {
           position: relative;
+          display: flex;
+          flex-direction: column;
+
+          .m-onboardingControl__label {
+            & > span {
+              position: absolute;
+              right: 0;
+              top: 0;
+            }
+          }
 
           & > * {
             margin-bottom: 8px;
-          }
-
-          & > label {
-          }
-
-          & > span {
-            position: absolute;
-            right: 0;
-            top: 0;
           }
 
           input[type='text'],
@@ -213,6 +214,15 @@ m-onboarding {
             width: 100%;
             height: 36px;
             border: 1px solid #e8e8e8;
+
+            &:active,
+            &:focus {
+              outline: 1px solid #4a90e2;
+            }
+
+            &.m-onboardingInput__error {
+              outline: 1px solid #d0021b;
+            }
           }
 
           .m-onboarding__phoneInput {
@@ -226,17 +236,45 @@ m-onboarding {
                 flex-wrap: nowrap;
                 width: 100%;
                 border-radius: 0;
+                margin: 0;
 
                 input {
                   width: 100%;
+                  padding-left: 8px;
+
+                  &:active,
+                  &:focus {
+                    outline: 1px solid #4a90e2;
+                  }
+
+                  &.m-onboardingInput__error {
+                    outline: 1px solid #d0021b;
+                  }
                 }
               }
             }
+          }
 
-            .mdl-spinner {
-              position: absolute;
-              top: 5px;
-              right: 5px;
+          .mdl-spinner {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+          }
+
+          .m-onboardingInput__saveButton {
+            position: absolute;
+            right: 5px;
+            top: 6px;
+            cursor: pointer;
+
+            @include m-theme() {
+              color: themed($m-aqua);
+            }
+
+            &.disabled {
+              @include m-theme() {
+                color: themed($m-grey-100);
+              }
             }
           }
 
@@ -262,6 +300,14 @@ m-onboarding {
               border-radius: 0;
             }
           }
+        }
+
+        .m-onboarding__error {
+          font-size: 14px;
+          line-height: 19px;
+          margin-top: 3px;
+          text-align: right;
+          color: #d0021b;
         }
 
         m-tooltip {

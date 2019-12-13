@@ -54,12 +54,14 @@ export class InfoStepComponent {
   confirming: boolean = false;
   inProgress: boolean = false;
 
-  number: number;
+  number: string;
+  numberError: string;
   code: number;
+  codeError: string;
   secret: string;
   location: string;
-
-  error: string;
+  locationError: string;
+  dateOfBirthError: string;
 
   constructor(
     private session: Session,
@@ -90,33 +92,44 @@ export class InfoStepComponent {
     );
   }
 
-  async updateMobileNumber() {
-    try {
-      const response: any = await this.client.post('api/v1/channel/info', {
-        phone_number: this.number,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
   async updateLocation() {
+    this.locationError = null;
     try {
       const response: any = await this.client.post('api/v1/channel/info', {
         city: this.location,
       });
     } catch (e) {
       console.error(e);
+      this.locationError = e.message;
+      return false;
     }
+    return true;
   }
 
   async updateDateOfBirth() {
+    this.dateOfBirthError = null;
+
     try {
       const response: any = await this.client.post('api/v1/channel/info', {
         dob: this.build(),
       });
     } catch (e) {
       console.error(e);
+      this.dateOfBirthError = e.message;
+      return false;
+    }
+    return true;
+  }
+
+  async savePhoneNumber() {
+    this.verify();
+  }
+
+  codeChange(code: number) {
+    this.code = code;
+
+    if (code.toString().length === 6) {
+      this.confirm();
     }
   }
 
@@ -138,25 +151,9 @@ export class InfoStepComponent {
     return date;
   }
 
-  phoneInputKeypress(event: any) {
-    if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-      if (!this.inProgress) {
-        this.verify();
-      }
-    }
-  }
-
-  codeKeypress(event: any) {
-    if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-      if (!this.inProgress) {
-        this.confirm();
-      }
-    }
-  }
-
   async verify() {
     this.inProgress = true;
-    this.error = null;
+    this.numberError = null;
     try {
       const response: any = await this.client.post(
         'api/v2/blockchain/rewards/verify',
@@ -167,14 +164,15 @@ export class InfoStepComponent {
       this.secret = response.secret;
       this.confirming = true;
     } catch (e) {
-      this.error = e.message;
+      this.numberError = e.message;
+      this.confirming = false;
     }
     this.inProgress = false;
   }
 
   async confirm() {
     this.inProgress = true;
-    this.error = null;
+    this.codeError = null;
     try {
       const response: any = await this.client.post(
         'api/v2/blockchain/rewards/confirm',
@@ -187,7 +185,7 @@ export class InfoStepComponent {
 
       window.Minds.user.rewards = true;
     } catch (e) {
-      this.error = e.message;
+      this.codeError = e.message;
     }
 
     this.inProgress = false;
@@ -198,17 +196,20 @@ export class InfoStepComponent {
     this.code = null;
     this.secret = null;
     this.inProgress = false;
-    this.error = null;
+    this.numberError = null;
+    this.codeError = null;
+    this.locationError = null;
+    this.dateOfBirthError = null;
   }
 
   skip() {
-    this.saveData();
     this.router.navigate(['/onboarding', 'hashtags']);
   }
 
   continue() {
-    this.saveData();
-    this.router.navigate(['/onboarding', 'groups']);
+    if (this.saveData()) {
+      this.router.navigate(['/onboarding', 'groups']);
+    }
   }
 
   @HostListener('window:resize')
@@ -216,12 +217,8 @@ export class InfoStepComponent {
     this.tooltipAnchor = window.innerWidth <= 480 ? 'top' : 'left';
   }
 
-  private validate() {}
-
   private saveData() {
-    this.updateMobileNumber();
-    this.updateLocation();
-    this.updateDateOfBirth();
+    return this.updateLocation() && this.updateDateOfBirth();
   }
 
   private range(size, startAt = 0, grow = true): Array<number> {

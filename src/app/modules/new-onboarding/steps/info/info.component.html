@@ -6,85 +6,117 @@
   <m-onboarding__progressbar [steps]="steps"></m-onboarding__progressbar>
 
   <div class="m-onboarding__controls">
-    <div class="m-onboarding__input" *ngIf="!confirming; else confirmBlock">
-      <label i18n>Mobile Phone Number</label>
-      <!-- tooltip -->
-
-      <m-tooltip [anchor]="tooltipAnchor">
-        <span m-tooltip--anchor>𝒊</span>
-        <ng-container i18n>
-          Your mobile number may be used for additional account security, unique
-          identification and to help your friends find you. This data is private
-          and encrypted.
-        </ng-container>
-      </m-tooltip>
-
-      <span i18n>Optional</span>
-
-      <div class="m-onboarding__phoneInput">
-        <m-phone-input
-          [(ngModel)]="number"
-          (keypress)="phoneInputKeypress($event)"
-          ngDefaultControl
-        ></m-phone-input>
-
-        <div
-          *ngIf="inProgress"
-          class="mdl-spinner mdl-js-spinner is-active"
-          [mdl]
-        ></div>
-      </div>
-    </div>
-
-    <ng-template #confirmBlock>
-      <div class="m-onboarding__input">
-        <label i18n>Verification Code</label>
+    <div class="m-onboarding__control" *ngIf="!confirming; else confirmBlock">
+      <div class="m-onboardingControl__label">
+        <label i18n>Mobile Phone Number</label>
 
         <m-tooltip [anchor]="tooltipAnchor">
           <span m-tooltip--anchor>𝒊</span>
           <ng-container i18n>
-            Please enter the code we just sent to +{{ number }}, to verify your
-            number.
+            Your mobile number may be used for additional account security,
+            unique identification and to help your friends find you. This data
+            is private and encrypted.
           </ng-container>
         </m-tooltip>
 
-        <input
-          type="number"
-          [(ngModel)]="code"
-          (focusout)="confirm()"
-          (keypress)="codeKeypress($event)"
-          placeholder="eg. 198349"
-          i18n-placeholder
-        />
+        <span i18n>Optional</span>
+      </div>
+
+      <div class="m-onboarding__control">
+        <div class="m-onboarding__phoneInput">
+          <div class="m-onboarding__input">
+            <m-phone-input
+              [(ngModel)]="number"
+              ngDefaultControl
+            ></m-phone-input>
+            <div class="m-onboarding__error">
+              {{ numberError }}
+            </div>
+          </div>
+
+          <div
+            *ngIf="inProgress"
+            class="mdl-spinner mdl-js-spinner is-active"
+            [mdl]
+          ></div>
+
+          <div
+            class="m-onboardingInput__saveButton"
+            [class.disabled]="!number || number.length < 13"
+            (click)="savePhoneNumber()"
+            *ngIf="!inProgress"
+            i18n
+          >
+            <i class="material-icons">check</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #confirmBlock>
+      <div class="m-onboarding__control">
+        <div class="m-onboardingControl__label">
+          <label i18n>Verification Code</label>
+
+          <m-tooltip [anchor]="tooltipAnchor">
+            <span m-tooltip--anchor>𝒊</span>
+            <ng-container i18n>
+              Please enter the code we just sent to +{{ number }}, to verify
+              your number.
+            </ng-container>
+          </m-tooltip>
+        </div>
+
+        <div class="m-onboarding__input">
+          <input
+            type="number"
+            [ngModel]="code"
+            (ngModelChange)="codeChange($event)"
+            placeholder="eg. 198349"
+            i18n-placeholder
+          />
+          <div class="m-onboarding__error">
+            {{ codeError }}
+          </div>
+        </div>
       </div>
     </ng-template>
 
-    <div class="m-onboarding__input">
-      <label i18n>Location</label>
+    <div class="m-onboarding__control">
+      <div class="m-onboardingControl__label">
+        <label i18n>Location</label>
 
-      <m-tooltip [anchor]="tooltipAnchor">
-        <span m-tooltip--anchor>𝒊</span>
-        <ng-container i18n>
-          Please enter your city to help us connect you with channels in your
-          area. We do not track your exact location.
-        </ng-container>
-      </m-tooltip>
+        <m-tooltip [anchor]="tooltipAnchor">
+          <span m-tooltip--anchor>𝒊</span>
+          <ng-container i18n>
+            Please enter your city to help us connect you with channels in your
+            area. We do not track your exact location.
+          </ng-container>
+        </m-tooltip>
 
-      <span i18n>Optional</span>
+        <span i18n>Optional</span>
+      </div>
 
-      <input type="text" [(ngModel)]="location" />
+      <div class="m-onboarding__input">
+        <input type="text" [(ngModel)]="location" />
+        <div class="m-onboarding__error">
+          {{ locationError }}
+        </div>
+      </div>
     </div>
 
-    <div class="m-onboarding__input">
-      <label i18n>Date of Birth</label>
+    <div class="m-onboarding__control">
+      <div class="m-onboardingControl__label">
+        <label i18n>Date of Birth</label>
 
-      <m-tooltip [anchor]="tooltipAnchor">
-        <span m-tooltip--anchor>𝒊</span>
-        <ng-container i18n>
-          Please enter your birth date to confirm your age and help us improve
-          our recommendations.
-        </ng-container>
-      </m-tooltip>
+        <m-tooltip [anchor]="tooltipAnchor">
+          <span m-tooltip--anchor>𝒊</span>
+          <ng-container i18n>
+            Please enter your birth date to confirm your age and help us improve
+            our recommendations.
+          </ng-container>
+        </m-tooltip>
+      </div>
 
       <div class="m-onboarding__dropdowns">
         <select [ngModel]="selectedMonth" (ngModelChange)="selectMonth($event)">
