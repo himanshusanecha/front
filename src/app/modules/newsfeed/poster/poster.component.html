@@ -31,7 +31,7 @@
           [itemTemplate]="itemTemplate"
           [triggerCharacters]="['#', '@']"
           m-attachment-paste
-          (onFilePaste)="uploadAttachment($event)"
+          (filePaste)="uploadAttachment($event)"
         ></textarea>
       </m-text-input--autocomplete-container>
 
