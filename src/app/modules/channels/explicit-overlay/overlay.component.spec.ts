@@ -16,9 +16,7 @@ describe('OverlayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-          ExplicitOverlayComponent
-      ],
+      declarations: [ExplicitOverlayComponent],
       imports: [],
       providers: [
         { provide: Storage, useValue: storageMock },
@@ -55,7 +53,7 @@ describe('OverlayComponent', () => {
 
   it('should not show overlay when mature visibility is set', () => {
     comp.channel = {
-      mature_visibility: true
+      mature_visibility: true,
     };
     comp.showOverlay();
     fixture.detectChanges();
@@ -64,7 +62,7 @@ describe('OverlayComponent', () => {
 
   it('should overlay when channel is mature', () => {
     comp._channel = {
-      mature: true
+      mature: true,
     };
     comp.showOverlay();
     fixture.detectChanges();
@@ -73,7 +71,7 @@ describe('OverlayComponent', () => {
 
   it('should overlay when channel is nsfw for one reason', () => {
     comp._channel = {
-      nsfw: [1]
+      nsfw: [1],
     };
     comp.showOverlay();
     fixture.detectChanges();
@@ -82,7 +80,7 @@ describe('OverlayComponent', () => {
 
   it('should overlay when channel is nsfw for multiple reason', () => {
     comp._channel = {
-      nsfw: [1, 2, 3]
+      nsfw: [1, 2, 3],
     };
     comp.showOverlay();
     fixture.detectChanges();
@@ -93,7 +91,7 @@ describe('OverlayComponent', () => {
     comp._channel = {
       mature_visibility: false,
       mature: false,
-      nsfw: []
+      nsfw: [],
     };
     comp.showOverlay();
     fixture.detectChanges();
@@ -104,7 +102,7 @@ describe('OverlayComponent', () => {
     comp._channel = {
       mature_visibility: undefined,
       mature: undefined,
-      nsfw: undefined
+      nsfw: undefined,
     };
     comp.showOverlay();
     fixture.detectChanges();
