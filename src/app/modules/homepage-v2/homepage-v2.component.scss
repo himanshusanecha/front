@@ -1,0 +1,448 @@
+@import 'defaults';
+
+m-homepage__v2 {
+  m-marketing {
+    position: relative;
+    margin-top: -52px;
+    padding-top: 52px;
+    z-index: 0;
+    transform: rotate(0deg);
+
+    .m-marketing__wrapper,
+    .m-marketing__extras > * > * {
+      max-width: 1100px !important;
+    }
+
+    &.m-homepage__formExperiment {
+      .m-marketing__body {
+        @media screen and(max-width: $m-grid-max-mobile) {
+          &::after {
+            top: 900px !important;
+          }
+        }
+      }
+
+      .m-homepage__appButtons {
+        margin-left: 0 !important;
+      }
+
+      .m-marketing__asFeaturedIn {
+        margin-top: 139px !important;
+        max-width: 1102px !important;
+      }
+
+      .m-homepage__quotation {
+        margin-top: 84px !important;
+        margin-bottom: 85px !important;
+      }
+    }
+
+    .m-marketing__section--style-5 {
+      .m-marketing__wrapper {
+        .m-marketing__image {
+          span {
+            @media screen and (max-width: $m-grid-max-mobile) {
+              margin-bottom: 40px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .m-marketing__main {
+    &.m-marketing__section--style-2 {
+      .m-marketing__wrapper {
+        position: initial;
+        padding: 64px 0 0;
+        @media screen and (min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
+          padding: 32px 0 0;
+        }
+        @media screen and (max-width: $m-grid-max-mobile) {
+          padding: 0;
+        }
+
+        .m-marketing__body {
+          position: initial;
+          z-index: 0;
+
+          @media screen and (max-width: $m-grid-max-mobile) {
+            padding: 0 30px 0;
+          }
+
+          &::before {
+            transform: none;
+            clip-path: polygon(72% 0, 100% 0, 100% 21%, 42% 91%);
+            top: 0;
+            right: 0;
+            height: 695px;
+            z-index: 1;
+
+            @include m-theme() {
+              background: themed($m-amber-medium);
+            }
+            @media screen and (max-width: $m-grid-max-mobile) {
+              z-index: -1;
+            }
+          }
+
+          h1 {
+            margin-top: 0;
+            margin-bottom: 40px;
+          }
+
+          h2 {
+            font-size: 62px;
+            line-height: 65px;
+            margin-bottom: 36px;
+
+            @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
+              font-size: 48px;
+              line-height: 65px;
+            }
+          }
+
+          .m-marketing__description {
+            margin-bottom: 21px;
+            padding-right: 129px;
+
+            @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
+              padding-right: 0;
+            }
+          }
+
+          &::after {
+            content: '';
+            clip-path: polygon(0 46%, 100% 0, 100% 100%, 0 100%);
+            background: #f5f6ff;
+
+            position: absolute;
+            top: 524px;
+            //bottom: -10px;
+            left: 0;
+            height: 211px;
+            right: 0;
+
+            z-index: -1;
+          }
+
+          @media screen and (max-width: $m-grid-max-mobile) {
+            &::before {
+              transform: translate(153px, 212px);
+              clip-path: polygon(100% 0, 100% 0, 172% 28%, 0 90%);
+            }
+
+            &::after {
+              left: 0;
+              right: 0;
+              top: 1100px;
+            }
+          }
+        }
+      }
+
+      .m-homepage__registerForm {
+        display: block;
+        filter: drop-shadow(-1px 0px 8px rgba(50, 50, 0, 0.5));
+
+        @media screen and(min-width: $m-grid-max-mobile) and(max-width: 1000px) {
+          transform: translate(-35px, -19px);
+          minds-form-register {
+            width: 300px !important;
+          }
+        }
+
+        minds-form-register {
+          width: 409px;
+          height: 423px;
+          display: block;
+          background-color: #fcfcfc;
+
+          padding: 58px 37px;
+
+          clip-path: polygon(0 0, 100% 8px, 99% 95%, 0% 98%);
+
+          h3 {
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: bold;
+            margin: 0;
+          }
+
+          .mdl-cell {
+            margin: 0;
+            padding-bottom: 14px;
+          }
+
+          form {
+            margin-top: 21px;
+            background: transparent !important;
+
+            .mdl-card__supporting-text {
+              overflow: visible;
+            }
+
+            input:not([type='checkbox']) {
+              padding: 10px 15px;
+              height: 37px;
+              font-weight: normal;
+            }
+          }
+
+          span,
+          label {
+            font-size: 14px;
+            line-height: 19px;
+          }
+
+          label:not(.mdl-checkbox) {
+            display: inline-block;
+            margin-bottom: 14px;
+          }
+
+          label.mdl-checkbox {
+            display: flex;
+            align-items: center;
+            padding-top: 0;
+            margin-top: 5px;
+            margin-bottom: 33px;
+          }
+
+          .mdl-card__actions {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0;
+
+            & > *:not(button) {
+              color: #4a4a4a !important;
+            }
+
+            a {
+              color: #4a90e2;
+            }
+
+            button {
+              align-self: flex-end;
+              height: 56px;
+              width: 208px;
+              font-size: 20px;
+              line-height: 26px;
+              @include m-theme() {
+                background-color: themed($m-aqua);
+              }
+            }
+          }
+        }
+
+        @media screen and (max-width: $m-grid-max-mobile) {
+          margin: 30px 26px 50px;
+          &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 393px;
+            height: 193px;
+            top: -66px;
+            //bottom: 190px;
+            left: -144px;
+            transform: translate(45px, 32px);
+            background: url('<%= APP_CDN %>/assets/marketing/deco_2-straight.svg')
+              no-repeat;
+            z-index: -1;
+          }
+
+          minds-form-register {
+            padding: 48px 25px;
+          }
+        }
+
+        @media screen and (min-width: $m-grid-max-mobile) and (max-width: 760px) {
+          minds-form-register {
+            padding: 40px 20px;
+          }
+        }
+      }
+    }
+
+    .m-homepage__spacer {
+      margin-bottom: 60px;
+    }
+
+    .m-marketing__image {
+      position: initial;
+      margin: 0 auto;
+
+      span {
+        &::before {
+          content: initial !important;
+        }
+
+        &.m-homepage__cellphone {
+          filter: drop-shadow(-1px 0px 8px rgba(50, 50, 0, 0.5));
+          clip-path: none;
+
+          @media screen and (max-width: $m-grid-max-mobile) {
+            &::before {
+              content: '' !important;
+              display: block;
+              position: absolute;
+              width: 393px;
+              height: 193px;
+              top: -70px;
+              //bottom: 190px;
+              left: -144px;
+              transform: translate(45px, 32px);
+              background: url('<%= APP_CDN %>/assets/marketing/deco_2-straight.svg')
+                no-repeat;
+              z-index: -1;
+            }
+          }
+
+          & > img {
+            //box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            height: auto !important;
+            object-fit: initial !important;
+
+            max-width: 273px;
+            min-width: 250px;
+            width: 100%;
+            clip-path: none;
+
+            @media screen and (min-width: $m-grid-max-tablet) {
+              transform: translate(-4px, -17px);
+            }
+          }
+
+          &::after {
+            top: 94px;
+            right: -78px;
+          }
+        }
+      }
+    }
+  }
+
+  .m-homepage__joinButton {
+    font-size: 20px;
+    line-height: 26px;
+    width: 230px;
+    height: 60px;
+    margin: 60px 0;
+    @include m-theme() {
+      background: themed($m-aqua);
+      border-color: themed($m-aqua) !important;
+    }
+
+    @media screen and (max-width: $m-grid-max-mobile) {
+      width: 100%;
+    }
+
+    &.m-homepage__joinButton--first {
+      margin: 22px 0 74px 10px;
+      @media screen and (max-width: 900px) {
+        display: none;
+      }
+    }
+  }
+
+  .m-homepage__appButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    //width: 50%;
+
+    margin-top: 50px;
+    margin-left: 10px;
+
+    & > a:first-child {
+      margin-right: 5%;
+    }
+
+    @media screen and (min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
+      margin-top: 30px;
+    }
+
+    @media screen and(max-width: $m-grid-max-mobile) {
+      width: 100%;
+      & > a:not(:first-child) {
+        margin-left: 18px;
+        justify-content: initial;
+      }
+    }
+
+    & > a {
+      width: 120px;
+      height: 37px;
+
+      img {
+        width: 100%;
+        min-width: 100px;
+      }
+    }
+  }
+
+  .m-homepage__yellowLine {
+    display: inline-block;
+    width: 55px;
+    height: 5px;
+    margin-bottom: 3px;
+    @include m-theme() {
+      background-color: themed($m-amber-medium);
+    }
+  }
+
+  .m-homepage__joinMindsNow {
+    max-width: 90%;
+
+    @media screen and (max-width: $m-grid-max-mobile) {
+      max-width: 100%;
+    }
+  }
+
+  .m-homepage__quotation {
+    margin-top: 111px;
+    margin-bottom: 9px;
+  }
+
+  .m-marketing__asFeaturedIn {
+    margin-top: 100px;
+    max-width: 1081px;
+  }
+
+  h1,
+  h2,
+  h3:not(.m-marketingTitle__centered),
+  .m-marketing__description {
+    text-align: left !important;
+  }
+
+  @media screen and(max-width: $m-grid-max-mobile) {
+    display: block;
+    margin-top: 55px;
+    h1.m-homepage__minds {
+      margin-top: 100px;
+    }
+  }
+
+  .m-marketing__section--tail {
+    .m-marketing__wrapper {
+      .m-marketingTitle__centered {
+        font-size: 28px;
+        line-height: 37px;
+        color: #4a4a4a;
+        white-space: nowrap;
+
+        @media screen and (max-width: $m-grid-max-mobile) {
+          font-size: 19px;
+          line-height: 25px;
+        }
+      }
+
+      .m-homepage__joinButton {
+        width: 230px;
+        height: 60px;
+        margin: 0 auto;
+      }
+    }
+  }
+}

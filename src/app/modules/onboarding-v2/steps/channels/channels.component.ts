@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FeedsService } from '../../../../common/services/feeds.service';
-import { Session } from '../../../../services/session';
 
 @Component({
   selector: 'm-channels__step',

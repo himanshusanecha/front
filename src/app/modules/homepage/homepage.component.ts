@@ -1,27 +1,28 @@
-import {
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { Client } from '../../services/api/client';
-import { MindsTitle } from '../../services/ux/title';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { Navigation as NavigationService } from '../../services/navigation';
-import { LoginReferrerService } from '../../services/login-referrer.service';
 import { Session } from '../../services/session';
-import { V2TopbarService } from '../../common/layout/v2-topbar/v2-topbar.service';
-import { RegisterForm } from '../forms/register/register';
+import { MindsTitle } from '../../services/ux/title';
+import { Client } from '../../services/api';
+import { LoginReferrerService } from '../../services/login-referrer.service';
 
 @Component({
   selector: 'm-homepage',
   templateUrl: 'homepage.component.html',
 })
-export class HomepageComponent implements OnInit, OnDestroy {
-  @ViewChild('registerForm', { static: false }) registerForm: RegisterForm;
-
-  readonly cdnAssetsUrl: string = window.Minds.cdn_assets_url;
+export class HomepageComponent {
+  videos: Array<any> = [];
+  blogs: Array<any> = [];
+  channels: Array<any> = [];
+  stream = {
+    1: [],
+    2: [],
+    3: [],
+  };
+  offset: string = '';
+  inProgress: boolean = false;
+  videoError: boolean = false;
 
   minds = window.Minds;
 
@@ -34,11 +35,11 @@ export class HomepageComponent implements OnInit, OnDestroy {
     public title: MindsTitle,
     public router: Router,
     public navigation: NavigationService,
-    public session: Session,
     private loginReferrer: LoginReferrerService,
-    private topbarService: V2TopbarService
+    public session: Session
   ) {
     this.title.setTitle('Minds Social Network', false);
+    this.loadStream();
 
     if (this.session.isLoggedIn()) {
       this.router.navigate(['/newsfeed']);
@@ -48,37 +49,51 @@ export class HomepageComponent implements OnInit, OnDestroy {
     if (/iP(hone|od)/.test(window.navigator.userAgent)) {
       this.flags.canPlayInlineVideos = false;
     }
-
-    this.topbarService.toggleMarketingPages(true, false);
   }
 
-  ngOnInit() {
-    this.onResize();
+  loadStream(refresh: boolean = false) {
+    this.inProgress = true;
+    this.client
+      .get('api/v1/newsfeed/featured', { limit: 24, offset: this.offset })
+      .then((response: any) => {
+        let col = 0;
+        for (let activity of response.activity) {
+          //split stream into 3 columns
+          if (col++ >= 3) col = 1;
+          this.stream[col].push(activity);
+        }
+        this.offset = response['load-next'];
+        this.inProgress = false;
+      })
+      .catch(() => {
+        this.inProgress = false;
+      });
   }
 
-  ngOnDestroy() {
-    this.topbarService.toggleMarketingPages(false);
+  loadVideos() {
+    this.client
+      .get('api/v1/entities/featured/videos', { limit: 4 })
+      .then((response: any) => {
+        this.videos = response.entities;
+      });
   }
 
-  goToOnboardingPage() {
-    this.router.navigate(['/onboarding']);
+  loadBlogs() {
+    this.client
+      .get('api/v1/blog/featured', { limit: 4 })
+      .then((response: any) => {
+        this.blogs = response.blogs;
+      });
   }
 
-  @HostListener('window:resize')
-  onResize() {
-    const tick: HTMLSpanElement = document.querySelector(
-      '.m-marketing__imageUX > .m-marketing__imageTick'
-    );
-    if (window.innerWidth > 480 && window.innerWidth < 1168) {
-      tick.classList.remove('m-marketing__imageTick--left');
-      tick.classList.add('m-marketing__imageTick--right');
-    } else {
-      tick.classList.add('m-marketing__imageTick--left');
-      tick.classList.remove('m-marketing__imageTick--right');
-    }
+  registered() {
+    this.loginReferrer.navigate({
+      defaultUrl:
+        '/' + this.session.getLoggedInUser().username + ';onboarding=1',
+    });
   }
 
-  isMobile() {
-    return window.innerWidth <= 540;
+  onSourceError() {
+    console.log('video failed');
   }
 }

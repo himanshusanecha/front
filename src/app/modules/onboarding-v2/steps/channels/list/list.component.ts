@@ -5,8 +5,6 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { Client } from '../../../../../services/api/client';
-import { Storage } from '../../../../../services/storage';
 import { FeedsService } from '../../../../../common/services/feeds.service';
 import { first } from 'rxjs/operators';
 
@@ -26,9 +24,7 @@ export class ChannelListComponent implements OnInit {
 
   constructor(
     public feedsService: FeedsService,
-    protected cd: ChangeDetectorRef,
-    private client: Client,
-    private storage: Storage
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule as NgCommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
 import {
   FormsModule as NgFormsModule,
   ReactiveFormsModule,
@@ -11,18 +10,14 @@ import { LegacyModule } from '../legacy/legacy.module';
 import { ModalsModule } from '../modals/modals.module';
 import { MindsFormsModule } from '../forms/forms.module';
 
-import { HomepageComponent } from './homepage.component';
 import { MarketingModule } from '../marketing/marketing.module';
 import { ExperimentsModule } from '../experiments/experiments.module';
-import { HomepageV2Module } from '../homepage-v2/homepage.module';
-import { HomepageContainerComponent } from './container.component';
-
-const routes: Routes = [{ path: '', component: HomepageContainerComponent }];
+import { HomepageV2Component } from './homepage-v2.component';
+import { CaptchaModule } from '../captcha/captcha.module';
 
 @NgModule({
   imports: [
     NgCommonModule,
-    RouterModule.forChild(routes),
     NgFormsModule,
     ReactiveFormsModule,
     CommonModule,
@@ -31,9 +26,10 @@ const routes: Routes = [{ path: '', component: HomepageContainerComponent }];
     MindsFormsModule,
     MarketingModule,
     ExperimentsModule,
-    HomepageV2Module,
+    CaptchaModule,
   ],
-  declarations: [HomepageComponent, HomepageContainerComponent],
-  entryComponents: [HomepageComponent],
+  declarations: [HomepageV2Component],
+  entryComponents: [HomepageV2Component],
+  exports: [HomepageV2Component],
 })
-export class HomepageModule {}
+export class HomepageV2Module {}

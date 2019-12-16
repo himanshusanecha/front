@@ -12,7 +12,7 @@ import { TokenOnboardingModule } from '../wallet/tokens/onboarding/onboarding.mo
 import { MessengerModule } from '../messenger/messenger.module';
 import { SuggestionsModule } from '../suggestions/suggestions.module';
 import { RegistrationStepComponent } from './steps/registration/registration.component';
-import { HomepageModule } from '../homepage/homepage.module';
+import { HomepageV2Module } from '../homepage-v2/homepage.module';
 import { InfoStepComponent } from './steps/info/info.component';
 import { ProgressbarComponent } from './progressbar/progressbar.component';
 import { ChannelListComponent } from './steps/channels/list/list.component';
@@ -63,7 +63,7 @@ const routes: Routes = [
     TokenOnboardingModule,
     MessengerModule,
     SuggestionsModule,
-    HomepageModule,
+    HomepageV2Module,
     MindsFormsModule,
   ],
   exports: [],
@@ -82,4 +82,4 @@ const routes: Routes = [
   ],
   providers: [],
 })
-export class NewOnboardingModule {}
+export class OnboardingV2Module {}
