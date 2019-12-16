@@ -308,12 +308,19 @@ export class PosterComponent {
    * set the current NSFW state.
    */
   onNSFWSelectorReady() {
-    const nsfw: Array<{
+    let nsfw: Array<{
       value;
       label;
       selected;
-    }> = this.nsfwSelector.service.reasons.filter(r => r.selected);
-    if (nsfw) {
+    }> = [];
+
+    try {
+      nsfw = this.nsfwSelector.service.reasons.filter(r => r.selected);
+    } catch (e) {
+      return;
+    }
+
+    if (nsfw.length > 0) {
       this.onNSWFSelections(nsfw);
     }
   }
