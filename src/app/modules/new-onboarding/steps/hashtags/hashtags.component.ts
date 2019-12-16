@@ -55,6 +55,7 @@ export class HashtagsStepComponent implements OnInit {
   }
 
   async toggleSelection(hashtag) {
+    this.error = null;
     try {
       await this.service.toggleSelection(hashtag, this);
     } catch (e) {
@@ -68,6 +69,19 @@ export class HashtagsStepComponent implements OnInit {
   }
 
   continue() {
-    this.router.navigate(['/onboarding', 'info']);
+    if (this.validate()) {
+      this.router.navigate(['/onboarding', 'info']);
+    }
+  }
+
+  private validate() {
+    this.error = null;
+
+    if (this.hashtags.filter(item => item.selected).length < 3) {
+      this.error = 'not:enough:hashtags';
+      return false;
+    }
+
+    return true;
   }
 }

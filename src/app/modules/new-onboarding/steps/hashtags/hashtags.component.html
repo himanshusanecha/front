@@ -31,6 +31,15 @@
       </li>
     </ul>
 
+    <div class="m-onboarding__error">
+      <ng-container *ngIf="error == 'not:enough:hashtags'; else errorBlock">
+        <span i18n>You must select at least 3 hashtags</span>
+      </ng-container>
+      <ng-template #errorBlock>
+        {{ error }}
+      </ng-template>
+    </div>
+
     <div class="m-onboarding__actionButtons">
       <button class="mf-button mf-button--hollow" (click)="skip()" i18n>
         Skip
