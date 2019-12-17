@@ -22,6 +22,7 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
 
   protected userEmitter$: Subscription;
   protected canCloseTimer;
+  protected minds = window.Minds;
 
   constructor(
     protected service: EmailConfirmationService,
@@ -54,7 +55,10 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
   }
 
   setShouldShow(user) {
-    this.shouldShow = user && user.email_confirmed === false;
+    this.shouldShow =
+      !this.minds.from_email_confirmation &&
+      user &&
+      user.email_confirmed === false;
   }
 
   async send() {
