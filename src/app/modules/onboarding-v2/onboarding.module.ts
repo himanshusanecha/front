@@ -11,7 +11,6 @@ import { CommonModule } from '../../common/common.module';
 import { TokenOnboardingModule } from '../wallet/tokens/onboarding/onboarding.module';
 import { MessengerModule } from '../messenger/messenger.module';
 import { SuggestionsModule } from '../suggestions/suggestions.module';
-import { RegistrationStepComponent } from './steps/registration/registration.component';
 import { HomepageV2Module } from '../homepage-v2/homepage.module';
 import { InfoStepComponent } from './steps/info/info.component';
 import { ProgressbarComponent } from './progressbar/progressbar.component';
@@ -25,10 +24,6 @@ const routes: Routes = [
     path: 'onboarding',
     component: OnboardingComponent,
     children: [
-      {
-        path: '',
-        component: RegistrationStepComponent,
-      },
       {
         path: 'notice',
         component: NoticeStepComponent,
@@ -69,7 +64,6 @@ const routes: Routes = [
   exports: [],
   declarations: [
     OnboardingComponent,
-    RegistrationStepComponent,
     ProgressbarComponent,
     NoticeStepComponent,
     HashtagsStepComponent,

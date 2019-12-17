@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { OnboardingService } from '../onboarding/onboarding.service';
   selector: 'm-login',
   templateUrl: 'login.component.html',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   errorMessage: string = '';
   twofactorToken: string = '';
   hideLogin: boolean = false;
@@ -36,8 +36,7 @@ export class LoginComponent {
     public title: MindsTitle,
     private modal: SignupModalService,
     private loginReferrer: LoginReferrerService,
-    public session: Session,
-    private onboarding: OnboardingService
+    public session: Session
   ) {}
 
   ngOnInit() {
@@ -65,14 +64,19 @@ export class LoginComponent {
   }
 
   loggedin() {
-    if (this.referrer) this.router.navigateByUrl(this.referrer);
-    else if (this.redirectTo) this.navigateToRedirection();
-    else this.loginReferrer.navigate();
+    if (this.referrer) {
+      this.router.navigateByUrl(this.referrer);
+    } else if (this.redirectTo) {
+      this.navigateToRedirection();
+    } else {
+      this.loginReferrer.navigate();
+    }
   }
 
   registered() {
-    if (this.redirectTo) this.navigateToRedirection();
-    else {
+    if (this.redirectTo) {
+      this.navigateToRedirection();
+    } else {
       this.loginReferrer.navigate({
         defaultUrl: '/' + this.session.getLoggedInUser().username,
       });

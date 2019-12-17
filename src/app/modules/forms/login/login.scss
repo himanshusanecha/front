@@ -1,5 +1,39 @@
 @import 'defaults';
 
+m-login {
+  .m-login__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 16px;
+
+    a {
+      @include m-theme() {
+        color: themed($m-blue);
+      }
+    }
+  }
+
+  .m-login__error,
+  .m-login__formError {
+    font-size: 14px;
+    line-height: 19px;
+    margin-top: 3px;
+
+    @include m-theme() {
+      color: themed($m-red) !important;
+    }
+  }
+
+  .m-login__error {
+    text-align: right;
+  }
+
+  .m-login__spacer {
+    flex-grow: 1;
+  }
+}
+
 .m-login-box {
   margin-top: $minds-margin * 2;
   width: 100% !important;

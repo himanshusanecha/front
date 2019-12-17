@@ -9,6 +9,7 @@ import { Session } from '../../services/session';
 import { SignupModalService } from '../modals/signup/service';
 import { LoginReferrerService } from '../../services/login-referrer.service';
 import { OnboardingService } from '../onboarding/onboarding.service';
+import { MindsTitle } from '../../services/ux/title';
 
 @Component({
   selector: 'm-register',
@@ -22,6 +23,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   inProgress: boolean = false;
   videoError: boolean = false;
   referrer: string;
+  private redirectTo: string;
 
   flags = {
     canPlayInlineVideos: true,
@@ -37,7 +39,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private loginReferrer: LoginReferrerService,
     public session: Session,
     private onboarding: OnboardingService,
-    public navigation: NavigationService
+    public navigation: NavigationService,
+    public title: MindsTitle
   ) {
     if (this.session.isLoggedIn()) {
       this.router.navigate(['/newsfeed']);
@@ -46,6 +49,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.session.isLoggedIn()) {
+      this.loginReferrer.register('/newsfeed');
+      this.loginReferrer.navigate();
+    }
+
+    this.redirectTo = localStorage.getItem('redirect');
+
     // Set referrer if there is one
     this.paramsSubscription = this.route.queryParams.subscribe(params => {
       if (params['referrer']) {
@@ -53,12 +63,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.title.setTitle('Register');
+
     if (/iP(hone|od)/.test(window.navigator.userAgent)) {
       this.flags.canPlayInlineVideos = false;
     }
   }
 
   registered() {
+    if (this.redirectTo) {
+      this.navigateToRedirection();
+    }
+
     this.router.navigate(['/' + this.session.getLoggedInUser().username]);
   }
 
@@ -70,5 +86,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (this.paramsSubscription) {
       this.paramsSubscription.unsubscribe();
     }
+  }
+
+  private navigateToRedirection() {
+    const uri = this.redirectTo.split('?', 2);
+    const extras = {};
+
+    if (uri[1]) {
+      extras['queryParams'] = {};
+
+      for (const queryParamString of uri[1].split('&')) {
+        const queryParam = queryParamString.split('=');
+        extras['queryParams'][queryParam[0]] = queryParam[1];
+      }
+    }
+
+    this.router.navigate([uri[0]], extras);
   }
 }
