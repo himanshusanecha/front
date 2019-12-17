@@ -13,6 +13,7 @@ import { LoginReferrerService } from '../../services/login-referrer.service';
 import { Session } from '../../services/session';
 import { V2TopbarService } from '../../common/layout/v2-topbar/v2-topbar.service';
 import { RegisterForm } from '../forms/register/register';
+import { FeaturesService } from '../../services/features.service';
 
 @Component({
   selector: 'm-homepage__v2',
@@ -36,7 +37,8 @@ export class HomepageV2Component implements OnInit, OnDestroy {
     public navigation: NavigationService,
     public session: Session,
     private loginReferrer: LoginReferrerService,
-    private topbarService: V2TopbarService
+    private topbarService: V2TopbarService,
+    private featuresService: FeaturesService
   ) {
     this.title.setTitle('Minds Social Network', false);
 
@@ -60,8 +62,12 @@ export class HomepageV2Component implements OnInit, OnDestroy {
     this.topbarService.toggleMarketingPages(false);
   }
 
-  goToOnboardingPage() {
-    this.router.navigate(['/onboarding']);
+  navigate() {
+    if (this.featuresService.has('onboarding')) {
+      this.router.navigate(['/onboarding']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   @HostListener('window:resize')

@@ -28,7 +28,7 @@
 
         <button
           class="mf-button mf-button--alt m-homepage__joinButton m-homepage__joinButton--first"
-          (click)="goToOnboardingPage()"
+          (click)="navigate()"
           *mExperiment="'Homepage121119'; bucket: 'base'"
           i18n
         >
@@ -53,7 +53,7 @@
         <ng-container *ngIf="isMobile()">
           <button
             class="mf-button mf-button--alt m-homepage__joinButton"
-            (click)="goToOnboardingPage()"
+            (click)="navigate()"
             *mExperiment="'Homepage121119'; bucket: 'base'"
             i18n
           >
@@ -80,7 +80,7 @@
           [showBigButton]="true"
           [showPromotions]="false"
           [showLabels]="true"
-          (done)="goToOnboardingPage()"
+          (done)="navigate()"
           #registerForm
         >
         </minds-form-register>
@@ -216,7 +216,7 @@
           <div class="m-marketing__actionButtons">
             <button
               class="mf-button mf-button--alt m-homepage__joinButton"
-              (click)="goToOnboardingPage()"
+              (click)="navigate()"
               i18n
             >
               Join Minds Now
