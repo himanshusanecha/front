@@ -57,12 +57,20 @@ export class LoginForm {
     const username = this.form.value.username.trim();
 
     if (username === '') {
-      this.usernameError = 'LoginException::UsernameRequired';
+      if (this.showInlineErrors) {
+        this.usernameError = 'LoginException::UsernameRequired';
+      } else {
+        this.errorMessage = 'LoginException::UsernameRequired';
+      }
       return;
     }
 
     if (this.emailRegex.test(username)) {
-      this.usernameError = 'LoginException::EmailAddress';
+      if (this.showInlineErrors) {
+        this.usernameError = 'LoginException::EmailAddress';
+      } else {
+        this.errorMessage = 'LoginException::EmailAddress';
+      }
       return;
     }
 
