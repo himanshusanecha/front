@@ -123,7 +123,7 @@ context('Discovery', () => {
       .click();
   });
   
-  it.only('should allow the user to toggle a single hashtag and then toggle back to the initial feed', () => {
+  it.skip('should allow the user to toggle a single hashtag and then toggle back to the initial feed', () => {
     cy.visit('/newsfeed/global/top');
 
     // get first label value
