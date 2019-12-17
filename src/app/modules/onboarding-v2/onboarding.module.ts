@@ -25,6 +25,11 @@ const routes: Routes = [
     component: OnboardingComponent,
     children: [
       {
+        path: '',
+        redirectTo: '/onboarding/notice',
+        pathMatch: 'full',
+      },
+      {
         path: 'notice',
         component: NoticeStepComponent,
       },
