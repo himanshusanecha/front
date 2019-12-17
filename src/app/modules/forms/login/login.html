@@ -85,7 +85,7 @@
         type="text"
         id="username"
         formControlName="username"
-        placeholder="Username"
+        [placeholder]="showLabels ? '' : 'Username'"
         i18n-placeholder="@@M__COMMON__USERNAME"
         autocomplete="username"
         (keydown.enter)="login(); $event.preventDefault();"
@@ -114,7 +114,7 @@
         type="password"
         id="password"
         formControlName="password"
-        placeholder="Password"
+        [placeholder]="showLabels ? '' : 'Password'"
         i18n-placeholder="@@M__COMMON__PASSWORD"
         autocomplete="current-password"
         (keydown.enter)="login(); $event.preventDefault();"
@@ -170,8 +170,8 @@
   </div>
 
   <div class="mdl-card__supporting-text">
-    <ng-container i18n="@@FORMS__LOGIN__2FA_LOGIN_SMS_SENT"
-      >We just sent you a text. Enter the code below to authenticate.
+    <ng-container i18n="@@FORMS__LOGIN__2FA_LOGIN_SMS_SENT">
+      We just sent you a text. Enter the code below to authenticate.
     </ng-container>
   </div>
 
