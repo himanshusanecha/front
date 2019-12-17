@@ -8,16 +8,11 @@ import { Storage } from '../../../services/storage';
   templateUrl: 'onboarding.component.html',
 })
 export class OnboardingComponent implements OnInit {
-  topbar: HTMLElement;
-
   constructor(
     private session: Session,
     private router: Router,
     private storage: Storage
-  ) {
-    this.topbar = document.querySelector('.m-v2-topbar__Top');
-    this.topbar.classList.add('m-v2-topbar__noBackground');
-  }
+  ) {}
 
   ngOnInit() {
     if (!this.session.isLoggedIn()) {
