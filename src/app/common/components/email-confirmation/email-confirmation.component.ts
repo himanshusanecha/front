@@ -30,11 +30,11 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.setShouldShow();
+    this.setShouldShow(this.session.getLoggedInUser());
 
-    this.userEmitter$ = this.session.userEmitter.subscribe(() => {
+    this.userEmitter$ = this.session.userEmitter.subscribe(user => {
       this.sent = false;
-      this.setShouldShow();
+      this.setShouldShow(user);
 
       this.detectChanges();
     });
@@ -53,8 +53,7 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
     }
   }
 
-  setShouldShow() {
-    const user = this.session.getLoggedInUser();
+  setShouldShow(user) {
     this.shouldShow = user && user.email_confirmed === false;
   }
 
