@@ -2,6 +2,8 @@
 
 m-register {
   display: block;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 
   &.m-register__newDesign {
     margin-top: -52px;

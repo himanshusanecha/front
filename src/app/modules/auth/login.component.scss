@@ -2,6 +2,8 @@
 
 m-login {
   display: block;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 
   &:not(.m-login__newDesign) {
     .m-login {

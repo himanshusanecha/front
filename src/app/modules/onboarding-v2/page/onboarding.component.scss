@@ -2,6 +2,8 @@ m-onboarding {
   display: block;
   padding-top: 30px;
   height: calc(100% + 104px); // 52 for the topbar and 52 for the bottom bar
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 
   &::before {
     content: '';
