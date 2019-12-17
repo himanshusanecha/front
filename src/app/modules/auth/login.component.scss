@@ -1,170 +1,168 @@
+@import 'defaults';
+
 m-login {
   display: block;
-  height: calc(100% + 104px);
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 50%;
-    left: 30%;
-    clip-path: polygon(55% 0, 100% 0, 100% 11%, 18% 87%);
+  &:not(.m-login__newDesign) {
+    .m-login {
+      margin: 100px auto;
+      display: flex;
+      max-width: 990px;
+      flex-direction: row;
+      min-height: 100%;
 
-    @include m-theme() {
-      background: themed($m-amber-medium);
+      @media screen and (max-width: $max-mobile) {
+        flex-direction: column;
+      }
+
+      > div {
+        margin: 16px;
+        flex: 1;
+      }
+
+      h3 {
+        font-weight: 800;
+        font-size: 18px;
+        margin: 0 8px;
+      }
     }
-
-    //@media screen and (max-width: $max-mobile) {
-    //  right: 0;
-    //  bottom: -3vw;
-    //  clip-path: polygon(83% 0%, 100% 0, 116% 22%, 30% 43%);
-    //}
   }
 
-  @media screen and (max-width: $m-grid-max-mobile) {
-    margin: 30px 26px 50px;
+  &.m-login__newDesign {
+    margin-top: -52px;
+
     &::before {
+      content: '';
       position: absolute;
       top: 0;
       right: 0;
-      clip-path: polygon(55% 0, 100% 0, 100% 30%, 18% 87%);
-      background: url(http://localhost/en/assets/marketing/deco_2-straight.svg)
-        no-repeat;
+      bottom: 50%;
+      left: 30%;
+      clip-path: polygon(55% 0, 100% 0, 100% 11%, 18% 87%);
+
+      @include m-theme() {
+        background: themed($m-amber-medium);
+      }
+
+      //@media screen and (max-width: $max-mobile) {
+      //  right: 0;
+      //  bottom: -3vw;
+      //  clip-path: polygon(83% 0%, 100% 0, 116% 22%, 30% 43%);
+      //}
     }
-  }
 
-  .m-grid {
-    height: 100%;
-    padding: 20vh 0;
-  }
-
-  .m-login__wrapper {
-    display: block;
-    filter: drop-shadow(-1px 0px 8px rgba(50, 50, 0, 0.5));
-  }
-
-  minds-form-login {
     @media screen and (max-width: $m-grid-max-mobile) {
-      padding: 48px 25px;
-    }
-    display: block;
-    background-color: #fcfcfc;
-
-    padding: 50px 37px;
-
-    clip-path: polygon(0 0, 100% 8px, 99.99% 99%, 0% 100%);
-
-    h3 {
-      font-size: 24px;
-      line-height: 32px;
-      font-weight: bold;
-    }
-
-    .mdl-cell {
-      margin: 0;
-      padding-bottom: 14px;
-    }
-
-    form {
-      background: transparent !important;
-
-      .mdl-card__supporting-text {
-        overflow: visible;
-      }
-
-      input:not([type='checkbox']) {
-        padding: 10px 15px;
-        height: 37px;
-        font-weight: normal;
-      }
-
-      &.m-loginBox__bigButton {
-        .mdl-card__actions {
-          display: flex;
-          align-items: center;
-          flex-direction: row;
-          justify-content: space-between;
-        }
+      margin: 30px 26px 50px;
+      &::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        clip-path: polygon(55% 0, 100% 0, 100% 30%, 18% 87%);
+        background: url(http://localhost/en/assets/marketing/deco_2-straight.svg)
+          no-repeat;
       }
     }
 
-    span,
-    label {
-      font-size: 14px;
-      line-height: 19px;
+    .m-grid {
+      height: 100%;
+      padding: 20vh 0;
     }
 
-    label:not(.mdl-checkbox) {
-      display: inline-block;
-      margin-bottom: 10px;
+    .m-login__wrapper {
+      display: block;
+      filter: drop-shadow(-1px 0px 8px rgba(50, 50, 0, 0.5));
     }
 
-    label.mdl-checkbox {
-      display: flex;
-      align-items: center;
-      padding-top: 0;
-      margin-bottom: 33px;
-    }
-
-    .mdl-card__actions {
-      flex-direction: column;
-      align-items: flex-start;
-      margin-top: 14px;
-      padding: 0;
-
-      & > *:not(button) {
-        color: #4a4a4a !important;
-      }
-
-      a {
-        color: #4a90e2;
-      }
-
-      button {
-        align-self: flex-end;
-        @include m-theme() {
-          background-color: themed($m-aqua);
-        }
-      }
-    }
-  }
-
-  @media screen and (min-width: $max-mobile) and (max-width: 760px) {
     minds-form-login {
-      padding: 40px 20px;
+      @media screen and (max-width: $m-grid-max-mobile) {
+        padding: 48px 25px;
+      }
+      display: block;
+      background-color: #fcfcfc;
+
+      padding: 50px 37px;
+
+      clip-path: polygon(0 0, 100% 8px, 99.99% 99%, 0% 100%);
+
+      h3 {
+        font-size: 24px;
+        line-height: 32px;
+        font-weight: bold;
+      }
+
+      .mdl-cell {
+        margin: 0;
+        padding-bottom: 14px;
+      }
+
+      form {
+        background: transparent !important;
+
+        .mdl-card__supporting-text {
+          overflow: visible;
+        }
+
+        input:not([type='checkbox']) {
+          padding: 10px 15px;
+          height: 37px;
+          font-weight: normal;
+        }
+
+        &.m-loginBox__bigButton {
+          .mdl-card__actions {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: space-between;
+          }
+        }
+      }
+
+      span,
+      label {
+        font-size: 14px;
+        line-height: 19px;
+      }
+
+      label:not(.mdl-checkbox) {
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+
+      label.mdl-checkbox {
+        display: flex;
+        align-items: center;
+        padding-top: 0;
+        margin-bottom: 33px;
+      }
+
+      .mdl-card__actions {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 14px;
+        padding: 0;
+
+        & > *:not(button) {
+          color: #4a4a4a !important;
+        }
+
+        a {
+          color: #4a90e2;
+        }
+
+        button {
+          align-self: flex-end;
+          @include m-theme() {
+            background-color: themed($m-aqua);
+          }
+        }
+      }
+    }
+
+    @media screen and (min-width: $max-mobile) and (max-width: 760px) {
+      minds-form-login {
+        padding: 40px 20px;
+      }
     }
   }
 }
-
-//@import 'defaults';
-//
-//m-login {
-//  display: block;
-//  @include m-theme() {
-//    background-color: themed($m-white);
-//  }
-//}
-//
-//.m-login {
-//  margin: 100px auto;
-//  display: flex;
-//  max-width: 990px;
-//  flex-direction: row;
-//  min-height: 100%;
-//
-//  @media screen and (max-width: $max-mobile) {
-//    flex-direction: column;
-//  }
-//
-//  > div {
-//    margin: 16px;
-//    flex: 1;
-//  }
-//
-//  h3 {
-//    font-weight: 800;
-//    font-size: 18px;
-//    margin: 0 8px;
-//  }
-//}

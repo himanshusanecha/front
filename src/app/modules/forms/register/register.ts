@@ -14,6 +14,7 @@ import { ReCaptchaComponent } from '../../../modules/captcha/recaptcha/recaptcha
 import { ExperimentsService } from '../../experiments/experiments.service';
 import { RouterHistoryService } from '../../../common/services/router-history.service';
 import { PopoverComponent } from '../popover-validation/popover.component';
+import { FeaturesService } from '../../../services/features.service';
 
 @Component({
   moduleId: module.id,

@@ -79,7 +79,7 @@
         </div>
       </ng-container>
       <ng-template #loggedOutRightContainer>
-        <ng-container *ngIf="showSeparateLoginBtns; else singleButton">
+        <ng-container *mIfFeature="'register_pages'; else singleButton">
           <div class="m-v2-topbar__Container__LoginWrapper">
             <a
               class="m-v2-topbarLoginWrapper__login"

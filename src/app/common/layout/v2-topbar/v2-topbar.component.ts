@@ -24,7 +24,6 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   timeout;
   isTouchScreen = false;
   showBackground: boolean = true;
-  showSeparateLoginBtns: boolean = false;
   marketingPages: boolean = false;
   showBottombar: boolean = true;
 
@@ -71,7 +70,6 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
    */
   toggleMarketingPages(value: boolean, showBottombar = true) {
     this.marketingPages = value;
-    this.showSeparateLoginBtns = value;
     this.showBottombar = value && showBottombar;
     this.onScroll();
     this.detectChanges();

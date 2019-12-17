@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
@@ -10,6 +10,8 @@ import { SignupModalService } from '../modals/signup/service';
 import { LoginReferrerService } from '../../services/login-referrer.service';
 import { OnboardingService } from '../onboarding/onboarding.service';
 import { MindsTitle } from '../../services/ux/title';
+import { FeaturesService } from '../../services/features.service';
+import { V2TopbarService } from '../../common/layout/v2-topbar/v2-topbar.service';
 
 @Component({
   selector: 'm-register',
@@ -23,6 +25,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   inProgress: boolean = false;
   videoError: boolean = false;
   referrer: string;
+  @HostBinding('class.m-register__newDesign')
+  newDesign: boolean = false;
   private redirectTo: string;
 
   flags = {
@@ -40,11 +44,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
     public session: Session,
     private onboarding: OnboardingService,
     public navigation: NavigationService,
+    private featuresService: FeaturesService,
+    private topbarService: V2TopbarService,
     public title: MindsTitle
   ) {
     if (this.session.isLoggedIn()) {
       this.router.navigate(['/newsfeed']);
       return;
+    }
+
+    this.newDesign = this.featuresService.has('register_pages');
+
+    if (this.newDesign) {
+      this.topbarService.toggleMarketingPages(true);
     }
   }
 
