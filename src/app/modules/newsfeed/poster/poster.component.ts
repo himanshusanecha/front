@@ -83,7 +83,13 @@ export class PosterComponent {
 
   ngAfterViewInit() {
     this.resizeSubject.next(Date.now());
-    this.onNSFWSelectorReady();
+
+    try {
+      const nsfw = this.nsfwSelector.service.reasons.filter(r => r.selected);
+      this.setNSFWSelector(nsfw);
+    } catch (e) {
+      return;
+    }
   }
 
   ngOnDestroy() {
@@ -304,22 +310,13 @@ export class PosterComponent {
   }
 
   /**
-   * Checks for pre-existing reasons in the NSFW selector, and calls to
-   * set the current NSFW state.
+   * Set the current NSFW state.
+   *
+   * @param { string } nsfw - array of NSFW reasons.
    */
-  onNSFWSelectorReady() {
-    let nsfw: Array<{
-      value;
-      label;
-      selected;
-    }> = [];
-
-    try {
-      nsfw = this.nsfwSelector.service.reasons.filter(r => r.selected);
-    } catch (e) {
-      return;
-    }
-
+  setNSFWSelector(
+    nsfw: Array<{ value: string; label: string; selected: string }> = null
+  ): void {
     if (nsfw.length > 0) {
       this.onNSWFSelections(nsfw);
     }
