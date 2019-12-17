@@ -27,6 +27,12 @@
     width: 100%;
   }
 
+  &.m-v2-topbar__noBackground {
+    @include m-theme() {
+      background-color: transparent;
+    }
+  }
+
   &.m-v2-topbar__marketingPages {
     flex-direction: row;
 
@@ -37,7 +43,7 @@
     .m-v2-topbar {
       padding: 15px 0 0;
       max-width: 1084px;
-      margin: 0 auto;
+      margin: 0 auto 5px auto;
 
       @media screen and (max-width: 1168px) {
         margin: 0 25px;
@@ -185,7 +191,7 @@
   border-top: 3px solid transparent;
   text-decoration: none;
   @include m-theme() {
-    color: themed($m-grey-800);
+    color: themed($m-grey-800) !important;
   }
 
   &.m-v2-topbarNav__Item--active {
@@ -307,6 +313,35 @@
       border: 1px solid themed($m-blue);
       color: themed($m-blue);
     }
+  }
+
+  > a.m-v2-topbarLoginWrapper__login,
+  > a.m-v2-topbarLoginWrapper__joinMindsNow {
+    font-size: 16px;
+    line-height: 21px;
+    font-weight: normal;
+    text-transform: none;
+    white-space: nowrap;
+
+    @include m-theme() {
+      color: themed($m-grey-800) !important;
+    }
+  }
+
+  > a.m-v2-topbarLoginWrapper__login {
+    padding: 0;
+    border: none !important;
+    @media screen and(max-width: $max-mobile) {
+      margin-right: 10px;
+    }
+  }
+
+  > a.m-v2-topbarLoginWrapper__joinMindsNow {
+    @include m-theme() {
+      border: 1px solid themed($m-grey-800) !important;
+    }
+    margin-right: 0 !important;
+    border-radius: 4px;
   }
 }
 
