@@ -1,0 +1,23 @@
+m-date__dropdowns {
+  display: flex;
+
+  select {
+    display: inline-block;
+    color: #4a4a4a;
+    background-color: #fff;
+    box-sizing: border-box;
+    margin: 0 10px 0 0;
+    padding: 8px 10px;
+    height: 36px;
+    min-width: 80px;
+    max-width: 90px;
+
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-size: 16px;
+    line-height: 21px;
+    border: 1px solid #e8e8e8;
+    border-radius: 0;
+  }
+}

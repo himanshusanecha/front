@@ -118,17 +118,9 @@
         </m-tooltip>
       </div>
 
-      <div class="m-onboarding__dropdowns">
-        <select [ngModel]="selectedMonth" (ngModelChange)="selectMonth($event)">
-          <option *ngFor="let month of monthNames">{{ month }}</option>
-        </select>
-        <select [(ngModel)]="selectedDay">
-          <option *ngFor="let day of days">{{ day }}</option>
-        </select>
-        <select [ngModel]="selectedYear" (ngModelChange)="selectYear($event)">
-          <option *ngFor="let year of years">{{ year }}</option>
-        </select>
-      </div>
+      <m-date__dropdowns
+        (selectedDateChanged)="selectedDateChanged($event)"
+      ></m-date__dropdowns>
     </div>
 
     <div class="m-onboarding__actionButtons">

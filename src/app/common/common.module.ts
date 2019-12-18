@@ -127,6 +127,7 @@ import { FormDescriptorComponent } from './components/form-descriptor/form-descr
 import { FormToastComponent } from './components/form-toast/form-toast.component';
 import { SsoService } from './services/sso.service';
 import { V2TopbarService } from './layout/v2-topbar/v2-topbar.service';
+import { DateDropdownsComponent } from './components/date-dropdowns/date-dropdowns.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -242,6 +243,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     FormDescriptorComponent,
     FormToastComponent,
     ShadowboxSubmitButtonComponent,
+    DateDropdownsComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -341,6 +343,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     FormDescriptorComponent,
     FormToastComponent,
     ShadowboxSubmitButtonComponent,
+    DateDropdownsComponent,
   ],
   providers: [
     SiteService,
