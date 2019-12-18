@@ -31,7 +31,6 @@ export class HashtagsStepComponent implements OnInit {
     },
   ];
 
-  input: string = '';
   hashtags: Array<Hashtag> = [];
   error: string;
   inProgress: boolean;
