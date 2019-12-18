@@ -3,7 +3,7 @@
     <ul class="m-footer-nav m-footer-nav-inline">
       <li
         *ngFor="let page of navigation.getItems('footer')"
-        class="m-footer-nav-item "
+        class="m-footer-nav-item"
       >
         <a
           *ngIf="pagesService.isInternalLink(page.path)"
