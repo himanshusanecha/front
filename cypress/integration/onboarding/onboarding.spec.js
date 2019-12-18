@@ -36,19 +36,19 @@ context('Onboarding', () => {
 
 
     // should have a progressbar, with the hashtags step highlighted
-    cy.get('.m-onboardingProgressbar__item--selected span:first-child').contains('1');
-    cy.get('.m-onboardingProgressbar__item--selected span:nth-child(2)').contains('Hashtags');
+    cy.get('.m-onboardingProgressbar__item--selected span').contains('1');
+    cy.get('.m-onboardingProgressbar__item--selected span').contains('Hashtags');
 
     // should have a description
     cy.get('.m-onboarding__form .m-onboarding__description').contains('Select some hashtags that are of interest to you.');
 
     // should have a list of selectable hashtags
-    cy.get('.m-hashtags__list li.m-hashtagsList__item:nth-child(2)').click();
-    cy.get('.m-hashtags__list li.m-hashtagsList__item:nth-child(2)').should('have.class', 'm-hashtagsList__item--selected');
-    cy.get('.m-hashtags__list li.m-hashtagsList__item:nth-child(3)').click();
-    cy.get('.m-hashtags__list li.m-hashtagsList__item:nth-child(3)').should('have.class', 'm-hashtagsList__item--selected');
-    cy.get('.m-hashtags__list li.m-hashtagsList__item:nth-child(4)').click();
-    cy.get('.m-hashtags__list li.m-hashtagsList__item:nth-child(4)').should('have.class', 'm-hashtagsList__item--selected');
+    cy.get('.m-hashtags__list li.m-hashtagsList__item').contains('Art').click();
+    cy.get('.m-hashtags__list li.m-hashtagsList__item').contains('Art').should('have.class', 'selected');
+    cy.get('.m-hashtags__list li.m-hashtagsList__item').contains('Journalism').click();
+    cy.get('.m-hashtags__list li.m-hashtagsList__item').contains('Journalism').should('have.class', 'selected');
+    cy.get('.m-hashtags__list li.m-hashtagsList__item').contains('Music').click();
+    cy.get('.m-hashtags__list li.m-hashtagsList__item').contains('Music').should('have.class', 'selected');
 
     // should have a continue and a skip button
     cy.get('button.mf-button--hollow').contains('Skip');
@@ -72,21 +72,21 @@ context('Onboarding', () => {
     cy.get('#phone').type('012345678');
 
     // should have a Location input
-    cy.get('.m-onboarding__controls .m-onboarding__control:nth-child(2) label').contains('Location');
-    cy.get('.m-onboarding__controls .m-onboarding__control:nth-child(2) input').type('London');
+    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(2) label').contains('Location');
+    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(2) input').type('London');
 
 
     // should have Date of Birth inputs
-    cy.get('.m-onboarding__controls .m-onboarding__control:nth-child(3) label').contains('Date of Birth');
+    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(3) label').contains('Date of Birth');
 
     // open month selection and pick February
-    cy.get('.m-onboarding__controls .m-onboarding__control:nth-child(3) select:nth-child(1)').select('February');
+    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(3) select:nth-child(1)').select('February');
 
     // open day selection and pick 2nd
-    cy.get('.m-onboarding__controls .m-onboarding__control:nth-child(3) select:nth-child(2)').select('2');
+    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(3) select:nth-child(2)').select('2');
 
     // open year selection and pick 1991
-    cy.get('.m-onboarding__controls .m-onboarding__control:nth-child(3) select:nth-child(3)').select('1991');
+    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(3) select:nth-child(3)').select('1991');
 
     // should have a continue and a skip button
     cy.get('button.mf-button--hollow').contains('Skip');
