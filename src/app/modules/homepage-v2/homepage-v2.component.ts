@@ -26,10 +26,6 @@ export class HomepageV2Component implements OnInit, OnDestroy {
 
   minds = window.Minds;
 
-  flags = {
-    canPlayInlineVideos: true,
-  };
-
   constructor(
     public client: Client,
     public title: MindsTitle,
@@ -45,10 +41,6 @@ export class HomepageV2Component implements OnInit, OnDestroy {
     if (this.session.isLoggedIn()) {
       this.router.navigate(['/newsfeed']);
       return;
-    }
-
-    if (/iP(hone|od)/.test(window.navigator.userAgent)) {
-      this.flags.canPlayInlineVideos = false;
     }
 
     this.topbarService.toggleMarketingPages(true, false);
