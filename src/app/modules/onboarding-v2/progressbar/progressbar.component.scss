@@ -54,9 +54,6 @@
     text-transform: uppercase;
 
     .m-onboardingProgressbarItem__selector {
-      //position: absolute;
-      //bottom: 0;
-      //left: 0;
       width: 18px;
       height: 18px;
 
@@ -67,7 +64,6 @@
 
     &.m-onboardingProgressbar__item--selected {
       .m-onboardingProgressbarItem__selector {
-        //background-color: red;
         @include m-theme() {
           background-color: themed($m-aqua);
         }
