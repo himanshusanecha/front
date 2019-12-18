@@ -5,7 +5,7 @@ import { PagesService } from '../../services/pages.service';
 import { MockComponent, MockService } from '../../../utils/mock';
 import { Navigation as NavigationService } from '../../../services/navigation';
 
-describe('FormToastComponent', () => {
+describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
 
