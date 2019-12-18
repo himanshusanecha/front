@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 
@@ -12,7 +11,7 @@ import {
   templateUrl: 'popover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PopoverComponent implements OnInit {
+export class PopoverComponent {
   @ViewChild('content', { static: true }) content: ElementRef;
 
   lengthCheck: boolean = false;
@@ -25,22 +24,20 @@ export class PopoverComponent implements OnInit {
 
   constructor(protected cd: ChangeDetectorRef) {}
 
-  ngOnInit() {}
-
-  show() {
+  show(): void {
     if (!this.hidden) {
       this.content.nativeElement.classList.add('m-popover__content--visible');
       this.detectChanges();
     }
   }
 
-  hide(keepHidden: boolean = false) {
+  hide(keepHidden: boolean = false): void {
     this.content.nativeElement.classList.remove('m-popover__content--visible');
     this.hidden = keepHidden;
     this.detectChanges();
   }
 
-  checkRules(str: string) {
+  checkRules(str: string): void {
     this.lengthCheck = str.length >= 8;
     this.specialCharCheck = /[^a-zA-Z\d]/.exec(str) !== null;
     this.mixedCaseCheck =
@@ -61,7 +58,7 @@ export class PopoverComponent implements OnInit {
     this.detectChanges();
   }
 
-  detectChanges() {
+  detectChanges(): void {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
