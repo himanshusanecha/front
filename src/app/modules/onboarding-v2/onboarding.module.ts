@@ -15,9 +15,10 @@ import { HomepageV2Module } from '../homepage-v2/homepage.module';
 import { InfoStepComponent } from './steps/info/info.component';
 import { ProgressbarComponent } from './progressbar/progressbar.component';
 import { ChannelListComponent } from './steps/channels/list/list.component';
-import { JoinComponent } from './join/join.component';
 import { GroupListComponent } from './steps/groups/list/list.component';
 import { MindsFormsModule } from '../forms/forms.module';
+import { LegacyModule } from '../legacy/legacy.module';
+import { GroupsModule } from '../groups/groups.module';
 
 const routes: Routes = [
   {
@@ -65,6 +66,8 @@ const routes: Routes = [
     SuggestionsModule,
     HomepageV2Module,
     MindsFormsModule,
+    LegacyModule,
+    GroupsModule,
   ],
   exports: [],
   declarations: [
@@ -77,7 +80,6 @@ const routes: Routes = [
     ChannelsStepComponent,
     ChannelListComponent,
     GroupListComponent,
-    JoinComponent,
   ],
   providers: [],
 })

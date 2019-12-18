@@ -161,6 +161,30 @@ m-onboarding {
           max-width: 1280px;
           margin: auto;
 
+          minds-groups-join-button {
+            &.m-groupsJoin--iconsOnly {
+              & > div {
+                height: 34px;
+                width: 34px;
+                border: 1px solid #ececec;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                & > i {
+                  color: #ececec;
+                }
+
+                &.m-groupsJoin__subscribed {
+                  & > i {
+                    color: #5dbac0;
+                  }
+                }
+              }
+            }
+          }
+
           m-channels--tile {
             //flex: auto;
             flex-basis: calc(25% - 16px);

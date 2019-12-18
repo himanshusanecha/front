@@ -23,7 +23,10 @@
             <span i18n>{{ entity.subscribers_count | abbr }} members</span>
           </div>
           <div class="m-layout__spacer"></div>
-          <m-join [entity]="entity"></m-join>
+          <minds-button-subscribe
+            [user]="entity"
+            [iconsOnly]="true"
+          ></minds-button-subscribe>
         </div>
       </a>
     </li>
