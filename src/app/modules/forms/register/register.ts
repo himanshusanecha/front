@@ -168,13 +168,13 @@ export class RegisterForm {
     );
   }
 
-  passwordOnFocus() {
+  onPasswordFocus() {
     if (this.form.value.password.length > 0) {
       this.popover.show();
     }
   }
 
-  passwordOnFocusOut() {
+  onPasswordBlur() {
     this.popover.hide();
   }
 }

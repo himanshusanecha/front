@@ -61,8 +61,8 @@
           i18n-placeholder="@@M__COMMON__PASSWORD"
           readonly
           onfocus="this.removeAttribute('readonly');"
-          (focus)="passwordOnFocus()"
-          (focusout)="passwordOnFocusOut()"
+          (focus)="onPasswordFocus()"
+          (blur)="onPasswordBlur()"
           (ngModelChange)="popover.show(); popover.checkRules($event)"
           [class.m-input--hide-placeholder]="showLabels"
         />
