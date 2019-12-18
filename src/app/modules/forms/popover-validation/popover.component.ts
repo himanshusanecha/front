@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'm-popover--validation',
+  selector: 'm-popover',
   templateUrl: 'popover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -52,7 +52,7 @@
       <label for="password" *ngIf="showLabels" i18n>
         Password
       </label>
-      <m-popover--validation #popover>
+      <m-popover #popover>
         <input
           type="password"
           id="password"
@@ -66,7 +66,7 @@
           (ngModelChange)="popover.show(); popover.checkRules($event)"
           [class.m-input--hide-placeholder]="showLabels"
         />
-      </m-popover--validation>
+      </m-popover>
     </div>
     <div class="mdl-cell mdl-cell--12-col" [hidden]="!form.value.password">
       <label for="password2" *ngIf="showLabels" i18n>
