@@ -15,7 +15,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   `,
 })
 export class DateDropdownsComponent implements OnInit {
-  @Output() selectedDateChanged: EventEmitter<string> = new EventEmitter<
+  @Output() selectedDateChange: EventEmitter<string> = new EventEmitter<
     string
   >();
   monthNames = [
@@ -53,13 +53,13 @@ export class DateDropdownsComponent implements OnInit {
     this.populateDays(
       this.getDaysInMonth(this.getMonthNumber(month), this.selectedYear)
     );
-    this.selectedDateChanged.emit(this.buildDate());
+    this.selectedDateChange.emit(this.buildDate());
   }
 
   selectDay(day: string) {
     this.selectedDay = day;
 
-    this.selectedDateChanged.emit(this.buildDate());
+    this.selectedDateChange.emit(this.buildDate());
   }
 
   selectYear(year) {
@@ -68,7 +68,7 @@ export class DateDropdownsComponent implements OnInit {
     this.populateDays(
       this.getDaysInMonth(this.getMonthNumber(this.selectedMonth), year)
     );
-    this.selectedDateChanged.emit(this.buildDate());
+    this.selectedDateChange.emit(this.buildDate());
   }
 
   buildDate() {

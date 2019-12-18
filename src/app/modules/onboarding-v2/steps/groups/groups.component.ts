@@ -6,25 +6,6 @@ import { Router } from '@angular/router';
   templateUrl: 'groups.component.html',
 })
 export class GroupsStepComponent {
-  steps = [
-    {
-      name: 'Hashtags',
-      selected: false,
-    },
-    {
-      name: 'Info',
-      selected: false,
-    },
-    {
-      name: 'Groups',
-      selected: true,
-    },
-    {
-      name: 'Channels',
-      selected: false,
-    },
-  ];
-
   constructor(private router: Router) {}
 
   skip() {

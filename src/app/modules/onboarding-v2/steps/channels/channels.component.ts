@@ -6,25 +6,6 @@ import { Router } from '@angular/router';
   templateUrl: 'channels.component.html',
 })
 export class ChannelsStepComponent {
-  steps = [
-    {
-      name: 'Hashtags',
-      selected: false,
-    },
-    {
-      name: 'Info',
-      selected: false,
-    },
-    {
-      name: 'Groups',
-      selected: false,
-    },
-    {
-      name: 'Channels',
-      selected: true,
-    },
-  ];
-
   constructor(private router: Router) {}
 
   finish() {

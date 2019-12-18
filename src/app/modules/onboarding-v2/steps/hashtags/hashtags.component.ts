@@ -12,25 +12,6 @@ type Hashtag = {
   templateUrl: 'hashtags.component.html',
 })
 export class HashtagsStepComponent implements OnInit {
-  steps = [
-    {
-      name: 'Hashtags',
-      selected: true,
-    },
-    {
-      name: 'Info',
-      selected: false,
-    },
-    {
-      name: 'Groups',
-      selected: false,
-    },
-    {
-      name: 'Channels',
-      selected: false,
-    },
-  ];
-
   hashtags: Array<Hashtag> = [];
   error: string;
   inProgress: boolean;

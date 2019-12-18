@@ -11,25 +11,6 @@ import { Router } from '@angular/router';
 export class InfoStepComponent {
   user: MindsUser;
 
-  steps = [
-    {
-      name: 'Hashtags',
-      selected: false,
-    },
-    {
-      name: 'Info',
-      selected: true,
-    },
-    {
-      name: 'Groups',
-      selected: false,
-    },
-    {
-      name: 'Channels',
-      selected: false,
-    },
-  ];
-
   selectedMonth = 'January';
   selectedDay = '1';
   selectedYear = new Date().getFullYear();
@@ -90,7 +71,7 @@ export class InfoStepComponent {
     this.verify();
   }
 
-  selectedDateChanged(date: string) {
+  selectedDateChange(date: string) {
     this.date = date;
   }
 
