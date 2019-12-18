@@ -98,6 +98,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (this.paramsSubscription) {
       this.paramsSubscription.unsubscribe();
     }
+    this.topbarService.toggleMarketingPages(false);
   }
 
   private navigateToRedirection() {

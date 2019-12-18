@@ -74,6 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
+    this.topbarService.toggleMarketingPages(false);
   }
 
   loggedin() {
