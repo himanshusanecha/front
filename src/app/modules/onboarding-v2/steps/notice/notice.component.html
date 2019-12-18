@@ -1,10 +1,9 @@
 <div class="m-onboarding__form">
-  <div
+  <img
+    [src]="cdnAssetsUrl + 'assets/waving-hand.png'"
     class="m-notice__wavingEmoji"
     [class.m-notice__wavingEmoji--mobile]="isMobile()"
-  >
-    👋
-  </div>
+  />
 
   <h1 class="m-onboarding__mobileTitle" *ngIf="isMobile()" i18n>
     Welcome
@@ -13,12 +12,17 @@
   <h1 *ngIf="!isMobile()" i18n>
     Welcome to the Minds Community
   </h1>
-  <h2 [class.m-onboarding__mobileTitle]="isMobile()">@{{ user.username }}</h2>
+  <h2
+    class="m-onboarding__noticeTitle"
+    [class.m-onboarding__mobileTitle]="isMobile()"
+  >
+    @{{ user.username }}
+  </h2>
 
   <p class="m-onboarding__description" i18n>
     Your privacy is our priority. You are free to provide as much or as little
-    information as you wish for better recomendations and to connect with people
-    in your local area.
+    information as you wish for better recommendations and to connect with
+    people in your local area.
   </p>
 
   <div class="m-onboarding__actionButtons">

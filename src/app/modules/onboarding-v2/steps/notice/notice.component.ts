@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class NoticeStepComponent implements OnInit {
   user: MindsUser;
+  readonly cdnAssetsUrl: string = window.Minds.cdn_assets_url;
 
   constructor(private session: Session, private router: Router) {
     this.user = session.getLoggedInUser();
@@ -25,6 +26,6 @@ export class NoticeStepComponent implements OnInit {
   }
 
   isMobile() {
-    return window.innerWidth <= 480;
+    return window.innerWidth <= 540;
   }
 }

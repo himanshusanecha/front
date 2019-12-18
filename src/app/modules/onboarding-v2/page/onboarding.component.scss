@@ -98,22 +98,25 @@ m-onboarding {
         line-height: 43px;
         color: #4a4a4a;
 
-        @media screen and (max-width: 740px) {
-          color: #a2a2a2;
-          font-size: 13px;
-          line-height: 18px;
-          letter-spacing: 2px;
-          text-transform: uppercase;
+        &.m-onboarding__mobileTitle {
+          font-size: 28px;
+          line-height: 37px;
+          margin-top: 27px;
+          margin-bottom: 30px;
+          color: #4a4a4a;
           text-align: center;
-          margin-top: 50px;
-          margin-bottom: 0;
+        }
 
-          &.m-onboarding__mobileTitle {
-            font-size: 28px;
-            line-height: 37px;
-            margin-top: 27px;
-            margin-bottom: 30px;
-            color: #4a4a4a;
+        &:not(.m-onboarding__noticeTitle) {
+          @media screen and (max-width: 740px) {
+            color: #a2a2a2;
+            font-size: 13px;
+            line-height: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 0;
           }
         }
       }
