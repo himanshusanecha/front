@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'm-channels__step',
+  selector: 'm-onboarding__channelsStep',
   templateUrl: 'channels.component.html',
 })
 export class ChannelsStepComponent {

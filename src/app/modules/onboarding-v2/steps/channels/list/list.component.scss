@@ -1,8 +1,8 @@
-m-channel__list {
+m-onboarding__channelList {
   display: block;
   width: 100%;
 
-  .m-channel__list {
+  .m-onboarding__channelList {
     h3 {
       margin: 0;
       font-size: 13px;
@@ -65,12 +65,6 @@ m-channel__list {
         font-weight: 500;
         line-height: 21px;
         margin: 0;
-        //font-size: 13px;
-        //line-height: 18px;
-        //font-weight: 600;
-        //@include m-theme() {
-        //  color: themed($m-grey-800);
-        //}
       }
 
       > div {
@@ -82,15 +76,6 @@ m-channel__list {
         overflow: hidden;
         position: relative;
         display: block;
-        //text-overflow: ellipsis;
-        //font-size: 11px;
-        //line-height: 11px;
-        //white-space: nowrap;
-        //padding-right: 8px;
-        //font-weight: 400;
-        //@include m-theme() {
-        //  color: themed($m-grey-400);
-        //}
 
         height: 19px;
         width: 92px;

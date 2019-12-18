@@ -4,7 +4,7 @@ import { Session } from '../../../../services/session';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'm-notice__step',
+  selector: 'm-onboarding__noticeStep',
   templateUrl: 'notice.component.html',
 })
 export class NoticeStepComponent implements OnInit {

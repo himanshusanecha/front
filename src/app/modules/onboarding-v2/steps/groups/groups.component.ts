@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'm-groups__step',
+  selector: 'm-onboarding__groupsStep',
   templateUrl: 'groups.component.html',
 })
 export class GroupsStepComponent {

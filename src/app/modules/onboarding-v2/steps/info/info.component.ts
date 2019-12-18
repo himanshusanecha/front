@@ -5,7 +5,7 @@ import { Client } from '../../../../services/api';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'm-info__step',
+  selector: 'm-onboarding__infoStep',
   templateUrl: 'info.component.html',
 })
 export class InfoStepComponent {

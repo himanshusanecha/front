@@ -8,15 +8,12 @@ import {
 import { FeedsService } from '../../../../../common/services/feeds.service';
 import { first } from 'rxjs/operators';
 
-type EntityType = 'group' | 'user';
-
 @Component({
-  selector: 'm-group__list',
+  selector: 'm-onboarding__groupList',
   templateUrl: 'list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupListComponent implements OnInit {
-  @Input() entityType: EntityType = 'user';
   minds = window.Minds;
   inProgress: boolean = false;
   error: string;

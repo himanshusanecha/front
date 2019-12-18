@@ -8,7 +8,7 @@ type Hashtag = {
 };
 
 @Component({
-  selector: 'm-hashtags__step',
+  selector: 'm-onboarding__hashtagsStep',
   templateUrl: 'hashtags.component.html',
 })
 export class HashtagsStepComponent implements OnInit {
