@@ -126,6 +126,7 @@ import { ShadowboxSubmitButtonComponent } from './components/shadowbox-submit-bu
 import { FormDescriptorComponent } from './components/form-descriptor/form-descriptor.component';
 import { FormToastComponent } from './components/form-toast/form-toast.component';
 import { SsoService } from './services/sso.service';
+import { PagesService } from './services/pages.service';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -344,6 +345,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
   providers: [
     SiteService,
     SsoService,
+    PagesService,
     {
       provide: AttachmentService,
       useFactory: AttachmentService._,

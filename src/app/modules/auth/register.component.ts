@@ -9,6 +9,7 @@ import { Session } from '../../services/session';
 import { SignupModalService } from '../modals/signup/service';
 import { LoginReferrerService } from '../../services/login-referrer.service';
 import { OnboardingService } from '../onboarding/onboarding.service';
+import { PagesService } from '../../common/services/pages.service';
 
 @Component({
   selector: 'm-register',
@@ -37,7 +38,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private loginReferrer: LoginReferrerService,
     public session: Session,
     private onboarding: OnboardingService,
-    public navigation: NavigationService
+    public navigation: NavigationService,
+    public pagesService: PagesService
   ) {
     if (this.session.isLoggedIn()) {
       this.router.navigate(['/newsfeed']);
