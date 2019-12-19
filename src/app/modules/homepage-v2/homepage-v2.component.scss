@@ -42,6 +42,11 @@ m-homepage__v2 {
 
     .m-marketing__section--style-5 {
       .m-marketing__wrapper {
+        .m-marketing__description {
+          @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
+            padding-right: 10px;
+          }
+        }
         .m-marketing__image {
           span {
             @media screen and (max-width: $m-grid-max-mobile) {
