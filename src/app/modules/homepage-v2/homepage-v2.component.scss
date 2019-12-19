@@ -42,6 +42,10 @@ m-homepage__v2 {
 
     .m-marketing__section--style-5 {
       .m-marketing__wrapper {
+        .m-marketing__link {
+          font-size: 17px;
+          line-height: 23px;
+        }
         .m-marketing__description {
           @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
             padding-right: 10px;
