@@ -55,7 +55,7 @@ export class HomepageV2Component implements OnInit, OnDestroy {
   }
 
   navigate() {
-    if (this.featuresService.has('onboarding')) {
+    if (this.featuresService.has('onboarding-december-2019')) {
       this.router.navigate(['/onboarding']);
     } else {
       this.router.navigate(['/login']);

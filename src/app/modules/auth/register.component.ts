@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.newDesign = this.featuresService.has('register_pages');
+    this.newDesign = this.featuresService.has('register_pages-december-2019');
 
     if (this.newDesign) {
       this.topbarService.toggleMarketingPages(true);

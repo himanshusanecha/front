@@ -92,7 +92,7 @@ describe('LoginComponent', () => {
     jasmine.clock().uninstall();
     jasmine.clock().install();
 
-    featuresServiceMock.mock('register_pages', false);
+    featuresServiceMock.mock('register_pages-december-2019', false);
 
     fixture = TestBed.createComponent(LoginComponent);
 

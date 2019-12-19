@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.flags.canPlayInlineVideos = false;
     }
 
-    this.newDesign = this.featuresService.has('register_pages');
+    this.newDesign = this.featuresService.has('register_pages-december-2019');
 
     if (this.newDesign) {
       this.topbarService.toggleMarketingPages(true);
