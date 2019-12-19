@@ -74,7 +74,7 @@
 
   <div class="m-onboarding__control">
     <div class="m-onboardingControl__label">
-      <label i18n>Location</label>
+      <label data-minds="location" i18n>Location</label>
 
       <m-tooltip [anchor]="tooltipAnchor">
         <span m-tooltip--anchor>𝒊</span>
@@ -88,7 +88,7 @@
     </div>
 
     <div class="m-onboarding__input">
-      <input type="text" [(ngModel)]="location" />
+      <input type="text" data-minds="locationInput" [(ngModel)]="location" />
       <div class="m-onboarding__error">
         {{ locationError }}
       </div>
@@ -97,7 +97,7 @@
 
   <div class="m-onboarding__control">
     <div class="m-onboardingControl__label">
-      <label i18n>Date of Birth</label>
+      <label data-minds="dateOfBirth" i18n>Date of Birth</label>
 
       <m-tooltip [anchor]="tooltipAnchor">
         <span m-tooltip--anchor>𝒊</span>

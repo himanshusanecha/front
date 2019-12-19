@@ -112,9 +112,9 @@ Cypress.Commands.add('logout', () => {
  * @returns void
  */
 Cypress.Commands.add('newUser', (username = '', password = '') => {
-  cy.visit('/login')
+  cy.visit('/register')
     .location('pathname')
-    .should('eq', `/login`);
+    .should('eq', `/register`);
 
   cy.server();
   cy.route("POST", '**/api/v1/register').as('registerPOST');

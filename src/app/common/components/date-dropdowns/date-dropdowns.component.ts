@@ -3,13 +3,25 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'm-date__dropdowns',
   template: `
-    <select [ngModel]="selectedMonth" (ngModelChange)="selectMonth($event)">
+    <select
+      data-minds="monthDropdown"
+      [ngModel]="selectedMonth"
+      (ngModelChange)="selectMonth($event)"
+    >
       <option *ngFor="let month of monthNames">{{ month }}</option>
     </select>
-    <select [ngModel]="selectedDay" (ngModelChange)="selectDay($event)">
+    <select
+      data-minds="dayDropdown"
+      [ngModel]="selectedDay"
+      (ngModelChange)="selectDay($event)"
+    >
       <option *ngFor="let day of days">{{ day }}</option>
     </select>
-    <select [ngModel]="selectedYear" (ngModelChange)="selectYear($event)">
+    <select
+      data-minds="yearDropdown"
+      [ngModel]="selectedYear"
+      (ngModelChange)="selectYear($event)"
+    >
       <option *ngFor="let year of years">{{ year }}</option>
     </select>
   `,

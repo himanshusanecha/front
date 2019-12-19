@@ -55,38 +55,38 @@ context('Onboarding', () => {
     cy.get('button.mf-button--alt').contains('Continue').click();
 
     // should be in the info step
-    cy.get('.m-onboardingProgressbar__item--selected span:first-child').contains('2');
-    cy.get('.m-onboardingProgressbar__item--selected span:nth-child(2)').contains('Info');
+    cy.get('.m-onboardingProgressbar__item--selected span').contains('2');
+    cy.get('.m-onboardingProgressbar__item--selected span').contains('Info');
 
     // should have a Mobile Phone Number input
-    cy.get('.m-onboarding__controls .m-onboarding__control:first-child label').contains('Mobile Phone Number');
+    cy.get('.m-onboarding__controls .m-onboarding__control label').contains('Mobile Phone Number');
 
     // open country dropdown
     cy.get('.m-onboarding__controls .m-phone-input--selected-flag').click();
     // click on UK
-    cy.get('.m-phone-input--country-list li:nth-child(2)').click();
+    cy.get('.m-phone-input--country-list li span[data-minds=54]').click();
     // Uk should be selected
-    cy.get('.m-phone-input--selected-flag .m-phone-input--dial-code').contains('+44');
+    cy.get('.m-phone-input--selected-flag .m-phone-input--dial-code').contains('+54');
 
     // add the number
     cy.get('#phone').type('012345678');
 
     // should have a Location input
-    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(2) label').contains('Location');
-    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(2) input').type('London');
+    cy.get('.m-onboarding__controls > .m-onboarding__control label[data-minds=location]').contains('Location');
+    cy.get('.m-onboarding__controls > .m-onboarding__control input[data-minds=locationInput]').type('London');
 
 
     // should have Date of Birth inputs
-    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(3) label').contains('Date of Birth');
+    cy.get('.m-onboarding__controls > .m-onboarding__control label[data-minds=dateOfBirth]').contains('Date of Birth');
 
     // open month selection and pick February
-    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(3) select:nth-child(1)').select('February');
+    cy.get('.m-onboarding__controls > .m-onboarding__control select[data-minds=monthDropdown]').select('February');
 
     // open day selection and pick 2nd
-    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(3) select:nth-child(2)').select('2');
+    cy.get('.m-onboarding__controls > .m-onboarding__control select[data-minds=dayDropdown]').select('2');
 
     // open year selection and pick 1991
-    cy.get('.m-onboarding__controls > .m-onboarding__control:nth-child(3) select:nth-child(3)').select('1991');
+    cy.get('.m-onboarding__controls > .m-onboarding__control select[data-minds=yearDropdown]').select('1991');
 
     // should have a continue and a skip button
     cy.get('button.mf-button--hollow').contains('Skip');

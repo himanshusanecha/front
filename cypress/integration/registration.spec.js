@@ -20,8 +20,8 @@ context('Registration', () => {
 
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit('/login');
-    cy.location('pathname').should('eq', '/login');
+    cy.visit('/register');
+    cy.location('pathname').should('eq', '/register');
     cy.server();
     cy.route("POST", "**/api/v1/register").as("register");
   });
@@ -39,21 +39,21 @@ context('Registration', () => {
     cy.get(usernameField)
       .focus()
       .type(username);
-    
+
     cy.get(emailField)
       .focus()
       .type(email);
-    
+
     cy.get(passwordField)
       .focus()
       .type(password);
-      
+
     cy.wait(500);
 
     cy.get(password2Field)
       .focus()
       .type(password);
-    
+
     cy.get(checkbox)
       .click({force: true});
 
@@ -63,31 +63,31 @@ context('Registration', () => {
       .wait('@register').then((xhr) => {
         expect(xhr.status).to.equal(200);
       });
-  
+
     //onboarding modal shown
     cy.contains(welcomeText);
   });
 
   it('should display an error if password is invalid', () => {
-    
+
     cy.get(usernameField)
       .focus()
       .type(generateRandomId());
-    
+
     cy.get(emailField)
       .focus()
       .type(email);
-    
+
     cy.get(passwordField)
       .focus()
       .type(noSymbolPass);
-    
+
     cy.wait(500);
 
     cy.get(password2Field)
       .focus()
       .type(noSymbolPass);
-    
+
     cy.get(checkbox)
       .click({force: true});
 
@@ -106,21 +106,21 @@ context('Registration', () => {
     cy.get(usernameField)
       .focus()
       .type(generateRandomId());
-    
+
     cy.get(emailField)
       .focus()
       .type(email);
-    
+
     cy.get('minds-form-register #password')
       .focus()
       .type(password);
-    
+
     cy.wait(500);
-  
+
     cy.get(password2Field)
       .focus()
       .type(password + '!');
-    
+
     cy.get(checkbox)
       .click({force: true});
 
