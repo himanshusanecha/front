@@ -3,6 +3,7 @@
 m-homepage__v2 {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+
   m-marketing {
     position: relative;
     margin-top: -52px;
@@ -69,7 +70,7 @@ m-homepage__v2 {
           z-index: 0;
 
           @media screen and (max-width: $m-grid-max-mobile) {
-            padding: 0 30px 0;
+            padding: 0 16px 0;
           }
 
           &::before {
@@ -88,9 +89,14 @@ m-homepage__v2 {
             }
           }
 
-          h1 {
+          h1.m-homepage__title {
             margin-top: 0;
             margin-bottom: 40px;
+
+            @media screen and(max-width: $m-grid-max-mobile) {
+              margin-top: 40px;
+              margin-bottom: 0;
+            }
           }
 
           h2 {
@@ -102,13 +108,19 @@ m-homepage__v2 {
               font-size: 48px;
               line-height: 65px;
             }
+
+            @media screen and(max-width: $m-grid-max-mobile) {
+              font-size: 37px;
+              line-height: 65px;
+              margin-bottom: 0;
+            }
           }
 
           .m-marketing__description {
             margin-bottom: 21px;
             padding-right: 129px;
 
-            @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
+            @media screen and (max-width: $m-grid-min-vp) {
               padding-right: 0;
             }
           }
@@ -137,7 +149,7 @@ m-homepage__v2 {
             &::after {
               left: 0;
               right: 0;
-              top: 1100px;
+              top: 950px;
             }
           }
         }
@@ -303,14 +315,12 @@ m-homepage__v2 {
           }
 
           & > img {
-            //box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-            height: auto !important;
-            object-fit: initial !important;
-
             max-width: 273px;
             min-width: 250px;
             width: 100%;
+            height: 548px;
             clip-path: none;
+            object-fit: cover;
 
             @media screen and (min-width: $m-grid-max-tablet) {
               transform: translate(-4px, -17px);
@@ -342,7 +352,7 @@ m-homepage__v2 {
     }
 
     &.m-homepage__joinButton--first {
-      margin: 22px 0 74px 10px;
+      margin: 22px 0 74px 0;
       @media screen and (max-width: 900px) {
         display: none;
       }
@@ -356,7 +366,6 @@ m-homepage__v2 {
     //width: 50%;
 
     margin-top: 50px;
-    margin-left: 10px;
 
     & > a:first-child {
       margin-right: 5%;
@@ -447,6 +456,12 @@ m-homepage__v2 {
         height: 60px;
         margin: 0 auto;
       }
+    }
+  }
+
+  @media screen and (max-width: $m-grid-max-mobile) {
+    .m-marketingAsFeaturedIn__title {
+      display: none;
     }
   }
 }
