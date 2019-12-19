@@ -8,8 +8,8 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class PagesService {
-  private internalPageRegex: RegExp = /^p\/\w/; // matches 'p/' in first and second position.
-
+  private internalPageRegex: RegExp = /^p\/\w+/g; ///^p\/*$/gm; // matches 'p/' in first and second position.
+  // p/terms-of-service
   constructor() {}
 
   /**
@@ -18,6 +18,6 @@ export class PagesService {
    *
    * @returns true if regex matches that of an internal page '/p/'.
    */
-  public isInternalLink = (path: string): boolean =>
-    this.internalPageRegex.test(path);
+  public isInternalLink = (path: string): any =>
+    path.match(this.internalPageRegex);
 }

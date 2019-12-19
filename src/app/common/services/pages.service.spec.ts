@@ -29,19 +29,29 @@ describe('PagesService', () => {
         'itunes.apple.com/us/app/minds-com/id961771928%3Fmt%3D8'
       )
     ).toBeFalsy();
+    expect(
+      !service.isInternalLink(
+        'itunes.apple.com/us/app/minds-com/id961771928%3Fmt%3D8'
+      )
+    ).toBeTruthy();
   });
 
   it('should discern a URL is not internal', () => {
     expect(
       service.isInternalLink('https://www.testlinkdonotclick.com/test/')
     ).toBeFalsy();
+    expect(
+      !service.isInternalLink('https://www.testlinkdonotclick.com/test/')
+    ).toBeTruthy();
   });
 
   it('should discern an internal URL', () => {
     expect(service.isInternalLink('p/terms-of-service')).toBeTruthy();
+    expect(!service.isInternalLink('p/terms-of-service')).toBeFalsy();
   });
 
   it('should not flag a URL as internal when p/ not in first position', () => {
     expect(service.isInternalLink('app/terms-of-service')).toBeFalsy();
+    expect(!service.isInternalLink('app/terms-of-service')).toBeTruthy();
   });
 });
