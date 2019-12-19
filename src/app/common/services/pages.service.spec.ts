@@ -29,9 +29,34 @@ describe('PagesService', () => {
         'itunes.apple.com/us/app/minds-com/id961771928%3Fmt%3D8'
       )
     ).toBeFalsy();
+
+    // testing for RegExp collision issues.
     expect(
       !service.isInternalLink(
         'itunes.apple.com/us/app/minds-com/id961771928%3Fmt%3D8'
+      )
+    ).toBeTruthy();
+  });
+
+  it('should still find external links starting https:// or http://', () => {
+    expect(
+      service.isInternalLink(
+        'http://itunes.apple.com/us/app/minds-com/id961771928%3Fmt%3D8'
+      )
+    ).toBeFalsy();
+    expect(
+      !service.isInternalLink(
+        'http://itunes.apple.com/us/app/minds-com/id961771928%3Fmt%3D8'
+      )
+    ).toBeTruthy();
+    expect(
+      service.isInternalLink(
+        'https://itunes.apple.com/us/app/minds-com/id961771928%3Fmt%3D8'
+      )
+    ).toBeFalsy();
+    expect(
+      !service.isInternalLink(
+        'https://itunes.apple.com/us/app/minds-com/id961771928%3Fmt%3D8'
       )
     ).toBeTruthy();
   });
@@ -47,11 +72,11 @@ describe('PagesService', () => {
 
   it('should discern an internal URL', () => {
     expect(service.isInternalLink('p/terms-of-service')).toBeTruthy();
-    expect(!service.isInternalLink('p/terms-of-service')).toBeFalsy();
+    expect(service.isInternalLink('p/terms-of-service')).not.toBeFalsy();
   });
 
   it('should not flag a URL as internal when p/ not in first position', () => {
     expect(service.isInternalLink('app/terms-of-service')).toBeFalsy();
-    expect(!service.isInternalLink('app/terms-of-service')).toBeTruthy();
+    expect(service.isInternalLink('app/terms-of-service')).not.toBeTruthy();
   });
 });
