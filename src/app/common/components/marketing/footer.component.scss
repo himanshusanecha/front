@@ -126,15 +126,6 @@ m-marketing__footer {
           color: themed($m-grey-300);
         }
 
-        @media screen and (max-width: $m-grid-min-vp) {
-          display: inline-block;
-          margin-right: 1em;
-
-          &:last-child {
-            margin-right: 0;
-          }
-        }
-
         a {
           color: inherit;
           font-weight: normal;

@@ -46,6 +46,7 @@ m-homepage__v2 {
           font-size: 17px;
           line-height: 23px;
         }
+
         .m-marketing__description {
           @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
             padding-right: 10px;
@@ -466,6 +467,11 @@ m-homepage__v2 {
         line-height: 37px;
         color: #4a4a4a;
         white-space: nowrap;
+        margin-bottom: 34px;
+
+        @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
+          font-size: 24px;
+        }
 
         @media screen and (max-width: $m-grid-max-mobile) {
           font-size: 19px;
