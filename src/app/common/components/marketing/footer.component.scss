@@ -160,7 +160,7 @@ m-marketing__footer {
           text-align: right;
           padding-right: 92px;
 
-          @media screen and (max-width: $m-grid-min-vp) {
+          @media screen and (max-width: $m-grid-max-mobile) {
             text-align: inherit;
             padding-right: initial;
           }
