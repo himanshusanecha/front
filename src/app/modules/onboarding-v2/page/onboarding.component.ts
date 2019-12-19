@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Session } from '../../../services/session';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '../../../services/storage';
+import { OnboardingV2Service } from '../service/onboarding.service';
 
 @Component({
   selector: 'm-onboarding',
   templateUrl: 'onboarding.component.html',
 })
-export class OnboardingComponent implements OnInit {
+export class OnboardingComponent {
   steps = [
     {
       name: 'Hashtags',
@@ -32,7 +33,8 @@ export class OnboardingComponent implements OnInit {
     private session: Session,
     private router: Router,
     private storage: Storage,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private onboardingService: OnboardingV2Service
   ) {
     route.url.subscribe(() => {
       const section: string = route.snapshot.firstChild.routeConfig.path;
@@ -47,12 +49,21 @@ export class OnboardingComponent implements OnInit {
         this.steps = this.steps.slice(0);
       }
     });
-  }
 
-  ngOnInit() {
     if (!this.session.isLoggedIn()) {
       this.storage.set('redirect', 'onboarding');
       this.router.navigate(['/register']);
+      return;
     }
+
+    this.checkIfAlreadyOnboarded();
+  }
+
+  async checkIfAlreadyOnboarded() {
+    if (!(await this.onboardingService.shouldShow())) {
+      this.router.navigate(['/newsfeed/subscriptions']);
+    }
+
+    this.onboardingService.shown();
   }
 }

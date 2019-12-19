@@ -19,6 +19,9 @@ import { GroupListComponent } from './steps/groups/list/list.component';
 import { MindsFormsModule } from '../forms/forms.module';
 import { LegacyModule } from '../legacy/legacy.module';
 import { GroupsModule } from '../groups/groups.module';
+import { OnboardingV2Service } from './service/onboarding.service';
+import { Client } from '../../services/api/client';
+import { Session } from '../../services/session';
 
 const routes: Routes = [
   {
@@ -81,6 +84,12 @@ const routes: Routes = [
     ChannelListComponent,
     GroupListComponent,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: OnboardingV2Service,
+      deps: [Client, Session],
+      useFactory: OnboardingV2Service._,
+    },
+  ],
 })
 export class OnboardingV2Module {}
