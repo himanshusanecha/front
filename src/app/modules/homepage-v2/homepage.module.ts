@@ -14,6 +14,7 @@ import { MarketingModule } from '../marketing/marketing.module';
 import { ExperimentsModule } from '../experiments/experiments.module';
 import { HomepageV2Component } from './homepage-v2.component';
 import { CaptchaModule } from '../captcha/captcha.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { CaptchaModule } from '../captcha/captcha.module';
     MarketingModule,
     ExperimentsModule,
     CaptchaModule,
+    RouterModule,
   ],
   declarations: [HomepageV2Component],
   entryComponents: [HomepageV2Component],
