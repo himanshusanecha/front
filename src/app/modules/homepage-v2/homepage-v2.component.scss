@@ -20,7 +20,7 @@ m-homepage__v2 {
       .m-marketing__body {
         @media screen and(max-width: $m-grid-max-mobile) {
           &::after {
-            top: 900px !important;
+            top: 850px !important;
           }
         }
       }
@@ -42,12 +42,17 @@ m-homepage__v2 {
 
     .m-marketing__section--style-5 {
       .m-marketing__wrapper {
+        .m-marketing__body {
+          padding: 17px 0 0;
+        }
+
         .m-marketing__link {
           font-size: 17px;
           line-height: 23px;
         }
 
         .m-marketing__description {
+          padding-right: 120px;
           @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
             padding-right: 10px;
           }
@@ -424,8 +429,8 @@ m-homepage__v2 {
   }
 
   .m-homepage__quotation {
-    margin-top: 111px;
-    margin-bottom: 9px;
+    margin-top: 84px;
+    margin-bottom: 78px;
   }
 
   .m-marketing__asFeaturedIn {
@@ -433,7 +438,9 @@ m-homepage__v2 {
     max-width: 1081px;
   }
 
-  h2 {
+  .m-marketing__section h2 {
+    font-size: 46px;
+    line-height: 60px;
     @media screen and(max-width: $m-grid-max-mobile) {
       font-size: 32px !important;
       line-height: 42px !important;
