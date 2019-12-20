@@ -118,8 +118,22 @@
   class="m-commentsThread__connectionLost"
   i18n="@@MINDS__COMMENTS__SOCKET_DISCONNECTED"
 >
-  There appears to be a problem<br />
-  You may need to refresh to see new comments.
+  Could not load live comments<br />
+  <a
+    *ngIf="!inProgress"
+    (click)="retry()"
+    class="m-commentsThread__connectionLost--retry"
+    i18n="@@MINDS__COMMENTS__SOCKET_RETRY"
+  >
+    Click to retry
+  </a>
+  <span
+    [hidden]="!inProgress"
+    class="m-commentsThread__connectionLost--loading"
+    i18n="@@MINDS__COMMENTS__SOCKET_LOADING"
+  >
+    Loading...
+  </span>
 </span>
 
 <m-comment__poster

@@ -2,7 +2,7 @@
  * @author Ben Hayward
  * @desc Spec tests for the thread component
  */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { CommentsThreadComponent } from './thread.component';
 import { clientMock } from '../../../../tests/client-mock.spec';
 import { fakeAsync } from '@angular/core/testing';
@@ -20,6 +20,7 @@ import { SocketsService } from '../../../services/sockets';
 import { ActivityService } from '../../../common/services/activity.service';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 let commentsServiceMock: any = MockService(CommentsService, {
   get: Promise.resolve(true),
@@ -137,6 +138,29 @@ describe('CommentsThreadComponent', () => {
       expect(
         fixture.debugElement.query(By.css('.m-commentsThread__connectionLost'))
       ).not.toBeNull();
+    });
+  }));
+
+  it('should allow a user to retry on socket connection error', fakeAsync(() => {
+    let retry = () =>
+      fixture.debugElement.query(
+        By.css('.m-commentsThread__connectionLost--retry')
+      );
+
+    comp.sockets.error$.next(true);
+    comp.inProgress = false;
+
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(retry()).not.toBeNull();
+      retry().nativeElement.click();
+      tick(1000);
+
+      fixture.detectChanges();
+      expect(retry()).toBeNull();
+      tick(2000);
     });
   }));
 

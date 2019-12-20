@@ -294,6 +294,17 @@ export class CommentsThreadComponent implements OnInit {
     }
   }
 
+  /**
+   * Retries connection to sockets manually.
+   */
+  retry() {
+    this.inProgress = true;
+    this.listen();
+    setTimeout(() => {
+      this.inProgress = false;
+    }, 2000);
+  }
+
   onOptimisticPost(comment) {
     this.comments.push(comment);
     this.detectChanges();
@@ -327,6 +338,6 @@ export class CommentsThreadComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    //  console.log('[comment:list]: on changes', changes);
+    console.log('[comment:thread]: on changes', changes);
   }
 }
