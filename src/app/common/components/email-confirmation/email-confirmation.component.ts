@@ -9,6 +9,12 @@ import { EmailConfirmationService } from './email-confirmation.service';
 import { Session } from '../../../services/session';
 import { Subscription } from 'rxjs';
 
+/**
+ * Component that displays an announcement-like banner
+ * asking the user to confirm their email address and a link
+ * to re-send the confirmation email.
+ * @see AnnouncementComponent
+ */
 @Component({
   providers: [EmailConfirmationService],
   selector: 'm-emailConfirmation',
@@ -21,7 +27,7 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
   canClose: boolean = false;
 
   protected userEmitter$: Subscription;
-  protected canCloseTimer;
+  protected canCloseTimer: number;
   protected minds = window.Minds;
 
   constructor(
@@ -30,7 +36,7 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setShouldShow(this.session.getLoggedInUser());
 
     this.userEmitter$ = this.session.userEmitter.subscribe(user => {
@@ -40,28 +46,35 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
       this.detectChanges();
     });
 
-    this.canCloseTimer = setTimeout(() => {
+    this.canCloseTimer = window.setTimeout(() => {
       this.canClose = true;
       this.detectChanges();
     }, 3000);
   }
 
-  ngOnDestroy() {
-    clearTimeout(this.canCloseTimer);
+  ngOnDestroy(): void {
+    window.clearTimeout(this.canCloseTimer);
 
     if (this.userEmitter$) {
       this.userEmitter$.unsubscribe();
     }
   }
 
-  setShouldShow(user) {
+  /**
+   * Re-calculates the visibility of the banner
+   * @param {Object} user
+   */
+  setShouldShow(user): void {
     this.shouldShow =
       !this.minds.from_email_confirmation &&
       user &&
       user.email_confirmed === false;
   }
 
-  async send() {
+  /**
+   * Uses the service to re-send the confirmation email
+   */
+  async send(): Promise<void> {
     this.sent = true;
     this.detectChanges();
 
@@ -76,7 +89,7 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
     this.detectChanges();
   }
 
-  detectChanges() {
+  detectChanges(): void {
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
