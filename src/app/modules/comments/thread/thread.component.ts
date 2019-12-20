@@ -338,6 +338,6 @@ export class CommentsThreadComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    console.log('[comment:thread]: on changes', changes);
+    // console.log('[comment:thread]: on changes', changes);
   }
 }
