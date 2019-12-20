@@ -77,6 +77,18 @@ m-onboarding {
 
       //clip-path: polygon(0 0, 100% 8px, 99.99% 99%, 0% 100%);
 
+      h1.m-onboarding__noticeTitle {
+        font-size: 20px;
+        line-height: 35px;
+        margin-bottom: 0;
+      }
+
+      h2.m-onboarding__noticeTitle {
+        font-size: 32px;
+        line-height: 32px;
+        margin-top: 0;
+      }
+
       & > h1 {
         font-size: 20px;
         line-height: 44px;
@@ -84,6 +96,8 @@ m-onboarding {
         color: #9b9b9b;
 
         &.m-onboarding__mobileTitle {
+          margin-top: 0;
+          margin-bottom: 14px;
           font-size: 13px;
           line-height: 18px;
           letter-spacing: 2px;
@@ -101,7 +115,7 @@ m-onboarding {
         &.m-onboarding__mobileTitle {
           font-size: 28px;
           line-height: 37px;
-          margin-top: 27px;
+          margin-top: 0;
           margin-bottom: 30px;
           color: #4a4a4a;
           text-align: center;
