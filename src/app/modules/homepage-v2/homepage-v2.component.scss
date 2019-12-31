@@ -368,6 +368,16 @@ m-homepage__v2 {
   }
 
   .m-marketing__section--style-4 {
+    margin-bottom: 205px !important;
+
+    @media screen and(min-width: $m-grid-max-mobile) and(max-width: $m-grid-max-tablet) {
+      margin-bottom: 263px !important;
+    }
+
+    @media screen and(max-width: $m-grid-max-mobile) {
+      margin-bottom: 155px !important;
+    }
+
     .m-marketing__wrapper {
       .m-marketing__body {
         @media screen and(min-width: $m-grid-min-vp) {
@@ -435,8 +445,8 @@ m-homepage__v2 {
     }
 
     &.m-homepage__joinButton--first {
-      margin: 22px 0 74px 0;
-      @media screen and (max-width: 900px) {
+      margin: 22px 0 0 0;
+      @media screen and (max-width: $m-grid-max-mobile) {
         display: none;
       }
     }
@@ -448,14 +458,26 @@ m-homepage__v2 {
     align-items: center;
     //width: 50%;
 
-    margin-top: 50px;
+    margin-top: 120px;
+
+    @media screen and(min-width: $m-grid-max-tablet) and (max-width: $m-grid-min-vp) {
+      margin-top: 170px;
+    }
+
+    @media screen and(min-width: 700px) and (max-width: $m-grid-max-tablet) {
+      margin-top: 11vw;
+    }
+
+    @media screen and (min-width: 680px) and (max-width: 700px) {
+      margin-top: 8vw;
+    }
+
+    @media screen and(max-width: 680px) {
+      margin-top: 5vw;
+    }
 
     & > a:first-child {
       margin-right: 5%;
-    }
-
-    @media screen and (min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
-      margin-top: 30px;
     }
 
     @media screen and(max-width: $m-grid-max-mobile) {
@@ -548,7 +570,7 @@ m-homepage__v2 {
         line-height: 37px;
         color: #4a4a4a;
         white-space: nowrap;
-        margin-bottom: 34px;
+        margin-bottom: 48px;
 
         @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
           font-size: 24px;
