@@ -1,10 +1,4 @@
-import {
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Client } from '../../services/api/client';
 import { MindsTitle } from '../../services/ux/title';
 import { Router } from '@angular/router';
@@ -19,7 +13,7 @@ import { FeaturesService } from '../../services/features.service';
   selector: 'm-homepage__v2',
   templateUrl: 'homepage-v2.component.html',
 })
-export class HomepageV2Component implements OnInit, OnDestroy {
+export class HomepageV2Component implements OnDestroy {
   @ViewChild('registerForm', { static: false }) registerForm: RegisterForm;
 
   readonly cdnAssetsUrl: string = window.Minds.cdn_assets_url;
@@ -46,10 +40,6 @@ export class HomepageV2Component implements OnInit, OnDestroy {
     this.topbarService.toggleMarketingPages(true, false);
   }
 
-  ngOnInit() {
-    this.onResize();
-  }
-
   ngOnDestroy() {
     this.topbarService.toggleMarketingPages(false);
   }
@@ -59,20 +49,6 @@ export class HomepageV2Component implements OnInit, OnDestroy {
       this.router.navigate(['/onboarding']);
     } else {
       this.router.navigate(['/login']);
-    }
-  }
-
-  @HostListener('window:resize')
-  onResize() {
-    const tick: HTMLSpanElement = document.querySelector(
-      '.m-marketing__imageUX > .m-marketing__imageTick'
-    );
-    if (window.innerWidth > 480 && window.innerWidth < 1168) {
-      tick.classList.remove('m-marketing__imageTick--left');
-      tick.classList.add('m-marketing__imageTick--right');
-    } else {
-      tick.classList.add('m-marketing__imageTick--left');
-      tick.classList.remove('m-marketing__imageTick--right');
     }
   }
 

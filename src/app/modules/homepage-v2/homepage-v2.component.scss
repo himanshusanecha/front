@@ -43,7 +43,19 @@ m-homepage__v2 {
     .m-marketing__section--style-5 {
       .m-marketing__wrapper {
         .m-marketing__body {
-          padding: 17px 0 0;
+          @media screen and(min-width: $m-grid-max-mobile) {
+            padding: 17px 0 0;
+          }
+        }
+
+        @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
+          .m-marketing__body {
+            padding: 0 0 0 35px;
+
+            h2 {
+              margin: 0 0 29px;
+            }
+          }
         }
 
         .m-marketing__link {
@@ -55,6 +67,9 @@ m-homepage__v2 {
           padding-right: 120px;
           @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
             padding-right: 10px;
+          }
+          @media screen and(max-width: $max-mobile) {
+            padding-right: 0;
           }
         }
 
@@ -352,6 +367,58 @@ m-homepage__v2 {
     }
   }
 
+  .m-marketing__section--style-4 {
+    .m-marketing__wrapper {
+      .m-marketing__body {
+        @media screen and(min-width: $m-grid-min-vp) {
+          margin-left: 5em;
+        }
+      }
+    }
+
+    .m-marketing__image {
+      .m-marketing__imageUX {
+        img.m-marketing__image--2 {
+          width: 317px;
+          height: 168.7px;
+
+          @media screen and(min-width: $m-grid-max-tablet) {
+            bottom: 77px;
+            left: 20px;
+          }
+
+          @media screen and(min-width: $m-grid-max-mobile) and(max-width: $m-grid-max-tablet) {
+            bottom: 55px;
+            left: -5px;
+          }
+
+          @media screen and(max-width: $m-grid-max-mobile) {
+            bottom: 0;
+            left: 50%;
+          }
+        }
+
+        .m-marketing__imageTick {
+          background-color: #848484;
+
+          &.m-marketing__imageTick--left {
+            bottom: 48px;
+            left: -26px;
+
+            @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
+              bottom: 25px;
+              left: -46px;
+            }
+            @media screen and(max-width: $m-grid-max-mobile) {
+              bottom: -21%;
+              left: 15%;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .m-homepage__joinButton {
     font-size: 20px;
     line-height: 26px;
@@ -431,6 +498,13 @@ m-homepage__v2 {
   .m-homepage__quotation {
     margin-top: 84px;
     margin-bottom: 78px;
+
+    display: flex;
+    align-items: center;
+
+    .m-marketing__quotation {
+      width: auto !important;
+    }
   }
 
   .m-marketing__asFeaturedIn {
