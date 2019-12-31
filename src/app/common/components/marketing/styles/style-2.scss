@@ -79,6 +79,9 @@
         @include m-theme() {
           color: themed($m-grey-300);
         }
+        @include m-on-theme(dark) {
+          color: #b7b7b7;
+        }
       }
     }
 
