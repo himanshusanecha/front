@@ -555,6 +555,18 @@ m-homepage__v2 {
     text-align: left !important;
   }
 
+  .m-marketing__description {
+    @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
+      font-size: 17px !important;
+      line-height: 24px !important;
+    }
+
+    @media screen and (max-width: $m-grid-max-mobile) {
+      font-size: 16px !important;
+      line-height: 22px !important;
+    }
+  }
+
   @media screen and(max-width: $m-grid-max-mobile) {
     display: block;
     margin-top: 55px;
