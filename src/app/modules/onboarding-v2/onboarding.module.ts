@@ -22,6 +22,7 @@ import { GroupsModule } from '../groups/groups.module';
 import { OnboardingV2Service } from './service/onboarding.service';
 import { Client } from '../../services/api/client';
 import { Session } from '../../services/session';
+import { PhoneVerificationComponent } from './steps/info/phone-input/input.component';
 
 const routes: Routes = [
   {
@@ -83,6 +84,7 @@ const routes: Routes = [
     ChannelsStepComponent,
     ChannelListComponent,
     GroupListComponent,
+    PhoneVerificationComponent,
   ],
   providers: [
     {

@@ -234,6 +234,10 @@ m-onboarding {
           display: flex;
           flex-direction: column;
 
+          &.m-onboardingControl__dateOfBirth {
+            padding-top: 15px;
+          }
+
           .m-onboardingControl__label {
             & > span {
               position: absolute;
