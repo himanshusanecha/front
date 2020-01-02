@@ -18,6 +18,7 @@ m-onboarding__hashtagsStep {
 
       font-size: 18px;
       line-height: 44px;
+      font-weight: bold;
 
       @media screen and(max-width: $max-mobile) {
         font-size: 16px;
@@ -25,8 +26,10 @@ m-onboarding__hashtagsStep {
       }
 
       &.m-hashtagsList__item--selected {
-        @include m-theme() {
-          color: themed($aqua);
+        span {
+          @include m-theme() {
+            color: themed($m-aqua);
+          }
         }
 
         @media screen and (min-width: $max-mobile) {

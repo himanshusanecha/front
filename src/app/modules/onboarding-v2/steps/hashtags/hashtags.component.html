@@ -15,10 +15,7 @@
       [class.m-hashtagsList__item--selected]="hashtag.selected"
       *ngFor="let hashtag of hashtags"
     >
-      <span
-        [ngClass]="{ selected: hashtag.selected }"
-        (click)="toggleSelection(hashtag)"
-      >
+      <span (click)="toggleSelection(hashtag)">
         #{{ hashtag.value | titlecase }}
       </span>
     </li>
