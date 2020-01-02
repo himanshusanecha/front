@@ -23,7 +23,7 @@
     background-color: #dbdbdb;
     z-index: 1;
 
-    @media screen and (min-width: 741px) and (max-width: $min-desktop) {
+    @media screen and (min-width: 741px) and (max-width: $m-grid-max-tablet) {
       width: calc(100% + 40px);
       margin-left: -20px;
     }
@@ -52,6 +52,11 @@
     width: 72px;
     margin: 0 25px;
     text-transform: uppercase;
+
+    .m-onboardingProgressbarItem__number {
+      font-size: 13px;
+      line-height: 18px;
+    }
 
     .m-onboardingProgressbarItem__selector {
       width: 18px;

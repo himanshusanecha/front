@@ -19,7 +19,7 @@
       <div class="m-onboarding__phoneInput">
         <div class="m-onboarding__input">
           <m-phone-input [(ngModel)]="number" ngDefaultControl></m-phone-input>
-          <div class="m-onboarding__error">
+          <div class="m-onboarding__error" *ngIf="numberError">
             {{ numberError }}
           </div>
         </div>
@@ -65,7 +65,7 @@
           placeholder="eg. 198349"
           i18n-placeholder
         />
-        <div class="m-onboarding__error">
+        <div class="m-onboarding__error" *ngIf="codeError">
           {{ codeError }}
         </div>
       </div>
@@ -89,7 +89,7 @@
 
     <div class="m-onboarding__input">
       <input type="text" data-minds="locationInput" [(ngModel)]="location" />
-      <div class="m-onboarding__error">
+      <div class="m-onboarding__error" *ngIf="locationError">
         {{ locationError }}
       </div>
     </div>
@@ -98,6 +98,7 @@
   <div class="m-onboarding__control">
     <div class="m-onboardingControl__label">
       <label data-minds="dateOfBirth" i18n>Date of Birth</label>
+      <span i18n>Optional</span>
 
       <m-tooltip [anchor]="tooltipAnchor">
         <span m-tooltip--anchor>𝒊</span>

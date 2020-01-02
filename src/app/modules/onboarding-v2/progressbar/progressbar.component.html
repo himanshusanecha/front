@@ -8,7 +8,7 @@
       [class.m-onboardingProgressbar__item--selected]="step.selected"
       *ngFor="let step of steps; let i = index"
     >
-      <span>{{ i + 1 }}</span>
+      <span class="m-onboardingProgressbarItem__number">{{ i + 1 }}</span>
       <span>{{ step.name }}</span>
       <div class="m-onboardingProgressbarItem__selector"></div>
     </div>
