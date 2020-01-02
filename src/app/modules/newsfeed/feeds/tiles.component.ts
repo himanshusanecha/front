@@ -17,8 +17,7 @@ export class NewsfeedTilesComponent {
   constructor(
     public attachment: AttachmentService,
     private router: Router,
-    private overlayModalService: OverlayModalService,
-    private featuresService: FeaturesService
+    private overlayModalService: OverlayModalService
   ) {}
 
   getThumbnailSrc(entity: any) {
@@ -48,7 +47,11 @@ export class NewsfeedTilesComponent {
     return entity && (entity.access_id === '0' || entity.access_id === 0);
   }
 
-  clickedImage(entity: any, batchImage) {
+  /**
+   * @param entity
+   * @param event
+   */
+  clickedImage(entity: any, event: MouseEvent) {
     const isNotTablet = Math.min(screen.width, screen.height) < 768;
     const pageUrl = `/media/${entity.entity_guid}`;
 
@@ -57,21 +60,11 @@ export class NewsfeedTilesComponent {
       return;
     }
 
-    if (!this.featuresService.has('media-modal')) {
-      this.router.navigate([pageUrl]);
-      return;
-    } else {
-      if (entity.width === '0' || entity.height === '0') {
-        this.setImageDimensions(entity, batchImage);
-      }
-      this.openModal(entity);
+    if (entity.width === '0' || entity.height === '0') {
+      this.setImageDimensions(entity, event.target as HTMLImageElement);
     }
+    this.openModal(entity);
   }
-
-  // setVideoDimensions($event) {
-  //   this.videoDimensions = $event.dimensions;
-  //   entity.custom_data.dimensions = videoDimensions;
-  // }
 
   setImageDimensions(entity, imageElement: HTMLImageElement) {
     const img: HTMLImageElement = imageElement;
