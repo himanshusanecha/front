@@ -57,14 +57,26 @@ m-register {
       display: block;
       background-color: #fcfcfc;
 
-      padding: 50px 37px;
+      padding: 86px 67px;
 
       clip-path: polygon(0 2%, 100% 0, 100% 97%, 0 95%);
 
       h3 {
-        font-size: 24px;
-        line-height: 32px;
+        font-size: 36px;
+        line-height: 36px;
         font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      .m-register__alreadyAUser {
+        font-size: 14px;
+        line-height: 19px;
+        color: #9b9b9b;
+        margin-bottom: 19px;
+
+        a {
+          color: #0091ff;
+        }
       }
 
       .mdl-cell {
@@ -77,6 +89,10 @@ m-register {
 
         .mdl-card__supporting-text {
           overflow: visible;
+        }
+
+        .mdl-cell {
+          width: 100%;
         }
 
         input:not([type='checkbox']) {
@@ -96,7 +112,7 @@ m-register {
         display: flex;
         align-items: center;
         padding-top: 0;
-        margin-bottom: 33px;
+        margin-bottom: 0;
       }
 
       //.m-register--hero {
@@ -436,9 +452,10 @@ m-register {
       //}
 
       .mdl-card__actions {
-        flex-direction: column;
-        align-items: flex-start;
-        margin-top: 14px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 55px;
         padding: 0;
 
         & > *:not(button) {

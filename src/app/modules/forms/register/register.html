@@ -8,6 +8,9 @@
   </div>
 </div>
 <h3 *ngIf="showTitle">Join the Minds revolution</h3>
+<span class="m-register__alreadyAUser" *ngIf="showTitle"
+  >Already have an account? <a [routerLink]="'/login'">login</a></span
+>
 
 <!-- START: Register -->
 <form

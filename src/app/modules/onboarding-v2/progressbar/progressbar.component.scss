@@ -68,6 +68,10 @@
     }
 
     &.m-onboardingProgressbar__item--selected {
+      span:nth-child(2) {
+        color: #4a4a4a;
+      }
+
       .m-onboardingProgressbarItem__selector {
         @include m-theme() {
           background-color: themed($m-aqua);
