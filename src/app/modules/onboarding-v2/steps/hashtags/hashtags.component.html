@@ -16,7 +16,7 @@
       *ngFor="let hashtag of hashtags"
     >
       <span (click)="toggleSelection(hashtag)">
-        #{{ hashtag.value | titlecase }}
+        {{ hashtag.value | titlecase }}
       </span>
     </li>
   </ul>
