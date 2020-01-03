@@ -86,9 +86,13 @@ m-onboarding {
         font-weight: bold;
         line-height: 32px;
         margin-top: 0;
+
+        @include m-theme() {
+          color: themed($m-grey-800);
+        }
       }
 
-      & > h1 {
+      h1 {
         font-size: 20px;
         line-height: 44px;
         font-weight: bold;
@@ -106,7 +110,7 @@ m-onboarding {
         }
       }
 
-      & > h2 {
+      h2 {
         font-size: 32px;
         line-height: 43px;
         color: #4a4a4a;
