@@ -13,9 +13,10 @@
     <li
       class="m-hashtagsList__item"
       [class.m-hashtagsList__item--selected]="hashtag.selected"
+      (click)="toggleSelection(hashtag)"
       *ngFor="let hashtag of hashtags"
     >
-      <span (click)="toggleSelection(hashtag)">
+      <span>
         {{ hashtag.value | titlecase }}
       </span>
     </li>

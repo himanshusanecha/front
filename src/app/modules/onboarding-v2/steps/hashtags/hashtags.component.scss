@@ -25,6 +25,7 @@ m-onboarding__hashtagsStep {
       font-size: 18px;
       line-height: 44px;
       font-weight: bold;
+      border: 1px solid transparent;
 
       @media screen and(max-width: $max-mobile) {
         font-size: 16px;
