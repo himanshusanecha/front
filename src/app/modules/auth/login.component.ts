@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.newDesign = this.featuresService.has('register_pages-december-2019');
 
     if (this.newDesign) {
-      this.topbarService.toggleMarketingPages(true);
+      this.topbarService.toggleMarketingPages(true, false, false);
     }
   }
 

@@ -13,9 +13,17 @@ export class V2TopbarService {
     return this;
   }
 
-  toggleMarketingPages(value: boolean, showBottombar: boolean = true) {
+  toggleMarketingPages(
+    value: boolean,
+    showBottombar: boolean = true,
+    forceBackground: boolean = true
+  ) {
     if (this.container) {
-      this.container.toggleMarketingPages(value, showBottombar);
+      this.container.toggleMarketingPages(
+        value,
+        showBottombar,
+        forceBackground
+      );
     }
   }
 }

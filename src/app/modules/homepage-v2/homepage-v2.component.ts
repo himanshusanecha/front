@@ -13,7 +13,7 @@ import { FeaturesService } from '../../services/features.service';
   selector: 'm-homepage__v2',
   templateUrl: 'homepage-v2.component.html',
 })
-export class HomepageV2Component implements OnDestroy {
+export class HomepageV2Component {
   @ViewChild('registerForm', { static: false }) registerForm: RegisterForm;
 
   readonly cdnAssetsUrl: string = window.Minds.cdn_assets_url;
@@ -27,7 +27,6 @@ export class HomepageV2Component implements OnDestroy {
     public navigation: NavigationService,
     public session: Session,
     private loginReferrer: LoginReferrerService,
-    private topbarService: V2TopbarService,
     private featuresService: FeaturesService
   ) {
     this.title.setTitle('Minds Social Network', false);
@@ -36,12 +35,6 @@ export class HomepageV2Component implements OnDestroy {
       this.router.navigate(['/newsfeed']);
       return;
     }
-
-    this.topbarService.toggleMarketingPages(true, false);
-  }
-
-  ngOnDestroy() {
-    this.topbarService.toggleMarketingPages(false);
   }
 
   navigate() {

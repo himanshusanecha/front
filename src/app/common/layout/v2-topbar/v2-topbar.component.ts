@@ -23,7 +23,9 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   minds = window.Minds;
   timeout;
   isTouchScreen = false;
+  forceBackground: boolean = true;
   showBackground: boolean = true;
+  showSeparateLoginBtns: boolean = false;
   marketingPages: boolean = false;
   showBottombar: boolean = true;
 
@@ -68,16 +70,24 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
    * @param value
    * @param showBottombar
    */
-  toggleMarketingPages(value: boolean, showBottombar = true) {
+  toggleMarketingPages(
+    value: boolean,
+    showBottombar = true,
+    forceBackground: boolean = true
+  ) {
     this.marketingPages = value;
+    this.showSeparateLoginBtns = value;
     this.showBottombar = value && showBottombar;
+    this.forceBackground = forceBackground;
     this.onScroll();
     this.detectChanges();
   }
 
   @HostListener('window:scroll')
   onScroll() {
-    this.showBackground = this.marketingPages
+    this.showBackground = this.forceBackground
+      ? true
+      : this.marketingPages
       ? window.document.body.scrollTop > 52
       : true;
   }
