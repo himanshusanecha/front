@@ -112,6 +112,13 @@ m-login {
           padding: 10px 15px;
           height: 37px;
           font-weight: normal;
+
+          &:active,
+          &:focus {
+            @include m-theme() {
+              outline: 1px solid themed($m-blue);
+            }
+          }
         }
 
         &.m-loginBox__bigButton {
