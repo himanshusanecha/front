@@ -67,6 +67,10 @@ m-register {
         line-height: 36px;
         font-weight: bold;
         margin-bottom: 4px;
+
+        @include m-theme() {
+          color: themed($m-grey-800);
+        }
       }
 
       .m-register__alreadyAUser {
@@ -85,7 +89,7 @@ m-register {
 
       .mdl-cell {
         margin: 0;
-        padding-bottom: 14px;
+        padding-bottom: 25px;
       }
 
       form {
@@ -103,6 +107,10 @@ m-register {
           padding: 10px 15px;
           height: 37px;
           font-weight: normal;
+
+          @include m-theme() {
+            color: themed($m-grey-800);
+          }
 
           &:active,
           &:focus {

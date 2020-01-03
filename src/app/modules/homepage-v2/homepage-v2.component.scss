@@ -212,6 +212,10 @@ m-homepage__v2 {
             line-height: 32px;
             font-weight: bold;
             margin: 0;
+
+            @include m-theme() {
+              color: themed($m-grey-800);
+            }
           }
 
           .m-register__alreadyAUser {
@@ -220,7 +224,7 @@ m-homepage__v2 {
 
           .mdl-cell {
             margin: 0;
-            padding-bottom: 14px;
+            padding-bottom: 25px;
           }
 
           form {
@@ -235,6 +239,10 @@ m-homepage__v2 {
               padding: 10px 15px;
               height: 37px;
               font-weight: normal;
+
+              @include m-theme() {
+                color: themed($m-grey-800);
+              }
 
               &:active,
               &:focus {
