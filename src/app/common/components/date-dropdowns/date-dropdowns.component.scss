@@ -3,7 +3,6 @@ m-date__dropdowns {
 
   select {
     display: inline-block;
-    color: #4a4a4a;
     background-color: #fff;
     box-sizing: border-box;
     margin: 0 10px 0 0;
@@ -17,7 +16,12 @@ m-date__dropdowns {
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     font-size: 16px;
     line-height: 21px;
-    border: 1px solid #e8e8e8;
-    border-radius: 0;
+    border-radius: 2px;
+
+    @include m-theme() {
+      color: themed($m-grey-800);
+      background-color: themed($m-white);
+      border: 1px solid #e2e2e2;
+    }
   }
 }
