@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class PagesService {
-  private internalPageRegex: RegExp = /^p\/.+$/gm; // matches 'p/' in first and second position.
+  private internalPageRegex: RegExp = /^\/?p\/./; // matches 'p/' in first and second position.
 
   constructor() {}
 
