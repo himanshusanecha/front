@@ -138,6 +138,10 @@ m-login {
       label:not(.mdl-checkbox) {
         display: inline-block;
         margin-bottom: 10px;
+
+        @include m-theme() {
+          color: themed($m-grey-300);
+        }
       }
 
       label.mdl-checkbox {
