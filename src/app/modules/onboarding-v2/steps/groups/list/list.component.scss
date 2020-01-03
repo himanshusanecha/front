@@ -16,7 +16,8 @@ m-onboarding__groupList {
 
   .m-groupList__empty {
     padding: 8px;
-    font-size: 10px;
+    font-size: 14px;
+    line-height: 19px;
     @include m-theme() {
       color: themed($m-grey-400);
     }
