@@ -3,6 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
+  Output,
   ViewChild,
 } from '@angular/core';
 
@@ -21,6 +23,8 @@ export class PopoverComponent {
   spacesCheck: boolean = false;
 
   hidden: boolean = false;
+
+  @Output() change: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(protected cd: ChangeDetectorRef) {}
 
@@ -53,7 +57,10 @@ export class PopoverComponent {
       this.numbersCheck &&
       this.spacesCheck
     ) {
+      this.change.emit(true);
       setTimeout(() => this.hide(true), 500);
+    } else {
+      this.change.emit(false);
     }
     this.detectChanges();
   }

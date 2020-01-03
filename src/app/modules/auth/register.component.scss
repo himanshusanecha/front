@@ -191,6 +191,25 @@ m-register {
           align-items: flex-start;
         }
       }
+
+      .m-register__error,
+      .m-register__formError {
+        font-size: 14px;
+        line-height: 19px;
+
+        @include m-theme() {
+          color: themed($m-red) !important;
+        }
+      }
+
+      .m-register__formError {
+        margin-top: 20px;
+      }
+
+      .m-register__error {
+        margin-top: 3px;
+        text-align: right;
+      }
     }
   }
 

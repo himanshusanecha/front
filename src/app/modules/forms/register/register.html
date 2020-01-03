@@ -1,12 +1,17 @@
 <div
   class="mdl-card mdl-color--red-500 mdl-color-text--blue-grey-50  mdl-shadow--2dp minds-login-box m-error-box"
   style="min-height:0;"
-  [hidden]="!errorMessage"
+  [hidden]="showInlineErrors || !errorMessage"
 >
   <div class="mdl-card__supporting-text mdl-color-text--blue-grey-50">
-    {{errorMessage}}
+    <ng-container *ngTemplateOutlet="errorTemplate"></ng-container>
   </div>
 </div>
+
+<ng-template #errorTemplate>
+  {{ errorMessage }}
+</ng-template>
+
 <h3 *ngIf="showTitle">Join the Minds Revolution</h3>
 <span class="m-register__alreadyAUser" *ngIf="showTitle">
   Already have an account? <a [routerLink]="'/login'">Login</a>
@@ -36,6 +41,20 @@
         onfocus="this.removeAttribute('readonly');"
         [class.m-input--hide-placeholder]="showLabels"
       />
+      <div class="m-register__error" *ngIf="showError('username')">
+        <ng-container
+          *ngIf="this.form.get('username').errors.minlength"
+          i18n="@@MINDS__REGISTER__EXCEPTION__USERNAME_TOO_SHORT"
+        >
+          Must be at least 4 characters long
+        </ng-container>
+        <ng-container
+          *ngIf="this.form.get('username').errors.maxlength"
+          i18n="@@MINDS__REGISTER__EXCEPTION__USERNAME_TOO_LONG"
+        >
+          Cannot be longer than 128 characters
+        </ng-container>
+      </div>
     </div>
 
     <div class="mdl-cell mdl-cell--12-col">
@@ -50,12 +69,20 @@
         i18n-placeholder="email placeholder|@@FORMS__REGISTER__EMAIL_PLACEHOLDER"
         [class.m-input--hide-placeholder]="showLabels"
       />
+      <div class="m-register__error" *ngIf="showError('email')">
+        <ng-container
+          *ngIf="this.form.get('email').errors.email"
+          i18n="@@MINDS__REGISTER__EXCEPTION__INVALID_EMAIL"
+        >
+          Invalid email
+        </ng-container>
+      </div>
     </div>
     <div class="mdl-cell mdl-cell--12-col" style="position: relative">
       <label for="password" *ngIf="showLabels" i18n>
         Password
       </label>
-      <m-popover #popover>
+      <m-popover (change)="onPopoverChange($event)" #popover>
         <input
           type="password"
           id="password"
@@ -86,6 +113,17 @@
         onfocus="this.removeAttribute('readonly');"
         [class.m-input--hide-placeholder]="showLabels"
       />
+      <div
+        class="m-register__error"
+        *ngIf="this.form.get('password2').dirty || this.form.get('password2').touched"
+      >
+        <ng-container
+          *ngIf="this.form.errors?.passwordConfirming"
+          i18n="@@MINDS__REGISTER__EXCEPTION__INVALID_EMAIL"
+        >
+          Passwords must match
+        </ng-container>
+      </div>
     </div>
 
     <div
@@ -100,6 +138,13 @@
         #reCaptcha
       ></re-captcha>
     </div>
+  </div>
+
+  <div
+    class="m-register__formError"
+    *ngIf="showInlineErrors && showBigButton && errorMessage"
+  >
+    <ng-container *ngTemplateOutlet="errorTemplate"></ng-container>
   </div>
 
   <div class="mdl-card__actions">
@@ -160,7 +205,7 @@
     <button
       class="mf-button mf-button--alt"
       (click)="register($event)"
-      [disabled]="!this.form.valid || inProgress"
+      [disabled]="!this.form.valid|| this.passwordFieldValid || inProgress"
       *ngIf="showBigButton"
     >
       <ng-container i18n="@@FORMS__REGISTER__JOIN_MINDS_NOW_ACTION">
