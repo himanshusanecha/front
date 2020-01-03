@@ -12,6 +12,16 @@ m-login {
         color: themed($m-blue);
       }
     }
+
+    @media screen and(max-width: $m-grid-max-mobile) {
+      flex-direction: column;
+      margin-right: 0;
+      margin-bottom: 24px;
+
+      h3 {
+        margin-bottom: 0;
+      }
+    }
   }
 
   .m-login__error,

@@ -5,11 +5,6 @@ context('Registration', () => {
   const username = generateRandomId();
   const password = `${generateRandomId()}0oA!`;
   const email = 'test@minds.com';
-  const noSymbolPass = 'Passw0rd';
-
-  const welcomeText = "Welcome to Minds!";
-  const passwordDontMatch = "Passwords must match.";
-  const passwordInvalid = " Password must have more than 8 characters. Including uppercase, numbers, special characters (ie. !,#,@), and cannot have spaces. ";
 
   const usernameField = 'minds-form-register #username';
   const emailField = 'minds-form-register #email';
@@ -64,53 +59,11 @@ context('Registration', () => {
         expect(xhr.status).to.equal(200);
       });
 
-    //onboarding modal shown
-    cy.contains(welcomeText);
-  });
-
-  it('should display an error if password is invalid', () => {
-
-    cy.get(usernameField)
-      .focus()
-      .type(generateRandomId());
-
-    cy.get(emailField)
-      .focus()
-      .type(email);
-
-    cy.get(passwordField)
-      .focus()
-      .type(noSymbolPass);
-
     cy.wait(500);
-
-    cy.get(password2Field)
-      .focus()
-      .type(noSymbolPass);
-
-    cy.get(checkbox)
-      .click({force: true});
-
-    //submit
-    cy.get(submitButton)
-      .click()
-      .wait('@register').then((xhr) => {
-        expect(xhr.status).to.equal(200);
-      });
-
-    cy.scrollTo('top');
-    cy.contains(passwordInvalid);
+    cy.location('pathname').should('eq', '/newsfeed/subscriptions');
   });
 
   it('should display an error if passwords do not match', () => {
-    cy.get(usernameField)
-      .focus()
-      .type(generateRandomId());
-
-    cy.get(emailField)
-      .focus()
-      .type(email);
-
     cy.get('minds-form-register #password')
       .focus()
       .type(password);
@@ -121,14 +74,7 @@ context('Registration', () => {
       .focus()
       .type(password + '!');
 
-    cy.get(checkbox)
-      .click({force: true});
-
-    //submit
-    cy.get(submitButton).click();
-
-    cy.scrollTo('top');
-    cy.contains(passwordDontMatch);
+    cy.get('.m-register__error').contains('Passwords must match');
   });
 
 })

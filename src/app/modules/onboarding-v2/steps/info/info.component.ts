@@ -77,7 +77,7 @@ export class InfoStepComponent {
   }
 
   skip() {
-    this.router.navigate(['/onboarding', 'hashtags']);
+    this.router.navigate(['/onboarding', 'groups']);
   }
 
   continue() {

@@ -68,6 +68,10 @@ m-login {
     .m-grid {
       height: 100%;
       padding: 20vh 0;
+
+      @media screen and (max-width: $m-grid-max-mobile) {
+        padding: 5vh 0;
+      }
     }
 
     .m-login__wrapper {
@@ -76,15 +80,29 @@ m-login {
     }
 
     minds-form-login {
-      @media screen and (max-width: $m-grid-max-mobile) {
-        padding: 48px 25px;
-      }
       display: block;
       background-color: #fcfcfc;
 
       padding: 86px 67px;
 
       clip-path: polygon(0 2%, 100% 0, 100% 97%, 0 95%);
+
+      @media screen and (max-width: $m-grid-max-mobile) {
+        padding: 55px 26px 47px;
+
+        h3,
+        .m-register__alreadyAUser {
+          text-align: center;
+        }
+
+        .mdl-card__actions {
+          margin-top: 35px;
+
+          label.mdl-checkbox {
+            margin-bottom: 50px;
+          }
+        }
+      }
 
       h3 {
         font-size: 36px;

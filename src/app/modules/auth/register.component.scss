@@ -43,6 +43,10 @@ m-register {
     .m-grid {
       height: 100%;
       padding: 20vh 0;
+
+      @media screen and (max-width: $m-grid-max-mobile) {
+        padding: 5vh 0;
+      }
     }
 
     .m-register__wrapper {
@@ -56,8 +60,20 @@ m-register {
       background-color: #fcfcfc;
 
       @media screen and (max-width: $m-grid-max-mobile) {
-        padding-left: 25px;
-        padding-right: 25px;
+        padding: 55px 26px 47px;
+
+        h3,
+        .m-register__alreadyAUser {
+          text-align: center;
+        }
+
+        .mdl-card__actions {
+          margin-top: 35px;
+
+          label.mdl-checkbox {
+            margin-bottom: 50px;
+          }
+        }
       }
 
       clip-path: polygon(0 2%, 100% 0, 100% 97%, 0 95%);
@@ -74,10 +90,10 @@ m-register {
       }
 
       .m-register__alreadyAUser {
-        display: inline-block;
+        display: block;
         font-size: 14px;
         line-height: 19px;
-        margin-bottom: 19px;
+        margin-bottom: 30px;
         font-weight: 400;
         color: #9b9b9b;
 

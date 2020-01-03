@@ -56,12 +56,6 @@ m-onboarding {
         padding: 50px 20px;
       }
 
-      @media screen and(max-width: 740px) {
-        .m-onboarding__progressbar {
-          padding-top: 20px;
-        }
-      }
-
       .m-onboarding__description {
         margin: 35px 0;
         font-size: 16px;
@@ -126,7 +120,7 @@ m-onboarding {
           text-align: center;
         }
 
-        &:not(.m-onboarding__noticeTitle) {
+        &:not(.m-onboarding__noticeTitle):not(.m-onboardingProgressbar__stepName) {
           @media screen and (max-width: 740px) {
             color: #a2a2a2;
             font-size: 13px;
@@ -136,6 +130,7 @@ m-onboarding {
             text-align: center;
             margin-top: 50px;
             margin-bottom: 0;
+            padding-bottom: 0;
           }
         }
       }
@@ -245,15 +240,19 @@ m-onboarding {
           }
 
           .m-onboardingControl__label {
+            position: relative;
+            & > label {
+              font-size: 14px;
+              line-height: 19px;
+              margin-bottom: 8px;
+            }
+
             & > span {
+              font-style: italic;
               position: absolute;
               right: 0;
               top: 0;
             }
-          }
-
-          & > * {
-            margin-bottom: 8px;
           }
 
           input[type='text'],
@@ -262,6 +261,13 @@ m-onboarding {
             width: 100%;
             height: 36px;
             border: 1px solid #e8e8e8;
+            font-size: 14px;
+            padding-left: 8px;
+            margin-bottom: 8px;
+
+            @include m-theme() {
+              color: themed($m-grey-800);
+            }
 
             &:active,
             &:focus {
@@ -278,6 +284,7 @@ m-onboarding {
 
             m-phone-input {
               display: flex;
+              margin-bottom: 8px;
 
               .m-phone-input--wrapper {
                 justify-content: flex-start;
@@ -289,6 +296,12 @@ m-onboarding {
                 input {
                   width: 100%;
                   padding-left: 8px;
+
+                  font-size: 14px;
+
+                  @include m-theme() {
+                    color: themed($m-grey-800);
+                  }
 
                   &:active,
                   &:focus {
@@ -339,6 +352,7 @@ m-onboarding {
           margin-left: 10px;
 
           .m-tooltip--anchor {
+            font-weight: bold;
             color: rgba(0, 0, 0, 0.5);
           }
 
@@ -374,6 +388,7 @@ m-onboarding {
     font-size: 16px !important;
     line-height: 21px !important;
     font-weight: 300 !important;
+    height: 56px !important;
   }
 
   .mf-button--alt {
@@ -382,5 +397,6 @@ m-onboarding {
     color: white !important;
     font-size: 20px !important;
     line-height: 26px !important;
+    height: 56px !important;
   }
 }

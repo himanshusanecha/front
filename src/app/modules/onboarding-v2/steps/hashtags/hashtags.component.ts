@@ -45,7 +45,7 @@ export class HashtagsStepComponent implements OnInit {
   }
 
   skip() {
-    this.router.navigate(['/onboarding', 'channels']);
+    this.router.navigate(['/onboarding', 'info']);
   }
 
   continue() {
