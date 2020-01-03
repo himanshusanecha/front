@@ -214,6 +214,10 @@ m-homepage__v2 {
             margin: 0;
           }
 
+          .m-register__alreadyAUser {
+            display: none;
+          }
+
           .mdl-cell {
             margin: 0;
             padding-bottom: 14px;
@@ -275,6 +279,32 @@ m-homepage__v2 {
               @include m-theme() {
                 background-color: themed($m-aqua);
               }
+            }
+          }
+
+          .mdl-checkbox {
+            &.is-checked {
+              .mdl-checkbox__tick-outline {
+                @include m-theme() {
+                  background-color: themed($m-blue);
+                }
+              }
+            }
+
+            .mdl-checkbox__box-outline {
+              @include m-theme() {
+                border: 1px solid themed($m-grey-100);
+              }
+            }
+          }
+
+          @media screen and(max-width: 1250px) {
+            label.mdl-checkbox {
+              margin-bottom: 20px;
+            }
+            .mdl-card__actions {
+              flex-direction: column;
+              align-items: flex-start;
             }
           }
         }
