@@ -25,6 +25,8 @@ m-popover {
         border-width: 0 10px 10px 10px;
         transition-duration: 0.3s;
         transition-property: transform;
+        height: 24px;
+
         @include m-theme() {
           border-color: transparent transparent themed($m-white) transparent;
         }
