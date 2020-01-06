@@ -41,12 +41,12 @@
     }
 
     .m-v2-topbar {
-      padding: 15px 0 0;
+      padding: 15px 0 15px;
       max-width: 1084px;
-      margin: 0 auto 5px auto;
+      margin: 0 auto;
 
       @media screen and (max-width: 1168px) {
-        margin: 0 25px 5px;
+        margin: 0 25px;
       }
 
       .m-v2-topbarNavItem__Logo {
