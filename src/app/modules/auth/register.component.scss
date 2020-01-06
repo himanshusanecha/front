@@ -99,7 +99,9 @@ m-register {
 
         a {
           font-weight: 400;
-          color: #0091ff;
+          @include m-theme() {
+            color: themed($m-blue);
+          }
         }
       }
 
@@ -170,8 +172,13 @@ m-register {
           color: #4a4a4a !important;
         }
 
-        a {
-          color: #4a90e2;
+        a,
+        a:hover,
+        a:visited {
+          font-weight: 400;
+          @include m-theme() {
+            color: themed($m-blue);
+          }
         }
 
         button {
