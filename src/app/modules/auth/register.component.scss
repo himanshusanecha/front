@@ -202,6 +202,11 @@ m-register {
               background-color: themed($m-blue);
             }
           }
+          .mdl-checkbox__box-outline {
+            @include m-theme() {
+              border: 1px solid themed($m-blue);
+            }
+          }
         }
 
         .mdl-checkbox__box-outline {
