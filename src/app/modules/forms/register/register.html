@@ -40,6 +40,7 @@
         readonly
         onfocus="this.removeAttribute('readonly');"
         [class.m-input--hide-placeholder]="showLabels"
+        autofocus
       />
       <div class="m-register__error" *ngIf="showError('username')">
         <ng-container
