@@ -7,6 +7,7 @@ import {
   OnDestroy,
   ViewChild,
   HostListener,
+  HostBinding,
 } from '@angular/core';
 import { Session } from '../../../services/session';
 import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
@@ -38,6 +39,7 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   componentInstance: NotificationsToasterComponent;
 
   onAuthPages: boolean = false; // sets to false if we're on login or register pages
+  visible: boolean = true;
 
   router$;
 
@@ -57,6 +59,10 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
     this.listen();
 
     this.topbarService.setContainer(this);
+  }
+
+  toggleVisibility(visible: boolean) {
+    this.visible = visible;
   }
 
   getCurrentUser() {

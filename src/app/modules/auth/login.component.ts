@@ -68,13 +68,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.newDesign = this.featuresService.has('register_pages-december-2019');
 
     if (this.newDesign) {
-      this.topbarService.toggleMarketingPages(true, false, false);
+      this.topbarService.toggleVisibility(false);
     }
   }
 
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
-    this.topbarService.toggleMarketingPages(false);
+    this.topbarService.toggleVisibility(true);
   }
 
   loggedin() {

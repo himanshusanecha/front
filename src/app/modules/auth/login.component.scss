@@ -54,7 +54,7 @@ m-login {
     }
 
     @media screen and (max-width: $m-grid-max-mobile) {
-      margin: 30px 26px 50px;
+      margin: -52px 26px 50px;
       &::before {
         position: absolute;
         top: 0;
@@ -66,11 +66,10 @@ m-login {
     }
 
     .m-grid {
-      height: 100%;
-      padding: 20vh 0;
+      padding: 15vh 0 0;
 
       @media screen and (max-width: $m-grid-max-mobile) {
-        padding: 5vh 0;
+        padding: 10vh 0 0;
       }
     }
 

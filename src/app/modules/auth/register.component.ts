@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.newDesign = this.featuresService.has('register_pages-december-2019');
 
     if (this.newDesign) {
-      this.topbarService.toggleMarketingPages(true, false, false);
+      this.topbarService.toggleVisibility(false);
     }
   }
 
@@ -98,7 +98,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (this.paramsSubscription) {
       this.paramsSubscription.unsubscribe();
     }
-    this.topbarService.toggleMarketingPages(false);
+    this.topbarService.toggleVisibility(true);
   }
 
   private navigateToRedirection() {
