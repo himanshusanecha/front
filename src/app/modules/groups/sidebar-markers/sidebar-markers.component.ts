@@ -53,7 +53,7 @@ export class GroupsSidebarMarkersComponent {
       }
       if (update.show) {
         this.groupsService.load(update.guid).then(group => {
-          this.groups.push(group);
+          this.groups.unshift(group);
         });
         return;
       }
