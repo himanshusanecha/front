@@ -9,12 +9,12 @@ m-onboarding__noticeStep {
     }
   }
 
-  @media screen and(max-width: $max-mobile) {
+  @media screen and(max-width: $m-grid-max-mobile) {
     .m-onboarding__actionButtons {
       flex-direction: column-reverse;
 
       & > *:not(:first-child) {
-        margin: 0 0 50px;
+        margin: 0 0 50px !important;
       }
     }
   }
