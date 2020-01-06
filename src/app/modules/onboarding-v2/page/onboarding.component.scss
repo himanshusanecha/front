@@ -295,6 +295,7 @@ m-onboarding {
             position: relative;
 
             m-phone-input {
+              flex-grow: 1;
               display: flex;
               margin-bottom: 8px;
 
@@ -339,16 +340,25 @@ m-onboarding {
             max-width: 294px;
           }
 
-          .mdl-spinner {
-            position: absolute;
-            top: 5px;
-            right: 5px;
+          .m-onboarding__spinnerWrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 40px;
+            height: 36px;
+            margin-left: 8px;
+          }
+
+          .m-onboarding__input {
+            display: flex;
           }
 
           .m-onboardingInput__saveButton {
-            position: absolute;
-            right: 5px;
-            top: 6px;
+            height: 36px !important;
+            font-size: 16px !important;
+            padding: 4px 20px;
+            margin-left: 8px;
             cursor: pointer;
 
             @include m-theme() {
