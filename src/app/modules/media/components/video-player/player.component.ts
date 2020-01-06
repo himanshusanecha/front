@@ -76,7 +76,9 @@ export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
 
   @Input('autoplay')
   set autoplay(autoplay: boolean) {
-    this.options.autoplay = autoplay;
+    setTimeout(() => {
+      this.options.autoplay = autoplay;
+    }, 0);
   }
 
   @Input('isModal')
