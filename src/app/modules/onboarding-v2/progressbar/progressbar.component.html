@@ -9,7 +9,7 @@
       *ngFor="let step of steps; let i = index"
     >
       <span class="m-onboardingProgressbarItem__number">{{ i + 1 }}</span>
-      <span>{{ step.name }}</span>
+      <span class="m-onboardingProgressbar__stepName">{{ step.name }}</span>
       <div class="m-onboardingProgressbarItem__selector"></div>
     </div>
   </ng-container>
