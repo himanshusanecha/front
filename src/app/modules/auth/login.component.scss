@@ -206,11 +206,5 @@ m-login {
         }
       }
     }
-
-    @media screen and (min-width: $max-mobile) and (max-width: 760px) {
-      minds-form-login {
-        padding: 40px 20px;
-      }
-    }
   }
 }
