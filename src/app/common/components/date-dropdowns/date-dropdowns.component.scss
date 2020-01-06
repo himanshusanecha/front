@@ -1,5 +1,6 @@
 m-date__dropdowns {
   display: flex;
+  justify-content: space-between;
 
   select {
     display: inline-block;
@@ -22,6 +23,21 @@ m-date__dropdowns {
       color: themed($m-grey-800);
       background-color: themed($m-white);
       border: 1px solid #e2e2e2;
+    }
+
+    // month
+    &:nth-child(1) {
+      min-width: 120px;
+    }
+
+    // day
+    &:nth-child(2) {
+      min-width: 59px;
+    }
+
+    // year
+    &:nth-child(3) {
+      min-width: 77px;
     }
   }
 }

@@ -132,14 +132,16 @@ m-register {
 
           &:active,
           &:focus {
+            outline: none;
             @include m-theme() {
-              outline: 1px solid themed($m-blue);
+              border: 1px solid themed($m-blue);
             }
           }
 
           &.ng-invalid.ng-touched:not(.ng-pristine) {
+            outline: none;
             @include m-theme() {
-              outline: 1px solid themed($m-red);
+              border: 1px solid themed($m-red);
             }
           }
         }
