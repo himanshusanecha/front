@@ -5,6 +5,10 @@ m-onboarding {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 
+  @include m-theme() {
+    background-color: themed($m-body-bg);
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -27,8 +31,8 @@ m-onboarding {
   }
 
   .m-grid {
-    height: 100%;
-    margin: 20px 0;
+    margin: -52px 0;
+    padding-top: 52px;
   }
 
   .m-onboarding__wrapper {

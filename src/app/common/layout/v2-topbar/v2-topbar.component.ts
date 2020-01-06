@@ -30,6 +30,7 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   showBackground: boolean = true;
   showSeparateLoginBtns: boolean = false;
   marketingPages: boolean = false;
+  showTopbar: boolean = true;
   showBottombar: boolean = true;
 
   @ViewChild(DynamicHostDirective, { static: true })
@@ -39,7 +40,6 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   componentInstance: NotificationsToasterComponent;
 
   onAuthPages: boolean = false; // sets to false if we're on login or register pages
-  visible: boolean = true;
 
   router$;
 
@@ -62,7 +62,9 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   }
 
   toggleVisibility(visible: boolean) {
-    this.visible = visible;
+    this.showTopbar = visible;
+    this.showBottombar = visible;
+    this.detectChanges();
   }
 
   getCurrentUser() {

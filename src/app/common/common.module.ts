@@ -128,6 +128,7 @@ import { FormToastComponent } from './components/form-toast/form-toast.component
 import { SsoService } from './services/sso.service';
 import { V2TopbarService } from './layout/v2-topbar/v2-topbar.service';
 import { DateDropdownsComponent } from './components/date-dropdowns/date-dropdowns.component';
+import { SidebarMarkersService } from './layout/sidebar/markers.service';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -413,6 +414,10 @@ PlotlyModule.plotlyjs = PlotlyJS;
     {
       provide: V2TopbarService,
       useFactory: V2TopbarService._,
+    },
+    {
+      provide: SidebarMarkersService,
+      useFactory: SidebarMarkersService._,
     },
   ],
   entryComponents: [
