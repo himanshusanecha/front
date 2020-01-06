@@ -60,6 +60,7 @@ m-register {
       background-color: #fcfcfc;
 
       @media screen and (max-width: $m-grid-max-mobile) {
+        clip-path: polygon(0 2%, 100% 0, 100% 100%, 0 99%);
         padding: 55px 26px 47px;
 
         h3,
