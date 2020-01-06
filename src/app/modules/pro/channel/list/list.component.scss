@@ -84,13 +84,13 @@ m-pro--channel-list {
     list-style: none;
     padding: 0;
 
+    @media screen and (max-width: $max-mobile) {
+      grid-template-columns: 100%;
+    }
+
     > * {
       min-width: 0;
       min-height: 0;
-    }
-
-    @media screen and (max-width: $max-mobile) {
-      grid-template-columns: 100%;
     }
 
     &.m-proChannelListContent__normalList {
