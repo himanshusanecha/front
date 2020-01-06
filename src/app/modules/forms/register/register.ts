@@ -97,7 +97,8 @@ export class RegisterForm implements OnInit {
     return (
       this.showInlineErrors &&
       this.form.get(field).invalid &&
-      (this.form.get(field).dirty || this.form.get(field).touched)
+      this.form.get(field).touched &&
+      this.form.get(field).dirty
     );
   }
 

@@ -42,15 +42,18 @@
         [class.m-input--hide-placeholder]="showLabels"
         autofocus
       />
-      <div class="m-register__error" *ngIf="showError('username')">
+      <div
+        class="m-register__error"
+        [style.visibility]="showError('username') ? 'visible' : 'hidden'"
+      >
         <ng-container
-          *ngIf="this.form.get('username').errors.minlength"
+          *ngIf="this.form.get('username').errors?.minlength"
           i18n="@@MINDS__REGISTER__EXCEPTION__USERNAME_TOO_SHORT"
         >
           Must be at least 4 characters long
         </ng-container>
         <ng-container
-          *ngIf="this.form.get('username').errors.maxlength"
+          *ngIf="this.form.get('username').errors?.maxlength"
           i18n="@@MINDS__REGISTER__EXCEPTION__USERNAME_TOO_LONG"
         >
           Cannot be longer than 128 characters
@@ -70,9 +73,12 @@
         i18n-placeholder="email placeholder|@@FORMS__REGISTER__EMAIL_PLACEHOLDER"
         [class.m-input--hide-placeholder]="showLabels"
       />
-      <div class="m-register__error" *ngIf="showError('email')">
+      <div
+        class="m-register__error"
+        [style.visibility]="showError('email') ? 'visible' : 'hidden'"
+      >
         <ng-container
-          *ngIf="this.form.get('email').errors.email"
+          *ngIf="this.form.get('email').errors?.email"
           i18n="@@MINDS__REGISTER__EXCEPTION__INVALID_EMAIL"
         >
           Invalid email
@@ -116,7 +122,7 @@
       />
       <div
         class="m-register__error"
-        *ngIf="this.form.get('password2').dirty || this.form.get('password2').touched"
+        *ngIf="this.form.get('password2').touched && this.form.get('password2').dirty"
       >
         <ng-container
           *ngIf="this.form.errors?.passwordConfirming"
