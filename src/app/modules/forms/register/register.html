@@ -36,7 +36,6 @@
         formControlName="username"
         [placeholder]="showLabels ? '' : 'Username'"
         i18n-placeholder="@@M__COMMON__USERNAME"
-        (keyup)="validationTimeoutHandler()"
         readonly
         onfocus="this.removeAttribute('readonly');"
         [class.m-input--hide-placeholder]="showLabels"
