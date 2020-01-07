@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule as NgCommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MINDS_PIPES } from './pipes/pipes';
@@ -129,8 +129,16 @@ import { SsoService } from './services/sso.service';
 import { V2TopbarService } from './layout/v2-topbar/v2-topbar.service';
 import { DateDropdownsComponent } from './components/date-dropdowns/date-dropdowns.component';
 import { SidebarMarkersService } from './layout/sidebar/markers.service';
+import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
+
+const routes: Routes = [
+  {
+    path: 'email-confirmation',
+    redirectTo: '/',
+  },
+];
 
 @NgModule({
   imports: [
@@ -140,6 +148,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     FormsModule,
     ReactiveFormsModule,
     PlotlyModule,
+    RouterModule.forChild(routes),
   ],
   declarations: [
     MINDS_PIPES,
@@ -244,6 +253,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     FormDescriptorComponent,
     FormToastComponent,
     ShadowboxSubmitButtonComponent,
+    EmailConfirmationComponent,
     DateDropdownsComponent,
   ],
   exports: [
@@ -344,6 +354,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     FormDescriptorComponent,
     FormToastComponent,
     ShadowboxSubmitButtonComponent,
+    EmailConfirmationComponent,
     DateDropdownsComponent,
   ],
   providers: [
