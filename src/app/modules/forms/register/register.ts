@@ -143,8 +143,8 @@ export class RegisterForm implements OnInit {
         // TODO: [emi/sprint/bison] Find a way to reset controls. Old implementation throws Exception;
 
         this.inProgress = false;
-        this.done.next(data.user);
         this.session.login(data.user);
+        this.done.next(data.user);
       })
       .catch(e => {
         console.log(e);

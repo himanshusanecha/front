@@ -30,6 +30,7 @@ export class OnboardingComponent implements OnDestroy {
     },
   ];
   showTitle: boolean = false;
+  shown: boolean = false;
 
   constructor(
     private session: Session,
@@ -45,6 +46,10 @@ export class OnboardingComponent implements OnDestroy {
       if (section === 'notice') {
         this.showTitle = false;
       } else {
+        if (!this.shown) {
+          this.shown = true;
+          this.onboardingService.shown();
+        }
         this.showTitle = true;
 
         for (const item of this.steps) {
@@ -73,7 +78,6 @@ export class OnboardingComponent implements OnDestroy {
       this.router.navigate(['/newsfeed/subscriptions']);
     }
 
-    this.onboardingService.shown();
     this.topbarService.toggleVisibility(false);
     this.sidebarMarkersService.toggleVisibility(false);
   }

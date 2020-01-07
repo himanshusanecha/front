@@ -85,6 +85,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   registered() {
     if (this.redirectTo) {
       this.navigateToRedirection();
+      return;
     }
 
     this.router.navigate(['/' + this.session.getLoggedInUser().username]);
