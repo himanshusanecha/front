@@ -113,7 +113,7 @@ export class CommentComponentV2
         return (this.comment.time_created - secondsElapsed * 0.01) * 1000;
       })
     );
-    console.log(this.comment);
+
     if (this.minds.user.guid === this.comment.ownerObj.guid) {
       this.showMature = true;
     }
