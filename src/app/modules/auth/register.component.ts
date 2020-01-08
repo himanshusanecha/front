@@ -12,6 +12,7 @@ import { OnboardingService } from '../onboarding/onboarding.service';
 import { MindsTitle } from '../../services/ux/title';
 import { FeaturesService } from '../../services/features.service';
 import { V2TopbarService } from '../../common/layout/v2-topbar/v2-topbar.service';
+import { OnboardingV2Service } from '../onboarding-v2/service/onboarding.service';
 
 @Component({
   selector: 'm-register',
@@ -46,6 +47,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     public navigation: NavigationService,
     private featuresService: FeaturesService,
     private topbarService: V2TopbarService,
+    private onboardingService: OnboardingV2Service,
     public title: MindsTitle
   ) {
     if (this.session.isLoggedIn()) {
@@ -85,6 +87,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   registered() {
     if (this.redirectTo) {
       this.navigateToRedirection();
+      return;
+    }
+
+    if (this.featuresService.has('onboarding-december-2019')) {
+      if (this.onboardingService.shouldShow()) {
+        this.router.navigate(['/onboarding']);
+      }
       return;
     }
 
