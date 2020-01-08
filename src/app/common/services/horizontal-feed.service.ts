@@ -21,18 +21,25 @@ export class HorizontalFeedService {
 
     switch (context) {
       case 'container':
-        const endpoint = `api/v2/feeds/container/${entity.owner_guid}/all`;
+        const endpoint = `api/v2/feeds/container/${entity.container_guid ||
+          entity.owner_guid}/all`;
         const params = {
           sync: 1,
           as_activities: 1,
           force_public: 1,
           limit: 1,
-          //from_timestamp: entity.time_created,
         };
 
         return {
-          prev: void 0,
-          next: await this.fetch(endpoint, params),
+          prev: await this.fetch(endpoint, {
+            ...params,
+            reverse_sort: 1,
+            from_timestamp: entity.time_created * 1000 + 1,
+          }),
+          next: await this.fetch(endpoint, {
+            ...params,
+            from_timestamp: entity.time_created * 1000 - 1,
+          }),
         };
 
       default:
@@ -55,6 +62,9 @@ export class HorizontalFeedService {
       return feedSyncEntity.entity;
     }
 
-    return this.entities.single(feedSyncEntity.urn).toPromise();
+    return this.entities
+      .setCastToActivities(true)
+      .single(feedSyncEntity.urn)
+      .toPromise();
   }
 }
