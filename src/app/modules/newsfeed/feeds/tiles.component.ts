@@ -64,6 +64,8 @@ export class NewsfeedTilesComponent {
       this.setImageDimensions(entity, event.target as HTMLImageElement);
     }
     this.openModal(entity);
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   setImageDimensions(entity, imageElement: HTMLImageElement) {

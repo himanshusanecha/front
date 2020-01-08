@@ -10,6 +10,7 @@
       [ngClass]="{
         'm-newsfeed-tiles__Tile--is-mature': attachment.shouldBeBlurred(entity)
       }"
+      [routerLink]="['/newsfeed', entity.guid]"
     >
       <img
         [src]="getThumbnailSrc(entity$ | async)"
