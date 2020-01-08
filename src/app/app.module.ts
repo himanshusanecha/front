@@ -80,16 +80,20 @@ Sentry.init({
   environment: (<any>window.Minds).environment || 'development',
   beforeSend(event) {
     try {
+      // discarding errors without stack traces
       if (
-        event.extra.__serialized__.stack === '[undefined]' || // this works, tested and it stops the error i can reproduce
-        event.extra.__serialized__stack === '[native code]' // this I'm basing off the stack trace only having [native code] on some issues.
+        event.extra.__serialized__.stack === '[undefined]' ||
+        event.extra.__serialized__.stack === '[native code]'
       ) {
         return null;
       }
+
+      // checking stack frames for packages to ignore.
       const stackFrames = event.exception.values['0'].stacktrace.frames;
-      if (stackFrames[stackFrames.length].filename.includes('plyr')) {
-        //crawled the object to get
-        return null;
+      for (const stack of stackFrames) {
+        if (stack.filename.includes('plyr')) {
+          return null;
+        }
       }
     } catch (e) {}
 
