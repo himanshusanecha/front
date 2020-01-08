@@ -127,6 +127,7 @@ import { FormDescriptorComponent } from './components/form-descriptor/form-descr
 import { FormToastComponent } from './components/form-toast/form-toast.component';
 import { SsoService } from './services/sso.service';
 import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
+import { HorizontalFeedService } from './services/horizontal-feed.service';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -417,6 +418,7 @@ const routes: Routes = [
       useFactory: router => new RouterHistoryService(router),
       deps: [Router],
     },
+    HorizontalFeedService,
   ],
   entryComponents: [
     NotificationsToasterComponent,

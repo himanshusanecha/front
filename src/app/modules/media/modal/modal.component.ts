@@ -26,6 +26,7 @@ import { ActivityService } from '../../../common/services/activity.service';
 import { SiteService } from '../../../common/services/site.service';
 import { ClientMetaService } from '../../../common/services/client-meta.service';
 import { FeaturesService } from '../../../services/features.service';
+import { HorizontalFeedService } from '../../../common/services/horizontal-feed.service';
 
 export type MediaModalParams = {
   redirectUrl?: string;
@@ -109,10 +110,11 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   routerSubscription: Subscription;
 
+  prevEntity: any;
+  nextEntity: any;
+
   @Input('entity') set data(params: MediaModalParams) {
-    this.originalEntity = params.entity;
-    this.entity = params.entity && JSON.parse(JSON.stringify(params.entity)); // deep clone
-    this.redirectUrl = params.redirectUrl || null;
+    this.setEntity(params.entity, params.redirectUrl);
   }
 
   videoDirectSrc = [];
@@ -128,6 +130,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     private site: SiteService,
     private clientMetaService: ClientMetaService,
     private featureService: FeaturesService,
+    private horizontalFeed: HorizontalFeedService,
     @SkipSelf() injector: Injector
   ) {
     this.clientMetaService
@@ -178,6 +181,62 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Prevent dismissal of modal when it's just been opened
     this.isOpenTimeout = setTimeout(() => (this.isOpen = true), 20);
+
+    // -- Load entity
+
+    this.load();
+
+    // -- EVENTS
+
+    // When user clicks a link from inside the modal
+    this.routerSubscription = this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        if (!this.navigatedAway) {
+          this.navigatedAway = true;
+
+          // Fix browser history so back button doesn't go to media page
+          this.location.replaceState(this.entity.modal_source_url);
+
+          // Go to the intended destination
+          this.router.navigate([event.url]);
+
+          this.overlayModal.dismiss();
+        }
+      }
+    });
+  }
+
+  setEntity(entity: any, redirectUrl?: string) {
+    if (!entity) {
+      return;
+    }
+
+    this.originalEntity = entity;
+    this.entity = entity && JSON.parse(JSON.stringify(entity)); // deep clone
+    this.redirectUrl = redirectUrl || null;
+
+    this.setNeighborEntities(); // async
+  }
+
+  async setNeighborEntities() {
+    const { prev, next } = await this.horizontalFeed.get(
+      'container',
+      this.entity
+    );
+
+    if (!this.prevEntity) {
+      this.prevEntity = prev;
+    }
+
+    if (!this.nextEntity) {
+      this.nextEntity = next;
+    }
+
+    console.log('prevEntity', this.prevEntity);
+    console.log('nextEntity', this.nextEntity);
+  }
+
+  load() {
     switch (this.entity.type) {
       case 'activity':
         this.title =
@@ -309,23 +368,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     // Change the url to point to media page so user can easily share link
     // (but don't actually redirect)
     this.location.replaceState(this.pageUrl);
-
-    // When user clicks a link from inside the modal
-    this.routerSubscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        if (!this.navigatedAway) {
-          this.navigatedAway = true;
-
-          // Fix browser history so back button doesn't go to media page
-          this.location.replaceState(this.entity.modal_source_url);
-
-          // Go to the intended destination
-          this.router.navigate([event.url]);
-
-          this.overlayModal.dismiss();
-        }
-      }
-    });
 
     // * DIMENSION CALCULATIONS * ---------------------------------------------------------------------
 
@@ -608,6 +650,36 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.tabletOverlayTimeout = setTimeout(() => {
       this.onMouseLeaveStage();
     }, 3000);
+  }
+
+  // * PAGER * --------------------------------------------------------------------------
+
+  hasPrev(): boolean {
+    return Boolean(this.prevEntity);
+  }
+
+  hasNext(): boolean {
+    return Boolean(this.nextEntity);
+  }
+
+  goToNext(): void {
+    const entity = this.nextEntity;
+
+    this.prevEntity = this.originalEntity;
+    this.nextEntity = null;
+
+    this.setEntity(entity /* , redirectUrl */);
+    this.load();
+  }
+
+  goToPrev(): void {
+    const entity = this.prevEntity;
+
+    this.prevEntity = null;
+    this.nextEntity = this.originalEntity;
+
+    this.setEntity(entity /* , redirectUrl */);
+    this.load();
   }
 
   // * UTILITY * --------------------------------------------------------------------------
