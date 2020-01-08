@@ -75,9 +75,26 @@ import { UpgradesModule } from './modules/upgrades/upgrades.module';
 import * as Sentry from '@sentry/browser';
 
 Sentry.init({
-  dsn: 'https://3f786f8407e042db9053434a3ab527a2@sentry.io/1538008', // TODO: do not hardcard
+  dsn: 'https://2c055120c4384ee8a62f580bcec36e32@sentry.io/1875291',
   release: environment.version,
   environment: (<any>window.Minds).environment || 'development',
+  beforeSend(event) {
+    try {
+      if (
+        event.extra.__serialized__.stack === '[undefined]' || // this works, tested and it stops the error i can reproduce
+        event.extra.__serialized__stack === '[native code]' // this I'm basing off the stack trace only having [native code] on some issues.
+      ) {
+        return null;
+      }
+      const stackFrames = event.exception.values['0'].stacktrace.frames;
+      if (stackFrames[stackFrames.length].filename.includes('plyr')) {
+        //crawled the object to get
+        return null;
+      }
+    } catch (e) {}
+
+    return event;
+  },
 });
 
 @Injectable()

@@ -7,6 +7,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectorRef,
+  AfterViewInit,
 } from '@angular/core';
 import { PLAYER_ANIMATIONS } from './player.animations';
 import { VideoPlayerService, VideoSource } from './player.service';
@@ -20,7 +21,8 @@ import { PlyrComponent } from 'ngx-plyr';
   animations: PLAYER_ANIMATIONS,
   providers: [VideoPlayerService],
 })
-export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
+export class MindsVideoPlayerComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   /**
    * MH: dislike having to emit an event to open modal, but this is
    * the quickest work around for now
@@ -55,6 +57,8 @@ export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
     ],
   };
 
+  _autoplay;
+
   constructor(
     private service: VideoPlayerService,
     private cd: ChangeDetectorRef
@@ -67,6 +71,11 @@ export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit() {
+    // Set autoplay here to avoid having to use a timeout.
+    this.options.autoplay = this._autoplay;
+  }
+
   ngOnDestroy(): void {}
 
   @Input('guid')
@@ -76,9 +85,7 @@ export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
 
   @Input('autoplay')
   set autoplay(autoplay: boolean) {
-    setTimeout(() => {
-      this.options.autoplay = autoplay;
-    }, 0);
+    this._autoplay = autoplay;
   }
 
   @Input('isModal')
