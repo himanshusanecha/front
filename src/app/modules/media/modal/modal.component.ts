@@ -231,9 +231,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     if (!this.nextEntity) {
       this.nextEntity = next;
     }
-
-    console.log('prevEntity', this.prevEntity);
-    console.log('nextEntity', this.nextEntity);
   }
 
   load() {
@@ -664,6 +661,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   goToNext(): void {
     const entity = this.nextEntity;
+    entity.modal_source_url = this.entity.modal_source_url || '';
 
     this.prevEntity = this.originalEntity;
     this.nextEntity = null;
@@ -674,6 +672,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   goToPrev(): void {
     const entity = this.prevEntity;
+    entity.modal_source_url = this.entity.modal_source_url || '';
 
     this.prevEntity = null;
     this.nextEntity = this.originalEntity;
