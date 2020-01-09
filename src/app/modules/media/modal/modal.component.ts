@@ -333,6 +333,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.pageUrl = this.redirectUrl;
     } else if (this.contentType === 'rich-embed') {
       this.pageUrl = `/newsfeed/${this.entity.guid}`;
+    } else if (this.contentType === 'blog') {
+      this.pageUrl = `/${this.entity.ownerObj.username}/blog/${this.entity.slug}-${this.entity.guid}`;
     } else {
       this.pageUrl = `/media/${this.entity.entity_guid}`;
     }
@@ -666,7 +668,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.prevEntity = this.originalEntity;
     this.nextEntity = null;
 
-    this.setEntity(entity /* , redirectUrl */);
+    this.setEntity(entity);
     this.load();
   }
 
@@ -677,7 +679,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.prevEntity = null;
     this.nextEntity = this.originalEntity;
 
-    this.setEntity(entity /* , redirectUrl */);
+    this.setEntity(entity);
     this.load();
   }
 
