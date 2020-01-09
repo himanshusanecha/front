@@ -608,6 +608,56 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     this.isFullscreen = false;
   }
 
+  // * KEYBOARD SHORTCUTS * --------------------------------------------------------------------------
+
+  @HostListener('window:keydown', ['$event']) onWindowKeyDown(
+    $event: KeyboardEvent
+  ) {
+    if (!$event || !$event.target) {
+      return true;
+    }
+
+    const tagName = (
+      ($event.target as HTMLElement).tagName || ''
+    ).toLowerCase();
+    const isContentEditable =
+      ($event.target as HTMLElement).contentEditable === 'true';
+
+    if (
+      tagName === 'input' ||
+      tagName === 'textarea' ||
+      isContentEditable ||
+      ($event.key !== 'ArrowLeft' &&
+        $event.key !== 'ArrowRight' &&
+        $event.key !== 'Escape')
+    ) {
+      return true;
+    }
+
+    $event.stopPropagation();
+    $event.preventDefault();
+
+    switch ($event.key) {
+      case 'ArrowLeft':
+        if (this.hasPrev()) {
+          this.goToPrev();
+        }
+        break;
+      case 'ArrowRight':
+        if (this.hasNext()) {
+          this.goToNext();
+        }
+        break;
+      case 'Escape':
+        if (this.isOpen) {
+          this.overlayModal.dismiss();
+        }
+        break;
+    }
+
+    return true;
+  }
+
   // * MODAL DISMISSAL * --------------------------------------------------------------------------
 
   // Dismiss modal when backdrop is clicked and modal is open
