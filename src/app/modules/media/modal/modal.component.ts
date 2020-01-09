@@ -131,6 +131,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     private clientMetaService: ClientMetaService,
     private featureService: FeaturesService,
     private horizontalFeed: HorizontalFeedService,
+    private features: FeaturesService,
     @SkipSelf() injector: Injector
   ) {
     this.clientMetaService
@@ -219,6 +220,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   async setNeighborEntities() {
+    if (!this.features.has('modal-pager')) {
+      return;
+    }
+
     const { prev, next } = await this.horizontalFeed.get(
       'container',
       this.entity
