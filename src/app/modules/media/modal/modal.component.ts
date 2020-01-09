@@ -368,8 +368,13 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     // (but don't actually redirect)
     this.location.replaceState(this.pageUrl);
 
-    // * DIMENSION CALCULATIONS * ---------------------------------------------------------------------
+    // Set Dimensions based on entity
+    this.setEntityDimensions();
+  }
 
+  // * DIMENSION CALCULATIONS * ---------------------------------------------------------------------
+
+  setEntityDimensions() {
     switch (this.contentType) {
       case 'video':
       case 'image':
@@ -547,6 +552,15 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   scaleWidth() {
     return Math.round(this.mediaHeight * this.aspectRatio);
+  }
+
+  onDimensions($event) {
+    if ($event.width && $event.height) {
+      this.entity.width = $event.width;
+      this.entity.height = $event.height;
+
+      this.setEntityDimensions();
+    }
   }
 
   // * FULLSCREEN * --------------------------------------------------------------------------------
