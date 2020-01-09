@@ -904,56 +904,36 @@
                     class="m-proSettings__tab--subscription"
                     formGroupName="subscription"
                   >
-                    <div class="m-proSettings__field--radio hasValidationRow">
-                      <div class="m-proSettings__field--radio">
-                        <div class="m-proSettings__row--label">
-                          <label i18n>
-                            Subscription
-                          </label>
-                        </div>
-                        <div class="m-proSettings__row--input">
-                          <label
-                            for="subscription_enable"
-                            class="m-proSettings__customInputContainer--radio"
-                            i18n
-                            >Enabled
-                            <input
-                              type="radio"
-                              id="subscription_enable"
-                              name="enabled"
-                              [value]="true"
-                              formControlName="enabled"
-                              class="form-control"
-                            />
-                            <span
-                              class="m-proSettings__customInput--radio"
-                            ></span>
-                          </label>
-                          <label
-                            for="subscription_disable"
-                            class="m-proSettings__customInputContainer--radio"
-                            i18n
-                            >Disabled
-                            <input
-                              type="radio"
-                              id="subscription_disable"
-                              name="enabled"
-                              [value]="false"
-                              formControlName="enabled"
-                              class="form-control"
-                            />
-                            <span
-                              class="m-proSettings__customInput--radio"
-                            ></span>
-                          </label>
-                        </div>
+                    <div class="hasValidationRow">
+                      <button
+                        class="m-shadowboxSubmitButton"
+                        type="button"
+                        [disabled]="saveStatus === 'saving'"
+                        [ngClass]="{ saving: saveStatus === 'saving' }"
+                        (click)="cancelSubscription()"
+                      >
+                        <span
+                          class="m-shadowboxSubmitButton__status--unsaved"
+                          i18n
+                        >
+                          Cancel Subscription
+                        </span>
+                      </button>
+
+                      <div class="m-proSettings__row--validation">
+                        <p>
+                          Invalid hex code
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
               </ng-template>
             </ng-container>
-            <div class="m-shadowboxLayout__footer">
+            <div
+              class="m-shadowboxLayout__footer"
+              *ngIf="activeTab !== 'subscription'"
+            >
               <m-shadowboxSubmitButton
                 [disabled]="
                   !form.valid || form.pristine || saveStatus === 'saving'
