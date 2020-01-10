@@ -126,6 +126,9 @@ import { ShadowboxSubmitButtonComponent } from './components/shadowbox-submit-bu
 import { FormDescriptorComponent } from './components/form-descriptor/form-descriptor.component';
 import { FormToastComponent } from './components/form-toast/form-toast.component';
 import { SsoService } from './services/sso.service';
+import { V2TopbarService } from './layout/v2-topbar/v2-topbar.service';
+import { DateDropdownsComponent } from './components/date-dropdowns/date-dropdowns.component';
+import { SidebarMarkersService } from './layout/sidebar/markers.service';
 import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
 import { HorizontalFeedService } from './services/horizontal-feed.service';
 
@@ -252,6 +255,7 @@ const routes: Routes = [
     FormToastComponent,
     ShadowboxSubmitButtonComponent,
     EmailConfirmationComponent,
+    DateDropdownsComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -352,6 +356,7 @@ const routes: Routes = [
     FormToastComponent,
     ShadowboxSubmitButtonComponent,
     EmailConfirmationComponent,
+    DateDropdownsComponent,
   ],
   providers: [
     SiteService,
@@ -417,6 +422,14 @@ const routes: Routes = [
       provide: RouterHistoryService,
       useFactory: router => new RouterHistoryService(router),
       deps: [Router],
+    },
+    {
+      provide: V2TopbarService,
+      useFactory: V2TopbarService._,
+    },
+    {
+      provide: SidebarMarkersService,
+      useFactory: SidebarMarkersService._,
     },
     HorizontalFeedService,
   ],
