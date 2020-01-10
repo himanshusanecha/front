@@ -75,30 +75,9 @@ import { UpgradesModule } from './modules/upgrades/upgrades.module';
 import * as Sentry from '@sentry/browser';
 
 Sentry.init({
-  dsn: 'https://2c055120c4384ee8a62f580bcec36e32@sentry.io/1875291',
+  dsn: 'https://3f786f8407e042db9053434a3ab527a2@sentry.io/1538008', // TODO: do not hardcard
   release: environment.version,
   environment: (<any>window.Minds).environment || 'development',
-  beforeSend(event) {
-    try {
-      // discarding errors without stack traces
-      if (
-        event.extra.__serialized__.stack === '[undefined]' ||
-        event.extra.__serialized__.stack === '[native code]'
-      ) {
-        return null;
-      }
-
-      // checking stack frames for packages to ignore.
-      const stackFrames = event.exception.values['0'].stacktrace.frames;
-      for (const stack of stackFrames) {
-        if (stack.filename.includes('plyr')) {
-          return null;
-        }
-      }
-    } catch (e) {}
-
-    return event;
-  },
 });
 
 @Injectable()
