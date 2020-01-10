@@ -29,7 +29,6 @@ import { FeaturesService } from '../../../services/features.service';
 import { HorizontalFeedService } from '../../../common/services/horizontal-feed.service';
 
 export type MediaModalParams = {
-  redirectUrl?: string;
   entity: any;
 };
 
@@ -69,7 +68,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   entity: any = {};
   originalEntity: any = null;
-  redirectUrl: string;
   isLoading: boolean = true;
   navigatedAway: boolean = false;
   fullscreenHovering: boolean = false; // Used for fullscreen button transformation
@@ -114,7 +112,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   nextEntity: any;
 
   @Input('entity') set data(params: MediaModalParams) {
-    this.setEntity(params.entity, params.redirectUrl);
+    this.setEntity(params.entity);
   }
 
   videoDirectSrc = [];
@@ -207,14 +205,13 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  setEntity(entity: any, redirectUrl?: string) {
+  setEntity(entity: any) {
     if (!entity) {
       return;
     }
 
     this.originalEntity = entity;
     this.entity = entity && JSON.parse(JSON.stringify(entity)); // deep clone
-    this.redirectUrl = redirectUrl || null;
 
     this.setNeighborEntities(); // async
   }
@@ -334,12 +331,12 @@ export class MediaModalComponent implements OnInit, OnDestroy {
         break;
     }
 
-    if (this.redirectUrl) {
-      this.pageUrl = this.redirectUrl;
-    } else if (this.contentType === 'rich-embed') {
+    if (this.contentType === 'rich-embed') {
       this.pageUrl = `/newsfeed/${this.entity.guid}`;
     } else if (this.contentType === 'blog') {
-      this.pageUrl = `/${this.entity.ownerObj.username}/blog/${this.entity.slug}-${this.entity.guid}`;
+      this.pageUrl = `${
+        !this.site.isProDomain ? `/${this.entity.ownerObj.username}` : ''
+      }/blog/${this.entity.slug}-${this.entity.guid}`;
     } else {
       this.pageUrl = `/media/${this.entity.entity_guid}`;
     }
