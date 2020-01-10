@@ -127,12 +127,9 @@ import { FormDescriptorComponent } from './components/form-descriptor/form-descr
 import { FormToastComponent } from './components/form-toast/form-toast.component';
 import { SsoService } from './services/sso.service';
 import { PagesService } from './services/pages.service';
-<<<<<<< HEAD
 import { V2TopbarService } from './layout/v2-topbar/v2-topbar.service';
 import { DateDropdownsComponent } from './components/date-dropdowns/date-dropdowns.component';
 import { SidebarMarkersService } from './layout/sidebar/markers.service';
-=======
->>>>>>> 0eb70a775f10cf0c5b9d8f2b45bde7a237f98372
 import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
