@@ -11,13 +11,13 @@ context('Pro Product Page', () => {
     cy.preserveCookies();
   });
 
-  const upgradeButton = 'm-pro--subscription .mf-button';
+  const upgradeButton = '[data-cy=data-minds-pro-upgrade-button]';
   const wirePaymentsComponent = 'm-wire__paymentscreator .m-wire--creator';
 
   it('should show a coming soon button', () => {
     cy.visit('/pro')
       .location('pathname')
-      .should('eq', '/pro/');
+      .should('eq', '/pro');
 
     cy.get(upgradeButton)
       .should('be.visible')
