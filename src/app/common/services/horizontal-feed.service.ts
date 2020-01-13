@@ -4,10 +4,27 @@ import { EntitiesService } from './entities.service';
 
 export type HorizontalFeedContext = 'container';
 
+/**
+ * This service allow retrieving entities to navigate through a horizontal feed whose entities will be loaded
+ * one by one in specialized components.
+ *
+ * @todo: RxJS cursor-like get()
+ * @todo: Support other kind of context
+ */
 @Injectable()
 export class HorizontalFeedService {
   constructor(protected client: Client, protected entities: EntitiesService) {}
 
+  /**
+   * Get the previous and next entity based on an ID and a context.
+   *
+   * Contexts:
+   * - container: Fetch adjacent entities from a container (user/group) sorted chronologically.
+   *
+   * @param context
+   * @param entity
+   * @return {Promise}
+   */
   async get(
     context: HorizontalFeedContext,
     entity: any
@@ -47,6 +64,12 @@ export class HorizontalFeedService {
     }
   }
 
+  /**
+   * Fetch an the first FeedSyncEntity from a /feed endpoint and hydrates it, if necessary.
+   * @param endpoint
+   * @param params
+   * @return {Promise}
+   */
   async fetch(endpoint: string, params: any): Promise<any> {
     const response = (await this.client.get(endpoint, params, {
       cache: true,
