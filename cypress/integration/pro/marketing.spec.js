@@ -14,7 +14,7 @@ context('Pro Product Page', () => {
   const upgradeButton = '[data-cy=data-minds-pro-upgrade-button]';
   const wirePaymentsComponent = 'm-wire__paymentscreator .m-wire--creator';
 
-  it('should show a coming soon button', () => {
+  it('should show an Upgrade to Pro button', () => {
     cy.visit('/pro')
       .location('pathname')
       .should('eq', '/pro');
