@@ -14,6 +14,7 @@ import { VideoPlayerService, VideoSource } from './player.service';
 import isMobile from '../../../../helpers/is-mobile';
 import Plyr from 'plyr';
 import { PlyrComponent } from 'ngx-plyr';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'm-videoPlayer',
@@ -57,7 +58,7 @@ export class MindsVideoPlayerComponent
     ],
   };
 
-  _autoplay;
+  _autoplay: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     private service: VideoPlayerService,
@@ -73,10 +74,14 @@ export class MindsVideoPlayerComponent
 
   ngAfterViewInit() {
     // Set autoplay here to avoid having to use a timeout.
-    this.options.autoplay = this._autoplay;
+    this._autoplay.subscribe((val: boolean) => {
+      this.options.autoplay = val;
+    });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this._autoplay.unsubscribe();
+  }
 
   @Input('guid')
   set guid(guid: string) {
@@ -85,7 +90,7 @@ export class MindsVideoPlayerComponent
 
   @Input('autoplay')
   set autoplay(autoplay: boolean) {
-    this._autoplay = autoplay;
+    this._autoplay.next(autoplay);
   }
 
   @Input('isModal')
