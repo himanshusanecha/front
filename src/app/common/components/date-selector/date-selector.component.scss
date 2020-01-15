@@ -24,17 +24,20 @@
   }
 }
 
-.owl-dt-container {
-  @include m-theme() {
-    background: themed($m-white);
+.cdk-overlay-container {
+  z-index: 10000 !important;
+  .owl-dt-container {
+    @include m-theme() {
+      background: themed($m-white);
 
-    * {
-      color: themed($m-grey-600);
-    }
+      * {
+        color: themed($m-grey-600);
+      }
 
-    .owl-dt-calendar-cell-selected {
-      background-color: themed($m-blue);
-      color: themed($m-white);
+      .owl-dt-calendar-cell-selected {
+        background-color: themed($m-blue);
+        color: themed($m-white);
+      }
     }
   }
 }
