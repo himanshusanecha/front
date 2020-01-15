@@ -47,8 +47,19 @@
           [disabled]="inProgress || criticalError"
           (click)="enable()"
           i18n
+          data-cy="data-minds-pro-upgrade-button"
         >
           Upgrade to Pro
+        </button>
+        <button
+          class="mf-button mf-button--alt"
+          *ngIf="session.getLoggedInUser()"
+          [routerLink]="[
+            '/pro/' + session.getLoggedInUser().username + '/settings'
+          ]"
+          i18n
+        >
+          Try Pro
         </button>
       </ng-container>
       <ng-template #comingSoon>
@@ -76,6 +87,16 @@
         i18n
       >
         Cancel Pro
+      </button>
+      <button
+        class="mf-button mf-button--alt"
+        *ngIf="session.getLoggedInUser()"
+        [routerLink]="[
+          '/pro/' + session.getLoggedInUser().username + '/settings'
+        ]"
+        i18n
+      >
+        Settings
       </button>
     </div>
   </ng-template>

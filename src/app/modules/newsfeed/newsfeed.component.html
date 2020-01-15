@@ -95,7 +95,6 @@
         <m-hashtags--sidebar-selector
           [disabled]="!isSorted"
           [currentHashtag]="hashtag"
-          [preferred]="!all && !hashtag"
           (filterChange)="hashtagFilterChange($event)"
           (switchAttempt)="navigateToGlobal()"
         ></m-hashtags--sidebar-selector>
@@ -129,11 +128,13 @@
       <ng-container *mIfFeature="'pro'">
         <a
           class="m-page--sidebar--navigation--item"
-          routerLink="/pro"
+          [routerLink]="[
+            '/pro/' + session.getLoggedInUser().username + '/settings'
+          ]"
           *ngIf="session.isLoggedIn() && !session.getLoggedInUser().pro"
         >
           <i class="material-icons">business_center</i>
-          <span>Become Pro</span>
+          <span>Try Pro</span>
         </a>
       </ng-container>
 
@@ -181,12 +182,12 @@
           class="m-footer-nav-item"
         >
           <a
-            *ngIf="page.path && page.path.indexOf('p/') > -1"
+            *ngIf="pagesService.isInternalLink(page.path)"
             [routerLink]="['/' + page.path]"
             >{{ page.title }}</a
           >
           <a
-            *ngIf="page.path.indexOf('p/') < 0"
+            *ngIf="!pagesService.isInternalLink(page.path)"
             [href]="page.path"
             target="_blank"
             >{{ page.title }}</a
@@ -211,7 +212,6 @@
           [compact]="true"
           [disabled]="!isSorted"
           [currentHashtag]="hashtag"
-          [preferred]="!all && !hashtag"
           (filterChange)="hashtagFilterChange($event)"
           (switchAttempt)="navigateToGlobal()"
         ></m-hashtags--sidebar-selector>
