@@ -14,9 +14,19 @@
     font-size: 1.5em;
   }
 
-  .m-proChannelFooter__text {
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+  .m-proChannelFooter__static {
+    margin-bottom: 16px;
+
+    .m-proChannelFooter__text {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  .m-proChannelFooter__mindsLogo {
+    img {
+      width: 30px;
+    }
   }
 
   a {
