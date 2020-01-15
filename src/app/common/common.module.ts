@@ -126,10 +126,12 @@ import { ShadowboxSubmitButtonComponent } from './components/shadowbox-submit-bu
 import { FormDescriptorComponent } from './components/form-descriptor/form-descriptor.component';
 import { FormToastComponent } from './components/form-toast/form-toast.component';
 import { SsoService } from './services/sso.service';
+import { PagesService } from './services/pages.service';
 import { V2TopbarService } from './layout/v2-topbar/v2-topbar.service';
 import { DateDropdownsComponent } from './components/date-dropdowns/date-dropdowns.component';
 import { SidebarMarkersService } from './layout/sidebar/markers.service';
 import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
+import { HorizontalFeedService } from './services/horizontal-feed.service';
 import { AttachmentPasteDirective } from './directives/paste/attachment-paste.directive';
 
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -363,6 +365,7 @@ const routes: Routes = [
   providers: [
     SiteService,
     SsoService,
+    PagesService,
     {
       provide: AttachmentService,
       useFactory: AttachmentService._,
@@ -433,6 +436,7 @@ const routes: Routes = [
       provide: SidebarMarkersService,
       useFactory: SidebarMarkersService._,
     },
+    HorizontalFeedService,
   ],
   entryComponents: [
     NotificationsToasterComponent,
