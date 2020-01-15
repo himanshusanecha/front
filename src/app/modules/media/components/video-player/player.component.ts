@@ -22,8 +22,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
   animations: PLAYER_ANIMATIONS,
   providers: [VideoPlayerService],
 })
-export class MindsVideoPlayerComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
   /**
    * MH: dislike having to emit an event to open modal, but this is
    * the quickest work around for now
@@ -70,10 +69,6 @@ export class MindsVideoPlayerComponent
       this.cd.markForCheck();
       this.cd.detectChanges();
     });
-  }
-
-  ngAfterViewInit() {
-    // Set autoplay here to avoid having to use a timeout.
     this._autoplay.subscribe((val: boolean) => {
       this.options.autoplay = val;
     });
