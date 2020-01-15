@@ -151,12 +151,9 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     PlotlyModule,
-<<<<<<< HEAD
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-=======
     RouterModule.forChild(routes),
->>>>>>> e015c8970e895352f21a1b90721e92c7bc2b5021
   ],
   declarations: [
     MINDS_PIPES,

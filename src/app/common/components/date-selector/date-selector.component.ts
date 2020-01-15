@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 /**
- * Date picker / selector.
+ * Date and time picker / selector.
+ * @author Ben Hayward
  */
 @Component({
   moduleId: module.id,
@@ -15,7 +16,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       [owlDateTime]="dt"
       [min]="min"
       [max]="max"
-      [(ngModel)]="date"
+      [ngModel]="date"
       (ngModelChange)="onDateChange($event)"
     />
     <owl-date-time [pickerType]="calendarType" #dt></owl-date-time>
@@ -42,14 +43,18 @@ export class DateSelectorComponent {
   @Input() tooltipIcon?: string; // tooltip icon.
   @Input() tooltipText?: string; // tooltip text.
 
-  protected _date: Date;
+  protected _date: any;
 
   @Input('date') // parse input into Date object.
-  set date(value) {
-    this._date = new Date(`${value}`);
+  set date(value: number) {
+    // If ms not included in timestamp, multiply..
+    if (value && value.toString().length <= 10) {
+      value = value * 1000;
+    }
+    this._date = new Date(value ? value : Date.now());
   }
 
-  get date(): Date {
+  get date() {
     return this._date;
   }
 
@@ -57,10 +62,10 @@ export class DateSelectorComponent {
 
   @Input('min') // parse input into Date object.
   set min(value) {
-    this._min = new Date(`${value}`);
+    this._min = new Date(value);
   }
 
-  get min(): Date {
+  get min(): any {
     return this._min;
   }
 
@@ -68,10 +73,10 @@ export class DateSelectorComponent {
 
   @Input('max') // parse input into Date object.
   set max(value) {
-    this._max = new Date(`${value}`);
+    this._max = new Date(value);
   }
 
-  get max(): Date {
+  get max(): any {
     return this._max;
   }
 
@@ -79,7 +84,7 @@ export class DateSelectorComponent {
    * Called when date changes.
    * @param newDate - the new date.
    */
-  public onDateChange(newDate): void {
+  public onDateChange(newDate: number): void {
     this.dateChange.emit(newDate);
   }
 }
