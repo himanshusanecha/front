@@ -15,6 +15,8 @@ import { V2TopbarService } from '../../layout/v2-topbar/v2-topbar.service';
 })
 export class MarketingComponent implements OnInit, OnDestroy {
   @Input() pageTitle: string = '';
+  @Input() showBottombar: boolean = true;
+  @Input() forceBackground: boolean = true;
 
   constructor(
     protected title: MindsTitle,
@@ -26,7 +28,11 @@ export class MarketingComponent implements OnInit, OnDestroy {
       this.title.setTitle(this.pageTitle);
     }
 
-    this.topbarService.toggleMarketingPages(true);
+    this.topbarService.toggleMarketingPages(
+      true,
+      this.showBottombar,
+      this.forceBackground
+    );
   }
 
   ngOnDestroy() {

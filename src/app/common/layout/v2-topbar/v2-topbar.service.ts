@@ -26,4 +26,8 @@ export class V2TopbarService {
       );
     }
   }
+
+  toggleVisibility(visible: boolean) {
+    this.container.toggleVisibility(visible);
+  }
 }

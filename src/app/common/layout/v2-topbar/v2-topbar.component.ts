@@ -7,12 +7,15 @@ import {
   OnDestroy,
   ViewChild,
   HostListener,
+  HostBinding,
 } from '@angular/core';
 import { Session } from '../../../services/session';
 import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
 import { NotificationsToasterComponent } from '../../../modules/notifications/toaster.component';
 import { ThemeService } from '../../../common/services/theme.service';
 import { V2TopbarService } from './v2-topbar.service';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'm-v2-topbar',
@@ -27,6 +30,7 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   showBackground: boolean = true;
   showSeparateLoginBtns: boolean = false;
   marketingPages: boolean = false;
+  showTopbar: boolean = true;
   showBottombar: boolean = true;
 
   @ViewChild(DynamicHostDirective, { static: true })
@@ -35,18 +39,32 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
   componentRef;
   componentInstance: NotificationsToasterComponent;
 
+  onAuthPages: boolean = false; // sets to false if we're on login or register pages
+
+  router$;
+
   constructor(
     protected session: Session,
     protected cd: ChangeDetectorRef,
     private themeService: ThemeService,
     protected componentFactoryResolver: ComponentFactoryResolver,
-    protected topbarService: V2TopbarService
+    protected topbarService: V2TopbarService,
+    protected router: Router
   ) {}
 
   ngOnInit() {
     this.loadComponent();
     this.session.isLoggedIn(() => this.detectChanges());
+
+    this.listen();
+
     this.topbarService.setContainer(this);
+  }
+
+  toggleVisibility(visible: boolean) {
+    this.showTopbar = visible;
+    this.showBottombar = visible;
+    this.detectChanges();
   }
 
   getCurrentUser() {
@@ -78,6 +96,7 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
     this.marketingPages = value;
     this.showSeparateLoginBtns = value;
     this.showBottombar = value && showBottombar;
+    this.forceBackground = forceBackground;
     this.onScroll();
     this.detectChanges();
   }
@@ -118,5 +137,28 @@ export class V2TopbarComponent implements OnInit, OnDestroy {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
+  }
+
+  private listen() {
+    this.setOnAuthPages(this.router.url);
+
+    this.router$ = this.router.events.subscribe(
+      (navigationEvent: NavigationEnd) => {
+        if (navigationEvent instanceof NavigationEnd) {
+          if (!navigationEvent.urlAfterRedirects) {
+            return;
+          }
+
+          this.setOnAuthPages(
+            navigationEvent.urlAfterRedirects || navigationEvent.url
+          );
+        }
+      }
+    );
+  }
+
+  private setOnAuthPages(url) {
+    this.onAuthPages = url === '/login' || url === '/register';
+    this.detectChanges();
   }
 }
