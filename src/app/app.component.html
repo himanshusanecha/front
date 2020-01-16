@@ -34,7 +34,7 @@
     [class.is-pro-domain]="isProDomain"
   >
     <m-emailConfirmation></m-emailConfirmation>
-    <m-announcement [id]="'festival:sale'">
+    <m-announcement [id]="'festival:sale'" *mIfFeature="'radiocity'">
       <span
         class="m-blockchain--wallet-address-notice--action"
         i18n="@@MINDS_FESTIVAL_TICKET_SALE"
