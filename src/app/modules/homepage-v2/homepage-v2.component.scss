@@ -100,6 +100,11 @@ m-homepage__v2 {
           position: initial;
           z-index: 0;
 
+          @media screen and (min-width: $m-grid-max-mobile) {
+            padding: 0 30px 30px;
+            margin: 0;
+          }
+
           @media screen and (max-width: $m-grid-max-mobile) {
             padding: 0 16px 0;
           }
@@ -472,6 +477,7 @@ m-homepage__v2 {
     }
 
     .m-marketing__image {
+      margin-right: 0 !important;
       .m-marketing__imageUX {
         img.m-marketing__image--2 {
           width: 317px;
@@ -610,7 +616,9 @@ m-homepage__v2 {
     align-items: center;
 
     .m-marketing__quotation {
-      width: auto !important;
+      @media screen and(max-width: $m-grid-max-tablet) {
+        width: auto !important;
+      }
     }
   }
 

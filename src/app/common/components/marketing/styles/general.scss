@@ -47,8 +47,8 @@
     }
 
     @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
-      font-size: 26px;
-      line-height: 34px;
+      font-size: 38px;
+      line-height: 39px;
     }
 
     &.m-marketing__subtitle--asTitle {
@@ -265,8 +265,12 @@
     align-items: flex-end;
     margin: 0 auto;
 
-    @media screen and(min-width: $m-grid-min-vp) {
+    @media screen and(min-width: $m-grid-max-tablet) {
       width: 730px;
+    }
+
+    @media screen and(max-width: $m-grid-max-tablet) {
+      width: auto;
     }
 
     h3 {
