@@ -37,6 +37,11 @@
   </div>
 
   <div class="m-proChannelFooter__items m-proChannelFooter__socialItems">
+    <a [routerLink]="['/', user.username]">
+      <img
+        src="https://cdn-assets.minds.com/front/dist/en/assets/logos/bulb.svg"
+      />
+    </a>
     <span *ngFor="let profile of footerSocialProfiles">
       <a
         *ngIf="profile.key && profile.value"
@@ -55,11 +60,5 @@
     }}</span>
   </div>
 
-  <div class="m-proChannelFooter__mindsLogo">
-    <a [routerLink]="['/', user.username]">
-      <img
-        src="https://cdn-assets.minds.com/front/dist/en/assets/logos/bulb.svg"
-      />
-    </a>
-  </div>
+  <div class="m-proChannelFooter__mindsLogo"></div>
 </div>
