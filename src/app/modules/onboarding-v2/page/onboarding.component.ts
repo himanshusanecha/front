@@ -60,7 +60,6 @@ export class OnboardingComponent implements OnDestroy {
     });
 
     if (!this.session.isLoggedIn()) {
-      this.storage.set('redirect', 'onboarding');
       this.router.navigate(['/register']);
       return;
     }

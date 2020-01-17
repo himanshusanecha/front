@@ -95,8 +95,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (this.featuresService.has('onboarding-december-2019')) {
       if (this.onboardingService.shouldShow()) {
         this.router.navigate(['/onboarding']);
+        return;
       }
-      return;
     }
 
     this.router.navigate(['/' + this.session.getLoggedInUser().username]);

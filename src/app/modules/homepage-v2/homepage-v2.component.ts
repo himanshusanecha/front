@@ -38,11 +38,7 @@ export class HomepageV2Component {
   }
 
   navigate() {
-    if (this.featuresService.has('onboarding-december-2019')) {
-      this.router.navigate(['/onboarding']);
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.router.navigate(['/register']);
   }
 
   isMobile() {
