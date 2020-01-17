@@ -26,6 +26,7 @@ import { EntitiesService } from '../../../common/services/entities.service';
 import { MockService } from '../../../utils/mock';
 import { FeaturesService } from '../../../services/features.service';
 import { featuresServiceMock } from '../../../../tests/features-service-mock.spec';
+import { SocialIcons } from '../../legacy/components/social-icons/social-icons';
 
 @Component({
   selector: 'minds-activity',
@@ -48,7 +49,7 @@ describe('NewsfeedSingleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MaterialMock, MindsActivityMock, NewsfeedSingleComponent],
+      declarations: [MaterialMock, MindsActivityMock, NewsfeedSingleComponent, SocialIcons],
       imports: [RouterTestingModule, ReactiveFormsModule],
       providers: [
         { provide: Session, useValue: sessionMock },
