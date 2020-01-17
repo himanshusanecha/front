@@ -19,7 +19,7 @@
         ></div>
         <div class="m-channelListItem__body">
           <div [title]="entity.briefdescription">
-            <h4>{{ entity.username }}</h4>
+            <h4>{{ entity.username | excerpt: 54 }}</h4>
             <span i18n>{{ entity.subscribers_count | abbr }} members</span>
           </div>
           <div class="m-layout__spacer"></div>
