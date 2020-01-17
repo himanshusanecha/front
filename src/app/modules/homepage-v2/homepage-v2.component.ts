@@ -17,6 +17,7 @@ export class HomepageV2Component {
   @ViewChild('registerForm', { static: false }) registerForm: RegisterForm;
 
   readonly cdnAssetsUrl: string = window.Minds.cdn_assets_url;
+  readonly siteUrl: string = window.Minds.site_url;
 
   minds = window.Minds;
 
