@@ -81,8 +81,6 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
    * @param {Object} user
    */
   setShouldShow(user): void {
-    console.log(this.location);
-
     this.shouldShow =
       !(this.location.path().indexOf('/onboarding') === 0) &&
       !this.minds.from_email_confirmation &&
