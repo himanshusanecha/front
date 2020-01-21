@@ -14,6 +14,7 @@ import { MindsTitle } from '../../services/ux/title';
 import { FeaturesService } from '../../services/features.service';
 import { V2TopbarService } from '../../common/layout/v2-topbar/v2-topbar.service';
 import { OnboardingV2Service } from '../onboarding-v2/service/onboarding.service';
+import { iOSVersion } from '../../helpers/is-safari';
 
 @Component({
   selector: 'm-register',
@@ -29,6 +30,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   referrer: string;
   @HostBinding('class.m-register__newDesign')
   newDesign: boolean = false;
+  @HostBinding('class.m-register__iosFallback')
+  iosFallback: boolean = false;
+
   private redirectTo: string;
 
   flags = {
@@ -58,9 +62,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
     this.newDesign = this.featuresService.has('register_pages-december-2019');
-
     if (this.newDesign) {
       this.topbarService.toggleVisibility(false);
+      this.iosFallback = iOSVersion() !== null;
     }
   }
 
