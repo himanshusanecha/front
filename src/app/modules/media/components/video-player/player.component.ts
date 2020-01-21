@@ -39,6 +39,13 @@ export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
    */
   @ViewChild(PlyrComponent, { static: false }) player: PlyrComponent;
 
+  /*
+   * BehaviorSubject holding autoplay value
+   */
+  autoplaySubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+
   /**
    * Options for Plyr to use
    */
@@ -57,8 +64,6 @@ export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
     ],
   };
 
-  _autoplay: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
   constructor(
     private service: VideoPlayerService,
     private cd: ChangeDetectorRef
@@ -69,13 +74,16 @@ export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
       this.cd.detectChanges();
     });
-    this._autoplay.subscribe((val: boolean) => {
+  }
+
+  ngAfterViewInit() {
+    this.autoplaySubject.subscribe((val: boolean) => {
       this.options.autoplay = val;
     });
   }
 
   ngOnDestroy(): void {
-    this._autoplay.unsubscribe();
+    this.autoplaySubject.unsubscribe();
   }
 
   @Input('guid')
@@ -85,7 +93,7 @@ export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
 
   @Input('autoplay')
   set autoplay(autoplay: boolean) {
-    this._autoplay.next(autoplay);
+    this.autoplaySubject.next(autoplay);
   }
 
   @Input('isModal')
