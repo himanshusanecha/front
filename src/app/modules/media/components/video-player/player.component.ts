@@ -22,7 +22,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
   animations: PLAYER_ANIMATIONS,
   providers: [VideoPlayerService],
 })
-export class MindsVideoPlayerComponent implements OnInit, OnDestroy {
+export class MindsVideoPlayerComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   /**
    * MH: dislike having to emit an event to open modal, but this is
    * the quickest work around for now
