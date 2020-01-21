@@ -281,6 +281,50 @@ m-onboarding {
             padding-top: 20px;
           }
 
+          &.m-onboarding__avatar {
+            margin-bottom: 19px;
+
+            minds-avatar {
+              //width: 72px;
+              //height: 72px;
+              display: flex;
+              //align-items: center;
+              //justify-content: center;
+
+              min-width: 220px;
+
+              .minds-avatar {
+                flex-shrink: 0;
+                background-repeat: no-repeat;
+                background-size: cover;
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                @include m-theme() {
+                  border: 1px solid themed($m-grey-50);
+                }
+
+                .overlay {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+
+                  position: initial;
+                  padding: 0;
+                  background-color: transparent;
+
+                  i.material-icons {
+                    padding: 0;
+                  }
+                }
+
+                input[type='file'] {
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+
           .m-onboardingControl__label {
             position: relative;
 

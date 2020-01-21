@@ -124,7 +124,7 @@
       />
       <div
         class="m-register__error"
-        *ngIf="this.form.get('password2').touched && this.form.get('password2').dirty"
+        [style.visibility]="this.form.get('password2').touched && this.form.get('password2').dirty ? 'visible' : 'hidden'"
       >
         <ng-container
           *ngIf="this.form.errors?.passwordConfirming"
@@ -151,7 +151,7 @@
 
   <div
     class="m-register__formError"
-    *ngIf="showInlineErrors && showBigButton && errorMessage"
+    [style.visibility]="showInlineErrors && showBigButton && errorMessage ? 'visible' : 'hidden'"
   >
     <ng-container *ngTemplateOutlet="errorTemplate"></ng-container>
   </div>
