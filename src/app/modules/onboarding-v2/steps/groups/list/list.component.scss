@@ -31,6 +31,8 @@ m-onboarding__groupList {
 
   .m-groupList__item {
     display: flex;
+    width: 100%;
+
     &:last-of-type {
       border-bottom: 0;
     }
@@ -50,6 +52,7 @@ m-onboarding__groupList {
       display: inline-block;
       margin-right: 8px;
       vertical-align: middle;
+      flex-shrink: 0;
     }
 
     .m-groupListItem__body {
@@ -57,7 +60,9 @@ m-onboarding__groupList {
       vertical-align: middle;
       align-items: center;
       flex-direction: row;
-      width: calc(100% - 36px);
+      max-width: calc(100% - 36px);
+      width: 20px;
+      flex-grow: 1;
 
       h4 {
         height: 21px;
@@ -68,11 +73,13 @@ m-onboarding__groupList {
         font-weight: 500;
         line-height: 21px;
         margin: 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
 
       > div {
         width: 100%;
-        max-width: calc(100% - 68px);
       }
 
       > div > span {
