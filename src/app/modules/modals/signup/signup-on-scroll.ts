@@ -23,7 +23,7 @@ export class SignupOnScrollModal implements OnInit, OnDestroy {
 
   routerSubscription: Subscription;
 
-  @Input() disableScrollListener: true;
+  @Input() disableScrollListener: boolean = true;
 
   @ViewChild('modal', { static: true }) modal: SignupModal;
 
