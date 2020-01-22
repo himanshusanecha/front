@@ -247,6 +247,56 @@ m-onboarding {
             padding-top: 20px;
           }
 
+          .m-onboarding__avatar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 19px;
+
+            button.mf-button {
+              height: 36px !important;
+              font-size: 16px !important;
+              padding: 4px 20px;
+              margin-left: 8px;
+              cursor: pointer;
+            }
+
+            minds-avatar {
+              display: flex;
+
+              .minds-avatar {
+                flex-shrink: 0;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                @include m-theme() {
+                  border: 1px solid themed($m-grey-50);
+                }
+
+                .overlay {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+
+                  position: initial;
+                  padding: 0;
+                  background-color: transparent;
+
+                  i.material-icons {
+                    padding: 0;
+                  }
+                }
+
+                input[type='file'] {
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+
           .m-onboardingControl__label {
             position: relative;
 

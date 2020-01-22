@@ -1,9 +1,10 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { Session } from '../../../../services/session';
 import { MindsUser } from '../../../../interfaces/entities';
-import { Client } from '../../../../services/api';
+import { Client, Upload } from '../../../../services/api';
 import { Router } from '@angular/router';
 import { PhoneVerificationComponent } from './phone-input/input.component';
+import { MindsAvatar } from '../../../../common/components/avatar/avatar';
 
 @Component({
   selector: 'm-onboarding__infoStep',
@@ -26,14 +27,39 @@ export class InfoStepComponent {
   @ViewChild('phoneVerification', { static: false })
   phoneVerification: PhoneVerificationComponent;
 
+  @ViewChild('avatar', { static: false })
+  avatar: MindsAvatar;
+
   constructor(
     private session: Session,
     private client: Client,
+    private upload: Upload,
     private router: Router
   ) {
     this.user = session.getLoggedInUser();
 
     this.onResize();
+  }
+
+  addAvatar() {
+    this.avatar.editing = true;
+    setTimeout(() => {
+      this.avatar.openFileDialog();
+    });
+  }
+
+  async uploadAvatar(file) {
+    this.avatar.editing = false;
+    try {
+      const response: any = await this.upload.post(
+        'api/v1/channel/avatar',
+        [file],
+        { filekey: 'file' }
+      );
+      this.updateUser('icontime', Date.now());
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async updateLocation() {
@@ -63,6 +89,15 @@ export class InfoStepComponent {
       return false;
     }
     return true;
+  }
+
+  updateUser(prop: string, value: any) {
+    const minds = Object.assign({}, window.Minds);
+
+    minds.user[prop] = value;
+
+    window.Minds = minds;
+    this.session.userEmitter.next(window.Minds.user);
   }
 
   selectedDateChange(date: string) {

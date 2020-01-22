@@ -1,5 +1,30 @@
 <div class="m-onboarding__controls">
   <div class="m-onboarding__control">
+    <div data-minds="avatar" class="m-onboardingControl__label">
+      <label>Choose an avatar</label>
+
+      <span i18n>Optional</span>
+    </div>
+
+    <div class="m-onboarding__avatar">
+      <minds-avatar
+        [object]="user"
+        [editMode]="false"
+        [icon]="'cloud_upload'"
+        [showPrompt]="false"
+        (added)="uploadAvatar($event)"
+        [waitForDoneSignal]="false"
+        #avatar
+      ></minds-avatar>
+
+      <button class="mf-button mf-button--alt" (click)="addAvatar()">
+        <i class="material-icons">cloud_upload</i>
+        Choose a File
+      </button>
+    </div>
+  </div>
+
+  <div class="m-onboarding__control">
     <m-onboarding__phoneverification
       [tooltipAnchor]="tooltipAnchor"
       #phoneVerification
