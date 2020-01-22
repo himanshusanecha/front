@@ -438,6 +438,8 @@ m-onboarding {
             padding: 4px 20px;
             margin-left: 8px;
             cursor: pointer;
+            width: auto !important;
+            flex-shrink: 2;
 
             @include m-theme() {
               color: themed($m-aqua);
