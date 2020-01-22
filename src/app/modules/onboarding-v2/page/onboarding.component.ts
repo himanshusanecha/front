@@ -21,6 +21,10 @@ export class OnboardingComponent implements OnDestroy {
       selected: false,
     },
     {
+      name: 'Avatar',
+      selected: false,
+    },
+    {
       name: 'Groups',
       selected: false,
     },

@@ -112,12 +112,12 @@ export class InfoStepComponent {
   }
 
   skip() {
-    this.router.navigate(['/onboarding', 'groups']);
+    this.router.navigate(['/onboarding', 'avatar']);
   }
 
   continue() {
     if (this.saveData()) {
-      this.router.navigate(['/onboarding', 'groups']);
+      this.router.navigate(['/onboarding', 'avatar']);
     }
   }
 
