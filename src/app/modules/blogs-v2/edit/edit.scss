@@ -2,6 +2,8 @@ m-blog__editor {
   width: 100%;
 
   .m-ck-editor-wrapper {
+    border: 1px solid #ddd;
+
     ckeditor {
       .ck-content {
       }
