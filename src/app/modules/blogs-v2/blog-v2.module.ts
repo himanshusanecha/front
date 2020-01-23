@@ -4,17 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CommonModule } from '../../common/common.module';
-// import { ModalsModule } from '../modals/modals.module';
-// import { AdsModule } from '../ads/ads.module';
-// import { LegacyModule } from '../legacy/legacy.module';
-// import { PostMenuModule } from '../../common/components/post-menu/post-menu.module';
 
-// import { WireModule } from '../wire/wire.module';
-// import { CommentsModule } from '../comments/comments.module';
-// import { HashtagsModule } from '../hashtags/hashtags.module';
 import { CanDeactivateGuardService } from '../../services/can-deactivate-guard';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { BlogEditor } from './editor/editor';
+import { BlogEditorComponent } from './editor/editor.component';
 import { BlogEdit } from './edit/edit';
 import { WireModule } from '../wire/wire.module';
 import { CommentsModule } from '../comments/comments.module';
@@ -42,8 +35,14 @@ const routes: Routes = [
     CommentsModule,
     LegacyModule,
   ],
-  declarations: [BlogEditor, BlogEdit],
-  exports: [BlogEditor, BlogEdit, WireModule, HashtagsModule, CommentsModule],
-  entryComponents: [BlogEditor],
+  declarations: [BlogEditorComponent, BlogEdit],
+  exports: [
+    BlogEditorComponent,
+    BlogEdit,
+    WireModule,
+    HashtagsModule,
+    CommentsModule,
+  ],
+  entryComponents: [BlogEditorComponent],
 })
 export class BlogV2Module {}

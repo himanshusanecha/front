@@ -22,14 +22,13 @@ import { DialogService } from '../../../common/services/confirm-leave-dialog.ser
 import * as BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
 
 @Component({
-  moduleId: module.id,
-  selector: 'minds-blog-editor',
+  selector: 'm-blog__editor',
   host: {
     class: 'm-blog',
   },
-  templateUrl: 'editor.html',
+  templateUrl: 'editor.component.html',
 })
-export class BlogEditor {
+export class BlogEditorComponent {
   minds = window.Minds;
 
   public Editor = BalloonEditor;
@@ -38,7 +37,7 @@ export class BlogEditor {
   @Input() content: string;
   @Output() contentChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  onContentChanged(change) {
+  onContentChanged(change): void {
     console.log('editor : emiting change');
     this.contentChanged.emit(change);
   }
