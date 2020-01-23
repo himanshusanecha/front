@@ -92,6 +92,12 @@ context('Onboarding', () => {
     cy.get('button.mf-button--hollow').contains('Skip');
     cy.get('button.mf-button--alt').contains('Continue').click();
 
+    // should be in the Avatar step
+
+    // should have a continue and a skip button
+    cy.get('button.mf-button--alt').contains('Upload a Photo');
+    cy.get('button.mf-button--hollow').contains('Skip').click();
+
     // should be in the Groups step
 
     // should have a groups list
