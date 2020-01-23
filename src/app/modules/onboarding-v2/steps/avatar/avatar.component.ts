@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UserAvatarService } from '../../../../common/services/user-avatar.service';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
@@ -8,7 +8,7 @@ import { Upload } from '../../../../services/api/upload';
   selector: 'm-onboarding--avatarStep',
   templateUrl: 'avatar.component.html',
 })
-export class AvatarStepComponent implements OnInit {
+export class AvatarStepComponent {
   readonly cdnAssetsUrl: string = window.Minds.cdn_assets_url;
 
   cropping: boolean = false;
@@ -27,11 +27,8 @@ export class AvatarStepComponent implements OnInit {
     protected router: Router
   ) {}
 
-  ngOnInit() {}
-
   uploadPhoto() {
     this.fileInput.nativeElement.click();
-    this.cropping = true;
   }
 
   loadImageFailed() {
@@ -40,6 +37,9 @@ export class AvatarStepComponent implements OnInit {
 
   add(e) {
     this.imageChangedEvent = e;
+    if (e) {
+      this.cropping = true;
+    }
     // const element: any = e.target ? e.target : e.srcElement;
     // this.file = element ? element.files[0] : null;
     //
@@ -100,6 +100,12 @@ export class AvatarStepComponent implements OnInit {
 
   onImageLoaded() {
     this.imageLoaded = true;
+  }
+
+  cancel() {
+    this.fileInput.nativeElement.value = null;
+    this.imageChangedEvent = null;
+    this.cropping = false;
   }
 
   skip() {

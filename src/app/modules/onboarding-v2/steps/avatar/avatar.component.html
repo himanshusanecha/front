@@ -25,7 +25,20 @@
   <input type="file" #file (change)="add($event)" />
 
   <div class="m-onboarding__actionButtons">
-    <button class="mf-button mf-button--hollow" (click)="skip()" i18n>
+    <button
+      class="mf-button mf-button--hollow"
+      (click)="cancel()"
+      *ngIf="cropping"
+      i18n
+    >
+      Cancel
+    </button>
+    <button
+      class="mf-button mf-button--hollow"
+      (click)="skip()"
+      *ngIf="!cropping"
+      i18n
+    >
       Skip
     </button>
     <button
