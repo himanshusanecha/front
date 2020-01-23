@@ -109,11 +109,19 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   routerSubscription: Subscription;
 
-  prevEntity: any;
-  nextEntity: any;
+  modalPager = {
+    hasPrev: false,
+    hasNext: false,
+  };
+
+  protected modalPager$: Subscription;
 
   @Input('entity') set data(params: MediaModalParams) {
     this.setEntity(params.entity);
+
+    if (this.features.has('modal-pager')) {
+      this.horizontalFeed.setBaseEntity(params.entity);
+    }
   }
 
   videoDirectSrc = [];
@@ -182,6 +190,21 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     // Prevent dismissal of modal when it's just been opened
     this.isOpenTimeout = setTimeout(() => (this.isOpen = true), 20);
 
+    // -- Initialize Horizontal Feed service context
+
+    if (this.features.has('modal-pager')) {
+      this.modalPager$ = this.horizontalFeed
+        .onChange()
+        .subscribe(async change => {
+          this.modalPager = {
+            hasNext: await this.horizontalFeed.hasNext(),
+            hasPrev: await this.horizontalFeed.hasPrev(),
+          };
+        });
+
+      this.horizontalFeed.setContext('container');
+    }
+
     // -- Load entity
 
     this.load();
@@ -213,27 +236,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     this.originalEntity = entity;
     this.entity = entity && JSON.parse(JSON.stringify(entity)); // deep clone
-
-    this.setNeighborEntities(); // async
-  }
-
-  async setNeighborEntities() {
-    if (!this.features.has('modal-pager')) {
-      return;
-    }
-
-    const { prev, next } = await this.horizontalFeed.get(
-      'container',
-      this.entity
-    );
-
-    if (!this.prevEntity) {
-      this.prevEntity = prev;
-    }
-
-    if (!this.nextEntity) {
-      this.nextEntity = next;
-    }
   }
 
   load() {
@@ -656,12 +658,12 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     switch ($event.key) {
       case 'ArrowLeft':
-        if (this.hasPrev()) {
+        if (this.hasModalPager()) {
           this.goToPrev();
         }
         break;
       case 'ArrowRight':
-        if (this.hasNext()) {
+        if (this.hasModalPager()) {
           this.goToNext();
         }
         break;
@@ -720,34 +722,36 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   // * PAGER * --------------------------------------------------------------------------
 
-  hasPrev(): boolean {
-    return Boolean(this.prevEntity);
+  hasModalPager() {
+    return this.features.has('modal-pager');
   }
 
-  hasNext(): boolean {
-    return Boolean(this.nextEntity);
+  async goToNext(): Promise<void> {
+    const modalSourceUrl = this.entity.modal_source_url || '';
+    const response = await this.horizontalFeed.next();
+
+    if (response && response.entity) {
+      this.setEntity({
+        modal_source_url: modalSourceUrl,
+        ...response.entity,
+      });
+
+      this.load();
+    }
   }
 
-  goToNext(): void {
-    const entity = this.nextEntity;
-    entity.modal_source_url = this.entity.modal_source_url || '';
+  async goToPrev(): Promise<void> {
+    const modalSourceUrl = this.entity.modal_source_url || '';
+    const response = await this.horizontalFeed.prev();
 
-    this.prevEntity = this.originalEntity;
-    this.nextEntity = null;
+    if (response && response.entity) {
+      this.setEntity({
+        modal_source_url: modalSourceUrl,
+        ...response.entity,
+      });
 
-    this.setEntity(entity);
-    this.load();
-  }
-
-  goToPrev(): void {
-    const entity = this.prevEntity;
-    entity.modal_source_url = this.entity.modal_source_url || '';
-
-    this.prevEntity = null;
-    this.nextEntity = this.originalEntity;
-
-    this.setEntity(entity);
-    this.load();
+      this.load();
+    }
   }
 
   // * UTILITY * --------------------------------------------------------------------------
@@ -771,6 +775,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
+    }
+
+    if (this.modalPager$) {
+      this.modalPager$.unsubscribe();
     }
 
     if (this.isOpenTimeout) {
