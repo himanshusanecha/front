@@ -148,7 +148,7 @@ export class HorizontalFeedService {
 
     // TODO: Setup resolvable observables in batches when fetching
 
-    const entity = entities[Math.abs(index)] || null;
+    const entity = entities[Math.abs(index) - 1] || null;
 
     console.debug(`go(${index})`, 'entity is', entity);
 
@@ -193,7 +193,7 @@ export class HorizontalFeedService {
       const entities =
         index < 0 ? this.pools.prev.entities : this.pools.next.entities;
 
-      return typeof entities[Math.abs(index)] !== 'undefined';
+      return typeof entities[Math.abs(index) - 1] !== 'undefined';
     }
 
     console.debug(`has(${index})`, 'index is out of bounds');
