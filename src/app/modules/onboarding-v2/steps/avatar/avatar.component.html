@@ -22,7 +22,12 @@
 
   <img [src]="cdnAssetsUrl + 'assets/photos.png'" *ngIf="!cropping" />
 
-  <input type="file" #file (change)="add($event)" />
+  <input
+    id="onboarding-avatar-input"
+    type="file"
+    #file
+    (change)="add($event)"
+  />
 
   <div class="m-onboarding__actionButtons">
     <button
