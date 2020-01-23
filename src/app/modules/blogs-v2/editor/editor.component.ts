@@ -19,6 +19,8 @@ import { HashtagsSelectorComponent } from '../../hashtags/selector/selector.comp
 import { Tag } from '../../hashtags/types/tag';
 import { InMemoryStorageService } from '../../../services/in-memory-storage.service';
 import { DialogService } from '../../../common/services/confirm-leave-dialog.service';
+
+// import * as BalloonEditor from '../../../common/ckeditor5-editor-balloon/src/ballooneditor'
 import * as BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
 
 @Component({
@@ -33,12 +35,33 @@ export class BlogEditorComponent {
 
   public Editor = BalloonEditor;
 
-  // TODO: Add type
+  editorConfig = {
+    // plugins: [ Alignment ],
+    // alignment: {
+    //   options: [ 'left', 'right' ]
+    // },
+    toolbar: [
+      'heading',
+      '|',
+      'bulletedList',
+      'numberedList',
+      'alignment',
+      'undo',
+      'redo',
+      'bold',
+      'italic',
+      'bulletedList',
+      'numberedList',
+      'blockQuote',
+    ],
+  };
+
   @Input() content: string;
   @Output() contentChanged: EventEmitter<string> = new EventEmitter<string>();
 
   onContentChanged(change): void {
-    console.log('editor : emiting change');
+    // console.log('editor : emiting change...');
+    // console.dir(change);
     this.contentChanged.emit(change);
   }
 }
