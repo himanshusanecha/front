@@ -43,7 +43,7 @@ export class ChannelListComponent implements OnInit {
 
     try {
       const hashtags = '';
-      const period = '30d';
+      const period = '1y';
       const all = '';
       const query = '';
       const nsfw = [];
