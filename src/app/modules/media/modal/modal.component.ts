@@ -17,7 +17,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Session } from '../../../services/session';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { AnalyticsService } from '../../../services/analytics';
@@ -116,7 +116,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   protected modalPager$: Subscription;
 
+  protected asyncEntity$: Subscription;
+
   @Input('entity') set data(params: MediaModalParams) {
+    this.clearAsyncEntity();
     this.setEntity(params.entity);
 
     if (this.features.has('modal-pager')) {
@@ -236,6 +239,32 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     this.originalEntity = entity;
     this.entity = entity && JSON.parse(JSON.stringify(entity)); // deep clone
+  }
+
+  clearAsyncEntity() {
+    if (this.asyncEntity$) {
+      this.asyncEntity$.unsubscribe();
+      this.asyncEntity$ = void 0;
+    }
+  }
+
+  setAsyncEntity(
+    asyncEntity: BehaviorSubject<any>,
+    extraEntityProperties: Object = {}
+  ) {
+    this.clearAsyncEntity();
+
+    this.asyncEntity$ = asyncEntity.subscribe(rawEntity => {
+      if (rawEntity) {
+        const entity = {
+          ...rawEntity,
+          ...extraEntityProperties,
+        };
+
+        this.setEntity(entity);
+        this.load();
+      }
+    });
   }
 
   load() {
@@ -731,12 +760,9 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     const response = await this.horizontalFeed.next();
 
     if (response && response.entity) {
-      this.setEntity({
+      this.setAsyncEntity(response.entity, {
         modal_source_url: modalSourceUrl,
-        ...response.entity,
       });
-
-      this.load();
     }
   }
 
@@ -745,12 +771,9 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     const response = await this.horizontalFeed.prev();
 
     if (response && response.entity) {
-      this.setEntity({
+      this.setAsyncEntity(response.entity, {
         modal_source_url: modalSourceUrl,
-        ...response.entity,
       });
-
-      this.load();
     }
   }
 
@@ -773,6 +796,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearAsyncEntity();
+
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
     }

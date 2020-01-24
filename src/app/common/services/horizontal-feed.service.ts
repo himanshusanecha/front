@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Client } from '../../services/api/client';
 import { EntitiesService } from './entities.service';
 
@@ -12,7 +13,7 @@ export type HorizontalFeedContext = 'container';
  */
 export interface HorizontalFeedObject {
   index: number;
-  entity: any;
+  entity: BehaviorSubject<any>;
 }
 
 /**
@@ -150,34 +151,29 @@ export class HorizontalFeedService {
     if (index === 0) {
       return {
         index,
-        entity: this.baseEntity,
+        entity: new BehaviorSubject(this.baseEntity),
       };
     }
 
     const entities =
       index < 0 ? this.pools.prev.entities : this.pools.next.entities;
 
-    // TODO: Setup resolvable observables in batches at fetch() level
-
     const entity = entities[Math.abs(index) - 1] || null;
 
     if (entity && entity.entity) {
+      // Already hydrated, but clients would expect a subject
+
       return {
         index,
-        entity: entity.entity,
+        entity: new BehaviorSubject(entity.entity),
       };
     }
 
-    const resolvedEntity = await this.entities
-      .setCastToActivities(true)
-      .single(entity.urn)
-      .toPromise();
-
-    // ------------------------------------------------------------
+    // Returns entities service subject
 
     return {
       index: index,
-      entity: resolvedEntity,
+      entity: this.entities.setCastToActivities(true).single(entity.urn),
     };
   }
 
