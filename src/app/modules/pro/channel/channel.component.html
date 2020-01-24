@@ -123,4 +123,9 @@
   </div>
 </div>
 
+<m-modal-signup
+  *ngIf="!session.getLoggedInUser()"
+  [open]="false"
+></m-modal-signup>
+
 <m-overlay-modal #overlayModal></m-overlay-modal>
