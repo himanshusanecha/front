@@ -756,6 +756,12 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   async goToNext(): Promise<void> {
+    if (!this.modalPager.hasNext) {
+      return;
+    }
+
+    this.isLoading = true;
+
     const modalSourceUrl = this.entity.modal_source_url || '';
     const response = await this.horizontalFeed.next();
 
@@ -763,10 +769,18 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.setAsyncEntity(response.entity, {
         modal_source_url: modalSourceUrl,
       });
+    } else {
+      this.isLoading = false;
     }
   }
 
   async goToPrev(): Promise<void> {
+    if (!this.modalPager.hasPrev) {
+      return;
+    }
+
+    this.isLoading = true;
+
     const modalSourceUrl = this.entity.modal_source_url || '';
     const response = await this.horizontalFeed.prev();
 
@@ -774,6 +788,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.setAsyncEntity(response.entity, {
         modal_source_url: modalSourceUrl,
       });
+    } else {
+      this.isLoading = false;
     }
   }
 
