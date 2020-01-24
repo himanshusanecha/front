@@ -59,7 +59,7 @@
   ></m-juryDutySession__summons>
 
   <m-modal-signup
-    *ngIf="!session.getLoggedInUser()"
+    *ngIf="!isProDomain && !session.getLoggedInUser()"
     [open]="false"
   ></m-modal-signup>
 
