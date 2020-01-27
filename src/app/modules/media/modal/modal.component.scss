@@ -307,26 +307,42 @@ m-overlay-modal {
   }
 }
 
-// PAGER (DISABLED)
-// .m-mediaModal__pager {
-//   display: none; // DYNAMIC
-//   opacity: 0; // DYNAMIC
-//   height: 45px;
-//   margin-top: -22px;
-//   position: absolute;
-//   top: 50%;
-//   transform: translateZ(0);
-//   transition: opacity .2s;
-//   width: 48px;
-//   line-height: 1.28;
+.m-mediaModal__pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  margin-top: -22px;
+  opacity: 0; // DYNAMIC
+  top: 50%;
+  transition: opacity 0.2s, transform 0.15s;
+  line-height: 1;
+  border-radius: 50%;
+  cursor: pointer;
 
-//   &.m-mediaModal__pager--previous {
-//     left: 10px;
-//   }
-//   &.m-mediaModal__pager--next {
-//     right: 10px;
-//   }
-// }
+  @include m-theme() {
+    background: themed($m-black);
+    color: themed($m-white);
+  }
+
+  &.m-mediaModal__pager--previous {
+    left: 16px;
+    transform: translateZ(0) translateX(-10px);
+  }
+
+  &.m-mediaModal__pager--next {
+    right: 16px;
+    transform: translateZ(0) translateX(10px);
+  }
+
+  &.m-mediaModal__pager--visible {
+    opacity: 0.6;
+    pointer-events: initial;
+    transform: translateZ(0) translateX(0);
+  }
+}
 
 .m-mediaModal__contentContainer {
   height: 100%;
