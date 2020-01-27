@@ -14,7 +14,7 @@ import { VideoPlayerService, VideoSource } from './player.service';
 import isMobile from '../../../../helpers/is-mobile';
 import Plyr from 'plyr';
 import { PlyrComponent } from 'ngx-plyr';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'm-videoPlayer',
@@ -53,6 +53,11 @@ export class MindsVideoPlayerComponent
   );
 
   /**
+   * Subscription to autoplaySubject
+   */
+  autoplaySubscription: Subscription;
+
+  /**
    * Options for Plyr to use
    */
   options: Plyr.Options = {
@@ -83,13 +88,15 @@ export class MindsVideoPlayerComponent
   }
 
   ngAfterViewInit() {
-    this.autoplaySubject.subscribe((val: boolean) => {
-      this.options.autoplay = val;
-    });
+    this.autoplaySubscription = this.autoplaySubject.subscribe(
+      (val: boolean) => {
+        this.options.autoplay = val;
+      }
+    );
   }
 
   ngOnDestroy(): void {
-    this.autoplaySubject.unsubscribe();
+    this.autoplaySubscription.unsubscribe();
   }
 
   @Input('guid')
