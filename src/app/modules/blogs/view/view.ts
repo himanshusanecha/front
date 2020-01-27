@@ -25,6 +25,7 @@ import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { ActivityService } from '../../../common/services/activity.service';
 import { ShareModalComponent } from '../../../modules/modals/share/share';
 import { ClientMetaService } from '../../../common/services/client-meta.service';
+import { FeaturesService } from '../../../services/features.service';
 
 @Component({
   moduleId: module.id,
@@ -103,6 +104,7 @@ export class BlogView implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private overlayModal: OverlayModalService,
     private clientMetaService: ClientMetaService,
+    public featuresService: FeaturesService,
     @SkipSelf() injector: Injector
   ) {
     this.clientMetaService
@@ -170,6 +172,14 @@ export class BlogView implements OnInit, OnDestroy {
   menuOptionSelected(option: string) {
     switch (option) {
       case 'edit':
+        if (this.featuresService.has('ckeditor5')) {
+          if (Number(this.blog.editor_version) === 2) {
+            this.router.navigate(['/blog-v2/edit', this.blog.guid]);
+          } else {
+            this.router.navigate(['/blog/edit', this.blog.guid]);
+          }
+          break;
+        }
         this.router.navigate(['/blog/edit', this.blog.guid]);
         break;
       case 'delete':

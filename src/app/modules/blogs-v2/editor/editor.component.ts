@@ -40,20 +40,20 @@ export class BlogEditorComponent {
     // alignment: {
     //   options: [ 'left', 'right' ]
     // },
-    toolbar: [
-      'heading',
-      '|',
-      'bulletedList',
-      'numberedList',
-      'alignment',
-      'undo',
-      'redo',
-      'bold',
-      'italic',
-      'bulletedList',
-      'numberedList',
-      'blockQuote',
-    ],
+    // toolbar: [
+    //   'heading',
+    //   '|',
+    //   'bulletedList',
+    //   'numberedList',
+    //   'alignment',
+    //   'undo',
+    //   'redo',
+    //   'bold',
+    //   'italic',
+    //   'bulletedList',
+    //   'numberedList',
+    //   'blockQuote',
+    // ],
   };
 
   @Input() content: string;

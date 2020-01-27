@@ -266,7 +266,7 @@ export class BlogEdit {
 
     // this.inlineEditor.prepareForSave().then(() => {
     const blog = Object.assign({}, this.blog);
-
+    blog.editor_version = 2;
     // only allowed props
     blog.nsfw = this.blog.nsfw;
     blog.mature = blog.mature ? 1 : 0;
