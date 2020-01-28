@@ -7,36 +7,34 @@
   ></minds-banner>
 </header>
 
-<form
-  (submit)="save()"
-  class="mdl-grid blogs-grid m-blog-container mdl-color--white"
-  style="max-width:740px"
-  *ngIf="blog.guid"
->
-  <div class="mdl-grid" style="width: 100%">
-    <div class="mdl-cell mdl-cell--12-col">
+<form (submit)="save()" class="m-blogEdit__form" *ngIf="blog.guid">
+  <div class="m-blogEdit__topWrapper">
+    <div class="m-blogEdit__titleArea">
       <minds-textarea
         name="title"
         [(mModel)]="blog.title"
-        class="m-h1-input"
+        class="m-blogEdit__textArea"
         placeholder="Your title"
         i18n-placeholder="@@BLOGS__EDIT__TITLE_PLACEHOLDER"
       ></minds-textarea>
     </div>
     <!-- Owner box -->
-    <div class="mdl-cell mdl-cell--5-col minds-blog-ownerblock">
-      <div class="minds-avatar" [hovercard]="session.getLoggedInUser().guid">
+    <div class="m-blogEdit__ownerBox">
+      <div
+        class="m-blogEdit__userAvatarWrapper"
+        [hovercard]="session.getLoggedInUser().guid"
+      >
         <a [routerLink]="['/', session.getLoggedInUser().username]">
           <img
             src="{{minds.cdn_url}}icon/{{session.getLoggedInUser().guid}}/small/{{session.getLoggedInUser().icontime}}"
-            class="mdl-shadow--2dp"
+            class="m-blogEdit__userAvatar"
           />
         </a>
       </div>
-      <div class="minds-body">
+      <div class="m-blogEdit__body">
         <a
           [routerLink]="['/', session.getLoggedInUser().username]"
-          class="mdl-color-text--blue-grey-500"
+          class="m-blogEdit__username"
           >{{session.getLoggedInUser().name}}</a
         >
         <span *ngIf="blog.time_created"
@@ -46,7 +44,7 @@
     </div>
   </div>
 
-  <div class="mdl-cell mdl-cell--12-col m-blog-description">
+  <div class="m-blogEdit__editorWrapper">
     <m-blog__editor
       (contentChanged)="onContentChange($event)"
       [content]="blog.description"
@@ -56,7 +54,7 @@
     ></m-blog__editor>
   </div>
 
-  <div class="mdl-cell mdl-cell--12-col">
+  <div class="m-blogEdit__actions">
     <button
       type="submit"
       class="m-button m-button--text m-button--draft"
@@ -83,50 +81,47 @@
 
     <ng-container *ngIf="error" [ngSwitch]="error">
       <h1
-        class="m-blog--edit--error"
+        class="m-blogEdit__actions--error"
         i18n="@@BLOGS__EDIT__NO_TITLE_ERROR"
         *ngSwitchCase="'error:no-title'"
       >
         Error: You must provide a title
       </h1>
       <h1
-        class="m-blog--edit--error"
+        class="m-blogEdit__actions--error"
         i18n="@@BLOGS__EDIT__NO_DESCRIPTION_ERROR"
         *ngSwitchCase="'error:no-description'"
       >
         Error: You must provide a description
       </h1>
       <h1
-        class="m-blog--edit--error"
+        class="m-blogEdit__actions--error"
         i18n="@@BLOGS__EDIT__NO_BANNER_ERROR"
         *ngSwitchCase="'error:no-banner'"
       >
         Error: You must upload a banner
       </h1>
       <h1
-        class="m-blog--edit--error"
+        class="m-blogEdit__actions--error"
         i18n="@@M__COMMON__ERROR_GATEWAY_TIMEOUT"
         *ngSwitchCase="'error:gateway-timeout'"
       >
         Error: Gateway Time-out
       </h1>
-      <h1 class="m-blog--edit--error" *ngSwitchDefault>
+      <h1 class="m-blogEdit__actions--error" *ngSwitchDefault>
         Error: {{error}}
       </h1>
     </ng-container>
   </div>
 
-  <div
-    class="mdl-cell mdl-cell--12-col m-additional-block mdl-color-text--blue-grey-200"
-  >
-    <div class="m-license-info">
+  <div class="m-blogEdit__optionsContainer">
+    <div class="m-blogEdit__licenseInfo">
       <i class="material-icons">public</i>
       <select
         name="license"
         [ngModel]="blog.license"
         (change)="blog.license = $event.target.value"
-        class="mdl-color-text--blue-grey-300 m-form-select"
-        style="max-width:128px"
+        class="m-blogEdit__optionSelector"
       >
         <option value="" i18n="@@BLOGS__EDIT__LICENCE_PLACEHOLDER"
           >-- License --</option
@@ -134,7 +129,7 @@
         <option *ngFor="let l of licenses" [value]="l.value">{{l.text}}</option>
       </select>
     </div>
-    <div class="m-category-info">
+    <div class="m-blogEdit__categoryInfo">
       <m-hashtags-selector
         #hashtagsSelector
         [tags]="blog.tags.slice(0)"
@@ -143,13 +138,13 @@
         (tagsRemoved)="onTagsRemoved($event)"
       ></m-hashtags-selector>
     </div>
-    <div class="m-visibility-info">
+    <div class="m-blogEdit__visibility">
       <i class="material-icons">visibility</i>
       <select
         name="access_id"
         [ngModel]="blog.access_id"
         (change)="blog.access_id = $event.target.value"
-        class="mdl-color-text--blue-grey-300 m-form-select"
+        class="m-blogEdit__optionSelector"
       >
         <option *ngFor="let a of access" [value]="a.value">{{a.text}}</option>
       </select>
@@ -179,13 +174,10 @@
     </ng-container>
   </div>
 
-  <div
-    class="mdl-cell mdl-cell--12-col m-blog-edit--metadata mdl-color-text--blue-grey-200"
-    *ngIf="blog.custom_meta"
-  >
-    <div class="m-blog-edit--toggle-wrapper">
+  <div class="m-blogEdit__metaContainer" *ngIf="blog.custom_meta">
+    <div class="m-blogEdit__toggleContainer">
       <span
-        class="m-blog-edit--toggle"
+        class="m-blogEdit__metaToggle--toggle"
         (click)="toggle.value = !toggle.value"
         #toggle
       >
@@ -199,14 +191,14 @@
       </span>
     </div>
 
-    <div class="m-blog-edit--fields" [hidden]="!toggle.value">
-      <div class="m-blog-edit--field">
+    <div class="m-blogEdit__metaFields" [hidden]="!toggle.value">
+      <div class="m-blogEdit__metaField">
         <label i18n="@@BLOGS__EDIT__URL_SLUG">URL Slug</label>
 
         <input type="text" name="slug" [(ngModel)]="blog.slug" />
       </div>
 
-      <div class="m-blog-edit--field">
+      <div class="m-blogEdit__metaField">
         <label i18n="@@BLOGS__EDIT__META_TITLE">Meta Title</label>
 
         <input
@@ -216,7 +208,7 @@
         />
       </div>
 
-      <div class="m-blog-edit--field">
+      <div class="m-blogEdit__metaField">
         <label i18n="@@BLOGS__EDIT__META_DESCRIPTION">Meta Description</label>
 
         <textarea
@@ -225,7 +217,7 @@
         ></textarea>
       </div>
 
-      <div class="m-blog-edit--field">
+      <div class="m-blogEdit__metaField">
         <label i18n="@@BLOGS__EDIT__META_AUTHOR">Meta Author</label>
 
         <input
