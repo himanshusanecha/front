@@ -1,0 +1,8 @@
+<div class="m-ck-editor-wrapper">
+  <ckeditor
+    [ngModel]="content"
+    (ngModelChange)="onContentChanged($event)"
+    [editor]="Editor"
+    [config]="editorConfig"
+  ></ckeditor>
+</div>
