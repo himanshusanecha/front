@@ -421,6 +421,7 @@ m-onboarding {
 
                   font-size: 16px;
                   line-height: 21px;
+                  box-shadow: none;
 
                   @include m-theme() {
                     color: themed($m-grey-800);
