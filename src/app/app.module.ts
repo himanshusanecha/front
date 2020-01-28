@@ -70,7 +70,6 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { ProModule } from './modules/pro/pro.module';
 import { ChannelContainerModule } from './modules/channel-container/channel-container.module';
 import { UpgradesModule } from './modules/upgrades/upgrades.module';
-import { BlogV2Module } from './modules/blogs-v2/blog-v2.module';
 import * as Sentry from '@sentry/browser';
 import { HomepageModule } from './modules/homepage/homepage.module';
 import { OnboardingV2Module } from './modules/onboarding-v2/onboarding.module';
@@ -132,7 +131,6 @@ export class SentryErrorHandler implements ErrorHandler {
     NotificationModule,
     GroupsModule,
     BlogModule,
-    BlogV2Module,
     PostMenuModule,
     SearchModule,
     MessengerModule,

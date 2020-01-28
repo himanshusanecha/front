@@ -21,6 +21,9 @@ import { WireModule } from '../wire/wire.module';
 import { CommentsModule } from '../comments/comments.module';
 import { HashtagsModule } from '../hashtags/hashtags.module';
 import { CanDeactivateGuardService } from '../../services/can-deactivate-guard';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { BlogEditComponent } from './ckeditor/edit/edit.component';
+import { BlogEditorComponent } from './ckeditor/editor/editor.component';
 
 const routes: Routes = [
   { path: 'blog/view/:guid/:title', component: BlogViewInfinite },
@@ -28,6 +31,11 @@ const routes: Routes = [
   {
     path: 'blog/edit/:guid',
     component: BlogEdit,
+    canDeactivate: [CanDeactivateGuardService],
+  },
+  {
+    path: 'blog-v2/edit/:guid',
+    component: BlogEditComponent,
     canDeactivate: [CanDeactivateGuardService],
   },
   { path: 'blog/:filter', component: BlogListComponent },
@@ -50,6 +58,7 @@ const routes: Routes = [
     WireModule,
     HashtagsModule,
     ModalsModule,
+    CKEditorModule,
   ],
   declarations: [
     BlogView,
@@ -58,6 +67,8 @@ const routes: Routes = [
     BlogEdit,
     BlogListComponent,
     BlogTileComponent,
+    BlogEditorComponent,
+    BlogEditComponent,
   ],
   exports: [
     BlogView,
@@ -66,6 +77,8 @@ const routes: Routes = [
     BlogEdit,
     BlogListComponent,
     BlogTileComponent,
+    BlogEditorComponent,
+    BlogEditComponent,
   ],
   entryComponents: [BlogCard],
 })
