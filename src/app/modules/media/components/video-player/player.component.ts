@@ -45,7 +45,7 @@ export class MindsVideoPlayerComponent
    */
   @ViewChild(PlyrComponent, { static: false }) player: PlyrComponent;
 
-  /*
+  /**
    * BehaviorSubject holding autoplay value
    */
   autoplaySubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
@@ -96,7 +96,9 @@ export class MindsVideoPlayerComponent
   }
 
   ngOnDestroy(): void {
-    this.autoplaySubscription.unsubscribe();
+    if (this.autoplaySubscription) {
+        this.autoplaySubscription.unsubscribe();
+    }
   }
 
   @Input('guid')
