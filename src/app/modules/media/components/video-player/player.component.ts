@@ -97,7 +97,7 @@ export class MindsVideoPlayerComponent
 
   ngOnDestroy(): void {
     if (this.autoplaySubscription) {
-        this.autoplaySubscription.unsubscribe();
+      this.autoplaySubscription.unsubscribe();
     }
   }
 
