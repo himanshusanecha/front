@@ -28,8 +28,10 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
   channel: MindsUser;
 
   protected username: string;
+  protected showPro: boolean;
 
   protected param$: Subscription;
+  protected queryParam$: Subscription;
 
   @ViewChild('channelComponent', { static: false })
   channelComponent: ChannelComponent;
@@ -53,11 +55,21 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
 
         if (
           this.username &&
-          (!this.channel || this.channel.username != this.username)
+          (!this.channel || this.channel.username !== this.username)
         ) {
           this.load();
         }
       }
+    });
+
+    this.queryParam$ = this.route.queryParams.subscribe(params => {
+      this.showPro = true;
+
+      if (params['pro']) {
+        this.showPro = params['pro'] !== '0';
+      }
+
+      this.load();
     });
   }
 
@@ -74,7 +86,7 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
   }
 
   async load() {
-    if (!this.username) {
+    if (!this.username || this.showPro === undefined) {
       return;
     }
 
@@ -88,6 +100,7 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
       this.channel = response.channel;
 
       const shouldRedirectToProHandler =
+        this.showPro &&
         !this.site.isProDomain &&
         this.channel.pro_published &&
         !this.isOwner &&

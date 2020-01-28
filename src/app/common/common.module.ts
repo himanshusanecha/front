@@ -121,6 +121,7 @@ import { PageLayoutComponent } from './components/page-layout/page-layout.compon
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
 import { ShadowboxLayoutComponent } from './components/shadowbox-layout/shadowbox-layout.component';
 import { ShadowboxHeaderComponent } from './components/shadowbox-header/shadowbox-header.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DropdownSelectorComponent } from './components/dropdown-selector/dropdown-selector.component';
 import { ShadowboxSubmitButtonComponent } from './components/shadowbox-submit-button/shadowbox-submit-button.component';
 import { FormDescriptorComponent } from './components/form-descriptor/form-descriptor.component';
@@ -132,6 +133,7 @@ import { DateDropdownsComponent } from './components/date-dropdowns/date-dropdow
 import { SidebarMarkersService } from './layout/sidebar/markers.service';
 import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
 import { HorizontalFeedService } from './services/horizontal-feed.service';
+import { AttachmentPasteDirective } from './directives/paste/attachment-paste.directive';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -150,6 +152,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     PlotlyModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     RouterModule.forChild(routes),
   ],
   declarations: [
@@ -239,6 +243,7 @@ const routes: Routes = [
     SwitchComponent,
 
     FeaturedContentComponent,
+    AttachmentPasteDirective,
     PosterDateSelectorComponent,
     DraggableListComponent,
     ToggleComponent,
@@ -341,6 +346,7 @@ const routes: Routes = [
     SwitchComponent,
     NSFWSelectorComponent,
     FeaturedContentComponent,
+    AttachmentPasteDirective,
     PosterDateSelectorComponent,
     ChannelModeSelectorComponent,
     DraggableListComponent,

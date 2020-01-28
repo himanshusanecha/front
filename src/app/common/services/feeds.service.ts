@@ -24,6 +24,7 @@ export class FeedsService {
   endpoint: string = '';
   params: any = { sync: 1 };
   castToActivities: boolean = false;
+  exportUserCounts: boolean = false;
 
   rawFeed: BehaviorSubject<Object[]> = new BehaviorSubject([]);
   feed: Observable<BehaviorSubject<Object>[]>;
@@ -50,6 +51,7 @@ export class FeedsService {
       switchMap(feed =>
         this.entitiesService
           .setCastToActivities(this.castToActivities)
+          .setExportUserCounts(this.exportUserCounts)
           .getFromFeed(feed)
       ),
       tap(feed => {
@@ -138,18 +140,28 @@ export class FeedsService {
   }
 
   /**
+   * Sets exportUserCounts
+   * @param { boolean } export - whether or not to export user's subscribers_count and subscriptions_count.
+   */
+  setExportUserCounts(value: boolean): FeedsService {
+    this.exportUserCounts = value;
+    return this;
+  }
+
+  /**
    * Fetches the data.
    */
-  fetch(): FeedsService {
+  fetch(): Promise<any> {
     if (!this.offset.getValue()) {
       this.inProgress.next(true);
     }
-    this.client
+    return this.client
       .get(this.endpoint, {
         ...this.params,
         ...{
           limit: 150, // Over 12 scrolls
           as_activities: this.castToActivities ? 1 : 0,
+          export_user_counts: this.exportUserCounts ? 1 : 0,
           from_timestamp: this.pagingToken,
         },
       })
@@ -170,7 +182,6 @@ export class FeedsService {
         }
       })
       .catch(e => console.log(e));
-    return this;
   }
 
   /**
