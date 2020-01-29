@@ -54,7 +54,7 @@ export class GroupListComponent implements OnInit {
           query,
           nsfw,
         })
-        .setLimit(3)
+        .setLimit(12)
         .setCastToActivities(true)
         .fetch();
     } catch (e) {
