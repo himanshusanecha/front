@@ -38,14 +38,16 @@ context('Onboarding', () => {
       .type(password);
 
     cy.get(checkbox)
-      .click({force: true});
+      .click({ force: true });
 
     //submit
     cy.get(submitButton)
       .click()
-      .wait('@register').then((xhr) => {
-      expect(xhr.status).to.equal(200);
-    });
+      .wait('@register')
+      .then((xhr) => {
+          expect(xhr.status).to.equal(200);
+        }
+      );
 
     cy.wait(500);
     cy.location('pathname').should('eq', '/onboarding/notice');
@@ -115,8 +117,8 @@ context('Onboarding', () => {
 
     // should have a Location input
     cy.get('.m-onboarding__controls > .m-onboarding__control label[data-minds=location]').contains('Location');
-    cy.get('.m-onboarding__controls > .m-onboarding__control input[data-minds=locationInput]').type('London');
-    cy.get('ul.m-onboarding__cities > li:first-child').click();
+    // cy.get('.m-onboarding__controls > .m-onboarding__control input[data-minds=locationInput]').type('London');
+    // cy.get('ul.m-onboarding__cities > li:first-child').click();
 
 
     // should have Date of Birth inputs
