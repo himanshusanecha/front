@@ -2,9 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { Client } from '../../../services/api/client';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 type ServicesEntityStruc = {
   [service: string]: boolean | null;
@@ -20,7 +23,7 @@ type ResponseFeaturesStruc = Array<{
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'admin-features.component.html',
 })
-export class AdminFeaturesComponent implements OnInit {
+export class AdminFeaturesComponent implements OnInit, OnDestroy {
   isLoading: boolean;
 
   for: string;
@@ -33,19 +36,38 @@ export class AdminFeaturesComponent implements OnInit {
 
   error: string;
 
-  constructor(protected client: Client, protected cd: ChangeDetectorRef) {}
+  protected params$: Subscription;
+
+  constructor(
+    protected client: Client,
+    protected cd: ChangeDetectorRef,
+    protected route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    this.params$ = this.route.params.subscribe(params => {
+      if (typeof params.for !== 'undefined') {
+        this.for = params.for;
+        this.load();
+      }
+    });
+
     this.load();
   }
 
-  async load() {
+  ngOnDestroy(): void {
+    this.params$.unsubscribe();
+  }
+
+  async load(): Promise<void> {
     this.isLoading = true;
     this.error = '';
     this.detectChanges();
 
     try {
-      const response: any = await this.client.get('api/v2/admin/features');
+      const response: any = await this.client.get('api/v2/admin/features', {
+        for: this.for || '',
+      });
 
       this.environment = response.environment;
       this.for = response.for;
@@ -82,7 +104,7 @@ export class AdminFeaturesComponent implements OnInit {
     return currentService == bestService;
   }
 
-  labelForValue(value: any) {
+  labelForValue(value: any): string {
     if (value === false) {
       return 'OFF';
     } else if (value === null) {

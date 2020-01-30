@@ -64,4 +64,19 @@
       }
     }
   }
+
+  .m-adminFeatures--loader {
+    text-align: center;
+    margin: 64px 0;
+  }
+
+  .m-adminFeatures--error {
+    text-align: center;
+    margin: 100px 0;
+    font-size: 28px;
+
+    @include m-theme() {
+      color: themed($m-red);
+    }
+  }
 }
