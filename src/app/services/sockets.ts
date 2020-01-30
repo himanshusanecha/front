@@ -12,7 +12,7 @@ export class SocketsService {
   subscriptions: any = {};
   rooms: string[] = [];
   debug: boolean = false;
-  public error$: BehaviorSubject<boolean>;
+  public error$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   static _(session: Session, nz: NgZone) {
     return new SocketsService(session, nz);
@@ -59,9 +59,7 @@ export class SocketsService {
 
   setUpDefaultListeners() {
     this.socket.on('connect', () => {
-      this.error$
-        ? this.error$.next(false)
-        : (this.error$ = new BehaviorSubject<boolean>(false));
+      this.error$.next(false);
       this.nz.run(() => {
         if (this.debug)
           console.log(`[ws]::connected to ${this.SOCKET_IO_SERVER}`);
