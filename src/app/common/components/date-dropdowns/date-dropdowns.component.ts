@@ -62,30 +62,42 @@ export class DateDropdownsComponent implements OnInit {
   ngOnInit() {
     this.years = this.range(100, this.selectedYear, false);
     this.selectedYear = this.years[0];
-    this.selectMonth('January');
+    this.selectMonth('January', false);
   }
 
-  selectMonth(month: string) {
+  selectMonth(month: string, emit: boolean = true) {
     this.selectedMonth = month;
 
     this.populateDays(
       this.getDaysInMonth(this.getMonthNumber(month), this.selectedYear)
     );
-    this.selectedDateChange.emit(this.buildDate());
+
+    if (emit) {
+      this.emitChanges();
+    }
   }
 
-  selectDay(day: string) {
+  selectDay(day: string, emit: boolean = true) {
     this.selectedDay = day;
 
-    this.selectedDateChange.emit(this.buildDate());
+    if (emit) {
+      this.emitChanges();
+    }
   }
 
-  selectYear(year) {
+  selectYear(year, emit: boolean = true) {
     this.selectedYear = year;
 
     this.populateDays(
       this.getDaysInMonth(this.getMonthNumber(this.selectedMonth), year)
     );
+
+    if (emit) {
+      this.emitChanges();
+    }
+  }
+
+  emitChanges() {
     this.selectedDateChange.emit(this.buildDate());
   }
 
