@@ -5,6 +5,7 @@ import { Client, Upload } from '../../../../services/api';
 import { Router } from '@angular/router';
 import { PhoneVerificationComponent } from './phone-input/input.component';
 import { MindsAvatar } from '../../../../common/components/avatar/avatar';
+import { ConfigsService } from '../../../../common/services/configs.service';
 
 @Component({
   selector: 'm-onboarding__infoStep',
@@ -38,7 +39,8 @@ export class InfoStepComponent {
     private session: Session,
     private client: Client,
     private upload: Upload,
-    private router: Router
+    private router: Router,
+    private configs: ConfigsService
   ) {
     this.user = session.getLoggedInUser();
 
@@ -127,12 +129,13 @@ export class InfoStepComponent {
   }
 
   updateUser(prop: string, value: any) {
-    const minds = Object.assign({}, window.Minds);
+    const user = this.configs.get('user');
+    user[prop] = value;
 
-    minds.user[prop] = value;
+    const clonedUser = Object.assign({}, user);
+    this.configs.set('user', clonedUser);
 
-    window.Minds = minds;
-    this.session.userEmitter.next(window.Minds.user);
+    this.session.userEmitter.next(clonedUser);
   }
 
   selectedDateChange(date: string) {

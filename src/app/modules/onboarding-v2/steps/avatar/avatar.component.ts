@@ -3,13 +3,14 @@ import { UserAvatarService } from '../../../../common/services/user-avatar.servi
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Upload } from '../../../../services/api/upload';
+import { ConfigsService } from '../../../../common/services/configs.service';
 
 @Component({
   selector: 'm-onboarding--avatarStep',
   templateUrl: 'avatar.component.html',
 })
 export class AvatarStepComponent {
-  readonly cdnAssetsUrl: string = window.Minds.cdn_assets_url;
+  readonly cdnAssetsUrl: string;
 
   cropping: boolean = false;
   file: any;
@@ -24,8 +25,11 @@ export class AvatarStepComponent {
   constructor(
     protected upload: Upload,
     protected userAvatarService: UserAvatarService,
-    protected router: Router
-  ) {}
+    protected router: Router,
+    private configs: ConfigsService
+  ) {
+    this.cdnAssetsUrl = this.configs.get('cdn_assets_url');
+  }
 
   uploadPhoto() {
     this.fileInput.nativeElement.click();
@@ -85,8 +89,10 @@ export class AvatarStepComponent {
             { filekey: 'file' }
           );
 
-          if (window.Minds.user) {
-            window.Minds.user.icontime = Date.now();
+          const user = this.configs.get('user');
+          if (user) {
+            user.icontime = Date.now();
+            this.configs.set('user', user);
           }
         } catch (e) {
           console.error(e);
