@@ -58,13 +58,6 @@ context('Comment Threads', () => {
     cy.route('PUT', '**/api/v1/thumbs/**').as('thumbsPut');
   });
 
-  after(() => {
-    //delete the post
-    cy.get(postMenu).click();
-    cy.get(deletePostOption).click();
-    cy.get(deletePostButton).click();
-  });
-
   it('should post three tiers of comments', () => {
     //Reveal the conversation
     cy.get(commentButton).click();

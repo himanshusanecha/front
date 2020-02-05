@@ -55,7 +55,10 @@ context('Boost Console', () => {
 
   it('should load show the user content for sidebar boosts', () => {
     cy.route("GET", "**/api/v2/feeds/container/*/all**").as("all");
-    cy.visit('/boost/console/content/create')
+    cy.contains('Sidebar')
+      .click();
+    cy.contains('Create a Boost')
+      .click()
       .location('pathname')
       .should('eq', `/boost/console/content/create`)
       .wait('@all').then((xhr) => {
@@ -65,7 +68,10 @@ context('Boost Console', () => {
 
   it('should load show the user content for offers', () => {
     cy.route("GET", "**/api/v2/feeds/container/*/activities**").as("all");
-    cy.visit('/boost/console/offers/create')
+    cy.contains('Offers')
+      .click();
+    cy.contains('Create a Boost')
+      .click()
       .location('pathname')
       .should('eq', `/boost/console/offers/create`)
       .wait('@all').then((xhr) => {

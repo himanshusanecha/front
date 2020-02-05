@@ -60,7 +60,7 @@ context('Registration', () => {
       });
 
     cy.wait(500);
-    cy.location('pathname').should('eq', '/newsfeed/subscriptions');
+    cy.location('pathname').should('eq', `/${username}/`);
   });
 
   it('should display an error if passwords do not match', () => {

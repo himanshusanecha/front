@@ -147,14 +147,14 @@ context('Newsfeed', () => {
       .should(
         'have.attr',
         'href',
-        '/newsfeed/global/top;hashtag=art;period=24h'
+        '/newsfeed/global/top;hashtag=art;period=7d'
       );
     cy.get('.minds-list > minds-activity:first-child .message a:last-child')
       .contains('#hashtag')
       .should(
         'have.attr',
         'href',
-        '/newsfeed/global/top;hashtag=hashtag;period=24h'
+        '/newsfeed/global/top;hashtag=hashtag;period=7d'
       );
 
     deleteActivityFromNewsfeed();

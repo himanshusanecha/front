@@ -133,7 +133,7 @@ context('Groups', () => {
   it('should navigate to discovery when Find a Group clicked', () => {
     cy.contains('Find a Group').click()
     cy.location('pathname')
-      .should('eq', '/newsfeed/global/top%3Bperiod%3D12h%3Btype%3Dgroups%3Ball%3D1');
+      .should('eq', '/newsfeed/global/top;period=12h;type=groups;all=1');
   });
 
   it('should delete a group', () => {

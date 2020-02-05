@@ -1,4 +1,5 @@
-context('Onboarding', () => {
+// TODO: unskip when feature flag is switched on 
+context.skip('Onboarding', () => {
 
   const remindText = 'remind test text';
 
