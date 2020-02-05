@@ -32,6 +32,9 @@ const routes: Routes = [
     path: 'blog/edit/:guid',
     component: BlogEdit,
     canDeactivate: [CanDeactivateGuardService],
+    data: {
+      title: 'Edit Blog',
+    },
   },
   {
     path: 'blog-v2/edit/:guid',
