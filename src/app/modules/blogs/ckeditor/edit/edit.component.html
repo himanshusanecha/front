@@ -26,9 +26,9 @@
       >
         <a [routerLink]="['/', session.getLoggedInUser().username]">
           <img
-            src="{{ minds.cdn_url }}icon/{{
-              session.getLoggedInUser().guid
-            }}/small/{{ session.getLoggedInUser().icontime }}"
+            src="{{ cdnUrl }}icon/{{ session.getLoggedInUser().guid }}/small/{{
+              session.getLoggedInUser().icontime
+            }}"
             class="m-blogEdit__userAvatar"
           />
         </a>

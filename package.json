@@ -12,7 +12,6 @@
     "build-dev": "npm run build:dev",
     "serve-dev": "npm run server:ssr",
     "build:dev": "ng build --output-path dist --deploy-url=/ --watch=true --poll=800",
-    "serve:dev": "ng serve --host=0.0.0.0 --deploy-url=/ --configuration=hmr --hmr --poll=800 --progress --disableHostCheck=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "cypress run --debug",
@@ -22,7 +21,10 @@
     "serve:ssr": "node dist/server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
     "build:client-and-server-bundles": "npm run build && ng run minds:server:production",
-    "bundle-report": "webpack-bundle-analyzer dist/en/stats.json"
+    "bundle-report": "webpack-bundle-analyzer dist/en/stats.json",
+    "preserve:dev": "npm run prebuild-dev -- --deploy-url=http://${HOST:-localhost}:${PORT:-4200}",
+    "serve:dev": "ng serve --deploy-url=/ --port ${PORT:-4200} --poll=800 --progress --proxy-config proxy.conf.js --host=0.0.0.0 --disableHostCheck=true",
+    "serve:dev:hmr": "npm run serve:dev -- --configuration=hmr --hmr"
   },
   "private": true,
   "dependencies": {
