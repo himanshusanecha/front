@@ -31,7 +31,6 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
   protected showPro: boolean;
 
   protected param$: Subscription;
-  protected queryParam$: Subscription;
 
   @ViewChild('channelComponent', { static: false })
   channelComponent: ChannelComponent;
@@ -52,6 +51,7 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
     this.param$ = this.route.params.subscribe(params => {
       if (params['username']) {
         this.username = params['username'];
+        this.showPro = !params['pro'] || params['pro'] !== '0';
 
         if (
           this.username &&
@@ -60,16 +60,6 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
           this.load();
         }
       }
-    });
-
-    this.queryParam$ = this.route.queryParams.subscribe(params => {
-      this.showPro = true;
-
-      if (params['pro']) {
-        this.showPro = params['pro'] !== '0';
-      }
-
-      this.load();
     });
   }
 
