@@ -12,7 +12,7 @@ export class ExplicitOverlayComponent {
   readonly siteUrl: string;
   public hidden = true;
   public _entity: any;
-  protected type: string;
+  public type: string;
 
   @Input() set entity(value: any) {
     if (value) {
