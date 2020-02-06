@@ -8,6 +8,3 @@ npx ng run minds:server:production
 
 echo Compiling...
 npm run compile:server
-
-echo Running...
-npm run serve:ssr
