@@ -6,7 +6,7 @@ import generateRandomId from '../../support/utilities';
  * @modify date 2019-08-09 14:42:51
  * @desc Spec tests for comment threads.
  */
-context('Comment Threads', () => {
+context.only('Comment Threads', () => {
   
   const testUsername = generateRandomId();
   const testPassword = generateRandomId() + 'rR.7';
@@ -34,6 +34,7 @@ context('Comment Threads', () => {
 
   const thumbsUpButton = '[data-cy=data-minds-thumbs-up-button]'
   const thumbsDownButton = '[data-cy=data-minds-thumbs-down-button]'
+
   before(() => {
     //make a post new.
     cy.getCookie('minds_sess')
@@ -118,10 +119,25 @@ context('Comment Threads', () => {
 
     // thumbs up and down
     cy.get(thumbsUpButton)
-      .click({multiple: true});
+      .each((button) => {
+        cy.wrap(button)
+          .click()
+          .wait('@thumbsPut')
+          .then(xhr => {
+            expect(xhr.status).to.equal(200);
+          });
+      });
     
+    // thumbs up and down
     cy.get(thumbsDownButton)
-      .click({multiple: true});
+      .each((button) => {
+        cy.wrap(button).click()
+        .wait('@thumbsPut')
+        .then(xhr => {
+          expect(xhr.status).to.equal(200);
+        });
+      });
+    
 
     // check counters  
     cy.get(thumbsUpCounters)
