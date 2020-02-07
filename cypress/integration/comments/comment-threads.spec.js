@@ -117,39 +117,39 @@ context.only('Comment Threads', () => {
     // avoids clicking thumbs in activity feed.
     cy.get('.m-comment__toolbar').within(($list) => {
 
-    // thumbs up and down
-    cy.get(thumbsUpButton)
-      .each((button) => {
-        cy.wrap(button)
-          .click()
+      // thumbs up and down
+      cy.get(thumbsUpButton)
+        .each((button) => {
+          cy.wrap(button)
+            .click()
+            .wait('@thumbsPut')
+            .then(xhr => {
+              expect(xhr.status).to.equal(200);
+            });
+        });
+      
+      // thumbs up and down
+      cy.get(thumbsDownButton)
+        .each((button) => {
+          cy.wrap(button).click()
           .wait('@thumbsPut')
           .then(xhr => {
             expect(xhr.status).to.equal(200);
           });
-      });
-    
-    // thumbs up and down
-    cy.get(thumbsDownButton)
-      .each((button) => {
-        cy.wrap(button).click()
-        .wait('@thumbsPut')
-        .then(xhr => {
-          expect(xhr.status).to.equal(200);
         });
-      });
-    
+      
 
-    // check counters  
-    cy.get(thumbsUpCounters)
+      // check counters  
+      cy.get(thumbsUpCounters)
+          .each((counter) => {
+            expect(counter[0].innerHTML).to.eql('1');
+          });
+
+      cy.get(thumbsDownCounters)
         .each((counter) => {
           expect(counter[0].innerHTML).to.eql('1');
         });
     });
-
-    cy.get(thumbsDownCounters)
-      .each((counter) => {
-        expect(counter[0].innerHTML).to.eql('1');
-      });
   });
 
   it('should allow the user to make a mature comment', () => {
