@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { InMemoryStorageService } from '../../../services/in-memory-storage.service';
 import { AutocompleteSuggestionsService } from '../../suggestions/services/autocomplete-suggestions.service';
 import { NSFWSelectorComponent } from '../../../common/components/nsfw-selector/nsfw-selector.component';
+import { TagsService } from '../../../common/services/tags.service';
 
 @Component({
   moduleId: module.id,
@@ -67,7 +68,8 @@ export class PosterComponent {
     public suggestions: AutocompleteSuggestionsService,
     protected elementRef: ElementRef,
     protected router: Router,
-    protected inMemoryStorageService: InMemoryStorageService
+    protected inMemoryStorageService: InMemoryStorageService,
+    protected tagsService: TagsService
   ) {}
 
   @HostListener('window:resize') _widthDetection() {
@@ -127,16 +129,29 @@ export class PosterComponent {
     }
   }
 
-  onMessageChange($event) {
+  onMessageChange($event: string) {
     this.errorMessage = '';
     this.meta.message = $event;
-
-    const regex = /(^|\s||)#(\w+)/gim;
     this.tags = [];
-    let match;
 
-    while ((match = regex.exec(this.meta.message)) !== null) {
-      this.tags.push(match[2]);
+    let words = $event.split(' ');
+    for (let word of words) {
+      //itterate through words for hashtags.
+      if (
+        word.match(this.tagsService.getRegex('hash')) &&
+        !word.match(this.tagsService.getRegex('url'))
+      ) {
+        // Account for non space-separated tags.
+        let tags = word.split('#').filter(c => c);
+
+        if (tags.length > 1) {
+          for (let tag of tags) {
+            this.tags.push(tag);
+          }
+        } else {
+          this.tags.push(word.split('#')[1]);
+        }
+      }
     }
   }
 

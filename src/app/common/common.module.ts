@@ -144,6 +144,7 @@ import { MediaProxyService } from './services/media-proxy.service';
 import { HorizontalFeedService } from './services/horizontal-feed.service';
 import { FormInputCheckboxComponent } from './components/forms/checkbox/checkbox.component';
 import { AttachmentPasteDirective } from './directives/paste/attachment-paste.directive';
+import { TagsService } from './services/tags.service';
 
 const routes: Routes = [
   {
@@ -461,6 +462,7 @@ const routes: Routes = [
       useFactory: SidebarMarkersService._,
     },
     HorizontalFeedService,
+    TagsService,
   ],
   entryComponents: [
     NotificationsToasterComponent,
