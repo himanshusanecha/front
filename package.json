@@ -8,11 +8,10 @@
     "preinstall": "git config core.hooksPath .git/hooks/",
     "prebuild": "gulp build.sass",
     "build": "sh build/base-locale.sh dist",
-    "prebuild-dev": "gulp build.sass --deploy-url=http://localhost",
-    "build-dev": "npm run build:dev",
-    "serve-dev": "npm run server:ssr",
-    "build:dev": "ng build --output-path dist --deploy-url=/ --watch=true --poll=800",
-    "serve:dev": "ng serve --host=0.0.0.0 --deploy-url=/ --configuration=hmr --hmr --poll=800 --progress --disableHostCheck=true",
+    "build-dev": "echo 'Deprecated, please use build:dev'; npm run build:dev --",
+    "serve-dev": "echo 'Deprecated, please use serve:ssr'; npm run serve:ssr --",
+    "prebuild:dev": "gulp build.sass --deploy-url=http://localhost:8080/",
+    "build:dev": "ng build --output-path=dist/en --deploy-url=http://localhost:8080/ --watch=true --poll=800 --aot",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "cypress run --debug",
@@ -110,7 +109,8 @@
     "tslint": "~5.12.0",
     "typescript": "~3.4.5",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "nodemon": "^2.0.2"
   },
   "husky": {
     "hooks": {
