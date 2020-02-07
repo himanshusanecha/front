@@ -13,6 +13,8 @@
   <router-outlet></router-outlet>
 </div>
 
+<m-explicit-overlay [entity]="group"></m-explicit-overlay>
+
 <div
   class="m-group__grid"
   *ngIf="group && (group['is:member'] || group.membership == 2)"
