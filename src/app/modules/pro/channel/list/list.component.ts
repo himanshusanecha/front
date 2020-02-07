@@ -53,13 +53,7 @@ export class ProChannelListComponent implements OnInit, OnDestroy {
       map((elements: BehaviorSubject<any>[]) => {
         return elements.filter((element: BehaviorSubject<any>) => {
           const entity = element.getValue();
-          return (
-            entity &&
-            (entity.type === 'group' ||
-              !!entity.thumbnail_src ||
-              !!entity.custom_data ||
-              (entity.thumbnails && entity.thumbnails.length > 0))
-          );
+          return entity;
         });
       })
     );

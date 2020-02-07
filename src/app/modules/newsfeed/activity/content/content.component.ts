@@ -2,7 +2,18 @@ import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActivityService, ActivityEntity } from '../activity.service';
+import {
+  ActivityService,
+  ActivityEntity,
+  ACTIVITY_FIXED_HEIGHT_RATIO,
+  ACTIVITY_FIXED_HEIGHT_HEIGHT,
+  ACTIVITY_OWNERBLOCK_HEIGHT,
+  ACTIVITY_FIXED_HEIGHT_WIDTH,
+  ACTIVITY_COMMENTS_POSTER_HEIGHT,
+  ACTIVITY_TOOLBAR_HEIGHT,
+  ACTIVITY_COMMENTS_MORE_HEIGHT,
+  ACTIVITY_CONTENT_PADDING,
+} from '../activity.service';
 import { ConfigsService } from '../../../../common/services/configs.service';
 import { Session } from '../../../../services/session';
 import { MindsUser, MindsGroup } from '../../../../interfaces/entities';
@@ -25,12 +36,13 @@ export class ActivityContentComponent {
   @ViewChild('mediaDesciptionEl', { static: false, read: ElementRef })
   mediaDescriptionEl: ElementRef;
 
-  maxFixedHeightContent: number = 540;
-  fixedHeightRatio: number = 500 / 750;
+  maxFixedHeightContent: number = 750 * ACTIVITY_FIXED_HEIGHT_RATIO;
+  activityHeight: number;
   remindWidth: number;
   remindHeight: number;
 
   private entitySubscription: Subscription;
+  private activityHeightSubscription: Subscription;
 
   entity: ActivityEntity;
 
@@ -45,6 +57,13 @@ export class ActivityContentComponent {
     this.entitySubscription = this.service.entity$.subscribe(
       (entity: ActivityEntity) => {
         this.entity = entity;
+        this.calculateFixedContentHeight();
+      }
+    );
+    this.activityHeightSubscription = this.service.height$.subscribe(
+      (height: number) => {
+        this.activityHeight = height;
+        this.calculateRemindHeight();
       }
     );
   }
@@ -58,6 +77,7 @@ export class ActivityContentComponent {
 
   ngOnDestroy() {
     this.entitySubscription.unsubscribe();
+    this.activityHeightSubscription.unsubscribe();
   }
 
   get message(): string {
@@ -105,6 +125,28 @@ export class ActivityContentComponent {
     return this.entity.entity_guid;
   }
 
+  calculateFixedContentHeight(): void {
+    let contentHeight = this.activityHeight || ACTIVITY_FIXED_HEIGHT_HEIGHT;
+    contentHeight = contentHeight - ACTIVITY_CONTENT_PADDING;
+    if (this.service.displayOptions.showOwnerBlock) {
+      contentHeight = contentHeight - ACTIVITY_OWNERBLOCK_HEIGHT;
+    }
+    if (this.service.displayOptions.showToolbar) {
+      contentHeight = contentHeight - ACTIVITY_TOOLBAR_HEIGHT;
+    }
+    if (this.service.displayOptions.showComments) {
+      contentHeight = contentHeight - ACTIVITY_COMMENTS_POSTER_HEIGHT;
+    }
+    if (
+      this.service.displayOptions.showComments &&
+      this.entity['comments:count'] > 0
+    ) {
+      contentHeight = contentHeight - ACTIVITY_COMMENTS_MORE_HEIGHT;
+    }
+
+    this.maxFixedHeightContent = contentHeight;
+  }
+
   @HostListener('window:resize')
   calculateRemindHeight(): void {
     if (!this.service.displayOptions.fixedHeight) return;
@@ -112,15 +154,14 @@ export class ActivityContentComponent {
       ? this.messageEl.nativeElement.clientHeight
       : 0;
 
+    this.calculateFixedContentHeight();
+
     let maxFixedHeightContent = this.maxFixedHeightContent;
 
-    // Need to allow extra space for comments entry
-    if (this.entity['comments:count'] > 0) {
-      maxFixedHeightContent = maxFixedHeightContent - 42;
-    }
-
     this.remindHeight = maxFixedHeightContent - messageHeight;
-    this.remindWidth = this.remindHeight * this.fixedHeightRatio;
+
+    //if (this.entity['remind_object'].)
+    //this.remindWidth = this.remindHeight * ACTIVITY_FIXED_HEIGHT_RATIO;
   }
 
   onModalRequested(event: MouseEvent) {

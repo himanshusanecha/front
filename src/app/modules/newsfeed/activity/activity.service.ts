@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, Subject } from 'rxjs';
 import { MindsUser, MindsGroup } from '../../../interfaces/entities';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -36,6 +36,20 @@ export type ActivityEntity = {
   paywall: boolean;
   impressions: number;
 };
+
+// Constants of blocks
+export const ACTIVITY_OWNERBLOCK_HEIGHT = 76;
+export const ACTIVITY_TOOLBAR_HEIGHT = 52;
+export const ACTIVITY_COMMENTS_POSTER_HEIGHT = 58;
+export const ACTIVITY_COMMENTS_MORE_HEIGHT = 42;
+export const ACTIVITY_CONTENT_PADDING = 16;
+
+// Constants of fixed heights
+export const ACTIVITY_FIXED_HEIGHT_HEIGHT = 750;
+export const ACTIVITY_FIXED_HEIGHT_WIDTH = 500;
+export const ACTIVITY_FIXED_HEIGHT_RATIO =
+  ACTIVITY_FIXED_HEIGHT_WIDTH / ACTIVITY_FIXED_HEIGHT_HEIGHT;
+//export const ACTIVITY_FIXED_HEIGHT_CONTENT_HEIGHT = ACTIVITY_FIXED_HEIGHT_HEIGHT - ACTIVITY_OWNERBLOCK_HEIGHT;
 
 @Injectable()
 export class ActivityService {
@@ -114,6 +128,13 @@ export class ActivityService {
    * TODO
    */
   isUnlisted$: Observable<boolean> = this.entity$.pipe();
+
+  /**
+   * The height of the activity post may be dynamic
+   */
+  height$: BehaviorSubject<number> = new BehaviorSubject(
+    ACTIVITY_FIXED_HEIGHT_HEIGHT
+  );
 
   displayOptions: ActivityDisplayOptions = {
     showOwnerBlock: true,

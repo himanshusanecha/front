@@ -1,7 +1,7 @@
 <m-pro--channel--categories
   [selectedHashtag]="selectedHashtag"
   (onSelectTag)="selectHashtag($event)"
-  [style.visibility]="shouldShowCategories ? 'visible' : 'hidden'"
+  *ngIf="shouldShowCategories"
 ></m-pro--channel--categories>
 
 <h1 class="m-proChannelList__title" [ngSwitch]="type">
@@ -34,10 +34,7 @@
 </div>
 
 <div class="m-proChannelList__content">
-  <ul
-    class="m-proChannelListContent__list"
-    [class.m-proChannelListContent__normalList]="type === 'activities'"
-  >
+  <ul class="m-proChannelListContent__list">
     <li *ngFor="let entity$ of entities$ | async; let i = index">
       <ng-container *ngIf="entity$ | async as entity">
         <ng-container
@@ -45,7 +42,8 @@
             type === 'all' ||
             type === 'images' ||
             type === 'videos' ||
-            type === 'blogs'
+            type === 'blogs' ||
+            type === 'activities'
           "
         >
           <m-pro--channel-tile
@@ -60,13 +58,6 @@
             (onOpen)="onTileClicked(entity)"
             [class.big]="i === 0 || i === 1"
           ></m-pro--channel--group-tile>
-        </ng-container>
-
-        <ng-container *ngIf="type === 'activities'">
-          <minds-activity
-            [object]="entity"
-            (_delete)="onActivityDelete($event)"
-          ></minds-activity>
         </ng-container>
       </ng-container>
     </li>

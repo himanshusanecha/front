@@ -35,6 +35,7 @@ import { BlogViewInfinite } from '../blogs/view/infinite';
 import { BlogEdit } from '../blogs/edit/edit';
 import { CanDeactivateGuardService } from '../../services/can-deactivate-guard';
 import { ModalsModule } from '../modals/modals.module';
+import { ActivityModule } from '../newsfeed/activity/activity.module';
 
 const routes: Routes = [
   {
@@ -149,6 +150,7 @@ export const PRO_DOMAIN_ROUTES = [
     VideoModule,
     AuthModule,
     ModalsModule,
+    ActivityModule,
   ],
   providers: [ProService],
   declarations: [

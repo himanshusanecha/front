@@ -59,6 +59,9 @@ m-activity__content {
     }
   }
 }
+.m-activity--noOwnerBlock .m-activityContent__message {
+  padding-top: 16px;
+}
 
 .m-activityContent__mediaDescription {
   padding: 16px $activity-padding-lr;
