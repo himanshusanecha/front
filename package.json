@@ -12,6 +12,8 @@
     "serve-dev": "echo 'Deprecated, please use serve:ssr'; npm run serve:ssr --",
     "prebuild:dev": "gulp build.sass --deploy-url=http://localhost:8080/",
     "build:dev": "ng build --output-path=dist/en --deploy-url=http://localhost:8080/ --watch=true --poll=800 --aot",
+    "preserve:dev": "gulp build.sass --deploy-url=http://localhost:4200/",
+    "serve:dev": "ng serve --deploy-url=http://localhost:4200/ --watch=true --poll=800 --aot --progress --proxy-config proxy.conf.js --host=0.0.0.0 --disableHostCheck=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "cypress run --debug",
