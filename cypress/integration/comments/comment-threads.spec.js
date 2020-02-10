@@ -6,7 +6,7 @@ import generateRandomId from '../../support/utilities';
  * @modify date 2019-08-09 14:42:51
  * @desc Spec tests for comment threads.
  */
-context.only('Comment Threads', () => {
+context('Comment Threads', () => {
   
   const testUsername = generateRandomId();
   const testPassword = generateRandomId() + 'rR.7';
@@ -187,7 +187,7 @@ context.only('Comment Threads', () => {
     
     // get share link
     cy.get(postMenu).click();
-    cy.contains('Share').click();
+    cy.get(".minds-dropdown-menu").contains('Share').click();
     
     // store share link
      cy.get('.m-share__copyableLinkText')

@@ -2,6 +2,8 @@ context('Login', () => {
   beforeEach(() => {
     cy.clearCookies();
     cy.visit('/')
+      .location('pathname')
+      .should('eq', `/`);
   })
 
   it('should login', () => {
