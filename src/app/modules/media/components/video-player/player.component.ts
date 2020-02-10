@@ -7,6 +7,8 @@ import {
   Output,
   EventEmitter,
   ChangeDetectorRef,
+  Inject,
+  PLATFORM_ID,
   AfterViewInit,
 } from '@angular/core';
 import { PLAYER_ANIMATIONS } from './player.animations';
@@ -14,6 +16,7 @@ import { VideoPlayerService, VideoSource } from './player.service';
 import isMobile from '../../../../helpers/is-mobile';
 import Plyr from 'plyr';
 import { PlyrComponent } from 'ngx-plyr';
+import { isPlatformBrowser } from '@angular/common';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
@@ -77,14 +80,17 @@ export class MindsVideoPlayerComponent
 
   constructor(
     private service: VideoPlayerService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
-    this.service.load().then(() => {
-      this.cd.markForCheck();
-      this.cd.detectChanges();
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.service.load().then(() => {
+        this.cd.markForCheck();
+        this.cd.detectChanges();
+      });
+    }
   }
 
   ngAfterViewInit() {
@@ -142,7 +148,7 @@ export class MindsVideoPlayerComponent
    * @return boolean
    */
   isPlayable(): boolean {
-    return this.service.isPlayable();
+    return isPlatformBrowser(this.platformId) && this.service.isPlayable();
   }
 
   /**
