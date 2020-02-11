@@ -327,7 +327,11 @@
   [url]="siteUrl + 'media/' + entity.guid"
   [title]="entity.title || ''"
   [embed]="entity"
-  *ngIf="entity && !attachment.shouldBeBlurred(entity)"
+  *ngIf="
+    entity &&
+    !attachment.shouldBeBlurred(entity) &&
+    !entity.ownerObj?.hide_share_buttons
+  "
 >
 </m-social-icons>
 
