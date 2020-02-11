@@ -28,6 +28,15 @@ import { AnalyticsService } from '../../../services/analytics';
 import { analyticsServiceMock } from '../../../../tests/analytics-service-mock.spec';
 import { ActivityService } from '../../../common/services/activity.service';
 import { activityServiceMock } from '../../../../tests/activity-service-mock.spec';
+import { By } from '@angular/platform-browser';
+import { MetaService } from '../../../common/services/meta.service';
+import { metaServiceMock } from '../../notifications/notification.service.spec';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
+import { overlayModalServiceMock } from '../../../../tests/overlay-modal-service-mock.spec';
+import { ClientMetaService } from '../../../common/services/client-meta.service';
+import { clientMetaServiceMock } from '../../../../tests/client-meta-service-mock.spec';
+import { ConfigsService } from '../../../common/services/configs.service';
+import { MockService } from '../../../utils/mock';
 
 describe('Blog view component', () => {
   let comp: BlogView;
@@ -36,7 +45,9 @@ describe('Blog view component', () => {
     guid: '1',
     title: 'test blog',
     description: 'description',
-    ownerObj: {},
+    ownerObj: {
+      hide_share_buttons: false,
+    },
     allow_comments: true,
     perma_url: '/perma',
     thumbnail: '/thumbnail',
@@ -54,6 +65,10 @@ describe('Blog view component', () => {
         { provide: ContextService, useValue: contextServiceMock },
         { provide: ScrollService, useValue: scrollServiceMock },
         { provide: Session, useValue: sessionMock },
+        { provide: MetaService, useValue: metaServiceMock },
+        { provide: OverlayModalService, useValue: overlayModalServiceMock },
+        { provide: ClientMetaService, useValue: clientMetaServiceMock },
+        { provide: ConfigsService, useValue: MockService(ConfigsService) },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     })
@@ -63,9 +78,31 @@ describe('Blog view component', () => {
 
   // synchronous beforeEach
   beforeEach(() => {
+    jasmine.clock().uninstall();
+    jasmine.clock().install();
+
     fixture = TestBed.createComponent(BlogView);
     comp = fixture.componentInstance;
     comp.blog = blog;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
+  it('should have an instance of m-social-icons if the owner has it enabled', () => {
+    let socialIcons = fixture.debugElement.query(By.css('m-social-icons'));
+
+    expect(socialIcons).not.toBeNull();
+
+    const blog = Object.assign({}, comp.blog);
+    blog.ownerObj.hide_share_buttons = true;
+    comp.blog = blog;
+
+    fixture.detectChanges();
+
+    socialIcons = fixture.debugElement.query(By.css('m-social-icons'));
+    expect(socialIcons).toBeNull();
   });
 });
