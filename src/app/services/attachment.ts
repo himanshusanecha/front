@@ -360,18 +360,26 @@ export class AttachmentService {
   /**
    * Resets preview requests to null.
    */
-  resetPreviewRequests = (): string[] => (this.previewRequests = []);
+  resetPreviewRequests(): AttachmentService {
+    this.previewRequests = [];
+    return this;
+  }
 
   /**
    * Returns preview requests.
    */
-  getPreviewRequests = (): string[] => this.previewRequests;
+  getPreviewRequests(): string[] {
+    return this.previewRequests;
+  }
 
   /**
    * Adds a new preview request.
    * @param { string } url -
    */
-  addPreviewRequest = (url: string): number => this.previewRequests.push(url);
+  addPreviewRequest(url: string): AttachmentService {
+    this.previewRequests.push(url);
+    return this;
+  }
 
   /**
    * Gets attachment preview from content.
