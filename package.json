@@ -23,6 +23,7 @@
     "serve:ssr": "node dist/server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
     "build:client-and-server-bundles": "npm run build && ng run minds:server:production",
+    "build:ssr:dev": "ng run minds:server:production && npm run compile:server",
     "bundle-report": "webpack-bundle-analyzer dist/en/stats.json"
   },
   "private": true,
