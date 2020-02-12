@@ -35,10 +35,6 @@ export class AvatarStepComponent {
     this.fileInput.nativeElement.click();
   }
 
-  loadImageFailed() {
-    console.log('Load failed');
-  }
-
   add(e) {
     this.imageChangedEvent = e;
     if (e) {
