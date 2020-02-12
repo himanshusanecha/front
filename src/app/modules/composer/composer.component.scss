@@ -33,7 +33,7 @@ m-composer {
     border-radius: 5px;
 
     @include m-theme() {
-      background: themed($m-secondary-bg);
+      background: themed($m-bgColor--primary);
     }
   }
 
@@ -67,7 +67,7 @@ m-composer {
     }
 
     @include m-theme() {
-      color: themed($m-primary-text);
+      color: themed($m-textColor--primary);
     }
   }
   .m-composerTitleBar__menuButton {
@@ -81,7 +81,7 @@ m-composer {
       font-size: 20px;
 
       @include m-theme() {
-        color: themed($m-primary-border);
+        color: themed($m-borderColor--primary);
       }
     }
   }
@@ -114,7 +114,7 @@ m-composer {
       }
 
       @include m-theme() {
-        color: themed($m-secondary-text);
+        color: themed($m-textColor--secondary);
       }
     }
   }
@@ -129,7 +129,7 @@ m-composer {
     user-select: none;
 
     @include m-theme() {
-      border-color: themed($m-primary-border);
+      border-color: themed($m-borderColor--primary);
     }
 
     .m-composerToolbar__item {
@@ -139,7 +139,7 @@ m-composer {
       padding: 8px 16px;
 
       @include m-theme() {
-        color: themed($m-secondary-text);
+        color: themed($m-textColor--secondary);
       }
 
       > m-icon + span {
