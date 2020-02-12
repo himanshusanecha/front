@@ -1,0 +1,20 @@
+m-file-upload {
+  cursor: pointer;
+  position: relative;
+
+  input[type='file'] {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    opacity: 0;
+    appearance: none;
+    filter: alpha(opacity=0);
+
+    &::-webkit-file-upload-button {
+      cursor: pointer;
+    }
+  }
+}

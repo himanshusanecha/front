@@ -144,6 +144,8 @@ import { MediaProxyService } from './services/media-proxy.service';
 import { HorizontalFeedService } from './services/horizontal-feed.service';
 import { FormInputCheckboxComponent } from './components/forms/checkbox/checkbox.component';
 import { AttachmentPasteDirective } from './directives/paste/attachment-paste.directive';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { IconComponent } from './components/icon/icon.component';
 
 const routes: Routes = [
   {
@@ -271,6 +273,8 @@ const routes: Routes = [
     EmailConfirmationComponent,
     DateDropdownsComponent,
     FormInputCheckboxComponent,
+    FileUploadComponent,
+    IconComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -374,6 +378,8 @@ const routes: Routes = [
     EmailConfirmationComponent,
     DateDropdownsComponent,
     FormInputCheckboxComponent,
+    FileUploadComponent,
+    IconComponent,
   ],
   providers: [
     SiteService,

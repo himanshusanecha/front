@@ -1,0 +1,4 @@
+<ng-container [ngSwitch]="from">
+  <i *ngSwitchCase="'md'" class="material-icons">{{ iconId }}</i>
+  <i *ngSwitchCase="'ion'" [ngClass]="['ion-icon', 'ion-' + iconId]"></i>
+</ng-container>

@@ -1,0 +1,10 @@
+<label [for]="id" [ngClass]="wrapperClass">
+  <ng-content></ng-content>
+  <input
+    type="file"
+    [id]="id"
+    [name]="id"
+    (change)="onSelect(file, $event)"
+    #file
+  />
+</label>
