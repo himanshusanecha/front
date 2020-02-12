@@ -16,11 +16,19 @@
         i18n-placeholder
         [id]="id"
         (focus)="popOut()"
+        [ngModel]="service.message$ | async"
+        (ngModelChange)="service.message$.next($event)"
       ></textarea>
     </div>
 
+    <pre>{{ service.stream$ | async | json }}</pre>
+
     <div class="m-composer__toolBar">
-      <m-file-upload wrapperClass="m-composerToolbar__item">
+      <m-file-upload
+        wrapperClass="m-composerToolbar__item"
+        accept="image/*,video/*"
+        (onSelect)="service.attachment$.next($event)"
+      >
         <m-icon from="ion" iconId="image"></m-icon>
         <span>Upload</span>
       </m-file-upload>
@@ -40,9 +48,14 @@
         <span>Tag</span>
       </a>
 
-      <div class="m-composerToolbar__item">
+      <m-button [dropdown]="postButtonDropdown" (onAction)="onPost($event)">
         Post
-      </div>
+      </m-button>
+      <ng-template #postButtonDropdown>
+        <ul>
+          <li></li>
+        </ul>
+      </ng-template>
     </div>
   </div>
 </div>

@@ -4,7 +4,9 @@
     type="file"
     [id]="id"
     [name]="id"
-    (change)="onSelect(file, $event)"
+    [multiple]="multiple"
+    [accept]="accept"
+    (change)="onSelect(file)"
     #file
   />
 </label>

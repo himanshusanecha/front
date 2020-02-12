@@ -146,6 +146,7 @@ import { FormInputCheckboxComponent } from './components/forms/checkbox/checkbox
 import { AttachmentPasteDirective } from './directives/paste/attachment-paste.directive';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { IconComponent } from './components/icon/icon.component';
+import { ButtonComponent } from './components/button-v2/button.component';
 
 const routes: Routes = [
   {
@@ -275,6 +276,7 @@ const routes: Routes = [
     FormInputCheckboxComponent,
     FileUploadComponent,
     IconComponent,
+    ButtonComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -380,6 +382,7 @@ const routes: Routes = [
     FormInputCheckboxComponent,
     FileUploadComponent,
     IconComponent,
+    ButtonComponent,
   ],
   providers: [
     SiteService,
