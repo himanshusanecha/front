@@ -36,11 +36,6 @@ const routes: Routes = [
       title: 'Edit Blog',
     },
   },
-  {
-    path: 'blog-v2/edit/:guid',
-    component: BlogEditComponent,
-    canDeactivate: [CanDeactivateGuardService],
-  },
   { path: 'blog/:filter', component: BlogListComponent },
   { path: 'blog', redirectTo: '/blog/top', pathMatch: 'full' },
   { path: ':username/blog/:slugid', component: BlogViewInfinite },
