@@ -111,6 +111,7 @@ describe('NewsfeedSingleComponent', () => {
     };
 
     sessionMock.user.admin = false;
+    sessionMock.user.hide_share_buttons = false;
     featuresServiceMock.mock('sync-feeds', false);
 
     fixture.detectChanges();
@@ -199,9 +200,7 @@ describe('NewsfeedSingleComponent', () => {
 
     expect(socialIcons).not.toBeNull();
 
-    const activity = Object.assign({}, comp.activity);
-    activity.ownerObj.hide_share_buttons = true;
-    comp.activity = activity;
+    sessionMock.user.hide_share_buttons = true;
 
     fixture.detectChanges();
 

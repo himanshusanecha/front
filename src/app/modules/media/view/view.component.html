@@ -330,7 +330,7 @@
   *ngIf="
     entity &&
     !attachment.shouldBeBlurred(entity) &&
-    !entity.ownerObj?.hide_share_buttons
+    !session.getLoggedInUser().hide_share_buttons
   "
 >
 </m-social-icons>

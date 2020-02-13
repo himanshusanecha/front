@@ -45,9 +45,7 @@ describe('Blog view component', () => {
     guid: '1',
     title: 'test blog',
     description: 'description',
-    ownerObj: {
-      hide_share_buttons: false,
-    },
+    ownerObj: {},
     allow_comments: true,
     perma_url: '/perma',
     thumbnail: '/thumbnail',
@@ -84,6 +82,9 @@ describe('Blog view component', () => {
     fixture = TestBed.createComponent(BlogView);
     comp = fixture.componentInstance;
     comp.blog = blog;
+
+    sessionMock.user.hide_share_buttons = false;
+
     fixture.detectChanges();
   });
 
@@ -96,9 +97,7 @@ describe('Blog view component', () => {
 
     expect(socialIcons).not.toBeNull();
 
-    const blog = Object.assign({}, comp.blog);
-    blog.ownerObj.hide_share_buttons = true;
-    comp.blog = blog;
+    sessionMock.user.hide_share_buttons = true;
 
     fixture.detectChanges();
 

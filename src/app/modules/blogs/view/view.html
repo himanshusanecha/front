@@ -157,7 +157,7 @@
 <m-social-icons
   [url]="blog.perma_url"
   [title]="blog.title"
-  *ngIf="!blog.ownerObj.hide_share_buttons"
+  *ngIf="!session.getLoggedInUser().hide_share_buttons"
 >
 </m-social-icons>
 
