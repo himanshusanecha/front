@@ -1,7 +1,69 @@
 m-button {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
+  border-radius: 2px;
 
-  //m-button__
+  @include m-theme() {
+    // TODO: Avoid cascade-hell :(
+    color: themed($m-btn--primaryText) !important;
+    background: themed($m-btn--primary);
+  }
+
+  &.m-button--disabled {
+    pointer-events: none;
+    cursor: initial;
+
+    .m-button__disabledOverlay {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+
+      @include m-theme() {
+        background: rgba(themed($m-white), 0.2);
+      }
+    }
+  }
+
+  a {
+    color: inherit !important;
+  }
+
+  .m-button__defaultAction {
+    padding: 7px 19px;
+    white-space: nowrap;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .m-button__dropdownArrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    border-left: 1px solid;
+    font-size: 9px; /* m-icon is 135% this size */
+    cursor: pointer;
+
+    @include m-theme() {
+      border-color: rgba(themed($m-btn--primaryText), 0.2);
+    }
+  }
+
+  .m-button__dropdownContainer {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 100%;
+    z-index: 10005;
+  }
+
+  m-overlay {
+    z-index: 10000;
+  }
 }

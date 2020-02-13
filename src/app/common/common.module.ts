@@ -147,6 +147,7 @@ import { AttachmentPasteDirective } from './directives/paste/attachment-paste.di
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { IconComponent } from './components/icon/icon.component';
 import { ButtonComponent } from './components/button-v2/button.component';
+import { OverlayComponent } from './components/overlay/overlay.component';
 
 const routes: Routes = [
   {
@@ -277,6 +278,7 @@ const routes: Routes = [
     FileUploadComponent,
     IconComponent,
     ButtonComponent,
+    OverlayComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -383,6 +385,7 @@ const routes: Routes = [
     FileUploadComponent,
     IconComponent,
     ButtonComponent,
+    OverlayComponent,
   ],
   providers: [
     SiteService,

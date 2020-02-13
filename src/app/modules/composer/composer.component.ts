@@ -22,11 +22,56 @@ export class ComposerComponent implements OnInit, OnDestroy {
 
   constructor(public service: ComposerService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // TODO: Initialize based on bindings
 
-  ngOnDestroy(): void {}
+    this.service.message$.next('');
+    this.service.attachment$.next(null);
+    this.service.nsfw$.next(null);
+    this.service.monetization$.next(null);
+    this.service.scheduler$.next(null);
+  }
 
-  onPost($event: ButtonComponentAction) {}
+  ngOnDestroy(): void {
+    // TODO: Destroy subscriptions
+    // TODO: GC
+  }
+
+  setMessage(message: string) {
+    this.service.message$.next(message);
+  }
+
+  setAttachment(file) {
+    this.service.attachment$.next(file);
+  }
+
+  setNsfw() {
+    // TODO: Set NSFW flags
+    this.service.nsfw$.next([+Date.now()]);
+  }
+
+  setMonetization() {
+    // TODO: Set Monetization attributes
+    this.service.monetization$.next({ monetization: +Date.now() });
+  }
+
+  setTags() {
+    this.service.alterMessageTags(/* Tags */);
+  }
+
+  setScheduler() {
+    // TODO: Set Scheduler attributes
+    this.service.scheduler$.next({ scheduler: +Date.now() });
+  }
+
+  async onPost($event: ButtonComponentAction) {
+    try {
+      const response = await this.service.post();
+    } catch (e) {
+      console.log(e);
+      // TODO: Display errors nicely and with a clear language
+    }
+  }
 
   popOut() {
     // this.poppedOut = true;
