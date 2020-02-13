@@ -20,7 +20,6 @@ import { InMemoryStorageService } from '../../../services/in-memory-storage.serv
 import { AutocompleteSuggestionsService } from '../../suggestions/services/autocomplete-suggestions.service';
 import { NSFWSelectorComponent } from '../../../common/components/nsfw-selector/nsfw-selector.component';
 import { TagsService } from '../../../common/services/tags.service';
-import { worker } from 'cluster';
 
 @Component({
   moduleId: module.id,
