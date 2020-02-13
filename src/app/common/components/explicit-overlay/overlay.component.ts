@@ -24,6 +24,8 @@ export class ExplicitOverlayComponent {
     }
   }
 
+  @Input() message: string;
+
   constructor(
     public session: Session,
     public storage: Storage,

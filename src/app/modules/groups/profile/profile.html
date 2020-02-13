@@ -13,7 +13,11 @@
   <router-outlet></router-outlet>
 </div>
 
-<m-explicit-overlay [entity]="group"></m-explicit-overlay>
+<m-explicit-overlay
+  [entity]="group"
+  message="This group contains content that is NSFW"
+  i18n-message
+></m-explicit-overlay>
 
 <div
   class="m-group__grid"
