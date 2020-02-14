@@ -4,7 +4,6 @@ import { MindsUser } from '../../../../interfaces/entities';
 import { Client, Upload } from '../../../../services/api';
 import { Router } from '@angular/router';
 import { PhoneVerificationComponent } from './phone-input/input.component';
-import { MindsAvatar } from '../../../../common/components/avatar/avatar';
 import { ConfigsService } from '../../../../common/services/configs.service';
 
 @Component({
@@ -33,9 +32,6 @@ export class InfoStepComponent {
   @ViewChild('phoneVerification', { static: false })
   phoneVerification: PhoneVerificationComponent;
 
-  @ViewChild('avatar', { static: false })
-  avatar: MindsAvatar;
-
   constructor(
     private session: Session,
     private client: Client,
@@ -46,27 +42,6 @@ export class InfoStepComponent {
     this.user = session.getLoggedInUser();
 
     this.onResize();
-  }
-
-  addAvatar() {
-    this.avatar.editing = true;
-    setTimeout(() => {
-      this.avatar.openFileDialog();
-    });
-  }
-
-  async uploadAvatar(file) {
-    this.avatar.editing = false;
-    try {
-      const response: any = await this.upload.post(
-        'api/v1/channel/avatar',
-        [file],
-        { filekey: 'file' }
-      );
-      this.updateUser('icontime', Date.now());
-    } catch (e) {
-      console.error(e);
-    }
   }
 
   locationChange(location: string) {

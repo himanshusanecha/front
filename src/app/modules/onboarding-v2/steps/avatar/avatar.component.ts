@@ -40,28 +40,6 @@ export class AvatarStepComponent {
     if (e) {
       this.cropping = true;
     }
-    // const element: any = e.target ? e.target : e.srcElement;
-    // this.file = element ? element.files[0] : null;
-    //
-    // /**
-    //  * Set a live preview
-    //  */
-    // const reader = new FileReader();
-    // reader.onloadend = () => {
-    //   this.src =
-    //     typeof reader.result === 'string'
-    //       ? reader.result
-    //       : reader.result.toString();
-    //   if (this.object.type === 'user' && this.isOwnerAvatar()) {
-    //     this.userAvatarService.src$.next(this.src);
-    //   }
-    // };
-    // reader.readAsDataURL(this.file);
-    //
-    // element.value = '';
-    //
-    // console.log(this.waitForDoneSignal);
-    // if (this.waitForDoneSignal !== true) this.done();
   }
 
   async save() {
@@ -111,12 +89,12 @@ export class AvatarStepComponent {
   }
 
   skip() {
-    this.router.navigate(['/onboarding', 'groups']);
+    this.router.navigate(['/newsfeed']);
   }
 
   async continue() {
     await this.save();
-    this.router.navigate(['/onboarding', 'groups']);
+    this.router.navigate(['/newsfeed']);
   }
 
   private dataURItoBlob(dataURI) {
