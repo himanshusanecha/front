@@ -3,9 +3,17 @@
  * @desc Wrapper for CKEditor5 text editor.
  */
 
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-
-import * as BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
+const CKEditorModule = require('@ckeditor/ckeditor5-angular');
+import { isPlatformBrowser } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 
 @Component({
   selector: 'm-blog__editor',
@@ -18,7 +26,7 @@ export class BlogEditorComponent {
   @Input() content: string;
   @Output() contentChanged: EventEmitter<Event> = new EventEmitter<Event>();
 
-  public Editor: BalloonEditor = BalloonEditor;
+  Editor;
 
   // TODO: Manually adjust configuration when custom built.
   editorConfig: Object = {
@@ -43,6 +51,19 @@ export class BlogEditorComponent {
       ],
     */
   };
+  constructor(@Inject(PLATFORM_ID) protected platformId: Object) {}
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      // only executed on the browser side
+      const BalloonEditor = require('@ckeditor/ckeditor5-build-balloon');
+      this.Editor = BalloonEditor;
+      this.Editor.defaultConfig = this.editorConfig;
+    }
+    if (isPlatformServer(this.platformId)) {
+      // only executed on the server side
+    }
+  }
 
   /**
    * Called on content change. Emits current content value.

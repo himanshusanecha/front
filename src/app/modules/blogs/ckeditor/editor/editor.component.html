@@ -1,5 +1,6 @@
 <div class="m-ck-editor-wrapper">
   <ckeditor
+    *mIfBrowser
     [ngModel]="content"
     (ngModelChange)="onContentChanged($event)"
     [editor]="Editor"
