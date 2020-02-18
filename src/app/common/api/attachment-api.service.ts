@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import {
-  catchError,
-  filter,
-  map,
-  takeUntil,
-  takeWhile,
-  tap,
-} from 'rxjs/operators';
-import { EMPTY, Observable, of } from 'rxjs';
+import { catchError, filter, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 export enum UploadEventType {
