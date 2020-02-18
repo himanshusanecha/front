@@ -146,6 +146,8 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 import { IconComponent } from './components/icon/icon.component';
 import { ButtonComponent } from './components/button-v2/button.component';
 import { OverlayComponent } from './components/overlay/overlay.component';
+import { AttachmentApiService } from './api/attachment-api.service';
+import { ApiService } from './api/api.service';
 
 const routes: Routes = [
   {
@@ -456,6 +458,8 @@ const routes: Routes = [
       useFactory: SidebarMarkersService._,
     },
     HorizontalFeedService,
+    ApiService,
+    AttachmentApiService,
   ],
   entryComponents: [
     NotificationsToasterComponent,
