@@ -21,13 +21,13 @@ export class TagsPipe implements PipeTransform {
     url: {
       rule: this.tagsService.getRegex('url'),
       replace: m => {
-        return `<a href="${m.match[1]}" target="_blank" rel="noopener noreferrer">${m.match[1]}</a>`;
+        return `<a href="${m.match[1]}" target="_blank" rel="noopener nofollow ugc">${m.match[1]}</a>`;
       },
     },
     mail: {
       rule: this.tagsService.getRegex('mail'),
       replace: m => {
-        return `<a href="mailto:${m.match[0]}" target="_blank" rel="noopener noreferrer">${m.match[0]}</a>`;
+        return `<a href="mailto:${m.match[0]}" target="_blank" rel="noopener nofollow ugc">${m.match[0]}</a>`;
       },
     },
     hash: {
