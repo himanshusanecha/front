@@ -116,6 +116,7 @@ export interface MindsUser {
     has_custom_background?: boolean;
   };
   mode: ChannelMode;
+  nsfw: Array<number>;
 }
 
 export interface MindsGroup {
