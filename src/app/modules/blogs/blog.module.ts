@@ -22,8 +22,6 @@ import { CommentsModule } from '../comments/comments.module';
 import { HashtagsModule } from '../hashtags/hashtags.module';
 import { CanDeactivateGuardService } from '../../services/can-deactivate-guard';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-
-import { BlogEditComponent } from './ckeditor/edit/edit.component';
 import { BlogEditorComponent } from './ckeditor/editor/editor.component';
 
 const routes: Routes = [
@@ -67,7 +65,6 @@ const routes: Routes = [
     BlogListComponent,
     BlogTileComponent,
     BlogEditorComponent,
-    BlogEditComponent,
   ],
   exports: [
     BlogView,
@@ -77,7 +74,6 @@ const routes: Routes = [
     BlogListComponent,
     BlogTileComponent,
     BlogEditorComponent,
-    BlogEditComponent,
   ],
   entryComponents: [BlogCard],
 })

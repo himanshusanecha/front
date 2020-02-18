@@ -176,13 +176,6 @@ export class BlogView implements OnInit, OnDestroy {
   menuOptionSelected(option: string) {
     switch (option) {
       case 'edit':
-        // if (
-        //   this.featuresService.has('ckeditor5') &&
-        //   Number(this.blog.editor_version) === 2
-        // ) {
-        //   this.router.navigate(['/blog-v2/edit', this.blog.guid]);
-        //   break;
-        // }
         this.router.navigate(['/blog/edit', this.blog.guid]);
         break;
       case 'delete':
