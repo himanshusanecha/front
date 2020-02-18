@@ -1,4 +1,4 @@
-<div class="mdl-tabs__tab-bar">
+<div class="mdl-tabs__tab-bar" *ngIf="showTabs">
   <a
     (click)="changeFilter('all')"
     class="mdl-tabs__tab"
@@ -124,7 +124,8 @@
   <div class="mdl-cell mdl-cell--12-col">
     <minds-notification
       *ngFor="let notification of notifications"
-      class="mdl-card mdl-shadow--2dp item"
+      class="mdl-card item"
+      [class.mdl-shadow--2dp]="showShadows"
       [notification]="notification"
     ></minds-notification>
 
@@ -134,7 +135,7 @@
       [moreData]="moreData"
       [scrollSource]="useOwnScrollSource ? notificationGrid : null"
       [inProgress]="inProgress"
-      *ngIf="visible"
+      *ngIf="visible && showInfiniteScroll"
     >
     </infinite-scroll>
   </div>

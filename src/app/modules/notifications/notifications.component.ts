@@ -19,6 +19,9 @@ export class NotificationsComponent {
   @Input() count: number;
   @Input() loadOnDemand: boolean;
   @Input() useOwnScrollSource: boolean;
+  @Input() showTabs: boolean = true;
+  @Input() showShadows: boolean = true;
+  @Input() showInfiniteScroll: boolean = true;
   @ViewChild('notificationGrid', { static: true }) notificationList: ElementRef;
   notifications: Array<Object> = [];
   entity;

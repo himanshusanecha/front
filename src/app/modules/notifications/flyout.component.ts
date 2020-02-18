@@ -8,6 +8,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { NotificationsComponent } from './notifications.component';
+import { FeaturesService } from '../../services/features.service';
 
 @Component({
   moduleId: module.id,
@@ -19,6 +20,12 @@ export class NotificationsFlyoutComponent {
   @Output('close') closeEvt: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('notifications', { static: true }) notificationList: any;
+
+  newNavigation: boolean = false;
+
+  constructor(private featuresService: FeaturesService) {
+    this.newNavigation = this.featuresService.has('navigation');
+  }
 
   close() {
     this.closeEvt.emit(true);
