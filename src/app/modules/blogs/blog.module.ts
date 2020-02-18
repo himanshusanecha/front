@@ -21,7 +21,8 @@ import { WireModule } from '../wire/wire.module';
 import { CommentsModule } from '../comments/comments.module';
 import { HashtagsModule } from '../hashtags/hashtags.module';
 import { CanDeactivateGuardService } from '../../services/can-deactivate-guard';
-const CKEditorModule = require('@ckeditor/ckeditor5-angular');
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 import { BlogEditComponent } from './ckeditor/edit/edit.component';
 import { BlogEditorComponent } from './ckeditor/editor/editor.component';
 

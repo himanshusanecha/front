@@ -240,50 +240,50 @@ export class BlogEdit {
 
     this.error = '';
 
-    this.inlineEditor.prepareForSave().then(() => {
-      const blog = Object.assign({}, this.blog);
+    // this.inlineEditor.prepareForSave().then(() => {
+    const blog = Object.assign({}, this.blog);
 
-      // only allowed props
-      blog.nsfw = this.blog.nsfw;
-      blog.mature = blog.mature ? 1 : 0;
-      blog.monetization = blog.monetization ? 1 : 0;
-      blog.monetized = blog.monetized ? 1 : 0;
-      blog.time_created = blog.time_created || Math.floor(Date.now() / 1000);
+    // only allowed props
+    blog.nsfw = this.blog.nsfw;
+    blog.mature = blog.mature ? 1 : 0;
+    blog.monetization = blog.monetization ? 1 : 0;
+    blog.monetized = blog.monetized ? 1 : 0;
+    blog.time_created = blog.time_created || Math.floor(Date.now() / 1000);
 
-      this.editing = false;
-      this.inProgress = true;
-      this.canSave = false;
-      this.check_for_banner()
-        .then(() => {
-          this.upload
-            .post('api/v1/blog/' + this.guid, [this.banner], blog)
-            .then((response: any) => {
-              this.inProgress = false;
-              this.canSave = true;
-              this.blog.time_created = null;
+    this.editing = false;
+    this.inProgress = true;
+    this.canSave = false;
+    this.check_for_banner()
+      .then(() => {
+        this.upload
+          .post('api/v1/blog/' + this.guid, [this.banner], blog)
+          .then((response: any) => {
+            this.inProgress = false;
+            this.canSave = true;
+            this.blog.time_created = null;
 
-              if (response.status !== 'success') {
-                this.error = response.message;
-                return;
-              }
-              this.router.navigate(
-                response.route
-                  ? ['/' + response.route]
-                  : ['/blog/view', response.guid]
-              );
-            })
-            .catch(e => {
-              this.error = e;
-              this.canSave = true;
-              this.inProgress = false;
-            });
-        })
-        .catch(() => {
-          this.error = 'error:no-banner';
-          this.inProgress = false;
-          this.canSave = true;
-        });
-    });
+            if (response.status !== 'success') {
+              this.error = response.message;
+              return;
+            }
+            this.router.navigate(
+              response.route
+                ? ['/' + response.route]
+                : ['/blog/view', response.guid]
+            );
+          })
+          .catch(e => {
+            this.error = e;
+            this.canSave = true;
+            this.inProgress = false;
+          });
+      })
+      .catch(() => {
+        this.error = 'error:no-banner';
+        this.inProgress = false;
+        this.canSave = true;
+      });
+    // });
   }
 
   add_banner(banner: any) {

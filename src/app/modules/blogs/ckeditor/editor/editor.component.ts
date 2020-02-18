@@ -11,9 +11,9 @@ import {
   Inject,
   PLATFORM_ID,
 } from '@angular/core';
-const CKEditorModule = require('@ckeditor/ckeditor5-angular');
 import { isPlatformBrowser } from '@angular/common';
 import { isPlatformServer } from '@angular/common';
+declare var require: any;
 
 @Component({
   selector: 'm-blog__editor',
@@ -56,9 +56,9 @@ export class BlogEditorComponent {
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       // only executed on the browser side
-      const BalloonEditor = require('@ckeditor/ckeditor5-build-balloon');
-      this.Editor = BalloonEditor;
-      this.Editor.defaultConfig = this.editorConfig;
+      const ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
+      this.Editor = ClassicEditor;
+      // this.Editor.defaultConfig = this.editorConfig;
     }
     if (isPlatformServer(this.platformId)) {
       // only executed on the server side
