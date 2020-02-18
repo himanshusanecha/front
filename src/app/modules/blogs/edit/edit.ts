@@ -240,7 +240,6 @@ export class BlogEdit {
 
     this.error = '';
 
-    // this.inlineEditor.prepareForSave().then(() => {
     const blog = Object.assign({}, this.blog);
 
     // only allowed props
@@ -283,7 +282,6 @@ export class BlogEdit {
         this.inProgress = false;
         this.canSave = true;
       });
-    // });
   }
 
   add_banner(banner: any) {

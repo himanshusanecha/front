@@ -26,7 +26,7 @@ export class BlogEditorComponent {
   @Input() content: string;
   @Output() contentChanged: EventEmitter<Event> = new EventEmitter<Event>();
 
-  Editor;
+  Editor: any;
 
   // TODO: Manually adjust configuration when custom built.
   editorConfig: Object = {
@@ -58,10 +58,6 @@ export class BlogEditorComponent {
       // only executed on the browser side
       const ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
       this.Editor = ClassicEditor;
-      // this.Editor.defaultConfig = this.editorConfig;
-    }
-    if (isPlatformServer(this.platformId)) {
-      // only executed on the server side
     }
   }
 

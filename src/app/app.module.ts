@@ -65,6 +65,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProModule } from './modules/pro/pro.module';
 import { ChannelContainerModule } from './modules/channel-container/channel-container.module';
 import { UpgradesModule } from './modules/upgrades/upgrades.module';
+
 import * as Sentry from '@sentry/browser';
 import { CookieModule } from '@gorniv/ngx-universal';
 import { HomepageModule } from './modules/homepage/homepage.module';
