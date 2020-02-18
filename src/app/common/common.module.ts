@@ -118,9 +118,6 @@ import { MarketingFooterComponent } from './components/marketing/footer.componen
 import { ToggleComponent } from './components/toggle/toggle.component';
 import { MarketingAsFeaturedInComponent } from './components/marketing/as-featured-in.component';
 import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.component';
-import { ChartV2Component } from './components/chart-v2/chart-v2.component';
-//import * as PlotlyJS from 'plotly.js/dist/plotly.js';
-import { PlotlyModule } from 'angular-plotly.js';
 import { PageLayoutComponent } from './components/page-layout/page-layout.component';
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
 import { ShadowboxLayoutComponent } from './components/shadowbox-layout/shadowbox-layout.component';
@@ -144,6 +141,7 @@ import { MediaProxyService } from './services/media-proxy.service';
 import { HorizontalFeedService } from './services/horizontal-feed.service';
 import { FormInputCheckboxComponent } from './components/forms/checkbox/checkbox.component';
 import { AttachmentPasteDirective } from './directives/paste/attachment-paste.directive';
+import { RedirectService } from './services/redirect.service';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { IconComponent } from './components/icon/icon.component';
 import { ButtonComponent } from './components/button-v2/button.component';
@@ -163,7 +161,6 @@ const routes: Routes = [
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    PlotlyModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     RouterModule.forChild(routes),
@@ -263,7 +260,6 @@ const routes: Routes = [
     MarketingFooterComponent,
     MarketingAsFeaturedInComponent,
     SidebarMenuComponent,
-    ChartV2Component,
     PageLayoutComponent,
     DashboardLayoutComponent,
     ShadowboxLayoutComponent,
@@ -371,7 +367,6 @@ const routes: Routes = [
     MarketingComponent,
     MarketingAsFeaturedInComponent,
     SidebarMenuComponent,
-    ChartV2Component,
     PageLayoutComponent,
     DashboardLayoutComponent,
     ShadowboxLayoutComponent,
@@ -444,28 +439,16 @@ const routes: Routes = [
     },
     {
       provide: ConfigsService,
-      useFactory: (client, injector) =>
-        new ConfigsService(client, injector.get('QUERY_STRING')),
-      deps: [Client, Injector],
-    },
-    {
-      provide: MetaService,
-      useFactory: (
-        titleService,
-        metaService,
-        siteService,
-        location,
-        configsService
-      ) =>
-        new MetaService(
-          titleService,
-          metaService,
-          siteService,
-          location,
-          configsService
+      useFactory: (client, injector, redirect, location) =>
+        new ConfigsService(
+          client,
+          injector.get('QUERY_STRING'),
+          redirect,
+          location
         ),
-      deps: [Title, Meta, SiteService, Location, ConfigsService],
+      deps: [Client, Injector, RedirectService, Location],
     },
+    MetaService,
     MediaProxyService,
     V2TopbarService,
     {
