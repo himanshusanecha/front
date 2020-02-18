@@ -144,6 +144,7 @@ import { MediaProxyService } from './services/media-proxy.service';
 import { HorizontalFeedService } from './services/horizontal-feed.service';
 import { FormInputCheckboxComponent } from './components/forms/checkbox/checkbox.component';
 import { AttachmentPasteDirective } from './directives/paste/attachment-paste.directive';
+import { RedirectService } from './services/redirect.service';
 
 const routes: Routes = [
   {
@@ -432,28 +433,16 @@ const routes: Routes = [
     },
     {
       provide: ConfigsService,
-      useFactory: (client, injector) =>
-        new ConfigsService(client, injector.get('QUERY_STRING')),
-      deps: [Client, Injector],
-    },
-    {
-      provide: MetaService,
-      useFactory: (
-        titleService,
-        metaService,
-        siteService,
-        location,
-        configsService
-      ) =>
-        new MetaService(
-          titleService,
-          metaService,
-          siteService,
-          location,
-          configsService
+      useFactory: (client, injector, redirect, location) =>
+        new ConfigsService(
+          client,
+          injector.get('QUERY_STRING'),
+          redirect,
+          location
         ),
-      deps: [Title, Meta, SiteService, Location, ConfigsService],
+      deps: [Client, Injector, RedirectService, Location],
     },
+    MetaService,
     MediaProxyService,
     V2TopbarService,
     {

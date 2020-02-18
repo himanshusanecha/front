@@ -120,13 +120,13 @@ const cache = () => {
       (isMobileOrTablet() ? '/mobile' : '/desktop');
     const exists = myCache.has(key);
     if (exists) {
-      console.log(`from cache: ${key}`);
       const cachedBody = myCache.get(key);
       res.send(cachedBody);
       return;
     } else {
       res.sendResponse = res.send;
       res.send = body => {
+        if (res.finished) return;
         myCache.set(key, body);
         res.sendResponse(body);
       };
@@ -135,8 +135,8 @@ const cache = () => {
   };
 };
 
-app.get('node-cache-stats', (req, res) => {
-  res.sendResponse(myCache.getStats());
+app.get('/node-cache-stats', (req, res) => {
+  res.send(myCache.getStats());
 });
 
 // All regular routes use the Universal engine
@@ -205,3 +205,5 @@ app.get('*', cache(), (req, res) => {
 app.listen(PORT, () => {
   console.log(`Node server listening on http://localhost:${PORT}`);
 });
+
+app.keepAliveTimeout = 65000;
