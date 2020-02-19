@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   ViewChild,
+  HostBinding,
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -21,6 +22,7 @@ export class NotificationsFlyoutComponent {
 
   @ViewChild('notifications', { static: true }) notificationList: any;
 
+  @HostBinding('class.m-notificationsFlyout__newDesign')
   newNavigation: boolean = false;
 
   constructor(private featuresService: FeaturesService) {

@@ -118,6 +118,7 @@
 </div>
 <div
   class="mdl-grid notifications-grid"
+  [class.m-notificationsGrid__noScroll]="!showInfiniteScroll"
   #notificationGrid
   style="max-width:600px"
 >
@@ -127,6 +128,7 @@
       class="mdl-card item"
       [class.mdl-shadow--2dp]="showShadows"
       [notification]="notification"
+      [showElapsedTime]="showElapsedTime"
     ></minds-notification>
 
     <infinite-scroll

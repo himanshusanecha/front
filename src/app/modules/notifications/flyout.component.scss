@@ -14,6 +14,41 @@ m-notifications--flyout {
     right: -80px;
   }
 
+  &.m-notificationsFlyout__newDesign {
+    minds-notifications {
+      .notifications-grid {
+        &.m-notificationsGrid__noScroll {
+          overflow-y: auto;
+        }
+
+        .mdl-cell--12-col minds-notification {
+          .body {
+            a {
+              @include m-theme() {
+                color: themed($m-textColor--primary);
+              }
+              .pseudo-link {
+                @include m-theme() {
+                  color: themed($m-link) !important;
+                }
+              }
+            }
+
+            .ts.m-notification__friendlyTS {
+              text-transform: unset;
+              font-size: 12px;
+              letter-spacing: 0;
+
+              @include m-theme() {
+                color: themed($m-textColor--secondary);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   minds-notifications {
     .mdl-tabs__tab-bar {
       height: 40px;

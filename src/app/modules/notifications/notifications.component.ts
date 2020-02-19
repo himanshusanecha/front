@@ -1,4 +1,11 @@
-import { Component, Input, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  ElementRef,
+  ViewChild,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
@@ -13,7 +20,7 @@ import { InfiniteScroll } from '../../common/components/infinite-scroll/infinite
   selector: 'minds-notifications',
   templateUrl: 'notifications.component.html',
 })
-export class NotificationsComponent {
+export class NotificationsComponent implements OnInit, OnDestroy {
   @Input() visible: boolean = true;
   @Input() params: any;
   @Input() count: number;
@@ -22,6 +29,8 @@ export class NotificationsComponent {
   @Input() showTabs: boolean = true;
   @Input() showShadows: boolean = true;
   @Input() showInfiniteScroll: boolean = true;
+  @Input() showElapsedTime: boolean = false;
+  @Input() limit: number = 12;
   @ViewChild('notificationGrid', { static: true }) notificationList: ElementRef;
   notifications: Array<Object> = [];
   entity;
@@ -94,7 +103,7 @@ export class NotificationsComponent {
 
     this.client
       .get(`api/v1/notifications/${this._filter}`, {
-        limit: 12,
+        limit: this.limit,
         offset: this.offset,
       })
       .then((data: any) => {
