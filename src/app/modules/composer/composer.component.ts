@@ -22,50 +22,101 @@ export class ComposerComponent implements OnInit, OnDestroy {
 
   constructor(public service: ComposerService) {}
 
+  get message$() {
+    return this.service.message$;
+  }
+
+  set message(message: string) {
+    this.service.message$.next(message);
+  }
+
+  get attachment$() {
+    return this.service.attachment$;
+  }
+
+  set attachment(attachment: File | null) {
+    this.service.attachment$.next(attachment);
+  }
+
+  get nsfw$() {
+    return this.service.nsfw$;
+  }
+
+  set nsfw(nsfw: number[]) {
+    this.service.nsfw$.next(nsfw);
+  }
+
+  get monetization$() {
+    return this.service.monetization$;
+  }
+
+  set monetization(monetization: any) {
+    this.service.monetization$.next(monetization);
+  }
+
+  get tags$() {
+    return this.service.tags$;
+  }
+
+  set tags(tags: string[]) {
+    this.service.tags$.next(tags);
+  }
+
+  get scheduler$() {
+    return this.service.scheduler$;
+  }
+
+  set scheduler(scheduler: any) {
+    this.service.scheduler$.next(scheduler);
+  }
+
+  get inProgress$() {
+    return this.service.inProgress$;
+  }
+
+  get progress$() {
+    return this.service.progress$;
+  }
+
   ngOnInit(): void {
     // TODO: Initialize based on bindings
 
-    this.service.message$.next('');
-    this.service.attachment$.next(null);
-    this.service.nsfw$.next(null);
-    this.service.monetization$.next(null);
-    this.service.scheduler$.next(null);
+    this.message = '';
+    this.attachment = null;
+    this.nsfw = null;
+    this.monetization = null;
+    this.scheduler = null;
   }
 
   ngOnDestroy(): void {
     // TODO: Destroy subscriptions, if any
-    // TODO: GC, if needed (delete unused attachment, e.g.)
+    // TODO: Delete unused attachment
   }
 
-  setMessage(message: string) {
-    this.service.message$.next(message);
+  onMessageChange(message: string) {
+    this.message = message;
   }
 
-  onAttachmentSelect(file) {
-    console.log(file);
-    this.service.attachment$.next(file);
+  onAttachmentSelect(file: File | null): void {
+    if (!file) {
+      return;
+    }
+
+    this.attachment = file;
   }
 
-  onNsfwClick(event: MouseEvent) {
-    // TODO: Set NSFW flags
-    this.service.nsfw$.next([+Date.now()]);
-  }
+  onDeleteAttachment(): void {
+    // TODO: Use themed async modals
+    if (!confirm('Are you sure?')) {
+      return;
+    }
 
-  onMonetizationClick(event: MouseEvent) {
-    // TODO: Set Monetization attributes
-    this.service.monetization$.next({ monetization: +Date.now() });
+    // TODO: Delete unused attachment
+    this.attachment = null;
   }
+  async onPost(event: ButtonComponentAction) {
+    // TODO: Check event.type, etc
 
-  onTagsClick(event: MouseEvent) {
-    this.service.alterMessageTags(/* Tags */);
-  }
-
-  onSchedulerClick() {
-    // TODO: Set Scheduler attributes
-    this.service.scheduler$.next({ scheduler: +Date.now() });
-  }
-
-  async onPost($event: ButtonComponentAction) {
     try {
       const response = await this.service.post();
     } catch (e) {

@@ -1,0 +1,49 @@
+<div class="m-composer__toolbar">
+  <m-file-upload
+    [hidden]="attachment || inProgress"
+    wrapperClass="m-composerToolbar__item"
+    accept="image/*,video/*"
+    (onSelect)="onAttachmentSelect($event)"
+  >
+    <m-icon from="ion" iconId="image"></m-icon>
+    <span i18n>Upload</span>
+  </m-file-upload>
+  <a
+    *ngIf="attachment || inProgress"
+    class="m-composerToolbar__item m-composerToolbar__item--active"
+    (click)="onDeleteAttachmentClick($event)"
+  >
+    <m-icon iconId="delete_forever"></m-icon>
+    <span i18n>Media</span>
+  </a>
+
+  <a class="m-composerToolbar__item" (click)="onNsfwClick($event)">
+    <m-icon iconId="explicit"></m-icon>
+    <span i18n>NSFW</span>
+  </a>
+
+  <a class="m-composerToolbar__item" (click)="onMonetizationClick($event)">
+    <m-icon from="ion" iconId="cash"></m-icon>
+    <span i18n>Monetize</span>
+  </a>
+
+  <a class="m-composerToolbar__item" (click)="onTagsClick($event)">
+    <m-icon from="ion" iconId="pound"></m-icon>
+    <span i18n>Tags</span>
+  </a>
+
+  <m-button
+    class="m-composerToolbar__item m-composerToolbarItem--container"
+    [disabled]="inProgress"
+    [dropdown]="postButtonDropdown"
+    (onAction)="onPost($event)"
+    i18n
+  >
+    Post
+  </m-button>
+  <ng-template #postButtonDropdown>
+    <ul class="m-composerPost__dropdown">
+      <li (click)="onSchedulerClick()">Set time and date</li>
+    </ul>
+  </ng-template>
+</div>

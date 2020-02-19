@@ -16,56 +16,17 @@
         i18n-placeholder
         [id]="id"
         (focus)="popOut()"
-        [ngModel]="service.message$ | async"
-        (ngModelChange)="setMessage($event)"
+        [ngModel]="message$ | async"
+        (ngModelChange)="onMessageChange($event)"
       ></textarea>
     </div>
 
-    <div class="m-composer__toolBar">
-      <m-file-upload
-        wrapperClass="m-composerToolbar__item"
-        accept="image/*,video/*"
-        (onSelect)="onAttachmentSelect($event)"
-      >
-        <m-icon from="ion" iconId="image"></m-icon>
-        <span i18n>Upload</span>
-      </m-file-upload>
-
-      <!-- onNsfwClick($event -->
-      <a class="m-composerToolbar__item" (click)="onNsfwClick($event)">
-        <m-icon iconId="explicit"></m-icon>
-        <span i18n>NSFW</span>
-      </a>
-
-      <a class="m-composerToolbar__item" (click)="onMonetizationClick($event)">
-        <m-icon from="ion" iconId="cash"></m-icon>
-        <span i18n>Monetize</span>
-      </a>
-
-      <a class="m-composerToolbar__item" (click)="onTagsClick($event)">
-        <m-icon from="ion" iconId="pound"></m-icon>
-        <span i18n>Tags</span>
-      </a>
-
-      <m-button
-        class="m-composerToolbar__item m-composerToolbarItem--container"
-        [dropdown]="postButtonDropdown"
-        (onAction)="onPost($event)"
-        i18n
-      >
-        Post
-      </m-button>
-      <ng-template #postButtonDropdown>
-        <ul class="m-composerPost__dropdown">
-          <li (click)="onSchedulerClick()">Set time and date</li>
-        </ul>
-      </ng-template>
-    </div>
+    <m-composer__toolbar
+      [attachment]="attachment$ | async"
+      [inProgress]="inProgress$ | async"
+      (onAttachmentSelect)="onAttachmentSelect($event)"
+      (onDeleteAttachment)="onDeleteAttachment()"
+      (onPost)="onPost($event)"
+    ></m-composer__toolbar>
   </div>
 </div>
-
-<pre style="font-size: 13px">
-  Progress: {{ service.progress$ | async }}
-  In Progress: {{ service.inProgress$ | async }}
-  Data: {{ service.dataStream$ | async | json }}
-</pre>

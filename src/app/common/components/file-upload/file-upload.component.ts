@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { UniqueId } from '../../../helpers/unique-id.helper';
 
-export type FileUploadSelectEvent = File | File[];
+export type FileUploadSelectEvent = File | File[] | null;
 
 @Component({
   selector: 'm-file-upload',

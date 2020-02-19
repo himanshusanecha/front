@@ -7,27 +7,56 @@ import {
   UploadEventType,
 } from '../../common/api/attachment-api.service';
 
+export type MessageSubjectValue = string;
+
+export type AttachmentSubjectValue = File | null;
+
+export type NsfwSubjectValue = Array<number>;
+
+export type MonetizationSubjectValue = any;
+
+export type TagsSubjectValue = Array<string>;
+
+export type SchedulerSubjectValue = any;
+
 @Injectable()
 export class ComposerService implements OnDestroy {
-  // TODO: TYPES!!!
-  readonly message$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  readonly attachment$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  readonly nsfw$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  readonly monetization$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  readonly scheduler$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  readonly message$: BehaviorSubject<MessageSubjectValue> = new BehaviorSubject<
+    MessageSubjectValue
+  >('');
+
+  readonly attachment$: BehaviorSubject<
+    AttachmentSubjectValue
+  > = new BehaviorSubject<AttachmentSubjectValue>(null);
+
+  readonly nsfw$: BehaviorSubject<NsfwSubjectValue> = new BehaviorSubject<
+    NsfwSubjectValue
+  >([]);
+
+  readonly monetization$: BehaviorSubject<
+    MonetizationSubjectValue
+  > = new BehaviorSubject<MonetizationSubjectValue>(null);
+
+  readonly tags$: BehaviorSubject<TagsSubjectValue> = new BehaviorSubject<
+    TagsSubjectValue
+  >([]);
+
+  readonly scheduler$: BehaviorSubject<
+    SchedulerSubjectValue
+  > = new BehaviorSubject<SchedulerSubjectValue>(null);
 
   readonly inProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
+
   readonly progress$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  readonly dataStream$: Observable<any>;
-
-  protected readonly dataStreamSubscription: Subscription;
   protected data: any = null;
 
+  protected readonly dataStreamSubscription: Subscription;
+
   constructor(protected attachmentApi: AttachmentApiService) {
-    this.dataStream$ = combineLatest([
+    this.dataStreamSubscription = combineLatest([
       this.message$,
       this.attachment$.pipe(
         map(file =>
@@ -40,20 +69,20 @@ export class ComposerService implements OnDestroy {
       ),
       this.nsfw$,
       this.monetization$,
+      this.tags$,
       this.scheduler$,
-    ]).pipe(
-      map(([message, attachment, nsfw, monetization, scheduler]) => ({
-        message,
-        attachment,
-        nsfw,
-        monetization,
-        scheduler,
-      }))
-    );
-
-    this.dataStreamSubscription = this.dataStream$.subscribe(
-      data => (this.data = data)
-    );
+    ])
+      .pipe(
+        map(([message, attachment, nsfw, monetization, tags, scheduler]) => ({
+          message,
+          attachment,
+          nsfw,
+          monetization,
+          tags,
+          scheduler,
+        }))
+      )
+      .subscribe(data => (this.data = data));
   }
 
   ngOnDestroy(): void {
@@ -81,13 +110,6 @@ export class ComposerService implements OnDestroy {
     }
   }
 
-  alterMessageTags() {
-    // TODO: Parse message to add and delete passed tags
-    this.message$.next(
-      `${this.message$.getValue() || ''} #tag${+Date.now()}`.trim()
-    );
-  }
-
   async post(): Promise<any> {
     // TODO: Return type!
 
@@ -95,11 +117,3 @@ export class ComposerService implements OnDestroy {
     console.log(this.data);
   }
 }
-
-/*
-    <pre>
-      Progress: {{ service.progress$ | async }}
-      In Progress: {{ service.inProgress$ | async }}
-      Data: {{ service.dataStream$ | async | json }}
-    </pre>
-*/
