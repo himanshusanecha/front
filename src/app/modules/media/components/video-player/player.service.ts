@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Client } from '../../../../services/api';
 import isMobile from '../../../../helpers/is-mobile';
+import { Session } from '../../../../services/session';
 
 export type VideoSource = {
   id: string;
@@ -44,7 +45,7 @@ export class VideoPlayerService {
    */
   isModal = false;
 
-  constructor(private client: Client) {}
+  constructor(private client: Client, private session: Session) {}
 
   /**
    * Set the guid that we are interacting with
@@ -99,7 +100,10 @@ export class VideoPlayerService {
    * @return boolean
    */
   isPlayable(): boolean {
+    const user = this.session.getLoggedInUser();
+
     return (
+      (user.plus && user.autoplay_videos) ||
       this.isModal || // Always playable in modal
       !this.shouldPlayInModal || // Equivalent of asking to play inline
       (this.canPlayInModal() && !this.isModal)

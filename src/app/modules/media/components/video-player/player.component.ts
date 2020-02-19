@@ -1,29 +1,29 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
+  EventEmitter,
+  Inject,
+  Input,
   OnDestroy,
   OnInit,
-  Input,
-  ViewChild,
   Output,
-  EventEmitter,
-  ChangeDetectorRef,
-  Inject,
   PLATFORM_ID,
-  AfterViewInit,
+  ViewChild,
 } from '@angular/core';
 import { PLAYER_ANIMATIONS } from './player.animations';
-import { VideoPlayerService, VideoSource } from './player.service';
-import isMobile from '../../../../helpers/is-mobile';
+import { VideoPlayerService } from './player.service';
 import Plyr from 'plyr';
 import { PlyrComponent } from 'ngx-plyr';
 import { isPlatformBrowser } from '@angular/common';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { Session } from '../../../../services/session';
 
 @Component({
   selector: 'm-videoPlayer',
   templateUrl: 'player.component.html',
   animations: PLAYER_ANIMATIONS,
-  providers: [VideoPlayerService],
+  providers: [VideoPlayerService, Session],
 })
 export class MindsVideoPlayerComponent
   implements OnInit, OnDestroy, AfterViewInit {
@@ -46,7 +46,13 @@ export class MindsVideoPlayerComponent
   /**
    * This is the video player component
    */
-  @ViewChild(PlyrComponent, { static: false }) player: PlyrComponent;
+  player: PlyrComponent;
+
+  @ViewChild(PlyrComponent, { static: false }) set _player(
+    player: PlyrComponent
+  ) {
+    this.player = player;
+  }
 
   /**
    * BehaviorSubject holding autoplay value

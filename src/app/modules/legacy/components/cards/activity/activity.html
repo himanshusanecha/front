@@ -302,7 +302,9 @@
       [guid]="activity.entity_guid"
       [shouldPlayInModal]="true"
       [autoplay]="false"
+      (click)="userPlay()"
       (mediaModalRequested)="openModal()"
+      #player
     ></m-videoPlayer>
   </div>
 
@@ -401,7 +403,7 @@
   ></m-wire-button>
   <button
     class="m-btn m-btn--action m-btn--slim minds-boost-button"
-    *ngIf="session.getLoggedInUser().guid == activity.owner_guid 
+    *ngIf="session.getLoggedInUser().guid == activity.owner_guid
       && !isScheduled(activity.time_created)"
     id="boost-actions"
     (click)="showBoost()"
