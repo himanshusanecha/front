@@ -142,6 +142,7 @@ import { HorizontalFeedService } from './services/horizontal-feed.service';
 import { FormInputCheckboxComponent } from './components/forms/checkbox/checkbox.component';
 import { AttachmentPasteDirective } from './directives/paste/attachment-paste.directive';
 import { TagsService } from './services/tags.service';
+import { ExplicitOverlayComponent } from './components/explicit-overlay/overlay.component';
 import { RedirectService } from './services/redirect.service';
 
 const routes: Routes = [
@@ -268,6 +269,7 @@ const routes: Routes = [
     EmailConfirmationComponent,
     DateDropdownsComponent,
     FormInputCheckboxComponent,
+    ExplicitOverlayComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -370,6 +372,7 @@ const routes: Routes = [
     EmailConfirmationComponent,
     DateDropdownsComponent,
     FormInputCheckboxComponent,
+    ExplicitOverlayComponent,
   ],
   providers: [
     SiteService,
