@@ -33,33 +33,34 @@ export class ComposerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // TODO: Destroy subscriptions
-    // TODO: GC
+    // TODO: Destroy subscriptions, if any
+    // TODO: GC, if needed (delete unused attachment, e.g.)
   }
 
   setMessage(message: string) {
     this.service.message$.next(message);
   }
 
-  setAttachment(file) {
+  onAttachmentSelect(file) {
+    console.log(file);
     this.service.attachment$.next(file);
   }
 
-  setNsfw() {
+  onNsfwClick(event: MouseEvent) {
     // TODO: Set NSFW flags
     this.service.nsfw$.next([+Date.now()]);
   }
 
-  setMonetization() {
+  onMonetizationClick(event: MouseEvent) {
     // TODO: Set Monetization attributes
     this.service.monetization$.next({ monetization: +Date.now() });
   }
 
-  setTags() {
+  onTagsClick(event: MouseEvent) {
     this.service.alterMessageTags(/* Tags */);
   }
 
-  setScheduler() {
+  onSchedulerClick() {
     // TODO: Set Scheduler attributes
     this.service.scheduler$.next({ scheduler: +Date.now() });
   }
@@ -77,5 +78,3 @@ export class ComposerComponent implements OnInit, OnDestroy {
     // this.poppedOut = true;
   }
 }
-
-// use combineLatest with

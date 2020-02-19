@@ -25,25 +25,26 @@
       <m-file-upload
         wrapperClass="m-composerToolbar__item"
         accept="image/*,video/*"
-        (onSelect)="setAttachment($event)"
+        (onSelect)="onAttachmentSelect($event)"
       >
         <m-icon from="ion" iconId="image"></m-icon>
         <span i18n>Upload</span>
       </m-file-upload>
 
-      <a class="m-composerToolbar__item" (click)="setNsfw()">
+      <!-- onNsfwClick($event -->
+      <a class="m-composerToolbar__item" (click)="onNsfwClick($event)">
         <m-icon iconId="explicit"></m-icon>
         <span i18n>NSFW</span>
       </a>
 
-      <a class="m-composerToolbar__item" (click)="setMonetization()">
+      <a class="m-composerToolbar__item" (click)="onMonetizationClick($event)">
         <m-icon from="ion" iconId="cash"></m-icon>
         <span i18n>Monetize</span>
       </a>
 
-      <a class="m-composerToolbar__item" (click)="setTags()">
+      <a class="m-composerToolbar__item" (click)="onTagsClick($event)">
         <m-icon from="ion" iconId="pound"></m-icon>
-        <span i18n>Tag</span>
+        <span i18n>Tags</span>
       </a>
 
       <m-button
@@ -56,9 +57,15 @@
       </m-button>
       <ng-template #postButtonDropdown>
         <ul class="m-composerPost__dropdown">
-          <li (click)="setScheduler()">Set time and date</li>
+          <li (click)="onSchedulerClick()">Set time and date</li>
         </ul>
       </ng-template>
     </div>
   </div>
 </div>
+
+<pre style="font-size: 13px">
+  Progress: {{ service.progress$ | async }}
+  In Progress: {{ service.inProgress$ | async }}
+  Data: {{ service.dataStream$ | async | json }}
+</pre>
