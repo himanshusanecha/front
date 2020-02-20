@@ -34,7 +34,7 @@ export class SignupModal {
   get logo() {
     return this.site.isProDomain
       ? `${this.configs.get('cdn_url')}fs/v1/thumbnail/${
-          this.site.pro.logo_guid
+          this.site.pro.user_guid
         }/master`
       : `${this.configs.get('cdn_assets_url')}assets/logos/logo.svg`;
   }
