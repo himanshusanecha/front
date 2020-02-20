@@ -14,7 +14,6 @@ import {
 import { PLAYER_ANIMATIONS } from './player.animations';
 import { VideoPlayerService, VideoSource } from './player.service';
 import isMobile from '../../../../helpers/is-mobile';
-import Plyr from 'plyr';
 import { PlyrComponent } from 'ngx-plyr';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';

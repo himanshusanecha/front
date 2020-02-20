@@ -1,5 +1,8 @@
 <div class="m-proChannelFooter">
   <div class="m-proChannelFooter__items">
+    <a class="m-proChannelFooter__link" (click)="onMessageClicked()" i18n-title>
+      Message
+    </a>
     <a
       *ngFor="let link of footerLinks"
       class="m-proChannelFooter__link"

@@ -2,6 +2,7 @@ import { Storage } from '../../../services/storage';
 import { Session } from '../../../services/session';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { MindsUser } from '../../../interfaces/entities';
 
 export class MessengerConversationDockpanesService {
   conversations: Array<any> = [];
@@ -106,5 +107,21 @@ export class MessengerConversationDockpanesService {
     if (user === null) {
       this.conversations = [];
     }
+  }
+
+  public buildConversation(
+    user: MindsUser
+  ): { guid: string; participants: MindsUser[]; open: boolean } {
+    return {
+      guid: this.permutate(user),
+      participants: [user],
+      open: true,
+    };
+  }
+
+  private permutate(user: MindsUser): string {
+    let participants = [user.guid, this.session.getLoggedInUser().guid];
+    participants.sort((a, b) => (a < b ? -1 : 1));
+    return participants.join(':');
   }
 }

@@ -28,7 +28,7 @@ export class MessengerChannelButton {
 
   chat() {
     let conversation = this.buildConversation();
-    this.dockpanes.open(conversation);
+    this.dockpanes.open(this.dockpanes.buildConversation(this.user));
   }
 
   private buildConversation() {

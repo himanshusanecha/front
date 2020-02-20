@@ -3,6 +3,7 @@ import { ProChannelService } from '../channel.service';
 import { Session } from '../../../../services/session';
 import { AuthService } from '../../../../services/auth.service';
 import { SiteService } from '../../../../common/services/site.service';
+import { MessengerConversationDockpanesService } from '../../../messenger/dockpanes/dockpanes.service';
 import {
   getSocialProfileMeta,
   socialProfileMeta,
@@ -19,7 +20,8 @@ export class ProChannelFooterComponent {
     protected channelService: ProChannelService,
     protected session: Session,
     protected auth: AuthService,
-    protected site: SiteService
+    protected site: SiteService,
+    protected dockpanes: MessengerConversationDockpanesService
   ) {}
 
   get socialProfilesMeta() {
@@ -99,5 +101,16 @@ export class ProChannelFooterComponent {
       : this.site.baseUrl;
     const regex = new RegExp(`/${domain}/`);
     return regex.exec(link.href) ? '_self' : '_blank';
+  }
+
+  /**
+   * Called when Message label is clicked.
+   */
+  onMessageClicked(): void {
+    if (this.currentUser.guid === this.user.guid) {
+      alert('You cannot message yourself');
+      return;
+    }
+    this.dockpanes.open(this.dockpanes.buildConversation(this.user));
   }
 }
