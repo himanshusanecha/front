@@ -176,7 +176,7 @@ export class ActivityService {
         entity.custom_type = 'batch';
         entity.custom_data = [
           {
-            thumbnail_src: 'todo',
+            src: entity.thumbnail_src,
           },
         ];
         break;

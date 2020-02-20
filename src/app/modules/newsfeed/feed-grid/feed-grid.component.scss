@@ -1,0 +1,20 @@
+m-feedGrid {
+    display: flex;
+    flex-direction: row; 
+    list-style: none;
+    padding: 0;
+}
+
+.m-feedGrid__column {
+  flex: 1;
+  margin-right: $minds-margin *2;
+
+  &:last-of-type() {
+    margin-right: 0;
+  }
+
+  > m-newsfeed__entity {
+    display: block;
+    margin-bottom: $minds-margin *2;
+  }
+}

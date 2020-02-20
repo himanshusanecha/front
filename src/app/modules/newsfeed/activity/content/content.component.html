@@ -3,6 +3,9 @@
   m-read-more
   class="m-activityContent__message"
   [class.m-activityContent__message--remind]="entity.remind_object"
+  [class.m-activityContent__message--isTextOnly]="isTextOnly"
+  [class.m-activityContent__message--short]="message.length <= 300"
+  [maxHeightAllowed]="isTextOnly ? maxFixedHeightContent : 320"
   *ngIf="message"
 >
   <span [innerHtml]="message | tags"></span>
@@ -26,7 +29,7 @@
   <minds-rich-embed
     (mediaModalRequested)="onModalRequested($event)"
     [src]="entity"
-    [maxheight]="480"
+    [maxheight]="320"
   >
   </minds-rich-embed>
   <div
@@ -42,6 +45,7 @@
     [shouldPlayInModal]="true"
     [autoplay]="false"
     (mediaModalRequested)="onModalRequested($event)"
+    [style.height]="videoHeight"
   ></m-videoPlayer>
   <div class="m-activityContent__fixedHeightSpacer"></div>
 </div>
@@ -64,7 +68,7 @@
   #mediaDescriptionEl
   class="m-activityContent__mediaDescription"
   m-read-more
-  maxHeightAllowed="80"
+  [maxHeightAllowed]="service.displayOptions.fixedHeight ? 80 : 320"
   *ngIf="mediaDescription"
 >
   <p [innerHtml]="mediaDescription | tags"></p>

@@ -81,7 +81,13 @@ export class ActivityContentComponent {
   }
 
   get message(): string {
-    return this.entity.message || this.entity.title;
+    // No message if media post
+    if (this.mediaDescription) return '';
+
+    // No message if the same as blog title
+    if (this.entity.perma_url && (!this.entity.message || this.entity.title === this.entity.message)) return '';
+
+    return (this.entity.message || this.entity.title);
   }
 
   get isRichEmbed(): boolean {
@@ -89,8 +95,8 @@ export class ActivityContentComponent {
   }
 
   get mediaDescription(): string {
-    return this.entity.blurb
-      ? this.entity.blurb + (this.entity.perma_url ? '...' : '')
+    return this.isImage || this.isVideo
+      ? (this.entity.message || this.entity.title)
       : '';
   }
 
@@ -105,16 +111,16 @@ export class ActivityContentComponent {
   get isImage(): boolean {
     return (
       this.entity.custom_type == 'batch' ||
-      (this.entity.thumbnail_src && !this.entity.perma_url)
+      (this.entity.thumbnail_src && !this.entity.perma_url && this.entity.custom_type !== 'video')
     );
   }
 
   get imageUrl(): string {
-    if (this.entity.custom_type) {
+    if (this.entity.custom_type == 'batch') {
       return this.entity.custom_data[0].src;
     }
 
-    if (this.entity.thumbnail_src) {
+    if (this.entity.thumbnail_src && this.entity.custom_type !== 'video') {
       return this.entity.thumbnail_src;
     }
 
@@ -125,7 +131,25 @@ export class ActivityContentComponent {
     return this.entity.entity_guid;
   }
 
+  get isTextOnly(): boolean {
+    return !(
+      this.isImage ||
+      this.isVideo ||
+      this.isRichEmbed ||
+      this.entity.remind_object
+    );
+  }
+
+  get videoHeight(): string {
+    if (!this.mediaEl) return '';
+    const height = this.mediaEl.nativeElement.clientWidth / (16/9);
+    return `${height}px`;
+  }
+
   calculateFixedContentHeight(): void {
+    if (!this.service.displayOptions.fixedHeight) {
+      return;
+    }
     let contentHeight = this.activityHeight || ACTIVITY_FIXED_HEIGHT_HEIGHT;
     contentHeight = contentHeight - ACTIVITY_CONTENT_PADDING;
     if (this.service.displayOptions.showOwnerBlock) {

@@ -72,7 +72,7 @@ export class ActivityComponent {
   }
 
   ngAfterViewInit() {
-    this.calculateHeight();
+    setTimeout(() => this.calculateHeight());
   }
 
   @HostListener('window:resize')

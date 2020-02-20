@@ -25,4 +25,10 @@ export class ActivityToolbarComponent {
   ngOnDestroy() {
     this.entitySubscription.unsubscribe();
   }
+
+  toggleComments(): void {
+    this.service.displayOptions.showComments = !this.service.displayOptions.showComments;
+    this.service.displayOptions.showOnlyCommentsInput = false;
+  }
+
 }
