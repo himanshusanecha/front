@@ -1,4 +1,4 @@
-<div class="m-composer" [class.m-composer--poppedOut]="poppedOut">
+<div class="m-composer">
   <div class="m-composer__container">
     <div class="m-composer__titleBar">
       <div class="m-composerTitleBar__title">
@@ -10,12 +10,20 @@
       </div>
     </div>
 
+    <m-composer__mediaPreview
+      *ngIf="(inProgress$ | async) || (attachment$ | async)"
+    ></m-composer__mediaPreview>
+
+    <m-composer__progress
+      [inProgress]="inProgress$ | async"
+      [progress]="progress$ | async"
+    ></m-composer__progress>
+
     <div class="m-composer__textArea">
       <textarea
         placeholder="Speak your mind"
         i18n-placeholder
         [id]="id"
-        (focus)="popOut()"
         [ngModel]="message$ | async"
         (ngModelChange)="onMessageChange($event)"
       ></textarea>

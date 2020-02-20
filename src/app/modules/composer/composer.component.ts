@@ -18,7 +18,6 @@ import { FileUploadSelectEvent } from '../../common/components/file-upload/file-
 })
 export class ComposerComponent implements OnInit, OnDestroy {
   id: string = UniqueId.generate('m-composer');
-  poppedOut: boolean = false;
 
   constructor(public service: ComposerService) {}
 
@@ -123,9 +122,5 @@ export class ComposerComponent implements OnInit, OnDestroy {
       console.log(e);
       // TODO: Display errors nicely and with a clear language
     }
-  }
-
-  popOut() {
-    // this.poppedOut = true;
   }
 }

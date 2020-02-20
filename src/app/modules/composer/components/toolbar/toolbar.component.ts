@@ -5,15 +5,15 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FileUploadSelectEvent } from '../../../common/components/file-upload/file-upload.component';
-import { ButtonComponentAction } from '../../../common/components/button-v2/button.component';
+import { FileUploadSelectEvent } from '../../../../common/components/file-upload/file-upload.component';
+import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
 
 @Component({
   selector: 'm-composer__toolbar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'composer-toolbar.component.html',
+  templateUrl: 'toolbar.component.html',
 })
-export class ComposerToolbarComponent {
+export class ToolbarComponent {
   @Input() attachment: any;
 
   @Input() inProgress: boolean = false;
