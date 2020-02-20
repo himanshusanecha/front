@@ -38,7 +38,7 @@ export class MindsRichEmbed {
     private cd: ChangeDetectorRef,
     protected featureService: FeaturesService,
     private mediaProxy: MediaProxyService,
-    private configs: ConfigsService,
+    private configs: ConfigsService
   ) {}
 
   set _src(value: any) {
@@ -154,8 +154,7 @@ export class MindsRichEmbed {
 
     // Minds blog
     const siteUrl = this.configs.get('site_url');
-    if (url.indexOf(siteUrl) === 0)
-      this.mediaSource = 'minds';
+    if (url.indexOf(siteUrl) === 0) this.mediaSource = 'minds';
 
     // YouTube
     let youtube = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/i;

@@ -27,8 +27,8 @@ export class ActivityToolbarComponent {
   }
 
   toggleComments(): void {
-    this.service.displayOptions.showComments = !this.service.displayOptions.showComments;
+    this.service.displayOptions.showComments = !this.service.displayOptions
+      .showComments;
     this.service.displayOptions.showOnlyCommentsInput = false;
   }
-
 }

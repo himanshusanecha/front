@@ -11,7 +11,8 @@ m-proChannel__home {
       margin-bottom: 0;
     }
 
-    > h2, > m-proChannelHome__categoryContent > div > h2 {
+    > h2,
+    > m-proChannelHome__categoryContent > div > h2 {
       margin: 0 0 24px;
       padding: 0;
       text-align: center;
@@ -37,7 +38,7 @@ m-proChannel__home {
   .m-proChannelHome__categoryContent {
     width: 100%;
     margin: 0 auto;
-    
+
     @media screen and (max-width: $max-mobile) {
       width: 100%;
     }
@@ -49,7 +50,6 @@ m-proChannel__home {
   }
 
   .m-proChannelHome__featuredContent {
-
     &.m-proChannelHome__featuredContent--prominent {
       *:nth-child(1) {
         grid-column: span 2;

@@ -39,8 +39,7 @@ export class ProChannelListComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected cd: ChangeDetectorRef,
     protected injector: Injector
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.params$ = this.route.params.subscribe(params => {
@@ -123,9 +122,7 @@ export class ProChannelListComponent implements OnInit, OnDestroy {
   }
 
   get shouldShowCategories() {
-    return (
-      this.paramsType !== 'groups' && !this.query
-    );
+    return this.paramsType !== 'groups' && !this.query;
   }
 
   detectChanges() {

@@ -26,7 +26,8 @@ import { OverlayModalService } from '../../../../services/ux/overlay-modal';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FeedsService],
 })
-export class ProChannelContentListComponent implements OnInit, OnDestroy, OnChanges {
+export class ProChannelContentListComponent
+  implements OnInit, OnDestroy, OnChanges {
   @Input() canAutoScroll = true;
   @Input() category: string;
   @Input() limit: number = 12;
@@ -56,8 +57,7 @@ export class ProChannelContentListComponent implements OnInit, OnDestroy, OnChan
     this.load(true);
   }
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 
   async load(refresh: boolean = false) {
     if (refresh) {
@@ -76,7 +76,7 @@ export class ProChannelContentListComponent implements OnInit, OnDestroy, OnChan
       params.query = this.query;
       params.sync = 1;
     }
-   
+
     params.force_public = 1;
 
     let url = `api/v2/pro/content/${this.channelService.currentChannel.guid}/${this.type}`;

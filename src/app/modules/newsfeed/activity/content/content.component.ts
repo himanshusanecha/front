@@ -85,9 +85,13 @@ export class ActivityContentComponent {
     if (this.mediaDescription) return '';
 
     // No message if the same as blog title
-    if (this.entity.perma_url && (!this.entity.message || this.entity.title === this.entity.message)) return '';
+    if (
+      this.entity.perma_url &&
+      (!this.entity.message || this.entity.title === this.entity.message)
+    )
+      return '';
 
-    return (this.entity.message || this.entity.title);
+    return this.entity.message || this.entity.title;
   }
 
   get isRichEmbed(): boolean {
@@ -96,7 +100,7 @@ export class ActivityContentComponent {
 
   get mediaDescription(): string {
     return this.isImage || this.isVideo
-      ? (this.entity.message || this.entity.title)
+      ? this.entity.message || this.entity.title
       : '';
   }
 
@@ -111,7 +115,9 @@ export class ActivityContentComponent {
   get isImage(): boolean {
     return (
       this.entity.custom_type == 'batch' ||
-      (this.entity.thumbnail_src && !this.entity.perma_url && this.entity.custom_type !== 'video')
+      (this.entity.thumbnail_src &&
+        !this.entity.perma_url &&
+        this.entity.custom_type !== 'video')
     );
   }
 
@@ -142,7 +148,7 @@ export class ActivityContentComponent {
 
   get videoHeight(): string {
     if (!this.mediaEl) return '';
-    const height = this.mediaEl.nativeElement.clientWidth / (16/9);
+    const height = this.mediaEl.nativeElement.clientWidth / (16 / 9);
     return `${height}px`;
   }
 

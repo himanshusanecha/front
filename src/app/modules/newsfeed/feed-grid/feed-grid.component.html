@@ -1,7 +1,10 @@
 <div class="m-feedGrid__column" *ngFor="let entities of columns">
-
-    <ng-container *ngFor="let entity$ of entities; let i = index">
-      <m-newsfeed__entity [entity]="entity" *ngIf="entity$ | async as entity" [displayOptions]="{ showComments: false, v2: true }" [slot]="i"></m-newsfeed__entity>
-    </ng-container>
-
+  <ng-container *ngFor="let entity$ of entities; let i = index">
+    <m-newsfeed__entity
+      [entity]="entity"
+      *ngIf="entity$ | async as entity"
+      [displayOptions]="{ showComments: false, v2: true }"
+      [slot]="i"
+    ></m-newsfeed__entity>
+  </ng-container>
 </div>

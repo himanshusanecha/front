@@ -12,7 +12,6 @@ import { Client } from '../../../../../services/api/client';
   templateUrl: './category-content.component.html',
 })
 export class ProChannelHomeCategoryContent {
-
   categories$: BehaviorSubject<any> = new BehaviorSubject(null);
 
   constructor(
@@ -20,8 +19,7 @@ export class ProChannelHomeCategoryContent {
     private feedsService: FeedsService,
     protected channelService: ProChannelService,
     protected client: Client
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.load();
@@ -46,7 +44,7 @@ export class ProChannelHomeCategoryContent {
         return entry;
       });
     this.categories$.next(categories);
-  } 
+  }
 
   getCategoryRoute(tag) {
     if (!this.channelService.currentChannel || !tag) {
@@ -55,5 +53,4 @@ export class ProChannelHomeCategoryContent {
 
     return this.channelService.getRouterLink('all', { hashtag: tag });
   }
- 
 }
