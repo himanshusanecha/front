@@ -38,7 +38,6 @@ import { BlogEdit } from '../blogs/edit/edit';
 import { CanDeactivateGuardService } from '../../services/can-deactivate-guard';
 import { ModalsModule } from '../modals/modals.module';
 import { ActivityModule } from '../newsfeed/activity/activity.module';
-import { MasonryModule } from '../../common/components/masonry/masonry.module';
 
 const routes: Routes = [
   {
@@ -154,7 +153,6 @@ export const PRO_DOMAIN_ROUTES = [
     AuthModule,
     ModalsModule,
     ActivityModule,
-    MasonryModule,
   ],
   providers: [ProService],
   declarations: [
