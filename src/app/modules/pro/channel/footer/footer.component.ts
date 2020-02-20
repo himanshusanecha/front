@@ -8,6 +8,7 @@ import {
   getSocialProfileMeta,
   socialProfileMeta,
 } from '../../../channels/social-profiles/meta';
+import { Router } from '@angular/router';
 
 export type FooterLink = { title: string; href: string };
 
@@ -18,6 +19,7 @@ export type FooterLink = { title: string; href: string };
 export class ProChannelFooterComponent {
   constructor(
     protected channelService: ProChannelService,
+    private router: Router,
     protected session: Session,
     protected auth: AuthService,
     protected site: SiteService,
@@ -107,6 +109,9 @@ export class ProChannelFooterComponent {
    * Called when Message label is clicked.
    */
   onMessageClicked(): void {
+    if (!this.currentUser) {
+      this.router.navigate(['/login']);
+    }
     if (this.currentUser.guid === this.user.guid) {
       alert('You cannot message yourself');
       return;
