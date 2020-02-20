@@ -56,7 +56,7 @@ export class BlogEditorComponent {
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       // only executed on the browser side
-      const ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
+      const ClassicEditor = require('@ckeditor/ckeditor5-build-balloon');
       this.Editor = ClassicEditor;
     }
   }
