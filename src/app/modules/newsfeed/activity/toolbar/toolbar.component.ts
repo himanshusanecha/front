@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ActivityService, ActivityEntity } from '../activity.service';
+import { Session } from '../../../../services/session';
 
 @Component({
   selector: 'm-activity__toolbar',
@@ -12,7 +13,7 @@ export class ActivityToolbarComponent {
 
   entity: ActivityEntity;
 
-  constructor(public service: ActivityService) {}
+  constructor(public service: ActivityService, public session: Session) {}
 
   ngOnInit() {
     this.entitySubscription = this.service.entity$.subscribe(

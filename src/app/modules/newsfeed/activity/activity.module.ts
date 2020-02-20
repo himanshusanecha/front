@@ -19,6 +19,7 @@ import { ModalsModule } from '../../modals/modals.module';
 import { LegacyModule } from '../../legacy/legacy.module';
 import { ActivityMenuComponent } from './menu/menu.component';
 import { PostMenuModule } from '../../../common/components/post-menu/post-menu.module';
+import { WireModule } from '../../wire/wire.module';
 import { ActivityNsfwConsentComponent } from './nsfw-consent/nsfw-consent.component';
 import { ActivityMetricsComponent } from './metrics/metrics.component';
 import { ActivityRemindComponent } from './remind/remind.component';
@@ -37,6 +38,7 @@ import { ActivityRemindComponent } from './remind/remind.component';
     ModalsModule,
     LegacyModule, // For remind button
     PostMenuModule,
+    WireModule,
   ],
   declarations: [
     ActivityComponent,

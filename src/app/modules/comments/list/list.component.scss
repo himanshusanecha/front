@@ -238,7 +238,8 @@ m-comments__entityOutlet,
         min-width: 0;
         flex: 1;
         margin-bottom: $minds-padding;
-        border-radius: 2px;
+        // border-radius: 2px; - change when new comments design in
+        border-radius: 26px;
 
         .m-editor {
           //min-height: 26px;

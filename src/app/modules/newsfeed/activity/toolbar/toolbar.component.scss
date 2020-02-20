@@ -1,5 +1,6 @@
 m-activity__toolbar {
-  display: block;
+  display: flex;
+  flex-direction: row;
   width: 100%;
   padding: 0 25px 16px;
   padding-top: $minds-padding * 2;
@@ -43,6 +44,25 @@ m-activity__toolbar {
     .selected .minds-counter {
       @include m-theme() {
         color: themed($m-grey-500);
+      }
+    }
+  }
+
+  :last-child {
+    margin-right: 0;
+  }
+
+  m-wire-button {
+    .m-wire-button {
+      border: 0 !important;
+      padding: 0;
+      > .ion-icon {
+        @include m-theme() {
+          color: themed($m-grey-500);
+        }
+      }
+      span {
+        display: none;
       }
     }
   }
