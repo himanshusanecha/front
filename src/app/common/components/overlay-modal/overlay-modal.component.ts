@@ -134,6 +134,7 @@ export class OverlayModalComponent implements AfterViewInit {
 
   dismiss() {
     this.hidden = true;
+    this.isMediaModal = false;
 
     if (this.root) {
       this.root.classList.remove('m-overlay-modal--shown');
