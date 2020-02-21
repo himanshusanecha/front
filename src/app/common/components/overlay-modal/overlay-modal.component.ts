@@ -4,6 +4,7 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   ElementRef,
+  HostBinding,
   Injector,
   ViewChild,
 } from '@angular/core';
@@ -31,6 +32,7 @@ import { OverlayModalService } from '../../../services/ux/overlay-modal';
 export class OverlayModalComponent implements AfterViewInit {
   hidden: boolean = true;
   class: string = '';
+  wrapperClass: string = '';
   root: HTMLElement;
 
   @ViewChild(DynamicHostDirective, { static: true })
@@ -59,13 +61,13 @@ export class OverlayModalComponent implements AfterViewInit {
     this.dismiss();
 
     opts = {
-      ...{
-        class: '',
-      },
+      class: '',
+      wrapperClass: '',
       ...opts,
     };
 
     this.class = opts.class;
+    this.wrapperClass = opts.wrapperClass || '';
 
     if (!componentClass) {
       throw new Error('Unknown component class');
@@ -133,9 +135,17 @@ export class OverlayModalComponent implements AfterViewInit {
       return;
     }
 
+    try {
+      this.service._didDismiss();
+    } catch (e) {
+      console.warn('Error on callback while dismissing modal', e);
+    }
+
     this.componentRef.destroy();
     this.host.viewContainerRef.clear();
+  }
 
-    this.service._didDismiss();
+  @HostBinding('class') get wrapperComponentCssClass() {
+    return this.wrapperClass || '';
   }
 }

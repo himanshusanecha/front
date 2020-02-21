@@ -1,71 +1,69 @@
-.m-composer {
-  .m-composer__toolbar {
+.m-composer__toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px 20px 0;
+  border-top: 1px solid;
+  user-select: none;
+
+  @include m-theme() {
+    border-color: themed($m-borderColor--primary);
+  }
+
+  .m-composerToolbar__item {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    padding: 26px 20px 0;
-    border-top: 1px solid;
-    user-select: none;
+    padding: 8px 16px;
+    cursor: pointer;
+
+    &.m-composerToolbar__item--active {
+      @include m-theme() {
+        color: themed($m-btn--primary);
+      }
+    }
+
+    &.m-composerToolbarItem--container {
+      align-items: stretch;
+      padding: 0;
+    }
+
+    @include m-theme() {
+      color: themed($m-textColor--secondary);
+    }
+
+    > m-icon + span {
+      display: inline-block;
+      margin-left: 8px;
+    }
+  }
+}
+
+.m-composerPost__dropdown {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include m-theme() {
+    color: themed($m-textColor--primary);
+    background: themed($m-bgColor--primary);
+    box-shadow: 3px 3px 4px rgba(themed($m-textColor--primary), 0.2);
+  }
+
+  > li {
+    padding: 8px;
+    border-bottom: 1px solid;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:last-child {
+      border-bottom: none;
+    }
 
     @include m-theme() {
       border-color: themed($m-borderColor--primary);
-    }
-
-    .m-composerToolbar__item {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding: 8px 16px;
-      cursor: pointer;
-
-      &.m-composerToolbar__item--active {
-        @include m-theme() {
-          color: themed($m-btn--primary);
-        }
-      }
-
-      &.m-composerToolbarItem--container {
-        align-items: stretch;
-        padding: 0;
-      }
-
-      @include m-theme() {
-        color: themed($m-textColor--secondary);
-      }
-
-      > m-icon + span {
-        display: inline-block;
-        margin-left: 8px;
-      }
-    }
-  }
-
-  .m-composerPost__dropdown {
-    width: 100%;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    @include m-theme() {
-      color: themed($m-textColor--primary);
-      background: themed($m-bgColor--primary);
-      box-shadow: 3px 3px 4px rgba(themed($m-textColor--primary), 0.2);
-    }
-
-    > li {
-      padding: 8px;
-      border-bottom: 1px solid;
-      cursor: pointer;
-      white-space: nowrap;
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      @include m-theme() {
-        border-color: themed($m-borderColor--primary);
-      }
     }
   }
 }

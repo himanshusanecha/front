@@ -17,7 +17,7 @@ export type MonetizationSubjectValue = any;
 
 export type TagsSubjectValue = Array<string>;
 
-export type SchedulerSubjectValue = any;
+export type ScheduleSubjectValue = any;
 
 @Injectable()
 export class ComposerService implements OnDestroy {
@@ -41,9 +41,9 @@ export class ComposerService implements OnDestroy {
     TagsSubjectValue
   >([]);
 
-  readonly scheduler$: BehaviorSubject<
-    SchedulerSubjectValue
-  > = new BehaviorSubject<SchedulerSubjectValue>(null);
+  readonly schedule$: BehaviorSubject<
+    ScheduleSubjectValue
+  > = new BehaviorSubject<ScheduleSubjectValue>(null);
 
   readonly inProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -51,7 +51,7 @@ export class ComposerService implements OnDestroy {
 
   readonly progress$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  protected data: any = null;
+  protected payload: any = null;
 
   protected readonly dataStreamSubscription: Subscription;
 
@@ -70,23 +70,37 @@ export class ComposerService implements OnDestroy {
       this.nsfw$,
       this.monetization$,
       this.tags$,
-      this.scheduler$,
+      this.schedule$,
     ])
       .pipe(
-        map(([message, attachment, nsfw, monetization, tags, scheduler]) => ({
+        map(([message, attachment, nsfw, monetization, tags, schedule]) => ({
           message,
           attachment,
           nsfw,
           monetization,
           tags,
-          scheduler,
+          schedule,
         }))
       )
-      .subscribe(data => (this.data = data));
+      .subscribe(data => this.buildPayload(data));
   }
 
   ngOnDestroy(): void {
     this.dataStreamSubscription.unsubscribe();
+  }
+
+  reset() {
+    // TODO: Set initial values
+  }
+
+  load(activity: any) {
+    this.reset();
+
+    if (!activity) {
+      return;
+    }
+
+    // TODO: Set values based on activity
   }
 
   setProgress(uploadEvent: UploadEvent | null): void {
@@ -110,10 +124,31 @@ export class ComposerService implements OnDestroy {
     }
   }
 
+  buildPayload(data) {
+    this.payload = {
+      message: data.message || '',
+      wire_threshold: data.monetization || null,
+      time_created: data.schedule || null,
+      is_rich: 0, // TODO
+      title: '', // TODO
+      description: '', // TODO
+      thumbnail: '', // TODO
+      url: '', // TODO
+      attachment_guid: data.attachment || null,
+      mature: data.nsfw && data.nsfw.length > 0,
+      access_id: 2, // TODO (group GUID)
+      container_guid: null, // TODO (group GUID)
+      nsfw: data.nsfw || [],
+      tags: data.tags,
+    };
+  }
+
   async post(): Promise<any> {
     // TODO: Return type!
 
     // TODO: Post
-    console.log(this.data);
+    console.log(this.payload);
+
+    // TODO: Return an activity
   }
 }

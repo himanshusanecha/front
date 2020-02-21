@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { UniqueId } from '../../../helpers/unique-id.helper';
 
@@ -16,11 +18,16 @@ export type FileUploadSelectEvent = File | File[] | null;
 })
 export class FileUploadComponent {
   @Input() wrapperClass: string = '';
+
   @Input() accept: string = '*.*';
+
   @Input() multiple: boolean = false;
+
   @Output('onSelect') onSelectEmitter: EventEmitter<
     FileUploadSelectEvent
   > = new EventEmitter<FileUploadSelectEvent>();
+
+  @ViewChild('file', { static: false }) file: ElementRef;
 
   id: string = UniqueId.generate('m-file-upload');
 
@@ -34,6 +41,12 @@ export class FileUploadComponent {
       this.onSelectEmitter.next(Array.from(file.files));
     } else {
       this.onSelectEmitter.next(file.files[0] || null);
+    }
+  }
+
+  reset() {
+    if (this.file.nativeElement) {
+      this.file.nativeElement.value = '';
     }
   }
 }

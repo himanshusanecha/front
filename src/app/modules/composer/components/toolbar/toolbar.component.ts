@@ -4,8 +4,12 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
-import { FileUploadSelectEvent } from '../../../../common/components/file-upload/file-upload.component';
+import {
+  FileUploadComponent,
+  FileUploadSelectEvent,
+} from '../../../../common/components/file-upload/file-upload.component';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
 
 @Component({
@@ -30,11 +34,18 @@ export class ToolbarComponent {
     ButtonComponentAction
   > = new EventEmitter<ButtonComponentAction>();
 
+  @ViewChild('fileUploadComponent', { static: false })
+  fileUploadComponent: FileUploadComponent;
+
   onAttachmentSelect(file: FileUploadSelectEvent): void {
     this.onAttachmentSelectEmitter.emit(file);
   }
 
   onDeleteAttachmentClick(event?: MouseEvent): void {
+    if (this.fileUploadComponent) {
+      this.fileUploadComponent.reset();
+    }
+
     this.onDeleteAttachmentEmitter.emit();
   }
 

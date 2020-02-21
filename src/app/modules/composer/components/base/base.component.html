@@ -1,0 +1,43 @@
+<div
+  class="m-composer__base"
+  [class.m-composer__base--withMediaPreview]="attachment$ | async"
+>
+  <div class="m-composerBase__container">
+    <div class="m-composerBase__titleBar">
+      <div class="m-composerBaseTitleBar__title">
+        <label [for]="id" i18n>Compose</label>
+      </div>
+
+      <div class="m-composerBaseTitleBar__menuButton">
+        <i class="material-icons">more_vert</i>
+      </div>
+    </div>
+
+    <m-composer__mediaPreview
+      *ngIf="attachment$ | async"
+    ></m-composer__mediaPreview>
+
+    <m-composer__progress
+      [inProgress]="inProgress$ | async"
+      [progress]="progress$ | async"
+    ></m-composer__progress>
+
+    <div class="m-composerBase__textArea">
+      <textarea
+        placeholder="Speak your mind"
+        i18n-placeholder
+        [id]="id"
+        [ngModel]="message$ | async"
+        (ngModelChange)="onMessageChange($event)"
+      ></textarea>
+    </div>
+
+    <m-composer__toolbar
+      [attachment]="attachment$ | async"
+      [inProgress]="inProgress$ | async"
+      (onAttachmentSelect)="onAttachmentSelect($event)"
+      (onDeleteAttachment)="onDeleteAttachment()"
+      (onPost)="onPost($event)"
+    ></m-composer__toolbar>
+  </div>
+</div>
