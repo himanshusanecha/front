@@ -50,7 +50,7 @@ export class ProChannelContentListComponent
   }
 
   ngOnInit() {
-    this.load(true);
+    //this.load(true);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

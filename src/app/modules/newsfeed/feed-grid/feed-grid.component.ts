@@ -92,6 +92,7 @@ export class FeedGridComponent {
    */
   recalculate(): void {
     if (!this.macyInstance) return;
+    if (isPlatformServer(this.platformId)) return;
     setTimeout(() => this.macyInstance.recalculate(true));
   }
 }
