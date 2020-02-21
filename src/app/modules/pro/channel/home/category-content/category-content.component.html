@@ -5,5 +5,8 @@
     }}</a>
   </h2>
 
-  <m-feedGrid [entities]="category.entities$" [maxColumns]="3"></m-feedGrid>
+  <m-feedGrid
+    [entities]="category.entities | async"
+    [maxColumns]="3"
+  ></m-feedGrid>
 </div>

@@ -5,6 +5,7 @@ m-activity__toolbar {
   padding: 0 25px 16px;
   padding-top: $minds-padding * 2;
   box-sizing: border-box;
+  text-align: center;
 
   @include m-theme() {
     border-top: 1px solid themed($m-borderColor--tertiary);

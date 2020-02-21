@@ -1,20 +1,13 @@
 m-feedGrid {
-  display: flex;
-  flex-direction: row;
-  list-style: none;
   padding: 0;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 16px;
 }
 
-.m-feedGrid__column {
-  flex: 1;
-  margin-right: $minds-margin * 2;
-
-  &:last-of-type() {
-    margin-right: 0;
-  }
-
+.m-feedGrid__item {
   > m-newsfeed__entity {
     display: block;
-    margin-bottom: $minds-margin * 2;
   }
 }

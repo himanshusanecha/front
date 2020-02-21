@@ -177,6 +177,8 @@ export class ActivityService {
         entity.custom_data = [
           {
             src: entity.thumbnail_src,
+            width: entity.width,
+            height: entity.height,
           },
         ];
         break;

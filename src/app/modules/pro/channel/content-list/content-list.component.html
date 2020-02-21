@@ -1,5 +1,5 @@
 <div class="m-proChannelList__content">
-  <m-feedGrid [maxColumns]="3" [entities]="entities$"> </m-feedGrid>
+  <m-feedGrid [maxColumns]="3" [entities]="entities$ | async"> </m-feedGrid>
 
   <infinite-scroll
     *ngIf="canAutoScroll"

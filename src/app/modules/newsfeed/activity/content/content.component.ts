@@ -133,6 +133,19 @@ export class ActivityContentComponent {
     return ''; // TODO: placehol;der
   }
 
+  get imageHeight(): string {
+    if (this.entity.custom_type !== 'batch') return 'auto';
+    const originalHeight = parseInt(this.entity.custom_data[0].height || 0);
+    const originalWidth = parseInt(this.entity.custom_data[0].width || 0);
+
+    if (!originalHeight || !originalWidth) return 'auto';
+
+    const ratio = originalHeight / originalWidth;
+
+    const height = this.el.nativeElement.clientWidth * ratio;
+    return `${height}px`;
+  }
+
   get imageGuid(): string {
     return this.entity.entity_guid;
   }
