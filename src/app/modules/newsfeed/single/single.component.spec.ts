@@ -116,6 +116,7 @@ describe('NewsfeedSingleComponent', () => {
     };
 
     sessionMock.user.admin = false;
+    sessionMock.user.hide_share_buttons = false;
     featuresServiceMock.mock('sync-feeds', false);
     featuresServiceMock.mock('activity-v2--single-page', true);
 
@@ -198,5 +199,18 @@ describe('NewsfeedSingleComponent', () => {
     expect(spamNotice.nativeElement.textContent).not.toContain(
       'If you wish to appeal, please contact us at info@minds.com.'
     );
+  });
+
+  it('should have an instance of m-social-icons if the owner has it enabled', () => {
+    let socialIcons = fixture.debugElement.query(By.css('m-social-icons'));
+
+    expect(socialIcons).not.toBeNull();
+
+    sessionMock.user.hide_share_buttons = true;
+
+    fixture.detectChanges();
+
+    socialIcons = fixture.debugElement.query(By.css('m-social-icons'));
+    expect(socialIcons).toBeNull();
   });
 });
