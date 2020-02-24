@@ -1,6 +1,11 @@
 <div class="m-proChannelFooter">
   <div class="m-proChannelFooter__items">
-    <a class="m-proChannelFooter__link" (click)="onMessageClicked()" i18n-title>
+    <a
+      *ngIf="!isProDomain"
+      (click)="onMessageClicked()"
+      class="m-proChannelFooter__link"
+      i18n-title
+    >
       Message
     </a>
     <a
