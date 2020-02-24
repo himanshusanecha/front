@@ -13,9 +13,11 @@
       </div>
     </div>
 
-    <m-composer__mediaPreview
-      *ngIf="attachment$ | async"
-    ></m-composer__mediaPreview>
+    <ng-container *mIfBrowser>
+      <m-composer__mediaPreview
+        [previewResource]="preview$ | async"
+      ></m-composer__mediaPreview>
+    </ng-container>
 
     <m-composer__progress
       [inProgress]="inProgress$ | async"

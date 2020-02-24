@@ -54,7 +54,7 @@ export class ComposerComponent {
         .present(this.activity);
 
       if (response) {
-        this.onPostEmitter.emit();
+        this.onPostEmitter.emit(response);
       }
     } catch (e) {
       console.error('Composer Placeholder', e);

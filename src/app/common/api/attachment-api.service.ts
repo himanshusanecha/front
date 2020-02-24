@@ -88,10 +88,10 @@ export class AttachmentApiService {
 
   protected uploadToApi(file: File): Observable<UploadEvent> {
     return this.api
-      .post(
+      .upload(
         `api/v1/media`,
         {
-          'file[]': file,
+          file,
         },
         { upload: true }
       )

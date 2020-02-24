@@ -104,6 +104,10 @@ export class BaseComponent implements OnInit, OnDestroy {
     return this.service.attachmentError$;
   }
 
+  get preview$() {
+    return this.service.preview$;
+  }
+
   ngOnInit(): void {
     this.service.reset();
   }
@@ -147,9 +151,9 @@ export class BaseComponent implements OnInit, OnDestroy {
     // TODO: Check event.type, etc
 
     try {
-      const response = await this.service.post();
+      const activity = await this.service.post();
 
-      this.onPostEmitter.next(response);
+      this.onPostEmitter.next(activity);
 
       // TODO: Reset composer
     } catch (e) {

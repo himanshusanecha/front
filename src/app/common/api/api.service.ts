@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { CookieService } from '../services/cookie.service';
 import { environment } from '../../../environments/environment';
+import { retry } from 'rxjs/operators';
 
 export enum ApiRequestMethod {
   GET = 'get',
@@ -48,20 +49,20 @@ export class ApiService {
     endpoint: string,
     queryParams: ApiRequestQueryParams = null,
     options: ApiRequestOptions = {}
-  ): Observable<HttpEvent<ApiResponse>> {
+  ): Observable<ApiResponse> {
     return this.request(
       ApiRequestMethod.GET,
       this._buildQueryString(endpoint, queryParams),
       {},
       options
-    );
+    ).pipe(retry(3));
   }
 
   post(
     endpoint: string,
     data: ApiRequestData = null,
     options: ApiRequestOptions = {}
-  ): Observable<HttpEvent<ApiResponse>> {
+  ): Observable<ApiResponse> {
     return this.request(ApiRequestMethod.POST, endpoint, data, options);
   }
 
@@ -69,7 +70,7 @@ export class ApiService {
     endpoint: string,
     data: ApiRequestData = null,
     options: ApiRequestOptions = {}
-  ): Observable<HttpEvent<ApiResponse>> {
+  ): Observable<ApiResponse> {
     return this.request(ApiRequestMethod.PUT, endpoint, data, options);
   }
 
@@ -77,7 +78,7 @@ export class ApiService {
     endpoint: string,
     queryParams: ApiRequestQueryParams = null,
     options: ApiRequestOptions = {}
-  ): Observable<HttpEvent<ApiResponse>> {
+  ): Observable<ApiResponse> {
     return this.request(
       ApiRequestMethod.DELETE,
       this._buildQueryString(endpoint, queryParams),
@@ -86,22 +87,53 @@ export class ApiService {
     );
   }
 
+  upload(
+    endpoint: string,
+    data: ApiRequestData,
+    options: ApiRequestOptions
+  ): Observable<HttpEvent<ApiResponse>> {
+    // TODO: Make it fail if status !== 'success' on 200
+    // TODO: Add retry() operator
+
+    return this.httpClient.request<ApiResponse>(
+      ApiRequestMethod.POST,
+      endpoint,
+      this._buildOptions(
+        {
+          ...options,
+          upload: true,
+        },
+        data,
+        true
+      )
+    );
+  }
+
   request(
     method: ApiRequestMethod,
     endpoint: string,
     data: ApiRequestData,
     options: ApiRequestOptions
-  ): Observable<HttpEvent<ApiResponse>> {
-    let observable = this.httpClient.request<ApiResponse>(
-      method,
-      endpoint,
-      this._buildOptions(options, data)
-    );
+  ): Observable<ApiResponse> {
+    if (options.upload) {
+      return throwError(new Error('Use the upload() method for uploads'));
+    }
 
     // TODO: Make it fail if status !== 'success' on 200
     // TODO: Add retry() operator
 
-    return observable;
+    return this.httpClient.request<ApiResponse>(
+      method,
+      endpoint,
+      this._buildOptions(
+        {
+          ...options,
+          upload: false,
+        },
+        data,
+        false
+      )
+    );
   }
 
   /**
@@ -142,11 +174,27 @@ export class ApiService {
    * Builds HTTP Request options object
    * @param {ApiRequestOptions} options
    * @param {ApiRequestData} data
+   * @param {boolean} withEvents
+   *
    * @private
    */
-  protected _buildOptions(options: ApiRequestOptions, data: ApiRequestData) {
+  protected _buildOptions(
+    options: ApiRequestOptions,
+    data: ApiRequestData,
+    withEvents: false
+  ): { observe: 'body' };
+  protected _buildOptions(
+    options: ApiRequestOptions,
+    data: ApiRequestData,
+    withEvents: true
+  ): { observe: 'events' };
+  protected _buildOptions<T extends boolean>(
+    options: ApiRequestOptions,
+    data: ApiRequestData,
+    withEvents: T
+  ): any {
     const requestOptions: any = {
-      observe: 'events',
+      observe: withEvents ? 'events' : 'body',
       responseType: 'json',
       reportProgress: options.upload,
       withCredentials: options.withCredentials,

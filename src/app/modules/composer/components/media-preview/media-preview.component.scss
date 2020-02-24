@@ -9,4 +9,10 @@
   &.m-composer__mediaPreview--portrait {
     height: 383px;
   }
+
+  .m-composerMediaPreview__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }

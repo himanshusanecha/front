@@ -1,1 +1,21 @@
-<div class="m-composer__mediaPreview"></div>
+<div
+  *ngIf="previewResource"
+  class="m-composer__mediaPreview"
+  [hidden]="previewResource.source === 'none'"
+>
+  <ng-container *ngIf="previewResource.sourceType === 'image'">
+    <img
+      class="m-composerMediaPreview__image"
+      alt="Uploaded image"
+      i18n-alt
+      [src]="trustedUrl(previewResource.payload)"
+      (load)="fitForImage(image)"
+      #image
+    />
+  </ng-container>
+  <ng-container *ngIf="previewResource.sourceType === 'video'">
+    <video muted title="Uploaded video">
+      <source [src]="trustedUrl(previewResource.payload)" />
+    </video>
+  </ng-container>
+</div>
