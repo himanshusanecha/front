@@ -30,7 +30,7 @@
             *ngIf="contentType === 'image'"
             [style.width]="mediaWidth + 'px'"
             [style.height]="mediaHeight + 'px'"
-            [@slowFadeAnimation]="isLoading ? 'out' : 'in'"
+            [@slowFade]="isLoading ? 'out' : 'in'"
             [ngClass]="{
               'm-mature-content': attachment.shouldBeBlurred(entity),
               'm-mature-content-shown': attachment.isForcefullyShown(entity)
@@ -138,7 +138,11 @@
                 >
               </span>
             </div>
-            <minds-rich-embed [src]="entity" [maxheight]="480">
+            <minds-rich-embed
+              [src]="entity"
+              [maxheight]="480"
+              [embeddedInline]="true"
+            >
             </minds-rich-embed>
           </div>
 
@@ -165,7 +169,7 @@
               contentType !== 'rich-embed' &&
               !attachment.shouldBeBlurred(entity)
             "
-            @fastFadeAnimation
+            @fastFade
           >
             <div
               class="m-mediaModal__overlayTitleWrapper"
