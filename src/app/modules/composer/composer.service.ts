@@ -1,17 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  last,
-  map,
-  switchAll,
-  tap,
-} from 'rxjs/operators';
-import {
-  AttachmentApiService,
-  UploadEvent,
-  UploadEventType,
-} from '../../common/api/attachment-api.service';
+import { BehaviorSubject, combineLatest, of, Subscription } from 'rxjs';
+import { catchError, distinctUntilChanged, tap } from 'rxjs/operators';
+import { AttachmentApiService } from '../../common/api/attachment-api.service';
 
 export type MessageSubjectValue = string;
 
@@ -23,7 +13,7 @@ export type MonetizationSubjectValue = any;
 
 export type TagsSubjectValue = Array<string>;
 
-export type ScheduleSubjectValue = any;
+export type ScheduleSubjectValue = number | null;
 
 @Injectable()
 export class ComposerService implements OnDestroy {
@@ -57,6 +47,10 @@ export class ComposerService implements OnDestroy {
 
   readonly progress$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
+  readonly attachmentError$: BehaviorSubject<string> = new BehaviorSubject<
+    string
+  >('');
+
   protected payload: any = null;
 
   protected readonly dataStreamSubscription: Subscription;
@@ -66,8 +60,15 @@ export class ComposerService implements OnDestroy {
       this.message$.pipe(distinctUntilChanged()),
       this.attachment$.pipe(
         distinctUntilChanged(),
-        this.attachmentApi.fileToGuid((inProgress, progress) =>
-          this.setProgress(inProgress, progress)
+        tap(_ => this.attachmentError$.next('')),
+        this.attachmentApi.fileToGuid(
+          (inProgress, progress) => this.setProgress(inProgress, progress),
+          e => {
+            console.error('Composer:Attachment', e); // Ensure Sentry knows
+            this.attachmentError$.next(
+              (e && e.message) || 'There was an issue uploading your file'
+            );
+          }
         )
       ),
       this.nsfw$, // TODO: Implement custom distinctUntilChanged comparison
@@ -82,7 +83,15 @@ export class ComposerService implements OnDestroy {
   }
 
   reset() {
-    // TODO: Set initial values
+    this.message$.next('');
+    this.attachment$.next(null);
+    this.nsfw$.next([]);
+    this.monetization$.next(null);
+    this.tags$.next([]);
+    this.schedule$.next(null);
+    this.inProgress$.next(false);
+    this.progress$.next(0);
+    this.attachmentError$.next('');
   }
 
   load(activity: any) {
@@ -94,11 +103,6 @@ export class ComposerService implements OnDestroy {
 
     console.log('received activity', activity);
     // TODO: Set values based on activity
-  }
-
-  setProgress(inProgress: boolean, progress: number): void {
-    this.inProgress$.next(inProgress);
-    this.progress$.next(progress);
   }
 
   buildPayload([message, attachment, nsfw, monetization, tags, schedule]) {
@@ -116,8 +120,13 @@ export class ComposerService implements OnDestroy {
       access_id: 2, // TODO (group GUID)
       container_guid: null, // TODO (group GUID)
       nsfw: nsfw || [],
-      tags: tags,
+      tags: tags || [],
     };
+  }
+
+  setProgress(inProgress: boolean, progress: number): void {
+    this.inProgress$.next(inProgress);
+    this.progress$.next(progress);
   }
 
   async post(): Promise<any> {

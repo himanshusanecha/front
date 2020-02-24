@@ -60,10 +60,6 @@ export class BaseComponent implements OnInit, OnDestroy {
     return this.service.attachment$;
   }
 
-  set attachment(attachment: File | null) {
-    this.service.attachment$.next(attachment);
-  }
-
   get nsfw$() {
     return this.service.nsfw$;
   }
@@ -104,6 +100,10 @@ export class BaseComponent implements OnInit, OnDestroy {
     return this.service.progress$;
   }
 
+  get attachmentError$() {
+    return this.service.attachmentError$;
+  }
+
   ngOnInit(): void {
     this.service.reset();
   }
@@ -130,7 +130,7 @@ export class BaseComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.attachment = file;
+    this.attachment$.next(file);
   }
 
   onDeleteAttachment(): void {
@@ -139,8 +139,8 @@ export class BaseComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // TODO: Delete unused attachment
-    this.attachment = null;
+    // TODO: Delete unused attachment from server
+    this.attachment$.next(null);
   }
 
   async onPost(event: ButtonComponentAction) {

@@ -39,5 +39,12 @@
       (onDeleteAttachment)="onDeleteAttachment()"
       (onPost)="onPost($event)"
     ></m-composer__toolbar>
+
+    <div
+      class="m-composerBase__error"
+      *ngIf="attachmentError$ | async as lastError"
+    >
+      {{ lastError }}
+    </div>
   </div>
 </div>

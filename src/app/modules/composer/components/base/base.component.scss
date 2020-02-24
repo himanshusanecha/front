@@ -95,4 +95,17 @@
       }
     }
   }
+
+  .m-composerBase__error {
+    padding: 24px 8px 0;
+    text-align: center;
+    font-size: 13px;
+    border-top: 1px solid;
+    margin-top: 20px;
+
+    @include m-theme() {
+      color: themed($m-alert);
+      border-color: themed($m-borderColor--primary);
+    }
+  }
 }

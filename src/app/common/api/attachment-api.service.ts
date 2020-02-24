@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { catchError, filter, last, map, switchAll, tap } from 'rxjs/operators';
-import { MonoTypeOperatorFunction, Observable, of } from 'rxjs';
+import { MonoTypeOperatorFunction, Observable, of, throwError } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 export enum UploadEventType {
@@ -22,7 +22,8 @@ export class AttachmentApiService {
   constructor(protected api: ApiService) {}
 
   fileToGuid = (
-    progressFn?: (inProgress: boolean, progress: number) => void
+    progressFn?: (inProgress: boolean, progress: number) => void,
+    errorFn?: (e) => void
   ): MonoTypeOperatorFunction<File | null> => input$ =>
     input$.pipe(
       map(file =>
@@ -49,6 +50,13 @@ export class AttachmentApiService {
                 break;
             }
           }),
+          catchError(e => {
+            if (errorFn) {
+              errorFn(e);
+            }
+
+            return of(null);
+          }),
           last()
         )
       ),
@@ -65,11 +73,17 @@ export class AttachmentApiService {
       return of(null);
     }
 
-    return this.uploadToApi(file);
+    if (/image\/.+/.test(file.type)) {
+      return this.uploadToApi(file);
+    } else if (/video\/.+/.test(file.type)) {
+      return this.uploadToS3(file);
+    }
+
+    return throwError(new Error(`You cannot attach a ${file.type} file`));
   }
 
-  protected uploadToS3(file: File) {
-    throw new Error('Not implemented');
+  protected uploadToS3(file: File): Observable<UploadEvent> {
+    return throwError(new Error(`Not Implemented`));
   }
 
   protected uploadToApi(file: File): Observable<UploadEvent> {
