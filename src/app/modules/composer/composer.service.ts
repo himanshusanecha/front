@@ -66,7 +66,7 @@ export class ComposerService implements OnDestroy {
       this.message$.pipe(distinctUntilChanged()),
       this.attachment$.pipe(
         distinctUntilChanged(),
-        this.attachmentApi.iHateNamingThings((inProgress, progress) =>
+        this.attachmentApi.fileToGuid((inProgress, progress) =>
           this.setProgress(inProgress, progress)
         )
       ),

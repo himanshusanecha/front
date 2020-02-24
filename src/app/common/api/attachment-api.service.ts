@@ -21,7 +21,7 @@ export interface UploadEvent {
 export class AttachmentApiService {
   constructor(protected api: ApiService) {}
 
-  iHateNamingThings = (
+  fileToGuid = (
     progressFn?: (inProgress: boolean, progress: number) => void
   ): MonoTypeOperatorFunction<File | null> => input$ =>
     input$.pipe(
