@@ -676,6 +676,20 @@ m-media--modal {
       margin-right: 3px;
     }
   }
+
+  .m-mediaModal__stage {
+    m-blog-view {
+      .m-mature-content {
+        .m-mature-overlay {
+          .m-mature-overlay-note {
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+  }
+
   .m-mediaModal__stage {
     .m-mature-content {
       .m-mature-overlay {
