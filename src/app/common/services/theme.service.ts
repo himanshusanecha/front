@@ -16,7 +16,7 @@ export class ThemeService {
   renderer: Renderer2;
   isDark$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isDarkSubscription: Subscription;
-  allowSetStorage: boolean = true;
+  sessionSubscription: Subscription;
   timer;
 
   constructor(
@@ -30,6 +30,11 @@ export class ThemeService {
     this.isDarkSubscription = this.isDark$.subscribe(isDark => {
       this.renderTheme();
     });
+    this.sessionSubscription = this.session.loggedinEmitter.subscribe(
+      isLoggedIn => {
+        this.emitThemePreference();
+      }
+    );
   }
 
   // TODO after release of MacOS 10.14.4
@@ -64,6 +69,7 @@ export class ThemeService {
    */
   emitThemePreference(): void {
     const shouldBeDark: boolean =
+      this.session.isLoggedIn() &&
       this.session.getLoggedInUser().theme === 'dark';
     this.isDark$.next(shouldBeDark);
   }
