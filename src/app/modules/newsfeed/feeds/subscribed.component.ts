@@ -19,16 +19,15 @@ import {
 import { Client, Upload } from '../../../services/api';
 import { Navigation as NavigationService } from '../../../services/navigation';
 import { MindsActivityObject } from '../../../interfaces/entities';
-import { Session } from '../../../services/session';
 import { Storage } from '../../../services/storage';
 import { ContextService } from '../../../services/context.service';
 import { PosterComponent } from '../poster/poster.component';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { FeaturesService } from '../../../services/features.service';
 import { FeedsService } from '../../../common/services/feeds.service';
 import { NewsfeedService } from '../services/newsfeed.service';
 import { ClientMetaService } from '../../../common/services/client-meta.service';
 import { isPlatformServer } from '@angular/common';
+import { ComposerComponent } from '../../composer/composer.component';
 
 @Component({
   selector: 'm-newsfeed--subscribed',
@@ -61,7 +60,9 @@ export class NewsfeedSubscribedComponent {
   reloadFeedSubscription: Subscription;
   routerSubscription: Subscription;
 
-  @ViewChild('poster', { static: true }) private poster: PosterComponent;
+  @ViewChild('poster', { static: false }) private poster: PosterComponent;
+
+  @ViewChild('composer', { static: false }) private composer: ComposerComponent;
 
   constructor(
     public client: Client,
@@ -267,7 +268,7 @@ export class NewsfeedSubscribedComponent {
     }
   }
 
-  canDeactivate() {
+  protected _v1CanDeactivate(): boolean {
     if (!this.poster || !this.poster.attachment) return true;
     const progress = this.poster.attachment.getUploadProgress();
     if (progress > 0 && progress < 100) {
@@ -275,5 +276,14 @@ export class NewsfeedSubscribedComponent {
     }
 
     return true;
+  }
+
+  canDeactivate(): boolean | Promise<boolean> {
+    if (this.composer) {
+      return this.composer.canDeactivate();
+    }
+
+    // Check v1 Poster component
+    return this._v1CanDeactivate();
   }
 }

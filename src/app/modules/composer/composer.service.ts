@@ -1,6 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { last, map, switchAll, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  last,
+  map,
+  switchAll,
+  tap,
+} from 'rxjs/operators';
 import {
   AttachmentApiService,
   UploadEvent,
@@ -57,32 +63,18 @@ export class ComposerService implements OnDestroy {
 
   constructor(protected attachmentApi: AttachmentApiService) {
     this.dataStreamSubscription = combineLatest([
-      this.message$,
+      this.message$.pipe(distinctUntilChanged()),
       this.attachment$.pipe(
-        map(file =>
-          this.attachmentApi.upload(file).pipe(
-            tap(uploadEvent => this.setProgress(uploadEvent)),
-            last()
-          )
-        ),
-        switchAll()
+        distinctUntilChanged(),
+        this.attachmentApi.iHateNamingThings((inProgress, progress) =>
+          this.setProgress(inProgress, progress)
+        )
       ),
-      this.nsfw$,
-      this.monetization$,
-      this.tags$,
-      this.schedule$,
-    ])
-      .pipe(
-        map(([message, attachment, nsfw, monetization, tags, schedule]) => ({
-          message,
-          attachment,
-          nsfw,
-          monetization,
-          tags,
-          schedule,
-        }))
-      )
-      .subscribe(data => this.buildPayload(data));
+      this.nsfw$, // TODO: Implement custom distinctUntilChanged comparison
+      this.monetization$, // TODO: Implement custom distinctUntilChanged comparison
+      this.tags$, // TODO: Implement custom distinctUntilChanged comparison
+      this.schedule$, // TODO: Implement custom distinctUntilChanged comparison
+    ]).subscribe(values => this.buildPayload(values));
   }
 
   ngOnDestroy(): void {
@@ -100,46 +92,31 @@ export class ComposerService implements OnDestroy {
       return;
     }
 
+    console.log('received activity', activity);
     // TODO: Set values based on activity
   }
 
-  setProgress(uploadEvent: UploadEvent | null): void {
-    if (!uploadEvent) {
-      this.progress$.next(0);
-      this.inProgress$.next(false);
-      return;
-    }
-
-    switch (uploadEvent.type) {
-      case UploadEventType.Progress:
-        this.inProgress$.next(true);
-        this.progress$.next(uploadEvent.payload.progress);
-        break;
-
-      case UploadEventType.Success:
-      case UploadEventType.Fail:
-        this.progress$.next(0);
-        this.inProgress$.next(false);
-        break;
-    }
+  setProgress(inProgress: boolean, progress: number): void {
+    this.inProgress$.next(inProgress);
+    this.progress$.next(progress);
   }
 
-  buildPayload(data) {
+  buildPayload([message, attachment, nsfw, monetization, tags, schedule]) {
     this.payload = {
-      message: data.message || '',
-      wire_threshold: data.monetization || null,
-      time_created: data.schedule || null,
+      message: message || '',
+      wire_threshold: monetization || null,
+      time_created: schedule || null,
       is_rich: 0, // TODO
       title: '', // TODO
       description: '', // TODO
       thumbnail: '', // TODO
       url: '', // TODO
-      attachment_guid: data.attachment || null,
-      mature: data.nsfw && data.nsfw.length > 0,
+      attachment_guid: attachment || null,
+      mature: nsfw && nsfw.length > 0,
       access_id: 2, // TODO (group GUID)
       container_guid: null, // TODO (group GUID)
-      nsfw: data.nsfw || [],
-      tags: data.tags,
+      nsfw: nsfw || [],
+      tags: tags,
     };
   }
 

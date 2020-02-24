@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { catchError, filter, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { catchError, filter, last, map, switchAll, tap } from 'rxjs/operators';
+import { MonoTypeOperatorFunction, Observable, of } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 export enum UploadEventType {
@@ -20,6 +20,45 @@ export interface UploadEvent {
 @Injectable()
 export class AttachmentApiService {
   constructor(protected api: ApiService) {}
+
+  iHateNamingThings = (
+    progressFn?: (inProgress: boolean, progress: number) => void
+  ): MonoTypeOperatorFunction<File | null> => input$ =>
+    input$.pipe(
+      map(file =>
+        this.upload(file).pipe(
+          tap(uploadEvent => {
+            if (!progressFn) {
+              return;
+            }
+
+            if (!uploadEvent) {
+              progressFn(false, 0);
+              return;
+            }
+
+            switch (uploadEvent.type) {
+              case UploadEventType.Progress:
+                progressFn(true, uploadEvent.payload.progress);
+                break;
+
+              case UploadEventType.Success:
+              case UploadEventType.Fail:
+              default:
+                progressFn(false, 0);
+                break;
+            }
+          }),
+          last()
+        )
+      ),
+      switchAll(),
+      map(uploadEvent =>
+        uploadEvent && uploadEvent.type == UploadEventType.Success
+          ? uploadEvent.payload.response.guid
+          : null
+      )
+    );
 
   upload(file: File | null): Observable<UploadEvent | null> {
     if (!file) {

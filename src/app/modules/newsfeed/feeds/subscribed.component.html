@@ -8,10 +8,14 @@
   >
 </div>
 
-<ng-container *mIfFeature="'activity-composer'; else mindsNewsfeedPoster">
-  <m-composer></m-composer>
+<ng-container *mIfFeature="'activity-composer'; else v1NewsfeedPoster">
+  <m-composer
+    (onPost)="prepend($event)"
+    [activity]="message ? { message: message } : undefined"
+    #composer
+  ></m-composer>
 </ng-container>
-<ng-template #mindsNewsfeedPoster>
+<ng-template #v1NewsfeedPoster>
   <minds-newsfeed-poster
     (load)="prepend($event)"
     [message]="message"

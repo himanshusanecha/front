@@ -6,9 +6,11 @@ import {
   Injector,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { ComposerModalService } from './composer-modal.service';
 import { ComposerService } from './composer.service';
+import { BaseComponent } from './components/base/base.component';
 
 @Component({
   providers: [ComposerService],
@@ -27,6 +29,12 @@ export class ComposerComponent {
     any
   > = new EventEmitter<any>();
 
+  @ViewChild('popOutBaseComposer', { static: false })
+  protected popOutBaseComposer: BaseComponent;
+
+  @ViewChild('embeddedBaseComposer', { static: false })
+  protected embeddedBaseComposer: BaseComponent;
+
   modalOpen: boolean = false;
 
   constructor(
@@ -41,11 +49,13 @@ export class ComposerComponent {
       this.modalOpen = true;
       this.detectChanges();
 
-      this.onPostEmitter.emit(
-        await this.composerModalService
-          .setInjector(this.injector)
-          .present(this.activity)
-      );
+      const response = await this.composerModalService
+        .setInjector(this.injector)
+        .present(this.activity);
+
+      if (response) {
+        this.onPostEmitter.emit();
+      }
     } catch (e) {
       console.error('Composer Placeholder', e);
       this.onPostErrorEmitter.emit(e);
@@ -53,6 +63,18 @@ export class ComposerComponent {
 
     this.modalOpen = false;
     this.detectChanges();
+  }
+
+  canDeactivate(): boolean | Promise<boolean> {
+    if (this.popOutBaseComposer) {
+      return this.popOutBaseComposer.canDeactivate();
+    }
+
+    if (this.embeddedBaseComposer) {
+      return this.popOutBaseComposer.canDeactivate();
+    }
+
+    return true;
   }
 
   detectChanges() {

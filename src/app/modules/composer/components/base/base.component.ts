@@ -157,4 +157,8 @@ export class BaseComponent implements OnInit, OnDestroy {
       // TODO: Display errors nicely and with a clear language
     }
   }
+
+  canDeactivate(): boolean | Promise<boolean> {
+    return true;
+  }
 }
