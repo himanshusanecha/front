@@ -40,7 +40,7 @@ export type MediaModalParams = {
   templateUrl: 'modal.component.html',
   animations: [
     // Fade media in after load
-    trigger('slowFadeAnimation', [
+    trigger('slowFade', [
       state(
         'in',
         style({
@@ -53,10 +53,11 @@ export type MediaModalParams = {
           opacity: 0,
         })
       ),
-      transition('in <=> out', [animate('600ms')]),
+      transition('out => in', [animate('600ms')]),
+      transition('in => out', [animate('0ms')]),
     ]),
     // Fade overlay in/out
-    trigger('fastFadeAnimation', [
+    trigger('fastFade', [
       transition(':enter', [
         style({ opacity: 0 }),
         animate('300ms', style({ opacity: 1 })),
@@ -108,6 +109,9 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   overlayVisible: boolean = false;
   tabletOverlayTimeout: any = null;
+
+  pagerVisible: boolean = false;
+  pagerTimeout: any = null;
 
   routerSubscription: Subscription;
 
@@ -304,7 +308,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
             break;
           default:
             if (
-              this.featureService.has('media-modal') &&
               this.entity.perma_url &&
               this.entity.title &&
               !this.entity.entity_guid
@@ -734,10 +737,17 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   // Show overlay and video controls
   onMouseEnterStage() {
     this.overlayVisible = true;
+    this.pagerVisible = true;
+    if (this.pagerTimeout) {
+      clearTimeout(this.pagerTimeout);
+    }
   }
 
   onMouseLeaveStage() {
     this.overlayVisible = false;
+    this.pagerTimeout = setTimeout(() => {
+      this.pagerVisible = false;
+    }, 2000);
   }
 
   // * TABLETS ONLY: SHOW OVERLAY & VIDEO CONTROLS * -------------------------------------------
@@ -838,6 +848,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     if (this.tabletOverlayTimeout) {
       clearTimeout(this.tabletOverlayTimeout);
+    }
+
+    if (this.pagerTimeout) {
+      clearTimeout(this.pagerTimeout);
     }
 
     // If the modal was closed without a redirect, replace media page url
