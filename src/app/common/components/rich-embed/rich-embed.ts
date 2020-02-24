@@ -5,6 +5,7 @@ import {
   ChangeDetectionStrategy,
   Output,
   EventEmitter,
+  Input,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -27,7 +28,7 @@ export class MindsRichEmbed {
   preview: any = {};
   maxheight: number = 320;
   inlineEmbed: any = null;
-  embeddedInline: boolean = false;
+  @Input() embeddedInline: boolean = false;
   cropImage: boolean = false;
   modalRequestSubscribed: boolean = false;
   @Output() mediaModalRequested: EventEmitter<any> = new EventEmitter();
@@ -98,7 +99,11 @@ export class MindsRichEmbed {
 
     this.inlineEmbed = inlineEmbed;
 
-    if (this.modalRequestSubscribed && this.mediaSource === 'youtube') {
+    if (
+      this.overlayModal.canOpenInModal() &&
+      this.modalRequestSubscribed &&
+      this.mediaSource === 'youtube'
+    ) {
       if (this.inlineEmbed && this.inlineEmbed.htmlProvisioner) {
         this.inlineEmbed.htmlProvisioner().then(html => {
           this.inlineEmbed.html = html;
@@ -113,7 +118,6 @@ export class MindsRichEmbed {
   action($event) {
     if (
       this.modalRequestSubscribed &&
-      this.featureService.has('media-modal') &&
       (this.mediaSource === 'youtube' || this.mediaSource === 'minds') &&
       this.overlayModal.canOpenInModal()
     ) {
@@ -274,7 +278,10 @@ export class MindsRichEmbed {
 
   hasInlineContentLoaded() {
     return (
-      !this.modalRequestSubscribed && this.inlineEmbed && this.inlineEmbed.html
+      this.embeddedInline &&
+      this.inlineEmbed &&
+      this.inlineEmbed.html &&
+      (!this.modalRequestSubscribed || !this.overlayModal.canOpenInModal())
     );
   }
 
