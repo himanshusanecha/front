@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Client } from '../../../../services/api';
 import isMobile from '../../../../helpers/is-mobile';
 
@@ -31,7 +31,7 @@ export class VideoPlayerService {
    * A poster is thumbnail
    * @var string
    */
-  poster: string;
+  poster$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   /**
    * False would be inline
@@ -51,6 +51,12 @@ export class VideoPlayerService {
   onReady$: Subject<void> = new Subject();
 
   constructor(private client: Client) {}
+
+  ngOnDestroy(): void {
+    if (this.poster$) {
+      this.poster$.unsubscribe();
+    }
+  }
 
   /**
    * Set the guid that we are interacting with
@@ -85,7 +91,7 @@ export class VideoPlayerService {
     try {
       let response = await this.client.get('api/v2/media/video/' + this.guid);
       this.sources = (<any>response).sources;
-      this.poster = (<any>response).poster;
+      this.poster$.next((<any>response).poster);
       this.status = (<any>response).transcode_status;
       this.onReady$.next();
       this.onReady$.complete();

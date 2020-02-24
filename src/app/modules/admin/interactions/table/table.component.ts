@@ -85,6 +85,10 @@ export class InteractionsTableComponent implements OnInit, OnChanges {
     }
   }
 
+  ngOnDestroy(): void {
+    this.cd.detach();
+  }
+
   async getLeaderboard() {
     clearTimeout(this.timeout);
 
@@ -122,7 +126,9 @@ export class InteractionsTableComponent implements OnInit, OnChanges {
   }
 
   detectChanges() {
-    this.cd.markForCheck();
-    this.cd.detectChanges();
+    if (!this.cd['destroyed']) {
+      this.cd.markForCheck();
+      this.cd.detectChanges();
+    }
   }
 }

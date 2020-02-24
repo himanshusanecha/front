@@ -89,6 +89,20 @@ export class MindsVideoPlayerComponent
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
+  ngOnChanges(changes) {
+    // reload on guid change.
+    if (
+      changes.guid &&
+      changes.guid.previousValue &&
+      changes.guid.previousValue !== changes.guid.currentValue
+    ) {
+      if (isPlatformBrowser(this.platformId)) {
+        this.guid = changes.guid.currentValue;
+        this.service.load();
+      }
+    }
+  }
+
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.service.load();
@@ -128,10 +142,6 @@ export class MindsVideoPlayerComponent
   @Input('shouldPlayInModal')
   set shouldPlayInModal(shouldPlayInModal: boolean) {
     this.service.setShouldPlayInModal(shouldPlayInModal);
-  }
-
-  get poster(): string {
-    return this.service.poster;
   }
 
   get sources(): Plyr.Source[] {

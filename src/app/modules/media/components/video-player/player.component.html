@@ -30,7 +30,7 @@
 <ng-template #placeholder>
   <div
     class="m-videoPlayer__placeholder"
-    [style.background-image]="'url(' + poster + ')'"
+    [style.background-image]="'url(' + (service.poster$ | async) + ')'"
   >
     <i
       class="material-icons minds-video-play-icon"
