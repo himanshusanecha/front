@@ -70,6 +70,8 @@ export class Activity implements OnInit {
   showBoostOptions: boolean = false;
   allowComments = true;
   @Input() boost: boolean = false;
+  @Input() disableBoosting: boolean = false;
+  @Input() disableReminding: boolean = false;
   @Input('boost-toggle')
   @Input()
   showBoostMenuOptions: boolean = false;
@@ -88,7 +90,7 @@ export class Activity implements OnInit {
   element: any;
   visible: boolean = false;
 
-  editing: boolean = false;
+  @Input() editing: boolean = false;
   @Input() hideTabs: boolean;
 
   @Output() _delete: EventEmitter<any> = new EventEmitter();
@@ -576,6 +578,12 @@ export class Activity implements OnInit {
   }
 
   openModal() {
+    if (
+      this.activity.perma_url &&
+      this.activity.perma_url.indexOf(this.configs.get('site_url')) === 0
+    )
+      return; // Don't open modal for minds links
+
     this.activity.modal_source_url = this.router.url;
 
     this.overlayModal
@@ -612,5 +620,27 @@ export class Activity implements OnInit {
     return this.activity.time_created > Math.floor(Date.now() / 1000)
       ? true
       : false;
+  }
+
+  /**
+   * Determined whether boost button should be shown.
+   * @returns { boolean } true if boost button should be shown.
+   */
+  showBoostButton(): boolean {
+    return (
+      this.session.getLoggedInUser().guid == this.activity.owner_guid &&
+      !this.isScheduled(this.activity.time_created) &&
+      !this.disableBoosting
+    );
+  }
+
+  /**
+   * Determined whether remind button should be shown.
+   * @returns { boolean } true if remind button should be shown.
+   */
+  showRemindButton(): boolean {
+    return (
+      !this.isScheduled(this.activity.time_created) && !this.disableReminding
+    );
   }
 }
