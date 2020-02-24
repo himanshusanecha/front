@@ -12,6 +12,7 @@ import { RichEmbedService } from '../../../services/rich-embed';
 import { MediaProxyService } from '../../../common/services/media-proxy.service';
 import { FeaturesService } from '../../../services/features.service';
 import { ConfigsService } from '../../../common/services/configs.service';
+import { OverlayModalService } from '../../../services/ux/overlay-modal';
 
 @Component({
   moduleId: module.id,
@@ -38,7 +39,8 @@ export class MindsRichEmbed {
     private cd: ChangeDetectorRef,
     protected featureService: FeaturesService,
     private mediaProxy: MediaProxyService,
-    private configs: ConfigsService
+    private configs: ConfigsService,
+    private overlayModal: OverlayModalService
   ) {}
 
   set _src(value: any) {
@@ -112,7 +114,8 @@ export class MindsRichEmbed {
     if (
       this.modalRequestSubscribed &&
       this.featureService.has('media-modal') &&
-      (this.mediaSource === 'youtube' || this.mediaSource === 'minds')
+      (this.mediaSource === 'youtube' || this.mediaSource === 'minds') &&
+      this.overlayModal.canOpenInModal()
     ) {
       $event.preventDefault();
       $event.stopPropagation();
