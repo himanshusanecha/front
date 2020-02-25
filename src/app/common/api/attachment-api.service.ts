@@ -108,6 +108,8 @@ export class AttachmentApiService {
         map((event: HttpEvent<any>) => {
           // ... and normalize the payload here.
 
+          console.log(event);
+
           switch (event.type) {
             case HttpEventType.Sent:
               return this.event(UploadEventType.Progress, {

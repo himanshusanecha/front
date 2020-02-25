@@ -306,7 +306,7 @@ export class ComposerService implements OnDestroy {
    * @param progress
    * @private
    */
-  setProgress(inProgress: boolean, progress: number): void {
+  setProgress(inProgress: boolean, progress: number = 1): void {
     this.inProgress$.next(inProgress);
     this.progress$.next(progress);
   }
@@ -318,13 +318,13 @@ export class ComposerService implements OnDestroy {
     // TODO: Return type!
     // TODO: Edit mode!
 
-    this.setProgress(true, 0);
+    this.setProgress(true);
 
     const { activity } = await this.api
       .post(`api/v1/newsfeed`, this.payload)
       .toPromise();
 
-    this.setProgress(false, 100);
+    this.setProgress(false);
 
     activity.boostToggle = true;
     return activity;
