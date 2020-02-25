@@ -133,6 +133,8 @@ export class MindsVideoPlayerComponent
     this.service.setShouldPlayInModal(shouldPlayInModal);
   }
 
+  @Input() autoplaying: boolean = false;
+
   get poster(): string {
     return this.service.poster;
   }
@@ -176,6 +178,47 @@ export class MindsVideoPlayerComponent
     console.error('Placeholder was clicked but we have no action to take');
   }
 
+  onOverlayClick(e: MouseEvent): void {
+    if (this.player) {
+      this.unmute();
+
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+
+  unmute(): void {
+    if (this.player) {
+      this.player.player.muted = false;
+    }
+  }
+
+  mute(): void {
+    if (this.player) {
+      this.player.player.muted = true;
+    }
+  }
+
+  isMuted(): boolean {
+    return this.player ? this.player.player.muted : false;
+  }
+
+  play(): void {
+    if (this.player) {
+      this.player.player.play();
+    }
+  }
+
+  isPlaying(): boolean {
+    return this.player ? this.player.player.playing : false;
+  }
+
+  stop(): void {
+    if (this.player) {
+      this.player.player.stop();
+    }
+  }
+
   /**
    * Pause the player, if there is one
    * @return void
@@ -183,7 +226,6 @@ export class MindsVideoPlayerComponent
   pause(): void {
     if (this.player) {
       this.player.player.pause();
-      return;
     }
   }
 

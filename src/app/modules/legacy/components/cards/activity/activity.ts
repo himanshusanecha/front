@@ -79,6 +79,7 @@ export class Activity implements OnInit, AfterViewInit {
   @Input() slot: number = -1;
 
   visibilityEvents: boolean = true;
+  autoplaying: boolean = false;
 
   @Input('visibilityEvents') set _visibilityEvents(visibilityEvents: boolean) {
     this.visibilityEvents = visibilityEvents;
@@ -221,15 +222,16 @@ export class Activity implements OnInit, AfterViewInit {
   tryAutoplay() {
     if (
       !this.newsfeedService.userPlaying ||
-      !this.newsfeedService.userPlaying.playing
+      !this.newsfeedService.userPlaying.isPlaying()
     ) {
       if (this.newsfeedService.currentlyPlaying) {
         this.newsfeedService.currentlyPlaying.stop();
       }
       if (this.player) {
-        this.player.player.player.muted = true;
-        this.player.player.player.play();
+        this.player.mute();
+        this.player.play();
         this.newsfeedService.currentlyPlaying = this.player.player.player;
+        this.autoplaying = true;
       } else {
         console.warn('player is not defined');
       }
@@ -238,14 +240,15 @@ export class Activity implements OnInit, AfterViewInit {
 
   stopPlaying() {
     if (!this.newsfeedService.userPlaying && this.player) {
-      this.player.player.player.stop();
+      this.player.stop();
+      this.autoplaying = false;
     }
   }
 
   userPlay() {
     const user = this.session.getLoggedInUser();
     if (user.plus && user.autoplay_videos) {
-      this.newsfeedService.userPlaying = this.player.player.player;
+      this.newsfeedService.userPlaying = this.player;
     }
   }
 
