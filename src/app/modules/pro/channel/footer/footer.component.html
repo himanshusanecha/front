@@ -1,7 +1,7 @@
 <div class="m-proChannelFooter">
   <div class="m-proChannelFooter__items">
     <a
-      *ngIf="!isProDomain"
+      *ngIf="showMessageButton()"
       (click)="onMessageClicked()"
       class="m-proChannelFooter__link"
       i18n-title

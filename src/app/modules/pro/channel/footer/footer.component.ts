@@ -4,6 +4,7 @@ import { Session } from '../../../../services/session';
 import { AuthService } from '../../../../services/auth.service';
 import { SiteService } from '../../../../common/services/site.service';
 import { MessengerConversationDockpanesService } from '../../../messenger/dockpanes/dockpanes.service';
+import { MessengerConversationBuilderService } from '../../../messenger/dockpanes/conversation-builder.service';
 import {
   getSocialProfileMeta,
   socialProfileMeta,
@@ -23,7 +24,8 @@ export class ProChannelFooterComponent {
     protected session: Session,
     protected auth: AuthService,
     protected site: SiteService,
-    protected dockpanes: MessengerConversationDockpanesService
+    protected dockpanes: MessengerConversationDockpanesService,
+    protected conversationBuilder: MessengerConversationBuilderService
   ) {}
 
   get socialProfilesMeta() {
@@ -112,10 +114,14 @@ export class ProChannelFooterComponent {
     if (!this.currentUser) {
       this.router.navigate(['/login']);
     }
-    if (this.currentUser.guid === this.user.guid) {
-      alert('You cannot message yourself');
-      return;
-    }
-    this.dockpanes.open(this.dockpanes.buildConversation(this.user));
+    this.dockpanes.open(this.conversationBuilder.buildConversation(this.user));
+  }
+
+  /**
+   * Determined whether message button should be shown.
+   * @return { boolean } true if the message button should be shown.
+   */
+  showMessageButton(): boolean {
+    return !this.isProDomain && this.currentUser.guid !== this.user.guid;
   }
 }
