@@ -2,6 +2,12 @@ import { Injectable, Injector } from '@angular/core';
 import { OverlayModalService } from '../../services/ux/overlay-modal';
 import { BaseComponent } from './components/base/base.component';
 
+export type BaseComponentData = {
+  activity?: any;
+  accessId?: any;
+  containerGuid?: any;
+};
+
 /**
  * Global service to open a composer modal
  */
@@ -25,9 +31,9 @@ export class ComposerModalService {
    * Presents the composer modal using the caller component's dependency injector. It returns
    * a promise which will hold the newly created entity, or null if cancelled.
    *
-   * @param activity
+   * @param data
    */
-  present(activity?: any): Promise<any> {
+  present(data: BaseComponentData = {}): Promise<any> {
     if (!this.injector) {
       throw new Error(
         "You need to set the caller component's dependency injector before calling .present()"
@@ -41,9 +47,7 @@ export class ComposerModalService {
         this.overlayModal
           .create(
             BaseComponent,
-            {
-              activity,
-            },
+            data,
             {
               wrapperClass: 'm-composer__modal',
               onPost: response => {

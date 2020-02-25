@@ -20,13 +20,25 @@ import { BaseComponent } from './components/base/base.component';
   templateUrl: 'composer.component.html',
 })
 export class ComposerComponent {
-  @Input() activity: any;
-
-  @Input() containerGuid: any;
-
-  @Input() accessId: any;
-
   @Input() embedded: boolean = false;
+
+  @Input('activity') set _activity(activity: any) {
+    if (activity) {
+      this.service.load(activity);
+    }
+  }
+
+  @Input('accessId') set _accessId(accessId: any) {
+    if (typeof accessId !== 'undefined') {
+      this.service.setAccessId(accessId);
+    }
+  }
+
+  @Input('containerGuid') set _containerGuid(containerGuid: any) {
+    if (typeof containerGuid !== 'undefined') {
+      this.service.setContainerGuid(containerGuid);
+    }
+  }
 
   @Output('onPost') onPostEmitter: EventEmitter<any> = new EventEmitter<any>();
 
@@ -36,8 +48,6 @@ export class ComposerComponent {
 
   modalOpen: boolean = false;
 
-  protected firstModalOpen: boolean = true;
-
   @ViewChild('popOutBaseComposer', { static: false })
   protected popOutBaseComposer: BaseComponent;
 
@@ -46,7 +56,7 @@ export class ComposerComponent {
 
   constructor(
     protected composerModalService: ComposerModalService,
-    protected composerService: ComposerService /* NOTE: Used for DI. DO NOT REMOVE !!! */,
+    protected service: ComposerService /* NOTE: Used for DI. DO NOT REMOVE OR CHANGE !!! */,
     protected cd: ChangeDetectorRef,
     protected injector: Injector
   ) {}
@@ -58,9 +68,7 @@ export class ComposerComponent {
 
       const response = await this.composerModalService
         .setInjector(this.injector)
-        .present(this.firstModalOpen ? this.activity : void 0);
-
-      this.firstModalOpen = false;
+        .present();
 
       if (response) {
         this.onPostEmitter.emit(response);

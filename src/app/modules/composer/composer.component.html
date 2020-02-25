@@ -6,7 +6,6 @@
   <m-composer__base
     class="m-composer__triggerPreview"
     [class.m-composer__triggerPreview--hidden]="modalOpen"
-    [activity]="activity"
     #popOutBaseComposer
   ></m-composer__base>
 
@@ -14,8 +13,5 @@
 </div>
 
 <ng-template #embeddedComposer>
-  <m-composer__base
-    [activity]="activity"
-    #embeddedBaseComposer
-  ></m-composer__base>
+  <m-composer__base #embeddedBaseComposer></m-composer__base>
 </ng-template>

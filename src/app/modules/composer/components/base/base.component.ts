@@ -18,10 +18,6 @@ import { Subscription } from 'rxjs';
   templateUrl: 'base.component.html',
 })
 export class BaseComponent implements OnInit, OnDestroy {
-  @Input('activity') set _activity(activity: any) {
-    this.service.load(activity);
-  }
-
   @Output('onPost') onPostEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   id: string = UniqueId.generate('m-composer');
@@ -42,8 +38,20 @@ export class BaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  set data({ activity }) {
-    this.service.load(activity);
+  set data({ activity, accessId, containerGuid }) {
+    // Set if comes straight from modal
+
+    if (typeof accessId !== 'undefined') {
+      this.service.setAccessId(accessId);
+    }
+
+    if (typeof containerGuid !== 'undefined') {
+      this.service.setContainerGuid(containerGuid);
+    }
+
+    if (activity) {
+      this.service.load(activity);
+    }
   }
 
   //
@@ -121,10 +129,6 @@ export class BaseComponent implements OnInit, OnDestroy {
 
     // TODO: Destroy subscriptions, if any
     // TODO: Delete unused attachment
-  }
-
-  load(activity: any) {
-    this.service.load(activity);
   }
 
   onMessageChange(message: string) {

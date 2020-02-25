@@ -89,6 +89,10 @@ export class ComposerService implements OnDestroy {
 
   protected readonly dataSubscription: Subscription;
 
+  protected accessId: any;
+
+  protected containerGuid: any;
+
   protected payload: any = null;
 
   /**
@@ -180,6 +184,16 @@ export class ComposerService implements OnDestroy {
     this.dataSubscription.unsubscribe();
   }
 
+  setAccessId(accessId: any) {
+    this.accessId = accessId;
+    return this;
+  }
+
+  setContainerGuid(containerGuid: any) {
+    this.containerGuid = containerGuid;
+    return this;
+  }
+
   /**
    * Resets composer data and state
    */
@@ -221,6 +235,14 @@ export class ComposerService implements OnDestroy {
     this.tags$.next(activity.tags || []);
     this.schedule$.next(null /* TODO: Allow editing schedule time */);
     this.attachment$.next(null /* TODO: Allow editing attachments */);
+
+    if (typeof activity.accessId !== 'undefined') {
+      this.setAccessId(activity.accessId);
+    }
+
+    if (typeof activity.containerGuid !== 'undefined') {
+      this.setContainerGuid(activity.containerGuid);
+    }
   }
 
   /**
@@ -295,10 +317,10 @@ export class ComposerService implements OnDestroy {
       url: '', // TODO
       attachment_guid: attachmentGuid || null,
       mature: nsfw && nsfw.length > 0,
-      access_id: 2, // TODO (group GUID)
-      container_guid: null, // TODO (group GUID)
       nsfw: nsfw || [],
       tags: tags || [],
+      access_id: this.accessId || '2',
+      container_guid: this.containerGuid || null,
     };
   }
 
