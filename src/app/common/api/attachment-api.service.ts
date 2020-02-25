@@ -83,9 +83,10 @@ export class AttachmentApiService {
   }
 
   protected uploadToS3(file: File): Observable<UploadEvent> {
-    return new Observable<UploadEvent>(subscriber => {
-      // subscriber.next()
-    });
+    return throwError(new Error('Cannot upload videos'));
+    // return new Observable<UploadEvent>(subscriber => {
+    //   // subscriber.next()
+    // });
   }
 
   protected uploadToApi(file: File): Observable<UploadEvent> {
