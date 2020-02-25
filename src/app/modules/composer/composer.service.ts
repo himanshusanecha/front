@@ -324,6 +324,7 @@ export class ComposerService implements OnDestroy {
       .post(`api/v1/newsfeed`, this.payload)
       .toPromise();
 
+    this.reset();
     this.setProgress(false);
 
     activity.boostToggle = true;
