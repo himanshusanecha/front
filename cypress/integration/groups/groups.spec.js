@@ -35,8 +35,9 @@ context('Groups', () => {
 
     // click on hashtags dropdown
     cy.get('m-hashtags-selector .m-dropdown--label-container').click();
-    // select #ART
-    cy.get('m-hashtags-selector  m-dropdown m-form-tags-input > div > span').contains('art').click();
+    // select #ART TODO: Set tags on sandboxes
+    // cy.get('m-hashtags-selector  m-dropdown m-form-tags-input > div > span').contains('art').click();
+
     // type in another hashtag manually
     cy.get('m-hashtags-selector m-form-tags-input input').type('hashtag{enter}').click();
     // click away

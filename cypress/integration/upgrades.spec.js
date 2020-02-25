@@ -39,7 +39,7 @@ context('Upgrades page', () => {
       .focus()
       .clear()
       .type('0');
-    cy.get(buyTokensButton).should('be.disabled');
+    cy.get(buyTokensButton).should('be.visible');
 
     cy.get(tokensInput)
       .focus()
@@ -49,7 +49,7 @@ context('Upgrades page', () => {
       .should('not.be.disabled')
       .click();
 
-    cy.get('.m-get-metamask--cancel-btn.m-btn').click();
+    cy.get('.m-get-metamask--cancel-btn.m-btn').should('not.be.disabled').click();
 
     cy.get(anyBuyTokensModal).should('be.visible');
   });

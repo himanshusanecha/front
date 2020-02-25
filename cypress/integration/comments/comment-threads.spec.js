@@ -65,7 +65,14 @@ context('Comment Threads', () => {
 
     //Add the first level of comments
     cy.get(commentInput).type(testMessage[1]);
-    cy.get(postCommentButton).click();
+
+    cy.get(postCommentButton)
+      .click()
+      .wait('@postComment')
+      .then(xhr => {
+        expect(xhr.status).to.equal(200);
+      });
+
     cy.get(commentContent).contains(testMessage[1]);
 
     //Add the second level of comments
@@ -82,10 +89,13 @@ context('Comment Threads', () => {
 
     cy.get(postCommentButton)
       .first()
-      .click();
+      .click()
+      .wait('@postComment')
+      .then(xhr => {
+        expect(xhr.status).to.equal(200);
+      });
 
     cy.get(commentContent).contains(testMessage[2]);
-    
 
     //Add the third level of comments
     cy.get('minds-activity:first')
@@ -104,8 +114,12 @@ context('Comment Threads', () => {
   
     cy.get(postCommentButton)
       .first()
-      .click();
-
+      .click()
+      .wait('@postComment')
+      .then(xhr => {
+        expect(xhr.status).to.equal(200);
+      });
+  
     cy.get(commentContent).contains(testMessage[3]);
     
     // Waiting on component init here.
