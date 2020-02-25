@@ -2,11 +2,16 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Client } from '../../../services/api/client';
 import { Session } from '../../../services/session';
 import { NSFWSelectorConsumerService } from '../../../common/components/nsfw-selector/nsfw-selector.service';
+import Plyr from 'plyr';
 
 @Injectable()
 export class NewsfeedService {
   allHashtags: boolean = false;
   onReloadFeed: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  userPlaying: Plyr;
+
+  currentlyPlaying: Plyr;
 
   constructor(
     private client: Client,

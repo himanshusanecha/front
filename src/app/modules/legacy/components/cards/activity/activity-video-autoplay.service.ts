@@ -2,7 +2,6 @@ import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 
 import { ScrollService } from '../../../../../services/ux/scroll';
-import Plyr from 'plyr';
 
 @Injectable()
 export class ActivityAVideoAutoplayService implements OnDestroy {
@@ -23,10 +22,6 @@ export class ActivityAVideoAutoplayService implements OnDestroy {
   protected onStopViewingFn: (entity) => void;
 
   protected enabled: boolean = true;
-
-  userPlaying: boolean = false;
-
-  currentlyPlaying: Plyr;
 
   constructor(protected scroll: ScrollService) {
     this.init();
