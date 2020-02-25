@@ -35,8 +35,9 @@
     </div>
 
     <m-composer__toolbar
-      [attachment]="attachment$ | async"
       [inProgress]="inProgress$ | async"
+      [hasAttachment]="!!(attachment$ | async)"
+      [canPost]="canPost$ | async"
       (onAttachmentSelect)="onAttachmentSelect($event)"
       (onDeleteAttachment)="onDeleteAttachment()"
       (onPost)="onPost($event)"

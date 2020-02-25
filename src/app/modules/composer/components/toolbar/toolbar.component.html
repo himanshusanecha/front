@@ -1,6 +1,6 @@
 <div class="m-composer__toolbar">
   <m-file-upload
-    [hidden]="attachment || inProgress"
+    [hidden]="hasAttachment"
     wrapperClass="m-composerToolbar__item"
     accept="image/*,video/*"
     (onSelect)="onAttachmentSelect($event)"
@@ -10,7 +10,7 @@
     <span i18n>Upload</span>
   </m-file-upload>
   <a
-    *ngIf="attachment || inProgress"
+    *ngIf="hasAttachment"
     class="m-composerToolbar__item m-composerToolbar__item--active"
     (click)="onDeleteAttachmentClick($event)"
   >
@@ -35,7 +35,7 @@
 
   <m-button
     class="m-composerToolbar__item m-composerToolbarItem--container"
-    [disabled]="inProgress"
+    [disabled]="inProgress || !canPost"
     [dropdown]="postButtonDropdown"
     (onAction)="onPost($event)"
     i18n

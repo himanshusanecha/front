@@ -108,6 +108,10 @@ export class BaseComponent implements OnInit, OnDestroy {
     return this.service.preview$;
   }
 
+  get canPost$() {
+    return this.service.canPost$;
+  }
+
   ngOnInit(): void {}
 
   ngOnDestroy(): void {

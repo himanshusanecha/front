@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { catchError, filter, last, map, switchAll, tap } from 'rxjs/operators';
-import { MonoTypeOperatorFunction, Observable, of, throwError } from 'rxjs';
+import {
+  MonoTypeOperatorFunction,
+  Observable,
+  of,
+  OperatorFunction,
+  throwError,
+} from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 export enum UploadEventType {
@@ -24,7 +30,7 @@ export class AttachmentApiService {
   fileToGuid = (
     progressFn?: (inProgress: boolean, progress: number) => void,
     errorFn?: (e) => void
-  ): MonoTypeOperatorFunction<File | null> => input$ =>
+  ): OperatorFunction<File | null, string | null> => input$ =>
     input$.pipe(
       map(file =>
         this.upload(file).pipe(

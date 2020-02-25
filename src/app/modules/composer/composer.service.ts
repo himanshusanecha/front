@@ -1,18 +1,14 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { AttachmentApiService } from '../../common/api/attachment-api.service';
-import { ApiResponse, ApiService } from '../../common/api/api.service';
+import { ApiService } from '../../common/api/api.service';
 
 export type MessageSubjectValue = string;
 
 export type AttachmentSubjectValue = File | null;
+
+export type AttachmentGuidMappedValue = string | null;
 
 export type NsfwSubjectValue = Array<number>;
 
@@ -30,11 +26,11 @@ export interface PreviewResource {
 
 export interface Data {
   message: MessageSubjectValue;
-  attachment: AttachmentSubjectValue;
   nsfw: NsfwSubjectValue;
   monetization: MonetizationSubjectValue;
   tags: TagsSubjectValue;
   schedule: ScheduleSubjectValue;
+  attachmentGuid: AttachmentGuidMappedValue;
 }
 
 @Injectable()
@@ -82,6 +78,10 @@ export class ComposerService implements OnDestroy {
   readonly attachmentError$: BehaviorSubject<string> = new BehaviorSubject<
     string
   >('');
+
+  readonly canPost$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
   // Data and its payload builder subscription
 
@@ -141,15 +141,18 @@ export class ComposerService implements OnDestroy {
     ]).pipe(
       map(
         // Create an JSON object based on an array of Subject values
-        ([message, nsfw, monetization, tags, schedule, attachment]) => ({
+        ([message, nsfw, monetization, tags, schedule, attachmentGuid]) => ({
           message,
           nsfw,
           monetization,
           tags,
           schedule,
-          attachment,
+          attachmentGuid,
         })
-      )
+      ),
+      tap(values => {
+        this.canPost$.next(Boolean(values.message || values.attachmentGuid));
+      })
     );
 
     // Subscribe to data stream and re-build API payload when it changes
@@ -275,7 +278,7 @@ export class ComposerService implements OnDestroy {
    */
   buildPayload({
     message,
-    attachment,
+    attachmentGuid,
     nsfw,
     monetization,
     tags,
@@ -290,7 +293,7 @@ export class ComposerService implements OnDestroy {
       description: '', // TODO
       thumbnail: '', // TODO
       url: '', // TODO
-      attachment_guid: attachment || null,
+      attachment_guid: attachmentGuid || null,
       mature: nsfw && nsfw.length > 0,
       access_id: 2, // TODO (group GUID)
       container_guid: null, // TODO (group GUID)

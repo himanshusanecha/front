@@ -18,7 +18,9 @@ import { ButtonComponentAction } from '../../../../common/components/button-v2/b
   templateUrl: 'toolbar.component.html',
 })
 export class ToolbarComponent {
-  @Input() attachment: any;
+  @Input() hasAttachment: any;
+
+  @Input() canPost: boolean = true;
 
   @Input() inProgress: boolean = false;
 
