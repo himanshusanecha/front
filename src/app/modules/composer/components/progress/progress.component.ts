@@ -15,11 +15,11 @@ export class ProgressComponent {
   }
 
   get active() {
-    return this.inProgress && this.progressPct < 99; // First 99%
+    return this.inProgress && this.progressPct < 99.9; // First 99.9%
   }
 
   get indeterminate() {
-    return this.inProgress && this.progressPct >= 99; // Last 1%
+    return this.inProgress && this.progressPct >= 99.9;
   }
 
   get currentProgressWidth() {

@@ -22,11 +22,14 @@
 
   &.m-composer__progress--indeterminate {
     display: flex;
+    transform: translateZ(0); // 3D
 
     .m-composerProgress__fill {
       width: 100%;
       animation: m-composer__progress--runningProgress 2s
         cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      transform: translateZ(0); // 3D
+      will-change: transform, margin-left, margin-right;
     }
   }
 }

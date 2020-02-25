@@ -83,7 +83,9 @@ export class AttachmentApiService {
   }
 
   protected uploadToS3(file: File): Observable<UploadEvent> {
-    return throwError(new Error(`Not Implemented`));
+    return new Observable<UploadEvent>(subscriber => {
+      // subscriber.next()
+    });
   }
 
   protected uploadToApi(file: File): Observable<UploadEvent> {
@@ -102,13 +104,12 @@ export class AttachmentApiService {
 
             HttpEventType.Sent,
             HttpEventType.UploadProgress,
+            HttpEventType.ResponseHeader,
             HttpEventType.Response,
           ].includes(event.type)
         ),
         map((event: HttpEvent<any>) => {
           // ... and normalize the payload here.
-
-          console.log(event);
 
           switch (event.type) {
             case HttpEventType.Sent:
@@ -119,6 +120,11 @@ export class AttachmentApiService {
             case HttpEventType.UploadProgress:
               return this.event(UploadEventType.Progress, {
                 progress: event.loaded / (event.total || +Infinity),
+              });
+
+            case HttpEventType.ResponseHeader:
+              return this.event(UploadEventType.Progress, {
+                progress: 1,
               });
 
             case HttpEventType.Response:
