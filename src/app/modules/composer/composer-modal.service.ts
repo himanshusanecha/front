@@ -69,4 +69,8 @@ export class ComposerModalService {
       }
     });
   }
+
+  dismiss() {
+    this.overlayModal.dismiss();
+  }
 }

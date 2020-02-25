@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostListener,
   Injector,
   Input,
   Output,
@@ -81,6 +82,36 @@ export class ComposerComponent {
     if (this.embeddedBaseComposer) {
       return this.popOutBaseComposer.canDeactivate();
     }
+
+    return true;
+  }
+
+  @HostListener('window:keydown', ['$event']) onWindowKeyDown(
+    $event: KeyboardEvent
+  ) {
+    if (!$event || !$event.target || this.embedded) {
+      return true;
+    }
+
+    const tagName = (
+      ($event.target as HTMLElement).tagName || ''
+    ).toLowerCase();
+
+    const isContentEditable =
+      ($event.target as HTMLElement).contentEditable === 'true';
+
+    if (
+      tagName === 'input' ||
+      tagName === 'textarea' ||
+      isContentEditable ||
+      $event.key !== 'Escape'
+    ) {
+      return true;
+    }
+
+    $event.stopPropagation();
+    $event.preventDefault();
+    this.composerModalService.dismiss();
 
     return true;
   }
