@@ -122,6 +122,7 @@ export interface MindsUser {
 
 export interface MindsGroup {
   guid: string;
+  type: string;
   name: string;
   banner: boolean;
 }

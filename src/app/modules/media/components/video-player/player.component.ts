@@ -84,6 +84,11 @@ export class MindsVideoPlayerComponent
     ],
   };
 
+  onReadySubscription: Subscription = this.service.onReady$.subscribe(() => {
+    this.cd.markForCheck();
+    this.cd.detectChanges();
+  });
+
   constructor(
     private service: VideoPlayerService,
     private cd: ChangeDetectorRef,
@@ -92,10 +97,7 @@ export class MindsVideoPlayerComponent
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.service.load().then(() => {
-        this.cd.markForCheck();
-        this.cd.detectChanges();
-      });
+      this.service.load();
     }
   }
 
@@ -111,6 +113,7 @@ export class MindsVideoPlayerComponent
     if (this.autoplaySubscription) {
       this.autoplaySubscription.unsubscribe();
     }
+    this.onReadySubscription.unsubscribe();
   }
 
   @Input('guid')
