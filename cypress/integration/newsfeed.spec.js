@@ -571,9 +571,7 @@ context('Newsfeed', () => {
 
         //get activity, make assertions tht would not be true for modals.
         cy.get(`[minds-data-activity-guid='${xhr.response.body.guid}']`)
-          .should('be.visible')
-          .get('iframe')          
-          .should('be.visible')
+          .contains('play_arrow')
           .get('.minds-more')
           .should('be.visible');
         
