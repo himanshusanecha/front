@@ -515,7 +515,7 @@
 <!-- Pending block -->
 <div
   class="mdl-card__supporting-text m-activity--pending"
-  *ngIf="isScheduled(activity.time_created)"
+  *ngIf="isScheduled(activity.time_created, 30000)"
 >
   This activity is scheduled to be shown on {{activity.time_created * 1000 |
   date:'medium'}}.

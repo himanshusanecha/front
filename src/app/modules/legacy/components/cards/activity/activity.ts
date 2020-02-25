@@ -513,8 +513,11 @@ export class Activity implements OnInit {
     return activity && activity.pending && activity.pending !== '0';
   }
 
-  isScheduled(time_created) {
-    return time_created && time_created * 1000 > Date.now();
+  isScheduled(time_created, deviation = 5000) {
+    // Scheduled when time_created is more than 5 (default) seconds in the
+    // future, to account minimal client computer deviation.
+
+    return time_created && time_created * 1000 > Date.now() + deviation;
   }
 
   toggleMatureVisibility() {
