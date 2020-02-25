@@ -224,8 +224,7 @@ export class Activity implements OnInit, AfterViewInit {
         this.activityVideoAutoplayService.currentlyPlaying.stop();
       }
       if (this.player) {
-        // this.player.player.player.mute();
-        this.player.player.player.muted = false;
+        this.player.player.player.muted = true;
         this.player.player.player.play();
         this.activityVideoAutoplayService.currentlyPlaying = this.player.player.player;
       } else {
