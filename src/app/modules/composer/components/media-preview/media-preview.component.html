@@ -1,6 +1,7 @@
 <div
   *ngIf="previewResource"
   class="m-composer__mediaPreview"
+  [class.m-composer__mediaPreview--portrait]="portrait"
   [hidden]="previewResource.source === 'none'"
 >
   <ng-container *ngIf="previewResource.sourceType === 'image'">
@@ -14,8 +15,14 @@
     />
   </ng-container>
   <ng-container *ngIf="previewResource.sourceType === 'video'">
-    <video muted title="Uploaded video">
-      <source [src]="trustedUrl(previewResource.payload)" />
+    <video
+      muted
+      title="Uploaded video"
+      class="m-composerMediaPreview__video"
+      (loadedmetadata)="fitForVideo(video)"
+      #video
+    >
+      <source [src]="trustedUrl(previewResource.payload + '#t=1')" />
     </video>
   </ng-container>
 </div>
