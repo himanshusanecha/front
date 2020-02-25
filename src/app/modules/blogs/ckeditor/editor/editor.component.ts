@@ -12,7 +12,6 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { isPlatformServer } from '@angular/common';
 declare var require: any;
 
 @Component({
