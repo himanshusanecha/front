@@ -108,9 +108,7 @@ export class BaseComponent implements OnInit, OnDestroy {
     return this.service.preview$;
   }
 
-  ngOnInit(): void {
-    this.service.reset();
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     if (this.onPostModalSubscription) {

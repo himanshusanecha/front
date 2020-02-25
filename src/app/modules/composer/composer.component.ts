@@ -29,13 +29,15 @@ export class ComposerComponent {
     any
   > = new EventEmitter<any>();
 
+  modalOpen: boolean = false;
+
+  protected firstModalOpen: boolean = true;
+
   @ViewChild('popOutBaseComposer', { static: false })
   protected popOutBaseComposer: BaseComponent;
 
   @ViewChild('embeddedBaseComposer', { static: false })
   protected embeddedBaseComposer: BaseComponent;
-
-  modalOpen: boolean = false;
 
   constructor(
     protected composerModalService: ComposerModalService,
@@ -51,7 +53,9 @@ export class ComposerComponent {
 
       const response = await this.composerModalService
         .setInjector(this.injector)
-        .present(this.activity);
+        .present(this.firstModalOpen ? this.activity : void 0);
+
+      this.firstModalOpen = false;
 
       if (response) {
         this.onPostEmitter.emit(response);

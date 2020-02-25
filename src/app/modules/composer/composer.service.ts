@@ -206,11 +206,11 @@ export class ComposerService implements OnDestroy {
    * @param activity
    */
   load(activity: any) {
-    this.reset();
-
     if (!activity) {
       return;
     }
+
+    this.reset();
 
     this.message$.next(activity.message || '');
     this.nsfw$.next(activity.nsfw || []);
