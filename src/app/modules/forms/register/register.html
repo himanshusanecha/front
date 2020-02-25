@@ -39,7 +39,6 @@
         readonly
         onfocus="this.removeAttribute('readonly');"
         [class.m-input--hide-placeholder]="showLabels"
-        autofocus
       />
       <div
         class="m-register__error"
@@ -134,6 +133,16 @@
         </ng-container>
       </div>
     </div>
+
+    <div
+      *ngIf="form.value.password"
+      class="mdl-cell mdl-cell--12-col m-registerForm__captcha"
+    >
+      <label for="captcha" *ngIf="showLabels" i18n>
+        Captcha
+      </label>
+      <m-captcha formControlName="captcha"></m-captcha>
+    </div>
   </div>
 
   <div
@@ -151,7 +160,7 @@
 
       <m-formInput__checkbox
         formControlName="tos"
-        data-cy="data-minds-accept-tos-input"
+        data-cy="minds-accept-tos-input"
       >
         I accept the
         <a routerLink="/p/terms" target="_blank"> Terms & Conditions </a>

@@ -1,4 +1,4 @@
-import { NgZone, RendererFactory2, PLATFORM_ID } from '@angular/core';
+import { NgZone, RendererFactory2, PLATFORM_ID, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { TransferState } from '@angular/platform-browser';
@@ -31,7 +31,6 @@ import { RecentService } from './ux/recent';
 import { ContextService } from './context.service';
 import { FeaturesService } from './features.service';
 import { BlockchainService } from '../modules/blockchain/blockchain.service';
-import { WebtorrentService } from '../modules/webtorrent/webtorrent.service';
 import { TimeDiffService } from './timediff.service';
 import { UpdateMarkersService } from '../common/services/update-markers.service';
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -50,6 +49,7 @@ import { ConfigsService } from '../common/services/configs.service';
 import { TransferHttpInterceptorService } from './transfer-http-interceptor.service';
 import { CookieHttpInterceptorService } from './api/cookie-http-interceptor.service';
 import { CookieService } from '../common/services/cookie.service';
+import { RedirectService } from '../common/services/redirect.service';
 
 export const MINDS_PROVIDERS: any[] = [
   SiteService,
@@ -185,11 +185,6 @@ export const MINDS_PROVIDERS: any[] = [
     deps: [Router, Storage, Client],
   },
   {
-    provide: ConfigsService,
-    useFactory: client => new ConfigsService(client),
-    deps: [Client],
-  },
-  {
     provide: FeaturesService,
     useFactory: FeaturesService._,
     deps: [Session, Router, ConfigsService],
@@ -198,11 +193,6 @@ export const MINDS_PROVIDERS: any[] = [
     provide: BlockchainService,
     useFactory: BlockchainService._,
     deps: [Client],
-  },
-  {
-    provide: WebtorrentService,
-    useFactory: WebtorrentService._,
-    deps: WebtorrentService._deps,
   },
   {
     provide: TimeDiffService,
@@ -227,11 +217,7 @@ export const MINDS_PROVIDERS: any[] = [
     provide: InMemoryStorageService,
     useFactory: InMemoryStorageService._,
   },
-  {
-    provide: ThemeService,
-    useFactory: ThemeService._,
-    deps: [RendererFactory2, Client, Session, Storage],
-  },
+  ThemeService,
   DiagnosticsService,
   AuthService,
   FormToastService,
