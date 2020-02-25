@@ -21,6 +21,10 @@ import { BaseComponent } from './components/base/base.component';
 export class ComposerComponent {
   @Input() activity: any;
 
+  @Input() containerGuid: any;
+
+  @Input() accessId: any;
+
   @Input() embedded: boolean = false;
 
   @Output('onPost') onPostEmitter: EventEmitter<any> = new EventEmitter<any>();

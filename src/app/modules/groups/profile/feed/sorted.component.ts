@@ -13,6 +13,7 @@ import { SortedService } from './sorted.service';
 import { Client } from '../../../../services/api/client';
 import { GroupsService } from '../../groups-service';
 import { Observable } from 'rxjs';
+import { ComposerComponent } from '../../../composer/composer.component';
 
 @Component({
   selector: 'm-group-profile-feed__sorted',
@@ -61,6 +62,8 @@ export class GroupProfileFeedSortedComponent {
   viewScheduled: boolean = false;
 
   @ViewChild('poster', { static: false }) protected poster: PosterComponent;
+
+  @ViewChild('composer', { static: false }) private composer: ComposerComponent;
 
   scheduledCount: number = 0;
 
@@ -180,7 +183,7 @@ export class GroupProfileFeedSortedComponent {
 
   //
 
-  canDeactivate() {
+  protected _v1CanDeactivate() {
     if (!this.poster || !this.poster.attachment) {
       return true;
     }
@@ -192,6 +195,15 @@ export class GroupProfileFeedSortedComponent {
     }
 
     return true;
+  }
+
+  canDeactivate(): boolean | Promise<boolean> {
+    if (this.composer) {
+      return this.composer.canDeactivate();
+    }
+
+    // Check v1 Poster component
+    return this._v1CanDeactivate();
   }
 
   kick(user: any) {

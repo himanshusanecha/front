@@ -27,6 +27,7 @@ import { HashtagsModule } from '../hashtags/hashtags.module';
 import { ChannelSortedComponent } from './sorted/sorted.component';
 import { ChannelSortedModuleComponent } from './sorted/module.component';
 import { ReferralsModule } from '../wallet/tokens/referrals/referrals.module';
+import { ComposerModule } from '../composer/composer.module';
 
 const routes: Routes = [
   { path: 'channels', redirectTo: '/newsfeed/global/top', pathMatch: 'full' },
@@ -47,6 +48,7 @@ const routes: Routes = [
     NewsfeedModule,
     HashtagsModule,
     ReferralsModule,
+    ComposerModule,
   ],
   declarations: [
     ChannelModulesComponent,
