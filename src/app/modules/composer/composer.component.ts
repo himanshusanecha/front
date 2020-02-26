@@ -54,7 +54,7 @@ export class ComposerComponent {
   protected embeddedBaseComposer: BaseComponent;
 
   constructor(
-    protected composerModalService: ModalService,
+    protected modalService: ModalService,
     protected service: ComposerService /* NOTE: Used for DI. DO NOT REMOVE OR CHANGE !!! */,
     protected cd: ChangeDetectorRef,
     protected injector: Injector
@@ -65,13 +65,13 @@ export class ComposerComponent {
     this.detectChanges();
 
     try {
-      const response = await this.composerModalService
+      const $event = await this.modalService
         .setInjector(this.injector)
         .present()
         .toPromise();
 
-      if (response) {
-        this.onPostEmitter.emit(response);
+      if ($event) {
+        this.onPostEmitter.emit($event);
       }
     } catch (e) {
       console.error('Composer.onTriggerClick', e);
