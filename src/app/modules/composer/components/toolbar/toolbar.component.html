@@ -1,9 +1,10 @@
 <div class="m-composer__toolbar">
   <m-file-upload
     [hidden]="hasAttachment"
+    (onSelect)="onAttachmentSelect($event)"
     wrapperClass="m-composerToolbar__item"
     accept="image/*,video/*"
-    (onSelect)="onAttachmentSelect($event)"
+    data-cy="upload-button"
     #fileUploadComponent
   >
     <m-icon
@@ -17,6 +18,7 @@
     *ngIf="hasAttachment"
     class="m-composerToolbar__item m-composerToolbar__item--active"
     (click)="onDeleteAttachmentClick($event)"
+    data-cy="delete-attachment-button"
   >
     <m-icon
       class="m-composerToolbarItem__icon"
@@ -25,12 +27,20 @@
     <span class="m-composerToolbarItem__label" i18n>Media</span>
   </a>
 
-  <a class="m-composerToolbar__item" (click)="onNsfwClick($event)">
+  <a
+    class="m-composerToolbar__item"
+    (click)="onNsfwClick($event)"
+    data-cy="nsfw-button"
+  >
     <m-icon class="m-composerToolbarItem__icon" iconId="explicit"></m-icon>
     <span class="m-composerToolbarItem__label" i18n>NSFW</span>
   </a>
 
-  <a class="m-composerToolbar__item" (click)="onMonetizationClick($event)">
+  <a
+    class="m-composerToolbar__item"
+    (click)="onMonetizationClick($event)"
+    data-cy="monetize-button"
+  >
     <m-icon
       class="m-composerToolbarItem__icon"
       from="ion"
@@ -39,7 +49,11 @@
     <span class="m-composerToolbarItem__label" i18n>Monetize</span>
   </a>
 
-  <a class="m-composerToolbar__item" (click)="onTagsClick($event)">
+  <a
+    class="m-composerToolbar__item"
+    (click)="onTagsClick($event)"
+    data-cy="tags-button"
+  >
     <m-icon
       class="m-composerToolbarItem__icon"
       from="ion"
@@ -53,6 +67,7 @@
     [disabled]="inProgress || !canPost"
     [dropdown]="postButtonDropdown"
     (onAction)="onPost($event)"
+    data-cy="post-button"
     i18n
   >
     Post
