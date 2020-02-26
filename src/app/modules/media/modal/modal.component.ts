@@ -823,7 +823,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   // * STACKABLE MODALS * --------------------------------------------------------------------------
   openShareModal(): void {
     const data = this.site.baseUrl + this.pageUrl.substr(1);
-    const opts = { class: 'm-overlay-modal--medium m-overlayModal__share' };
+    const opts = { class: 'm-overlayModal__share' };
 
     this.createStackableModal(ShareModalComponent, data, opts);
     // const url = this.overlayModal
