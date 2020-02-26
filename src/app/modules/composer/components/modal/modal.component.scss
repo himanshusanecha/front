@@ -43,6 +43,7 @@ m-composer__modal {
 
   @media screen and (min-width: $max-mobile + 1) {
     // NOTE: Non-mobile viewport. Be careful!
+
     display: block;
     position: absolute;
     top: -48px;
@@ -50,6 +51,10 @@ m-composer__modal {
 
     @include m-theme() {
       color: themed($m-white-always);
+    }
+
+    @media screen and (max-height: 870px) {
+      top: 0;
     }
   }
 
