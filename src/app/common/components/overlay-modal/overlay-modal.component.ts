@@ -70,9 +70,8 @@ export class OverlayModalComponent implements AfterViewInit {
     this.class = opts.class;
     this.wrapperClass = opts.wrapperClass || '';
 
-    if (this.class === 'm-overlayModal--media') {
-      this.isMediaModal = true;
-    }
+    this.isMediaModal =
+      this.class.indexOf('m-overlayModal--media') > -1 ? true : false;
 
     if (!componentClass) {
       throw new Error('Unknown component class');
