@@ -5,6 +5,18 @@
       [style.width]="modalWidth + 'px'"
       [style.height]="stageHeight + 'px'"
     >
+      <!-- STACKABLE MODALS -->
+      <div
+        class="m-overlayModal--stackable m-overlay-modal {{
+          stackableModalClass
+        }}"
+        [hidden]="stackableModalHidden"
+      >
+        <ng-template dynamic-host></ng-template>
+        <a class="m-overlay-modal--close"
+          ><i class="material-icons" (click)="dismissStackableModal()">close</i>
+        </a>
+      </div>
       <!-- The stageWrapper is the element that goes into fullscreen -->
       <div
         class="m-mediaModal__stageWrapper"
