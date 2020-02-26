@@ -63,6 +63,9 @@
     <m-date__dropdowns
       (selectedDateChange)="selectedDateChange($event)"
     ></m-date__dropdowns>
+    <div class="m-onboarding__error" *ngIf="ageError">
+      You must be at least 13 years old
+    </div>
   </div>
 
   <div class="m-onboarding__actionButtons">
