@@ -13,6 +13,8 @@ export class PhoneVerificationComponent implements OnInit {
   code: number;
   secret: string;
 
+  @Input() error: string;
+
   numberError: string;
   codeError: string;
 
@@ -31,6 +33,7 @@ export class PhoneVerificationComponent implements OnInit {
   async verify() {
     this.inProgress = true;
     this.numberError = null;
+    this.error = null;
     try {
       const response: any = await this.client.post(
         'api/v2/blockchain/rewards/verify',
@@ -47,8 +50,14 @@ export class PhoneVerificationComponent implements OnInit {
     this.inProgress = false;
   }
 
+  numberChange(number: string) {
+    this.number = number;
+    this.error = null;
+  }
+
   codeChange(code: number) {
     this.code = code;
+    this.error = null;
 
     if (code.toString().length === 6) {
       this.confirm();
@@ -58,6 +67,7 @@ export class PhoneVerificationComponent implements OnInit {
   async confirm() {
     this.inProgress = true;
     this.codeError = null;
+    this.error = null;
     try {
       const response: any = await this.client.post(
         'api/v2/blockchain/rewards/confirm',
@@ -81,6 +91,7 @@ export class PhoneVerificationComponent implements OnInit {
     this.inProgress = false;
     this.code = null;
     this.secret = null;
+    this.error = null;
     this.numberError = null;
     this.codeError = null;
   }

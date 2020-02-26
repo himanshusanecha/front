@@ -107,16 +107,6 @@ export class InfoStepComponent {
     return true;
   }
 
-  updateUser(prop: string, value: any) {
-    const user = this.configs.get('user');
-    user[prop] = value;
-
-    const clonedUser = Object.assign({}, user);
-    this.configs.set('user', clonedUser);
-
-    this.session.userEmitter.next(clonedUser);
-  }
-
   selectedDateChange(date: string) {
     this.date = date;
     this.dateOfBirthChanged = true;
@@ -144,7 +134,18 @@ export class InfoStepComponent {
     this.tooltipAnchor = window.innerWidth <= 480 ? 'top' : 'left';
   }
 
+  private validate(): boolean {
+    if (!this.phoneVerification.confirmed) {
+      this.phoneVerification.error = 'verify:phonenumber';
+      return false;
+    }
+    return true;
+  }
+
   private saveData() {
+    if (!this.validate()) {
+      return;
+    }
     return this.updateLocation() && this.updateDateOfBirth();
   }
 }
