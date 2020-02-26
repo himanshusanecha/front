@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule as NgCommonModule } from '@angular/common';
-import { BaseComponent } from './components/base/base.component';
 import { CommonModule } from '../../common/common.module';
 import { FormsModule } from '@angular/forms';
+import { ModalService } from './components/modal/modal.service';
+import { ComposerComponent } from './composer.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { BaseComponent } from './components/base/base.component';
 import { MediaPreviewComponent } from './components/media-preview/media-preview.component';
 import { ProgressComponent } from './components/progress/progress.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { ComposerComponent } from './composer.component';
-import { ComposerModalService } from './composer-modal.service';
 
 /**
  * Exported components
  */
-const COMPONENTS = [ComposerComponent, BaseComponent];
+const COMPONENTS = [ComposerComponent, ModalComponent];
 
 /**
  * Components used internally
@@ -24,7 +25,7 @@ const INTERNAL_COMPONENTS = [
   ToolbarComponent,
 ];
 
-const PROVIDERS = [ComposerModalService];
+const PROVIDERS = [ModalService];
 
 /**
  * Module definition

@@ -1,6 +1,17 @@
 m-composer {
   display: block;
   margin-bottom: 16px;
+  padding: 29px 0 26px;
+  border-radius: 5px;
+  box-sizing: border-box;
+
+  @include m-theme() {
+    background: themed($m-bgColor--secondary);
+  }
+
+  @media screen and (max-width: $max-mobile) {
+    border-radius: 0;
+  }
 }
 
 .m-composer__trigger {
@@ -30,7 +41,7 @@ m-composer {
 
 // Modal wrapper options
 
-.m-composer__modal {
+.m-composer__modalWrapper {
   width: 100vw;
   height: 100vh;
   padding: 0;
@@ -43,6 +54,7 @@ m-composer {
 
   .m-overlay-modal {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: static;
@@ -56,10 +68,9 @@ m-composer {
     max-height: initial;
     min-height: 100%;
     background: none !important;
-  }
 
-  m-composer__base {
-    width: 100%;
-    max-width: 584px;
+    .m-overlay-modal--close {
+      display: none;
+    }
   }
 }

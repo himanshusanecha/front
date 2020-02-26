@@ -3,14 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  HostListener,
   Injector,
   Input,
   Output,
   ViewChild,
 } from '@angular/core';
-import { ComposerModalService } from './composer-modal.service';
 import { ComposerService } from './composer.service';
+import { ModalService } from './components/modal/modal.service';
 import { BaseComponent } from './components/base/base.component';
 
 @Component({
@@ -55,26 +54,27 @@ export class ComposerComponent {
   protected embeddedBaseComposer: BaseComponent;
 
   constructor(
-    protected composerModalService: ComposerModalService,
+    protected composerModalService: ModalService,
     protected service: ComposerService /* NOTE: Used for DI. DO NOT REMOVE OR CHANGE !!! */,
     protected cd: ChangeDetectorRef,
     protected injector: Injector
   ) {}
 
   async onTriggerClick($event: MouseEvent) {
-    try {
-      this.modalOpen = true;
-      this.detectChanges();
+    this.modalOpen = true;
+    this.detectChanges();
 
+    try {
       const response = await this.composerModalService
         .setInjector(this.injector)
-        .present();
+        .present()
+        .toPromise();
 
       if (response) {
         this.onPostEmitter.emit(response);
       }
     } catch (e) {
-      console.error('Composer Placeholder', e);
+      console.error('Composer.onTriggerClick', e);
       this.onPostErrorEmitter.emit(e);
     }
 
@@ -90,36 +90,6 @@ export class ComposerComponent {
     if (this.embeddedBaseComposer) {
       return this.popOutBaseComposer.canDeactivate();
     }
-
-    return true;
-  }
-
-  @HostListener('window:keydown', ['$event']) onWindowKeyDown(
-    $event: KeyboardEvent
-  ) {
-    if (!$event || !$event.target || this.embedded) {
-      return true;
-    }
-
-    const tagName = (
-      ($event.target as HTMLElement).tagName || ''
-    ).toLowerCase();
-
-    const isContentEditable =
-      ($event.target as HTMLElement).contentEditable === 'true';
-
-    if (
-      tagName === 'input' ||
-      tagName === 'textarea' ||
-      isContentEditable ||
-      $event.key !== 'Escape'
-    ) {
-      return true;
-    }
-
-    $event.stopPropagation();
-    $event.preventDefault();
-    this.composerModalService.dismiss();
 
     return true;
   }

@@ -2,59 +2,23 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core';
 import { UniqueId } from '../../../../helpers/unique-id.helper';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
 import { ComposerService } from '../../composer.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'm-composer__base',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'base.component.html',
 })
-export class BaseComponent implements OnInit, OnDestroy {
+export class BaseComponent {
   @Output('onPost') onPostEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   id: string = UniqueId.generate('m-composer');
 
-  protected onPostModalSubscription: Subscription;
-
   constructor(public service: ComposerService) {}
-
-  // Modal
-
-  set opts({ onPost }) {
-    if (this.onPostModalSubscription) {
-      this.onPostModalSubscription.unsubscribe();
-    }
-
-    if (onPost) {
-      this.onPostModalSubscription = this.onPostEmitter.subscribe(onPost);
-    }
-  }
-
-  set data({ activity, accessId, containerGuid }) {
-    // Set if comes straight from modal
-
-    if (typeof accessId !== 'undefined') {
-      this.service.setAccessId(accessId);
-    }
-
-    if (typeof containerGuid !== 'undefined') {
-      this.service.setContainerGuid(containerGuid);
-    }
-
-    if (activity) {
-      this.service.load(activity);
-    }
-  }
-
-  //
 
   get message$() {
     return this.service.message$;
@@ -118,17 +82,6 @@ export class BaseComponent implements OnInit, OnDestroy {
 
   get canPost$() {
     return this.service.canPost$;
-  }
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {
-    if (this.onPostModalSubscription) {
-      this.onPostModalSubscription.unsubscribe();
-    }
-
-    // TODO: Destroy subscriptions, if any
-    // TODO: Delete unused attachment
   }
 
   onMessageChange(message: string) {
