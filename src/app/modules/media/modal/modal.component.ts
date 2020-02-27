@@ -32,6 +32,7 @@ import { ConfigsService } from '../../../common/services/configs.service';
 import { HorizontalFeedService } from '../../../common/services/horizontal-feed.service';
 import { ShareModalComponent } from '../../modals/share/share';
 import { DynamicHostDirective } from '../../../common/directives/dynamic-host.directive';
+import { AttachmentService } from '../../../services/attachment';
 
 export type MediaModalParams = {
   entity: any;
@@ -161,7 +162,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     configs: ConfigsService,
     private horizontalFeed: HorizontalFeedService,
     private features: FeaturesService,
-    private _componentFactoryResolver: ComponentFactoryResolver
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    public attachment: AttachmentService
   ) {
     this.clientMetaService
       .inherit(injector)
@@ -890,6 +892,10 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     if (this.isTablet) {
       this.showOverlaysOnTablet();
     }
+  }
+
+  toggleMatureVisibility() {
+    this.entity.mature_visibility = !this.entity.mature_visibility;
   }
 
   ngOnDestroy() {
