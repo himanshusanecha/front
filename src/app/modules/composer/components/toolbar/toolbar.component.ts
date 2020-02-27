@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -53,14 +54,17 @@ export class ToolbarComponent {
 
   onNsfwClick(event?: MouseEvent): void {
     // TODO: NSFW popup
+    // TODO: Spec test
   }
 
   onMonetizationClick(event?: MouseEvent): void {
     // TODO: Monetization popup
+    // TODO: Spec test
   }
 
   onTagsClick(event?: MouseEvent): void {
     // TODO: Tags popup
+    // TODO: Spec test
   }
 
   onPost(buttonComponentAction: ButtonComponentAction): void {
@@ -69,5 +73,6 @@ export class ToolbarComponent {
 
   onSchedulerClick(event?: MouseEvent): void {
     // TODO: Scheduler popup
+    // TODO: Spec test
   }
 }
