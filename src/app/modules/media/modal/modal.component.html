@@ -7,9 +7,8 @@
     >
       <!-- STACKABLE MODALS -->
       <div
-        class="m-overlayModal--stackable m-overlay-modal {{
-          stackableModalClass
-        }}"
+        class="m-overlayModal--stackable m-overlay-modal"
+        [ngClass]="stackableModalClass"
         [hidden]="stackableModalHidden"
       >
         <ng-template dynamic-host></ng-template>
