@@ -9,7 +9,11 @@ context('Composer Bottom Bar', () => {
 
   // Components
 
-  const composerToolbar = 'm-composer__modal > m-composer__base .m-composer__toolbar';
+  const composer = 'm-composer__modal > m-composer__base';
+
+  const composerToolbar = `${composer} .m-composer__toolbar`;
+
+  const composerTextarea = `${composer} [data-cy="composer-textarea"]`;
 
   // Buttons
 
@@ -23,7 +27,11 @@ context('Composer Bottom Bar', () => {
 
   const tagsButton = `${composerToolbar} a[data-cy="tags-button"]`;
 
-  const postButton = `${composerToolbar} a[data-cy="post-button"]`;
+  const postButton = `${composerToolbar} m-button[data-cy="post-button"]`;
+
+  const postButtonDropdownAction = `${postButton} [data-cy="button-dropdown-action"]`;
+
+  const postButtonDropdownMenu = `${postButton} .m-composerPost__dropdown`;
 
   //
 
@@ -43,6 +51,37 @@ context('Composer Bottom Bar', () => {
     cy.get(composerToolbar)
       .should('be.visible');
   };
+
+  context('General', () => {
+    before(() => {
+      showComposer();
+    });
+
+    it('should show a disabled post button', () => {
+      cy.get(composerTextarea)
+        .clear();
+
+      cy.get(deleteAttachmentButton)
+        .click({ force: true });
+
+      cy.get(postButton)
+        .should('be.visible')
+        .should('have.class', 'm-button--disabled');
+    });
+
+    it('should show an enabled post button', () => {
+      cy.get(composerTextarea)
+        .clear()
+        .type('Hello Minds!');
+
+      cy.get(postButton)
+        .should('be.visible')
+        .should('not.have.class', 'm-button--disabled');
+
+      cy.get(composerTextarea)
+        .clear();
+    });
+  });
 
   context('Desktop', () => {
     before(() => {
@@ -82,6 +121,29 @@ context('Composer Bottom Bar', () => {
 
       cy.get(`${tagsButton} .m-composerToolbarItem__label`)
         .should('be.visible');
+    });
+
+    it('should show a post button', () => {
+      cy.get(postButton)
+        .should('be.visible');
+    });
+
+    it('should show a dropdown in the post button', () => {
+      cy.get(postButtonDropdownMenu)
+        .should('not.be.visible');
+
+      cy.get(postButtonDropdownAction)
+        .should('be.visible')
+        .click();
+
+      cy.get(postButtonDropdownMenu)
+        .should('be.visible');
+
+      cy.get(`${postButton} m-overlay`)
+        .click();
+
+      cy.get(postButtonDropdownMenu)
+        .should('not.be.visible');
     });
   });
 
@@ -124,5 +186,28 @@ context('Composer Bottom Bar', () => {
       cy.get(`${tagsButton} .m-composerToolbarItem__label`)
         .should('not.be.visible');
     });
-  })
+
+    it('should show a post button', () => {
+      cy.get(postButton)
+        .should('be.visible');
+    });
+
+    it('should open a menu in the post button dropdown', () => {
+      cy.get(postButtonDropdownMenu)
+        .should('not.be.visible');
+
+      cy.get(postButtonDropdownAction)
+        .should('be.visible')
+        .click();
+
+      cy.get(postButtonDropdownMenu)
+        .should('be.visible');
+
+      cy.get(`${postButton} m-overlay`)
+        .click({ force: true });
+
+      cy.get(postButtonDropdownMenu)
+        .should('not.be.visible');
+    });
+  });
 });

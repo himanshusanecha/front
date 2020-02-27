@@ -1,8 +1,17 @@
-<a class="m-button__defaultAction" (click)="emitAction()">
+<a
+  class="m-button__defaultAction"
+  (click)="emitAction()"
+  data-cy="button-default-action"
+>
   <ng-content></ng-content>
   <span *ngIf="disabled" class="m-button__disabledOverlay"></span>
 </a>
-<a *ngIf="dropdown" (click)="openDropdown()" class="m-button__dropdownArrow">
+<a
+  *ngIf="dropdown"
+  (click)="openDropdown()"
+  class="m-button__dropdownArrow"
+  data-cy="button-dropdown-action"
+>
   <m-icon from="ion" iconId="arrow-down-b"></m-icon>
 </a>
 <ng-container *ngIf="dropdownOpen">
