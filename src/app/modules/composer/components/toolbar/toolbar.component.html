@@ -63,7 +63,7 @@
   </a>
 
   <m-button
-    class="m-composerToolbar__item m-composerToolbarItem--container"
+    class="m-composerToolbar__item m-composerToolbarItem--action m-composerToolbarItem--container"
     [disabled]="inProgress || !canPost"
     [dropdown]="postButtonDropdown"
     (onAction)="onPost($event)"
@@ -74,7 +74,10 @@
   </m-button>
   <ng-template #postButtonDropdown>
     <ul class="m-composerPost__dropdown">
-      <li (click)="onSchedulerClick()">Set time and date</li>
+      <li (click)="onSchedulerClick()">
+        <m-icon iconId="alarm"></m-icon>
+        <span i18n>Schedule Post</span>
+      </li>
     </ul>
   </ng-template>
 </div>
