@@ -27,6 +27,9 @@ import { HashtagsModule } from '../hashtags/hashtags.module';
 import { ChannelSortedComponent } from './sorted/sorted.component';
 import { ChannelSortedModuleComponent } from './sorted/module.component';
 import { ReferralsModule } from '../wallet/tokens/referrals/referrals.module';
+import { ChannelSidebarV2Component } from './sidebar-v2/sidebar-v2.component';
+import { ChannelStatsComponent } from './sidebar-v2/stats/channel-stats.component';
+import { ChannelBiofieldsComponent } from './sidebar-v2/biofields/biofields.component';
 import { ComposerModule } from '../composer/composer.module';
 
 const routes: Routes = [
@@ -60,8 +63,11 @@ const routes: Routes = [
     ChannelsTileComponent,
     ChannelFeedComponent,
     ChannelSidebar,
+    ChannelSidebarV2Component,
     ChannelSortedComponent,
     ChannelSortedModuleComponent,
+    ChannelStatsComponent,
+    ChannelBiofieldsComponent,
   ],
   exports: [
     ChannelModulesComponent,
@@ -71,6 +77,7 @@ const routes: Routes = [
     ChannelSocialProfiles,
     ChannelFeedComponent,
     ChannelSidebar,
+    ChannelSidebarV2Component,
     ChannelComponent,
   ],
   entryComponents: [ChannelComponent],
