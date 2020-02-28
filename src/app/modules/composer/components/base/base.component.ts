@@ -106,6 +106,14 @@ export class BaseComponent {
     this.attachment$.next(null);
   }
 
+  onVisibilitySelect($event): void {
+    // TODO: Send to service
+  }
+
+  onLicenseSelect($event): void {
+    // TODO: Send to service
+  }
+
   async onPost(event: ButtonComponentAction) {
     // TODO: Check event.type, etc
 

@@ -3,15 +3,11 @@
   [class.m-composer__base--withMediaPreview]="attachment$ | async"
 >
   <div class="m-composerBase__container">
-    <div class="m-composerBase__titleBar">
-      <div class="m-composerBaseTitleBar__title">
-        <label [for]="id" i18n>Compose</label>
-      </div>
-
-      <div class="m-composerBaseTitleBar__menuButton">
-        <i class="material-icons">more_vert</i>
-      </div>
-    </div>
+    <m-composer__titleBar
+      [id]="id"
+      (onVisibility)="onVisibilitySelect($event)"
+      (onLicense)="onLicenseSelect($event)"
+    ></m-composer__titleBar>
 
     <ng-container *mIfBrowser>
       <m-composer__mediaPreview
