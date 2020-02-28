@@ -15,6 +15,12 @@ import { ACCESS, LICENSES } from '../../../../services/list-options';
 export class TitleBarComponent {
   @Input() id: string;
 
+  @Input() visibility: string;
+
+  @Input() license: string;
+
+  @Input() canChangeVisibility: boolean = true;
+
   @Output('onVisibility') onVisibilityEmitter: EventEmitter<
     string
   > = new EventEmitter<string>();
@@ -23,9 +29,14 @@ export class TitleBarComponent {
     string
   > = new EventEmitter<string>();
 
-  visibilityOptions = ACCESS;
+  visibilityItems: Array<{ text: string; value: string }> = ACCESS.map(
+    ({ text, value }) => ({
+      text,
+      value: `${value}`,
+    })
+  );
 
-  licenseOptions = LICENSES;
+  licenseItems: Array<{ text: string; value: string }> = LICENSES;
 
   onVisibilityClick($event) {
     this.onVisibilityEmitter.emit($event);

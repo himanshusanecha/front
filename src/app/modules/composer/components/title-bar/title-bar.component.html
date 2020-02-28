@@ -17,6 +17,7 @@
   <ul>
     <li>
       <m-dropdownMenu
+        *ngIf="canChangeVisibility"
         [menu]="visibilityMenu"
         triggerClass="m-dropdownMenu__item"
       >
@@ -37,12 +38,15 @@
 <ng-template #visibilityMenu>
   <ul>
     <li
-      *ngFor="let visibility of visibilityOptions"
-      (click)="onVisibilityClick(visibility.value)"
+      *ngFor="let visibilityItem of visibilityItems"
+      (click)="onVisibilityClick(visibilityItem.value)"
     >
       <span class="m-dropdownMenu__item">
-        <span>{{ visibility.text }}</span>
-        <m-icon iconId="check"></m-icon>
+        <span>{{ visibilityItem.text }}</span>
+        <m-icon
+          iconId="check"
+          *ngIf="visibility === visibilityItem.value"
+        ></m-icon>
       </span>
     </li>
   </ul>
@@ -51,12 +55,12 @@
 <ng-template #licenseMenu>
   <ul>
     <li
-      *ngFor="let license of licenseOptions"
-      (click)="onLicenseClick(license.value)"
+      *ngFor="let licenseItem of licenseItems"
+      (click)="onLicenseClick(licenseItem.value)"
     >
       <span class="m-dropdownMenu__item">
-        <span>{{ license.text }}</span>
-        <m-icon iconId="check"></m-icon>
+        <span>{{ licenseItem.text }}</span>
+        <m-icon iconId="check" *ngIf="license === licenseItem.value"></m-icon>
       </span>
     </li>
   </ul>

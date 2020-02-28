@@ -5,6 +5,9 @@
   <div class="m-composerBase__container">
     <m-composer__titleBar
       [id]="id"
+      [visibility]="accessId$ | async"
+      [license]="license$ | async"
+      [canChangeVisibility]="!hasContainer"
       (onVisibility)="onVisibilitySelect($event)"
       (onLicense)="onLicenseSelect($event)"
     ></m-composer__titleBar>

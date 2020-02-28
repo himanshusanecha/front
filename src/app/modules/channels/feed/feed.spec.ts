@@ -46,7 +46,7 @@ describe('ChannelFeed', () => {
         ChannelFeedComponent,
         MockComponent({
           selector: 'm-composer',
-          inputs: ['containerGuid', 'accessId', 'activity'],
+          inputs: ['containerGuid', 'activity'],
         }),
         MockComponent({
           selector: 'minds-newsfeed-poster',

@@ -24,8 +24,8 @@ m-dropdownMenu {
     @media screen and (min-width: $max-mobile + 1) {
       display: block;
       position: absolute;
-      top: 0;
-      left: 0;
+      top: calc(100% - 8px);
+      right: calc(100% + 8px);
     }
 
     @media screen and (max-width: $max-mobile) {
@@ -40,12 +40,12 @@ m-dropdownMenu {
     }
 
     ul {
-      width: 100%;
       list-style: none;
+      width: 100%;
       margin: 0;
       padding: 14px 0;
-      border-radius: 2px;
       min-width: 222px;
+      border-radius: 2px;
 
       @include m-theme() {
         background: themed($m-bgColor--secondary);

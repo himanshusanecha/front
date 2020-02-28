@@ -8,7 +8,6 @@ import { ModalComponent } from './modal.component';
  */
 export type ComposerData = {
   activity?: any;
-  accessId?: any;
   containerGuid?: any;
 };
 

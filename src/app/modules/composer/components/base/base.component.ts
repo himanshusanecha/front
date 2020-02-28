@@ -64,6 +64,18 @@ export class BaseComponent {
     this.service.schedule$.next(schedule);
   }
 
+  get accessId$() {
+    return this.service.accessId$;
+  }
+
+  get license$() {
+    return this.service.license$;
+  }
+
+  get hasContainer() {
+    return Boolean(this.service.getContainerGuid());
+  }
+
   get inProgress$() {
     return this.service.inProgress$;
   }
@@ -107,11 +119,11 @@ export class BaseComponent {
   }
 
   onVisibilitySelect($event): void {
-    // TODO: Send to service
+    this.service.accessId$.next($event);
   }
 
   onLicenseSelect($event): void {
-    // TODO: Send to service
+    this.service.license$.next($event);
   }
 
   async onPost(event: ButtonComponentAction) {
