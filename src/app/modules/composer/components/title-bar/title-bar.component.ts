@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { ACCESS, LICENSES } from '../../../../services/list-options';
 
 @Component({
   selector: 'm-composer__titleBar',
@@ -21,4 +22,16 @@ export class TitleBarComponent {
   @Output('onLicense') onLicenseEmitter: EventEmitter<
     string
   > = new EventEmitter<string>();
+
+  visibilityOptions = ACCESS;
+
+  licenseOptions = LICENSES;
+
+  onVisibilityClick($event) {
+    this.onVisibilityEmitter.emit($event);
+  }
+
+  onLicenseClick($event) {
+    this.onLicenseEmitter.emit($event);
+  }
 }
