@@ -574,6 +574,11 @@ m-media--modal {
     @include m-theme() {
       border-bottom: 1px solid themed($m-grey-100);
     }
+    .m-mediaModal__actionButton--share {
+      @include m-theme() {
+        color: themed($m-blue-grey-600);
+      }
+    }
   }
   .m-wire-button > .ion-icon {
     transform: scale(1.4);
@@ -683,16 +688,6 @@ m-media--modal {
   visibility: hidden;
 }
 
-.m-overlayModal--stackable {
-  &.m-overlay-modal {
-    width: 600px;
-    max-width: 94vw;
-    @include m-theme() {
-      background: themed($m-white);
-      box-shadow: 0 2px 8px 0 rgba(themed($m-black-always), 0.2);
-    }
-  }
-}
 // ** NSFW -----------------------------
 
 m-media--modal {

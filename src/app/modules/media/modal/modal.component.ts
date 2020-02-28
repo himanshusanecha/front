@@ -8,7 +8,6 @@ import {
   SkipSelf,
   ViewChild,
   ComponentRef,
-  ComponentFactoryResolver,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Event, NavigationStart, Router } from '@angular/router';
@@ -31,8 +30,8 @@ import { FeaturesService } from '../../../services/features.service';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { HorizontalFeedService } from '../../../common/services/horizontal-feed.service';
 import { ShareModalComponent } from '../../modals/share/share';
-import { DynamicHostDirective } from '../../../common/directives/dynamic-host.directive';
 import { AttachmentService } from '../../../services/attachment';
+import { DynamicModalSettings } from '../../../common/components/stackable-modal/stackable-modal.component';
 
 export type MediaModalParams = {
   entity: any;
@@ -116,8 +115,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   pagerVisible: boolean = false;
   pagerTimeout: any = null;
 
-  stackableModalHidden: boolean = true;
-  stackableModalClass: string = '';
+  stackableModalSettings: DynamicModalSettings;
 
   routerSubscription: Subscription;
 
@@ -129,12 +127,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   protected modalPager$: Subscription;
 
   protected asyncEntity$: Subscription;
-
-  private stackableCompRef: ComponentRef<{}>;
-  private stackableCompInstance;
-
-  @ViewChild(DynamicHostDirective, { static: true })
-  private host: DynamicHostDirective;
 
   @Input('entity') set data(params: MediaModalParams) {
     this.clearAsyncEntity();
@@ -162,7 +154,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     configs: ConfigsService,
     private horizontalFeed: HorizontalFeedService,
     private features: FeaturesService,
-    private _componentFactoryResolver: ComponentFactoryResolver,
     public attachment: AttachmentService
   ) {
     this.clientMetaService
@@ -822,68 +813,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  // * STACKABLE MODALS * --------------------------------------------------------------------------
-  openShareModal(): void {
-    const data = this.site.baseUrl + this.pageUrl.substr(1);
-    const opts = { class: 'm-overlayModal__share' };
-
-    this.createStackableModal(ShareModalComponent, data, opts);
-  }
-
-  createStackableModal(
-    componentClass,
-    data?,
-    opts?,
-    injector?: Injector
-  ): void {
-    this.dismissStackableModal();
-
-    if (!componentClass) {
-      throw new Error('Unknown component class');
-    }
-
-    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(
-        componentClass
-      ),
-      vcr = this.host.viewContainerRef;
-
-    vcr.clear();
-
-    this.stackableCompRef = vcr.createComponent(
-      componentFactory,
-      void 0,
-      injector
-    );
-    this.stackableCompInstance = this.stackableCompRef.instance;
-
-    opts = {
-      ...{
-        class: '',
-      },
-      ...opts,
-    };
-
-    this.stackableModalClass = opts.class;
-
-    if (this.stackableCompInstance) {
-      this.stackableCompInstance.opts = opts;
-      if (data) {
-        this.stackableCompInstance.data = data;
-        this.stackableCompRef.changeDetectorRef.detectChanges();
-      }
-      this.stackableModalHidden = false;
-    }
-  }
-
-  dismissStackableModal(): void {
-    this.stackableModalHidden = true;
-
-    if (this.stackableCompInstance) {
-      this.stackableCompRef.destroy();
-      this.host.viewContainerRef.clear();
-    }
-  }
-
   // * UTILITY * --------------------------------------------------------------------------
 
   isLoaded() {
@@ -892,6 +821,18 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     if (this.isTablet) {
       this.showOverlaysOnTablet();
     }
+  }
+
+  openShareModal(): void {
+    const componentClass = ShareModalComponent,
+      data = this.site.baseUrl + this.pageUrl.substr(1),
+      opts = { class: 'm-overlayModal__share' };
+
+    this.stackableModalSettings = {
+      componentClass: componentClass,
+      data: data,
+      opts: opts,
+    };
   }
 
   toggleMatureVisibility() {
