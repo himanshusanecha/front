@@ -64,6 +64,7 @@ export class OverlayModalComponent implements AfterViewInit {
     opts = {
       class: '',
       wrapperClass: '',
+      inputValues: {},
       ...opts,
     };
 
@@ -91,6 +92,18 @@ export class OverlayModalComponent implements AfterViewInit {
     );
     this.componentInstance = this.componentRef.instance;
     this.componentInstance.parent = this.modalElement.nativeElement;
+
+    for (const inputKey in opts.inputValues) {
+      if (opts.inputValues.hasOwnProperty(inputKey)) {
+        if (!this.componentInstance.hasOwnProperty(inputKey)) {
+          throw new Error(
+            `${inputKey} does not exist in ${this.componentInstance}`
+          );
+        }
+
+        this.componentInstance[inputKey] = opts.inputValues[inputKey];
+      }
+    }
   }
 
   setRoot(root: HTMLElement) {

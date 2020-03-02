@@ -31,16 +31,6 @@ export class ModalService {
   }
 
   /**
-   * Injects data onto Composer service, as it would be passed to the component itself
-   *
-   * @param data
-   */
-  setData(data: ComposerData) {
-    // TODO: Inject data straight into injector's ComposerService instance
-    throw new Error('Not implemented');
-  }
-
-  /**
    * Presents the composer modal with a custom injector tree
    */
   present(): Observable<any> {

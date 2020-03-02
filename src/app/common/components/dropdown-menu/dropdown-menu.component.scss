@@ -24,8 +24,10 @@ m-dropdownMenu {
     @media screen and (min-width: $max-mobile + 1) {
       display: block;
       position: absolute;
-      top: calc(100% - 8px);
-      right: calc(100% + 8px);
+      top: calc(100% - 8px); // TODO: Remove when smart anchoring is implemented
+      right: calc(
+        100% + 8px
+      ); // TODO: Remove when smart anchoring is implemented
     }
 
     @media screen and (max-width: $max-mobile) {
@@ -33,10 +35,10 @@ m-dropdownMenu {
       align-items: center;
       justify-content: center;
       position: fixed;
-      top: 2vh;
-      right: 2vw;
-      bottom: 2vh;
-      left: 2vw;
+      top: 2vh !important; // Override component's dynamic values
+      right: 2vw !important; // Override component's dynamic values
+      bottom: 2vh !important; // Override component's dynamic values
+      left: 2vw !important; // Override component's dynamic values
     }
 
     ul {
