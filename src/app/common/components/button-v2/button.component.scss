@@ -11,9 +11,10 @@ m-button {
     background: themed($m-btn--primary);
   }
 
-  &.m-button--disabled {
+  &.m-button--disabled .m-button__defaultAction {
+    position: relative;
     pointer-events: none;
-    cursor: initial;
+    cursor: initial !important;
 
     .m-button__disabledOverlay {
       display: block;
@@ -31,6 +32,7 @@ m-button {
   }
 
   a {
+    font-weight: inherit !important;
     color: inherit !important;
   }
 
@@ -58,12 +60,34 @@ m-button {
   .m-button__dropdownContainer {
     position: absolute;
     top: calc(100% + 4px);
-    left: 0;
+    right: 0;
     min-width: 100%;
     z-index: 10005;
+
+    @media screen and (max-width: $max-mobile) {
+      position: fixed;
+      top: 2vh;
+      right: 2vw;
+      bottom: 2vh;
+      left: 2vw;
+      min-width: initial;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   m-overlay {
     z-index: 10000;
+
+    @media screen and (max-width: $max-mobile) {
+      @include m-on-theme(light) {
+        background: rgba(255, 255, 255, 0.85);
+      }
+
+      @include m-on-theme(dark) {
+        background: rgba(0, 0, 0, 0.65);
+      }
+    }
   }
 }
