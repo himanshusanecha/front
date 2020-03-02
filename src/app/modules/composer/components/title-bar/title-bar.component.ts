@@ -39,6 +39,10 @@ export class TitleBarComponent {
   licenseItems: Array<{ text: string; value: string }> = LICENSES;
 
   onVisibilityClick($event) {
+    if (!this.canChangeVisibility) {
+      return;
+    }
+
     this.onVisibilityEmitter.emit($event);
   }
 
