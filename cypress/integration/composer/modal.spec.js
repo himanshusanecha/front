@@ -23,7 +23,7 @@ context('Composer Modal', () => {
       .click();
 
     cy.get(modalBaseComposer)
-      .should('be.visible')
+      .should('be.visible');
   });
 
   it('should open a composer modal popup in discovery', () => {
@@ -34,7 +34,7 @@ context('Composer Modal', () => {
       .click();
 
     cy.get(modalBaseComposer)
-      .should('be.visible')
+      .should('be.visible');
   });
 
   it('should open a composer modal popup in own channel', () => {
@@ -45,7 +45,7 @@ context('Composer Modal', () => {
       .click();
 
     cy.get(modalBaseComposer)
-      .should('be.visible')
+      .should('be.visible');
   });
 
   it.skip('should open a composer modal popup in a group', () => {
@@ -56,6 +56,6 @@ context('Composer Modal', () => {
       .click();
 
     cy.get(modalBaseComposer)
-      .should('be.visible')
+      .should('be.visible');
   });
 });

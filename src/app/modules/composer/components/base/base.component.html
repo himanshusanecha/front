@@ -31,6 +31,7 @@
         [id]="id"
         [ngModel]="message$ | async"
         (ngModelChange)="onMessageChange($event)"
+        data-cy="composer-textarea"
       ></textarea>
     </div>
 

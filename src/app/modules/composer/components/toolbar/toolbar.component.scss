@@ -3,9 +3,15 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 26px 20px 0;
+  padding: 35px 37px 0;
   border-top: 1px solid;
   user-select: none;
+  font-size: 15px;
+  font-weight: 400;
+
+  @media screen and (max-width: $max-mobile) {
+    font-size: 16px;
+  }
 
   @include m-theme() {
     border-color: themed($m-borderColor--primary);
@@ -15,8 +21,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 8px 16px;
+    padding: 0;
     cursor: pointer;
+    font-weight: inherit;
 
     &.m-composerToolbar__item--active {
       @include m-theme() {
@@ -29,6 +36,10 @@
       padding: 0;
     }
 
+    &.m-composerToolbarItem--action {
+      margin-left: 16px;
+    }
+
     @include m-theme() {
       color: themed($m-textColor--secondary);
     }
@@ -36,7 +47,7 @@
 
   .m-composerToolbarItem__icon + .m-composerToolbarItem__label {
     display: inline-block;
-    margin-left: 8px;
+    margin-left: 10px;
 
     @media screen and (max-width: $max-mobile) {
       display: none;
@@ -48,26 +59,44 @@
   width: 100%;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 14px 0;
+  border-radius: 2px;
+  min-width: 222px;
 
   @include m-theme() {
-    color: themed($m-textColor--primary);
-    background: themed($m-bgColor--primary);
-    box-shadow: 3px 3px 4px rgba(themed($m-textColor--primary), 0.2);
+    background: themed($m-bgColor--secondary);
+  }
+
+  @include m-on-theme(light) {
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  @include m-on-theme(dark) {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   }
 
   > li {
-    padding: 8px;
-    border-bottom: 1px solid;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 11px;
+    font-size: 15px;
+    line-height: 34px;
     white-space: nowrap;
-
-    &:last-child {
-      border-bottom: none;
-    }
+    cursor: pointer;
+    background: transparent;
 
     @include m-theme() {
-      border-color: themed($m-borderColor--primary);
+      color: themed($m-textColor--primary);
+
+      &:hover,
+      &:active {
+        background: themed($m-bgColor--primary);
+      }
+    }
+
+    > span {
+      margin-left: 12px;
     }
   }
 }
