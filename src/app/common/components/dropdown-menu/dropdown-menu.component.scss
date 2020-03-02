@@ -54,7 +54,7 @@ m-dropdownMenu {
       }
 
       @include m-on-theme(light) {
-        box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+        box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
       }
 
       @include m-on-theme(dark) {
