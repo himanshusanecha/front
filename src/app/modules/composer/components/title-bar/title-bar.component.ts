@@ -1,11 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ACCESS, LICENSES } from '../../../../services/list-options';
+import {
+  AccessIdSubjectValue,
+  ComposerService,
+  LicenseSubjectValue,
+} from '../../composer.service';
+import { BehaviorSubject } from 'rxjs';
 
 /**
  * Composer title bar component. It features a label and a dropdown menu
@@ -23,35 +23,6 @@ export class TitleBarComponent {
   @Input() id: string;
 
   /**
-   * Current visibility (access ID) value
-   */
-  @Input() visibility: string;
-
-  /**
-   * Current license value
-   */
-  @Input() license: string;
-
-  /**
-   * Can we change visibility? (disabled on groups)
-   */
-  @Input() canChangeVisibility: boolean = true;
-
-  /**
-   * Visibility emitter
-   */
-  @Output('onVisibility') onVisibilityEmitter: EventEmitter<
-    string
-  > = new EventEmitter<string>();
-
-  /**
-   * License emitter
-   */
-  @Output('onLicense') onLicenseEmitter: EventEmitter<
-    string
-  > = new EventEmitter<string>();
-
-  /**
    * Visibility items list
    */
   visibilityItems: Array<{ text: string; value: string }> = ACCESS.map(
@@ -66,8 +37,31 @@ export class TitleBarComponent {
    */
   licenseItems: Array<{ text: string; value: string }> = LICENSES;
 
+  constructor(protected service: ComposerService) {}
+
   /**
-   * Sends the visibility changed emitter
+   * Access ID subject from service
+   */
+  get accessId$(): BehaviorSubject<AccessIdSubjectValue> {
+    return this.service.accessId$;
+  }
+
+  /**
+   * License subject from service
+   */
+  get license$(): BehaviorSubject<LicenseSubjectValue> {
+    return this.service.license$;
+  }
+
+  /**
+   * Can the actor change visibility? (disabled when there's a container)
+   */
+  get canChangeVisibility(): boolean {
+    return !this.service.getContainerGuid();
+  }
+
+  /**
+   * Emits the new visibility (access ID)
    * @param $event
    */
   onVisibilityClick($event) {
@@ -75,14 +69,14 @@ export class TitleBarComponent {
       return;
     }
 
-    this.onVisibilityEmitter.emit($event);
+    this.accessId$.next($event);
   }
 
   /**
-   * Sends the visibility license emitter
+   * Emits the new license
    * @param $event
    */
   onLicenseClick($event) {
-    this.onLicenseEmitter.emit($event);
+    this.license$.next($event);
   }
 }
