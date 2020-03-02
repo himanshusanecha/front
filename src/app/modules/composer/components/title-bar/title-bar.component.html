@@ -7,18 +7,20 @@
     [menu]="menu"
     triggerClass="m-composerTitleBar__menuButton"
     menuClass="m-composerTitleBar__menu"
+    data-cy="meatball-menu-trigger"
   >
     <m-icon iconId="more_vert"></m-icon>
   </m-dropdownMenu>
 </div>
 
 <ng-template #menu>
-  <ul>
+  <ul data-cy="meatball-menu">
     <li>
       <m-dropdownMenu
         *ngIf="canChangeVisibility"
         [menu]="visibilityMenu"
         triggerClass="m-dropdownMenu__item"
+        data-cy="meatball-menu-visibility"
       >
         <span>Visibility</span>
         <m-icon iconId="chevron_right"></m-icon>
@@ -26,7 +28,11 @@
     </li>
 
     <li>
-      <m-dropdownMenu [menu]="licenseMenu" triggerClass="m-dropdownMenu__item">
+      <m-dropdownMenu
+        [menu]="licenseMenu"
+        triggerClass="m-dropdownMenu__item"
+        data-cy="meatball-menu-license"
+      >
         <span>License</span>
         <m-icon iconId="chevron_right"></m-icon>
       </m-dropdownMenu>
@@ -35,7 +41,7 @@
 </ng-template>
 
 <ng-template #visibilityMenu>
-  <ul>
+  <ul data-cy="meatball-menu-visibility-menu">
     <li
       *ngFor="let visibilityItem of visibilityItems"
       (click)="onVisibilityClick(visibilityItem.value)"
@@ -52,7 +58,7 @@
 </ng-template>
 
 <ng-template #licenseMenu>
-  <ul>
+  <ul data-cy="meatball-menu-license-menu">
     <li
       *ngFor="let licenseItem of licenseItems"
       (click)="onLicenseClick(licenseItem.value)"

@@ -7,6 +7,10 @@ context('Composer Bottom Bar', () => {
     });
   });
 
+  beforeEach(() => {
+    cy.preserveCookies();
+  });
+
   // Components
 
   const composer = 'm-composer__modal > m-composer__base';
@@ -34,10 +38,6 @@ context('Composer Bottom Bar', () => {
   const postButtonDropdownMenu = `${postButton} .m-dropdownMenu__menu`;
 
   //
-
-  beforeEach(() => {
-    cy.preserveCookies();
-  });
 
   const showComposer = () => {
     const composerTrigger = 'm-composer .m-composer__trigger';
