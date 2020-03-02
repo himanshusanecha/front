@@ -32,32 +32,16 @@ export class BaseComponent {
     return this.service.attachment$;
   }
 
-  get nsfw$() {
-    return this.service.nsfw$;
-  }
-
   set nsfw(nsfw: number[]) {
     this.service.nsfw$.next(nsfw);
-  }
-
-  get monetization$() {
-    return this.service.monetization$;
   }
 
   set monetization(monetization: any) {
     this.service.monetization$.next(monetization);
   }
 
-  get tags$() {
-    return this.service.tags$;
-  }
-
   set tags(tags: string[]) {
     this.service.tags$.next(tags);
-  }
-
-  get schedule$() {
-    return this.service.schedule$;
   }
 
   set schedule(schedule: any) {
@@ -80,30 +64,8 @@ export class BaseComponent {
     return this.service.preview$;
   }
 
-  get canPost$() {
-    return this.service.canPost$;
-  }
-
   onMessageChange(message: string) {
     this.message = message;
-  }
-
-  onAttachmentSelect(file: File | null): void {
-    if (!file) {
-      return;
-    }
-
-    this.attachment$.next(file);
-  }
-
-  onDeleteAttachment(): void {
-    // TODO: Use themed async modals
-    if (!confirm('Are you sure?')) {
-      return;
-    }
-
-    // TODO: Delete unused attachment from server
-    this.attachment$.next(null);
   }
 
   async onPost(event: ButtonComponentAction) {
@@ -122,6 +84,7 @@ export class BaseComponent {
   }
 
   canDeactivate(): boolean | Promise<boolean> {
+    // TODO: Ask if there's an attachment or something else
     return true;
   }
 }

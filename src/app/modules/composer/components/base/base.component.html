@@ -27,14 +27,7 @@
       ></textarea>
     </div>
 
-    <m-composer__toolbar
-      [inProgress]="inProgress$ | async"
-      [hasAttachment]="!!(attachment$ | async)"
-      [canPost]="canPost$ | async"
-      (onAttachmentSelect)="onAttachmentSelect($event)"
-      (onDeleteAttachment)="onDeleteAttachment()"
-      (onPost)="onPost($event)"
-    ></m-composer__toolbar>
+    <m-composer__toolbar (onPost)="onPost($event)"></m-composer__toolbar>
 
     <div
       class="m-composerBase__error"
