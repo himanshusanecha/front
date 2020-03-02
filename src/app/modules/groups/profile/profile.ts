@@ -466,7 +466,7 @@ export class GroupsProfile {
     this.metaService
       .setTitle(this.group.name)
       .setDescription(this.group.briefdescription)
-      .setOgImage(this.group.banner_src);
+      .setOgImage(`/fs/v1/banners/${this.group.guid}/0/${this.group.banner}`);
   }
 
   detectChanges() {
