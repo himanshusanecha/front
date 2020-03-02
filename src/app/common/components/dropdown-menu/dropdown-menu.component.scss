@@ -95,6 +95,10 @@ m-dropdownMenu {
           span + m-icon {
             margin-left: 11px;
           }
+
+          span {
+            flex: 1;
+          }
         }
       }
     }

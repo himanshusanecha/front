@@ -73,12 +73,15 @@
   >
     Post
   </m-button>
-  <ng-template #postButtonDropdown>
-    <ul class="m-composerPost__dropdown">
-      <li (click)="onSchedulerClick()">
+</div>
+
+<ng-template #postButtonDropdown>
+  <ul>
+    <li (click)="onSchedulerClick()">
+      <span class="m-dropdownMenu__item">
         <m-icon iconId="alarm"></m-icon>
         <span i18n>Schedule Post</span>
-      </li>
-    </ul>
-  </ng-template>
-</div>
+      </span>
+    </li>
+  </ul>
+</ng-template>
