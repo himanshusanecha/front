@@ -31,7 +31,7 @@ context('Composer Bottom Bar', () => {
 
   const postButtonDropdownAction = `${postButton} [data-cy="button-dropdown-action"]`;
 
-  const postButtonDropdownMenu = `${postButton} .m-composerPost__dropdown`;
+  const postButtonDropdownMenu = `${postButton} .m-dropdownMenu__menu`;
 
   //
 
