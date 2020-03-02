@@ -35,7 +35,7 @@
       *ngFor="let activity of pinned; let i = index"
       [object]="activity"
       [canDelete]="group['is:owner'] || group['is:moderator']"
-      (deleted)="delete(activity)"
+      (deleted)="delete($event)"
       [showRatingToggle]="true"
       [slot]="i + 1"
       class="mdl-card item"
