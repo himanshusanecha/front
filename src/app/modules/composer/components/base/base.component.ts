@@ -1,24 +1,40 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Injector,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { UniqueId } from '../../../../helpers/unique-id.helper';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
 import { ComposerService } from '../../composer.service';
+import { PopupService } from '../popup/popup.service';
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'm-composer__base',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'base.component.html',
+  providers: [PopupService],
 })
-export class BaseComponent {
+export class BaseComponent implements AfterViewInit {
   @Output('onPost') onPostEmitter: EventEmitter<any> = new EventEmitter<any>();
+
+  @ViewChild('popupComponent', { static: true }) popupComponent: PopupComponent;
 
   id: string = UniqueId.generate('m-composer');
 
-  constructor(public service: ComposerService) {}
+  constructor(
+    protected service: ComposerService,
+    protected popup: PopupService,
+    protected injector: Injector
+  ) {}
+
+  ngAfterViewInit(): void {
+    this.popup.setUp(this.popupComponent, this.injector);
+  }
 
   get message$() {
     return this.service.message$;

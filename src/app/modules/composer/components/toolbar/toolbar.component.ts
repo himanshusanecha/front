@@ -22,6 +22,8 @@ import {
   FileUploadSelectEvent,
 } from '../../../../common/components/file-upload/file-upload.component';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
+import { PopupService } from '../popup/popup.service';
+import { NsfwComponent } from '../nsfw/nsfw.component';
 
 /**
  * Toolbar component. Interacts directly with the service.
@@ -60,15 +62,21 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Window resize event observable
    */
-  windowResize$: Subject<void> = new Subject<void>();
+  protected windowResize$: Subject<void> = new Subject<void>();
 
   /**
    * Window resize event subscription
    */
-  windowResizeSubscription: Subscription;
+  protected windowResizeSubscription: Subscription;
+
+  /**
+   * Action popup subscription
+   */
+  protected popupSubscription: Subscription;
 
   constructor(
     protected service: ComposerService,
+    protected popup: PopupService,
     protected cd: ChangeDetectorRef
   ) {}
 
@@ -191,8 +199,11 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param $event
    */
   onNsfwClick($event?: MouseEvent): void {
-    // TODO: NSFW popup
-    // TODO: Spec test
+    // TODO: Ditch promise subscription and do something cool
+    this.popup
+      .create(NsfwComponent)
+      .present()
+      .toPromise();
   }
 
   /**

@@ -10,11 +10,13 @@ import { MediaPreviewComponent } from './components/media-preview/media-preview.
 import { ProgressComponent } from './components/progress/progress.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { TitleBarComponent } from './components/title-bar/title-bar.component';
+import { PopupComponent } from './components/popup/popup.component';
+import { NsfwComponent } from './components/nsfw/nsfw.component';
 
 /**
  * Exported components
  */
-const COMPONENTS = [ComposerComponent, ModalComponent];
+const COMPONENTS = [ComposerComponent, ModalComponent, NsfwComponent];
 
 /**
  * Components used internally
@@ -25,6 +27,7 @@ const INTERNAL_COMPONENTS = [
   ProgressComponent,
   ToolbarComponent,
   TitleBarComponent,
+  PopupComponent,
 ];
 
 const PROVIDERS = [ModalService];
