@@ -48,7 +48,7 @@ m-register {
     }
 
     @media screen and (max-width: $m-grid-max-mobile) {
-      margin-top: -52px 0 50px;
+      margin: -52px 0 50px;
       padding: 0 26px;
 
       &::before {
@@ -628,6 +628,50 @@ m-register {
       text-align: center;
       font-size: 11px;
       font-weight: bold;
+    }
+  }
+}
+
+//------------------------------------------------
+
+@media screen and(max-width: $m-grid-max-mobile) {
+  div m-register.m-register--newDesign,
+  div m-login.m-login--newDesign {
+    margin-bottom: 50;
+    .m-marketing__footer {
+      padding-top: 0px;
+      padding-bottom: 32px;
+      .m-marketingFooter__column {
+        margin: 0 0 32px 0;
+      }
+    }
+  }
+}
+
+div m-register.m-register--newDesign,
+div m-login.m-login--newDesign {
+  @include m-theme() {
+    background: themed($m-body-bg);
+  }
+  margin-bottom: 0;
+
+  m-marketing__footer {
+    @include m-theme() {
+      background: themed($m-body-bg);
+    }
+    .m-marketing__footer {
+      padding-top: 0px;
+      padding-bottom: 32px;
+      @include m-theme() {
+        border: none;
+      }
+      @media screen and(max-width: $max-mobile) {
+        padding-bottom: 80px;
+      }
+
+      .m-marketing__sep {
+        display: none;
+      }
     }
   }
 }

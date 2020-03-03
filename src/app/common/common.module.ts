@@ -381,6 +381,7 @@ const routes: Routes = [
     DateDropdownsComponent,
     FormInputCheckboxComponent,
     ExplicitOverlayComponent,
+    MarketingFooterComponent,
   ],
   providers: [
     SiteService,
