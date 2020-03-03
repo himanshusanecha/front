@@ -1,37 +1,124 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
-  Input,
+  HostListener,
+  OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
+import { Subject, Subscription, BehaviorSubject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import {
+  AttachmentSubjectValue,
+  ComposerService,
+} from '../../composer.service';
 import {
   FileUploadComponent,
   FileUploadSelectEvent,
 } from '../../../../common/components/file-upload/file-upload.component';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
-import {
-  AttachmentSubjectValue,
-  ComposerService,
-} from '../../composer.service';
-import { BehaviorSubject } from 'rxjs';
 
+/**
+ * Toolbar component. Interacts directly with the service.
+ */
 @Component({
   selector: 'm-composer__toolbar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'toolbar.component.html',
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
+  /**
+   * On Post event emitter
+   */
   @Output('onPost') onPostEmitter: EventEmitter<
     ButtonComponentAction
   > = new EventEmitter<ButtonComponentAction>();
 
+  /**
+   * Upload component ref
+   */
   @ViewChild('fileUploadComponent', { static: false })
   fileUploadComponent: FileUploadComponent;
 
-  constructor(protected service: ComposerService) {}
+  /**
+   * Toolbar main <div> element
+   */
+  @ViewChild('toolbarWrapper', { static: true }) toolbarWrapper: ElementRef<
+    HTMLDivElement
+  >;
+
+  /**
+   * Show narrow style
+   */
+  narrow: boolean = false;
+
+  /**
+   * Window resize event observable
+   */
+  windowResize$: Subject<void> = new Subject<void>();
+
+  /**
+   * Window resize event subscription
+   */
+  windowResizeSubscription: Subscription;
+
+  constructor(
+    protected service: ComposerService,
+    protected cd: ChangeDetectorRef
+  ) {}
+
+  /**
+   * Handles Init event
+   * @internal
+   */
+  ngOnInit(): void {
+    this.windowResizeSubscription = this.windowResize$
+      .pipe(debounceTime(250))
+      .subscribe(() => this.calcNarrow());
+  }
+
+  /**
+   * Handles View Init event
+   * @internal
+   */
+  ngAfterViewInit(): void {
+    this.calcNarrow();
+  }
+
+  /**
+   * Handles window resize event
+   * @internal
+   */
+  @HostListener('window:resize') onWindowResize() {
+    this.windowResize$.next();
+  }
+
+  /**
+   * Handles Destroy event
+   * @internal
+   */
+  ngOnDestroy(): void {
+    this.windowResizeSubscription.unsubscribe();
+  }
+
+  /**
+   * Calculates if the toolbar should be "narrow" (no labels)
+   */
+  calcNarrow() {
+    if (this.toolbarWrapper.nativeElement) {
+      const narrow = this.toolbarWrapper.nativeElement.clientWidth <= 550;
+
+      if (narrow !== this.narrow) {
+        this.narrow = narrow;
+        this.detectChanges();
+      }
+    }
+  }
 
   /**
    * Attachment subject from service
@@ -131,5 +218,10 @@ export class ToolbarComponent {
    */
   onPost(buttonComponentAction: ButtonComponentAction): void {
     this.onPostEmitter.emit(buttonComponentAction);
+  }
+
+  detectChanges() {
+    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 }

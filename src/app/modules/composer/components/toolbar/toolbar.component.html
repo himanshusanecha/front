@@ -1,4 +1,8 @@
-<div class="m-composer__toolbar">
+<div
+  class="m-composer__toolbar"
+  [class.m-composer__toolbar--narrow]="narrow"
+  #toolbarWrapper
+>
   <m-file-upload
     [hidden]="attachment$ | async"
     (onSelect)="onAttachmentSelect($event)"

@@ -53,4 +53,10 @@
       display: none;
     }
   }
+
+  &.m-composer__toolbar--narrow
+    .m-composerToolbarItem__icon
+    + .m-composerToolbarItem__label {
+    display: none;
+  }
 }
