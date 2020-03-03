@@ -99,6 +99,13 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
+   * Triggers when change detection runs
+   */
+  ngOnChanges() {
+    this.windowResize$.next();
+  }
+
+  /**
    * Handles Destroy event
    * @internal
    */
@@ -110,12 +117,15 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
    * Calculates if the toolbar should be "narrow" (no labels)
    */
   calcNarrow() {
-    if (this.toolbarWrapper.nativeElement) {
+    if (
+      this.toolbarWrapper.nativeElement &&
+      this.toolbarWrapper.nativeElement.clientWidth
+    ) {
       const narrow = this.toolbarWrapper.nativeElement.clientWidth <= 550;
 
       if (narrow !== this.narrow) {
         this.narrow = narrow;
-        this.detectChanges();
+        this.detectChanges(); // Be VERY CAREFUL as this runs on ngOnChanges, as well
       }
     }
   }
@@ -220,6 +230,9 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onPostEmitter.emit(buttonComponentAction);
   }
 
+  /**
+   * Triggers change detection
+   */
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
