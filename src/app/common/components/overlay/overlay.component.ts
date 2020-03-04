@@ -12,10 +12,10 @@ import {
   templateUrl: 'overlay.component.html',
 })
 export class OverlayComponent {
-  @Output() onClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onClick: EventEmitter<any> = new EventEmitter<any>();
 
   @HostListener('click', ['$event']) _click($event) {
     // TODO: Check if $event.target is self, to avoid bubbles from other screen elements
-    this.onClick.emit();
+    this.onClick.emit($event);
   }
 }

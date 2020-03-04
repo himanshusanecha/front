@@ -8,7 +8,6 @@ import { ModalComponent } from './modal.component';
  */
 export type ComposerData = {
   activity?: any;
-  accessId?: any;
   containerGuid?: any;
 };
 
@@ -29,16 +28,6 @@ export class ModalService {
   setInjector(injector: Injector): ModalService {
     this.injector = injector;
     return this;
-  }
-
-  /**
-   * Injects data onto Composer service, as it would be passed to the component itself
-   *
-   * @param data
-   */
-  setData(data: ComposerData) {
-    // TODO: Inject data straight into injector's ComposerService instance
-    throw new Error('Not implemented');
   }
 
   /**

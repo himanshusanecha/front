@@ -3,7 +3,6 @@
     *ngIf="isMember()"
     (onPost)="prepend($event)"
     [containerGuid]="group.guid"
-    [accessId]="group.guid"
     #composer
   ></m-composer>
 </ng-container>
@@ -12,7 +11,6 @@
     *ngIf="isMember()"
     (load)="prepend($event)"
     [containerGuid]="group.guid"
-    [accessId]="group.guid"
     #poster
   ></minds-newsfeed-poster>
 </ng-template>

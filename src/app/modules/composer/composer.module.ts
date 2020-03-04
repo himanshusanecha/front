@@ -9,6 +9,7 @@ import { BaseComponent } from './components/base/base.component';
 import { MediaPreviewComponent } from './components/media-preview/media-preview.component';
 import { ProgressComponent } from './components/progress/progress.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { TitleBarComponent } from './components/title-bar/title-bar.component';
 
 /**
  * Exported components
@@ -23,6 +24,7 @@ const INTERNAL_COMPONENTS = [
   MediaPreviewComponent,
   ProgressComponent,
   ToolbarComponent,
+  TitleBarComponent,
 ];
 
 const PROVIDERS = [ModalService];

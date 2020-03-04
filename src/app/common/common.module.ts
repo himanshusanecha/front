@@ -152,6 +152,7 @@ import { ButtonComponent } from './components/button-v2/button.component';
 import { OverlayComponent } from './components/overlay/overlay.component';
 import { AttachmentApiService } from './api/attachment-api.service';
 import { ApiService } from './api/api.service';
+import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 
 const routes: Routes = [
   {
@@ -284,6 +285,7 @@ const routes: Routes = [
     IconComponent,
     ButtonComponent,
     OverlayComponent,
+    DropdownMenuComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -395,6 +397,7 @@ const routes: Routes = [
     IconComponent,
     ButtonComponent,
     OverlayComponent,
+    DropdownMenuComponent,
   ],
   providers: [
     SiteService,

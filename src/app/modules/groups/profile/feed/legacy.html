@@ -4,7 +4,6 @@
       *ngIf="filter == 'activity' && group['is:member']"
       (onPost)="prepend($event)"
       [containerGuid]="group.guid"
-      [accessId]="group.guid"
       #composer
     ></m-composer>
   </ng-container>
@@ -12,7 +11,6 @@
     <minds-newsfeed-poster
       (load)="prepend($event)"
       [containerGuid]="group.guid"
-      [accessId]="group.guid"
       *ngIf="filter == 'activity' && group['is:member']"
       #poster
     >
