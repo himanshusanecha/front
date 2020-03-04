@@ -27,12 +27,6 @@ export class ComposerComponent {
     }
   }
 
-  @Input('accessId') set _accessId(accessId: any) {
-    if (typeof accessId !== 'undefined') {
-      this.service.setAccessId(accessId);
-    }
-  }
-
   @Input('containerGuid') set _containerGuid(containerGuid: any) {
     if (typeof containerGuid !== 'undefined') {
       this.service.setContainerGuid(containerGuid);

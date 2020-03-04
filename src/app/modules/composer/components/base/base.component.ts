@@ -64,6 +64,18 @@ export class BaseComponent {
     this.service.schedule$.next(schedule);
   }
 
+  get accessId$() {
+    return this.service.accessId$;
+  }
+
+  get license$() {
+    return this.service.license$;
+  }
+
+  get hasContainer() {
+    return Boolean(this.service.getContainerGuid());
+  }
+
   get inProgress$() {
     return this.service.inProgress$;
   }
@@ -104,6 +116,14 @@ export class BaseComponent {
 
     // TODO: Delete unused attachment from server
     this.attachment$.next(null);
+  }
+
+  onVisibilitySelect($event): void {
+    this.service.accessId$.next($event);
+  }
+
+  onLicenseSelect($event): void {
+    this.service.license$.next($event);
   }
 
   async onPost(event: ButtonComponentAction) {

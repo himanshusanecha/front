@@ -15,7 +15,9 @@ m-composer__modal {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     border-radius: 0;
+    padding: 0 0 34px;
   }
 
   m-composer__base {
@@ -26,6 +28,16 @@ m-composer__modal {
     > * {
       flex: 1;
     }
+
+    @media screen and (max-width: $max-mobile) {
+      max-height: 710px;
+      min-height: 431px;
+
+      .m-composer__base,
+      .m-composer__base.m-composer__base--withMediaPreview {
+        height: auto;
+      }
+    }
   }
 }
 
@@ -33,8 +45,7 @@ m-composer__modal {
   @media screen and (max-width: $max-mobile) {
     display: flex;
     flex-direction: row-reverse;
-    padding: 0 24px;
-    margin-bottom: 11.4vh;
+    padding: 29px 16px 24px 24px;
 
     @include m-theme() {
       color: themed($m-textColor--secondary);

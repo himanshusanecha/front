@@ -6,17 +6,37 @@ import { ApiService } from '../../common/api/api.service';
 
 export type MessageSubjectValue = string;
 
+export const DEFAULT_MESSAGE_VALUE: MessageSubjectValue = '';
+
 export type AttachmentSubjectValue = File | null;
+
+export const DEFAULT_ATTACHMENT_VALUE: AttachmentSubjectValue = null;
 
 export type AttachmentGuidMappedValue = string | null;
 
 export type NsfwSubjectValue = Array<number>;
 
+export const DEFAULT_NSFW_VALUE: NsfwSubjectValue = [];
+
 export type MonetizationSubjectValue = any;
+
+export const DEFAULT_MONETIZATION_VALUE: MonetizationSubjectValue = null;
 
 export type TagsSubjectValue = Array<string>;
 
+export const DEFAULT_TAGS_VALUE: TagsSubjectValue = [];
+
 export type ScheduleSubjectValue = number | null;
+
+export const DEFAULT_SCHEDULE_VALUE: ScheduleSubjectValue = null;
+
+export type AccessIdSubjectValue = string;
+
+export const DEFAULT_ACCESS_ID_VALUE: AccessIdSubjectValue = '2';
+
+export type LicenseSubjectValue = string;
+
+export const DEFAULT_LICENSE_VALUE: LicenseSubjectValue = 'all-rights-reserved';
 
 export interface PreviewResource {
   source: 'none' | 'local' | 'guid' | 'rich-embed';
@@ -30,6 +50,8 @@ export interface Data {
   monetization: MonetizationSubjectValue;
   tags: TagsSubjectValue;
   schedule: ScheduleSubjectValue;
+  accessId: AccessIdSubjectValue;
+  license: LicenseSubjectValue;
   attachmentGuid: AttachmentGuidMappedValue;
 }
 
@@ -39,27 +61,35 @@ export class ComposerService implements OnDestroy {
 
   readonly message$: BehaviorSubject<MessageSubjectValue> = new BehaviorSubject<
     MessageSubjectValue
-  >('');
+  >(DEFAULT_MESSAGE_VALUE);
 
   readonly nsfw$: BehaviorSubject<NsfwSubjectValue> = new BehaviorSubject<
     NsfwSubjectValue
-  >([]);
+  >(DEFAULT_NSFW_VALUE);
 
   readonly monetization$: BehaviorSubject<
     MonetizationSubjectValue
-  > = new BehaviorSubject<MonetizationSubjectValue>(null);
+  > = new BehaviorSubject<MonetizationSubjectValue>(DEFAULT_MONETIZATION_VALUE);
 
   readonly tags$: BehaviorSubject<TagsSubjectValue> = new BehaviorSubject<
     TagsSubjectValue
-  >([]);
+  >(DEFAULT_TAGS_VALUE);
 
   readonly schedule$: BehaviorSubject<
     ScheduleSubjectValue
-  > = new BehaviorSubject<ScheduleSubjectValue>(null);
+  > = new BehaviorSubject<ScheduleSubjectValue>(DEFAULT_SCHEDULE_VALUE);
+
+  readonly accessId$: BehaviorSubject<
+    AccessIdSubjectValue
+  > = new BehaviorSubject<AccessIdSubjectValue>(DEFAULT_ACCESS_ID_VALUE);
+
+  readonly license$: BehaviorSubject<LicenseSubjectValue> = new BehaviorSubject<
+    LicenseSubjectValue
+  >(DEFAULT_LICENSE_VALUE);
 
   readonly attachment$: BehaviorSubject<
     AttachmentSubjectValue
-  > = new BehaviorSubject<AttachmentSubjectValue>(null);
+  > = new BehaviorSubject<AttachmentSubjectValue>(DEFAULT_ATTACHMENT_VALUE);
 
   // State Subjects
 
@@ -89,9 +119,7 @@ export class ComposerService implements OnDestroy {
 
   protected readonly dataSubscription: Subscription;
 
-  protected accessId: any;
-
-  protected containerGuid: any;
+  protected containerGuid: string | null = null;
 
   protected payload: any = null;
 
@@ -113,6 +141,18 @@ export class ComposerService implements OnDestroy {
       this.monetization$, // TODO: Implement custom distinctUntilChanged comparison
       this.tags$, // TODO: Implement custom distinctUntilChanged comparison
       this.schedule$, // TODO: Implement custom distinctUntilChanged comparison
+      this.accessId$.pipe(
+        distinctUntilChanged(),
+        tap(accessId => {
+          if (this.containerGuid && this.containerGuid !== accessId) {
+            console.warn(
+              "Access ID will be overriden by container's GUID",
+              this.containerGuid
+            );
+          }
+        })
+      ),
+      this.license$.pipe(distinctUntilChanged()),
       this.attachment$.pipe(
         // Only react to attachment changes from previous values (string -> File -> null -> File -> ...)
         distinctUntilChanged(),
@@ -145,12 +185,23 @@ export class ComposerService implements OnDestroy {
     ]).pipe(
       map(
         // Create an JSON object based on an array of Subject values
-        ([message, nsfw, monetization, tags, schedule, attachmentGuid]) => ({
+        ([
           message,
           nsfw,
           monetization,
           tags,
           schedule,
+          accessId,
+          license,
+          attachmentGuid,
+        ]) => ({
+          message,
+          nsfw,
+          monetization,
+          tags,
+          schedule,
+          accessId,
+          license,
           attachmentGuid,
         })
       ),
@@ -184,14 +235,13 @@ export class ComposerService implements OnDestroy {
     this.dataSubscription.unsubscribe();
   }
 
-  setAccessId(accessId: any) {
-    this.accessId = accessId;
+  setContainerGuid(containerGuid: string | null) {
+    this.containerGuid = containerGuid || null;
     return this;
   }
 
-  setContainerGuid(containerGuid: any) {
-    this.containerGuid = containerGuid;
-    return this;
+  getContainerGuid(): string | null {
+    return this.containerGuid || null;
   }
 
   /**
@@ -199,12 +249,14 @@ export class ComposerService implements OnDestroy {
    */
   reset(): void {
     // Reset data
-    this.message$.next('');
-    this.nsfw$.next([]);
-    this.monetization$.next(null);
-    this.tags$.next([]);
-    this.schedule$.next(null);
-    this.attachment$.next(null);
+    this.message$.next(DEFAULT_MESSAGE_VALUE);
+    this.nsfw$.next(DEFAULT_NSFW_VALUE);
+    this.monetization$.next(DEFAULT_MONETIZATION_VALUE);
+    this.tags$.next(DEFAULT_TAGS_VALUE);
+    this.schedule$.next(DEFAULT_SCHEDULE_VALUE);
+    this.accessId$.next(DEFAULT_ACCESS_ID_VALUE);
+    this.license$.next(DEFAULT_LICENSE_VALUE);
+    this.attachment$.next(DEFAULT_ATTACHMENT_VALUE);
 
     // Reset state
     this.inProgress$.next(false);
@@ -229,16 +281,19 @@ export class ComposerService implements OnDestroy {
 
     this.reset();
 
-    this.message$.next(activity.message || '');
-    this.nsfw$.next(activity.nsfw || []);
-    this.monetization$.next(activity.wire_threshold || null);
-    this.tags$.next(activity.tags || []);
-    this.schedule$.next(null /* TODO: Allow editing schedule time */);
-    this.attachment$.next(null /* TODO: Allow editing attachments */);
-
-    if (typeof activity.accessId !== 'undefined') {
-      this.setAccessId(activity.accessId);
-    }
+    this.message$.next(activity.message || DEFAULT_MESSAGE_VALUE);
+    this.nsfw$.next(activity.nsfw || DEFAULT_NSFW_VALUE);
+    this.monetization$.next(
+      activity.wire_threshold || DEFAULT_MONETIZATION_VALUE
+    );
+    this.tags$.next(activity.tags || DEFAULT_TAGS_VALUE);
+    this.schedule$.next(
+      DEFAULT_SCHEDULE_VALUE /* TODO: Allow editing schedule time */
+    );
+    this.attachment$.next(
+      DEFAULT_ATTACHMENT_VALUE /* TODO: Allow editing attachments */
+    );
+    this.accessId$.next(activity.accessId || DEFAULT_ACCESS_ID_VALUE);
 
     if (typeof activity.containerGuid !== 'undefined') {
       this.setContainerGuid(activity.containerGuid);
@@ -300,12 +355,19 @@ export class ComposerService implements OnDestroy {
    */
   buildPayload({
     message,
-    attachmentGuid,
     nsfw,
     monetization,
     tags,
     schedule,
+    accessId,
+    license,
+    attachmentGuid,
   }: Data) {
+    if (this.containerGuid) {
+      // Override accessId if there's a container set
+      accessId = this.containerGuid;
+    }
+
     this.payload = {
       message: message || '',
       wire_threshold: monetization || null,
@@ -319,7 +381,9 @@ export class ComposerService implements OnDestroy {
       mature: nsfw && nsfw.length > 0,
       nsfw: nsfw || [],
       tags: tags || [],
-      access_id: this.accessId || '2',
+      access_id: accessId,
+      attachment_license: license,
+      license: license, // TODO: Implement on engine
       container_guid: this.containerGuid || null,
     };
   }
