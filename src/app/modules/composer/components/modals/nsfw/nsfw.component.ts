@@ -4,12 +4,12 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { ComposerService } from '../../composer.service';
+import { ComposerService } from '../../../composer.service';
 
 @Component({
   selector: 'm-composer__nsfw',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<div (click)="save()">NSFW: {{nsfw$|async|json}}</div>',
+  template: '<div></div>',
 })
 export class NsfwComponent {
   @Output() dismissIntent: EventEmitter<any> = new EventEmitter<any>();
@@ -20,8 +20,5 @@ export class NsfwComponent {
     return this.service.nsfw$;
   }
 
-  save() {
-    this.service.nsfw$.next([1, 2, 3, +Date.now()]);
-    this.dismissIntent.emit({});
-  }
+  save() {}
 }

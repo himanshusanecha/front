@@ -23,7 +23,10 @@ import {
 } from '../../../../common/components/file-upload/file-upload.component';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
 import { PopupService } from '../popup/popup.service';
-import { NsfwComponent } from '../nsfw/nsfw.component';
+import { NsfwComponent } from '../modals/nsfw/nsfw.component';
+import { MonetizeComponent } from '../modals/monetize/monetize.component';
+import { TagsComponent } from '../modals/tags/tags.component';
+import { ScheduleComponent } from '../modals/schedule/schedule.component';
 
 /**
  * Toolbar component. Interacts directly with the service.
@@ -198,39 +201,44 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
    * Shows NSFW popup
    * @param $event
    */
-  onNsfwClick($event?: MouseEvent): void {
-    // TODO: Ditch promise subscription and do something cool
-    this.popup
+  async onNsfwClick($event?: MouseEvent): Promise<void> {
+    await this.popup
       .create(NsfwComponent)
       .present()
-      .toPromise();
+      .toPromise(/* Promise is needed to boot-up the Observable */);
   }
 
   /**
    * Shows monetization popup
    * @param $event
    */
-  onMonetizationClick($event?: MouseEvent): void {
-    // TODO: Monetization popup
-    // TODO: Spec test
+  async onMonetizeClick($event?: MouseEvent): Promise<void> {
+    await this.popup
+      .create(MonetizeComponent)
+      .present()
+      .toPromise(/* Promise is needed to boot-up the Observable */);
   }
 
   /**
    * Shows tags popup
    * @param $event
    */
-  onTagsClick($event?: MouseEvent): void {
-    // TODO: Tags popup
-    // TODO: Spec test
+  async onTagsClick($event?: MouseEvent): Promise<void> {
+    await this.popup
+      .create(TagsComponent)
+      .present()
+      .toPromise(/* Promise is needed to boot-up the Observable */);
   }
 
   /**
    * Shows scheduler popup
    * @param $event
    */
-  onSchedulerClick($event?: MouseEvent): void {
-    // TODO: Scheduler popup
-    // TODO: Spec test
+  async onSchedulerClick($event?: MouseEvent): Promise<void> {
+    await this.popup
+      .create(ScheduleComponent)
+      .present()
+      .toPromise(/* Promise is needed to boot-up the Observable */);
   }
 
   /**

@@ -43,13 +43,14 @@
 
   <a
     class="m-composerToolbar__item"
-    (click)="onMonetizationClick($event)"
+    (click)="onMonetizeClick($event)"
     data-cy="monetize-button"
   >
     <m-icon
       class="m-composerToolbarItem__icon"
-      from="ion"
-      iconId="cash"
+      from="assets-file"
+      iconId="assets/icons/wire.svg"
+      [sizeFactor]="25"
     ></m-icon>
     <span class="m-composerToolbarItem__label" i18n>Monetize</span>
   </a>
@@ -61,14 +62,17 @@
   >
     <m-icon
       class="m-composerToolbarItem__icon"
-      from="ion"
-      iconId="pound"
+      from="text"
+      iconId="#"
+      [sizeFactor]="25"
     ></m-icon>
     <span class="m-composerToolbarItem__label" i18n>Tags</span>
   </a>
 
+  <span class="m-composerToolbar__itemSpacer"></span>
+
   <m-button
-    class="m-composerToolbar__item m-composerToolbarItem--action m-composerToolbarItem--container"
+    class="m-composerToolbar__action"
     [disabled]="(inProgress$ | async) || !(canPost$ | async)"
     [dropdown]="postButtonDropdown"
     (onAction)="onPost($event)"
