@@ -6,6 +6,7 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   EventEmitter,
+  HostBinding,
   Injector,
   Type,
   ViewChild,
@@ -31,7 +32,7 @@ export class PopupComponent {
   /**
    * Is the popup open and shown?
    */
-  open: boolean = false;
+  @HostBinding('class.m-composer__popup--open') open: boolean = false;
 
   /**
    * Placeholder for child component injection
