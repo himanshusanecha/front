@@ -43,6 +43,10 @@
     @media screen and (max-width: $max-mobile) {
       margin-right: 40px;
     }
+
+    @media screen and (max-width: 400px) {
+      margin-right: 0;
+    }
   }
 
   .m-composerToolbar__action {
@@ -52,6 +56,10 @@
 
   .m-composerToolbar__itemSpacer {
     flex: 1;
+
+    @media screen and (max-width: 400px) {
+      flex: initial;
+    }
   }
 
   .m-composerToolbarItem__icon + .m-composerToolbarItem__label {
