@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  OnInit,
   Output,
 } from '@angular/core';
 import { ComposerService } from '../../../composer.service';
@@ -9,16 +10,38 @@ import { ComposerService } from '../../../composer.service';
 @Component({
   selector: 'm-composer__monetize',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<div></div>',
+  templateUrl: 'monetize.component.html',
 })
-export class MonetizeComponent {
+export class MonetizeComponent implements OnInit {
   @Output() dismissIntent: EventEmitter<any> = new EventEmitter<any>();
+
+  state: { enabled: boolean; type: string; amount: number } = {
+    enabled: false,
+    type: 'tokens',
+    amount: 0,
+  };
 
   constructor(protected service: ComposerService) {}
 
-  get monetization$() {
-    return this.service.monetization$;
+  ngOnInit(): void {
+    const monetization = this.service.monetization$.getValue();
+
+    this.state = {
+      enabled: Boolean(monetization),
+      type: (monetization && monetization.type) || 'tokens',
+      amount: (monetization && monetization.min) || 0,
+    };
   }
 
-  save() {}
+  save() {
+    this.service.monetization$.next(
+      this.state.enabled
+        ? {
+            type: this.state.type,
+            min: this.state.amount,
+          }
+        : null
+    );
+    this.dismissIntent.emit();
+  }
 }
