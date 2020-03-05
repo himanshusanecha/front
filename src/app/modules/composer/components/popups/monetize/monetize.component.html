@@ -11,7 +11,12 @@
 
     <div class="m-composerPopup__field m-composerPopupField--1">
       <label for="enablePaywall">
-        <input type="checkbox" id="enablePaywall" [(ngModel)]="state.enabled" />
+        <input
+          type="checkbox"
+          id="enablePaywall"
+          [(ngModel)]="state.enabled"
+          data-cy="monetize-enable-paywall"
+        />
         <span i18n>Enable Paywall</span>
       </label>
     </div>
@@ -25,7 +30,11 @@
       </h4>
 
       <div class="m-composerPopup__field m-composerPopupField--2">
-        <input type="number" [(ngModel)]="state.amount" />
+        <input
+          type="number"
+          [(ngModel)]="state.amount"
+          data-cy="monetize-paywall-amount"
+        />
       </div>
     </ng-container>
   </div>
