@@ -6,7 +6,7 @@ import {
   Inject,
   Input,
   OnDestroy,
-  OnInit,
+  OnChanges,
   Output,
   PLATFORM_ID,
   ViewChild,
@@ -26,7 +26,7 @@ import { Session } from '../../../../services/session';
   providers: [VideoPlayerService, Session],
 })
 export class MindsVideoPlayerComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnChanges, OnDestroy, AfterViewInit {
   /**
    * MH: dislike having to emit an event to open modal, but this is
    * the quickest work around for now
@@ -95,7 +95,7 @@ export class MindsVideoPlayerComponent
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.service.load();
     }
