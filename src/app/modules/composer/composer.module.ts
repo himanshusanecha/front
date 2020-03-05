@@ -11,10 +11,10 @@ import { ProgressComponent } from './components/progress/progress.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { TitleBarComponent } from './components/title-bar/title-bar.component';
 import { PopupComponent } from './components/popup/popup.component';
-import { NsfwComponent } from './components/modals/nsfw/nsfw.component';
-import { MonetizeComponent } from './components/modals/monetize/monetize.component';
-import { TagsComponent } from './components/modals/tags/tags.component';
-import { ScheduleComponent } from './components/modals/schedule/schedule.component';
+import { NsfwComponent } from './components/popups/nsfw/nsfw.component';
+import { MonetizeComponent } from './components/popups/monetize/monetize.component';
+import { TagsComponent } from './components/popups/tags/tags.component';
+import { ScheduleComponent } from './components/popups/schedule/schedule.component';
 
 /**
  * Exported components
