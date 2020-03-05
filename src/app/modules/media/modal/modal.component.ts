@@ -7,6 +7,7 @@ import {
   OnInit,
   SkipSelf,
   ViewChild,
+  ComponentRef,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Event, NavigationStart, Router } from '@angular/router';
@@ -29,6 +30,8 @@ import { FeaturesService } from '../../../services/features.service';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { HorizontalFeedService } from '../../../common/services/horizontal-feed.service';
 import { ShareModalComponent } from '../../modals/share/share';
+import { AttachmentService } from '../../../services/attachment';
+import { DynamicModalSettings } from '../../../common/components/stackable-modal/stackable-modal.component';
 
 export type MediaModalParams = {
   entity: any;
@@ -112,6 +115,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   pagerVisible: boolean = false;
   pagerTimeout: any = null;
 
+  stackableModalSettings: DynamicModalSettings;
+
   routerSubscription: Subscription;
 
   modalPager = {
@@ -148,7 +153,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     @SkipSelf() injector: Injector,
     configs: ConfigsService,
     private horizontalFeed: HorizontalFeedService,
-    private features: FeaturesService
+    private features: FeaturesService,
+    public attachment: AttachmentService
   ) {
     this.clientMetaService
       .inherit(injector)
@@ -818,11 +824,19 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   openShareModal(): void {
-    const url = this.overlayModal
-      .create(ShareModalComponent, this.site.baseUrl + this.pageUrl.substr(1), {
-        class: 'm-overlay-modal--medium m-overlayModal__share',
-      })
-      .present();
+    const componentClass = ShareModalComponent,
+      data = this.site.baseUrl + this.pageUrl.substr(1),
+      opts = { class: 'm-overlayModal__share' };
+
+    this.stackableModalSettings = {
+      componentClass: componentClass,
+      data: data,
+      opts: opts,
+    };
+  }
+
+  toggleMatureVisibility() {
+    this.entity.mature_visibility = !this.entity.mature_visibility;
   }
 
   ngOnDestroy() {
