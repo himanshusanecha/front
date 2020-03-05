@@ -31,7 +31,7 @@ describe('Composer Title Bar', () => {
         }),
         MockComponent({
           selector: 'm-icon',
-          inputs: ['iconId'],
+          inputs: ['from', 'iconId', 'sizeFactor'],
         }),
       ],
       providers: [

@@ -3,12 +3,14 @@ import { MockComponent, MockService } from '../../../../utils/mock';
 import { ToolbarComponent } from './toolbar.component';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
 import { ComposerService } from '../../composer.service';
+import { PopupService } from '../popup/popup.service';
 
 describe('Composer Title Bar', () => {
   let comp: ToolbarComponent;
   let fixture: ComponentFixture<ToolbarComponent>;
 
   const composerServiceMock: any = MockService(ComposerService, {});
+  const popupServiceMock: any = MockService(PopupService, {});
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,7 +25,7 @@ describe('Composer Title Bar', () => {
         ),
         MockComponent({
           selector: 'm-icon',
-          inputs: ['iconId'],
+          inputs: ['from', 'iconId', 'sizeFactor'],
         }),
         MockComponent({
           selector: 'm-button',
@@ -35,6 +37,10 @@ describe('Composer Title Bar', () => {
         {
           provide: ComposerService,
           useValue: composerServiceMock,
+        },
+        {
+          provide: PopupService,
+          useValue: popupServiceMock,
         },
       ],
     }).compileComponents();

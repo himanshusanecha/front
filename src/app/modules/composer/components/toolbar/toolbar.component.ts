@@ -72,11 +72,6 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   protected windowResizeSubscription: Subscription;
 
-  /**
-   * Action popup subscription
-   */
-  protected popupSubscription: Subscription;
-
   constructor(
     protected service: ComposerService,
     protected popup: PopupService,
