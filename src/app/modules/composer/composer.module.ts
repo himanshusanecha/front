@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule as NgCommonModule } from '@angular/common';
 import { CommonModule } from '../../common/common.module';
-import { FormsModule } from '@angular/forms';
+import { HashtagsModule } from '../hashtags/hashtags.module';
 import { ModalService } from './components/modal/modal.service';
 import { ComposerComponent } from './composer.component';
 import { ModalComponent } from './components/modal/modal.component';
@@ -46,7 +47,7 @@ const PROVIDERS = [ModalService];
  * Module definition
  */
 @NgModule({
-  imports: [NgCommonModule, FormsModule, CommonModule],
+  imports: [NgCommonModule, FormsModule, CommonModule, HashtagsModule],
   declarations: [...INTERNAL_COMPONENTS, ...COMPONENTS],
   exports: COMPONENTS,
   entryComponents: COMPONENTS,

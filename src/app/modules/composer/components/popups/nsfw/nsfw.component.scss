@@ -12,10 +12,10 @@
     margin: 0 0 17px; // <li> have extra 20 bottom margin
     padding: 0;
 
-    > li {
+    .m-composerNsfw__item {
       display: inline-block;
       margin: 0 16px 20px 0;
-      padding: 6px 15px;
+      padding: 5px 15px 6px 15px;
       border: 1px solid;
       border-radius: 17px;
       font-size: 17px;
