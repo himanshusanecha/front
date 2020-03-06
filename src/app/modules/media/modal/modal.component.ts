@@ -123,6 +123,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     hasPrev: false,
     hasNext: false,
   };
+  canToggleMatureVideoOverlay: boolean = true;
 
   protected modalPager$: Subscription;
 
@@ -789,6 +790,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.setAsyncEntity(response.entity, {
         modal_source_url: modalSourceUrl,
       });
+      this.canToggleMatureVideoOverlay = true;
     } else {
       this.isLoading = false;
     }
@@ -808,6 +810,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.setAsyncEntity(response.entity, {
         modal_source_url: modalSourceUrl,
       });
+      this.canToggleMatureVideoOverlay = true;
     } else {
       this.isLoading = false;
     }
@@ -836,7 +839,32 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   }
 
   toggleMatureVisibility() {
-    this.entity.mature_visibility = !this.entity.mature_visibility;
+    if (this.contentType !== 'video' && this.contentType !== 'rich-embed') {
+      this.entity.mature_visibility = !this.entity.mature_visibility;
+    } else {
+      // Toggle-ability of video player overlay is disabled
+      // after one toggle so that users can press the play button
+      if (this.canToggleMatureVideoOverlay) {
+        this.entity.mature_visibility = !this.entity.mature_visibility;
+        this.canToggleMatureVideoOverlay = false;
+      }
+    }
+  }
+
+  toggleMatureMessageVisibility() {
+    if (this.contentType !== 'video' && this.contentType !== 'rich-embed') {
+      this.toggleMatureVisibility();
+    } else {
+      // Toggle-ability of video player overlay is re-enabled
+      // if the overlay has been re-added via the user
+      // cicking the 'E' in the post's message/description
+      this.entity.mature_visibility = !this.entity.mature_visibility;
+      this.canToggleMatureVideoOverlay = this.attachment.isForcefullyShown(
+        this.entity
+      )
+        ? false
+        : true;
+    }
   }
 
   ngOnDestroy() {

@@ -82,6 +82,7 @@
             <div
               class="m-mature-overlay"
               (click)="toggleMatureVisibility()"
+              *ngIf="canToggleMatureVideoOverlay"
               [style.width]="mediaWidth + 'px'"
               [style.height]="mediaHeight + 'px'"
             >
@@ -371,7 +372,7 @@
               >
                 <a
                   class="m-mature-text-toggle"
-                  (click)="toggleMatureVisibility()"
+                  (click)="toggleMatureMessageVisibility()"
                   *ngIf="
                     attachment.shouldBeBlurred(entity) ||
                     attachment.isForcefullyShown(entity)
