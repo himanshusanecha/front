@@ -21,10 +21,15 @@
 
 <div
   class="m-group__grid"
+  [class.m-pageLayout__container]="hasNewNavigation"
   *ngIf="group && (group['is:member'] || group.membership == 2)"
 >
   <!-- Sidebar -->
-  <div class="m-groupGrid__left" *mIfBrowser>
+  <div
+    class="m-groupGrid__left"
+    [class.m-pageLayout__pane--main]="hasNewNavigation"
+    *mIfBrowser
+  >
     <m-videochat></m-videochat>
 
     <header
@@ -89,7 +94,7 @@
                 (click)="videochat.activate(group)"
                 *ngIf="!group.videoChatDisabled"
               >
-                <span>Gathering</span>
+                <span class="m-gatheringIcon">Gathering</span>
                 <i class="material-icons">video_call</i>
               </button>
             </div>
@@ -333,7 +338,11 @@
       <i class="material-icons" *ngIf="!showRight">keyboard_arrow_left</i>
     </div>
 
-    <div class="m-groupGrid__right" [hidden]="!showRight">
+    <div
+      class="m-groupGrid__right"
+      [class.m-pageLayout__pane--main]="hasNewNavigation"
+      [hidden]="!showRight"
+    >
       <!-- Conversation filter -->
       <minds-groups-profile-conversation [group]="group" *mIfBrowser>
       </minds-groups-profile-conversation>
