@@ -108,11 +108,11 @@ context('Onboarding', () => {
     cy.get('.m-onboarding__controls .m-onboarding__control label').contains('Mobile Phone Number');
 
     // open country dropdown
-    cy.get('.m-onboarding__controls .m-phone-input--selected-flag').click();
+    cy.get('.m-phoneInput__selectedFlag').click();
     // click on UK
-    cy.get('.m-phone-input--country-list li span[data-minds=54]').click();
+    cy.contains('Argentina').click();
     // Uk should be selected
-    cy.get('.m-phone-input--selected-flag .m-phone-input--dial-code').contains('+54');
+    cy.get('.m-phoneInput__selectedFlag').contains('+54');
 
     // add the number
     cy.get('#phone').type('012345678');
