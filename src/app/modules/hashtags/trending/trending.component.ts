@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { TrendingService } from './trending.service';
+import { TrendingService } from '../service/trending.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

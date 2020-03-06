@@ -13,7 +13,9 @@ import { SidebarSelectorItemComponent } from './sidebar-selector/item.component'
 import { TextInputAutocompleteModule } from '../../common/components/autocomplete';
 import { TrendingComponent } from './trending/trending.component';
 import { TypeaheadInputComponent } from './typeahead-input/typeahead-input.component';
-import { TrendingService } from './trending/trending.service';
+import { TrendingService } from './service/trending.service';
+import { SuggestedService } from './service/suggested.service';
+import { MruService } from './service/mru.service';
 
 @NgModule({
   imports: [
@@ -43,7 +45,12 @@ import { TrendingService } from './trending/trending.service';
     TrendingComponent,
     TypeaheadInputComponent,
   ],
-  providers: [TopbarHashtagsService, TrendingService],
+  providers: [
+    TopbarHashtagsService,
+    TrendingService,
+    SuggestedService,
+    MruService,
+  ],
   entryComponents: [HashtagsSelectorModalComponent],
 })
 export class HashtagsModule {}

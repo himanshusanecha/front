@@ -1,0 +1,15 @@
+// This component is provided with raw styles as it should
+// adjust to its parent component
+m-hashtags__typeaheadInput {
+  position: relative;
+
+  .m-hashtagsTypeaheadInput__input {
+    appearance: none;
+  }
+
+  .m-hashtagsTypeaheadInput__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
