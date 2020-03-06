@@ -843,27 +843,11 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       this.entity.mature_visibility = !this.entity.mature_visibility;
     } else {
       // Toggle-ability of video player overlay is disabled
-      // after one toggle so that users can press the play button
+      // after one toggle so that users can access video controls
       if (this.canToggleMatureVideoOverlay) {
         this.entity.mature_visibility = !this.entity.mature_visibility;
         this.canToggleMatureVideoOverlay = false;
       }
-    }
-  }
-
-  toggleMatureMessageVisibility() {
-    if (this.contentType !== 'video' && this.contentType !== 'rich-embed') {
-      this.toggleMatureVisibility();
-    } else {
-      // Toggle-ability of video player overlay is re-enabled
-      // if the overlay has been re-added via the user
-      // cicking the 'E' in the post's message/description
-      this.entity.mature_visibility = !this.entity.mature_visibility;
-      this.canToggleMatureVideoOverlay = this.attachment.isForcefullyShown(
-        this.entity
-      )
-        ? false
-        : true;
     }
   }
 
