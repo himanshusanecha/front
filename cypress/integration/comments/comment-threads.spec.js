@@ -168,7 +168,7 @@ context('Comment Threads', () => {
 
   it('should allow the user to make a mature comment', () => {
     // type message
-    cy.get('minds-textarea')
+    cy.get('minds-textarea div')
       .last()
       .type("naughty message");
 
