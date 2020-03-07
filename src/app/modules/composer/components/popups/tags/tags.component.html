@@ -15,18 +15,27 @@
 
     <h4 class="m-composerPopup__subTitle" i18n>Tag</h4>
 
-    <div class="m-composerTags__input">
+    <div class="m-composerPopup__field m-composerTags__tagInput">
       <m-hashtags__typeaheadInput
+        placeholder="Enter tag"
         historyKey="composer"
+        [disabled]="state.length >= maxTags"
+        [maxEntries]="5"
         (onAction)="addIntent($event)"
         #hashtagsTypeaheadInput
       ></m-hashtags__typeaheadInput>
-      <button (click)="hashtagsTypeaheadInput.triggerAction()" i18n>Add</button>
+      <button
+        [disabled]="state.length >= maxTags"
+        (click)="hashtagsTypeaheadInput.triggerAction()"
+        i18n
+      >
+        Add
+      </button>
     </div>
 
     <ul class="m-composerTags__list" data-cy="nsfw-list">
       <li *ngFor="let tag of state" class="m-composerTags__item">
-        <span>{{ tag }}</span>
+        <span>#{{ tag }}</span>
         <m-icon
           class="m-composerTagsItem__remove"
           iconId="close"

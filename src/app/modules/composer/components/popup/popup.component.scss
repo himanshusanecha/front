@@ -2,7 +2,6 @@ m-composer__popup {
   display: block;
   position: absolute;
   border-radius: 5px;
-  overflow: hidden;
   z-index: 15;
 
   &.m-composer__popup--open {
@@ -179,6 +178,29 @@ m-composer__popup {
 
       @media screen and (max-width: $max-mobile) {
         width: 100%;
+      }
+
+      @include m-theme() {
+        color: themed($m-textColor--secondary);
+        background: themed($m-bgColor--secondary);
+      }
+    }
+
+    button {
+      padding: 8px 23px;
+      margin: 0;
+      cursor: pointer;
+      font-weight: bold;
+
+      @include popup-input-styling;
+
+      @include m-theme() {
+        color: themed($m-textColor--secondary);
+        background: themed($m-bgColor--secondary);
+      }
+
+      &[disabled] {
+        cursor: initial;
       }
     }
 

@@ -35,6 +35,11 @@ export class TagsComponent {
   state: string[] = [];
 
   /**
+   * Maximum number of tags allowed
+   */
+  readonly maxTags: number = 5;
+
+  /**
    * CDN Assets URL
    */
   readonly cdnAssetsUrl: string;

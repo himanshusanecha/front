@@ -2,13 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
 import { SuggestedService } from '../service/suggested.service';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { MruService } from '../service/mru.service';
 
 /**
@@ -20,6 +21,21 @@ import { MruService } from '../service/mru.service';
   templateUrl: 'typeahead-input.component.html',
 })
 export class TypeaheadInputComponent implements OnInit {
+  /**
+   * Disabled state
+   */
+  @Input() disabled: boolean = false;
+
+  /**
+   * Input placeholder
+   */
+  @Input() placeholder: string = '';
+
+  /**
+   * Maximum entries to show
+   */
+  @Input() maxEntries: number = 500;
+
   /**
    * MRU history cache key
    */
@@ -50,7 +66,16 @@ export class TypeaheadInputComponent implements OnInit {
   /**
    * Subject for suggestions queries
    */
-  readonly typeaheadQuery$: Subject<string>;
+  readonly typeaheadQuery$: BehaviorSubject<string> = new BehaviorSubject<
+    string
+  >('');
+
+  /**
+   * Subject for in progress state while fetching suggestions
+   */
+  readonly typeaheadInProgress$: BehaviorSubject<boolean> = new BehaviorSubject<
+    boolean
+  >(false);
 
   /**
    * Observable for suggestions array
@@ -60,12 +85,12 @@ export class TypeaheadInputComponent implements OnInit {
   /**
    * Are we showing recent (so we show the header)
    */
-  get isShowingSuggestions() {
+  get isShowingSuggestions(): boolean {
     return Boolean(this.tag);
   }
 
   /**
-   * Constructor. Initializes query subject and suggestions Observable pipe
+   * Constructor. Initializes suggestions Observable pipe
    * @param suggested
    * @param mru
    */
@@ -73,36 +98,46 @@ export class TypeaheadInputComponent implements OnInit {
     protected suggested: SuggestedService,
     protected mru: MruService
   ) {
-    this.typeaheadQuery$ = new Subject<string>();
-
     this.suggestions$ = this.typeaheadQuery$.pipe(
-      debounceTime(150),
-      this.suggested.lookupOr(() => this.recent)
+      distinctUntilChanged(),
+      tap(() => {
+        this.typeaheadInProgress$.next(true);
+      }),
+      debounceTime(100),
+      this.suggested.lookupOr(() => this.recent),
+      map(suggestions => suggestions.slice(0, this.maxEntries)),
+      tap(() => {
+        this.typeaheadInProgress$.next(false);
+      })
     );
   }
 
   /**
-   * Initialization. Fetches MRU items.
+   * Initialization. Resets component and fetches MRU items.
    */
   ngOnInit(): void {
-    this.fetchMRUItems();
+    this.reset();
   }
 
   /**
    * Sets the current tag
    * @param tag
    */
-  setTag(tag: string) {
+  setTag(tag: string): void {
     this.tag = tag || '';
-    this.typeaheadQuery$.next(this.tag);
+    this.typeaheadQuery$.next(this.sanitizeTag(this.tag));
   }
 
   /**
-   * Triggers the action, if there's a tag set
+   * Triggers the action, if there's a tag set. Will not close dropdown if input was kept on focus. That's just determined by the parameters
    */
-  triggerAction(): void {
+  triggerAction(wasInputKeptOnFocus?: boolean): void {
     if (this.tag) {
-      this.onActionEmitter.emit(this.tag);
+      this.onActionEmitter.emit(this.sanitizeTag(this.tag));
+    }
+
+    if (!wasInputKeptOnFocus) {
+      this.hideDropdown();
     }
   }
 
@@ -110,8 +145,8 @@ export class TypeaheadInputComponent implements OnInit {
    * Sets a suggestion as the current tag and triggers the action
    * @param tag
    */
-  useSuggestion(tag: string) {
-    this.setTag(tag);
+  useSuggestion(tag: string): void {
+    this.setTag(this.sanitizeTag(tag));
     this.triggerAction();
   }
 
@@ -119,6 +154,7 @@ export class TypeaheadInputComponent implements OnInit {
    * Resets the control to its initial state
    */
   reset(): void {
+    this.fetchMRUItems();
     this.setTag('');
   }
 
@@ -141,7 +177,7 @@ export class TypeaheadInputComponent implements OnInit {
    */
   clearMRU(): void {
     this.mru.reset(this.historyKey);
-    this.fetchMRUItems();
+    this.reset();
   }
 
   /**
@@ -158,5 +194,28 @@ export class TypeaheadInputComponent implements OnInit {
    */
   fetchMRUItems(): void {
     this.recent = this.mru.fetch(this.historyKey);
+  }
+
+  /**
+   * On clicks outside the component, hide dropdown
+   */
+  @HostListener('document:click') onHostDocumentClick(): void {
+    this.hideDropdown();
+  }
+
+  /**
+   * Stop click bubbling when clicking inside the component to keep modal open
+   * @param $event
+   */
+  @HostListener('click', ['$event']) onHostClick($event: MouseEvent): void {
+    $event.stopPropagation();
+  }
+
+  /**
+   * Sanitizes a hashtag value (no pound or non-alphanumeric symbols)
+   * @param value
+   */
+  protected sanitizeTag(value: string): string {
+    return value.replace(/[^\w]/g, '');
   }
 }
