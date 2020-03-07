@@ -89,7 +89,8 @@ context('Composer Bottom Bar', () => {
     });
 
     beforeEach(() => {
-      cy.viewport(1366, 800);
+      // Wide enough to ensure toolbar labels
+      cy.viewport(1920, 1080);
     });
 
     it('should show upload button', () => {

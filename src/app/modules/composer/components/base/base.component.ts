@@ -1,24 +1,40 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Injector,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { UniqueId } from '../../../../helpers/unique-id.helper';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
 import { ComposerService } from '../../composer.service';
+import { PopupService } from '../popup/popup.service';
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'm-composer__base',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'base.component.html',
+  providers: [PopupService],
 })
-export class BaseComponent {
+export class BaseComponent implements AfterViewInit {
   @Output('onPost') onPostEmitter: EventEmitter<any> = new EventEmitter<any>();
+
+  @ViewChild('popupComponent', { static: true }) popupComponent: PopupComponent;
 
   id: string = UniqueId.generate('m-composer');
 
-  constructor(public service: ComposerService) {}
+  constructor(
+    protected service: ComposerService,
+    protected popup: PopupService,
+    protected injector: Injector
+  ) {}
+
+  ngAfterViewInit(): void {
+    this.popup.setUp(this.popupComponent, this.injector);
+  }
 
   get message$() {
     return this.service.message$;
@@ -32,48 +48,20 @@ export class BaseComponent {
     return this.service.attachment$;
   }
 
-  get nsfw$() {
-    return this.service.nsfw$;
-  }
-
   set nsfw(nsfw: number[]) {
     this.service.nsfw$.next(nsfw);
-  }
-
-  get monetization$() {
-    return this.service.monetization$;
   }
 
   set monetization(monetization: any) {
     this.service.monetization$.next(monetization);
   }
 
-  get tags$() {
-    return this.service.tags$;
-  }
-
   set tags(tags: string[]) {
     this.service.tags$.next(tags);
   }
 
-  get schedule$() {
-    return this.service.schedule$;
-  }
-
   set schedule(schedule: any) {
     this.service.schedule$.next(schedule);
-  }
-
-  get accessId$() {
-    return this.service.accessId$;
-  }
-
-  get license$() {
-    return this.service.license$;
-  }
-
-  get hasContainer() {
-    return Boolean(this.service.getContainerGuid());
   }
 
   get inProgress$() {
@@ -92,38 +80,8 @@ export class BaseComponent {
     return this.service.preview$;
   }
 
-  get canPost$() {
-    return this.service.canPost$;
-  }
-
   onMessageChange(message: string) {
     this.message = message;
-  }
-
-  onAttachmentSelect(file: File | null): void {
-    if (!file) {
-      return;
-    }
-
-    this.attachment$.next(file);
-  }
-
-  onDeleteAttachment(): void {
-    // TODO: Use themed async modals
-    if (!confirm('Are you sure?')) {
-      return;
-    }
-
-    // TODO: Delete unused attachment from server
-    this.attachment$.next(null);
-  }
-
-  onVisibilitySelect($event): void {
-    this.service.accessId$.next($event);
-  }
-
-  onLicenseSelect($event): void {
-    this.service.license$.next($event);
   }
 
   async onPost(event: ButtonComponentAction) {
@@ -142,6 +100,7 @@ export class BaseComponent {
   }
 
   canDeactivate(): boolean | Promise<boolean> {
+    // TODO: Ask if there's an attachment or something else
     return true;
   }
 }

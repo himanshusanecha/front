@@ -18,7 +18,7 @@ export type NsfwSubjectValue = Array<number>;
 
 export const DEFAULT_NSFW_VALUE: NsfwSubjectValue = [];
 
-export type MonetizationSubjectValue = any;
+export type MonetizationSubjectValue = { type: string; min: number } | null;
 
 export const DEFAULT_MONETIZATION_VALUE: MonetizationSubjectValue = null;
 
@@ -135,7 +135,18 @@ export class ComposerService implements OnDestroy {
   ) {
     // Setup data stream
 
-    this.data$ = combineLatest([
+    this.data$ = combineLatest<
+      [
+        MessageSubjectValue,
+        NsfwSubjectValue,
+        MonetizationSubjectValue,
+        TagsSubjectValue,
+        ScheduleSubjectValue,
+        AccessIdSubjectValue,
+        LicenseSubjectValue,
+        AttachmentGuidMappedValue
+      ]
+    >([
       this.message$.pipe(distinctUntilChanged()),
       this.nsfw$, // TODO: Implement custom distinctUntilChanged comparison
       this.monetization$, // TODO: Implement custom distinctUntilChanged comparison

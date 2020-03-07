@@ -13,7 +13,7 @@ describe('Composer Modal', () => {
         ModalComponent,
         MockComponent({
           selector: 'm-icon',
-          inputs: ['iconId'],
+          inputs: ['from', 'iconId', 'sizeFactor'],
         }),
         MockComponent({
           selector: 'm-composer__base',

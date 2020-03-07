@@ -4,7 +4,19 @@ m-icon {
   i.material-icons,
   i.ion-icon {
     color: inherit;
-    font-size: 1.35em;
+    font-size: 1em;
     line-height: 1;
+  }
+
+  .m-icon__text {
+    color: inherit;
+    font-family: Roboto, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    line-height: 1;
+  }
+
+  .m-icon__assetsFile {
+    height: 1em;
   }
 }

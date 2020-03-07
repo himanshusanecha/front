@@ -17,7 +17,8 @@
     border-color: themed($m-borderColor--primary);
   }
 
-  .m-composerToolbar__item {
+  .m-composerToolbar__item,
+  .m-composerToolbar__action {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -31,17 +32,33 @@
       }
     }
 
-    &.m-composerToolbarItem--container {
-      align-items: stretch;
-      padding: 0;
-    }
-
-    &.m-composerToolbarItem--action {
-      margin-left: 16px;
-    }
-
     @include m-theme() {
       color: themed($m-textColor--secondary);
+    }
+  }
+
+  .m-composerToolbar__item {
+    margin-right: 25px;
+
+    @media screen and (max-width: $max-mobile) {
+      margin-right: 40px;
+    }
+
+    @media screen and (max-width: 400px) {
+      margin-right: 0;
+    }
+  }
+
+  .m-composerToolbar__action {
+    align-items: stretch;
+    padding: 0;
+  }
+
+  .m-composerToolbar__itemSpacer {
+    flex: 1;
+
+    @media screen and (max-width: 400px) {
+      flex: initial;
     }
   }
 
@@ -52,5 +69,11 @@
     @media screen and (max-width: $max-mobile) {
       display: none;
     }
+  }
+
+  &.m-composer__toolbar--narrow
+    .m-composerToolbarItem__icon
+    + .m-composerToolbarItem__label {
+    display: none;
   }
 }
