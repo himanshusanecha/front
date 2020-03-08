@@ -16,6 +16,9 @@ import { debounceTime } from 'rxjs/operators';
 import {
   AttachmentSubjectValue,
   ComposerService,
+  MonetizationSubjectValue,
+  NsfwSubjectValue,
+  TagsSubjectValue,
 } from '../../composer.service';
 import {
   FileUploadComponent,
@@ -134,6 +137,27 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.detectChanges(); // Be VERY CAREFUL as this runs on ngOnChanges, as well
       }
     }
+  }
+
+  /**
+   * NSFW subject from service
+   */
+  get nsfw$(): BehaviorSubject<NsfwSubjectValue> {
+    return this.service.nsfw$;
+  }
+
+  /**
+   * Monetization subject from service
+   */
+  get monetization$(): BehaviorSubject<MonetizationSubjectValue> {
+    return this.service.monetization$;
+  }
+
+  /**
+   * Tags subject from service
+   */
+  get tags$(): BehaviorSubject<TagsSubjectValue> {
+    return this.service.tags$;
   }
 
   /**
