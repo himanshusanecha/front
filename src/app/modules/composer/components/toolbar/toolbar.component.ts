@@ -23,10 +23,10 @@ import {
 } from '../../../../common/components/file-upload/file-upload.component';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
 import { PopupService } from '../popup/popup.service';
-import { NsfwComponent } from '../popups/nsfw/nsfw.component';
-import { MonetizeComponent } from '../popups/monetize/monetize.component';
-import { TagsComponent } from '../popups/tags/tags.component';
-import { ScheduleComponent } from '../popups/schedule/schedule.component';
+import { NsfwComponent } from '../popup/nsfw/nsfw.component';
+import { MonetizeComponent } from '../popup/monetize/monetize.component';
+import { TagsComponent } from '../popup/tags/tags.component';
+import { ScheduleComponent } from '../popup/schedule/schedule.component';
 
 /**
  * Toolbar component. Interacts directly with the service.

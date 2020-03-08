@@ -3,7 +3,7 @@
   [class.m-composer__base--withMediaPreview]="attachment$ | async"
 >
   <div class="m-composerBase__container">
-    <m-composer__titleBar [id]="id"></m-composer__titleBar>
+    <m-composer__titleBar [inputId]="textareaId"></m-composer__titleBar>
 
     <ng-container *mIfBrowser>
       <m-composer__mediaPreview
@@ -20,7 +20,7 @@
       <textarea
         placeholder="Speak your mind"
         i18n-placeholder
-        [id]="id"
+        [id]="textareaId"
         [ngModel]="message$ | async"
         (ngModelChange)="onMessageChange($event)"
         data-cy="composer-textarea"

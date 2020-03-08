@@ -153,7 +153,7 @@ export class ScheduleComponent {
   /**
    * Check if can be saved (state is valid)
    */
-  canSave() {
+  canSave(): boolean {
     if (!this.state || !this.getParsedTime()) {
       // Invalid state
       return false;
@@ -165,7 +165,7 @@ export class ScheduleComponent {
   /**
    * Emits the internal state to the composer service and attempts to dismiss the modal
    */
-  save() {
+  save(): void {
     if (!this.canSave()) {
       return;
     }
@@ -175,7 +175,7 @@ export class ScheduleComponent {
   }
 
   /**
-   *
+   * Get the current timezone from browser as a human-readable string
    */
   get currentTimezone(): string {
     return this.dateTimeFormatOptions.timeZone;
