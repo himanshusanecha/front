@@ -2,36 +2,38 @@
   <div class="m-composerPopup__content">
     <h3 class="m-composerPopup__title" i18n>Schedule Post</h3>
 
-    <m-calendar
-      class="m-composerSchedule__calendar"
-      [date]="state.date"
-      [minDate]="minDate"
-      [maxDate]="maxDate"
-      (dateChange)="onDateChange($event)"
-    ></m-calendar>
+    <div class="m-composerSchedule__layout">
+      <m-calendar
+        class="m-composerSchedule__calendar"
+        [date]="state.date"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        (dateChange)="onDateChange($event)"
+      ></m-calendar>
 
-    <div class="m-composerSchedule__form">
-      <div class="m-composerPopup__field">
-        <label i18n>Date</label>
-        <input
-          type="text"
-          [ngModel]="state.date | date: 'mediumDate'"
-          readonly
-        />
-      </div>
+      <div class="m-composerSchedule__form">
+        <div class="m-composerPopup__field">
+          <label i18n>Date</label>
+          <input
+            type="text"
+            [ngModel]="state.date | date: 'mediumDate'"
+            readonly
+          />
+        </div>
 
-      <div class="m-composerPopup__field">
-        <label i18n>Time</label>
-        <input
-          type="text"
-          [ngModel]="state.time"
-          (ngModelChange)="onTimeChange($event)"
-        />
-      </div>
+        <div class="m-composerPopup__field">
+          <label i18n>Time</label>
+          <input
+            type="text"
+            [ngModel]="state.time"
+            (ngModelChange)="onTimeChange($event)"
+          />
+        </div>
 
-      <div class="m-composerPopup__field">
-        <label i18n>Timezone</label>
-        <input type="text" [ngModel]="currentTimezone" readonly />
+        <div class="m-composerPopup__field">
+          <label i18n>Timezone</label>
+          <input type="text" [ngModel]="currentTimezone" readonly />
+        </div>
       </div>
     </div>
   </div>

@@ -29,21 +29,26 @@
     <table cellpadding="0" cellspacing="0">
       <thead>
         <tr>
-          <td *ngFor="let weekday of weekdays">
+          <td
+            class="m-calendarGrid__columnHeader"
+            *ngFor="let weekday of weekdays"
+          >
             {{ weekday | date: 'EEEEE' }}
           </td>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let week of weeks">
-          <td *ngFor="let date of week">
-            <a
-              class="m-calendarGrid__date"
-              [class.m-calendarGridDate--disabled]="!canSelect(date)"
-              [class.m-calendarGridDate--selected]="isSelected(date)"
-              (click)="onDateSelect(date)"
-              >{{ date.getDate() }}</a
-            >
+          <td
+            *ngFor="let date of week"
+            class="m-calendarGrid__date"
+            tabindex="0"
+            [class.m-calendarGridDate--offset]="!inCurrentMonth(date)"
+            [class.m-calendarGridDate--disabled]="!canSelect(date)"
+            [class.m-calendarGridDate--selected]="isSelected(date)"
+            (click)="onDateSelect(date)"
+          >
+            <a>{{ date.getDate() }}</a>
           </td>
         </tr>
       </tbody>

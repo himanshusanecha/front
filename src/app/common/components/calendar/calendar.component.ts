@@ -116,6 +116,14 @@ export class CalendarComponent {
   }
 
   /**
+   * Checks if the date is set in the current displayed month
+   * @param date
+   */
+  inCurrentMonth(date: Date): boolean {
+    return normalizeMonth(date) === normalizeMonth(this.currentMonth);
+  }
+
+  /**
    * Checks if a certain date can be selected
    * @param date
    */
