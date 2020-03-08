@@ -1,12 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockComponent } from '../../../../utils/mock';
-import fileMock from '../../../../mocks/dom/file.mock';
+import { MockComponent, MockService } from '../../../../utils/mock';
 import { ToolbarComponent } from './toolbar.component';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
+import { ComposerService } from '../../composer.service';
+import { PopupService } from '../popup/popup.service';
 
-describe('Composer Toolbar', () => {
+describe('Composer Title Bar', () => {
   let comp: ToolbarComponent;
   let fixture: ComponentFixture<ToolbarComponent>;
+
+  const composerServiceMock: any = MockService(ComposerService, {});
+  const popupServiceMock: any = MockService(PopupService, {});
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,13 +25,23 @@ describe('Composer Toolbar', () => {
         ),
         MockComponent({
           selector: 'm-icon',
-          inputs: ['iconId'],
+          inputs: ['from', 'iconId', 'sizeFactor'],
         }),
         MockComponent({
           selector: 'm-button',
           inputs: ['disabled', 'dropdown'],
           outputs: ['onAction'],
         }),
+      ],
+      providers: [
+        {
+          provide: ComposerService,
+          useValue: composerServiceMock,
+        },
+        {
+          provide: PopupService,
+          useValue: popupServiceMock,
+        },
       ],
     }).compileComponents();
   }));
@@ -46,24 +60,6 @@ describe('Composer Toolbar', () => {
         done();
       });
     }
-  });
-
-  it('should emit on attachment select', () => {
-    spyOn(comp.onAttachmentSelectEmitter, 'emit');
-    fixture.detectChanges();
-
-    const file = fileMock();
-    comp.onAttachmentSelect(file);
-    expect(comp.onAttachmentSelectEmitter.emit).toHaveBeenCalledWith(file);
-  });
-
-  it('should emit on delete attachment click', () => {
-    spyOn(comp.onDeleteAttachmentEmitter, 'emit');
-    fixture.detectChanges();
-
-    comp.onDeleteAttachmentClick();
-    expect(comp.onDeleteAttachmentEmitter.emit).toHaveBeenCalled();
-    expect(comp.fileUploadComponent.reset).toHaveBeenCalled();
   });
 
   it('should emit on post', () => {

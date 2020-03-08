@@ -1,4 +1,20 @@
 <ng-container [ngSwitch]="from">
-  <i *ngSwitchCase="'md'" class="material-icons">{{ iconId }}</i>
-  <i *ngSwitchCase="'ion'" [ngClass]="['ion-icon', 'ion-' + iconId]"></i>
+  <i *ngSwitchCase="'md'" class="material-icons" [ngStyle]="sizeCss">{{
+    iconId
+  }}</i>
+  <i
+    *ngSwitchCase="'ion'"
+    [ngClass]="['ion-icon', 'ion-' + iconId]"
+    [ngStyle]="sizeCss"
+  ></i>
+  <span *ngSwitchCase="'text'" class="m-icon__text" [ngStyle]="sizeCss">{{
+    iconId
+  }}</span>
+  <img
+    *ngSwitchCase="'assets-file'"
+    alt=""
+    class="m-icon__assetsFile"
+    [ngStyle]="sizeCss"
+    [src]="cdnAssetsUrl + iconId"
+  />
 </ng-container>

@@ -3,14 +3,7 @@
   [class.m-composer__base--withMediaPreview]="attachment$ | async"
 >
   <div class="m-composerBase__container">
-    <m-composer__titleBar
-      [id]="id"
-      [visibility]="accessId$ | async"
-      [license]="license$ | async"
-      [canChangeVisibility]="!hasContainer"
-      (onVisibility)="onVisibilitySelect($event)"
-      (onLicense)="onLicenseSelect($event)"
-    ></m-composer__titleBar>
+    <m-composer__titleBar [id]="id"></m-composer__titleBar>
 
     <ng-container *mIfBrowser>
       <m-composer__mediaPreview
@@ -34,14 +27,7 @@
       ></textarea>
     </div>
 
-    <m-composer__toolbar
-      [inProgress]="inProgress$ | async"
-      [hasAttachment]="!!(attachment$ | async)"
-      [canPost]="canPost$ | async"
-      (onAttachmentSelect)="onAttachmentSelect($event)"
-      (onDeleteAttachment)="onDeleteAttachment()"
-      (onPost)="onPost($event)"
-    ></m-composer__toolbar>
+    <m-composer__toolbar (onPost)="onPost($event)"></m-composer__toolbar>
 
     <div
       class="m-composerBase__error"
@@ -50,4 +36,6 @@
       {{ lastError }}
     </div>
   </div>
+
+  <m-composer__popup #popupComponent></m-composer__popup>
 </div>

@@ -50,7 +50,7 @@
         <span>{{ visibilityItem.text }}</span>
         <m-icon
           iconId="check"
-          *ngIf="visibility === visibilityItem.value"
+          *ngIf="(accessId$ | async) === visibilityItem.value"
         ></m-icon>
       </span>
     </li>
@@ -65,7 +65,10 @@
     >
       <span class="m-dropdownMenu__item">
         <span>{{ licenseItem.text }}</span>
-        <m-icon iconId="check" *ngIf="license === licenseItem.value"></m-icon>
+        <m-icon
+          iconId="check"
+          *ngIf="(license$ | async) === licenseItem.value"
+        ></m-icon>
       </span>
     </li>
   </ul>
