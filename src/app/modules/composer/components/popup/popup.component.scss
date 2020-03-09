@@ -109,8 +109,7 @@ m-composer__popup {
   }
 
   .m-composerPopup__text,
-  .m-composerPopup__smallNote,
-  .m-composerPopup__subTitle {
+  .m-composerPopup__smallNote {
     font-weight: normal;
 
     @include m-theme() {
@@ -118,8 +117,7 @@ m-composer__popup {
     }
   }
 
-  .m-composerPopup__text,
-  .m-composerPopup__subTitle {
+  .m-composerPopup__text {
     font-size: 16px;
     line-height: 21px;
   }
@@ -137,10 +135,22 @@ m-composer__popup {
       color: themed($m-textColor--primary);
     }
 
-    label {
+    label.m-composerPopup__trigger {
       display: inline-flex;
       align-items: center;
       justify-content: flex-start;
+    }
+
+    label:not(.m-composerPopup__trigger),
+    .m-composerPopup__label {
+      display: block;
+      font-size: 16px;
+      line-height: 21px;
+      font-weight: normal;
+
+      @include m-theme() {
+        color: themed($m-textColor--secondary);
+      }
     }
 
     @mixin popup-input-styling {
@@ -171,6 +181,7 @@ m-composer__popup {
     input[type='password'],
     input[type='email'] {
       width: 225px;
+      max-width: 100%;
       padding: 9px 14px 10px;
       margin: 0;
 

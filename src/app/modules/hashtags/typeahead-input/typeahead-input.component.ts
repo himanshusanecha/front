@@ -32,6 +32,11 @@ export class TypeaheadInputComponent implements OnInit {
   @Input() placeholder: string = '';
 
   /**
+   * Input ID
+   */
+  @Input() inputId: string = '';
+
+  /**
    * Maximum entries to show
    */
   @Input() maxEntries: number = 500;

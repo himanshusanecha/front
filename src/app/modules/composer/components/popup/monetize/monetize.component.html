@@ -7,13 +7,16 @@
       channel.
     </p>
 
-    <h4 class="m-composerPopup__subTitle" i18n>Paywall status</h4>
-
     <div class="m-composerPopup__field m-composerPopupField--1">
-      <label for="enablePaywall">
+      <span class="m-composerPopup__label" i18n>Paywall status</span>
+
+      <label
+        class="m-composerPopup__trigger"
+        [for]="inputId + '-enablePaywall'"
+      >
         <input
           type="checkbox"
-          id="enablePaywall"
+          [id]="inputId + '-enablePaywall'"
           [(ngModel)]="state.enabled"
           data-cy="monetize-enable-paywall"
         />
@@ -21,22 +24,24 @@
       </label>
     </div>
 
-    <ng-container *ngIf="state.enabled">
-      <h4 class="m-composerPopup__subTitle">
+    <div
+      *ngIf="state.enabled"
+      class="m-composerPopup__field m-composerPopupField--2"
+    >
+      <label [for]="inputId + '-amount'">
         <ng-container i18n>Min Tokens per month</ng-container>
         <m-tooltip icon="info" i18n>
           TBD
         </m-tooltip>
-      </h4>
+      </label>
 
-      <div class="m-composerPopup__field m-composerPopupField--2">
-        <input
-          type="number"
-          [(ngModel)]="state.amount"
-          data-cy="monetize-paywall-amount"
-        />
-      </div>
-    </ng-container>
+      <input
+        [id]="inputId + '-amount'"
+        type="number"
+        [(ngModel)]="state.amount"
+        data-cy="monetize-paywall-amount"
+      />
+    </div>
   </div>
 
   <div class="m-composerPopup__action">
