@@ -36,7 +36,10 @@
         Verify
       </button>
     </div>
-    <div class="m-onboarding__error" *ngIf="numberError && !this.error">
+    <div
+      class="m-onboarding__error"
+      [style.visibility]="numberError && !this.error ? 'visible' : 'hidden'"
+    >
       {{ numberError }}
     </div>
   </div>
@@ -66,7 +69,10 @@
         i18n-placeholder
       />
 
-      <div class="m-onboarding__error" *ngIf="codeError && !this.error">
+      <div
+        class="m-onboarding__error"
+        [style.visibility]="codeError && !this.error ? 'visible' : 'hidden'"
+      >
         {{ codeError }}
       </div>
     </div>
@@ -74,7 +80,9 @@
 </ng-template>
 <div
   class="m-onboarding__error"
-  *ngIf="error && error === 'verify:phonenumber'"
+  [style.visibility]="
+    error && error === 'verify:phonenumber' ? 'visible' : 'hidden'
+  "
 >
   <span i18n>You must verify your phone number</span>
 </div>
