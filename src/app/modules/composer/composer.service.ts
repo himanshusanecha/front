@@ -1,7 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
-import { AttachmentApiService } from '../../common/api/attachment-api.service';
+import {
+  AttachmentApiService,
+  fileToGuid,
+} from '../../common/api/attachment-api.service';
 import { ApiService } from '../../common/api/api.service';
 
 export type MessageSubjectValue = string;
@@ -178,7 +181,10 @@ export class ComposerService implements OnDestroy {
         }),
 
         // Upload attachment to server, receive events as callbacks, return GUID when completed
-        this.attachmentApi.fileToGuid(
+        fileToGuid(
+          // - Upload
+          file => this.attachmentApi.upload(file),
+
           // - Update inProgress and progress state subjects
           (inProgress, progress) => this.setProgress(inProgress, progress),
 
