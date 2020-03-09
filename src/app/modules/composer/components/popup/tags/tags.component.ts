@@ -8,6 +8,7 @@ import {
 import { ComposerService } from '../../../composer.service';
 import { TypeaheadInputComponent } from '../../../../hashtags/typeahead-input/typeahead-input.component';
 import { ConfigsService } from '../../../../../common/services/configs.service';
+import { UniqueId } from '../../../../../helpers/unique-id.helper';
 
 /**
  * Tags popup component. Called programatically via PopupService.
@@ -33,6 +34,11 @@ export class TagsComponent {
    * Current state before saving
    */
   state: string[] = [];
+
+  /**
+   * ID for input/label relationships
+   */
+  readonly inputId: string = UniqueId.generate('m-composer__tags');
 
   /**
    * Maximum number of tags allowed

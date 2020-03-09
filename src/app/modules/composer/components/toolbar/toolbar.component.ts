@@ -16,6 +16,9 @@ import { debounceTime } from 'rxjs/operators';
 import {
   AttachmentSubjectValue,
   ComposerService,
+  MonetizationSubjectValue,
+  NsfwSubjectValue,
+  TagsSubjectValue,
 } from '../../composer.service';
 import {
   FileUploadComponent,
@@ -23,10 +26,10 @@ import {
 } from '../../../../common/components/file-upload/file-upload.component';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
 import { PopupService } from '../popup/popup.service';
-import { NsfwComponent } from '../popups/nsfw/nsfw.component';
-import { MonetizeComponent } from '../popups/monetize/monetize.component';
-import { TagsComponent } from '../popups/tags/tags.component';
-import { ScheduleComponent } from '../popups/schedule/schedule.component';
+import { NsfwComponent } from '../popup/nsfw/nsfw.component';
+import { MonetizeComponent } from '../popup/monetize/monetize.component';
+import { TagsComponent } from '../popup/tags/tags.component';
+import { ScheduleComponent } from '../popup/schedule/schedule.component';
 
 /**
  * Toolbar component. Interacts directly with the service.
@@ -134,6 +137,27 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.detectChanges(); // Be VERY CAREFUL as this runs on ngOnChanges, as well
       }
     }
+  }
+
+  /**
+   * NSFW subject from service
+   */
+  get nsfw$(): BehaviorSubject<NsfwSubjectValue> {
+    return this.service.nsfw$;
+  }
+
+  /**
+   * Monetization subject from service
+   */
+  get monetization$(): BehaviorSubject<MonetizationSubjectValue> {
+    return this.service.monetization$;
+  }
+
+  /**
+   * Tags subject from service
+   */
+  get tags$(): BehaviorSubject<TagsSubjectValue> {
+    return this.service.tags$;
   }
 
   /**

@@ -24,7 +24,7 @@ export class BaseComponent implements AfterViewInit {
 
   @ViewChild('popupComponent', { static: true }) popupComponent: PopupComponent;
 
-  id: string = UniqueId.generate('m-composer');
+  textareaId: string = UniqueId.generate('m-composer__textarea');
 
   constructor(
     protected service: ComposerService,

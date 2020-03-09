@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { ComposerService } from '../../../composer.service';
+import { UniqueId } from '../../../../../helpers/unique-id.helper';
 
 @Component({
   selector: 'm-composer__monetize',
@@ -14,6 +15,11 @@ import { ComposerService } from '../../../composer.service';
 })
 export class MonetizeComponent implements OnInit {
   @Output() dismissIntent: EventEmitter<any> = new EventEmitter<any>();
+
+  /**
+   * ID for input/label relationships
+   */
+  readonly inputId: string = UniqueId.generate('m-composer__tags');
 
   state: { enabled: boolean; type: string; amount: number } = {
     enabled: false,
