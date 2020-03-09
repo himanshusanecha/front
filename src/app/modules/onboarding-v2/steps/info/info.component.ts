@@ -150,6 +150,8 @@ export class InfoStepComponent {
       this.ageError = true;
       return false;
     }
+
+    this.ageError = false;
     return true;
   }
 
