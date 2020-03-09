@@ -12,7 +12,8 @@ import { FeedsService } from '../../../../common/services/feeds.service';
 import { Session } from '../../../../services/session';
 import { SortedService } from './sorted.service';
 import { Client } from '../../../../services/api/client';
-import { GroupsService } from '../../groups-service';
+import { GroupsService } from '../../groups.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'm-group-profile-feed__sorted',

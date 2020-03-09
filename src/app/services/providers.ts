@@ -24,7 +24,7 @@ import { CanDeactivateGuardService } from './can-deactivate-guard';
 import { OverlayModalService } from './ux/overlay-modal';
 import { LoginReferrerService } from './login-referrer.service';
 import { ScrollToTopService } from './scroll-to-top.service';
-import { GroupsService } from '../modules/groups/groups-service';
+import { GroupsService } from '../modules/groups/groups.service';
 
 import { GoogleChartsLoader } from './third-party/google-charts-loader';
 import { RecentService } from './ux/recent';
@@ -192,7 +192,7 @@ export const MINDS_PROVIDERS: any[] = [
   {
     provide: BlockchainService,
     useFactory: BlockchainService._,
-    deps: [Client],
+    deps: [Client, Session],
   },
   {
     provide: TimeDiffService,
