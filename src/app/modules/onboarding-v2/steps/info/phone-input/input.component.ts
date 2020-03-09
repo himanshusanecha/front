@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Client } from '../../../../../services/api/client';
 import { Session } from '../../../../../services/session';
 
@@ -6,7 +6,7 @@ import { Session } from '../../../../../services/session';
   selector: 'm-onboarding__phoneverification',
   templateUrl: 'input.component.html',
 })
-export class PhoneVerificationComponent implements OnInit {
+export class PhoneVerificationComponent {
   @Input() tooltipAnchor: 'top' | 'left' = 'left';
 
   number: string;
@@ -21,10 +21,9 @@ export class PhoneVerificationComponent implements OnInit {
   inProgress: boolean = false;
   confirming: boolean = false;
   confirmed: boolean = false;
+  dirty: boolean = false;
 
   constructor(private client: Client, private session: Session) {}
-
-  ngOnInit() {}
 
   async savePhoneNumber() {
     this.verify();
@@ -53,6 +52,8 @@ export class PhoneVerificationComponent implements OnInit {
   numberChange(number: string) {
     this.number = number;
     this.error = null;
+
+    this.dirty = true;
   }
 
   codeChange(code: number) {

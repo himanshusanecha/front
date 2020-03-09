@@ -135,7 +135,7 @@ export class InfoStepComponent {
   }
 
   private validate(): boolean {
-    if (!this.phoneVerification.confirmed) {
+    if (!this.phoneVerification.confirmed && this.phoneVerification.dirty) {
       this.phoneVerification.error = 'verify:phonenumber';
       return false;
     }
