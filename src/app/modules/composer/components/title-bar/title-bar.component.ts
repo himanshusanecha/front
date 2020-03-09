@@ -20,7 +20,7 @@ export class TitleBarComponent {
   /**
    * Composer textarea ID
    */
-  @Input() id: string;
+  @Input() inputId: string;
 
   /**
    * Visibility items list
