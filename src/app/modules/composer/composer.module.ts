@@ -16,6 +16,7 @@ import { NsfwComponent } from './components/popup/nsfw/nsfw.component';
 import { MonetizeComponent } from './components/popup/monetize/monetize.component';
 import { TagsComponent } from './components/popup/tags/tags.component';
 import { ScheduleComponent } from './components/popup/schedule/schedule.component';
+import { TextAreaComponent } from './components/text-area/text-area.component';
 
 /**
  * Exported components
@@ -39,6 +40,7 @@ const INTERNAL_COMPONENTS = [
   ToolbarComponent,
   TitleBarComponent,
   PopupComponent,
+  TextAreaComponent,
 ];
 
 const PROVIDERS = [ModalService];

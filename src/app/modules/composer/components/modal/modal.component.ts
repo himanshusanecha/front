@@ -1,8 +1,11 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   HostListener,
+  ViewChild,
 } from '@angular/core';
+import { BaseComponent } from '../base/base.component';
 
 const noOp = () => {};
 
@@ -11,7 +14,9 @@ const noOp = () => {};
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'modal.component.html',
 })
-export class ModalComponent {
+export class ModalComponent implements AfterViewInit {
+  @ViewChild('baseComponent', { static: true }) baseComponent: BaseComponent;
+
   onPost: (any) => any = noOp;
 
   onDismissIntent: () => void = noOp;
@@ -25,6 +30,10 @@ export class ModalComponent {
   set opts({ onPost, onDismissIntent }) {
     this.onPost = onPost || noOp;
     this.onDismissIntent = onDismissIntent || noOp;
+  }
+
+  ngAfterViewInit(): void {
+    this.baseComponent.focus();
   }
 
   /**

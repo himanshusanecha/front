@@ -22,6 +22,7 @@ export class ConfigsService {
         `api/v1/minds/config${this.queryString}`
       );
       this.isReady$.next(true);
+      (<any>this.configs).features['activity-composer'] = true;
       this.redirectToRootIfInvalidDomain();
     } catch (err) {
       console.error(err);

@@ -16,16 +16,11 @@
       [progress]="progress$ | async"
     ></m-composer__progress>
 
-    <div class="m-composerBase__textArea">
-      <textarea
-        placeholder="Speak your mind"
-        i18n-placeholder
-        [id]="textareaId"
-        [ngModel]="message$ | async"
-        (ngModelChange)="onMessageChange($event)"
-        data-cy="composer-textarea"
-      ></textarea>
-    </div>
+    <m-composer__textArea
+      class="m-composerBase__textArea"
+      [inputId]="textareaId"
+      #textAreaComponent
+    ></m-composer__textArea>
 
     <m-composer__toolbar (onPost)="onPost($event)"></m-composer__toolbar>
 

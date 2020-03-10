@@ -7,9 +7,7 @@ import {
   last,
   map,
   mergeAll,
-  retry,
   switchAll,
-  switchMap,
   tap,
 } from 'rxjs/operators';
 import { Observable, of, OperatorFunction, throwError } from 'rxjs';
