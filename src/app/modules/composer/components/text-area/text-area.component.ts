@@ -2,10 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Inject,
   Input,
+  PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
 import { ComposerService } from '../../composer.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'm-composer__textArea',
@@ -25,7 +28,10 @@ export class TextAreaComponent {
     HTMLTextAreaElement
   >;
 
-  constructor(protected service: ComposerService) {}
+  constructor(
+    protected service: ComposerService,
+    @Inject(PLATFORM_ID) protected platformId: Object
+  ) {}
 
   get message$() {
     return this.service.message$;
@@ -40,8 +46,8 @@ export class TextAreaComponent {
   }
 
   focus() {
-    if (this.messageInput.nativeElement) {
-      this.messageInput.nativeElement.focus();
+    if (this.messageInput.nativeElement && isPlatformBrowser(this.platformId)) {
+      setTimeout(() => this.messageInput.nativeElement.focus(), 100);
     }
   }
 
@@ -62,8 +68,8 @@ export class TextAreaComponent {
     } else {
       this.service.title$.next(this.titleCache || '');
 
-      if (this.titleInput.nativeElement) {
-        this.titleInput.nativeElement.focus();
+      if (this.titleInput.nativeElement && isPlatformBrowser(this.platformId)) {
+        setTimeout(() => this.titleInput.nativeElement.focus(), 100);
       }
     }
   }
