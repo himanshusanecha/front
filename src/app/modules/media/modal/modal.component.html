@@ -362,10 +362,8 @@
                 class="m-mediaModal__message mdl-card__supporting-text m-mature-message"
                 m-read-more
                 *ngIf="
-                  this.contentType !== 'blog' &&
-                  (this.entity.title ||
-                    this.entity.message ||
-                    this.entity.description)
+                  contentType !== 'blog' &&
+                  (entity.description || entity.message)
                 "
                 [maxHeightAllowed]="136"
               >
@@ -386,7 +384,7 @@
                 </a>
                 <span
                   class="m-mature-message-content"
-                  [innerHtml]="title | tags"
+                  [innerHtml]="entity.description || entity.message | tags"
                   [ngClass]="{
                     'm-mature-text': attachment.shouldBeBlurred(entity)
                   }"

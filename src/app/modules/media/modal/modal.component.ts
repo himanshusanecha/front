@@ -284,10 +284,7 @@ export class MediaModalComponent implements OnInit, OnDestroy {
   load() {
     switch (this.entity.type) {
       case 'activity':
-        this.title =
-          this.entity.title ||
-          this.entity.message ||
-          `${this.entity.ownerObj.name}'s post`;
+        this.title = this.entity.title || `${this.entity.ownerObj.name}'s post`;
         this.entity.guid = this.entity.entity_guid || this.entity.guid;
         this.thumbnail = this.entity.thumbnails
           ? this.entity.thumbnails.xlarge
