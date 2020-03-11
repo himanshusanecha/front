@@ -96,7 +96,7 @@ export class MediaPreviewComponent {
   remove() {
     // TODO: Implement a nice themed modal confirmation
     if (confirm("Are you sure? There's no UNDO.")) {
-      this.attachment$.next(null);
+      this.service.removeAttachment();
     }
   }
 

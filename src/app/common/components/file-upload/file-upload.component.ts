@@ -35,7 +35,9 @@ export class FileUploadComponent {
     FileUploadSelectEvent
   > = new EventEmitter<FileUploadSelectEvent>();
 
-  @ViewChild('file', { static: false }) file: ElementRef;
+  @ViewChild('fileForm', { static: true }) fileForm: ElementRef<
+    HTMLFormElement
+  >;
 
   id: string = UniqueId.generate('m-file-upload');
 
@@ -53,8 +55,8 @@ export class FileUploadComponent {
   }
 
   reset() {
-    if (this.file.nativeElement) {
-      this.file.nativeElement.value = '';
+    if (this.fileForm.nativeElement) {
+      this.fileForm.nativeElement.reset();
     }
   }
 }

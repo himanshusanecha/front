@@ -6,11 +6,18 @@ import {
   filter,
   last,
   map,
+  mapTo,
   mergeAll,
   switchAll,
   tap,
 } from 'rxjs/operators';
-import { Observable, of, OperatorFunction, throwError } from 'rxjs';
+import {
+  MonoTypeOperatorFunction,
+  Observable,
+  of,
+  OperatorFunction,
+  throwError,
+} from 'rxjs';
 import {
   HttpClient,
   HttpEvent,
@@ -266,5 +273,13 @@ export class AttachmentApiService {
         { upload: true }
       )
       .pipe(httpEventToUploadEvent());
+  }
+
+  /**
+   * Deletes an attachment.
+   * @param guid
+   */
+  remove(guid: string): Observable<boolean> {
+    return this.api.delete(`api/v1/media/${guid}`).pipe(mapTo(true));
   }
 }

@@ -1,11 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, scan, tap } from 'rxjs/operators';
 import {
   AttachmentApiService,
   fileToGuid,
 } from '../../common/api/attachment-api.service';
 import { ApiService } from '../../common/api/api.service';
+import { ActivityEntity } from '../newsfeed/activity/activity.service';
 
 export type MessageSubjectValue = string;
 
@@ -341,6 +342,10 @@ export class ComposerService implements OnDestroy {
     this.preview$.next(previewResource);
   }
 
+  /**
+   * Builds the local preview resource for assets that weren't uploaded yet
+   * @param file
+   */
   protected buildLocalPreviewResource(file: File | null): PreviewResource {
     if (!file) {
       return {
@@ -361,7 +366,6 @@ export class ComposerService implements OnDestroy {
 
   /**
    * Free preview resources
-   *
    * @private
    */
   protected freePreviewResources() {
@@ -374,6 +378,19 @@ export class ComposerService implements OnDestroy {
         console.warn('Composer:Preview', e);
       }
     }
+  }
+
+  /**
+   * Deletes the current attachment, if any
+   */
+  removeAttachment() {
+    const payload = this.payload;
+
+    if (payload.attachment_guid) {
+      this.attachmentApi.remove(payload.attachment_guid).toPromise(); // Used to trigger the Observable without a subscription
+    }
+
+    this.attachment$.next(null);
   }
 
   /**
@@ -434,12 +451,9 @@ export class ComposerService implements OnDestroy {
   }
 
   /**
-   *
+   * Posts a new activity
    */
-  async post(): Promise<any> {
-    // TODO: Return type!
-    // TODO: Edit mode!
-
+  async post(): Promise<ActivityEntity> {
     this.setProgress(true);
 
     const { activity } = await this.api
