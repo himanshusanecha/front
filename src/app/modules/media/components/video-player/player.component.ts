@@ -303,6 +303,11 @@ export class MindsVideoPlayerComponent
   }
 
   userPlay() {
+    if (this.autoplaying && this.isMuted()) {
+      this.unmute();
+      this.play();
+      return;
+    }
     const user = this.session.getLoggedInUser();
     if (user.plus && user.autoplay_videos) {
       this.newsfeedService.userPlaying = this;

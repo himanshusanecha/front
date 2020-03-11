@@ -1,9 +1,4 @@
 <ng-container *ngIf="isPlayable(); else placeholder">
-  <div
-    class="m-videoPlayer__autoplayOverlay"
-    (click)="onOverlayClick($event)"
-    *ngIf="autoplaying && isMuted()"
-  ></div>
   <span class="m-videoPlayer__notice--error" *ngIf="status === 'failed'">
     There was an error transcoding this video.
   </span>
