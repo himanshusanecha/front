@@ -36,6 +36,7 @@ import { SearchModule } from '../search/search.module';
 import { NewsfeedTilesComponent } from './feeds/tiles.component';
 import { ActivityModule } from './activity/activity.module';
 import { FeedGridComponent } from './feed-grid/feed-grid.component';
+import { VideoAutoplayService } from './services/video-autoplay.service';
 
 const routes: Routes = [
   {
@@ -110,6 +111,7 @@ const routes: Routes = [
     NewsfeedService,
     NewsfeedBoostService,
     NewsfeedHashtagSelectorService,
+    VideoAutoplayService,
   ],
   exports: [
     NewsfeedDropdownComponent,

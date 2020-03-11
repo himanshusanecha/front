@@ -9,10 +9,6 @@ export class NewsfeedService {
   allHashtags: boolean = false;
   onReloadFeed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  userPlaying: MindsVideoPlayerComponent;
-
-  currentlyPlaying: MindsVideoPlayerComponent;
-
   constructor(
     private client: Client,
     private session: Session,

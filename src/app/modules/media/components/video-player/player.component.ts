@@ -11,6 +11,7 @@ import {
   PLATFORM_ID,
   ViewChild,
   ElementRef,
+  forwardRef,
 } from '@angular/core';
 import { PLAYER_ANIMATIONS } from './player.animations';
 import { VideoPlayerService } from './player.service';
@@ -19,8 +20,7 @@ import { PlyrComponent } from 'ngx-plyr';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Session } from '../../../../services/session';
-import { NewsfeedService } from '../../../newsfeed/services/newsfeed.service';
-import { ActivityVideoAutoplayService } from '../../../legacy/components/cards/activity/activity-video-autoplay.service';
+import { VideoAutoplayService } from '../../../newsfeed/services/video-autoplay.service';
 
 @Component({
   selector: 'm-videoPlayer',
@@ -93,11 +93,11 @@ export class MindsVideoPlayerComponent
   });
 
   constructor(
-    private autoplayService: ActivityVideoAutoplayService,
-    private elementRef: ElementRef,
-    private newsfeedService: NewsfeedService,
+    public elementRef: ElementRef,
     private service: VideoPlayerService,
     private session: Session,
+    @Inject(forwardRef(() => VideoAutoplayService))
+    private autoplayService: VideoAutoplayService,
     private cd: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
@@ -116,16 +116,10 @@ export class MindsVideoPlayerComponent
     );
 
     const user = this.session.getLoggedInUser();
-    if (user.plus && !user.disable_autoplay_videos) {
-      this.autoplayService
-        .setElementRef(this.elementRef)
-        .onView(activity => {
-          this.tryAutoplay();
-        })
-        .onStopViewing(activity => {
-          this.stopPlaying();
-        });
-    }
+
+    this.autoplayService
+      .registerPlayer(this)
+      .setEnabled(user.plus && !user.disable_autoplay_videos);
   }
 
   ngOnDestroy(): void {
@@ -273,44 +267,13 @@ export class MindsVideoPlayerComponent
     }
   }
 
-  tryAutoplay() {
-    if (
-      !this.newsfeedService.userPlaying ||
-      !this.newsfeedService.userPlaying.isPlaying()
-    ) {
-      if (
-        this.newsfeedService.currentlyPlaying &&
-        this.newsfeedService.currentlyPlaying !== this
-      ) {
-        this.newsfeedService.currentlyPlaying.stop();
-      }
-      if (this.player && !this.isPlaying()) {
-        this.mute();
-        this.play();
-        this.newsfeedService.currentlyPlaying = this;
-        this.autoplaying = true;
-      } else {
-        console.warn('player is not defined');
-      }
-    }
-  }
-
-  stopPlaying() {
-    if (!this.newsfeedService.userPlaying && this.player) {
-      this.stop();
-      this.autoplaying = false;
-    }
-  }
-
   userPlay() {
     if (this.autoplaying && this.isMuted()) {
       this.unmute();
       this.play();
       return;
     }
-    const user = this.session.getLoggedInUser();
-    if (user.plus && !user.disable_autoplay_videos) {
-      this.newsfeedService.userPlaying = this;
-    }
+
+    this.autoplayService.userPlay(this);
   }
 }

@@ -33,7 +33,6 @@ import isMobile from '../../../../../helpers/is-mobile';
 import { MindsVideoPlayerComponent } from '../../../../media/components/video-player/player.component';
 import { ConfigsService } from '../../../../../common/services/configs.service';
 import { RedirectService } from '../../../../../common/services/redirect.service';
-import { ActivityVideoAutoplayService } from './activity-video-autoplay.service';
 
 @Component({
   selector: 'minds-activity',
@@ -51,7 +50,6 @@ import { ActivityVideoAutoplayService } from './activity-video-autoplay.service'
   providers: [
     ClientMetaService,
     ActivityAnalyticsOnViewService,
-    ActivityVideoAutoplayService,
     ActivityService,
   ],
   templateUrl: 'activity.html',
@@ -186,7 +184,6 @@ export class Activity implements OnInit {
     private router: Router,
     protected blockListService: BlockListService,
     protected activityAnalyticsOnViewService: ActivityAnalyticsOnViewService,
-    protected activityVideoAutoplayService: ActivityVideoAutoplayService,
     protected newsfeedService: NewsfeedService,
     protected clientMetaService: ClientMetaService,
     protected featuresService: FeaturesService,
@@ -215,8 +212,6 @@ export class Activity implements OnInit {
         this.onViewed.emit({ activity: activity, visible: true });
       });
 
-    this.activityVideoAutoplayService.setElementRef(elementRef);
-
     this.cdnUrl = configs.get('cdn_url');
     this.cdnAssetsUrl = configs.get('cdn_assets_url');
     this.siteUrl = configs.get('site_url');
@@ -234,7 +229,6 @@ export class Activity implements OnInit {
     this.activity.url = this.siteUrl + 'newsfeed/' + value.guid;
 
     this.activityAnalyticsOnViewService.setEntity(this.activity);
-    this.activityVideoAutoplayService.setEntity(this.activity);
 
     if (
       this.activity.custom_type === 'batch' &&
