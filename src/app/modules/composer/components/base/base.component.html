@@ -5,11 +5,7 @@
   <div class="m-composerBase__container">
     <m-composer__titleBar [inputId]="textareaId"></m-composer__titleBar>
 
-    <ng-container *mIfBrowser>
-      <m-composer__mediaPreview
-        [previewResource]="preview$ | async"
-      ></m-composer__mediaPreview>
-    </ng-container>
+    <m-composer__mediaPreview></m-composer__mediaPreview>
 
     <m-composer__progress
       [inProgress]="inProgress$ | async"

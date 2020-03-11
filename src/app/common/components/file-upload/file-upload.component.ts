@@ -17,7 +17,15 @@ export type FileUploadSelectEvent = File | File[] | null;
   templateUrl: 'file-upload.component.html',
 })
 export class FileUploadComponent {
-  @Input() wrapperClass: string = '';
+  @Input() wrapperClass:
+    | string
+    | string[]
+    | Set<string>
+    | {
+        [key: string]: any;
+      } = [];
+
+  @Input() disabled: boolean = false;
 
   @Input() accept: string = '*.*';
 
