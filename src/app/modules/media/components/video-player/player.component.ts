@@ -10,6 +10,7 @@ import {
   Output,
   PLATFORM_ID,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { PLAYER_ANIMATIONS } from './player.animations';
 import { VideoPlayerService } from './player.service';
@@ -18,6 +19,8 @@ import { PlyrComponent } from 'ngx-plyr';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Session } from '../../../../services/session';
+import { NewsfeedService } from '../../../newsfeed/services/newsfeed.service';
+import { ActivityVideoAutoplayService } from '../../../legacy/components/cards/activity/activity-video-autoplay.service';
 
 @Component({
   selector: 'm-videoPlayer',
@@ -90,7 +93,11 @@ export class MindsVideoPlayerComponent
   });
 
   constructor(
+    private autoplayService: ActivityVideoAutoplayService,
+    private elementRef: ElementRef,
+    private newsfeedService: NewsfeedService,
     private service: VideoPlayerService,
+    private session: Session,
     private cd: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
@@ -107,6 +114,18 @@ export class MindsVideoPlayerComponent
         this.options.autoplay = val;
       }
     );
+
+    const user = this.session.getLoggedInUser();
+    if (user.plus && user.autoplay_videos) {
+      this.autoplayService
+        .setElementRef(this.elementRef)
+        .onView(activity => {
+          this.tryAutoplay();
+        })
+        .onStopViewing(activity => {
+          this.stopPlaying();
+        });
+    }
   }
 
   ngOnDestroy(): void {
@@ -251,6 +270,42 @@ export class MindsVideoPlayerComponent
       });
     } catch (e) {
       console.info('Error emitting dimensions', e);
+    }
+  }
+
+  tryAutoplay() {
+    if (
+      !this.newsfeedService.userPlaying ||
+      !this.newsfeedService.userPlaying.isPlaying()
+    ) {
+      if (
+        this.newsfeedService.currentlyPlaying &&
+        this.newsfeedService.currentlyPlaying !== this
+      ) {
+        this.newsfeedService.currentlyPlaying.stop();
+      }
+      if (this.player && !this.isPlaying()) {
+        this.mute();
+        this.play();
+        this.newsfeedService.currentlyPlaying = this;
+        this.autoplaying = true;
+      } else {
+        console.warn('player is not defined');
+      }
+    }
+  }
+
+  stopPlaying() {
+    if (!this.newsfeedService.userPlaying && this.player) {
+      this.stop();
+      this.autoplaying = false;
+    }
+  }
+
+  userPlay() {
+    const user = this.session.getLoggedInUser();
+    if (user.plus && user.autoplay_videos) {
+      this.newsfeedService.userPlaying = this;
     }
   }
 }

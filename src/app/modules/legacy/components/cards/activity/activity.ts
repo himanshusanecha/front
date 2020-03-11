@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -34,7 +33,7 @@ import isMobile from '../../../../../helpers/is-mobile';
 import { MindsVideoPlayerComponent } from '../../../../media/components/video-player/player.component';
 import { ConfigsService } from '../../../../../common/services/configs.service';
 import { RedirectService } from '../../../../../common/services/redirect.service';
-import { ActivityAVideoAutoplayService } from './activity-video-autoplay.service';
+import { ActivityVideoAutoplayService } from './activity-video-autoplay.service';
 
 @Component({
   selector: 'minds-activity',
@@ -52,13 +51,13 @@ import { ActivityAVideoAutoplayService } from './activity-video-autoplay.service
   providers: [
     ClientMetaService,
     ActivityAnalyticsOnViewService,
-    ActivityAVideoAutoplayService,
+    ActivityVideoAutoplayService,
     ActivityService,
   ],
   templateUrl: 'activity.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Activity implements OnInit, AfterViewInit {
+export class Activity implements OnInit {
   readonly cdnUrl: string;
   readonly cdnAssetsUrl: string;
   readonly siteUrl: string;
@@ -187,7 +186,7 @@ export class Activity implements OnInit, AfterViewInit {
     private router: Router,
     protected blockListService: BlockListService,
     protected activityAnalyticsOnViewService: ActivityAnalyticsOnViewService,
-    protected activityVideoAutoplayService: ActivityAVideoAutoplayService,
+    protected activityVideoAutoplayService: ActivityVideoAutoplayService,
     protected newsfeedService: NewsfeedService,
     protected clientMetaService: ClientMetaService,
     protected featuresService: FeaturesService,
@@ -223,60 +222,10 @@ export class Activity implements OnInit, AfterViewInit {
     this.siteUrl = configs.get('site_url');
   }
 
-  tryAutoplay() {
-    if (
-      !this.newsfeedService.userPlaying ||
-      !this.newsfeedService.userPlaying.isPlaying()
-    ) {
-      if (this.newsfeedService.currentlyPlaying) {
-        this.newsfeedService.currentlyPlaying.stop();
-      }
-      if (this.player) {
-        this.player.mute();
-        this.player.play();
-        this.newsfeedService.currentlyPlaying = this.player.player.player;
-        this.autoplaying = true;
-      } else {
-        console.warn('player is not defined');
-      }
-    }
-  }
-
-  stopPlaying() {
-    if (!this.newsfeedService.userPlaying && this.player) {
-      this.player.stop();
-      this.autoplaying = false;
-    }
-  }
-
-  userPlay() {
-    const user = this.session.getLoggedInUser();
-    if (user.plus && user.autoplay_videos) {
-      this.newsfeedService.userPlaying = this.player;
-    }
-  }
-
   ngOnInit() {
     this.activityAnalyticsOnViewService.setEnabled(this.visibilityEvents);
 
     this.loadBlockedUsers();
-  }
-
-  ngAfterViewInit() {
-    const user = this.session.getLoggedInUser();
-    if (user.plus && user.autoplay_videos) {
-      if (this.activity.custom_type === 'video') {
-        this.activityVideoAutoplayService
-          .setEnabled(this.visibilityEvents)
-          .setElementRef(this.elementRef)
-          .onView(activity => {
-            this.tryAutoplay();
-          })
-          .onStopViewing(activity => {
-            this.stopPlaying();
-          });
-      }
-    }
   }
 
   set object(value: any) {
