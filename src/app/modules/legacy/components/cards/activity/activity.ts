@@ -78,7 +78,8 @@ export class Activity implements OnInit {
   @Input() slot: number = -1;
 
   visibilityEvents: boolean = true;
-  autoplaying: boolean = false;
+  @Input() allowAutoplayOnScroll: boolean = false;
+  @Input() autoplayVideo: boolean = false;
 
   @Input('visibilityEvents') set _visibilityEvents(visibilityEvents: boolean) {
     this.visibilityEvents = visibilityEvents;

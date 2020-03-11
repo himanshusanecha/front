@@ -301,8 +301,8 @@
     <m-videoPlayer
       [guid]="activity.entity_guid"
       [shouldPlayInModal]="true"
-      [autoplay]="false"
-      [autoplaying]="autoplaying"
+      [autoplay]="autoplayVideo"
+      [allowAutoplayOnScroll]="allowAutoplayOnScroll"
       (mediaModalRequested)="openModal()"
       #player
     ></m-videoPlayer>

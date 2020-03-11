@@ -12,6 +12,7 @@ import {
   ViewChild,
   ElementRef,
   forwardRef,
+  SimpleChanges,
 } from '@angular/core';
 import { PLAYER_ANIMATIONS } from './player.animations';
 import { VideoPlayerService } from './player.service';
@@ -29,7 +30,7 @@ import { VideoAutoplayService } from '../../../newsfeed/services/video-autoplay.
   providers: [VideoPlayerService, Session],
 })
 export class MindsVideoPlayerComponent
-  implements OnChanges, OnDestroy, AfterViewInit {
+  implements OnChanges, OnDestroy, AfterViewInit, OnChanges {
   /**
    * MH: dislike having to emit an event to open modal, but this is
    * the quickest work around for now
@@ -47,6 +48,18 @@ export class MindsVideoPlayerComponent
   @Output() dimensions: EventEmitter<any> = new EventEmitter<any>();
 
   /**
+   * Setting this to true makes the video autoplay
+   */
+  @Input() autoplay: boolean = false;
+
+  @Input() allowAutoplayOnScroll: boolean = false;
+
+  /**
+   * This is set by VideoAutoplayService
+   */
+  autoplaying: boolean = false;
+
+  /**
    * This is the video player component
    */
   player: PlyrComponent;
@@ -56,18 +69,6 @@ export class MindsVideoPlayerComponent
   ) {
     this.player = player;
   }
-
-  /**
-   * BehaviorSubject holding autoplay value
-   */
-  autoplaySubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
-
-  /**
-   * Subscription to autoplaySubject
-   */
-  autoplaySubscription: Subscription;
 
   /**
    * Options for Plyr to use
@@ -102,41 +103,31 @@ export class MindsVideoPlayerComponent
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (isPlatformBrowser(this.platformId)) {
       this.service.load();
+    }
+
+    if (changes.autoplay) {
+      this.options = { ...this.options, autoplay: this.autoplay };
     }
   }
 
   ngAfterViewInit() {
-    this.autoplaySubscription = this.autoplaySubject.subscribe(
-      (val: boolean) => {
-        this.options.autoplay = val;
-      }
-    );
+    this.options = { ...this.options, autoplay: this.autoplay };
 
-    const user = this.session.getLoggedInUser();
-
-    this.autoplayService
-      .registerPlayer(this)
-      .setEnabled(user.plus && !user.disable_autoplay_videos);
+    if (this.allowAutoplayOnScroll) {
+      this.autoplayService.registerPlayer(this);
+    }
   }
 
   ngOnDestroy(): void {
-    if (this.autoplaySubscription) {
-      this.autoplaySubscription.unsubscribe();
-    }
     this.onReadySubscription.unsubscribe();
   }
 
   @Input('guid')
   set guid(guid: string) {
     this.service.setGuid(guid);
-  }
-
-  @Input('autoplay')
-  set autoplay(autoplay: boolean) {
-    this.autoplaySubject.next(autoplay);
   }
 
   @Input('isModal')
@@ -148,8 +139,6 @@ export class MindsVideoPlayerComponent
   set shouldPlayInModal(shouldPlayInModal: boolean) {
     this.service.setShouldPlayInModal(shouldPlayInModal);
   }
-
-  @Input() autoplaying: boolean = false;
 
   get poster(): string {
     return this.service.poster;
@@ -267,13 +256,17 @@ export class MindsVideoPlayerComponent
     }
   }
 
-  userPlay() {
-    if (this.autoplaying && this.isMuted()) {
+  unmuteIfAutoplaying() {
+    if ((this.autoplay || this.autoplaying) && this.isMuted()) {
       this.unmute();
       this.play();
       return;
     }
+  }
 
-    this.autoplayService.userPlay(this);
+  onPlay() {
+    if (!this.autoplaying) {
+      this.autoplayService.userPlay(this);
+    }
   }
 }

@@ -22,7 +22,8 @@
       (plyrEnterFullScreen)="fullScreenChange.next($event)"
       (plyrExitFullScreen)="fullScreenChange.next($event)"
       (plyrLoadedMetadata)="emitDimensions($event)"
-      (click)="userPlay()"
+      (click)="unmuteIfAutoplaying()"
+      (plyrPlaying)="onPlay()"
     >
     </plyr>
   </div>

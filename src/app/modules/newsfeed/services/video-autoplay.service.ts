@@ -19,6 +19,10 @@ export class VideoAutoplayService implements OnDestroy {
   protected players: MindsVideoPlayerComponent[] = [];
 
   constructor(protected scroll: ScrollService, protected session: Session) {
+    const user = this.session.getLoggedInUser();
+
+    this.setEnabled(user.plus && !user.disable_autoplay_videos);
+
     this.init();
   }
 
