@@ -28,7 +28,7 @@ export class SettingsGeneralComponent implements OnInit, OnDestroy {
   enabled_mails: boolean = true;
   toaster_notifications: boolean = true;
   show_share_buttons: boolean = true;
-  autoplay_videos: boolean = false;
+  autoplay_videos: boolean = true;
 
   password: string;
   password1: string;
