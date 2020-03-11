@@ -1,14 +1,22 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
-import { AttachmentApiService } from '../../common/api/attachment-api.service';
+import { distinctUntilChanged, map, scan, tap } from 'rxjs/operators';
+import {
+  AttachmentApiService,
+  fileToGuid,
+} from '../../common/api/attachment-api.service';
 import { ApiService } from '../../common/api/api.service';
+import { ActivityEntity } from '../newsfeed/activity/activity.service';
 
 export type MessageSubjectValue = string;
 
 export const DEFAULT_MESSAGE_VALUE: MessageSubjectValue = '';
 
 export type AttachmentSubjectValue = File | null;
+
+export const DEFAULT_TITLE_VALUE: MessageSubjectValue = null;
+
+export type TitleSubjectValue = string | null;
 
 export const DEFAULT_ATTACHMENT_VALUE: AttachmentSubjectValue = null;
 
@@ -46,6 +54,7 @@ export interface PreviewResource {
 
 export interface Data {
   message: MessageSubjectValue;
+  title: TitleSubjectValue;
   nsfw: NsfwSubjectValue;
   monetization: MonetizationSubjectValue;
   tags: TagsSubjectValue;
@@ -62,6 +71,10 @@ export class ComposerService implements OnDestroy {
   readonly message$: BehaviorSubject<MessageSubjectValue> = new BehaviorSubject<
     MessageSubjectValue
   >(DEFAULT_MESSAGE_VALUE);
+
+  readonly title$: BehaviorSubject<TitleSubjectValue> = new BehaviorSubject<
+    TitleSubjectValue
+  >(DEFAULT_TITLE_VALUE);
 
   readonly nsfw$: BehaviorSubject<NsfwSubjectValue> = new BehaviorSubject<
     NsfwSubjectValue
@@ -138,6 +151,7 @@ export class ComposerService implements OnDestroy {
     this.data$ = combineLatest<
       [
         MessageSubjectValue,
+        TitleSubjectValue,
         NsfwSubjectValue,
         MonetizationSubjectValue,
         TagsSubjectValue,
@@ -148,6 +162,7 @@ export class ComposerService implements OnDestroy {
       ]
     >([
       this.message$.pipe(distinctUntilChanged()),
+      this.title$.pipe(distinctUntilChanged()),
       this.nsfw$, // TODO: Implement custom distinctUntilChanged comparison
       this.monetization$, // TODO: Implement custom distinctUntilChanged comparison
       this.tags$, // TODO: Implement custom distinctUntilChanged comparison
@@ -178,7 +193,10 @@ export class ComposerService implements OnDestroy {
         }),
 
         // Upload attachment to server, receive events as callbacks, return GUID when completed
-        this.attachmentApi.fileToGuid(
+        fileToGuid(
+          // - Upload
+          file => this.attachmentApi.upload(file),
+
           // - Update inProgress and progress state subjects
           (inProgress, progress) => this.setProgress(inProgress, progress),
 
@@ -198,6 +216,7 @@ export class ComposerService implements OnDestroy {
         // Create an JSON object based on an array of Subject values
         ([
           message,
+          title,
           nsfw,
           monetization,
           tags,
@@ -207,6 +226,7 @@ export class ComposerService implements OnDestroy {
           attachmentGuid,
         ]) => ({
           message,
+          title,
           nsfw,
           monetization,
           tags,
@@ -261,6 +281,7 @@ export class ComposerService implements OnDestroy {
   reset(): void {
     // Reset data
     this.message$.next(DEFAULT_MESSAGE_VALUE);
+    this.title$.next(DEFAULT_TITLE_VALUE);
     this.nsfw$.next(DEFAULT_NSFW_VALUE);
     this.monetization$.next(DEFAULT_MONETIZATION_VALUE);
     this.tags$.next(DEFAULT_TAGS_VALUE);
@@ -293,6 +314,7 @@ export class ComposerService implements OnDestroy {
     this.reset();
 
     this.message$.next(activity.message || DEFAULT_MESSAGE_VALUE);
+    this.title$.next(activity.title || DEFAULT_TITLE_VALUE);
     this.nsfw$.next(activity.nsfw || DEFAULT_NSFW_VALUE);
     this.monetization$.next(
       activity.wire_threshold || DEFAULT_MONETIZATION_VALUE
@@ -320,6 +342,10 @@ export class ComposerService implements OnDestroy {
     this.preview$.next(previewResource);
   }
 
+  /**
+   * Builds the local preview resource for assets that weren't uploaded yet
+   * @param file
+   */
   protected buildLocalPreviewResource(file: File | null): PreviewResource {
     if (!file) {
       return {
@@ -340,7 +366,6 @@ export class ComposerService implements OnDestroy {
 
   /**
    * Free preview resources
-   *
    * @private
    */
   protected freePreviewResources() {
@@ -356,6 +381,19 @@ export class ComposerService implements OnDestroy {
   }
 
   /**
+   * Deletes the current attachment, if any
+   */
+  removeAttachment() {
+    const payload = this.payload;
+
+    if (payload.attachment_guid) {
+      this.attachmentApi.remove(payload.attachment_guid).toPromise(); // Used to trigger the Observable without a subscription
+    }
+
+    this.attachment$.next(null);
+  }
+
+  /**
    * Builds the API payload and sets to a property
    * @param message
    * @param attachment
@@ -366,6 +404,7 @@ export class ComposerService implements OnDestroy {
    */
   buildPayload({
     message,
+    title,
     nsfw,
     monetization,
     tags,
@@ -384,7 +423,7 @@ export class ComposerService implements OnDestroy {
       wire_threshold: monetization || null,
       time_created: schedule || null,
       is_rich: 0, // TODO
-      title: '', // TODO
+      title: title || '',
       description: '', // TODO
       thumbnail: '', // TODO
       url: '', // TODO
@@ -412,12 +451,9 @@ export class ComposerService implements OnDestroy {
   }
 
   /**
-   *
+   * Posts a new activity
    */
-  async post(): Promise<any> {
-    // TODO: Return type!
-    // TODO: Edit mode!
-
+  async post(): Promise<ActivityEntity> {
     this.setProgress(true);
 
     const { activity } = await this.api

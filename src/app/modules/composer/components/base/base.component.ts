@@ -12,6 +12,7 @@ import { ButtonComponentAction } from '../../../../common/components/button-v2/b
 import { ComposerService } from '../../composer.service';
 import { PopupService } from '../popup/popup.service';
 import { PopupComponent } from '../popup/popup.component';
+import { TextAreaComponent } from '../text-area/text-area.component';
 
 @Component({
   selector: 'm-composer__base',
@@ -24,6 +25,9 @@ export class BaseComponent implements AfterViewInit {
 
   @ViewChild('popupComponent', { static: true }) popupComponent: PopupComponent;
 
+  @ViewChild('textAreaComponent', { static: true })
+  textAreaComponent: TextAreaComponent;
+
   textareaId: string = UniqueId.generate('m-composer__textarea');
 
   constructor(
@@ -34,14 +38,6 @@ export class BaseComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.popup.setUp(this.popupComponent, this.injector);
-  }
-
-  get message$() {
-    return this.service.message$;
-  }
-
-  set message(message: string) {
-    this.service.message$.next(message);
   }
 
   get attachment$() {
@@ -76,23 +72,15 @@ export class BaseComponent implements AfterViewInit {
     return this.service.attachmentError$;
   }
 
-  get preview$() {
-    return this.service.preview$;
-  }
-
-  onMessageChange(message: string) {
-    this.message = message;
+  focus() {
+    this.textAreaComponent.focus();
   }
 
   async onPost(event: ButtonComponentAction) {
-    // TODO: Check event.type, etc
-
     try {
       const activity = await this.service.post();
 
       this.onPostEmitter.next(activity);
-
-      // TODO: Reset composer
     } catch (e) {
       console.log(e);
       // TODO: Display errors nicely and with a clear language

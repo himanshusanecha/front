@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ACCESS, LICENSES } from '../../../../services/list-options';
+import {
+  ACCESS,
+  LICENSES,
+  LicensesEntry,
+} from '../../../../services/list-options';
 import {
   AccessIdSubjectValue,
   ComposerService,
@@ -35,7 +39,9 @@ export class TitleBarComponent {
   /**
    * License items list
    */
-  licenseItems: Array<{ text: string; value: string }> = LICENSES;
+  licenseItems: Array<LicensesEntry> = LICENSES.filter(
+    license => license.selectable
+  );
 
   constructor(protected service: ComposerService) {}
 

@@ -1,12 +1,19 @@
 <label [for]="id" [ngClass]="wrapperClass">
   <ng-content></ng-content>
-  <input
-    type="file"
-    [id]="id"
-    [name]="id"
-    [multiple]="multiple"
-    [accept]="accept"
-    (change)="onSelect(file)"
-    #file
-  />
+  <form
+    class="m-fileUpload__formWrapper"
+    (submit)="$event.preventDefault()"
+    #fileForm
+  >
+    <input
+      type="file"
+      [id]="id"
+      [name]="id"
+      [disabled]="disabled"
+      [multiple]="multiple"
+      [accept]="accept"
+      (change)="onSelect(file)"
+      #file
+    />
+  </form>
 </label>
