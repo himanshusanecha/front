@@ -105,7 +105,7 @@ export class SettingsGeneralComponent implements OnInit, OnDestroy {
       this.openSessions = response.channel.open_sessions || 1;
       this.toaster_notifications = response.channel.toaster_notifications;
       this.show_share_buttons = !response.channel.hide_share_buttons;
-      this.autoplay_videos = response.channel.autoplay_videos;
+      this.autoplay_videos = !response.channel.disable_autoplay_videos;
 
       this.thirdpartynetworks.overrideStatus(response.thirdpartynetworks);
 
@@ -163,7 +163,7 @@ export class SettingsGeneralComponent implements OnInit, OnDestroy {
         categories: this.selectedCategories,
         toaster_notifications: this.toaster_notifications,
         hide_share_buttons: !this.show_share_buttons,
-        autoplay_videos: this.autoplay_videos,
+        disable_autoplay_videos: !this.autoplay_videos,
       })
       .then((response: any) => {
         this.changed = false;
@@ -187,7 +187,7 @@ export class SettingsGeneralComponent implements OnInit, OnDestroy {
         }
 
         user.toaster_notifications = this.toaster_notifications;
-        user.autoplay_videos = this.autoplay_videos;
+        user.disable_autoplay_videos = !this.autoplay_videos;
 
         this.inProgress = false;
       })

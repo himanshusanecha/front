@@ -117,7 +117,7 @@ export interface MindsUser {
   mode: ChannelMode;
   nsfw: Array<number>;
   plus?: boolean;
-  autoplay_videos?: boolean;
+  disable_autoplay_videos?: boolean;
 }
 
 export interface MindsGroup {

@@ -116,7 +116,7 @@ export class MindsVideoPlayerComponent
     );
 
     const user = this.session.getLoggedInUser();
-    if (user.plus && user.autoplay_videos) {
+    if (user.plus && !user.disable_autoplay_videos) {
       this.autoplayService
         .setElementRef(this.elementRef)
         .onView(activity => {
@@ -309,7 +309,7 @@ export class MindsVideoPlayerComponent
       return;
     }
     const user = this.session.getLoggedInUser();
-    if (user.plus && user.autoplay_videos) {
+    if (user.plus && !user.disable_autoplay_videos) {
       this.newsfeedService.userPlaying = this;
     }
   }
