@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { ScrollService } from '../../../../../services/ux/scroll';
 
 @Injectable()
-export class ActivityAVideoAutoplayService implements OnDestroy {
+export class ActivityVideoAutoplayService implements OnDestroy {
   protected element: HTMLElement;
 
   protected entity;
@@ -56,7 +56,6 @@ export class ActivityAVideoAutoplayService implements OnDestroy {
     this.visibility$ = this.visibilitySubject.subscribe(() => {
       if (this.entity && this.visible) {
         if (this.onViewFn) {
-          console.warn('viewing activity uwu');
           this.onViewFn(this.entity);
         } else {
           console.warn('Missing onView handler for Activity');
@@ -85,29 +84,21 @@ export class ActivityAVideoAutoplayService implements OnDestroy {
       return;
     }
 
-    // top of the element
-    const top = this.element.offsetTop;
-    // bottom of the element
-    const bottom = top + this.element.offsetHeight;
-    // top of viewport
-    const vpTop = this.scroll.view.scrollTop;
-    // bottom of viewport
-    const vpBottom = vpTop + this.scroll.view.clientHeight;
-    // it's either the height of the viewport or the height of the element + the viewport's (in case the element's not 100% on screen)
-    const totalH = Math.max(bottom, vpBottom) - Math.min(top, vpTop);
-    const vpComp = totalH - this.scroll.view.clientHeight;
-    // the part of the component (in pixels) that's IN the viewport
-    const vpEl = this.element.offsetHeight - vpComp;
-    // if vpEl is negative, we set it to 0 (it's not in the screen), otherwise, return the percentage of the component that's visible
-    const visible =
-      vpEl <= 0 ? 0 : Math.min(vpEl / this.element.offsetHeight, 1.0);
-    console.warn('visible: ', visible);
+    const rect = this.element.getBoundingClientRect();
 
-    if (visible === 1 && !this.visible) {
-      this.visible = true;
-      this.visibilitySubject.next(this.visible);
-    } else if (visible !== 1 && this.visible) {
+    // 33% of the window
+    const offsetRange = this.scroll.view.clientHeight / 5;
+
+    const offsetTop = this.scroll.view.scrollTop + offsetRange;
+    const offsetBottom = offsetTop + offsetRange;
+
+    const y1 = rect.top;
+    const y2 = offsetTop;
+    if (y1 + rect.height < y2 || y1 > offsetBottom) {
       this.visible = false;
+      this.visibilitySubject.next(this.visible);
+    } else {
+      this.visible = true;
       this.visibilitySubject.next(this.visible);
     }
   }
