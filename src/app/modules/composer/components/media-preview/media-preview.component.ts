@@ -42,13 +42,6 @@ export class MediaPreviewComponent {
   }
 
   /**
-   * Gets the attachment File subject from the service
-   */
-  get attachment$() {
-    return this.service.attachment$;
-  }
-
-  /**
    * Trust the Blob URL used to preview the media
    * @param url
    */

@@ -32,6 +32,9 @@ export class ModalComponent implements AfterViewInit {
     this.onDismissIntent = onDismissIntent || noOp;
   }
 
+  /**
+   * Auto-focus after view init
+   */
   ngAfterViewInit(): void {
     this.baseComponent.focus();
   }

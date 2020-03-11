@@ -72,23 +72,15 @@ export class BaseComponent implements AfterViewInit {
     return this.service.attachmentError$;
   }
 
-  get preview$() {
-    return this.service.preview$;
-  }
-
   focus() {
     this.textAreaComponent.focus();
   }
 
   async onPost(event: ButtonComponentAction) {
-    // TODO: Check event.type, etc
-
     try {
       const activity = await this.service.post();
 
       this.onPostEmitter.next(activity);
-
-      // TODO: Reset composer
     } catch (e) {
       console.log(e);
       // TODO: Display errors nicely and with a clear language
