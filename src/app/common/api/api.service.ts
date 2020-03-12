@@ -52,7 +52,7 @@ export type ApiRequestOptions = {
 };
 
 /**
- *
+ * API client class that uses Angular/HttpClient observables with our custom headers. Supports normal requests and uploads via POST.
  */
 @Injectable()
 export class ApiService {
