@@ -256,15 +256,14 @@ export class MindsVideoPlayerComponent
     }
   }
 
-  unmuteIfAutoplaying() {
+  unmuteIfAutoplaying(): void {
     if ((this.autoplay || this.autoplaying) && this.isMuted()) {
       this.unmute();
       this.play();
-      return;
     }
   }
 
-  onPlay() {
+  onPlay(): void {
     if (!this.autoplaying) {
       this.autoplayService.userPlay(this);
     }

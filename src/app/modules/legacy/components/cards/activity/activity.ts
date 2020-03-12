@@ -78,7 +78,15 @@ export class Activity implements OnInit {
   @Input() slot: number = -1;
 
   visibilityEvents: boolean = true;
+
+  /**
+   * Whether or not we allow autoplay on scroll
+   */
   @Input() allowAutoplayOnScroll: boolean = false;
+
+  /**
+   * Whether or not autoplay is allowed (this is used for single entity view, media modal and media view)
+   */
   @Input() autoplayVideo: boolean = false;
 
   @Input('visibilityEvents') set _visibilityEvents(visibilityEvents: boolean) {

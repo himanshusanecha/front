@@ -12,10 +12,19 @@ export class VideoAutoplayService implements OnDestroy {
 
   protected enabled: boolean = true;
 
+  /**
+   * This is set when the player manually triggers a playback
+   */
   protected userPlaying: MindsVideoPlayerComponent;
 
+  /**
+   * This is the current autoplaying video (only for autoplay on scroll)
+   */
   protected currentlyPlaying: MindsVideoPlayerComponent;
 
+  /**
+   * List of registered players for autoplay on scroll
+   */
   protected players: MindsVideoPlayerComponent[] = [];
 
   constructor(protected scroll: ScrollService, protected session: Session) {
@@ -33,16 +42,27 @@ export class VideoAutoplayService implements OnDestroy {
 
   registerPlayer(player: MindsVideoPlayerComponent) {
     this.players.push(player);
+
+    // sort players by Y their positions in axis so we prioritize visibility on videos that are closer to the top
+    this.players.sort((a, b) => {
+      const rect1 = a.elementRef.nativeElement.getBoundingClientRect();
+      const rect2 = a.elementRef.nativeElement.getBoundingClientRect();
+
+      return rect1.top - rect2.top;
+    });
     return this;
   }
 
-  init() {
+  init(): void {
     this.scroll$ = this.scroll.listenForView().subscribe(() => {
       this.checkVisibility();
     });
   }
 
-  checkVisibility() {
+  /**
+   * Checks the visibility of all registered players
+   */
+  checkVisibility(): void {
     if (!this.enabled) {
       return;
     }
@@ -53,17 +73,8 @@ export class VideoAutoplayService implements OnDestroy {
 
     const offsetTop = clientTop + this.scroll.view.scrollTop + offsetRange;
     const offsetBottom = offsetTop + offsetRange;
-    // const offsetBottom = this.scroll.view.clientHeight + this.scroll.view.scrollTop;
 
     let foundSuitablePlayer: boolean = false;
-
-    // do this only once
-    this.players.sort((a, b) => {
-      const rect1 = a.elementRef.nativeElement.getBoundingClientRect();
-      const rect2 = a.elementRef.nativeElement.getBoundingClientRect();
-
-      return rect1.top - rect2.top;
-    });
 
     for (const item of this.players) {
       const htmlElement = item.elementRef.nativeElement;
@@ -91,6 +102,10 @@ export class VideoAutoplayService implements OnDestroy {
     }
   }
 
+  /**
+   * Autoplays the video if the user isn't watching another one
+   * @param player
+   */
   tryAutoplay(player: MindsVideoPlayerComponent): void {
     if (!this.userPlaying || !this.userPlaying.isPlaying()) {
       if (this.currentlyPlaying && this.currentlyPlaying !== player) {
@@ -107,6 +122,10 @@ export class VideoAutoplayService implements OnDestroy {
     }
   }
 
+  /**
+   * Stops autoplay
+   * @param player
+   */
   stopPlaying(player: MindsVideoPlayerComponent): void {
     if (!this.userPlaying && player) {
       player.stop();
@@ -114,6 +133,10 @@ export class VideoAutoplayService implements OnDestroy {
     }
   }
 
+  /**
+   * Called by the video player when the user manually triggers playback
+   * @param player
+   */
   userPlay(player: MindsVideoPlayerComponent): void {
     const user = this.session.getLoggedInUser();
     if (user.plus && !user.disable_autoplay_videos) {
