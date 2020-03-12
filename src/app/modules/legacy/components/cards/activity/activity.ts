@@ -49,7 +49,6 @@ import { ModalService } from '../../../../composer/components/modal/modal.servic
     'canDelete',
     'showRatingToggle',
   ],
-  outputs: ['_delete: delete', 'commentsOpened', 'onViewed'],
   providers: [
     ClientMetaService,
     ActivityAnalyticsOnViewService,
@@ -98,11 +97,12 @@ export class Activity implements OnInit {
   @Input() editing: boolean = false;
   @Input() hideTabs: boolean;
 
-  @Output() _delete: EventEmitter<any> = new EventEmitter();
-  commentsOpened: EventEmitter<any> = new EventEmitter();
+  @Output() deleted: EventEmitter<any> = new EventEmitter();
+  @Output() commentsOpened: EventEmitter<any> = new EventEmitter();
   @Input() focusedCommentGuid: string;
 
   childEventsEmitter: EventEmitter<any> = new EventEmitter();
+  @Output()
   onViewed: EventEmitter<{ activity; visible }> = new EventEmitter<{
     activity;
     visible;
@@ -302,7 +302,7 @@ export class Activity implements OnInit {
           $event.inProgress.emit(false);
           $event.completed.emit(0);
         }
-        this._delete.next(this.activity);
+        this.deleted.emit(this.activity);
       })
       .catch(e => {
         if ($event.inProgress) {

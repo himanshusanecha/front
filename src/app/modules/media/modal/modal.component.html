@@ -82,6 +82,7 @@
             <div
               class="m-mature-overlay"
               (click)="toggleMatureVisibility()"
+              *ngIf="canToggleMatureVideoOverlay"
               [style.width]="mediaWidth + 'px'"
               [style.height]="mediaHeight + 'px'"
             >
@@ -122,6 +123,7 @@
             <div
               class="m-mature-overlay"
               (click)="toggleMatureVisibility()"
+              *ngIf="canToggleMatureVideoOverlay"
               [style.width]="mediaWidth + 'px'"
               [style.height]="mediaHeight + 'px'"
             >
@@ -362,7 +364,8 @@
                 class="m-mediaModal__message mdl-card__supporting-text m-mature-message"
                 m-read-more
                 *ngIf="
-                  contentType !== 'blog' &&
+                  this.contentType !== 'blog' &&
+                  this.contentType !== 'rich-embed' &&
                   (entity.description || entity.message)
                 "
                 [maxHeightAllowed]="136"

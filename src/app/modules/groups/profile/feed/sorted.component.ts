@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -21,8 +22,9 @@ import { ComposerComponent } from '../../../composer/composer.component';
   templateUrl: 'sorted.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupProfileFeedSortedComponent {
+export class GroupProfileFeedSortedComponent implements OnInit {
   group: any;
+
   @Input('group') set _group(group: any) {
     if (group === this.group) {
       return;
@@ -36,6 +38,7 @@ export class GroupProfileFeedSortedComponent {
   }
 
   type: string = 'activities';
+
   @Input('type') set _type(type: string) {
     if (type === this.type) {
       return;
@@ -48,7 +51,6 @@ export class GroupProfileFeedSortedComponent {
     }
   }
 
-  entities: any[] = [];
   pinned: any[] = [];
 
   inProgress: boolean = false;
@@ -147,8 +149,6 @@ export class GroupProfileFeedSortedComponent {
       return;
     }
 
-    this.entities.unshift(activity);
-
     let feedItem = {
       entity: activity,
       urn: activity.urn,
@@ -164,21 +164,11 @@ export class GroupProfileFeedSortedComponent {
   }
 
   delete(activity) {
-    let i: any;
+    this.feedsService.deleteItem(activity, (item, obj) => {
+      return item.guid === obj.guid;
+    });
 
-    for (i in this.entities) {
-      if (this.entities[i] === activity) {
-        this.entities.splice(i, 1);
-        break;
-      }
-    }
-
-    for (i in this.pinned) {
-      if (this.pinned[i] === activity) {
-        this.pinned.splice(i, 1);
-        break;
-      }
-    }
+    this.detectChanges();
   }
 
   //
