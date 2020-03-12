@@ -21,7 +21,7 @@ import { PlyrComponent } from 'ngx-plyr';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Session } from '../../../../services/session';
-import { VideoAutoplayService } from '../../../newsfeed/services/video-autoplay.service';
+import { VideoAutoplayService } from '../video/services/video-autoplay.service';
 
 @Component({
   selector: 'm-videoPlayer',

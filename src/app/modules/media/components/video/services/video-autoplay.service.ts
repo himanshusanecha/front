@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MindsVideoPlayerComponent } from '../../media/components/video-player/player.component';
-import { ScrollService } from '../../../services/ux/scroll';
-import { Session } from '../../../services/session';
+import { MindsVideoPlayerComponent } from '../../video-player/player.component';
+import { ScrollService } from '../../../../../services/ux/scroll';
+import { Session } from '../../../../../services/session';
 
 @Injectable()
 export class VideoAutoplayService implements OnDestroy {
@@ -48,15 +48,32 @@ export class VideoAutoplayService implements OnDestroy {
     }
 
     // 33% of the window
-    const offsetRange = this.scroll.view.clientHeight / 5;
+    const offsetRange = this.scroll.view.clientHeight / 3;
 
     const offsetTop = this.scroll.view.scrollTop + offsetRange;
     const offsetBottom = offsetTop + offsetRange;
+    // const offsetBottom = this.scroll.view.clientHeight + this.scroll.view.scrollTop;
+
+    let foundSuitablePlayer: boolean = false;
+
+    // do this only once
+    this.players.sort((a, b) => {
+      const rect1 = a.elementRef.nativeElement.getBoundingClientRect();
+      const rect2 = a.elementRef.nativeElement.getBoundingClientRect();
+
+      return rect1.top - rect2.top;
+    });
 
     for (const item of this.players) {
       const htmlElement = item.elementRef.nativeElement;
 
       if (!htmlElement) {
+        continue;
+      }
+
+      // if we already triggered playback in this loop, the rest should just stop
+      if (foundSuitablePlayer) {
+        this.stopPlaying(item);
         continue;
       }
 
@@ -68,6 +85,7 @@ export class VideoAutoplayService implements OnDestroy {
         this.stopPlaying(item);
       } else {
         this.tryAutoplay(item);
+        foundSuitablePlayer = true;
       }
     }
   }
