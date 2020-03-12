@@ -373,6 +373,8 @@
         [boosted]="activity.boosted"
         (matureVisibilityChange)="onRemindMatureVisibilityChange()"
         (videoMetadataLoaded)="setVideoDimensions($event)"
+        [allowAutoplayOnScroll]="allowAutoplayOnScroll"
+        [autoplayVideo]="autoplayVideo"
       ></minds-remind>
     </ng-container>
     <ng-template #blockedRemindTemplate>
