@@ -1,9 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpEvent,
+  HttpEventType,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { CookieService } from '../services/cookie.service';
 import { environment } from '../../../environments/environment';
-import { retry } from 'rxjs/operators';
+import { map, retry } from 'rxjs/operators';
 
 export enum ApiRequestMethod {
   GET = 'get',
@@ -92,21 +97,38 @@ export class ApiService {
     data: ApiRequestData,
     options: ApiRequestOptions
   ): Observable<HttpEvent<ApiResponse>> {
-    // TODO: Make it fail if status !== 'success' on 200
-    // TODO: Add retry() operator
-
-    return this.httpClient.request<ApiResponse>(
-      ApiRequestMethod.POST,
-      endpoint,
-      this._buildOptions(
-        {
-          ...options,
-          upload: true,
-        },
-        data,
-        true
+    return this.httpClient
+      .request<ApiResponse>(
+        ApiRequestMethod.POST,
+        endpoint,
+        this._buildOptions(
+          {
+            ...options,
+            upload: true,
+          },
+          data,
+          true
+        )
       )
-    );
+      .pipe(
+        map(event => {
+          if (event.type === HttpEventType.Response) {
+            const response = event.body;
+
+            if (
+              !response ||
+              !response.status ||
+              response.status !== 'success'
+            ) {
+              throw new Error(
+                (response && response.message) || 'Internal server error'
+              );
+            }
+          }
+
+          return event;
+        })
+      );
   }
 
   request(
@@ -119,21 +141,30 @@ export class ApiService {
       return throwError(new Error('Use the upload() method for uploads'));
     }
 
-    // TODO: Make it fail if status !== 'success' on 200
-    // TODO: Add retry() operator
-
-    return this.httpClient.request<ApiResponse>(
-      method,
-      endpoint,
-      this._buildOptions(
-        {
-          ...options,
-          upload: false,
-        },
-        data,
-        false
+    return this.httpClient
+      .request<ApiResponse>(
+        method,
+        endpoint,
+        this._buildOptions(
+          {
+            ...options,
+            upload: false,
+          },
+          data,
+          false
+        )
       )
-    );
+      .pipe(
+        map(response => {
+          if (!response || !response.status || response.status !== 'success') {
+            throw new Error(
+              (response && response.message) || 'Internal server error'
+            );
+          }
+
+          return response;
+        })
+      );
   }
 
   /**

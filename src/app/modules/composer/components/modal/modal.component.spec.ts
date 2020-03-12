@@ -15,10 +15,13 @@ describe('Composer Modal', () => {
           selector: 'm-icon',
           inputs: ['from', 'iconId', 'sizeFactor'],
         }),
-        MockComponent({
-          selector: 'm-composer__base',
-          outputs: ['onPost'],
-        }),
+        MockComponent(
+          {
+            selector: 'm-composer__base',
+            outputs: ['onPost'],
+          },
+          ['focus']
+        ),
       ],
     }).compileComponents();
   }));

@@ -1,20 +1,20 @@
 <div
-  *ngIf="previewResource"
+  *ngIf="preview$ | async as preview"
   class="m-composer__mediaPreview"
   [class.m-composer__mediaPreview--portrait]="portrait"
-  [hidden]="previewResource.source === 'none'"
+  [hidden]="preview.source === 'none'"
 >
-  <ng-container *ngIf="previewResource.sourceType === 'image'">
+  <ng-container *ngIf="preview.sourceType === 'image'">
     <img
       class="m-composerMediaPreview__image"
       alt="Uploaded image"
       i18n-alt
-      [src]="trustedUrl(previewResource.payload)"
+      [src]="trustedUrl(preview.payload)"
       (load)="fitForImage(image)"
       #image
     />
   </ng-container>
-  <ng-container *ngIf="previewResource.sourceType === 'video'">
+  <ng-container *ngIf="preview.sourceType === 'video'">
     <video
       muted
       title="Uploaded video"
@@ -22,7 +22,11 @@
       (loadedmetadata)="fitForVideo(video)"
       #video
     >
-      <source [src]="trustedUrl(previewResource.payload + '#t=1')" />
+      <source [src]="trustedUrl(preview.payload + '#t=1')" />
     </video>
   </ng-container>
+
+  <div (click)="remove()" class="m-mediaPreview__close">
+    <m-icon iconId="close"></m-icon>
+  </div>
 </div>

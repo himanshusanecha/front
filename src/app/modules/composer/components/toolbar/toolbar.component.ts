@@ -75,6 +75,17 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   protected windowResizeSubscription: Subscription;
 
+  /**
+   * Window resize event subscription
+   */
+  protected attachmentSubscription: Subscription;
+
+  /**
+   * Constructor
+   * @param service
+   * @param popup
+   * @param cd
+   */
   constructor(
     protected service: ComposerService,
     protected popup: PopupService,
@@ -89,6 +100,12 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.windowResizeSubscription = this.windowResize$
       .pipe(debounceTime(250))
       .subscribe(() => this.calcNarrow());
+
+    this.attachmentSubscription = this.attachment$.subscribe(attachment => {
+      if (!attachment && this.fileUploadComponent) {
+        this.fileUploadComponent.reset();
+      }
+    });
   }
 
   /**
@@ -109,6 +126,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /**
    * Triggers when change detection runs
+   * @internal
    */
   ngOnChanges() {
     this.windowResize$.next();
@@ -120,6 +138,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   ngOnDestroy(): void {
     this.windowResizeSubscription.unsubscribe();
+    this.attachmentSubscription.unsubscribe();
   }
 
   /**
@@ -196,24 +215,6 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.service.attachment$.next($event);
-  }
-
-  /**
-   * Resets file upload component and attachment
-   * @param $event
-   */
-  onDeleteAttachmentClick($event?: MouseEvent): void {
-    // TODO: Use themed async modals
-    if (!confirm('Are you sure?')) {
-      return;
-    }
-
-    if (this.fileUploadComponent) {
-      this.fileUploadComponent.reset();
-    }
-
-    // TODO: Delete unused attachment from server
-    this.service.attachment$.next(null);
   }
 
   /**
