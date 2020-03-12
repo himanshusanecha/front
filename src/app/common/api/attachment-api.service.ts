@@ -24,6 +24,7 @@ import {
   HttpEventType,
   HttpHeaders,
 } from '@angular/common/http';
+import { ResourceGuid } from '../../modules/composer/composer.service';
 
 /**
  * Upload event type
@@ -118,54 +119,64 @@ export const fileToGuid = (
   uploadEventFn: (file: File) => Observable<UploadEvent>,
   progressFn?: (inProgress: boolean, progress: number) => void,
   errorFn?: (e) => void
-): OperatorFunction<File | null, string | null> => input$ =>
+): OperatorFunction<File | ResourceGuid | null, string | null> => input$ =>
   // From our input Observable:
   input$.pipe(
-    // For every File | null input:
+    // For every File | ResourceGuid | null input:
     map(file =>
-      // Upload the file to either Minds engine or S3
-      uploadEventFn(file).pipe(
-        // On every HTTP event:
-        tap(uploadEvent => {
-          // If no progress callback, do nothing
-          if (!progressFn) {
-            return;
-          }
+      // If instance of File, upload the file to either Minds engine or S3
+      file instanceof File
+        ? uploadEventFn(file).pipe(
+            // On every HTTP event:
+            tap(uploadEvent => {
+              // If no progress callback, do nothing
+              if (!progressFn) {
+                return;
+              }
 
-          // If no event, disable progress
-          if (!uploadEvent) {
-            progressFn(false, 0);
-            return;
-          }
+              // If no event, disable progress
+              if (!uploadEvent) {
+                progressFn(false, 0);
+                return;
+              }
 
-          // Check the type and send the progress state accordingly
-          switch (uploadEvent.type) {
-            case UploadEventType.Progress:
-              progressFn(true, uploadEvent.payload.progress);
-              break;
+              // Check the type and send the progress state accordingly
+              switch (uploadEvent.type) {
+                case UploadEventType.Progress:
+                  progressFn(true, uploadEvent.payload.progress);
+                  break;
 
-            case UploadEventType.Success:
-            case UploadEventType.Fail:
-            default:
-              progressFn(false, 0);
-              break;
-          }
-        }),
+                case UploadEventType.Success:
+                case UploadEventType.Fail:
+                default:
+                  progressFn(false, 0);
+                  break;
+              }
+            }),
 
-        // If something fails during upload:
-        catchError(e => {
-          // Pass the errors through the error callback
-          if (errorFn) {
-            errorFn(e);
-          }
+            // If something fails during upload:
+            catchError(e => {
+              // Pass the errors through the error callback
+              if (errorFn) {
+                errorFn(e);
+              }
 
-          // Replace with a complete `null` observable
-          return of(null);
-        }),
+              // Replace with a complete `null` observable
+              return of(null);
+            }),
 
-        // Take the last item emitted as an HOO (check below)
-        last()
-      )
+            // Take the last item emitted as an HOO (check below)
+            last()
+
+            // If instance of ResourceGuid, just passthru the string
+          )
+        : file
+        ? of({
+            type: UploadEventType.Success,
+            payload: { response: file.getGuid() },
+          })
+        : // If null, passtry as-is
+          of(null)
     ),
 
     // Take the last emitted last() HOO from the map above. Doing this will cancel "unused" HTTP requests.

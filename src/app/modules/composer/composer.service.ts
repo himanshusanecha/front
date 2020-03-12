@@ -8,50 +8,133 @@ import {
 import { ApiService } from '../../common/api/api.service';
 import { ActivityEntity } from '../newsfeed/activity/activity.service';
 
-export type MessageSubjectValue = string;
+/**
+ * Media resource types
+ */
+export type ResourceSourceType = 'image' | 'video';
 
-export const DEFAULT_MESSAGE_VALUE: MessageSubjectValue = '';
-
-export type AttachmentSubjectValue = File | null;
-
-export const DEFAULT_TITLE_VALUE: MessageSubjectValue = null;
-
-export type TitleSubjectValue = string | null;
-
-export const DEFAULT_ATTACHMENT_VALUE: AttachmentSubjectValue = null;
-
-export type AttachmentGuidMappedValue = string | null;
-
-export type NsfwSubjectValue = Array<number>;
-
-export const DEFAULT_NSFW_VALUE: NsfwSubjectValue = [];
-
-export type MonetizationSubjectValue = { type: string; min: number } | null;
-
-export const DEFAULT_MONETIZATION_VALUE: MonetizationSubjectValue = null;
-
-export type TagsSubjectValue = Array<string>;
-
-export const DEFAULT_TAGS_VALUE: TagsSubjectValue = [];
-
-export type ScheduleSubjectValue = number | null;
-
-export const DEFAULT_SCHEDULE_VALUE: ScheduleSubjectValue = null;
-
-export type AccessIdSubjectValue = string;
-
-export const DEFAULT_ACCESS_ID_VALUE: AccessIdSubjectValue = '2';
-
-export type LicenseSubjectValue = string;
-
-export const DEFAULT_LICENSE_VALUE: LicenseSubjectValue = 'all-rights-reserved';
-
+/**
+ * Media resource preview
+ */
 export interface PreviewResource {
   source: 'none' | 'local' | 'guid' | 'rich-embed';
-  sourceType?: 'image' | 'video';
+  sourceType?: ResourceSourceType;
   payload?: any;
 }
 
+/**
+ * Media resource GUID wrapper
+ */
+export class ResourceGuid {
+  constructor(protected type: ResourceSourceType, protected guid: string) {}
+
+  getType() {
+    return this.type;
+  }
+
+  getGuid() {
+    return this.guid;
+  }
+}
+
+/**
+ * Message value type
+ */
+export type MessageSubjectValue = string;
+
+/**
+ * Default message value
+ */
+export const DEFAULT_MESSAGE_VALUE: MessageSubjectValue = '';
+
+/**
+ * Title value type
+ */
+export type TitleSubjectValue = string | null;
+
+/**
+ * Default title value
+ */
+export const DEFAULT_TITLE_VALUE: MessageSubjectValue = null;
+
+/**
+ * Attachment value type
+ */
+export type AttachmentSubjectValue = File | ResourceGuid | null;
+
+/**
+ * Attachment resolved GUID value (used for payload)
+ */
+export type AttachmentGuidMappedValue = string | null;
+
+/**
+ * Default attachment value
+ */
+export const DEFAULT_ATTACHMENT_VALUE: AttachmentSubjectValue = null;
+
+/**
+ * NSFW value type
+ */
+export type NsfwSubjectValue = Array<number>;
+
+/**
+ * Default NSFW value
+ */
+export const DEFAULT_NSFW_VALUE: NsfwSubjectValue = [];
+
+/**
+ * Monetization value type
+ */
+export type MonetizationSubjectValue = { type: string; min: number } | null;
+
+/**
+ * Default monetization value
+ */
+export const DEFAULT_MONETIZATION_VALUE: MonetizationSubjectValue = null;
+
+/**
+ * Tags value type
+ */
+export type TagsSubjectValue = Array<string>;
+
+/**
+ * Default tags value
+ */
+export const DEFAULT_TAGS_VALUE: TagsSubjectValue = [];
+
+/**
+ * Schedule value type
+ */
+export type ScheduleSubjectValue = number | null;
+
+/**
+ * Default schedule value
+ */
+export const DEFAULT_SCHEDULE_VALUE: ScheduleSubjectValue = null;
+
+/**
+ * Access ID value type
+ */
+export type AccessIdSubjectValue = string;
+
+/**
+ * Default access ID value
+ */
+export const DEFAULT_ACCESS_ID_VALUE: AccessIdSubjectValue = '2';
+
+/**
+ * License value type
+ */
+export type LicenseSubjectValue = string;
+
+/**
+ * Default license value
+ */
+export const DEFAULT_LICENSE_VALUE: LicenseSubjectValue = 'all-rights-reserved';
+
+/**
+ * Payload data object. Used to build the DTO
+ */
 export interface Data {
   message: MessageSubjectValue;
   title: TitleSubjectValue;
@@ -64,76 +147,133 @@ export interface Data {
   attachmentGuid: AttachmentGuidMappedValue;
 }
 
+/**
+ * Store/process class for activities composer. As it's used as a store it should be injected individually
+ * on the components that require it using `providers` array.
+ */
 @Injectable()
 export class ComposerService implements OnDestroy {
-  // Data Subjects
-
+  /**
+   * Message subject
+   */
   readonly message$: BehaviorSubject<MessageSubjectValue> = new BehaviorSubject<
     MessageSubjectValue
   >(DEFAULT_MESSAGE_VALUE);
 
+  /**
+   * Title subject
+   */
   readonly title$: BehaviorSubject<TitleSubjectValue> = new BehaviorSubject<
     TitleSubjectValue
   >(DEFAULT_TITLE_VALUE);
 
+  /**
+   * NSFW subject
+   */
   readonly nsfw$: BehaviorSubject<NsfwSubjectValue> = new BehaviorSubject<
     NsfwSubjectValue
   >(DEFAULT_NSFW_VALUE);
 
+  /**
+   * Monetization subject
+   */
   readonly monetization$: BehaviorSubject<
     MonetizationSubjectValue
   > = new BehaviorSubject<MonetizationSubjectValue>(DEFAULT_MONETIZATION_VALUE);
 
+  /**
+   * Tags subject
+   */
   readonly tags$: BehaviorSubject<TagsSubjectValue> = new BehaviorSubject<
     TagsSubjectValue
   >(DEFAULT_TAGS_VALUE);
 
+  /**
+   * Schedule subject
+   */
   readonly schedule$: BehaviorSubject<
     ScheduleSubjectValue
   > = new BehaviorSubject<ScheduleSubjectValue>(DEFAULT_SCHEDULE_VALUE);
 
+  /**
+   * Access ID subject
+   */
   readonly accessId$: BehaviorSubject<
     AccessIdSubjectValue
   > = new BehaviorSubject<AccessIdSubjectValue>(DEFAULT_ACCESS_ID_VALUE);
 
+  /**
+   * License subject
+   */
   readonly license$: BehaviorSubject<LicenseSubjectValue> = new BehaviorSubject<
     LicenseSubjectValue
   >(DEFAULT_LICENSE_VALUE);
 
+  /**
+   * Attachment subject
+   */
   readonly attachment$: BehaviorSubject<
     AttachmentSubjectValue
   > = new BehaviorSubject<AttachmentSubjectValue>(DEFAULT_ATTACHMENT_VALUE);
 
-  // State Subjects
-
+  /**
+   * Preview subject (state)
+   */
   readonly preview$: BehaviorSubject<PreviewResource> = new BehaviorSubject<
     PreviewResource
   >({
     source: 'none',
   });
 
+  /**
+   * In progress flag subject (state)
+   */
   readonly inProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
 
+  /**
+   * Current progress subject (state)
+   */
   readonly progress$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
+  /**
+   * Attachment error subject (state)
+   */
   readonly attachmentError$: BehaviorSubject<string> = new BehaviorSubject<
     string
   >('');
 
+  /**
+   * Post-ability check subject (state)
+   */
   readonly canPost$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
 
-  // Data and its payload builder subscription
-
+  /**
+   * Data structure observable
+   */
   readonly data$: Observable<Data>;
 
+  /**
+   * Subscription to data structure observable
+   */
   protected readonly dataSubscription: Subscription;
 
+  /**
+   * Container GUID for this instance
+   */
   protected containerGuid: string | null = null;
 
+  /**
+   * If we're editing, this holds a clone of the original activity
+   */
+  protected originalSource: any = null;
+
+  /**
+   * Current payload to be consumed by DTO builder
+   */
   protected payload: any = null;
 
   /**
@@ -146,7 +286,8 @@ export class ComposerService implements OnDestroy {
     protected attachmentApi: AttachmentApiService,
     protected api: ApiService
   ) {
-    // Setup data stream
+    // Setup data stream using the latest subject values
+    // This should emit whenever any subject changes.
 
     this.data$ = combineLatest<
       [
@@ -189,10 +330,11 @@ export class ComposerService implements OnDestroy {
           this.attachmentError$.next('');
 
           // - Set the preview based the current value (Blob URL or empty)
-          this.setPreview(this.buildLocalPreviewResource(file));
+          this.setPreview(this.buildPreviewResource(file));
         }),
 
-        // Upload attachment to server, receive events as callbacks, return GUID when completed
+        // Upload attachment to server (if File), receive events as callbacks, return GUID when completed
+        // If input is a ResourceGuid, it will be casted as a GUID string and passthru
         fileToGuid(
           // - Upload
           file => this.attachmentApi.upload(file),
@@ -266,11 +408,18 @@ export class ComposerService implements OnDestroy {
     this.dataSubscription.unsubscribe();
   }
 
+  /**
+   * Sets the container GUID for this instance
+   * @param containerGuid
+   */
   setContainerGuid(containerGuid: string | null) {
     this.containerGuid = containerGuid || null;
     return this;
   }
 
+  /**
+   * Gets the container GUID for this instance
+   */
   getContainerGuid(): string | null {
     return this.containerGuid || null;
   }
@@ -299,6 +448,9 @@ export class ComposerService implements OnDestroy {
     this.setPreview({
       source: 'none',
     });
+
+    // Reset original source
+    this.originalSource = null;
   }
 
   /**
@@ -313,22 +465,68 @@ export class ComposerService implements OnDestroy {
 
     this.reset();
 
-    this.message$.next(activity.message || DEFAULT_MESSAGE_VALUE);
-    this.title$.next(activity.title || DEFAULT_TITLE_VALUE);
-    this.nsfw$.next(activity.nsfw || DEFAULT_NSFW_VALUE);
-    this.monetization$.next(
-      activity.wire_threshold || DEFAULT_MONETIZATION_VALUE
-    );
-    this.tags$.next(activity.tags || DEFAULT_TAGS_VALUE);
-    this.schedule$.next(
-      DEFAULT_SCHEDULE_VALUE /* TODO: Allow editing schedule time */
-    );
-    this.attachment$.next(
-      DEFAULT_ATTACHMENT_VALUE /* TODO: Allow editing attachments */
-    );
-    this.accessId$.next(activity.accessId || DEFAULT_ACCESS_ID_VALUE);
+    // Save a clone of the original activity that was loaded
+    this.originalSource = JSON.parse(JSON.stringify(activity));
 
-    if (typeof activity.containerGuid !== 'undefined') {
+    // Build the fields
+    const message = activity.message || DEFAULT_MESSAGE_VALUE;
+    const title = activity.title || DEFAULT_TITLE_VALUE;
+    const nsfw = activity.nsfw || DEFAULT_NSFW_VALUE;
+    const monetization = activity.wire_threshold || DEFAULT_MONETIZATION_VALUE;
+    const tags = activity.tags || DEFAULT_TAGS_VALUE;
+    const schedule =
+      activity.time_created && activity.time_created * 1000 > Date.now() + 15000
+        ? activity.time_created
+        : null;
+    const accessId =
+      activity.access_id !== null
+        ? activity.access_id
+        : DEFAULT_ACCESS_ID_VALUE;
+    const license = activity.license || DEFAULT_LICENSE_VALUE;
+
+    // Build attachment data structure
+
+    let attachmentResourceGuid = DEFAULT_ATTACHMENT_VALUE;
+
+    if (activity.custom_type === 'batch') {
+      attachmentResourceGuid = new ResourceGuid('image', activity.entity_guid);
+
+      this.setPreview({
+        source: 'guid',
+        sourceType: attachmentResourceGuid.getType(),
+        payload: attachmentResourceGuid.getGuid(),
+      });
+    } else if (activity.custom_type === 'video') {
+      attachmentResourceGuid = new ResourceGuid('video', activity.entity_guid);
+
+      this.setPreview({
+        source: 'guid',
+        sourceType: attachmentResourceGuid.getType(),
+        payload: attachmentResourceGuid.getGuid(),
+      });
+    } else if (activity.entity_guid) {
+      // Entity alone without custom_type = blog
+      // TODO: Implement this as rich embed
+    }
+
+    // Apply them to the service state
+
+    this.message$.next(message);
+    this.title$.next(title);
+    this.nsfw$.next(nsfw);
+    this.monetization$.next(monetization);
+    this.tags$.next(tags);
+    this.schedule$.next(schedule);
+    this.attachment$.next(attachmentResourceGuid);
+    this.accessId$.next(accessId);
+    this.license$.next(license);
+
+    // Define custom container if different than owner (groups)
+
+    if (
+      typeof activity.container_guid !== 'undefined' &&
+      activity.container_guid !== activity.owner_guid
+    ) {
       this.setContainerGuid(activity.containerGuid);
     }
   }
@@ -346,22 +544,32 @@ export class ComposerService implements OnDestroy {
    * Builds the local preview resource for assets that weren't uploaded yet
    * @param file
    */
-  protected buildLocalPreviewResource(file: File | null): PreviewResource {
+  protected buildPreviewResource(
+    file: File | ResourceGuid | null
+  ): PreviewResource {
     if (!file) {
       return {
         source: 'none',
       };
+    } else if (file instanceof File) {
+      return {
+        source: 'local',
+        sourceType: /image\/.+/.test(file.type)
+          ? 'image'
+          : /video\/.+/.test(file.type)
+          ? 'video'
+          : void 0,
+        payload: URL.createObjectURL(file),
+      };
+    } else if (file instanceof ResourceGuid) {
+      return {
+        source: 'guid',
+        sourceType: file.getType(),
+        payload: file.getGuid(),
+      };
     }
 
-    return {
-      source: 'local',
-      sourceType: /image\/.+/.test(file.type)
-        ? 'image'
-        : /video\/.+/.test(file.type)
-        ? 'video'
-        : void 0,
-      payload: URL.createObjectURL(file),
-    };
+    throw new Error('Invalid preview resource source');
   }
 
   /**
@@ -419,14 +627,16 @@ export class ComposerService implements OnDestroy {
     }
 
     this.payload = {
+      ...(this.originalSource || {}),
       message: message || '',
       wire_threshold: monetization || null,
+      paywall: Boolean(monetization),
       time_created: schedule || null,
-      is_rich: 0, // TODO
+      // is_rich: 0, // TODO
       title: title || '',
-      description: '', // TODO
-      thumbnail: '', // TODO
-      url: '', // TODO
+      // description: '', // TODO
+      // thumbnail: '', // TODO
+      // url: '', // TODO
       attachment_guid: attachmentGuid || null,
       mature: nsfw && nsfw.length > 0,
       nsfw: nsfw || [],
@@ -456,8 +666,16 @@ export class ComposerService implements OnDestroy {
   async post(): Promise<ActivityEntity> {
     this.setProgress(true);
 
+    // New activity
+    let endpoint = `api/v1/newsfeed`;
+
+    if (this.payload.guid) {
+      // Editing an activity
+      endpoint = `api/v1/newsfeed/${this.payload.guid}`;
+    }
+
     const { activity } = await this.api
-      .post(`api/v1/newsfeed`, this.payload)
+      .post(endpoint, this.payload)
       .toPromise();
 
     this.reset();
