@@ -49,8 +49,9 @@ export class VideoAutoplayService implements OnDestroy {
 
     // 33% of the window
     const offsetRange = this.scroll.view.clientHeight / 3;
+    const clientTop = this.scroll.view.getBoundingClientRect().top;
 
-    const offsetTop = this.scroll.view.scrollTop + offsetRange;
+    const offsetTop = clientTop + this.scroll.view.scrollTop + offsetRange;
     const offsetBottom = offsetTop + offsetRange;
     // const offsetBottom = this.scroll.view.clientHeight + this.scroll.view.scrollTop;
 
