@@ -112,10 +112,8 @@ export class VideoAutoplayService implements OnDestroy {
         this.currentlyPlaying.stop();
       }
       if (player && !player.isPlaying()) {
-        player.mute();
-        player.play();
+        player.setAutoplaying(true);
         this.currentlyPlaying = player;
-        player.autoplaying = true;
       } else {
         console.warn('player is not defined');
       }
@@ -129,7 +127,7 @@ export class VideoAutoplayService implements OnDestroy {
   stopPlaying(player: MindsVideoPlayerComponent): void {
     if (!this.userPlaying && player) {
       player.stop();
-      player.autoplaying = false;
+      player.setAutoplaying(false);
     }
   }
 

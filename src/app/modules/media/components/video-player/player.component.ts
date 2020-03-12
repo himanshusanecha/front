@@ -2,24 +2,24 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
+  forwardRef,
   Inject,
   Input,
-  OnDestroy,
   OnChanges,
+  OnDestroy,
   Output,
   PLATFORM_ID,
-  ViewChild,
-  ElementRef,
-  forwardRef,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { PLAYER_ANIMATIONS } from './player.animations';
 import { VideoPlayerService } from './player.service';
 import Plyr from 'plyr';
 import { PlyrComponent } from 'ngx-plyr';
 import { isPlatformBrowser } from '@angular/common';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Session } from '../../../../services/session';
 import { VideoAutoplayService } from '../video/services/video-autoplay.service';
 
@@ -58,7 +58,6 @@ export class MindsVideoPlayerComponent
    * This is set by VideoAutoplayService
    */
   autoplaying: boolean = false;
-
   /**
    * This is the video player component
    */
@@ -92,6 +91,13 @@ export class MindsVideoPlayerComponent
     this.cd.markForCheck();
     this.cd.detectChanges();
   });
+
+  setAutoplaying(value: boolean): void {
+    this.autoplaying = value;
+
+    this.cd.markForCheck();
+    this.cd.detectChanges();
+  }
 
   constructor(
     public elementRef: ElementRef,
@@ -161,7 +167,11 @@ export class MindsVideoPlayerComponent
    * @return boolean
    */
   isPlayable(): boolean {
-    return isPlatformBrowser(this.platformId) && this.service.isPlayable();
+    return (
+      isPlatformBrowser(this.platformId) &&
+      this.service.isPlayable() &&
+      this.autoplaying
+    );
   }
 
   /**
@@ -259,6 +269,13 @@ export class MindsVideoPlayerComponent
   unmuteIfAutoplaying(): void {
     if ((this.autoplay || this.autoplaying) && this.isMuted()) {
       this.unmute();
+      this.play();
+    }
+  }
+
+  onReady() {
+    if (this.autoplaying) {
+      this.mute();
       this.play();
     }
   }
