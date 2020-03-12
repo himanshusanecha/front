@@ -170,7 +170,7 @@ export class MindsVideoPlayerComponent
     return (
       isPlatformBrowser(this.platformId) &&
       this.service.isPlayable() &&
-      this.autoplaying
+      (this.autoplaying || this.autoplay) // autoplaying comes from the scroll, and autoplay is for single entity views
     );
   }
 
