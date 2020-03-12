@@ -594,11 +594,27 @@ export class ComposerService implements OnDestroy {
   removeAttachment() {
     const payload = this.payload;
 
-    if (payload.attachment_guid) {
-      this.attachmentApi.remove(payload.attachment_guid).toPromise(); // Used to trigger the Observable without a subscription
+    // Clean up attachment ONLY if the new entity GUID is different from the original source, if any
+    if (payload.entity_guid && !this.isOriginalEntity(payload.entity_guid)) {
+      this.attachmentApi.remove(payload.entity_guid).toPromise(); // Used to trigger the Observable without a subscription
     }
 
     this.attachment$.next(null);
+  }
+
+  /**
+   * Used to prevent original entity deletion when editing an activity. That operation is handled in the engine.
+   * @param entityGuid
+   */
+  protected isOriginalEntity(entityGuid): boolean {
+    if (
+      !this.originalSource ||
+      typeof this.originalSource.entity_guid === 'undefined'
+    ) {
+      return false;
+    }
+
+    return entityGuid === this.originalSource.entity_guid;
   }
 
   /**
@@ -637,13 +653,13 @@ export class ComposerService implements OnDestroy {
       // description: '', // TODO
       // thumbnail: '', // TODO
       // url: '', // TODO
-      attachment_guid: attachmentGuid || null,
+      entity_guid: attachmentGuid || null,
+      entity_guid_update: true,
       mature: nsfw && nsfw.length > 0,
       nsfw: nsfw || [],
       tags: tags || [],
       access_id: accessId,
-      attachment_license: license,
-      license: license, // TODO: Implement on engine
+      license: license,
       container_guid: this.containerGuid || null,
     };
   }
