@@ -8,8 +8,6 @@ import { Session } from '../../../../../services/session';
 export class VideoAutoplayService implements OnDestroy {
   protected scroll$: Subscription;
 
-  protected visible: boolean = false;
-
   protected enabled: boolean = true;
 
   /**
@@ -40,6 +38,10 @@ export class VideoAutoplayService implements OnDestroy {
     return this;
   }
 
+  /**
+   * Registers a player component in the list of autoplayable players
+   * @param player
+   */
   registerPlayer(player: MindsVideoPlayerComponent) {
     this.players.push(player);
 
@@ -112,6 +114,7 @@ export class VideoAutoplayService implements OnDestroy {
         this.currentlyPlaying.stop();
       }
       if (player && !player.isPlaying()) {
+        // .play() and .mute() will get called when plyr emits the 'ready' event
         player.setAutoplaying(true);
         this.currentlyPlaying = player;
       } else {
@@ -142,7 +145,7 @@ export class VideoAutoplayService implements OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.scroll.unListen(this.scroll$);
   }
 }
