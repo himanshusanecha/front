@@ -1,19 +1,21 @@
 import {
   Component,
+  Inject,
   Injector,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
   SkipSelf,
   ViewChild,
-  Inject,
-  PLATFORM_ID,
 } from '@angular/core';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import {
   ActivatedRoute,
+  NavigationEnd,
   Router,
   RouterEvent,
-  NavigationEnd,
 } from '@angular/router';
 
 import { Client, Upload } from '../../../services/api';
@@ -34,8 +36,7 @@ import { ComposerComponent } from '../../composer/composer.component';
   providers: [ClientMetaService, FeedsService],
   templateUrl: 'subscribed.component.html',
 })
-export class NewsfeedSubscribedComponent {
-  newsfeed: Array<Object>;
+export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
   feed: BehaviorSubject<Array<Object>> = new BehaviorSubject([]);
   prepended: Array<any> = [];
   offset: string | number = '';
@@ -153,7 +154,6 @@ export class NewsfeedSubscribedComponent {
     if (refresh) {
       this.moreData = true;
       this.offset = 0;
-      this.newsfeed = [];
     }
 
     this.inProgress = true;
@@ -254,18 +254,17 @@ export class NewsfeedSubscribedComponent {
 
   delete(activity) {
     let i: any;
+
     for (i in this.prepended) {
       if (this.prepended[i] === activity) {
         this.prepended.splice(i, 1);
         return;
       }
     }
-    for (i in this.newsfeed) {
-      if (this.newsfeed[i] === activity) {
-        this.newsfeed.splice(i, 1);
-        return;
-      }
-    }
+
+    this.feedsService.deleteItem(activity, (item, obj) => {
+      return item.guid === obj.guid;
+    });
   }
 
   protected _v1CanDeactivate(): boolean {
