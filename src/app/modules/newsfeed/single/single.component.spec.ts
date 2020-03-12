@@ -65,7 +65,12 @@ describe('NewsfeedSingleComponent', () => {
         }),
         MockComponent({
           selector: 'm-activity',
-          inputs: ['entity', 'displayOptions'],
+          inputs: [
+            'entity',
+            'displayOptions',
+            'allowAutoplayOnScroll',
+            'autoplayVideo',
+          ],
         }),
       ],
       imports: [RouterTestingModule, ReactiveFormsModule],
