@@ -252,6 +252,13 @@ export class ComposerService implements OnDestroy {
   );
 
   /**
+   * Is this an edit operation? (state)
+   */
+  readonly isEditing$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+
+  /**
    * Data structure observable
    */
   readonly data$: Observable<Data>;
@@ -443,6 +450,7 @@ export class ComposerService implements OnDestroy {
     this.inProgress$.next(false);
     this.progress$.next(0);
     this.attachmentError$.next('');
+    this.isEditing$.next(false);
 
     // Reset preview (state + blob URL)
     this.setPreview({
@@ -529,6 +537,8 @@ export class ComposerService implements OnDestroy {
     ) {
       this.setContainerGuid(activity.containerGuid);
     }
+
+    this.isEditing$.next(true);
   }
 
   /**

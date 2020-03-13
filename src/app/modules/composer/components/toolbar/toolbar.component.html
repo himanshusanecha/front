@@ -70,9 +70,13 @@
     [dropdown]="postButtonDropdown"
     (onAction)="onPost($event)"
     data-cy="post-button"
-    i18n
   >
-    Post
+    <ng-container *ngIf="!isEditing$ | async; else isEditingButtonText" i18n
+      >Post</ng-container
+    >
+    <ng-template #isEditingButtonText
+      ><ng-container i18n>Save</ng-container></ng-template
+    >
   </m-button>
 </div>
 

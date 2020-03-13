@@ -6,7 +6,9 @@ import {
   Input,
   Output,
   TemplateRef,
+  ViewChild,
 } from '@angular/core';
+import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component';
 
 /**
  * Interface for action emitter
@@ -32,7 +34,20 @@ export class ButtonComponent {
   /**
    * Is the button disabled?
    */
-  @Input() @HostBinding('class.m-button--disabled') disabled: boolean = false;
+  @HostBinding('class.m-button--disabled') disabled: boolean = false;
+
+  /**
+   * Disabled setter, it will set this.disabled and close the menu, if open
+   * @param disabled
+   * @private
+   */
+  @Input('disabled') set _disabled(disabled: boolean) {
+    this.disabled = disabled;
+
+    if (disabled && this.dropdownMenuComponent) {
+      this.dropdownMenuComponent.close();
+    }
+  }
 
   /**
    * Dropdown template
@@ -45,6 +60,12 @@ export class ButtonComponent {
   @Output() onAction: EventEmitter<ButtonComponentAction> = new EventEmitter<
     ButtonComponentAction
   >();
+
+  /**
+   * Dropdown menu reference
+   */
+  @ViewChild('dropdownMenuComponent', { static: false })
+  dropdownMenuComponent: DropdownMenuComponent;
 
   /**
    * Emits the action to the parent using the exported interface
