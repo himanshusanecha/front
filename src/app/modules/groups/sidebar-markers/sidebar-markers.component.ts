@@ -18,7 +18,7 @@ import { UpdateMarkersService } from '../../../common/services/update-markers.se
 import { Client } from '../../../services/api';
 import { Session } from '../../../services/session';
 import { isPlatformBrowser } from '@angular/common';
-import { GroupsService } from '../groups-service';
+import { GroupsService } from '../groups.service';
 
 @Component({
   selector: 'm-group--sidebar-markers',
@@ -168,9 +168,9 @@ export class GroupsSidebarMarkersComponent
   @HostListener('window:resize') onResize() {
     this.tooltipsAnchor = window.innerWidth <= 992 ? 'top' : 'right';
 
-    if (window.innerWidth > 900) {
+    if (window.innerWidth > 1000) {
       this.layoutMode = 'desktop';
-    } else if (window.innerWidth > 540 && window.innerWidth <= 900) {
+    } else if (window.innerWidth > 480 && window.innerWidth <= 1000) {
       this.layoutMode = 'tablet';
     } else {
       this.layoutMode = 'phone';
