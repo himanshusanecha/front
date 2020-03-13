@@ -5,6 +5,7 @@ import { Client, Upload } from '../../../../services/api';
 import { Router } from '@angular/router';
 import { PhoneVerificationComponent } from './phone-input/input.component';
 import { ConfigsService } from '../../../../common/services/configs.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'm-onboarding__infoStep',
@@ -26,6 +27,7 @@ export class InfoStepComponent {
   date: string;
   dateOfBirthError: string;
   dateOfBirthChanged: boolean = false;
+  ageError: boolean = false;
 
   cities: Array<any> = [];
 
@@ -107,9 +109,21 @@ export class InfoStepComponent {
     return true;
   }
 
+  updateUser(prop: string, value: any) {
+    const user = this.configs.get('user');
+    user[prop] = value;
+
+    const clonedUser = Object.assign({}, user);
+    this.configs.set('user', clonedUser);
+
+    this.session.userEmitter.next(clonedUser);
+  }
+
   selectedDateChange(date: string) {
     this.date = date;
     this.dateOfBirthChanged = true;
+
+    this.validate();
   }
 
   cancel() {
@@ -139,6 +153,12 @@ export class InfoStepComponent {
       this.phoneVerification.error = 'verify:phonenumber';
       return false;
     }
+    if (moment().diff(moment(this.date), 'years') < 13) {
+      this.ageError = true;
+      return false;
+    }
+
+    this.ageError = false;
     return true;
   }
 
