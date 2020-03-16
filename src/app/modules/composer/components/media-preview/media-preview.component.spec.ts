@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent, MockService } from '../../../../utils/mock';
 import { ComposerService } from '../../composer.service';
 import { MediaPreviewComponent } from './media-preview.component';
+import { ConfigsService } from '../../../../common/services/configs.service';
 
 describe('Composer Media Preview', () => {
   let comp: MediaPreviewComponent;
@@ -24,6 +25,10 @@ describe('Composer Media Preview', () => {
         {
           provide: ComposerService,
           useValue: composerServiceMock,
+        },
+        {
+          provide: ConfigsService,
+          useValue: MockService(ConfigsService),
         },
       ],
     }).compileComponents();

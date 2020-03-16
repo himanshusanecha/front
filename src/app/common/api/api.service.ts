@@ -10,6 +10,9 @@ import { CookieService } from '../services/cookie.service';
 import { environment } from '../../../environments/environment';
 import { map, retry } from 'rxjs/operators';
 
+/**
+ * API request methods constants
+ */
 export enum ApiRequestMethod {
   GET = 'get',
   POST = 'post',
@@ -17,25 +20,40 @@ export enum ApiRequestMethod {
   DELETE = 'delete',
 }
 
+/**
+ * API request data structure
+ */
 export type ApiRequestData = {
   [key: string]: any;
 } | null;
 
+/**
+ * API request query params structure
+ */
 export type ApiRequestQueryParams = {
   [key: string]: any;
 } | null;
 
+/**
+ * API Response structure
+ */
+export interface ApiResponse {
+  status: string;
+  [key: string]: any;
+}
+
+/**
+ * API request options passed to the methods
+ */
 export type ApiRequestOptions = {
   upload?: boolean;
   withCredentials?: boolean;
   headers?: { [name: string]: string | string[] };
 };
 
-export interface ApiResponse {
-  status: string;
-  [key: string]: any;
-}
-
+/**
+ * API client class that uses Angular/HttpClient observables with our custom headers. Supports normal requests and uploads via POST.
+ */
 @Injectable()
 export class ApiService {
   protected baseUrl: string = '';

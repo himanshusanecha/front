@@ -3,8 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-import { ComposerService } from '../../composer.service';
+import { ComposerService, PreviewResource } from '../../composer.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ConfigsService } from '../../../../common/services/configs.service';
 
 /**
  * Composer media preview container. Renders a user-friendly preview of
@@ -23,16 +24,25 @@ export class MediaPreviewComponent {
   portrait: boolean = false;
 
   /**
+   * URL for the CDN
+   */
+  readonly cdnUrl: string;
+
+  /**
    * Constructor.
    * @param service
    * @param domSanitizer
    * @param cd
+   * @param configs
    */
   constructor(
     protected service: ComposerService,
     protected domSanitizer: DomSanitizer,
-    protected cd: ChangeDetectorRef
-  ) {}
+    protected cd: ChangeDetectorRef,
+    configs: ConfigsService
+  ) {
+    this.cdnUrl = configs.get('cdn_url');
+  }
 
   /**
    * Gets the preview metadata subject from the service
@@ -42,10 +52,33 @@ export class MediaPreviewComponent {
   }
 
   /**
+   * Gets the URL for a resource
+   * @param previewResource
+   */
+  getUrl(previewResource: PreviewResource) {
+    switch (previewResource.sourceType) {
+      case 'image':
+        if (previewResource.source === 'local') {
+          return this.localTrustedUrl(previewResource.payload);
+        } else if (previewResource.source === 'guid') {
+          return `${this.cdnUrl}fs/v1/thumbnail/${previewResource.payload}/xlarge/`;
+        }
+        break;
+      case 'video':
+        if (previewResource.source === 'local') {
+          return `${this.localTrustedUrl(previewResource.payload)}#t=1`;
+        } else if (previewResource.source === 'guid') {
+          return `${this.cdnUrl}api/v1/media/${previewResource.payload}/play/#t=1`;
+        }
+        break;
+    }
+  }
+
+  /**
    * Trust the Blob URL used to preview the media
    * @param url
    */
-  trustedUrl(url: string) {
+  protected localTrustedUrl(url: string) {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
 

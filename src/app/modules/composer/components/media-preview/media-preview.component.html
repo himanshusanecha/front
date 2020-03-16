@@ -9,7 +9,7 @@
       class="m-composerMediaPreview__image"
       alt="Uploaded image"
       i18n-alt
-      [src]="trustedUrl(preview.payload)"
+      [src]="getUrl(preview)"
       (load)="fitForImage(image)"
       #image
     />
@@ -22,7 +22,7 @@
       (loadedmetadata)="fitForVideo(video)"
       #video
     >
-      <source [src]="trustedUrl(preview.payload + '#t=1')" />
+      <source [src]="getUrl(preview)" />
     </video>
   </ng-container>
 

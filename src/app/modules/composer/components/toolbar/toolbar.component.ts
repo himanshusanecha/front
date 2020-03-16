@@ -201,6 +201,13 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
+   * Is this an edit?
+   */
+  get isEditing$() {
+    return this.service.isEditing$;
+  }
+
+  /**
    * Emits the new attachment
    * @param $event
    */

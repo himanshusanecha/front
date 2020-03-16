@@ -11,24 +11,11 @@ m-button {
     background: themed($m-btn--primary);
   }
 
-  &.m-button--disabled .m-button__defaultAction {
+  &.m-button--disabled .m-button__defaultAction,
+  &.m-button--disabled .m-button__dropdownArrow {
     position: relative;
     pointer-events: none;
     cursor: initial !important;
-
-    .m-button__disabledOverlay {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-
-      @include m-theme() {
-        background: rgba(themed($m-white), 0.2);
-      }
-    }
   }
 
   a {
@@ -76,6 +63,21 @@ m-button {
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+  }
+
+  .m-button__disabledOverlay {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    cursor: initial;
+
+    @include m-theme() {
+      background: rgba(themed($m-white), 0.2);
     }
   }
 
