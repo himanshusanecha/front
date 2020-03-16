@@ -32,7 +32,11 @@ export class AttachmentService {
             // If not a file (ResourceGuid)
             return of({
               type: UploadEventType.Success,
-              payload: { response: file.getGuid() },
+              payload: {
+                response: {
+                  guid: file.getGuid(),
+                },
+              },
             });
           }
 
