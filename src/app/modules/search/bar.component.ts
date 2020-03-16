@@ -32,6 +32,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   active: boolean;
   suggestionsDisabled: boolean = false;
   q: string;
+  filter: string;
   id: string;
   routerSubscription: Subscription;
   hasSearchContext: boolean = false;
@@ -45,7 +46,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   @HostBinding('class.m-search__bar--active')
   get showBorders(): boolean {
-    return !!this.q || this.active;
+    return !!this.q || this.active || true;
   }
 
   constructor(
@@ -72,6 +73,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
         try {
           const params = event.snapshot.queryParamMap;
           this.q = params.has('q') ? params.get('q') : '';
+          this.filter = params.has('f') ? params.get('f') : 'top';
         } catch (e) {
           console.error('Minds: router hook(SearchBar)', e);
         }
@@ -118,7 +120,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
     if (this.featureService.has('navigation')) {
       this.router.navigate(['/discovery/search'], {
-        queryParams: { q: this.q, f: 'top' },
+        queryParams: { q: this.q, f: this.filter },
       });
     } else {
       this.router.navigate([

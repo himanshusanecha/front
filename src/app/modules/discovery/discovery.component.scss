@@ -30,6 +30,9 @@
   }
   span {
     margin-right: 8px;
+    @include m-theme() {
+      color: themed($m-textColor--tertiary);
+    }
   }
 
   img {

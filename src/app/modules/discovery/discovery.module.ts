@@ -12,6 +12,8 @@ import { ActivityModule } from '../newsfeed/activity/activity.module';
 import { DiscoverySearchComponent } from './search/search.component';
 import { DiscoveryTagsComponent } from './tags/tags.component';
 import { DiscoveryTrendsService } from './trends/trends.service';
+import { LegacyModule } from '../legacy/legacy.module';
+import { GroupsModule } from '../groups/groups.module';
 
 @NgModule({
   imports: [
@@ -44,6 +46,8 @@ import { DiscoveryTrendsService } from './trends/trends.service';
     CommonModule,
     SuggestionsModule,
     ActivityModule,
+    LegacyModule, // For subscribe button
+    // GroupsModule,
   ],
   providers: [DiscoveryTrendsService, DiscoveryTagsService],
   declarations: [

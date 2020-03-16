@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { DiscoverySearchService } from './search.service';
+import { ConfigsService } from '../../../common/services/configs.service';
 
 @Component({
   selector: 'm-discovery__search',
@@ -12,11 +13,15 @@ export class DiscoverySearchComponent {
   filter: 'top' | 'latest';
   entities$ = this.service.entities$;
   inProgress$ = this.service.inProgress$;
+  readonly cdnUrl: string;
 
   constructor(
     private route: ActivatedRoute,
-    private service: DiscoverySearchService
-  ) {}
+    private service: DiscoverySearchService,
+    configs: ConfigsService
+  ) {
+    this.cdnUrl = configs.get('cdn_url');
+  }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe((params: ParamMap) => {
