@@ -30,6 +30,7 @@ import { ReferralsModule } from '../wallet/tokens/referrals/referrals.module';
 import { ChannelSidebarV2Component } from './sidebar-v2/sidebar-v2.component';
 import { ChannelStatsComponent } from './sidebar-v2/stats/channel-stats.component';
 import { ChannelBiofieldsComponent } from './sidebar-v2/biofields/biofields.component';
+import { OnboardingWrapperService } from './service/onboarding-wrapper.service';
 
 const routes: Routes = [
   { path: 'channels', redirectTo: '/newsfeed/global/top', pathMatch: 'full' },
@@ -67,6 +68,7 @@ const routes: Routes = [
     ChannelStatsComponent,
     ChannelBiofieldsComponent,
   ],
+  providers: [OnboardingWrapperService],
   exports: [
     ChannelModulesComponent,
     ChannelSupporters,

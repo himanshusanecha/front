@@ -7,6 +7,7 @@ import { Session } from '../../../../../services/session';
   templateUrl: 'input.component.html',
 })
 export class PhoneVerificationComponent implements OnInit {
+  @Input() disabled: boolean = false;
   @Input() tooltipAnchor: 'top' | 'left' = 'left';
 
   number: string;
