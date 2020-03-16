@@ -33,7 +33,7 @@ import isMobile from '../../../../../helpers/is-mobile';
 import { MindsVideoPlayerComponent } from '../../../../media/components/video-player/player.component';
 import { ConfigsService } from '../../../../../common/services/configs.service';
 import { RedirectService } from '../../../../../common/services/redirect.service';
-import { ComposerService } from '../../../../composer/composer.service';
+import { ComposerService } from '../../../../composer/services/composer.service';
 import { ModalService } from '../../../../composer/components/modal/modal.service';
 
 @Component({

@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ActivityService, ActivityEntity } from '../activity.service';
 import { Client } from '../../../../services/api/client';
-import { ComposerService } from '../../../composer/composer.service';
+import { ComposerService } from '../../../composer/services/composer.service';
 import { ModalService } from '../../../composer/components/modal/modal.service';
 import { FeaturesService } from '../../../../services/features.service';
 

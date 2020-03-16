@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent, MockService } from '../../../../utils/mock';
 import { TitleBarComponent } from './title-bar.component';
-import { ComposerService } from '../../composer.service';
+import { ComposerService } from '../../services/composer.service';
 
 describe('Composer Title Bar', () => {
   let comp: TitleBarComponent;

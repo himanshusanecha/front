@@ -5,7 +5,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ComposerService } from '../../../composer.service';
+import { ComposerService } from '../../../services/composer.service';
 import { UniqueId } from '../../../../../helpers/unique-id.helper';
 
 @Component({

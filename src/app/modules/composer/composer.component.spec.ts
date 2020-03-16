@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComposerComponent } from './composer.component';
-import { ComposerService } from './composer.service';
+import { ComposerService } from './services/composer.service';
 import { MockComponent, MockService } from '../../utils/mock';
 import { ModalService } from './components/modal/modal.service';
 import { By } from '@angular/platform-browser';

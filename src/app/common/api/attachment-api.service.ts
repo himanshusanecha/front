@@ -4,27 +4,17 @@ import {
   catchError,
   concatAll,
   filter,
-  last,
   map,
   mapTo,
   mergeAll,
-  switchAll,
-  tap,
 } from 'rxjs/operators';
-import {
-  MonoTypeOperatorFunction,
-  Observable,
-  of,
-  OperatorFunction,
-  throwError,
-} from 'rxjs';
+import { Observable, of, OperatorFunction, throwError } from 'rxjs';
 import {
   HttpClient,
   HttpEvent,
   HttpEventType,
   HttpHeaders,
 } from '@angular/common/http';
-import { ResourceGuid } from '../../modules/composer/composer.service';
 
 /**
  * Upload event type
@@ -49,7 +39,8 @@ export interface UploadEvent {
 }
 
 /**
- * Angular's HTTP event to our Upload Event. `payloadPassthru` will disabled status === success check!
+ * Angular's HTTP event to our Upload Event.
+ * Disabling `includeResponse` will also disable Minds API status success check!
  */
 export const httpEventToUploadEvent = (
   includeResponse: boolean = true
@@ -110,88 +101,15 @@ export const httpEventToUploadEvent = (
   );
 
 /**
- * RxJS operator that accepts an Upload Event and maps into a GUID or null
- * @param uploadEventFn
- * @param progressFn
- * @param errorFn
+ * Service that handle video and image uploads as attachments
  */
-export const fileToGuid = (
-  uploadEventFn: (file: File) => Observable<UploadEvent>,
-  progressFn?: (inProgress: boolean, progress: number) => void,
-  errorFn?: (e) => void
-): OperatorFunction<File | ResourceGuid | null, string | null> => input$ =>
-  // From our input Observable:
-  input$.pipe(
-    // For every File | ResourceGuid | null input:
-    map(file =>
-      // If instance of File, upload the file to either Minds engine or S3
-      file instanceof File
-        ? uploadEventFn(file).pipe(
-            // On every HTTP event:
-            tap(uploadEvent => {
-              // If no progress callback, do nothing
-              if (!progressFn) {
-                return;
-              }
-
-              // If no event, disable progress
-              if (!uploadEvent) {
-                progressFn(false, 0);
-                return;
-              }
-
-              // Check the type and send the progress state accordingly
-              switch (uploadEvent.type) {
-                case UploadEventType.Progress:
-                  progressFn(true, uploadEvent.payload.progress);
-                  break;
-
-                case UploadEventType.Success:
-                case UploadEventType.Fail:
-                default:
-                  progressFn(false, 0);
-                  break;
-              }
-            }),
-
-            // If something fails during upload:
-            catchError(e => {
-              // Pass the errors through the error callback
-              if (errorFn) {
-                errorFn(e);
-              }
-
-              // Replace with a complete `null` observable
-              return of(null);
-            }),
-
-            // Take the last item emitted as an HOO (check below)
-            last()
-
-            // If instance of ResourceGuid, just passthru the string
-          )
-        : file
-        ? of({
-            type: UploadEventType.Success,
-            payload: { response: file.getGuid() },
-          })
-        : // If null, passtry as-is
-          of(null)
-    ),
-
-    // Take the last emitted last() HOO from the map above. Doing this will cancel "unused" HTTP requests.
-    switchAll(),
-
-    // Map the final response to an upload event, if success emit the guid, else null
-    map(uploadEvent =>
-      uploadEvent && uploadEvent.type == UploadEventType.Success
-        ? uploadEvent.payload.response.guid
-        : null
-    )
-  );
-
 @Injectable()
 export class AttachmentApiService {
+  /**
+   * Constructor
+   * @param api
+   * @param http
+   */
   constructor(protected api: ApiService, protected http: HttpClient) {}
 
   /**
@@ -263,9 +181,12 @@ export class AttachmentApiService {
             return of(uploadToPresignedUrl, complete).pipe(concatAll());
           }
         ),
+
+        // Flatten and merge all HOO
         mergeAll()
       );
 
+    // Return a concat of all the 3 stages
     return of(init, upload).pipe(concatAll());
   }
 

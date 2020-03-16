@@ -8,7 +8,7 @@ import {
   AccessIdSubjectValue,
   ComposerService,
   LicenseSubjectValue,
-} from '../../composer.service';
+} from '../../services/composer.service';
 import { BehaviorSubject } from 'rxjs';
 
 /**

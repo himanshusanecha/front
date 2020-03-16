@@ -71,14 +71,21 @@ export class ApiService {
   get(
     endpoint: string,
     queryParams: ApiRequestQueryParams = null,
+    retryTimes: number = 0,
     options: ApiRequestOptions = {}
   ): Observable<ApiResponse> {
-    return this.request(
+    const request = this.request(
       ApiRequestMethod.GET,
       this._buildQueryString(endpoint, queryParams),
       {},
       options
-    ).pipe(retry(3));
+    );
+
+    if (retryTimes) {
+      return request.pipe(retry(retryTimes));
+    }
+
+    return request;
   }
 
   post(

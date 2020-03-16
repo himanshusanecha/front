@@ -3,7 +3,10 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-import { ComposerService, PreviewResource } from '../../composer.service';
+import {
+  ComposerService,
+  PreviewResource,
+} from '../../services/composer.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ConfigsService } from '../../../../common/services/configs.service';
 

@@ -1,12 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, scan, tap } from 'rxjs/operators';
-import {
-  AttachmentApiService,
-  fileToGuid,
-} from '../../common/api/attachment-api.service';
-import { ApiService } from '../../common/api/api.service';
-import { ActivityEntity } from '../newsfeed/activity/activity.service';
+import { ApiService } from '../../../common/api/api.service';
+import { ActivityEntity } from '../../newsfeed/activity/activity.service';
+import { createUrlRegex } from '../../../helpers/url-regex';
+import { RichEmbed, RichEmbedService } from './rich-embed.service';
+import { AttachmentService } from './attachment.service';
 
 /**
  * Media resource types
@@ -71,6 +70,21 @@ export type AttachmentGuidMappedValue = string | null;
  * Default attachment value
  */
 export const DEFAULT_ATTACHMENT_VALUE: AttachmentSubjectValue = null;
+
+/**
+ * Rich embed value type
+ */
+export type RichEmbedSubjectValue = RichEmbed | string | null;
+
+/**
+ * Rich embed resolved object value (used for payload)
+ */
+export type RichEmbedMetadataMappedValue = RichEmbed | null;
+
+/**
+ * Default rich embed value
+ */
+export const DEFAULT_RICH_EMBED_VALUE: RichEmbedSubjectValue = null;
 
 /**
  * NSFW value type
@@ -145,6 +159,7 @@ export interface Data {
   accessId: AccessIdSubjectValue;
   license: LicenseSubjectValue;
   attachmentGuid: AttachmentGuidMappedValue;
+  richEmbed: RichEmbedMetadataMappedValue;
 }
 
 /**
@@ -217,6 +232,13 @@ export class ComposerService implements OnDestroy {
   > = new BehaviorSubject<AttachmentSubjectValue>(DEFAULT_ATTACHMENT_VALUE);
 
   /**
+   * Rich embed subject
+   */
+  readonly richEmbed$: BehaviorSubject<
+    RichEmbedSubjectValue
+  > = new BehaviorSubject<RichEmbedSubjectValue>(DEFAULT_RICH_EMBED_VALUE);
+
+  /**
    * Preview subject (state)
    */
   readonly preview$: BehaviorSubject<PreviewResource> = new BehaviorSubject<
@@ -286,12 +308,14 @@ export class ComposerService implements OnDestroy {
   /**
    * Sets up data observable and its subscription
    *
-   * @param attachmentApi
    * @param api
+   * @param attachment
+   * @param richEmbed
    */
   constructor(
-    protected attachmentApi: AttachmentApiService,
-    protected api: ApiService
+    protected api: ApiService,
+    protected attachment: AttachmentService,
+    protected richEmbed: RichEmbedService
   ) {
     // Setup data stream using the latest subject values
     // This should emit whenever any subject changes.
@@ -306,10 +330,14 @@ export class ComposerService implements OnDestroy {
         ScheduleSubjectValue,
         AccessIdSubjectValue,
         LicenseSubjectValue,
-        AttachmentGuidMappedValue
+        AttachmentGuidMappedValue,
+        RichEmbedMetadataMappedValue
       ]
     >([
-      this.message$.pipe(distinctUntilChanged()),
+      this.message$.pipe(
+        distinctUntilChanged(),
+        tap(message => this.extractRichEmbed(message || ''))
+      ),
       this.title$.pipe(distinctUntilChanged()),
       this.nsfw$, // TODO: Implement custom distinctUntilChanged comparison
       this.monetization$, // TODO: Implement custom distinctUntilChanged comparison
@@ -318,6 +346,7 @@ export class ComposerService implements OnDestroy {
       this.accessId$.pipe(
         distinctUntilChanged(),
         tap(accessId => {
+          // This will trigger a warning about an illegal access ID operation
           if (this.containerGuid && this.containerGuid !== accessId) {
             console.warn(
               "Access ID will be overriden by container's GUID",
@@ -340,12 +369,8 @@ export class ComposerService implements OnDestroy {
           this.setPreview(this.buildPreviewResource(file));
         }),
 
-        // Upload attachment to server (if File), receive events as callbacks, return GUID when completed
-        // If input is a ResourceGuid, it will be casted as a GUID string and passthru
-        fileToGuid(
-          // - Upload
-          file => this.attachmentApi.upload(file),
-
+        // Call the engine endpoints to upload the file
+        this.attachment.resolve(
           // - Update inProgress and progress state subjects
           (inProgress, progress) => this.setProgress(inProgress, progress),
 
@@ -360,6 +385,13 @@ export class ComposerService implements OnDestroy {
 
         // Value for this attachment$ pipe will be either a string holding the GUID or null
       ),
+      this.richEmbed$.pipe(
+        // Only react to rich-embed URL changes
+        distinctUntilChanged(),
+
+        // Call the engine endpoint to resolve the URL, debouncing the request to avoid server overload
+        this.richEmbed.resolve(200)
+      ),
     ]).pipe(
       map(
         // Create an JSON object based on an array of Subject values
@@ -373,6 +405,7 @@ export class ComposerService implements OnDestroy {
           accessId,
           license,
           attachmentGuid,
+          richEmbed,
         ]) => ({
           message,
           title,
@@ -383,6 +416,7 @@ export class ComposerService implements OnDestroy {
           accessId,
           license,
           attachmentGuid,
+          richEmbed,
         })
       ),
       tap(values => {
@@ -512,9 +546,15 @@ export class ComposerService implements OnDestroy {
         sourceType: attachmentResourceGuid.getType(),
         payload: attachmentResourceGuid.getGuid(),
       });
-    } else if (activity.entity_guid) {
-      // Entity alone without custom_type = blog
-      // TODO: Implement this as rich embed
+    } else if (activity.entity_guid || activity.perma_url) {
+      // Rich embeds (blogs included)
+      this.setRichEmbed({
+        entityGuid: activity.entity_guid || null,
+        url: activity.perma_url,
+        title: activity.title || '',
+        description: activity.blurb || '',
+        thumbnail: activity.thumbnail_src || '',
+      });
     }
 
     // Apply them to the service state
@@ -583,6 +623,23 @@ export class ComposerService implements OnDestroy {
   }
 
   /**
+   * Extracts the rich embed from a string body
+   * @param body
+   */
+  protected extractRichEmbed(body: string) {
+    const matches = body.match(createUrlRegex());
+    this.setRichEmbed(matches ? matches[0] : '');
+  }
+
+  /**
+   * Emits a rich embed (either an object or a URL) to the service
+   * @param richEmbed
+   */
+  protected setRichEmbed(richEmbed: RichEmbed | string) {
+    this.richEmbed$.next(richEmbed);
+  }
+
+  /**
    * Free preview resources
    * @private
    */
@@ -606,7 +663,7 @@ export class ComposerService implements OnDestroy {
 
     // Clean up attachment ONLY if the new entity GUID is different from the original source, if any
     if (payload.entity_guid && !this.isOriginalEntity(payload.entity_guid)) {
-      this.attachmentApi.remove(payload.entity_guid).toPromise(); // Used to trigger the Observable without a subscription
+      this.attachment.prune(payload.entity_guid);
     }
 
     this.attachment$.next(null);
@@ -646,6 +703,7 @@ export class ComposerService implements OnDestroy {
     accessId,
     license,
     attachmentGuid,
+    richEmbed,
   }: Data) {
     if (this.containerGuid) {
       // Override accessId if there's a container set
@@ -658,13 +716,13 @@ export class ComposerService implements OnDestroy {
       wire_threshold: monetization || null,
       paywall: Boolean(monetization),
       time_created: schedule || null,
-      // is_rich: 0, // TODO
-      title: title || '',
-      // description: '', // TODO
-      // thumbnail: '', // TODO
-      // url: '', // TODO
-      entity_guid: attachmentGuid || null,
-      entity_guid_update: true,
+      is_rich: false,
+      title: '',
+      description: '',
+      thumbnail: '',
+      url: '',
+      entity_guid: null,
+      entity_guid_update: false,
       mature: nsfw && nsfw.length > 0,
       nsfw: nsfw || [],
       tags: tags || [],
@@ -672,6 +730,19 @@ export class ComposerService implements OnDestroy {
       license: license,
       container_guid: this.containerGuid || null,
     };
+
+    if (attachmentGuid) {
+      this.payload.entity_guid = attachmentGuid;
+      this.payload.title = title;
+      this.payload.entity_guid_update = true;
+    } else if (richEmbed) {
+      this.payload.is_rich = true;
+      this.payload.url = richEmbed.url;
+      this.payload.entity_guid = richEmbed.entityGuid;
+      this.payload.title = richEmbed.title;
+      this.payload.description = richEmbed.description;
+      this.payload.thumbnail = richEmbed.thumbnail;
+    }
   }
 
   /**

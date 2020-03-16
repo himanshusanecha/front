@@ -4,7 +4,7 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { ComposerService } from '../../../composer.service';
+import { ComposerService } from '../../../services/composer.service';
 import { NSFW_REASONS } from '../../../../../common/components/nsfw-selector/nsfw-selector.service';
 
 /**
