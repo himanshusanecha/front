@@ -53,7 +53,7 @@ m-sidebar--navigation {
   }
 
   @include m-theme() {
-    background-color: themed($m-bgColor--primary);
+    // background-color: themed($m-bgColor--primary);
     border-right: 1px solid themed($m-borderColor--primary);
   }
 

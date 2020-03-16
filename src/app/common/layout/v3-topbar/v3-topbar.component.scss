@@ -51,7 +51,7 @@
   }
 
   @include m-theme() {
-    background-color: themed($m-bgColor--primary);
+    background-color: themed($m-bgColor--secondary);
     border-bottom: 1px solid themed($m-borderColor--primary);
   }
 

@@ -1,0 +1,6 @@
+.m-discoverySearch__feed {
+  padding: 20px 40px;
+  @include m-theme() {
+    border-bottom: 1px solid themed($m-borderColor--primary);
+  }
+}
