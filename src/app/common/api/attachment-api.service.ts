@@ -173,7 +173,11 @@ export const fileToGuid = (
         : file
         ? of({
             type: UploadEventType.Success,
-            payload: { response: file.getGuid() },
+            payload: {
+              response: {
+                guid: file.getGuid(),
+              },
+            },
           })
         : // If null, passtry as-is
           of(null)
