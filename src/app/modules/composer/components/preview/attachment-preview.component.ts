@@ -1,30 +1,32 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
 } from '@angular/core';
-import {
-  ComposerService,
-  PreviewResource,
-} from '../../services/composer.service';
+import { PreviewResource } from '../../services/composer.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ConfigsService } from '../../../../common/services/configs.service';
 
-/**
- * Composer media preview container. Renders a user-friendly preview of
- * the embedded media, and allows to change the video thumbnails and
- * delete the embed as well.
- */
 @Component({
-  selector: 'm-composer__mediaPreview',
+  selector: 'm-composerAttachmentPreview',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'media-preview.component.html',
+  templateUrl: 'attachment-preview.component.html',
 })
-export class MediaPreviewComponent {
+export class AttachmentPreviewComponent {
   /**
-   * Is the media in portrait mode?
+   * The preview resource
    */
-  portrait: boolean = false;
+  @Input() preview: PreviewResource;
+
+  /**
+   * Orientation emitter, called when media loads
+   */
+  @Output('onPortraitOrientation') onPortraitOrientationEmitter: EventEmitter<
+    boolean
+  > = new EventEmitter<boolean>();
 
   /**
    * URL for the CDN
@@ -32,26 +34,12 @@ export class MediaPreviewComponent {
   readonly cdnUrl: string;
 
   /**
-   * Constructor.
-   * @param service
+   * Constructor
    * @param domSanitizer
-   * @param cd
    * @param configs
    */
-  constructor(
-    protected service: ComposerService,
-    protected domSanitizer: DomSanitizer,
-    protected cd: ChangeDetectorRef,
-    configs: ConfigsService
-  ) {
+  constructor(protected domSanitizer: DomSanitizer, configs: ConfigsService) {
     this.cdnUrl = configs.get('cdn_url');
-  }
-
-  /**
-   * Gets the preview metadata subject from the service
-   */
-  get preview$() {
-    return this.service.preview$;
   }
 
   /**
@@ -89,17 +77,15 @@ export class MediaPreviewComponent {
    * Calculates portrait mode for images. Called on load.
    * @param image
    */
-  fitForImage(image: HTMLImageElement) {
+  fitForImage(image: HTMLImageElement): void {
     if (!image) {
-      return false;
+      this.onPortraitOrientationEmitter.emit(false);
+      return;
     }
 
-    const currentValue = this.portrait;
-    this.portrait = image.naturalHeight >= image.naturalWidth;
-
-    if (this.portrait !== currentValue) {
-      this.detectChanges();
-    }
+    this.onPortraitOrientationEmitter.emit(
+      image.naturalHeight >= image.naturalWidth
+    );
   }
 
   /**
@@ -108,32 +94,18 @@ export class MediaPreviewComponent {
    */
   fitForVideo(video: HTMLVideoElement) {
     if (!video) {
-      return false;
+      this.onPortraitOrientationEmitter.emit(false);
     }
 
-    const currentValue = this.portrait;
-    this.portrait = video.videoHeight >= video.videoWidth;
-
-    if (this.portrait !== currentValue) {
-      this.detectChanges();
-    }
+    this.onPortraitOrientationEmitter.emit(
+      video.videoHeight >= video.videoWidth
+    );
   }
 
   /**
-   * Removes the attachment using the service
+   * Is the component hidden?
    */
-  remove() {
-    // TODO: Implement a nice themed modal confirmation
-    if (confirm("Are you sure? There's no UNDO.")) {
-      this.service.removeAttachment();
-    }
-  }
-
-  /**
-   * Detects changes
-   */
-  detectChanges() {
-    this.cd.detectChanges();
-    this.cd.markForCheck();
+  @HostBinding('hidden') get isHostHidden(): boolean {
+    return this.preview && this.preview.source === 'none';
   }
 }

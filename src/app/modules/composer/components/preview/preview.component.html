@@ -1,0 +1,17 @@
+<div
+  class="m-composer__preview"
+  [class.m-composer__preview--portrait]="portrait"
+>
+  <m-composerAttachmentPreview
+    [preview]="preview$ | async"
+    (onPortraitOrientation)="setPortrait($event)"
+  ></m-composerAttachmentPreview>
+
+  <div
+    class="m-composerPreview__close"
+    [hidden]="!(preview$ | async)"
+    (click)="remove()"
+  >
+    <m-icon iconId="close"></m-icon>
+  </div>
+</div>

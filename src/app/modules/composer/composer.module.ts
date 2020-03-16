@@ -9,7 +9,7 @@ import { AttachmentService } from './services/attachment.service';
 import { ComposerComponent } from './composer.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { BaseComponent } from './components/base/base.component';
-import { MediaPreviewComponent } from './components/media-preview/media-preview.component';
+import { PreviewComponent } from './components/preview/preview.component';
 import { ProgressComponent } from './components/progress/progress.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { TitleBarComponent } from './components/title-bar/title-bar.component';
@@ -19,6 +19,7 @@ import { MonetizeComponent } from './components/popup/monetize/monetize.componen
 import { TagsComponent } from './components/popup/tags/tags.component';
 import { ScheduleComponent } from './components/popup/schedule/schedule.component';
 import { TextAreaComponent } from './components/text-area/text-area.component';
+import { AttachmentPreviewComponent } from './components/preview/attachment-preview.component';
 
 /**
  * Exported components
@@ -37,7 +38,8 @@ const COMPONENTS = [
  */
 const INTERNAL_COMPONENTS = [
   BaseComponent,
-  MediaPreviewComponent,
+  PreviewComponent,
+  AttachmentPreviewComponent,
   ProgressComponent,
   ToolbarComponent,
   TitleBarComponent,

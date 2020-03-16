@@ -16,7 +16,7 @@ export type ResourceSourceType = 'image' | 'video';
  * Media resource preview
  */
 export interface PreviewResource {
-  source: 'none' | 'local' | 'guid' | 'rich-embed';
+  source: 'none' | 'local' | 'guid';
   sourceType?: ResourceSourceType;
   payload?: any;
 }
@@ -291,6 +291,11 @@ export class ComposerService implements OnDestroy {
   protected readonly dataSubscription: Subscription;
 
   /**
+   * Subscription to a rich embed extractor observable
+   */
+  protected readonly richEmbedExtractorSubscription: Subscription;
+
+  /**
    * Container GUID for this instance
    */
   protected containerGuid: string | null = null;
@@ -334,10 +339,7 @@ export class ComposerService implements OnDestroy {
         RichEmbedMetadataMappedValue
       ]
     >([
-      this.message$.pipe(
-        distinctUntilChanged(),
-        tap(message => this.extractRichEmbed(message || ''))
-      ),
+      this.message$.pipe(distinctUntilChanged()),
       this.title$.pipe(distinctUntilChanged()),
       this.nsfw$, // TODO: Implement custom distinctUntilChanged comparison
       this.monetization$, // TODO: Implement custom distinctUntilChanged comparison
@@ -429,6 +431,25 @@ export class ComposerService implements OnDestroy {
     this.dataSubscription = this.data$.subscribe(data =>
       this.buildPayload(data)
     );
+
+    // Subscribe to message and rich embed in order to know if a URL should be extracted
+
+    this.richEmbedExtractorSubscription = combineLatest([
+      this.message$.pipe(distinctUntilChanged()),
+      this.richEmbed$.pipe(distinctUntilChanged()),
+    ]).subscribe(([message, richEmbed]) => {
+      if (
+        !richEmbed ||
+        typeof richEmbed === 'string' ||
+        !richEmbed.entityGuid
+      ) {
+        // Extract rich embed from URL when:
+        // a) there's no rich embed already set; or
+        // b) rich embed's type is a string (locally extracted); or
+        // c) loaded activity don't have the entity GUID set (which mean is a blog)
+        this.extractRichEmbed(message);
+      }
+    });
   }
 
   /**
@@ -447,6 +468,9 @@ export class ComposerService implements OnDestroy {
 
     // Unsubscribe to data stream
     this.dataSubscription.unsubscribe();
+
+    // Unsubscribe from rich embed extractor
+    this.richEmbedExtractorSubscription.unsubscribe();
   }
 
   /**
@@ -526,9 +550,11 @@ export class ComposerService implements OnDestroy {
         : DEFAULT_ACCESS_ID_VALUE;
     const license = activity.license || DEFAULT_LICENSE_VALUE;
 
-    // Build attachment data structure
+    // Build attachment and rich embed data structure
 
     let attachmentResourceGuid = DEFAULT_ATTACHMENT_VALUE;
+
+    let richEmbed = DEFAULT_RICH_EMBED_VALUE;
 
     if (activity.custom_type === 'batch') {
       attachmentResourceGuid = new ResourceGuid('image', activity.entity_guid);
@@ -548,14 +574,19 @@ export class ComposerService implements OnDestroy {
       });
     } else if (activity.entity_guid || activity.perma_url) {
       // Rich embeds (blogs included)
-      this.setRichEmbed({
+      richEmbed = {
         entityGuid: activity.entity_guid || null,
         url: activity.perma_url,
         title: activity.title || '',
         description: activity.blurb || '',
         thumbnail: activity.thumbnail_src || '',
-      });
+      };
     }
+
+    // Priority service state elements
+
+    this.attachment$.next(attachmentResourceGuid);
+    this.richEmbed$.next(richEmbed);
 
     // Apply them to the service state
 
@@ -565,7 +596,6 @@ export class ComposerService implements OnDestroy {
     this.monetization$.next(monetization);
     this.tags$.next(tags);
     this.schedule$.next(schedule);
-    this.attachment$.next(attachmentResourceGuid);
     this.accessId$.next(accessId);
     this.license$.next(license);
 
@@ -628,15 +658,7 @@ export class ComposerService implements OnDestroy {
    */
   protected extractRichEmbed(body: string) {
     const matches = body.match(createUrlRegex());
-    this.setRichEmbed(matches ? matches[0] : '');
-  }
-
-  /**
-   * Emits a rich embed (either an object or a URL) to the service
-   * @param richEmbed
-   */
-  protected setRichEmbed(richEmbed: RichEmbed | string) {
-    this.richEmbed$.next(richEmbed);
+    this.richEmbed$.next(matches ? matches[0] : '');
   }
 
   /**
@@ -742,6 +764,10 @@ export class ComposerService implements OnDestroy {
       this.payload.title = richEmbed.title;
       this.payload.description = richEmbed.description;
       this.payload.thumbnail = richEmbed.thumbnail;
+
+      if (!this.isOriginalEntity(attachmentGuid)) {
+        this.payload.entity_guid_update = true;
+      }
     }
   }
 

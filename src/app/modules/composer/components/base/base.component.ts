@@ -44,6 +44,10 @@ export class BaseComponent implements AfterViewInit {
     return this.service.attachment$;
   }
 
+  get richEmbed$() {
+    return this.service.richEmbed$;
+  }
+
   set nsfw(nsfw: number[]) {
     this.service.nsfw$.next(nsfw);
   }

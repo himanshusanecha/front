@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent, MockService } from '../../../../utils/mock';
 import { ComposerService } from '../../services/composer.service';
-import { MediaPreviewComponent } from './media-preview.component';
+import { PreviewComponent } from './preview.component';
 import { ConfigsService } from '../../../../common/services/configs.service';
 
-describe('Composer Media Preview', () => {
-  let comp: MediaPreviewComponent;
-  let fixture: ComponentFixture<MediaPreviewComponent>;
+describe('Composer Preview', () => {
+  let comp: PreviewComponent;
+  let fixture: ComponentFixture<PreviewComponent>;
 
   const composerServiceMock: any = MockService(ComposerService, {
     removeAttachment: true,
@@ -15,7 +15,7 @@ describe('Composer Media Preview', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        MediaPreviewComponent,
+        PreviewComponent,
         MockComponent({
           selector: 'm-icon',
           inputs: ['from', 'iconId', 'sizeFactor'],
@@ -36,7 +36,7 @@ describe('Composer Media Preview', () => {
 
   beforeEach(done => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 2;
-    fixture = TestBed.createComponent(MediaPreviewComponent);
+    fixture = TestBed.createComponent(PreviewComponent);
     comp = fixture.componentInstance;
     fixture.detectChanges();
 

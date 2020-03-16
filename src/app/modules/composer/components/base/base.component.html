@@ -1,11 +1,13 @@
 <div
   class="m-composer__base"
-  [class.m-composer__base--withMediaPreview]="attachment$ | async"
+  [class.m-composer__base--withPreview]="
+    (attachment$ | async) || (richEmbed$ | async)
+  "
 >
   <div class="m-composerBase__container">
     <m-composer__titleBar [inputId]="textareaId"></m-composer__titleBar>
 
-    <m-composer__mediaPreview></m-composer__mediaPreview>
+    <m-composer__preview></m-composer__preview>
 
     <m-composer__progress
       [inProgress]="inProgress$ | async"

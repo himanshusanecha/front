@@ -11,7 +11,7 @@ m-composer__base {
   justify-content: center;
   transition: all 0.3s ease 0s !important;
 
-  &.m-composer__base--withMediaPreview {
+  &.m-composer__base--withPreview {
     height: 669px;
   }
 
@@ -27,7 +27,7 @@ m-composer__base {
     margin-bottom: 16px;
   }
 
-  &.m-composer__base--withMediaPreview m-composer__titleBar {
+  &.m-composer__base--withPreview m-composer__titleBar {
     margin-bottom: 31px;
   }
 
@@ -36,7 +36,7 @@ m-composer__base {
       margin-bottom: 49px;
     }
 
-    &.m-composer__base--withMediaPreview m-composer__titleBar {
+    &.m-composer__base--withPreview m-composer__titleBar {
       margin-bottom: 42px;
     }
   }
