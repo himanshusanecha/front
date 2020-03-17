@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent, MockService } from '../../../../utils/mock';
 import { ComposerService } from '../../services/composer.service';
 import { PreviewComponent } from './preview.component';
-import { ConfigsService } from '../../../../common/services/configs.service';
 
 describe('Composer Preview', () => {
   let comp: PreviewComponent;
@@ -20,15 +19,16 @@ describe('Composer Preview', () => {
           selector: 'm-icon',
           inputs: ['from', 'iconId', 'sizeFactor'],
         }),
+        MockComponent({
+          selector: 'm-composerAttachmentPreview',
+          inputs: ['preview'],
+          outputs: ['onPortraitOrientation'],
+        }),
       ],
       providers: [
         {
           provide: ComposerService,
           useValue: composerServiceMock,
-        },
-        {
-          provide: ConfigsService,
-          useValue: MockService(ConfigsService),
         },
       ],
     }).compileComponents();
@@ -48,46 +48,6 @@ describe('Composer Preview', () => {
         done();
       });
     }
-  });
-
-  it('should set portrait for an image', () => {
-    const img = document.createElement('img');
-    spyOnProperty(img, 'naturalWidth').and.returnValue(1000);
-    spyOnProperty(img, 'naturalHeight').and.returnValue(2000);
-    fixture.detectChanges();
-
-    comp.fitForImage(img);
-    expect(comp.portrait).toBe(true);
-  });
-
-  it('should set landscape for an image', () => {
-    const img = document.createElement('img');
-    spyOnProperty(img, 'naturalWidth').and.returnValue(2000);
-    spyOnProperty(img, 'naturalHeight').and.returnValue(1000);
-    fixture.detectChanges();
-
-    comp.fitForImage(img);
-    expect(comp.portrait).toBe(false);
-  });
-
-  it('should set portrait for an video', () => {
-    const video = document.createElement('video');
-    spyOnProperty(video, 'videoWidth').and.returnValue(1000);
-    spyOnProperty(video, 'videoHeight').and.returnValue(2000);
-    fixture.detectChanges();
-
-    comp.fitForVideo(video);
-    expect(comp.portrait).toBe(true);
-  });
-
-  it('should set landscape for an video', () => {
-    const video = document.createElement('video');
-    spyOnProperty(video, 'videoWidth').and.returnValue(2000);
-    spyOnProperty(video, 'videoHeight').and.returnValue(1000);
-    fixture.detectChanges();
-
-    comp.fitForVideo(video);
-    expect(comp.portrait).toBe(false);
   });
 
   it('should remove an attachment', () => {

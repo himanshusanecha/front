@@ -3,12 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-import {
-  ComposerService,
-  PreviewResource,
-} from '../../services/composer.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ConfigsService } from '../../../../common/services/configs.service';
+import { ComposerService } from '../../services/composer.service';
 
 /**
  * Composer preview container. Renders a user-friendly preview of
