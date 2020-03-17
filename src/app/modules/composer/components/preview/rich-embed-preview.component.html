@@ -1,0 +1,10 @@
+<div class="m-composerRichEmbedPreview">
+  <!--<img alt="" [src]="resolvedImage">-->
+  <div *ngIf="richEmbed.title" class="m-composerRichEmbedPreview__title">
+    {{ richEmbed.title }}
+  </div>
+  <div *ngIf="richEmbed.description" class="m-composerRichEmbedPreview__body">
+    {{ richEmbed.description }}
+  </div>
+  <div class="m-composerRichEmbedPreview__domain">{{ extractDomain() }}</div>
+</div>

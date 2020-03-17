@@ -9,6 +9,9 @@ import { AttachmentService } from './services/attachment.service';
 import { ComposerComponent } from './composer.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { BaseComponent } from './components/base/base.component';
+import { AttachmentPreviewComponent } from './components/preview/attachment-preview.component';
+import { RichEmbedPreviewComponent } from './components/preview/rich-embed-preview.component';
+import { PreviewService } from './services/preview.service';
 import { PreviewComponent } from './components/preview/preview.component';
 import { ProgressComponent } from './components/progress/progress.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
@@ -19,7 +22,6 @@ import { MonetizeComponent } from './components/popup/monetize/monetize.componen
 import { TagsComponent } from './components/popup/tags/tags.component';
 import { ScheduleComponent } from './components/popup/schedule/schedule.component';
 import { TextAreaComponent } from './components/text-area/text-area.component';
-import { AttachmentPreviewComponent } from './components/preview/attachment-preview.component';
 
 /**
  * Exported components
@@ -38,8 +40,9 @@ const COMPONENTS = [
  */
 const INTERNAL_COMPONENTS = [
   BaseComponent,
-  PreviewComponent,
   AttachmentPreviewComponent,
+  RichEmbedPreviewComponent,
+  PreviewComponent,
   ProgressComponent,
   ToolbarComponent,
   TitleBarComponent,
@@ -47,7 +50,12 @@ const INTERNAL_COMPONENTS = [
   TextAreaComponent,
 ];
 
-const PROVIDERS = [ModalService, AttachmentService, RichEmbedService];
+const PROVIDERS = [
+  ModalService,
+  AttachmentService,
+  RichEmbedService,
+  PreviewService,
+];
 
 /**
  * Module definition

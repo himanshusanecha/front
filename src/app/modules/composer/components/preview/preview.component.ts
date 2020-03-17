@@ -32,10 +32,17 @@ export class PreviewComponent {
   ) {}
 
   /**
-   * Gets the preview metadata subject from the service
+   * Gets the attachment preview metadata subject from the service
    */
-  get preview$() {
-    return this.service.preview$;
+  get attachmentPreview$() {
+    return this.service.attachmentPreview$;
+  }
+
+  /**
+   * Gets the rich embed preview metadata subject from the service
+   */
+  get richEmbedPreview$() {
+    return this.service.richEmbedPreview$;
   }
 
   /**

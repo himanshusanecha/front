@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { of, OperatorFunction } from 'rxjs';
 import { ApiResponse, ApiService } from '../../../common/api/api.service';
 import { catchError, debounceTime, map, switchAll, tap } from 'rxjs/operators';
+import { createUrlRegex } from '../../../helpers/url-regex';
 
 /**
  * Rich embed structure
@@ -19,7 +20,20 @@ export interface RichEmbed {
  */
 @Injectable()
 export class RichEmbedService {
+  /**
+   * Constructor
+   * @param api
+   */
   constructor(protected api: ApiService) {}
+
+  /**
+   * Extracts a URL from a body of text
+   * @param body
+   */
+  extract(body: string): string | null {
+    const matches = body.match(createUrlRegex());
+    return matches && typeof matches[0] !== 'undefined' ? matches[0] : null;
+  }
 
   /**
    * Resolves a URL onto a rich embed using engine's preview endpoint

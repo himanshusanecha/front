@@ -15,6 +15,7 @@ import {
   HttpEventType,
   HttpHeaders,
 } from '@angular/common/http';
+import getFileType from '../../helpers/get-file-type';
 
 /**
  * Upload event type
@@ -28,7 +29,11 @@ export enum UploadEventType {
 /**
  * Upload event payload
  */
-export type UploadEventPayload = { progress?: number; response?: any };
+export interface UploadEventPayload {
+  progress?: number;
+  response?: any;
+  request?: { type: string };
+}
 
 /**
  * Normalized upload event
@@ -43,6 +48,7 @@ export interface UploadEvent {
  * Disabling `includeResponse` will also disable Minds API status success check!
  */
 export const httpEventToUploadEvent = (
+  type: string,
   includeResponse: boolean = true
 ): OperatorFunction<HttpEvent<ApiResponse>, UploadEvent> => input$ =>
   input$.pipe(
@@ -59,41 +65,45 @@ export const httpEventToUploadEvent = (
     ),
 
     // Map them onto a normalized UploadEvent our app handles
-    map((event: HttpEvent<ApiResponse>) => {
-      switch (event.type) {
-        case HttpEventType.Sent:
-          return {
-            type: UploadEventType.Progress,
-            payload: { progress: 0 },
-          };
+    map(
+      (event: HttpEvent<ApiResponse>): UploadEvent => {
+        switch (event.type) {
+          case HttpEventType.Sent:
+            return {
+              type: UploadEventType.Progress,
+              payload: { progress: 0 },
+            };
 
-        case HttpEventType.UploadProgress:
-          return {
-            type: UploadEventType.Progress,
-            payload: { progress: event.loaded / (event.total || +Infinity) },
-          };
+          case HttpEventType.UploadProgress:
+            return {
+              type: UploadEventType.Progress,
+              payload: { progress: event.loaded / (event.total || +Infinity) },
+            };
 
-        case HttpEventType.ResponseHeader:
-          return {
-            type: UploadEventType.Progress,
-            payload: { progress: 1 },
-          };
+          case HttpEventType.ResponseHeader:
+            return {
+              type: UploadEventType.Progress,
+              payload: { progress: 1 },
+            };
 
-        case HttpEventType.Response:
-          return {
-            type: UploadEventType.Success,
-            payload: {
-              response: event.body,
-            },
-          };
+          case HttpEventType.Response:
+            return {
+              type: UploadEventType.Success,
+              payload: {
+                request: { type },
+                response: event.body,
+              },
+            };
+        }
       }
-    }),
+    ),
 
     // If something happens during the upload, replace with a static HOO
     catchError(e =>
       of({
         type: UploadEventType.Fail,
         payload: {
+          request: { type },
           response: (e && e.message) || 'E_CLIENT_ERROR',
         },
       })
@@ -141,6 +151,9 @@ export class AttachmentApiService {
       payload: { progress: 100 },
     });
 
+    // Get file type
+    const fileType = getFileType(file);
+
     // Set pre-signed URL observable with the following operations (that depend on the response) as a map pipe
     const upload = this.api
       .put(`api/v2/media/upload/prepare/${file.type.split('/')[0]}`)
@@ -159,7 +172,7 @@ export class AttachmentApiService {
                 reportProgress: true,
                 observe: 'events',
               })
-              .pipe(httpEventToUploadEvent(false));
+              .pipe(httpEventToUploadEvent(fileType, false));
 
             // Setup complete observable
             const complete = this.api
@@ -171,6 +184,7 @@ export class AttachmentApiService {
                   (): UploadEvent => ({
                     type: UploadEventType.Success,
                     payload: {
+                      request: { type: fileType },
                       response: lease,
                     },
                   })
@@ -204,7 +218,7 @@ export class AttachmentApiService {
         },
         { upload: true }
       )
-      .pipe(httpEventToUploadEvent());
+      .pipe(httpEventToUploadEvent(getFileType(file)));
   }
 
   /**

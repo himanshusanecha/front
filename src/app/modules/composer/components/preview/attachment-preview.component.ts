@@ -2,13 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  HostBinding,
   Input,
   Output,
 } from '@angular/core';
-import { PreviewResource } from '../../services/composer.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ConfigsService } from '../../../../common/services/configs.service';
+import { AttachmentPreviewResource } from '../../services/preview.service';
 
 @Component({
   selector: 'm-composerAttachmentPreview',
@@ -19,7 +18,7 @@ export class AttachmentPreviewComponent {
   /**
    * The preview resource
    */
-  @Input() preview: PreviewResource;
+  @Input() attachmentPreviewResource: AttachmentPreviewResource;
 
   /**
    * Orientation emitter, called when media loads
@@ -44,22 +43,22 @@ export class AttachmentPreviewComponent {
 
   /**
    * Gets the URL for a resource
-   * @param previewResource
+   * @param resource
    */
-  getUrl(previewResource: PreviewResource) {
-    switch (previewResource.sourceType) {
+  getUrl(resource: AttachmentPreviewResource) {
+    switch (resource.sourceType) {
       case 'image':
-        if (previewResource.source === 'local') {
-          return this.localTrustedUrl(previewResource.payload);
-        } else if (previewResource.source === 'guid') {
-          return `${this.cdnUrl}fs/v1/thumbnail/${previewResource.payload}/xlarge/`;
+        if (resource.source === 'local') {
+          return this.localTrustedUrl(resource.payload);
+        } else if (resource.source === 'guid') {
+          return `${this.cdnUrl}fs/v1/thumbnail/${resource.payload}/xlarge/`;
         }
         break;
       case 'video':
-        if (previewResource.source === 'local') {
-          return `${this.localTrustedUrl(previewResource.payload)}#t=1`;
-        } else if (previewResource.source === 'guid') {
-          return `${this.cdnUrl}api/v1/media/${previewResource.payload}/play/#t=1`;
+        if (resource.source === 'local') {
+          return `${this.localTrustedUrl(resource.payload)}#t=1`;
+        } else if (resource.source === 'guid') {
+          return `${this.cdnUrl}api/v1/media/${resource.payload}/play/#t=1`;
         }
         break;
     }
@@ -100,12 +99,5 @@ export class AttachmentPreviewComponent {
     this.onPortraitOrientationEmitter.emit(
       video.videoHeight >= video.videoWidth
     );
-  }
-
-  /**
-   * Is the component hidden?
-   */
-  @HostBinding('hidden') get isHostHidden(): boolean {
-    return this.preview && this.preview.source === 'none';
   }
 }

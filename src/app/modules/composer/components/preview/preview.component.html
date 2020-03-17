@@ -1,17 +1,20 @@
 <div
+  *ngIf="(attachmentPreview$ | async) || (richEmbedPreview$ | async)"
   class="m-composer__preview"
   [class.m-composer__preview--portrait]="portrait"
 >
   <m-composerAttachmentPreview
-    [preview]="preview$ | async"
+    *ngIf="attachmentPreview$ | async as attachmentPreview"
+    [attachmentPreviewResource]="attachmentPreview"
     (onPortraitOrientation)="setPortrait($event)"
-  ></m-composerAttachmentPreview>
-
-  <div
-    class="m-composerPreview__close"
-    [hidden]="!(preview$ | async)"
-    (click)="remove()"
   >
-    <m-icon iconId="close"></m-icon>
-  </div>
+    <div class="m-composerPreview__close" (click)="remove()">
+      <m-icon iconId="close"></m-icon>
+    </div>
+  </m-composerAttachmentPreview>
+
+  <m-composerRichEmbedPreview
+    *ngIf="richEmbedPreview$ | async as richEmbed"
+    [richEmbed]="richEmbed"
+  ></m-composerRichEmbedPreview>
 </div>

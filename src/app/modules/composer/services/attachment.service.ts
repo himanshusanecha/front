@@ -1,14 +1,31 @@
 import { Injectable } from '@angular/core';
 import {
   AttachmentApiService,
+  UploadEvent,
   UploadEventType,
 } from '../../../common/api/attachment-api.service';
 import { of, OperatorFunction } from 'rxjs';
-import { ResourceGuid } from './composer.service';
 import { catchError, last, map, switchAll, tap } from 'rxjs/operators';
+
+/**
+ * Attachment types
+ */
+export type AttachmentType = 'image' | 'video';
+
+/**
+ * Attachments
+ */
+export interface Attachment {
+  type: AttachmentType;
+  guid: string;
+}
 
 @Injectable()
 export class AttachmentService {
+  /**
+   * Constructor
+   * @param attachmentApi
+   */
   constructor(protected attachmentApi: AttachmentApiService) {}
 
   /**
@@ -19,23 +36,22 @@ export class AttachmentService {
   resolve(
     progressFn?: (inProgress: boolean, progress: number) => void,
     errorFn?: (e) => void
-  ): OperatorFunction<File | ResourceGuid | null, string | null> {
+  ): OperatorFunction<File | Attachment | null, Attachment | null> {
     return input$ =>
       // From our input Observable:
       input$.pipe(
-        // For every File | ResourceGuid | null input:
+        // For every File | Attachment | null input:
         map(file => {
           if (!file) {
             // If falsy, map to a null value
             return of(null);
           } else if (!(file instanceof File)) {
-            // If not a file (ResourceGuid)
+            // If not a file (Attachment interface), return a success event
             return of({
               type: UploadEventType.Success,
               payload: {
-                response: {
-                  guid: file.getGuid(),
-                },
+                request: { type: file.type },
+                response: { guid: file.guid },
               },
             });
           }
@@ -81,8 +97,6 @@ export class AttachmentService {
 
             // Take the last item emitted as an HOO (check below)
             last()
-
-            // If instance of ResourceGuid, just passthru the string
           );
         }),
 
@@ -90,9 +104,12 @@ export class AttachmentService {
         switchAll(),
 
         // Map the final response to an upload event, if success emit the guid, else null
-        map(uploadEvent =>
-          uploadEvent && uploadEvent.type == UploadEventType.Success
-            ? uploadEvent.payload.response.guid
+        map((uploadEvent: UploadEvent) =>
+          uploadEvent
+            ? {
+                type: uploadEvent.payload.request.type as AttachmentType,
+                guid: uploadEvent.payload.response.guid,
+              }
             : null
         )
       );
