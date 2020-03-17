@@ -64,10 +64,14 @@ lint:
 
 qa:sandbox:
   allow_failure: false
+  except:
+    - /^master$/
   <<: *cypress_tests
 
 qa:production:
   allow_failure: true
+  only:
+    - /^master$/
   <<: *cypress_tests
 
 qa:manual:
