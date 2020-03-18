@@ -174,7 +174,7 @@ export class ChannelFeedComponent implements OnInit, OnDestroy {
     this.feed.unshift(activity);
   }
 
-  protected _v1CanDeactivate() {
+  protected v1CanDeactivate(): boolean {
     if (!this.poster || !this.poster.attachment) return true;
     const progress = this.poster.attachment.getUploadProgress();
     if (progress > 0 && progress < 100) {
@@ -190,6 +190,6 @@ export class ChannelFeedComponent implements OnInit, OnDestroy {
     }
 
     // Check v1 Poster component
-    return this._v1CanDeactivate();
+    return this.v1CanDeactivate();
   }
 }

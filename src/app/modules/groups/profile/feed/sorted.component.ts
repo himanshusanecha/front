@@ -173,7 +173,7 @@ export class GroupProfileFeedSortedComponent implements OnInit {
 
   //
 
-  protected _v1CanDeactivate() {
+  protected v1CanDeactivate(): boolean {
     if (!this.poster || !this.poster.attachment) {
       return true;
     }
@@ -193,7 +193,7 @@ export class GroupProfileFeedSortedComponent implements OnInit {
     }
 
     // Check v1 Poster component
-    return this._v1CanDeactivate();
+    return this.v1CanDeactivate();
   }
 
   kick(user: any) {

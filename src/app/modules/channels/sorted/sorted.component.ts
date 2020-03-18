@@ -178,7 +178,7 @@ export class ChannelSortedComponent implements OnInit {
     this.detectChanges();
   }
 
-  protected _v1CanDeactivate() {
+  protected v1CanDeactivate(): boolean {
     if (!this.poster || !this.poster.attachment) {
       return true;
     }
@@ -198,7 +198,7 @@ export class ChannelSortedComponent implements OnInit {
     }
 
     // Check v1 Poster component
-    return this._v1CanDeactivate();
+    return this.v1CanDeactivate();
   }
 
   detectChanges() {

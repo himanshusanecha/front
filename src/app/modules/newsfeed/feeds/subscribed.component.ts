@@ -267,7 +267,7 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected _v1CanDeactivate(): boolean {
+  protected v1CanDeactivate(): boolean {
     if (!this.poster || !this.poster.attachment) return true;
     const progress = this.poster.attachment.getUploadProgress();
     if (progress > 0 && progress < 100) {
@@ -283,6 +283,6 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
     }
 
     // Check v1 Poster component
-    return this._v1CanDeactivate();
+    return this.v1CanDeactivate();
   }
 }
