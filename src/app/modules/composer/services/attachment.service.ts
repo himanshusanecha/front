@@ -30,10 +30,12 @@ export class AttachmentService {
 
   /**
    * RxJS operator that accepts an Upload Event and maps into a GUID or null
+   * @param metadataFn
    * @param progressFn
    * @param errorFn
    */
   resolve(
+    metadataFn: () => { containerGuid?: string },
     progressFn?: (inProgress: boolean, progress: number) => void,
     errorFn?: (e) => void
   ): OperatorFunction<File | Attachment | null, Attachment | null> {
@@ -56,48 +58,52 @@ export class AttachmentService {
             });
           }
 
-          return this.attachmentApi.upload(file).pipe(
-            // On every HTTP event:
-            tap(uploadEvent => {
-              // If no progress callback, do nothing
-              if (!progressFn) {
-                return;
-              }
+          const metadata = metadataFn ? metadataFn() : {};
 
-              // If no event, disable progress
-              if (!uploadEvent) {
-                progressFn(false, 0);
-                return;
-              }
+          return this.attachmentApi
+            .upload(file, { container_guid: metadata.containerGuid || null })
+            .pipe(
+              // On every HTTP event:
+              tap(uploadEvent => {
+                // If no progress callback, do nothing
+                if (!progressFn) {
+                  return;
+                }
 
-              // Check the type and send the progress state accordingly
-              switch (uploadEvent.type) {
-                case UploadEventType.Progress:
-                  progressFn(true, uploadEvent.payload.progress);
-                  break;
-
-                case UploadEventType.Success:
-                case UploadEventType.Fail:
-                default:
+                // If no event, disable progress
+                if (!uploadEvent) {
                   progressFn(false, 0);
-                  break;
-              }
-            }),
+                  return;
+                }
 
-            // If something fails during upload:
-            catchError(e => {
-              // Pass the errors through the error callback
-              if (errorFn) {
-                errorFn(e);
-              }
+                // Check the type and send the progress state accordingly
+                switch (uploadEvent.type) {
+                  case UploadEventType.Progress:
+                    progressFn(true, uploadEvent.payload.progress);
+                    break;
 
-              // Replace with a complete `null` observable
-              return of(null);
-            }),
+                  case UploadEventType.Success:
+                  case UploadEventType.Fail:
+                  default:
+                    progressFn(false, 0);
+                    break;
+                }
+              }),
 
-            // Take the last item emitted as an HOO (check below)
-            last()
-          );
+              // If something fails during upload:
+              catchError(e => {
+                // Pass the errors through the error callback
+                if (errorFn) {
+                  errorFn(e);
+                }
+
+                // Replace with a complete `null` observable
+                return of(null);
+              }),
+
+              // Take the last item emitted as an HOO (check below)
+              last()
+            );
         }),
 
         // Take the last emitted last() HOO from the map above. Doing this will cancel "unused" HTTP requests.

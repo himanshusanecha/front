@@ -358,6 +358,7 @@ export class ComposerService implements OnDestroy {
 
         // Call the engine endpoints to upload the file
         this.attachment.resolve(
+          () => ({ containerGuid: this.getContainerGuid() }),
           // - Update inProgress and progress state subjects
           (inProgress, progress) => this.setProgress(inProgress, progress),
 
@@ -369,6 +370,8 @@ export class ComposerService implements OnDestroy {
             );
           }
         ),
+
+        tap(() => this.inProgress$.next(null)),
 
         // Update the preview
         tap((attachment: Attachment) => this.setPreview(attachment))

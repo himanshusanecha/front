@@ -125,16 +125,20 @@ export class AttachmentApiService {
   /**
    * Uploads a file using a "smart" strategy.
    * @param file
+   * @param metadata
    */
-  upload(file: File | null): Observable<UploadEvent | null> {
+  upload(
+    file: File | null,
+    metadata: { [key: string]: any }
+  ): Observable<UploadEvent | null> {
     if (!file) {
       return of(null);
     }
 
     if (/image\/.+/.test(file.type)) {
-      return this.uploadToApi(file);
+      return this.uploadToApi(file, metadata);
     } else if (/video\/.+/.test(file.type)) {
-      return this.uploadToS3(file);
+      return this.uploadToS3(file, metadata);
     }
 
     return throwError(new Error(`You cannot attach a ${file.type} file`));
@@ -143,8 +147,12 @@ export class AttachmentApiService {
   /**
    * Uploads a file to S3. Used by videos.
    * @param file
+   * @param metadata
    */
-  protected uploadToS3(file: File): Observable<UploadEvent> {
+  protected uploadToS3(
+    file: File,
+    metadata: { [key: string]: any }
+  ): Observable<UploadEvent> {
     // Setup initial indefinite progress
     const init: Observable<UploadEvent> = of({
       type: UploadEventType.Progress,
@@ -207,14 +215,19 @@ export class AttachmentApiService {
   /**
    * Uploads a file to Minds engine. Used by images.
    * @param file
+   * @param metadata
    */
-  protected uploadToApi(file: File): Observable<UploadEvent> {
+  protected uploadToApi(
+    file: File,
+    metadata: { [key: string]: any }
+  ): Observable<UploadEvent> {
     // Uploads the file using the API service
     return this.api
       .upload(
         `api/v1/media`,
         {
           file,
+          ...(metadata || {}),
         },
         { upload: true }
       )
