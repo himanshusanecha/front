@@ -2,13 +2,15 @@
   <div class="m-tabs__tab">
     <a
       routerLink="../overview"
-      routerLinkActive="selected"
+      routerLinkActive="m-tabs__tab--selected"
       [queryParams]="{ reload: false }"
       >Just for you</a
     >
   </div>
   <div class="m-tabs__tab">
-    <a routerLink="./" routerLinkActive="selected">Discover by Tags</a>
+    <a routerLink="./" routerLinkActive="m-tabs__tab--selected"
+      >Discover by tags</a
+    >
   </div>
 </div>
 

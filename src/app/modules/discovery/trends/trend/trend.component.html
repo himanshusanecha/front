@@ -6,7 +6,7 @@
 
 <m-loadingSpinner [inProgress]="!(entity$ | async)"> </m-loadingSpinner>
 
-<div class="m-discoverySearch__feed" *ngIf="entity$ | async">
+<div class="m-discoverySearchFeed__item" *ngIf="entity$ | async">
   <m-activity
     [entity]="entity$ | async"
     [displayOptions]="{ showComments: true, showOnlyCommentsInput: false }"

@@ -34,7 +34,8 @@
     color: themed($m-textColor--tertiary);
     border-bottom: 3px solid transparent;
   }
-  &.selected {
+  &.selected,
+  &.m-tabs__tab--selected {
     @include m-theme() {
       color: themed($m-textColor--primary);
       border-bottom: 3px solid themed($m-blue);

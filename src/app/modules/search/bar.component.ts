@@ -112,12 +112,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    const qs: { q; ref; id? } = { q: this.q, ref: 'top' };
-
-    if (this.id) {
-      qs.id = this.id;
-    }
-
     if (this.featureService.has('navigation')) {
       this.router.navigate(['/discovery/search'], {
         queryParams: { q: this.q, f: this.filter },
