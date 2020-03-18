@@ -29,6 +29,13 @@ export interface MindsBlogEntity {
   access_id?: number;
   license?: string;
   allow_comments: boolean;
+  custom_meta?: {
+    title: string;
+    description: string;
+    author: string;
+  };
+  perma_url: string;
+  thumbnail: string;
 }
 
 export interface Message {}
@@ -56,6 +63,13 @@ export interface MindsUser {
   username: string;
   chat?: boolean;
   icontime: number;
+  avatar_url?: {
+    tiny: string;
+    small: string;
+    medium: string;
+    large: string;
+    master: string;
+  };
   blocked?: boolean;
   carousels?: any[] | boolean;
   city?: string;
@@ -76,14 +90,15 @@ export interface MindsUser {
   subscribed?: boolean;
   rating?: number;
   eth_wallet?: string;
+  is_admin?: boolean;
   is_mature?: boolean;
   mature_lock?: boolean;
   tags?: Array<string>;
   toaster_notifications?: boolean;
   pro?: boolean;
+  pro_published?: boolean;
   pro_settings?: {
     logo_image: string;
-    logo_guid: string;
     tag_list?: Tag[];
     background_image: string;
     title: string;
@@ -95,12 +110,17 @@ export interface MindsUser {
     featured_content?: Array<string>;
     tile_ratio?: string;
     styles?: { [key: string]: string };
+    domain: string;
+    has_custom_logo?: boolean;
+    has_custom_background?: boolean;
   };
   mode: ChannelMode;
+  nsfw: Array<number>;
 }
 
 export interface MindsGroup {
   guid: string;
+  type: string;
   name: string;
   banner: boolean;
 }

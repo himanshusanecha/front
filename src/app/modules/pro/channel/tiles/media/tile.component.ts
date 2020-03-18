@@ -5,10 +5,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import {
-  MediaModalComponent,
-  MediaModalParams,
-} from '../../../../media/modal/modal.component';
+import { MediaModalComponent } from '../../../../media/modal/modal.component';
 import { FeaturesService } from '../../../../../services/features.service';
 import { OverlayModalService } from '../../../../../services/ux/overlay-modal';
 import { Router } from '@angular/router';
@@ -50,6 +47,12 @@ export class ProTileComponent {
         return this.entity.title && this.entity.title.trim() !== ''
           ? this.entity.title
           : this.entity.message;
+      case 'activity':
+        return this.entity.title && this.entity.title.trim() !== ''
+          ? this.entity.title
+          : this.entity.blurb
+          ? this.entity.blurb
+          : this.entity.message;
       default:
         return '';
     }
@@ -62,6 +65,8 @@ export class ProTileComponent {
       case 'object:image':
       case 'object:video':
         return this.entity.description;
+      case 'activity':
+        return this.entity.blurb ? this.entity.blurb : this.entity.message;
       default:
         return '';
     }
@@ -128,19 +133,16 @@ export class ProTileComponent {
 
       this.entity.modal_source_url = this.router.url;
 
-      const params: MediaModalParams = { entity: this.entity };
-
-      if (
-        this.site.isProDomain &&
-        this.getType(this.entity) === 'object:blog'
-      ) {
-        params.redirectUrl = `/blog/${this.entity.slug}-${this.entity.guid}`;
-      }
-
       this.modalService
-        .create(MediaModalComponent, params, {
-          class: 'm-overlayModal--media',
-        })
+        .create(
+          MediaModalComponent,
+          {
+            entity: this.entity,
+          },
+          {
+            class: 'm-overlayModal--media',
+          }
+        )
         .present();
     } else {
       this.goToEntityPage(this.entity);

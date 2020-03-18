@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '../../common/common.module';
 import { ProService } from './pro.service';
 import { ProMarketingComponent } from './marketing.component';
-import { ProSubscriptionComponent } from './channel/subscription/subscription.component';
+import { ProSubscriptionComponent } from './subscription/subscription.component';
 import { ProChannelComponent } from './channel/channel.component';
 import { ProChannelLoginComponent } from './channel/login/login.component';
 import { MindsFormsModule } from '../forms/forms.module';
@@ -18,9 +18,11 @@ import { LegacyModule } from '../legacy/legacy.module';
 import { WireModule } from '../wire/wire.module';
 import { VideoModule } from '../media/components/video/video.module';
 import { ProChannelHomeComponent } from './channel/home/home.component';
+import { ProChannelHomeCategoryContent } from './channel/home/category-content/category-content.component';
 import { ProGroupTileComponent } from './channel/tiles/group/group-tile.component';
 import { ProUnsubscribeModalComponent } from './channel/unsubscribe-modal/modal.component';
 import { ProCategoriesComponent } from './channel/categories/categories.component';
+import { ProChannelContentListComponent } from './channel/content-list/content-list.component';
 import { BlogView } from '../blogs/view/view';
 import { MediaModalComponent } from '../media/modal/modal.component';
 import { AuthModule } from '../auth/auth.module';
@@ -34,6 +36,9 @@ import { MediaEditComponent } from '../media/edit/edit.component';
 import { BlogViewInfinite } from '../blogs/view/infinite';
 import { BlogEdit } from '../blogs/edit/edit';
 import { CanDeactivateGuardService } from '../../services/can-deactivate-guard';
+import { ModalsModule } from '../modals/modals.module';
+import { ActivityModule } from '../newsfeed/activity/activity.module';
+import { ProRedirectComponent } from './redirect.component';
 
 const routes: Routes = [
   {
@@ -42,11 +47,18 @@ const routes: Routes = [
       {
         path: '',
         component: ProMarketingComponent,
+        data: {
+          title: 'Minds Pro',
+          description: 'The ultimate platform for creators and brands',
+          ogImage: '/assets/product-pages/pro/pro-1.jpg',
+        },
       },
       {
-        path: 'settings',
-        component: ProSettingsComponent,
+        path: ':username/settings',
+        redirectTo: ':username/settings/general',
+        pathMatch: 'full',
       },
+      { path: ':username/settings/:tab', component: ProSettingsComponent },
       {
         path: ':username',
         component: ProChannelComponent,
@@ -123,6 +135,10 @@ export const PRO_DOMAIN_ROUTES = [
         path: ':type',
         component: ProChannelListComponent,
       },
+      {
+        path: 'groups/profile/:guid',
+        component: ProRedirectComponent,
+      },
     ],
   },
 ];
@@ -140,6 +156,8 @@ export const PRO_DOMAIN_ROUTES = [
     WireModule,
     VideoModule,
     AuthModule,
+    ModalsModule,
+    ActivityModule,
   ],
   providers: [ProService],
   declarations: [
@@ -152,10 +170,13 @@ export const PRO_DOMAIN_ROUTES = [
     ProChannelComponent,
     ProChannelLoginComponent,
     ProChannelListComponent,
+    ProChannelContentListComponent,
     ProChannelFooterComponent,
+    ProChannelHomeCategoryContent,
     ProGroupTileComponent,
     ProUnsubscribeModalComponent,
     ProHamburgerMenu,
+    ProRedirectComponent,
     SubscribeButtonComponent,
     SearchBoxComponent,
   ],
@@ -164,6 +185,7 @@ export const PRO_DOMAIN_ROUTES = [
     MediaModalComponent,
     ProUnsubscribeModalComponent,
     BlogView,
+    ProRedirectComponent,
   ],
 })
 export class ProModule {}

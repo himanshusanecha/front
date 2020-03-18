@@ -1,3 +1,5 @@
+import generateRandomId from '../support/utilities';
+
 context('Newsfeed', () => {
   before(() => {
     cy.getCookie('minds_sess').then(sessionCookie => {
@@ -14,7 +16,6 @@ context('Newsfeed', () => {
     cy.route('POST', '**/api/v1/media').as('mediaPOST');
     cy.route('POST', '**/api/v1/newsfeed/**').as('newsfeedEDIT');
     cy.route('POST', '**/api/v1/media/**').as('mediaEDIT');
-
     cy.visit('/newsfeed/subscriptions')
       .location('pathname')
       .should('eq', '/newsfeed/subscriptions');
@@ -36,6 +37,19 @@ context('Newsfeed', () => {
     cy.get('minds-newsfeed-poster').should('be.visible');
     cy.get('minds-newsfeed-poster textarea').type(content);
   };
+
+  const attachRichEmbed = (embedUrl) => {
+    cy.get('minds-newsfeed-poster').should('be.visible');
+    cy.get('minds-newsfeed-poster textarea')
+      .type(embedUrl);
+      
+    cy.route('GET',  `**/api/v1/newsfeed/preview?url=${embedUrl}**`)
+      .as('previewGET')
+      .wait('@previewGET')
+      .then(xhr => {
+        expect(xhr.status).to.equal(200);
+      });
+  }
 
   const attachImageToActivity = () => {
     cy.uploadFile(
@@ -97,7 +111,7 @@ context('Newsfeed', () => {
     cy.location('pathname', { timeout: 20000 }).should('contains', 'media');
   };
 
-  it('should post an activity picking hashtags from the dropdown', () => {
+  it('should post an activity typing in a hashtag into the dropdown', () => {
     newActivityContent('This is a post');
 
     // click on hashtags dropdown
@@ -123,25 +137,11 @@ context('Newsfeed', () => {
     );
 
     postActivityAndAwaitResponse(200);
-
-    cy.get('.mdl-card__supporting-text.message.m-mature-message > span')
-      .first()
-      .contains('This is a post #art #hashtag');
-
-    cy.get('.minds-list > minds-activity:first-child .message a:first-child')
-      .contains('#art')
-      .should(
-        'have.attr',
-        'href',
-        '/newsfeed/global/top;hashtag=art;period=24h'
-      );
-    cy.get('.minds-list > minds-activity:first-child .message a:last-child')
-      .contains('#hashtag')
-      .should(
-        'have.attr',
-        'href',
-        '/newsfeed/global/top;hashtag=hashtag;period=24h'
-      );
+    
+    cy.get('.minds-list')
+      .within(($list) => {
+        cy.contains('This is a post #art #hashtag');
+      });
 
     deleteActivityFromNewsfeed();
   });
@@ -508,6 +508,194 @@ context('Newsfeed', () => {
     cy.get('.m-media-content--heading', { timeout: 10000 }).contains(newContent);
 
     navigateToNewsfeed();
+    deleteActivityFromNewsfeed();
+  });
+
+  it.skip('should show a rich embed post from youtube in a modal', () => {
+    const content = generateRandomId() + " ",
+      url = 'https://www.youtube.com/watch?v=jNQXAC9IVRw';
+
+    // set up post.
+    newActivityContent(content);
+    attachRichEmbed(url);
+
+    // post and await.
+    cy.get('.m-posterActionBar__PostButton')
+      .click()
+      .wait('@newsfeedPOST').then(xhr => {
+        expect(xhr.status).to.equal(200);
+
+        //get activity, click it.
+        cy.get(`[minds-data-activity-guid='${xhr.response.body.guid}']`)
+          .click();
+
+        //check modal is open.
+        cy.get('[data-cy=data-minds-media-modal]')
+          .contains(content);
+        
+        // close modal and tidy.
+        cy.get('.m-overlay-modal--backdrop')
+          .click({force: true});
+
+        deleteActivityFromNewsfeed();
+      });
+  });
+
+  it.skip('should not open vimeo in a modal', () => {
+    const content = generateRandomId() + " ",
+      url = 'https://vimeo.com/8733915';
+
+    // set up post.
+    newActivityContent(content);
+    attachRichEmbed(url);
+
+    // post and await.
+    cy.get('.m-posterActionBar__PostButton')
+      .click()
+      .wait('@newsfeedPOST').then(xhr => {
+        expect(xhr.status).to.equal(200);
+
+        //get activity, make assertions tht would not be true for modals.
+        cy.get(`[minds-data-activity-guid='${xhr.response.body.guid}']`)
+          .should('be.visible')
+          .get('iframe')          
+          .should('be.visible')
+          .get('.minds-more')
+          .should('be.visible');
+        
+          // tidy.
+        deleteActivityFromNewsfeed();
+      });
+  });
+
+
+  it('should not open soundcloud in a modal', () => {
+    const content = generateRandomId() + " ",
+      url = 'https://soundcloud.com/richarddjames/piano-un10-it-happened';
+
+    // set up post.
+    newActivityContent(content);
+    attachRichEmbed(url);
+
+    // post and await.
+    cy.get('.m-posterActionBar__PostButton')
+      .click()
+      .wait('@newsfeedPOST').then(xhr => {
+        expect(xhr.status).to.equal(200);
+
+        //get activity, make assertions tht would not be true for modals.
+        cy.get(`[minds-data-activity-guid='${xhr.response.body.guid}']`)
+          .should('be.visible')
+          .get('.m-rich-embed-action-overlay')          
+          .should('be.visible')
+          .get('.minds-more')
+          .should('be.visible');
+
+        deleteActivityFromNewsfeed();
+      });
+  });
+
+  it('should not open spotify in a modal', () => {
+    const content = generateRandomId() + " ",
+      url = 'https://open.spotify.com/track/2MZSXhq4XDJWu6coGoXX1V?si=nvja0EfwR3q6GMQmYg6gPQ';
+
+    // set up post.
+    newActivityContent(content);
+    attachRichEmbed(url);
+
+    // post and await.
+    cy.get('.m-posterActionBar__PostButton')
+      .click()
+      .wait('@newsfeedPOST').then(xhr => {
+        expect(xhr.status).to.equal(200);
+
+        //get activity, make assertions tht would not be true for modals.
+        cy.get(`[minds-data-activity-guid='${xhr.response.body.guid}']`)
+          .should('be.visible')
+          .get('.m-rich-embed-action-overlay')          
+          .should('be.visible')
+          .get('.minds-more')
+          .should('be.visible');
+
+        deleteActivityFromNewsfeed();
+      });
+  });
+
+  it('should not open giphy in a modal', () => {
+    const content = generateRandomId() + " ",
+      url = 'https://giphy.com/gifs/test-gw3IWyGkC0rsazTi';
+
+    // set up post.
+    newActivityContent(content);
+    attachRichEmbed(url);
+
+    // post and await.
+    cy.get('.m-posterActionBar__PostButton')
+      .click()
+      .wait('@newsfeedPOST').then(xhr => {
+        expect(xhr.status).to.equal(200);
+
+        //get activity, make assertions tht would not be true for modals.
+        cy.get(`[minds-data-activity-guid='${xhr.response.body.guid}']`)
+          .should('be.visible')
+          .get('.m-rich-embed-action-overlay')          
+          .should('be.visible')
+          .get('.minds-more')
+          .should('be.visible');
+
+        deleteActivityFromNewsfeed();
+      });
+  });
+
+  // enable once failing tests are fixed
+  it.skip('should post an nsfw activity when value is held by the selector (is blue) but it has not been clicked yet', () => {
+
+    // click on nsfw dropdown
+    cy.get(
+      'minds-newsfeed-poster m-nsfw-selector .m-dropdown--label-container'
+    ).click();
+
+    // select Nudity
+    cy.get('minds-newsfeed-poster m-nsfw-selector .m-dropdownList__item')
+      .contains('Nudity')
+      .click();
+
+    // click away
+    cy.get('minds-newsfeed-poster m-nsfw-selector .minds-bg-overlay').click();
+
+    // navigate away from newsfeed and back.
+    cy.get('[data-cy=data-minds-nav-wallet-button]').first().click(); // bottom bar exists, so take first child 
+    cy.get('[data-cy=data-minds-nav-newsfeed-button]').first().click(); 
+
+    newActivityContent('This is a nsfw post');
+
+    postActivityAndAwaitResponse(200);
+
+    // should have the mature text toggle
+    cy.get(
+      '.minds-list > minds-activity:first-child .message .m-mature-text-toggle'
+    ).should('not.have.class', 'mdl-color-text--red-500');
+    cy.get(
+      '.minds-list > minds-activity:first-child .message .m-mature-message-content'
+    ).should('have.class', 'm-mature-text');
+
+    // click the toggle
+    cy.get(
+      '.minds-list > minds-activity:first-child .message .m-mature-text-toggle'
+    ).click();
+
+    // text should be visible now
+    cy.get(
+      '.minds-list > minds-activity:first-child .message .m-mature-text-toggle'
+    ).should('have.class', 'mdl-color-text--red-500');
+    cy.get(
+      '.minds-list > minds-activity:first-child .message .m-mature-message-content'
+    ).should('not.have.class', 'm-mature-text');
+
+    cy.get(
+      '.minds-list > minds-activity:first-child .message .m-mature-message-content'
+    ).contains('This is a nsfw post');
+
     deleteActivityFromNewsfeed();
   });
 

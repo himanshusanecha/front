@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -11,7 +12,7 @@ import { FeedsService } from '../../../../common/services/feeds.service';
 import { Session } from '../../../../services/session';
 import { SortedService } from './sorted.service';
 import { Client } from '../../../../services/api/client';
-import { GroupsService } from '../../groups-service';
+import { GroupsService } from '../../groups.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -20,8 +21,9 @@ import { Observable } from 'rxjs';
   templateUrl: 'sorted.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupProfileFeedSortedComponent {
+export class GroupProfileFeedSortedComponent implements OnInit {
   group: any;
+
   @Input('group') set _group(group: any) {
     if (group === this.group) {
       return;
@@ -35,6 +37,7 @@ export class GroupProfileFeedSortedComponent {
   }
 
   type: string = 'activities';
+
   @Input('type') set _type(type: string) {
     if (type === this.type) {
       return;
@@ -47,7 +50,6 @@ export class GroupProfileFeedSortedComponent {
     }
   }
 
-  entities: any[] = [];
   pinned: any[] = [];
 
   inProgress: boolean = false;
@@ -58,7 +60,11 @@ export class GroupProfileFeedSortedComponent {
 
   kicking: any;
 
+  viewScheduled: boolean = false;
+
   @ViewChild('poster', { static: false }) protected poster: PosterComponent;
+
+  scheduledCount: number = 0;
 
   constructor(
     protected service: GroupsService,
@@ -86,11 +92,18 @@ export class GroupProfileFeedSortedComponent {
 
     this.detectChanges();
 
+    let endpoint = 'api/v2/feeds/container';
+    if (this.viewScheduled) {
+      endpoint = 'api/v2/feeds/scheduled';
+    }
+
     try {
       this.feedsService
-        .setEndpoint(`api/v2/feeds/container/${this.group.guid}/${this.type}`)
+        .setEndpoint(`${endpoint}/${this.group.guid}/${this.type}`)
         .setLimit(12)
         .fetch();
+
+      this.getScheduledCount();
     } catch (e) {
       console.error('GroupProfileFeedSortedComponent.loadFeed', e);
     }
@@ -133,8 +146,6 @@ export class GroupProfileFeedSortedComponent {
       return;
     }
 
-    this.entities.unshift(activity);
-
     let feedItem = {
       entity: activity,
       urn: activity.urn,
@@ -150,21 +161,11 @@ export class GroupProfileFeedSortedComponent {
   }
 
   delete(activity) {
-    let i: any;
+    this.feedsService.deleteItem(activity, (item, obj) => {
+      return item.guid === obj.guid;
+    });
 
-    for (i in this.entities) {
-      if (this.entities[i] === activity) {
-        this.entities.splice(i, 1);
-        break;
-      }
-    }
-
-    for (i in this.pinned) {
-      if (this.pinned[i] === activity) {
-        this.pinned.splice(i, 1);
-        break;
-      }
-    }
+    this.detectChanges();
   }
 
   //
@@ -192,5 +193,17 @@ export class GroupProfileFeedSortedComponent {
   detectChanges() {
     this.cd.markForCheck();
     this.cd.detectChanges();
+  }
+
+  toggleScheduled() {
+    this.viewScheduled = !this.viewScheduled;
+    this.load(true);
+  }
+
+  async getScheduledCount() {
+    const url = `api/v2/feeds/scheduled/${this.group.guid}/count`;
+    const response: any = await this.client.get(url);
+    this.scheduledCount = response.count;
+    this.detectChanges();
   }
 }
