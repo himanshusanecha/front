@@ -6,7 +6,7 @@
 <ng-template #popupComposer>
   <div class="m-composer__trigger" (click)="onTriggerClick($event)">
     <m-composer__base
-      class="m-composer__triggerPreview"
+      class="m-composer__triggerPreview m-composer__base--placeholder"
       [class.m-composer__triggerPreview--hidden]="modalOpen"
       #popOutBaseComposer
     ></m-composer__base>

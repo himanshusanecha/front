@@ -62,3 +62,23 @@ m-composer__base {
     }
   }
 }
+
+.m-composer__base--placeholder {
+  .m-composer__base {
+    height: 240px;
+
+    &.m-composer__base--withPreview {
+      height: 621px;
+    }
+
+    m-composer__titleBar {
+      display: none;
+    }
+
+    .m-composer__preview {
+      @include m-theme() {
+        background-color: rgba(themed($m-bgColor--primary), 0.75);
+      }
+    }
+  }
+}
