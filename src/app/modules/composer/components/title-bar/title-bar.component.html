@@ -3,6 +3,13 @@
     <label [for]="inputId" i18n>Compose</label>
   </div>
 
+  <div
+    class="m-composerTitleBar__createBlogTrigger"
+    (click)="onCreateBlogClick()"
+  >
+    <ng-container i18n>Create Blog</ng-container>
+  </div>
+
   <m-dropdownMenu
     [menu]="menu"
     triggerClass="m-composerTitleBar__menuButton"

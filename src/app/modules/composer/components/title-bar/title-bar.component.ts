@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import {
   ACCESS,
   LICENSES,
@@ -25,6 +31,13 @@ export class TitleBarComponent {
    * Composer textarea ID
    */
   @Input() inputId: string;
+
+  /**
+   * Create blog intent
+   */
+  @Output('onCreateBlog') onCreateBlogEmitter: EventEmitter<
+    void
+  > = new EventEmitter<void>();
 
   /**
    * Visibility items list
@@ -64,6 +77,13 @@ export class TitleBarComponent {
    */
   get canChangeVisibility(): boolean {
     return !this.service.getContainerGuid();
+  }
+
+  /**
+   * Clicked Create Blog trigger
+   */
+  onCreateBlogClick() {
+    this.onCreateBlogEmitter.emit();
   }
 
   /**

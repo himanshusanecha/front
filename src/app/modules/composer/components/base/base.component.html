@@ -5,7 +5,10 @@
   "
 >
   <div class="m-composerBase__container">
-    <m-composer__titleBar [inputId]="textareaId"></m-composer__titleBar>
+    <m-composer__titleBar
+      [inputId]="textareaId"
+      (onCreateBlog)="createBlog()"
+    ></m-composer__titleBar>
 
     <m-composer__preview></m-composer__preview>
 
@@ -27,6 +30,10 @@
       *ngIf="attachmentError$ | async as lastError"
     >
       {{ lastError }}
+    </div>
+
+    <div class="m-composerBase__error" *ngIf="error">
+      {{ error }}
     </div>
   </div>
 

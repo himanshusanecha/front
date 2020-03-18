@@ -257,6 +257,13 @@ export class ComposerService implements OnDestroy {
   );
 
   /**
+   * Are we currently moving part of this service's state to another place? (i.e. blog editor)
+   */
+  readonly isMovingContent$: BehaviorSubject<boolean> = new BehaviorSubject<
+    boolean
+  >(false);
+
+  /**
    * Data structure observable
    */
   readonly data$: Observable<Data>;
@@ -496,6 +503,7 @@ export class ComposerService implements OnDestroy {
     this.progress$.next(0);
     this.attachmentError$.next('');
     this.isEditing$.next(false);
+    this.isMovingContent$.next(false);
 
     // Reset preview (state + blob URL)
     this.setPreview(null);
