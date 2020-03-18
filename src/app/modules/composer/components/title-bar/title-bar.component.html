@@ -4,6 +4,7 @@
   </div>
 
   <div
+    *ngIf="!(isEditing$ | async) && !(attachment$ | async)"
     class="m-composerTitleBar__createBlogTrigger"
     (click)="onCreateBlogClick()"
   >

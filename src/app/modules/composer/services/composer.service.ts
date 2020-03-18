@@ -437,6 +437,10 @@ export class ComposerService implements OnDestroy {
         typeof richEmbed === 'string' ||
         !richEmbed.entityGuid
       ) {
+        if (!this.canEditMetadata()) {
+          return;
+        }
+
         // Extract rich embed from URL when:
         // a) there's no rich embed already set; or
         // b) rich embed's type is a string (locally extracted); or
@@ -615,6 +619,10 @@ export class ComposerService implements OnDestroy {
    * Deletes the current attachment, if any
    */
   removeAttachment() {
+    if (!this.canEditMetadata()) {
+      return;
+    }
+
     const payload = this.payload;
 
     // Clean up attachment ONLY if the new entity GUID is different from the original source, if any
@@ -635,6 +643,19 @@ export class ComposerService implements OnDestroy {
     }
 
     return (entityGuid || '') === (this.entity.entity_guid || '');
+  }
+
+  /**
+   * Can metadata be edited? Only if the original activity doesn't have both a URL and an entity_guid, or it's not a remind
+   */
+  canEditMetadata(): boolean {
+    if (!this.entity) {
+      return true;
+    } else if (this.entity.remind_object) {
+      return false;
+    }
+
+    return !this.entity.perma_url || !this.entity.entity_guid;
   }
 
   /**
@@ -681,23 +702,25 @@ export class ComposerService implements OnDestroy {
 
     const attachmentGuid = (attachment && attachment.guid) || null;
 
-    if (attachmentGuid) {
-      this.payload.entity_guid = attachmentGuid;
-      this.payload.title = title;
-      this.payload.is_rich = false;
-      this.payload.entity_guid_update = true;
-    } else if (richEmbed && !richEmbed.entityGuid) {
-      this.payload.url = richEmbed.url;
-      this.payload.title = richEmbed.title;
-      this.payload.description = richEmbed.description;
-      this.payload.thumbnail = richEmbed.thumbnail;
-      this.payload.is_rich = true;
+    if (this.canEditMetadata()) {
+      if (attachmentGuid) {
+        this.payload.entity_guid = attachmentGuid;
+        this.payload.title = title;
+        this.payload.is_rich = false;
+        this.payload.entity_guid_update = true;
+      } else if (richEmbed && !richEmbed.entityGuid) {
+        this.payload.url = richEmbed.url;
+        this.payload.title = richEmbed.title;
+        this.payload.description = richEmbed.description;
+        this.payload.thumbnail = richEmbed.thumbnail;
+        this.payload.is_rich = true;
 
-      if (!this.isOriginalEntity(richEmbed.entityGuid)) {
+        if (!this.isOriginalEntity(richEmbed.entityGuid)) {
+          this.payload.entity_guid_update = true;
+        }
+      } else if (!this.isOriginalEntity(null)) {
         this.payload.entity_guid_update = true;
       }
-    } else if (!this.isOriginalEntity(null)) {
-      this.payload.entity_guid_update = true;
     }
 
     if (this.containerGuid) {

@@ -180,6 +180,13 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
+   * Can edit metadata? (attachment/rich embed/remind)
+   */
+  get canEditMetadata(): boolean {
+    return this.service.canEditMetadata();
+  }
+
+  /**
    * Attachment subject from service
    */
   get attachment$(): BehaviorSubject<AttachmentSubjectValue> {

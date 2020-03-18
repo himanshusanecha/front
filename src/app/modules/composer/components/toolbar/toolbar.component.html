@@ -8,6 +8,7 @@
       'm-composerToolbar__item',
       (attachment$ | async) ? 'm-composerToolbar__item--active' : ''
     ]"
+    [hidden]="!canEditMetadata"
     [disabled]="!!(attachment$ | async)"
     (onSelect)="onAttachmentSelect($event)"
     accept="image/*,video/*"
@@ -71,7 +72,7 @@
     (onAction)="onPost($event)"
     data-cy="post-button"
   >
-    <ng-container *ngIf="!isEditing$ | async; else isEditingButtonText" i18n
+    <ng-container *ngIf="!(isEditing$ | async); else isEditingButtonText" i18n
       >Post</ng-container
     >
     <ng-template #isEditingButtonText

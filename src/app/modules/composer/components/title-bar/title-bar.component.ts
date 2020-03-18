@@ -73,6 +73,20 @@ export class TitleBarComponent {
   }
 
   /**
+   * Attachment subject value from service
+   */
+  get attachment$() {
+    return this.service.attachment$;
+  }
+
+  /**
+   * Is editing? subject value from service
+   */
+  get isEditing$() {
+    return this.service.isEditing$;
+  }
+
+  /**
    * Can the actor change visibility? (disabled when there's a container)
    */
   get canChangeVisibility(): boolean {
