@@ -7,7 +7,6 @@
 
 import generateRandomId from "../../support/utilities";
 
-// Issue to re-enable https://gitlab.com/minds/front/issues/1846
 context('Wire', () => {
 
   const receiver = {
