@@ -53,12 +53,12 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 import { DynamicHostDirective } from './directives/dynamic-host.directive';
 import { MindsCard } from './components/card/card.component';
-import { MindsButton } from './components/button-v1/button.component';
+import { MindsButton } from './components/button/button.component';
 import { OverlayModalComponent } from './components/overlay-modal/overlay-modal.component';
 
 import { ChartComponent } from './components/chart/chart.component';
 import { DateSelectorComponent } from './components/date-selector/date-selector.component';
-import { AdminActionsButtonComponent } from './components/button-v1/admin-actions/admin-actions.component';
+import { AdminActionsButtonComponent } from './components/button/admin-actions/admin-actions.component';
 import { InlineEditorComponent } from './components/editors/inline-editor.component';
 import { AttachmentService } from '../services/attachment';
 import { MaterialBoundSwitchComponent } from './components/material/bound-switch.component';
