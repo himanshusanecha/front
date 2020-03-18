@@ -193,15 +193,6 @@ export class MindsVideoPlayerComponent
     console.error('Placeholder was clicked but we have no action to take');
   }
 
-  onOverlayClick(e: MouseEvent): void {
-    if (this.player) {
-      this.unmute();
-
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  }
-
   unmute(): void {
     if (this.player) {
       this.player.player.muted = false;
@@ -266,7 +257,7 @@ export class MindsVideoPlayerComponent
     }
   }
 
-  unmuteIfAutoplaying(): void {
+  onClick(): void {
     if ((this.autoplay || this.autoplaying) && this.isMuted()) {
       this.unmute();
       this.play();
