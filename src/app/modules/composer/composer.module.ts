@@ -4,10 +4,15 @@ import { CommonModule as NgCommonModule } from '@angular/common';
 import { CommonModule } from '../../common/common.module';
 import { HashtagsModule } from '../hashtags/hashtags.module';
 import { ModalService } from './components/modal/modal.service';
+import { RichEmbedService } from './services/rich-embed.service';
+import { AttachmentService } from './services/attachment.service';
 import { ComposerComponent } from './composer.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { BaseComponent } from './components/base/base.component';
-import { MediaPreviewComponent } from './components/media-preview/media-preview.component';
+import { AttachmentPreviewComponent } from './components/preview/attachment-preview.component';
+import { RichEmbedPreviewComponent } from './components/preview/rich-embed-preview.component';
+import { PreviewService } from './services/preview.service';
+import { PreviewComponent } from './components/preview/preview.component';
 import { ProgressComponent } from './components/progress/progress.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { TitleBarComponent } from './components/title-bar/title-bar.component';
@@ -35,7 +40,9 @@ const COMPONENTS = [
  */
 const INTERNAL_COMPONENTS = [
   BaseComponent,
-  MediaPreviewComponent,
+  AttachmentPreviewComponent,
+  RichEmbedPreviewComponent,
+  PreviewComponent,
   ProgressComponent,
   ToolbarComponent,
   TitleBarComponent,
@@ -43,7 +50,12 @@ const INTERNAL_COMPONENTS = [
   TextAreaComponent,
 ];
 
-const PROVIDERS = [ModalService];
+const PROVIDERS = [
+  ModalService,
+  AttachmentService,
+  RichEmbedService,
+  PreviewService,
+];
 
 /**
  * Module definition

@@ -4,27 +4,18 @@ import {
   catchError,
   concatAll,
   filter,
-  last,
   map,
   mapTo,
   mergeAll,
-  switchAll,
-  tap,
 } from 'rxjs/operators';
-import {
-  MonoTypeOperatorFunction,
-  Observable,
-  of,
-  OperatorFunction,
-  throwError,
-} from 'rxjs';
+import { Observable, of, OperatorFunction, throwError } from 'rxjs';
 import {
   HttpClient,
   HttpEvent,
   HttpEventType,
   HttpHeaders,
 } from '@angular/common/http';
-import { ResourceGuid } from '../../modules/composer/composer.service';
+import getFileType from '../../helpers/get-file-type';
 
 /**
  * Upload event type
@@ -38,7 +29,11 @@ export enum UploadEventType {
 /**
  * Upload event payload
  */
-export type UploadEventPayload = { progress?: number; response?: any };
+export interface UploadEventPayload {
+  progress?: number;
+  response?: any;
+  request?: { type: string };
+}
 
 /**
  * Normalized upload event
@@ -49,9 +44,11 @@ export interface UploadEvent {
 }
 
 /**
- * Angular's HTTP event to our Upload Event. `payloadPassthru` will disabled status === success check!
+ * Angular's HTTP event to our Upload Event.
+ * Disabling `includeResponse` will also disable Minds API status success check!
  */
 export const httpEventToUploadEvent = (
+  type: string,
   includeResponse: boolean = true
 ): OperatorFunction<HttpEvent<ApiResponse>, UploadEvent> => input$ =>
   input$.pipe(
@@ -68,41 +65,45 @@ export const httpEventToUploadEvent = (
     ),
 
     // Map them onto a normalized UploadEvent our app handles
-    map((event: HttpEvent<ApiResponse>) => {
-      switch (event.type) {
-        case HttpEventType.Sent:
-          return {
-            type: UploadEventType.Progress,
-            payload: { progress: 0 },
-          };
+    map(
+      (event: HttpEvent<ApiResponse>): UploadEvent => {
+        switch (event.type) {
+          case HttpEventType.Sent:
+            return {
+              type: UploadEventType.Progress,
+              payload: { progress: 0 },
+            };
 
-        case HttpEventType.UploadProgress:
-          return {
-            type: UploadEventType.Progress,
-            payload: { progress: event.loaded / (event.total || +Infinity) },
-          };
+          case HttpEventType.UploadProgress:
+            return {
+              type: UploadEventType.Progress,
+              payload: { progress: event.loaded / (event.total || +Infinity) },
+            };
 
-        case HttpEventType.ResponseHeader:
-          return {
-            type: UploadEventType.Progress,
-            payload: { progress: 1 },
-          };
+          case HttpEventType.ResponseHeader:
+            return {
+              type: UploadEventType.Progress,
+              payload: { progress: 1 },
+            };
 
-        case HttpEventType.Response:
-          return {
-            type: UploadEventType.Success,
-            payload: {
-              response: event.body,
-            },
-          };
+          case HttpEventType.Response:
+            return {
+              type: UploadEventType.Success,
+              payload: {
+                request: { type },
+                response: event.body,
+              },
+            };
+        }
       }
-    }),
+    ),
 
     // If something happens during the upload, replace with a static HOO
     catchError(e =>
       of({
         type: UploadEventType.Fail,
         payload: {
+          request: { type },
           response: (e && e.message) || 'E_CLIENT_ERROR',
         },
       })
@@ -110,92 +111,15 @@ export const httpEventToUploadEvent = (
   );
 
 /**
- * RxJS operator that accepts an Upload Event and maps into a GUID or null
- * @param uploadEventFn
- * @param progressFn
- * @param errorFn
+ * Service that handle video and image uploads as attachments
  */
-export const fileToGuid = (
-  uploadEventFn: (file: File) => Observable<UploadEvent>,
-  progressFn?: (inProgress: boolean, progress: number) => void,
-  errorFn?: (e) => void
-): OperatorFunction<File | ResourceGuid | null, string | null> => input$ =>
-  // From our input Observable:
-  input$.pipe(
-    // For every File | ResourceGuid | null input:
-    map(file =>
-      // If instance of File, upload the file to either Minds engine or S3
-      file instanceof File
-        ? uploadEventFn(file).pipe(
-            // On every HTTP event:
-            tap(uploadEvent => {
-              // If no progress callback, do nothing
-              if (!progressFn) {
-                return;
-              }
-
-              // If no event, disable progress
-              if (!uploadEvent) {
-                progressFn(false, 0);
-                return;
-              }
-
-              // Check the type and send the progress state accordingly
-              switch (uploadEvent.type) {
-                case UploadEventType.Progress:
-                  progressFn(true, uploadEvent.payload.progress);
-                  break;
-
-                case UploadEventType.Success:
-                case UploadEventType.Fail:
-                default:
-                  progressFn(false, 0);
-                  break;
-              }
-            }),
-
-            // If something fails during upload:
-            catchError(e => {
-              // Pass the errors through the error callback
-              if (errorFn) {
-                errorFn(e);
-              }
-
-              // Replace with a complete `null` observable
-              return of(null);
-            }),
-
-            // Take the last item emitted as an HOO (check below)
-            last()
-
-            // If instance of ResourceGuid, just passthru the string
-          )
-        : file
-        ? of({
-            type: UploadEventType.Success,
-            payload: {
-              response: {
-                guid: file.getGuid(),
-              },
-            },
-          })
-        : // If null, passtry as-is
-          of(null)
-    ),
-
-    // Take the last emitted last() HOO from the map above. Doing this will cancel "unused" HTTP requests.
-    switchAll(),
-
-    // Map the final response to an upload event, if success emit the guid, else null
-    map(uploadEvent =>
-      uploadEvent && uploadEvent.type == UploadEventType.Success
-        ? uploadEvent.payload.response.guid
-        : null
-    )
-  );
-
 @Injectable()
 export class AttachmentApiService {
+  /**
+   * Constructor
+   * @param api
+   * @param http
+   */
   constructor(protected api: ApiService, protected http: HttpClient) {}
 
   /**
@@ -227,6 +151,9 @@ export class AttachmentApiService {
       payload: { progress: 100 },
     });
 
+    // Get file type
+    const fileType = getFileType(file);
+
     // Set pre-signed URL observable with the following operations (that depend on the response) as a map pipe
     const upload = this.api
       .put(`api/v2/media/upload/prepare/${file.type.split('/')[0]}`)
@@ -245,7 +172,7 @@ export class AttachmentApiService {
                 reportProgress: true,
                 observe: 'events',
               })
-              .pipe(httpEventToUploadEvent(false));
+              .pipe(httpEventToUploadEvent(fileType, false));
 
             // Setup complete observable
             const complete = this.api
@@ -257,6 +184,7 @@ export class AttachmentApiService {
                   (): UploadEvent => ({
                     type: UploadEventType.Success,
                     payload: {
+                      request: { type: fileType },
                       response: lease,
                     },
                   })
@@ -267,9 +195,12 @@ export class AttachmentApiService {
             return of(uploadToPresignedUrl, complete).pipe(concatAll());
           }
         ),
+
+        // Flatten and merge all HOO
         mergeAll()
       );
 
+    // Return a concat of all the 3 stages
     return of(init, upload).pipe(concatAll());
   }
 
@@ -287,7 +218,7 @@ export class AttachmentApiService {
         },
         { upload: true }
       )
-      .pipe(httpEventToUploadEvent());
+      .pipe(httpEventToUploadEvent(getFileType(file)));
   }
 
   /**

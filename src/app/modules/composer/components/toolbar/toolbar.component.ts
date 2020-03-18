@@ -19,7 +19,7 @@ import {
   MonetizationSubjectValue,
   NsfwSubjectValue,
   TagsSubjectValue,
-} from '../../composer.service';
+} from '../../services/composer.service';
 import {
   FileUploadComponent,
   FileUploadSelectEvent,

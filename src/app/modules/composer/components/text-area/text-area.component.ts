@@ -7,7 +7,7 @@ import {
   PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
-import { ComposerService } from '../../composer.service';
+import { ComposerService } from '../../services/composer.service';
 import { isPlatformBrowser } from '@angular/common';
 
 /**

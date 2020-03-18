@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { ComposerService } from './composer.service';
+import { ComposerService } from './services/composer.service';
 import { ModalService } from './components/modal/modal.service';
 import { BaseComponent } from './components/base/base.component';
 

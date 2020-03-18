@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { ComposerService } from '../../../composer.service';
+import { ComposerService } from '../../../services/composer.service';
 import { TypeaheadInputComponent } from '../../../../hashtags/typeahead-input/typeahead-input.component';
 import { ConfigsService } from '../../../../../common/services/configs.service';
 import { UniqueId } from '../../../../../helpers/unique-id.helper';

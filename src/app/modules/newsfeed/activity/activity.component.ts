@@ -20,7 +20,7 @@ import {
   ACTIVITY_FIXED_HEIGHT_RATIO,
 } from './activity.service';
 import { Subscription } from 'rxjs';
-import { ComposerService } from '../../composer/composer.service';
+import { ComposerService } from '../../composer/services/composer.service';
 
 @Component({
   selector: 'm-activity',

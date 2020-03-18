@@ -63,7 +63,7 @@ import { ConfigsService } from '../../../../../common/services/configs.service';
 import { TagsPipeMock } from '../../../../../mocks/pipes/tagsPipe.mock';
 import { RedirectService } from '../../../../../common/services/redirect.service';
 import { ModalService } from '../../../../composer/components/modal/modal.service';
-import { ComposerService } from '../../../../composer/composer.service';
+import { ComposerService } from '../../../../composer/services/composer.service';
 
 /* tslint:disable */
 // START MOCKS

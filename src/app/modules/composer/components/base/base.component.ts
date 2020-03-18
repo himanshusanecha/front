@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { UniqueId } from '../../../../helpers/unique-id.helper';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
-import { ComposerService } from '../../composer.service';
+import { ComposerService } from '../../services/composer.service';
 import { PopupService } from '../popup/popup.service';
 import { PopupComponent } from '../popup/popup.component';
 import { TextAreaComponent } from '../text-area/text-area.component';
@@ -40,8 +40,12 @@ export class BaseComponent implements AfterViewInit {
     this.popup.setUp(this.popupComponent, this.injector);
   }
 
-  get attachment$() {
-    return this.service.attachment$;
+  get attachmentPreview$() {
+    return this.service.attachmentPreview$;
+  }
+
+  get richEmbedPreview$() {
+    return this.service.richEmbedPreview$;
   }
 
   set nsfw(nsfw: number[]) {

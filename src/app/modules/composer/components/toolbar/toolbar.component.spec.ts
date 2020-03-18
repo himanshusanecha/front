@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent, MockService } from '../../../../utils/mock';
 import { ToolbarComponent } from './toolbar.component';
 import { ButtonComponentAction } from '../../../../common/components/button-v2/button.component';
-import { ComposerService } from '../../composer.service';
+import { ComposerService } from '../../services/composer.service';
 import { PopupService } from '../popup/popup.service';
 import { NsfwComponent } from '../popup/nsfw/nsfw.component';
 import { MonetizeComponent } from '../popup/monetize/monetize.component';

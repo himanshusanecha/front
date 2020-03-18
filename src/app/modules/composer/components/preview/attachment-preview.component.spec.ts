@@ -1,31 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockComponent, MockService } from '../../../../utils/mock';
-import { ComposerService } from '../../composer.service';
-import { MediaPreviewComponent } from './media-preview.component';
+import { MockService } from '../../../../utils/mock';
 import { ConfigsService } from '../../../../common/services/configs.service';
+import { AttachmentPreviewComponent } from './attachment-preview.component';
 
-describe('Composer Media Preview', () => {
-  let comp: MediaPreviewComponent;
-  let fixture: ComponentFixture<MediaPreviewComponent>;
-
-  const composerServiceMock: any = MockService(ComposerService, {
-    removeAttachment: true,
-  });
+describe('Composer Attachment Preview', () => {
+  let comp: AttachmentPreviewComponent;
+  let fixture: ComponentFixture<AttachmentPreviewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        MediaPreviewComponent,
-        MockComponent({
-          selector: 'm-icon',
-          inputs: ['from', 'iconId', 'sizeFactor'],
-        }),
-      ],
+      declarations: [AttachmentPreviewComponent],
       providers: [
-        {
-          provide: ComposerService,
-          useValue: composerServiceMock,
-        },
         {
           provide: ConfigsService,
           useValue: MockService(ConfigsService),
@@ -36,8 +21,9 @@ describe('Composer Media Preview', () => {
 
   beforeEach(done => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 2;
-    fixture = TestBed.createComponent(MediaPreviewComponent);
+    fixture = TestBed.createComponent(AttachmentPreviewComponent);
     comp = fixture.componentInstance;
+    spyOn(comp.onPortraitOrientationEmitter, 'emit').and.stub();
     fixture.detectChanges();
 
     if (fixture.isStable()) {
@@ -57,7 +43,7 @@ describe('Composer Media Preview', () => {
     fixture.detectChanges();
 
     comp.fitForImage(img);
-    expect(comp.portrait).toBe(true);
+    expect(comp.onPortraitOrientationEmitter.emit).toHaveBeenCalledWith(true);
   });
 
   it('should set landscape for an image', () => {
@@ -67,7 +53,7 @@ describe('Composer Media Preview', () => {
     fixture.detectChanges();
 
     comp.fitForImage(img);
-    expect(comp.portrait).toBe(false);
+    expect(comp.onPortraitOrientationEmitter.emit).toHaveBeenCalledWith(false);
   });
 
   it('should set portrait for an video', () => {
@@ -77,7 +63,7 @@ describe('Composer Media Preview', () => {
     fixture.detectChanges();
 
     comp.fitForVideo(video);
-    expect(comp.portrait).toBe(true);
+    expect(comp.onPortraitOrientationEmitter.emit).toHaveBeenCalledWith(true);
   });
 
   it('should set landscape for an video', () => {
@@ -87,14 +73,6 @@ describe('Composer Media Preview', () => {
     fixture.detectChanges();
 
     comp.fitForVideo(video);
-    expect(comp.portrait).toBe(false);
-  });
-
-  it('should remove an attachment', () => {
-    spyOn(window, 'confirm').and.returnValue(true);
-    fixture.detectChanges();
-    comp.remove();
-    expect(window.confirm).toHaveBeenCalled();
-    expect(composerServiceMock.removeAttachment).toHaveBeenCalled();
+    expect(comp.onPortraitOrientationEmitter.emit).toHaveBeenCalledWith(false);
   });
 });

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockComponent, MockService } from '../../../../utils/mock';
 import { TextAreaComponent } from './text-area.component';
-import { ComposerService } from '../../composer.service';
+import { ComposerService } from '../../services/composer.service';
 import { FormsModule } from '@angular/forms';
 
 describe('Composer Text Area', () => {
