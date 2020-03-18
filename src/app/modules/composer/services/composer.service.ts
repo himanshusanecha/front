@@ -752,9 +752,9 @@ export class ComposerService implements OnDestroy {
     // New activity
     let endpoint = `api/v1/newsfeed`;
 
-    if (this.payload.guid) {
+    if (this.entity.guid) {
       // Editing an activity
-      endpoint = `api/v1/newsfeed/${this.payload.guid}`;
+      endpoint = `api/v1/newsfeed/${this.entity.guid}`;
     }
 
     const { activity } = await this.api
