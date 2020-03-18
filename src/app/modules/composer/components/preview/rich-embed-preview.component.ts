@@ -23,7 +23,7 @@ export class RichEmbedPreviewComponent {
    * Gets a proxied URL for the thumbnail
    */
   getProxiedThumbnail() {
-    if (!this.richEmbed.thumbnail) {
+    if (!this.richEmbed || !this.richEmbed.thumbnail) {
       return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
     }
 
@@ -34,6 +34,10 @@ export class RichEmbedPreviewComponent {
    * Extracts the domain name
    */
   extractDomain(): string {
+    if (!this.richEmbed) {
+      return '';
+    }
+
     return new URL(this.richEmbed.url || '').hostname;
   }
 }

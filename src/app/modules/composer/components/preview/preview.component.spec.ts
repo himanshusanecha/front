@@ -21,7 +21,7 @@ describe('Composer Preview', () => {
         }),
         MockComponent({
           selector: 'm-composerAttachmentPreview',
-          inputs: ['preview'],
+          inputs: ['attachmentPreviewResource'],
           outputs: ['onPortraitOrientation'],
         }),
         MockComponent({

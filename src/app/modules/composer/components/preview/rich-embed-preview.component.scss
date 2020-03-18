@@ -23,7 +23,7 @@
     font-weight: 500;
 
     @include m-theme() {
-      background-color: rgba(themed($m-textColor--primary), 0.75);
+      color: rgba(themed($m-textColor--primary), 0.75);
     }
 
     & {
@@ -43,7 +43,7 @@
     font-weight: 400;
 
     @include m-theme() {
-      background-color: themed($m-textColor--tertiary);
+      color: themed($m-textColor--tertiary);
     }
   }
 }

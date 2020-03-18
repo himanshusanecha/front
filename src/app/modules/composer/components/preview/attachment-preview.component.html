@@ -1,4 +1,4 @@
-<ng-container *ngIf="attachmentPreviewResource.sourceType === 'image'">
+<ng-container *ngIf="attachmentPreviewResource?.sourceType === 'image'">
   <img
     class="m-composerPreview__image"
     alt="Uploaded image"
@@ -9,7 +9,7 @@
   />
 </ng-container>
 
-<ng-container *ngIf="attachmentPreviewResource.sourceType === 'video'">
+<ng-container *ngIf="attachmentPreviewResource?.sourceType === 'video'">
   <video
     muted
     title="Uploaded video"

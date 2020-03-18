@@ -3,9 +3,11 @@
     <img alt="" [src]="getProxiedThumbnail()" />
   </div>
 
-  <div *ngIf="richEmbed.title" class="m-composerRichEmbedPreview__title">
+  <div *ngIf="richEmbed?.title" class="m-composerRichEmbedPreview__title">
     {{ richEmbed.title }}
   </div>
 
-  <div class="m-composerRichEmbedPreview__domain">{{ extractDomain() }}</div>
+  <div *ngIf="richEmbed?.url" class="m-composerRichEmbedPreview__domain">
+    {{ extractDomain() }}
+  </div>
 </div>
