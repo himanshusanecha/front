@@ -1,7 +1,7 @@
 <div
   class="m-composer__base"
   [class.m-composer__base--withPreview]="
-    (attachment$ | async) || (richEmbed$ | async)
+    (attachmentPreview$ | async) || (richEmbedPreview$ | async)
   "
 >
   <div class="m-composerBase__container">

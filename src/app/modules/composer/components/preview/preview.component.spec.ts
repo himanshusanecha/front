@@ -24,6 +24,10 @@ describe('Composer Preview', () => {
           inputs: ['preview'],
           outputs: ['onPortraitOrientation'],
         }),
+        MockComponent({
+          selector: 'm-composerRichEmbedPreview',
+          inputs: ['richEmbed'],
+        }),
       ],
       providers: [
         {

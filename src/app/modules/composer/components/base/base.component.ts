@@ -40,12 +40,12 @@ export class BaseComponent implements AfterViewInit {
     this.popup.setUp(this.popupComponent, this.injector);
   }
 
-  get attachment$() {
-    return this.service.attachment$;
+  get attachmentPreview$() {
+    return this.service.attachmentPreview$;
   }
 
-  get richEmbed$() {
-    return this.service.richEmbed$;
+  get richEmbedPreview$() {
+    return this.service.richEmbedPreview$;
   }
 
   set nsfw(nsfw: number[]) {
