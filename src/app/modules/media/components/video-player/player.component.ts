@@ -55,6 +55,12 @@ export class MindsVideoPlayerComponent
   @Input() allowAutoplayOnScroll: boolean = false;
 
   /**
+   * See setAutoplay method
+   */
+  autoplayChanged: boolean = false;
+  newAutoplayValue: boolean = false;
+
+  /**
    * This is set by VideoAutoplayService
    */
   autoplaying: boolean = false;
@@ -99,6 +105,25 @@ export class MindsVideoPlayerComponent
     this.cd.detectChanges();
   }
 
+  setAutoplay(value: boolean): void {
+    // if the player doesn't exist yet, make it so this is called again by onReady()
+    if (!this.player || !this.player.player) {
+      this.newAutoplayValue = value;
+      this.autoplayChanged = true;
+    } else {
+      this.autoplayChanged = false;
+
+      // if we're about to autoplay, first mute so we avoid errors
+      if (value) {
+        this.mute();
+      }
+      // change the actual option in the next cycle, after the video has been muted
+      setTimeout(() => {
+        this.options = { ...this.options, autoplay: value };
+      });
+    }
+  }
+
   constructor(
     public elementRef: ElementRef,
     private service: VideoPlayerService,
@@ -115,12 +140,12 @@ export class MindsVideoPlayerComponent
     }
 
     if (changes.autoplay) {
-      this.options = { ...this.options, autoplay: this.autoplay };
+      this.setAutoplay(changes.autoplay.currentValue);
     }
   }
 
   ngAfterViewInit() {
-    this.options = { ...this.options, autoplay: this.autoplay };
+    this.setAutoplay(this.autoplay);
 
     if (this.allowAutoplayOnScroll) {
       this.autoplayService.registerPlayer(this);
@@ -168,9 +193,8 @@ export class MindsVideoPlayerComponent
    */
   isPlayable(): boolean {
     return (
-      isPlatformBrowser(this.platformId) &&
-      this.service.isPlayable() &&
-      (this.autoplaying || this.autoplay) // autoplaying comes from the scroll, and autoplay is for single entity views
+      (isPlatformBrowser(this.platformId) && this.autoplay) ||
+      (this.service.isPlayable() && this.autoplaying) // autoplaying comes from the scroll, and autoplay is for single entity views
     );
   }
 
@@ -265,6 +289,10 @@ export class MindsVideoPlayerComponent
   }
 
   onReady() {
+    // if autoplay changed, the player probably wasn't defined yet, so we need to call this method again
+    if (this.autoplayChanged) {
+      this.setAutoplay(this.newAutoplayValue);
+    }
     if (this.autoplaying) {
       this.mute();
       this.play();
