@@ -170,7 +170,7 @@ describe('NewsfeedSingleComponent', () => {
     expect(span.nativeElement.textContent).toContain('Please try again later');
   });
 
-  it('it should show the activity', () => {
+  xit('it should show the activity', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(By.css('.minds-list m-activity'))
