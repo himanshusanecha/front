@@ -159,6 +159,12 @@ import { AttachmentApiService } from './api/attachment-api.service';
 import { ApiService } from './api/api.service';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { PageLayoutService } from './layout/page-layout.service';
+import {
+  PageLayoutPaneDirective,
+  PageLayoutContainerDirective,
+} from './layout/page-layout.directive';
 
 const routes: Routes = [
   {
@@ -300,6 +306,9 @@ const routes: Routes = [
     OverlayComponent,
     DropdownMenuComponent,
     CalendarComponent,
+    LoadingSpinnerComponent,
+    PageLayoutPaneDirective,
+    PageLayoutContainerDirective,
   ],
   exports: [
     MINDS_PIPES,
@@ -422,6 +431,9 @@ const routes: Routes = [
     OverlayComponent,
     DropdownMenuComponent,
     CalendarComponent,
+    LoadingSpinnerComponent,
+    PageLayoutPaneDirective,
+    PageLayoutContainerDirective,
   ],
   providers: [
     SiteService,
