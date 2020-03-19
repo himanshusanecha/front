@@ -574,9 +574,22 @@ m-media--modal {
     @include m-theme() {
       border-bottom: 1px solid themed($m-grey-100);
     }
+    .m-mediaModal__actionButton--share {
+      @include m-theme() {
+        color: themed($m-blue-grey-600);
+      }
+    }
   }
-  .m-wire-button > .ion-icon {
-    transform: scale(1.4);
+  .m-wire-button {
+    @include m-theme() {
+      border: none;
+    }
+    span {
+      display: none;
+    }
+    > .ion-icon {
+      transform: scale(1.4);
+    }
   }
 }
 
@@ -681,4 +694,61 @@ m-media--modal {
   height: 0;
   line-height: 0;
   visibility: hidden;
+}
+
+// ** NSFW -----------------------------
+
+m-media--modal {
+  .m-mature-text-toggle {
+    i {
+      margin-right: 3px;
+    }
+  }
+
+  .m-mediaModal__stage {
+    m-blog-view {
+      .m-mature-content {
+        .m-mature-overlay {
+          .m-mature-overlay-note {
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+  }
+
+  .m-mediaModal__stage {
+    .m-mature-content {
+      .m-mature-overlay {
+        .m-mature-overlay-note {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-flow: column nowrap;
+          top: auto;
+          line-height: 20px;
+          transform: none;
+          span {
+            line-height: 20px;
+          }
+        }
+      }
+    }
+    .m-mature-content-shown {
+      .m-mature-overlay {
+        top: 0;
+        right: 0;
+        border-radius: 0;
+        @include m-theme() {
+          background-color: rgba(255, 255, 255, 0);
+        }
+        .m-mature-overlay-note {
+          i {
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }
