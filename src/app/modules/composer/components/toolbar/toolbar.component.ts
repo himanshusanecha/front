@@ -6,9 +6,11 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  Inject,
   OnDestroy,
   OnInit,
   Output,
+  PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
@@ -30,6 +32,7 @@ import { NsfwComponent } from '../popup/nsfw/nsfw.component';
 import { MonetizeComponent } from '../popup/monetize/monetize.component';
 import { TagsComponent } from '../popup/tags/tags.component';
 import { ScheduleComponent } from '../popup/schedule/schedule.component';
+import { isPlatformBrowser } from '@angular/common';
 
 /**
  * Toolbar component. Interacts directly with the service.
@@ -63,7 +66,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Show narrow style
    */
-  narrow: boolean = false;
+  narrow: boolean = true;
 
   /**
    * Window resize event observable
@@ -85,11 +88,13 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param service
    * @param popup
    * @param cd
+   * @param platformId
    */
   constructor(
     protected service: ComposerService,
     protected popup: PopupService,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
   /**
@@ -113,7 +118,9 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
    * @internal
    */
   ngAfterViewInit(): void {
-    this.calcNarrow();
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => this.calcNarrow(), 250);
+    }
   }
 
   /**
