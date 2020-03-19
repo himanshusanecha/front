@@ -10,11 +10,9 @@
   <span *ngSwitchCase="'text'" class="m-icon__text" [ngStyle]="sizeCss">{{
     iconId
   }}</span>
-  <img
+  <span
     *ngSwitchCase="'assets-file'"
-    alt=""
     class="m-icon__assetsFile"
-    [ngStyle]="sizeCss"
-    [src]="cdnAssetsUrl + iconId"
-  />
+    [ngStyle]="maskAndSizeCss"
+  ></span>
 </ng-container>

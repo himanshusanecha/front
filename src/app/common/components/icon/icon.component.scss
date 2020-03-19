@@ -17,6 +17,12 @@ m-icon {
   }
 
   .m-icon__assetsFile {
+    display: inline-block;
+    width: 1em;
     height: 1em;
+    background-color: currentColor;
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
   }
 }

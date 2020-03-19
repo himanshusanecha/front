@@ -3,6 +3,9 @@ import { ConfigsService } from '../../services/configs.service';
 
 export type IconSource = 'md' | 'ion' | 'assets-file' | 'text';
 
+/**
+ * Normalized icon component
+ */
 @Component({
   selector: 'm-icon',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,10 +33,17 @@ export class IconComponent {
    */
   readonly cdnAssetsUrl: string;
 
+  /**
+   * Constructor
+   * @param configs
+   */
   constructor(configs: ConfigsService) {
     this.cdnAssetsUrl = configs.get('cdn_assets_url') || '/';
   }
 
+  /**
+   * Gets the CSS size for the icon type
+   */
   get sizeCss() {
     const size = 1 + this.sizeFactor / 100;
 
@@ -44,9 +54,25 @@ export class IconComponent {
       case 'text':
         return { fontSize: `${size}em` }; // Ratio might differ in the future
       case 'assets-file':
-        return { height: `${size}em` };
+        return {
+          width: `${size}em`,
+          height: `${size}em`,
+        };
     }
 
     return {};
+  }
+
+  /**
+   * Gets the CSS size and mask image for local assets type
+   */
+  get maskAndSizeCss() {
+    const maskImage = `url(${this.cdnAssetsUrl}${this.iconId})`;
+
+    return {
+      ...this.sizeCss,
+      '-webkit-mask-image': maskImage,
+      'mask-image': maskImage,
+    };
   }
 }
