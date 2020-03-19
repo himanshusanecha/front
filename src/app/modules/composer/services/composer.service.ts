@@ -752,7 +752,7 @@ export class ComposerService implements OnDestroy {
     // New activity
     let endpoint = `api/v1/newsfeed`;
 
-    if (this.entity.guid) {
+    if (this.entity && this.entity.guid) {
       // Editing an activity
       endpoint = `api/v1/newsfeed/${this.entity.guid}`;
     }
