@@ -82,7 +82,12 @@
     <button class="mf-button mf-button--hollow" (click)="skip()" i18n>
       Skip
     </button>
-    <button class="mf-button mf-button--alt" (click)="continue()" i18n>
+    <button
+      class="mf-button mf-button--alt"
+      [disabled]="!canContinue()"
+      (click)="continue()"
+      i18n
+    >
       Continue
     </button>
   </div>

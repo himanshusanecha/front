@@ -148,12 +148,26 @@ export class InfoStepComponent {
     this.tooltipAnchor = window.innerWidth <= 480 ? 'top' : 'left';
   }
 
+  canContinue() {
+    return (
+      this.phoneVerification &&
+      (this.phoneVerification.confirmed || !this.phoneVerification.dirty) &&
+      this.isDateValid()
+    );
+  }
+
+  private isDateValid() {
+    return this.dateOfBirthChanged
+      ? moment().diff(moment(this.date), 'years') >= 13
+      : true;
+  }
+
   private validate(): boolean {
     if (!this.phoneVerification.confirmed && this.phoneVerification.dirty) {
       this.phoneVerification.error = 'verify:phonenumber';
       return false;
     }
-    if (moment().diff(moment(this.date), 'years') < 13) {
+    if (!this.isDateValid()) {
       this.ageError = true;
       return false;
     }
