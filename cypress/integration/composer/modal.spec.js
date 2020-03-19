@@ -47,15 +47,4 @@ context('Composer Modal', () => {
     cy.get(modalBaseComposer)
       .should('be.visible');
   });
-
-  it.skip('should open a composer modal popup in a group', () => {
-    cy.visit(`/${Cypress.env().group_id}`);
-
-    cy.get(composerTrigger)
-      .should('be.visible')
-      .click();
-
-    cy.get(modalBaseComposer)
-      .should('be.visible');
-  });
 });

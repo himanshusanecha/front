@@ -23,8 +23,6 @@ context('Composer Bottom Bar', () => {
 
   const uploadButton = `${composerToolbar} m-file-upload[data-cy="upload-button"]`;
 
-  const deleteAttachmentButton = `${composerToolbar} a[data-cy="delete-attachment-button"]`;
-
   const nsfwButton = `${composerToolbar} a[data-cy="nsfw-button"]`;
 
   const monetizeButton = `${composerToolbar} a[data-cy="monetize-button"]`;
@@ -60,9 +58,6 @@ context('Composer Bottom Bar', () => {
     it('should show a disabled post button', () => {
       cy.get(composerTextarea)
         .clear();
-
-      cy.get(deleteAttachmentButton)
-        .click({ force: true });
 
       cy.get(postButton)
         .should('be.visible')
@@ -130,6 +125,10 @@ context('Composer Bottom Bar', () => {
     });
 
     it('should show a dropdown in the post button', () => {
+      cy.get(composerTextarea)
+        .clear()
+        .type('Hello Minds!');
+
       cy.get(postButtonDropdownMenu)
         .should('not.be.visible');
 
@@ -194,6 +193,10 @@ context('Composer Bottom Bar', () => {
     });
 
     it('should open a menu in the post button dropdown', () => {
+      cy.get(composerTextarea)
+        .clear()
+        .type('Hello Minds!');
+
       cy.get(postButtonDropdownMenu)
         .should('not.be.visible');
 
