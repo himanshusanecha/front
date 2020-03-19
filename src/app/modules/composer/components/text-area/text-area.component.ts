@@ -75,6 +75,13 @@ export class TextAreaComponent {
   }
 
   /**
+   * Is posting flag from the service
+   */
+  get isPosting$() {
+    return this.service.isPosting$;
+  }
+
+  /**
    * Focuses the message input. Due to browser constraints it needs a time. Only on browser.
    */
   focus() {

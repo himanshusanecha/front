@@ -236,6 +236,13 @@ export class ComposerService implements OnDestroy {
   readonly progress$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   /**
+   * Is posting flag subject (state)
+   */
+  readonly isPosting$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+
+  /**
    * Attachment error subject (state)
    */
   readonly attachmentError$: BehaviorSubject<string> = new BehaviorSubject<
@@ -508,6 +515,7 @@ export class ComposerService implements OnDestroy {
     // Reset state
     this.inProgress$.next(false);
     this.progress$.next(0);
+    this.isPosting$.next(false);
     this.attachmentError$.next('');
     this.isEditing$.next(false);
     this.isMovingContent$.next(false);
@@ -747,6 +755,7 @@ export class ComposerService implements OnDestroy {
    * Posts a new activity
    */
   async post(): Promise<ActivityEntity> {
+    this.isPosting$.next(true);
     this.setProgress(true);
 
     // New activity
@@ -757,14 +766,22 @@ export class ComposerService implements OnDestroy {
       endpoint = `api/v1/newsfeed/${this.entity.guid}`;
     }
 
-    const { activity } = await this.api
-      .post(endpoint, this.payload)
-      .toPromise();
+    try {
+      const { activity } = await this.api
+        .post(endpoint, this.payload)
+        .toPromise();
 
-    this.reset();
-    this.setProgress(false);
+      this.reset();
 
-    activity.boostToggle = true;
-    return activity;
+      this.isPosting$.next(false);
+      this.setProgress(false);
+
+      activity.boostToggle = true;
+      return activity;
+    } catch (e) {
+      this.isPosting$.next(false);
+      this.setProgress(false);
+      throw e; // Re-trhow
+    }
   }
 }

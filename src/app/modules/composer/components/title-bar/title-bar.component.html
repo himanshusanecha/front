@@ -6,15 +6,17 @@
   <div
     *ngIf="!(isEditing$ | async) && !(attachment$ | async)"
     class="m-composerTitleBar__createBlogTrigger"
+    [hidden]="isPosting$ | async"
     (click)="onCreateBlogClick()"
   >
     <ng-container i18n>Create Blog</ng-container>
   </div>
 
   <m-dropdownMenu
-    [menu]="menu"
     triggerClass="m-composerTitleBar__menuButton"
     menuClass="m-composerTitleBar__menu"
+    [menu]="menu"
+    [hidden]="isPosting$ | async"
     data-cy="meatball-menu-trigger"
   >
     <m-icon iconId="more_vert"></m-icon>

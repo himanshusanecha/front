@@ -10,7 +10,11 @@
     [attachmentPreviewResource]="attachmentPreview"
     (onPortraitOrientation)="setPortrait($event)"
   >
-    <div class="m-composerPreview__close" (click)="remove()">
+    <div
+      class="m-composerPreview__close"
+      [hidden]="isPosting$ | async"
+      (click)="remove()"
+    >
       <m-icon iconId="close"></m-icon>
     </div>
   </m-composerAttachmentPreview>

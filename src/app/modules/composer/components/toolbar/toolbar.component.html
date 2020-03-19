@@ -9,7 +9,7 @@
       (attachment$ | async) ? 'm-composerToolbar__item--active' : ''
     ]"
     [hidden]="!canEditMetadata"
-    [disabled]="!!(attachment$ | async)"
+    [disabled]="!!(attachment$ | async) || (isPosting$ | async)"
     (onSelect)="onAttachmentSelect($event)"
     accept="image/*,video/*"
     data-cy="upload-button"
@@ -26,6 +26,7 @@
   <a
     class="m-composerToolbar__item"
     [class.m-composerToolbar__item--active]="(nsfw$ | async)?.length"
+    [class.m-composerToolbar__item--disabled]="isPosting$ | async"
     (click)="onNsfwClick($event)"
     data-cy="nsfw-button"
   >
@@ -36,6 +37,7 @@
   <a
     class="m-composerToolbar__item"
     [class.m-composerToolbar__item--active]="monetization$ | async"
+    [class.m-composerToolbar__item--disabled]="isPosting$ | async"
     (click)="onMonetizeClick($event)"
     data-cy="monetize-button"
   >
@@ -51,6 +53,7 @@
   <a
     class="m-composerToolbar__item"
     [class.m-composerToolbar__item--active]="(tags$ | async)?.length"
+    [class.m-composerToolbar__item--disabled]="isPosting$ | async"
     (click)="onTagsClick($event)"
     data-cy="tags-button"
   >
@@ -67,7 +70,9 @@
 
   <m-button
     class="m-composerToolbar__action"
-    [disabled]="(inProgress$ | async) || !(canPost$ | async)"
+    [disabled]="
+      (inProgress$ | async) || (isPosting$ | async) || !(canPost$ | async)
+    "
     [dropdown]="postButtonDropdown"
     (onAction)="onPost($event)"
     data-cy="post-button"

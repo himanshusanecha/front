@@ -208,6 +208,13 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
+   * Is posting flag from the service
+   */
+  get isPosting$() {
+    return this.service.isPosting$;
+  }
+
+  /**
    * canPost subject from service
    */
   get canPost$() {

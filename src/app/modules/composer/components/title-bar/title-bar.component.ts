@@ -87,6 +87,13 @@ export class TitleBarComponent {
   }
 
   /**
+   * Is posting? subject value from service
+   */
+  get isPosting$() {
+    return this.service.isPosting$;
+  }
+
+  /**
    * Can the actor change visibility? (disabled when there's a container)
    */
   get canChangeVisibility(): boolean {

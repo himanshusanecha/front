@@ -46,6 +46,13 @@ export class PreviewComponent {
   }
 
   /**
+   * Is posting flag from the service
+   */
+  get isPosting$() {
+    return this.service.isPosting$;
+  }
+
+  /**
    * Sets the portrait mode
    * @param portrait
    */

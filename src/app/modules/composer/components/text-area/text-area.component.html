@@ -5,8 +5,9 @@
       placeholder="Title"
       i18n-placeholder
       [ngModel]="(title$ | async) || ''"
-      (ngModelChange)="onTitleChange($event)"
       [hidden]="(title$ | async) === null"
+      [disabled]="isPosting$ | async"
+      (ngModelChange)="onTitleChange($event)"
       data-cy="composer-activity-title"
       #titleInput
     />
@@ -14,6 +15,7 @@
     <div
       class="m-composerTextareaTitle__toggle"
       (click)="toggleTitle()"
+      [hidden]="isPosting$ | async"
       data-cy="composer-activity-title"
     >
       <m-icon
@@ -34,6 +36,7 @@
     i18n-placeholder
     [id]="inputId"
     [ngModel]="message$ | async"
+    [disabled]="isPosting$ | async"
     (ngModelChange)="onMessageChange($event)"
     data-cy="composer-textarea"
     #messageInput
