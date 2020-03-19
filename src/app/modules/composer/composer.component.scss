@@ -50,7 +50,7 @@ m-composer {
   overflow-y: auto;
 
   .m-overlay-modal--backdrop {
-    z-index: -1;
+    z-index: 0;
   }
 
   .m-overlay-modal {
