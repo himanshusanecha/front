@@ -6,6 +6,8 @@ import { Session } from '../../../../../services/session';
 
 @Injectable()
 export class VideoAutoplayService implements OnDestroy {
+  public muted: boolean = true;
+
   protected scroll$: Subscription;
 
   protected enabled: boolean = true;

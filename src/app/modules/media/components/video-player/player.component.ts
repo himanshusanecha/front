@@ -283,6 +283,7 @@ export class MindsVideoPlayerComponent
 
   onClick(): void {
     if ((this.autoplay || this.autoplaying) && this.isMuted()) {
+      this.autoplayService.muted = false;
       this.unmute();
       this.play();
     }
@@ -294,8 +295,18 @@ export class MindsVideoPlayerComponent
       this.setAutoplay(this.newAutoplayValue);
     }
     if (this.autoplaying) {
-      this.mute();
+      if (this.autoplayService.muted) {
+        this.mute();
+      } else {
+        this.unmute();
+      }
       this.play();
+    }
+  }
+
+  onVolumeChange() {
+    if (this.autoplay || this.autoplaying) {
+      this.autoplayService.muted = this.player.player.muted;
     }
   }
 
