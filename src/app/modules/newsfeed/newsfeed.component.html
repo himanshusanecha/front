@@ -4,8 +4,10 @@
 
 <div
   class="m-newsfeed m-page"
+  [class.m-newsfeed--2019]="!newNavigation"
   [class.mdl-grid]="!newNavigation"
   [class.m-pageLayout__container]="newNavigation"
+  m-pageLayout__container
 >
   <div
     class="mdl-cell mdl-cell--4-col m-newsfeed--sidebar m-newsfeed__sidebar"
@@ -129,7 +131,7 @@
     class="m-newsfeed--feed"
     [class.mdl-cell]="!newNavigation"
     [class.mdl-cell--8-col]="!newNavigation"
-    [class.m-pageLayout__pane--main]="newNavigation"
+    m-pageLayout__pane="main"
     [ngClass]="{ 'm-newsfeed--logged-out': !session.getLoggedInUser() }"
   >
     <div class="mdl-card m-newsfeed__CompactHashtagSelector">
@@ -148,8 +150,8 @@
     class="m-newsfeed--boost-sidebar m-newsfeed__sidebar"
     [class.mdl-cell]="!newNavigation"
     [class.mdl-cell--4-col]="!newNavigation"
-    [class.m-pageLayout__pane--right]="newNavigation"
-    *ngIf="showRightSidebar"
+    m-pageLayout__pane="right"
+    *ngIf="showRightSidebar || newNavigation"
   >
     <ng-container *mIfFeature="'suggested-users'">
       <m-suggestions__sidebar></m-suggestions__sidebar>
