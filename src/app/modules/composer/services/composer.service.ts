@@ -759,11 +759,11 @@ export class ComposerService implements OnDestroy {
     this.setProgress(true);
 
     // New activity
-    let endpoint = `api/v1/newsfeed`;
+    let endpoint = `api/v2/newsfeed`;
 
     if (this.entity && this.entity.guid) {
       // Editing an activity
-      endpoint = `api/v1/newsfeed/${this.entity.guid}`;
+      endpoint = `api/v2/newsfeed/${this.entity.guid}`;
     }
 
     try {
@@ -781,7 +781,7 @@ export class ComposerService implements OnDestroy {
     } catch (e) {
       this.isPosting$.next(false);
       this.setProgress(false);
-      throw e; // Re-trhow
+      throw e; // Re-throw
     }
   }
 }
