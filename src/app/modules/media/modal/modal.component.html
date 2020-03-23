@@ -365,7 +365,6 @@
                 m-read-more
                 *ngIf="
                   this.contentType !== 'blog' &&
-                  this.contentType !== 'rich-embed' &&
                   (entity.description || entity.message)
                 "
                 [maxHeightAllowed]="136"
@@ -374,8 +373,10 @@
                   class="m-mature-text-toggle"
                   (click)="toggleMatureVisibility()"
                   *ngIf="
-                    attachment.shouldBeBlurred(entity) ||
-                    attachment.isForcefullyShown(entity)
+                    (attachment.shouldBeBlurred(entity) ||
+                      attachment.isForcefullyShown(entity)) &&
+                    this.contentType !== 'video' &&
+                    this.contentType !== 'rich-embed'
                   "
                   [ngClass]="{
                     'mdl-color-text--red-500': attachment.isForcefullyShown(
