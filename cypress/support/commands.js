@@ -232,8 +232,7 @@ const composer = {
 
 Cypress.Commands.add('openComposer', () => {
   cy.get(composer.trigger)
-    .should('be.visible')
-    .click();
+    .click({ force: true });
 });
 
 /**
@@ -243,10 +242,10 @@ Cypress.Commands.add('openComposer', () => {
  */
 Cypress.Commands.add('post', message => {
   cy.server();
-  cy.route('POST', '**/v1/newsfeed**').as('postActivity');
+  cy.route('POST', '**/v2/newsfeed**').as('postActivity');
   cy.openComposer();
-  cy.get(composer.messageTextArea).clear().type(message);
-  cy.get(composer.postButton).click();
+  cy.get(composer.messageTextArea).clear({ force: true }).type(message, { force: true });
+  cy.get(composer.postButton).click({ force: true });
   cy.wait('@postActivity').then(xhr => {
     expect(xhr.status).to.equal(200);
     expect(xhr.response.body.status).to.deep.equal('success');
