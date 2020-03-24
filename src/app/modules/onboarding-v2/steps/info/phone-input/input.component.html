@@ -19,6 +19,7 @@
         [ngModel]="number"
         (ngModelChange)="numberChange($event)"
         ngDefaultControl
+        #input
       ></m-phoneInput>
 
       <div class="m-onboarding__spinnerWrapper" *ngIf="inProgress">

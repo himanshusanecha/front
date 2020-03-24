@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Client } from '../../../../../services/api/client';
 import { Session } from '../../../../../services/session';
+import { PhoneInputV2Component } from '../../../../../common/components/phone-input-v2/phone-input-v2.component';
 
 @Component({
   selector: 'm-onboarding__phoneverification',
@@ -21,7 +22,8 @@ export class PhoneVerificationComponent {
   inProgress: boolean = false;
   confirming: boolean = false;
   confirmed: boolean = false;
-  dirty: boolean = false;
+
+  @ViewChild('input', { static: false }) input: PhoneInputV2Component;
 
   constructor(private client: Client, private session: Session) {}
 
@@ -52,8 +54,6 @@ export class PhoneVerificationComponent {
   numberChange(number: string) {
     this.number = number;
     this.error = null;
-
-    this.dirty = true;
   }
 
   codeChange(code: number) {

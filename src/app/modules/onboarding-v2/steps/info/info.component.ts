@@ -149,11 +149,23 @@ export class InfoStepComponent {
   }
 
   canContinue() {
-    return (
-      this.phoneVerification &&
-      (this.phoneVerification.confirmed || !this.phoneVerification.dirty) &&
-      this.isDateValid()
-    );
+    return this.validatePhone() && this.isDateValid();
+  }
+
+  private validatePhone(): boolean {
+    if (this.phoneVerification) {
+      if (this.phoneVerification.confirmed) {
+        return true;
+      }
+      // if we're confirming the phone or the phone input is dirty
+      if (
+        this.phoneVerification.confirming ||
+        (this.phoneVerification.input && this.phoneVerification.input.dirty)
+      ) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private isDateValid() {
@@ -163,7 +175,10 @@ export class InfoStepComponent {
   }
 
   private validate(): boolean {
-    if (!this.phoneVerification.confirmed && this.phoneVerification.dirty) {
+    if (
+      !this.phoneVerification.confirmed &&
+      this.phoneVerification.input.dirty
+    ) {
       this.phoneVerification.error = 'verify:phonenumber';
       return false;
     }

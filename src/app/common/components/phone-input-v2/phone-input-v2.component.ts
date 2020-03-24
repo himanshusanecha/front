@@ -38,6 +38,7 @@ export class PhoneInputV2Component
   @ViewChild('input', { static: true }) input: ElementRef;
   selectedCountry;
   init: boolean = false;
+  dirty: boolean = false;
 
   propagateChange = (_: any) => {};
 
@@ -60,6 +61,7 @@ export class PhoneInputV2Component
   }
 
   public onPhoneNumberChange(): void {
+    this.dirty = this.phoneNumber.length !== 0;
     this.propagateChange(this.number);
   }
 
