@@ -1,23 +1,22 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
+  EventEmitter,
+  Inject,
+  Input,
   OnDestroy,
   OnInit,
-  Input,
-  ViewChild,
   Output,
-  EventEmitter,
-  ChangeDetectorRef,
-  Inject,
   PLATFORM_ID,
-  AfterViewInit,
+  ViewChild,
 } from '@angular/core';
 import { PLAYER_ANIMATIONS } from './player.animations';
 import { VideoPlayerService, VideoSource } from './player.service';
-import isMobile from '../../../../helpers/is-mobile';
 import Plyr from 'plyr';
 import { PlyrComponent } from 'ngx-plyr';
 import { isPlatformBrowser } from '@angular/common';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'm-videoPlayer',
@@ -89,20 +88,6 @@ export class MindsVideoPlayerComponent
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  ngOnChanges(changes) {
-    // reload on guid change.
-    if (
-      changes.guid &&
-      changes.guid.previousValue &&
-      changes.guid.previousValue !== changes.guid.currentValue
-    ) {
-      if (isPlatformBrowser(this.platformId)) {
-        this.guid = changes.guid.currentValue;
-        this.service.load();
-      }
-    }
-  }
-
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.service.load();
@@ -126,7 +111,12 @@ export class MindsVideoPlayerComponent
 
   @Input('guid')
   set guid(guid: string) {
+    const oldGuid = this.service.guid;
     this.service.setGuid(guid);
+
+    if (isPlatformBrowser(this.platformId) && oldGuid !== guid) {
+      this.service.load();
+    }
   }
 
   @Input('autoplay')
@@ -144,8 +134,8 @@ export class MindsVideoPlayerComponent
     this.service.setShouldPlayInModal(shouldPlayInModal);
   }
 
-  get sources(): Plyr.Source[] {
-    return this.service.sources;
+  get sources$(): BehaviorSubject<VideoSource> {
+    return this.service.sources$;
   }
 
   get status(): string {

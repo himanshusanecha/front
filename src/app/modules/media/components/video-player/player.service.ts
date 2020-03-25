@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Client } from '../../../../services/api';
 import isMobile from '../../../../helpers/is-mobile';
+import Plyr from 'plyr';
 
 export type VideoSource = {
   id: string;
@@ -11,16 +12,16 @@ export type VideoSource = {
 };
 
 @Injectable()
-export class VideoPlayerService {
+export class VideoPlayerService implements OnDestroy {
   /**
    * @var string
    */
   guid: string;
 
   /**
-   * @var VideoSource[]
+   * @var BehaviorSubject<VideoSource>
    */
-  sources: VideoSource[];
+  sources$: BehaviorSubject<VideoSource> = new BehaviorSubject<VideoSource>({});
 
   /**
    * @var string
@@ -90,7 +91,7 @@ export class VideoPlayerService {
   async load(): Promise<void> {
     try {
       let response = await this.client.get('api/v2/media/video/' + this.guid);
-      this.sources = (<any>response).sources;
+      this.sources$.next((<any>response).sources);
       this.poster$.next((<any>response).poster);
       this.status = (<any>response).transcode_status;
       this.onReady$.next();
