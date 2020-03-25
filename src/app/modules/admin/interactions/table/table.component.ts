@@ -44,7 +44,7 @@ import { Client } from '../../../../services/api/client';
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InteractionsTableComponent implements OnInit, OnChanges {
+export class InteractionsTableComponent implements OnInit {
   @Input() metric: { title: string; metric: string };
   timeout;
 
@@ -76,17 +76,6 @@ export class InteractionsTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getLeaderboard();
-    this.init = true;
-  }
-
-  ngOnChanges() {
-    if (this.init) {
-      this.getLeaderboard();
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.cd.detach();
   }
 
   async getLeaderboard() {
@@ -126,9 +115,7 @@ export class InteractionsTableComponent implements OnInit, OnChanges {
   }
 
   detectChanges() {
-    if (!this.cd['destroyed']) {
-      this.cd.markForCheck();
-      this.cd.detectChanges();
-    }
+    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 }
