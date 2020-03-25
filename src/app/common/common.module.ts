@@ -151,6 +151,20 @@ import { TopbarService } from './layout/topbar.service';
 import { UserMenuV3Component } from './layout/v3-topbar/user-menu/user-menu.component';
 import { NestedMenuComponent } from './layout/nested-menu/nested-menu.component';
 import { StackableModalComponent } from './components/stackable-modal/stackable-modal.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { IconComponent } from './components/icon/icon.component';
+import { ButtonComponent } from './components/button-v2/button.component';
+import { OverlayComponent } from './components/overlay/overlay.component';
+import { AttachmentApiService } from './api/attachment-api.service';
+import { ApiService } from './api/api.service';
+import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { PageLayoutService } from './layout/page-layout.service';
+import {
+  PageLayoutPaneDirective,
+  PageLayoutContainerDirective,
+} from './layout/page-layout.directive';
 
 const routes: Routes = [
   {
@@ -286,6 +300,15 @@ const routes: Routes = [
     ExplicitOverlayComponent,
     NestedMenuComponent,
     StackableModalComponent,
+    FileUploadComponent,
+    IconComponent,
+    ButtonComponent,
+    OverlayComponent,
+    DropdownMenuComponent,
+    CalendarComponent,
+    LoadingSpinnerComponent,
+    PageLayoutPaneDirective,
+    PageLayoutContainerDirective,
   ],
   exports: [
     MINDS_PIPES,
@@ -402,6 +425,15 @@ const routes: Routes = [
     NestedMenuComponent,
     MarketingFooterComponent,
     StackableModalComponent,
+    FileUploadComponent,
+    IconComponent,
+    ButtonComponent,
+    OverlayComponent,
+    DropdownMenuComponent,
+    CalendarComponent,
+    LoadingSpinnerComponent,
+    PageLayoutPaneDirective,
+    PageLayoutContainerDirective,
   ],
   providers: [
     SiteService,
@@ -469,6 +501,8 @@ const routes: Routes = [
     },
     HorizontalFeedService,
     TagsService,
+    ApiService,
+    AttachmentApiService,
   ],
   entryComponents: [
     NotificationsToasterComponent,
