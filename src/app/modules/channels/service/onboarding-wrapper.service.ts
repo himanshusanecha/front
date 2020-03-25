@@ -27,7 +27,7 @@ export class OnboardingWrapperService {
     private featuresService: FeaturesService,
     private router: Router
   ) {
-    this.useV2 = this.featuresService.has('onboarding-december-2019');
+    this.useV2 = this.featuresService.has('ux-2020');
   }
 
   open(): void {

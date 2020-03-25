@@ -1,10 +1,6 @@
-import { NgModule, inject, Injector } from '@angular/core';
-import {
-  CommonModule as NgCommonModule,
-  isPlatformServer,
-  Location,
-} from '@angular/common';
-import { RouterModule, Router, Routes, ActivatedRoute } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { Router, RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MINDS_PIPES } from './pipes/pipes';
@@ -27,10 +23,8 @@ import { ReadMoreButtonComponent } from './read-more/button.component';
 import { ChannelBadgesComponent } from './components/badges/badges.component';
 import { NSFWSelectorComponent } from './components/nsfw-selector/nsfw-selector.component';
 import {
-  NSFWSelectorService,
   NSFWSelectorConsumerService,
   NSFWSelectorCreatorService,
-  NSFWSelectorEditingService,
 } from './components/nsfw-selector/nsfw-selector.service';
 
 import { Scheduler } from './components/scheduler/scheduler';
@@ -73,7 +67,7 @@ import { MindsTokenSymbolComponent } from './components/cypto/token-symbol.compo
 import { PhoneInputComponent } from './components/phone-input/phone-input.component';
 import { PhoneInputCountryComponent } from './components/phone-input/country.component';
 import { Session } from '../services/session';
-import { Client, Upload } from '../services/api';
+import { Client } from '../services/api';
 import { MindsHttpClient } from './api/client.service';
 import { SafeToggleComponent } from './components/safe-toggle/safe-toggle.component';
 import { NotificationsToasterComponent } from '../modules/notifications/toaster.component';
@@ -90,7 +84,6 @@ import { SortSelectorComponent } from './components/sort-selector/sort-selector.
 
 import { UpdateMarkersService } from './services/update-markers.service';
 import { SocketsService } from '../services/sockets';
-import { Storage } from '../services/storage';
 import { HttpClient } from '@angular/common/http';
 import { AndroidAppDownloadComponent } from './components/android-app-download-button/button.component';
 import { SwitchComponent } from './components/switch/switch.component';
@@ -135,7 +128,6 @@ import { SidebarMarkersService } from './layout/sidebar/markers.service';
 import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
 import { CookieService } from './services/cookie.service';
 import { MetaService } from './services/meta.service';
-import { Title, Meta } from '@angular/platform-browser';
 import { MediaProxyService } from './services/media-proxy.service';
 import { HorizontalFeedService } from './services/horizontal-feed.service';
 import { FormInputCheckboxComponent } from './components/forms/checkbox/checkbox.component';
@@ -144,13 +136,13 @@ import { PhoneInputV2Component } from './components/phone-input-v2/phone-input-v
 import { PhoneInputCountryV2Component } from './components/phone-input-v2/country.component';
 import { TagsService } from './services/tags.service';
 import { ExplicitOverlayComponent } from './components/explicit-overlay/overlay.component';
-import { RedirectService } from './services/redirect.service';
 import { V3TopbarComponent } from './layout/v3-topbar/v3-topbar.component';
 import { SidebarNavigationService } from './layout/sidebar/navigation.service';
 import { TopbarService } from './layout/topbar.service';
 import { UserMenuV3Component } from './layout/v3-topbar/user-menu/user-menu.component';
 import { NestedMenuComponent } from './layout/nested-menu/nested-menu.component';
 import { StackableModalComponent } from './components/stackable-modal/stackable-modal.component';
+import { OnboardingReminderComponent } from './components/onboarding-reminder/reminder.component';
 
 const routes: Routes = [
   {
@@ -278,7 +270,7 @@ const routes: Routes = [
     ShadowboxHeaderTabsComponent,
     TimespanFilterComponent,
     EmailConfirmationComponent,
-    EmailConfirmationComponent,
+    OnboardingReminderComponent,
     DateDropdownsComponent,
     PhoneInputV2Component,
     PhoneInputCountryV2Component,
@@ -393,7 +385,7 @@ const routes: Routes = [
     ShadowboxHeaderTabsComponent,
     TimespanFilterComponent,
     EmailConfirmationComponent,
-    EmailConfirmationComponent,
+    OnboardingReminderComponent,
     DateDropdownsComponent,
     PhoneInputV2Component,
     PhoneInputCountryV2Component,
