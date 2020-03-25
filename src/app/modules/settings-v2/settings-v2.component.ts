@@ -1,19 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { NestedMenu } from '../../common/layout/nested-menu/nested-menu.component';
 import { Session } from '../../services/session';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  NavigationEnd,
+  ParamMap,
+} from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { SettingsV2Service } from './settings-v2.service';
+import { FormToastService } from '../../common/services/form-toast.service';
+import { ProService } from '../pro/pro.service';
+import { FeaturesService } from '../../services/features.service';
+import { Subscription } from 'rxjs';
 
+/**
+ * Determines what form/menu(s)
+ * should be displayed in the settings-v2 module
+ */
 @Component({
   selector: 'm-settingsV2',
   templateUrl: './settings-v2.component.html',
 })
 export class SettingsV2Component implements OnInit {
   init: boolean = false;
-  secondaryPanelIsMenu: boolean = false;
-  showMainMenuOnMobile: boolean = false;
+  secondaryPaneIsMenu: boolean = false;
   menuHeaderId: string = 'account';
   routeData: any;
+  newNavigation: boolean = false;
+  user: string | null = null;
+  onMainNav: boolean = false;
+
+  protected paramMap$: Subscription;
 
   mainMenus: NestedMenu[] = [
     {
@@ -23,6 +41,7 @@ export class SettingsV2Component implements OnInit {
       },
       items: [
         { label: 'Account', id: 'account' },
+        { label: 'Pro', id: 'pro_canary' }, // :user param added later
         { label: 'Security', id: 'security' },
         { label: 'Billing', id: 'billing' },
         { label: 'Other', id: 'other' },
@@ -39,6 +58,20 @@ export class SettingsV2Component implements OnInit {
         items: [
           { label: 'Display Name', id: 'display-name' },
           { label: 'Email Address', id: 'email-address' },
+          { label: 'Display Language', id: 'display-language' },
+          { label: 'Password', id: 'password' },
+          { label: 'NSFW Content', id: 'nsfw-content' },
+          { label: 'Share Buttons', id: 'share-buttons' },
+        ],
+      },
+      {
+        header: {
+          label: 'Notifications',
+          id: 'notifications',
+        },
+        items: [
+          { label: 'Email', id: 'email-notifications' },
+          { label: 'Toaster', id: 'toaster-notifications' },
         ],
       },
       {
@@ -47,8 +80,8 @@ export class SettingsV2Component implements OnInit {
           id: 'account-upgrade',
         },
         items: [
-          { label: 'Upgrade to Pro', id: 'upgrade-to-pro' },
-          { label: 'Upgrade to Plus', id: 'upgrade-to-plus' },
+          { label: 'Upgrade to Pro', id: 'upgrade-to-pro', route: '/pro' },
+          { label: 'Upgrade to Plus', id: 'upgrade-to-plus', route: '/plus' },
         ],
       },
     ],
@@ -76,15 +109,35 @@ export class SettingsV2Component implements OnInit {
         ],
       },
     ],
-    pro: [
+
+    pro_canary: [
       {
         header: {
-          label: 'Pro',
-          id: 'pro',
+          label: 'Pro Settings',
+          id: 'pro_canary',
         },
         items: [
           { label: 'General', id: 'general' },
           { label: 'Theme', id: 'theme' },
+          { label: 'Assets', id: 'assets' },
+          { label: 'Hashtags', id: 'hashtags' },
+          { label: 'Footer', id: 'footer' },
+          { label: 'Domain', id: 'domain' },
+          { label: 'Payouts', id: 'payouts' },
+        ],
+      },
+      {
+        header: {
+          label: 'Pro Subscription Management',
+          id: 'pro-subscription',
+        },
+        items: [
+          { label: 'Cancel Pro Subscription', id: 'cancel' },
+          {
+            label: 'View Pro Channel',
+            id: 'view-pro-channel',
+            route: '',
+          },
         ],
       },
     ],
@@ -125,50 +178,126 @@ export class SettingsV2Component implements OnInit {
   constructor(
     public router: Router,
     private route: ActivatedRoute,
-    protected session: Session
-  ) {}
+    protected session: Session,
+    protected settingsService: SettingsV2Service,
+    protected proService: ProService,
+    protected formToastService: FormToastService,
+    public featuresService: FeaturesService
+  ) {
+    this.newNavigation = this.featuresService.has('navigation');
+  }
 
   ngOnInit() {
     if (!this.session.isLoggedIn()) {
-      return this.router.navigate(['/login']);
+      this.router.navigate(['/login'], { replaceUrl: true });
+      return;
+    }
+    this.user = this.session.getLoggedInUser().username;
+
+    if (this.route.snapshot.url.length === 0) {
+      this.router.navigateByUrl('/settings/canary/account?ref=main');
     }
 
-    if (this.session.getLoggedInUser().pro) {
-      this.mainMenus[0].items.splice(1, 0, { label: 'Pro', id: 'pro' });
-    }
+    this.route.queryParamMap.subscribe(params => {
+      this.onMainNav = params.get('ref') === 'main' ? true : false;
+    });
 
     this.route.url.subscribe(url => {
-      this.menuHeaderId = url[0].path;
-      console.log('path', url[0]);
+      if (url[0]) {
+        this.menuHeaderId = url[0].path;
+        if (this.menuHeaderId === 'pro_canary') {
+          if (this.session.isAdmin() && this.route.snapshot.params.user) {
+            this.user = this.route.snapshot.params.user;
+          }
+          this.setProRoutes();
+        }
+      }
     });
 
     // Get the title, description and whether it's a menu
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
-        this.setupSecondaryPanel();
+        this.setSecondaryPane();
       });
 
-    this.setupSecondaryPanel();
+    this.setProRoutes();
+    this.setSecondaryPane();
+    this.loadSettings();
   }
 
-  setupSecondaryPanel(): void {
-    // const route
-    console.log('SETUP!!', this.route.snapshot);
+  setProRoutes() {
+    const proMainMenuItem = this.mainMenus[0].items.find(
+      item => item.label === 'Pro'
+    );
 
-    this.secondaryPanelIsMenu = false;
+    proMainMenuItem.id = `pro_canary/${this.user}`;
+
+    const proPreviewMenuItem = this.secondaryMenus.pro_canary
+      .find(item => item.header.id === 'pro-subscription')
+      .items.find(item => item.id === 'view-pro-channel');
+
+    proPreviewMenuItem.route = `/pro/${this.user}`;
+  }
+
+  async loadSettings(): Promise<void> {
+    // Initialize settings$
+    await this.settingsService.loadSettings(
+      this.session.getLoggedInUser().guid
+    );
+
+    // Initialize proSettings$
+    if (this.session.isAdmin()) {
+      await this.proService.get(this.user);
+    } else {
+      await this.proService.get();
+    }
+
+    this.init = true;
+  }
+
+  setSecondaryPane(): void {
+    this.secondaryPaneIsMenu = false;
     let snapshot = this.route.snapshot;
     if (snapshot.firstChild && snapshot.firstChild.data['title']) {
       snapshot = snapshot.firstChild;
     } else {
       if (snapshot.data['isMenu']) {
-        this.secondaryPanelIsMenu = snapshot.data['isMenu'];
+        this.secondaryPaneIsMenu = snapshot.data['isMenu'];
       }
     }
     this.routeData = snapshot.data;
-    this.init = true;
   }
 
+  /**
+   * Subscribe to output events from components
+   * activated from within the router outlet
+   */
+  onActivate(elementRef): void {
+    if (elementRef.formSubmitted) {
+      elementRef.formSubmitted.subscribe($event => {
+        if ($event.formSubmitted) {
+          this.formToastService.success('Changes saved');
+        } else {
+          this.formToastService.error($event.error || 'Save error');
+        }
+      });
+    }
+  }
+
+  mainMenuItemSelected(): void {
+    this.onMainNav = false;
+  }
+
+  // Clicking the back button on a secondary menu
+  // brings you back to the top level menu
+  secondaryMenuClickedBack(): void {
+    this.onMainNav = true;
+    this.router.navigate(['/settings/canary']);
+  }
+
+  // Clicking the back button on a form brings you back
+  // to the relevant secondary menu
   goBack(): void {
     this.router.navigate(['../'], { relativeTo: this.route.firstChild });
   }
