@@ -6,11 +6,14 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { DebugElement, EventEmitter } from '@angular/core';
+import { DebugElement, EventEmitter, PLATFORM_ID } from '@angular/core';
 
 import { MockComponent, MockDirective, MockService } from '../../../utils/mock';
 
-import { CommonModule as NgCommonModule } from '@angular/common';
+import {
+  CommonModule as NgCommonModule,
+  ɵPLATFORM_BROWSER_ID,
+} from '@angular/common';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Client } from '../../../services/api/client';
@@ -39,6 +42,15 @@ import { ChannelMode } from '../../../interfaces/entities';
 import { ifStmt } from '@angular/compiler/src/output/output_ast';
 import { ChannelModulesComponent } from '../modules/modules';
 import { SiteService } from '../../../common/services/site.service';
+import { IfBrowserDirective } from '../../../common/directives/if-browser.directive';
+import { ConfigsService } from '../../../common/services/configs.service';
+import { TagsPipeMock } from '../../../mocks/pipes/tagsPipe.mock';
+import {
+  CookieService,
+  CookieOptionsProvider,
+  COOKIE_OPTIONS,
+  CookieModule,
+} from '@gorniv/ngx-universal';
 
 describe('ChannelSidebar', () => {
   let comp: ChannelSidebar;
@@ -59,7 +71,7 @@ describe('ChannelSidebar', () => {
           selector: 'm-channel--social-profiles',
           inputs: ['user', 'editing'],
         }),
-        TagsPipe,
+        TagsPipeMock,
         MockComponent({
           selector: 'm-wire-channel',
           inputs: ['channel', 'editing', 'rewards'],
@@ -113,8 +125,9 @@ describe('ChannelSidebar', () => {
           inputs: ['icon', 'iconClass'],
         }),
         IfFeatureDirective,
+        IfBrowserDirective,
       ],
-      imports: [FormsModule, RouterTestingModule, NgCommonModule],
+      imports: [FormsModule, RouterTestingModule, NgCommonModule, CookieModule],
       providers: [
         { provide: Client, useValue: clientMock },
         { provide: Upload, useValue: uploadMock },
@@ -143,6 +156,16 @@ describe('ChannelSidebar', () => {
             },
           }),
         },
+        {
+          provide: PLATFORM_ID,
+          useValue: ɵPLATFORM_BROWSER_ID,
+        },
+        {
+          provide: ConfigsService,
+          useValue: MockService(ConfigsService),
+        },
+        CookieService,
+        { provide: COOKIE_OPTIONS, useValue: CookieOptionsProvider },
       ],
     }).compileComponents(); // compile template and css
   }));
@@ -156,6 +179,7 @@ describe('ChannelSidebar', () => {
     featuresServiceMock.mock('permissions', true);
     featuresServiceMock.mock('pro', true);
     featuresServiceMock.mock('purchase-pro', true);
+    featuresServiceMock.mock('ux-2020', true);
     clientMock.response = {};
     uploadMock.response = {};
     comp = fixture.componentInstance;
@@ -168,6 +192,7 @@ describe('ChannelSidebar', () => {
       subscribers_count: 182,
       impressions: 18200,
       mode: ChannelMode.PUBLIC,
+      nsfw: [],
     };
     comp.editing = false;
     uploadMock.response[`api/v1/channel/avatar`] = {
@@ -183,7 +208,11 @@ describe('ChannelSidebar', () => {
         },
       ],
     };
-    window.Minds.user = {
+
+    spyOn(
+      fixture.debugElement.injector.get(Session),
+      'getLoggedInUser'
+    ).and.returnValue({
       guid: '732337264197111809',
       type: 'user',
       subtype: false,
@@ -225,7 +254,7 @@ describe('ChannelSidebar', () => {
       boost_rating: '2',
       spam: 0,
       deleted: 0,
-    };
+    });
 
     fixture.detectChanges();
 
@@ -271,7 +300,7 @@ describe('ChannelSidebar', () => {
 
   it('bio container should be editable if its the owner, should send event when saving, and returning to original state', () => {
     spyOn(comp, 'toggleEditing');
-    comp.user.guid = '1000';
+    comp.user.guid = '732337264197111809';
     fixture.detectChanges();
     const edit_tick = fixture.debugElement.query(By.css('.minds-button-edit'));
     edit_tick.nativeElement.click();

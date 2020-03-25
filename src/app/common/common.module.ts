@@ -1,6 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule as NgCommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { NgModule, inject, Injector } from '@angular/core';
+import {
+  CommonModule as NgCommonModule,
+  isPlatformServer,
+  Location,
+} from '@angular/common';
+import { RouterModule, Router, Routes, ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MINDS_PIPES } from './pipes/pipes';
@@ -43,7 +47,6 @@ import { ScrollLock } from './directives/scroll-lock';
 import { TagsLinks } from './directives/tags';
 import { Tooltip } from './directives/tooltip';
 import { MindsAvatar } from './components/avatar/avatar';
-import { CaptchaComponent } from './components/captcha/captcha.component';
 import { Textarea } from './components/editors/textarea.component';
 import { TagcloudComponent } from './components/tagcloud/tagcloud.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
@@ -60,6 +63,7 @@ import { InlineEditorComponent } from './components/editors/inline-editor.compon
 import { AttachmentService } from '../services/attachment';
 import { MaterialBoundSwitchComponent } from './components/material/bound-switch.component';
 import { IfFeatureDirective } from './directives/if-feature.directive';
+import { IfBrowserDirective } from './directives/if-browser.directive';
 import { MindsEmoji } from './components/emoji/emoji';
 import { CategoriesSelectorComponent } from './components/categories/selector/selector.component';
 import { CategoriesSelectedComponent } from './components/categories/selected/selected.component';
@@ -99,7 +103,6 @@ import { FeedsService } from './services/feeds.service';
 import { EntitiesService } from './services/entities.service';
 import { BlockListService } from './services/block-list.service';
 import { SettingsService } from '../modules/settings/settings.service';
-import { ThemeService } from './services/theme.service';
 import { HorizontalInfiniteScroll } from './components/infinite-scroll/horizontal-infinite-scroll.component';
 import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/links/links.component';
 import { PosterDateSelectorComponent } from './components/poster-date-selector/selector.component';
@@ -114,15 +117,62 @@ import { MarketingFooterComponent } from './components/marketing/footer.componen
 import { ToggleComponent } from './components/toggle/toggle.component';
 import { MarketingAsFeaturedInComponent } from './components/marketing/as-featured-in.component';
 import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.component';
-import { ChartV2Component } from './components/chart-v2/chart-v2.component';
-import * as PlotlyJS from 'plotly.js/dist/plotly.js';
-import { PlotlyModule } from 'angular-plotly.js';
 import { PageLayoutComponent } from './components/page-layout/page-layout.component';
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
 import { ShadowboxLayoutComponent } from './components/shadowbox-layout/shadowbox-layout.component';
 import { ShadowboxHeaderComponent } from './components/shadowbox-header/shadowbox-header.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { DropdownSelectorComponent } from './components/dropdown-selector/dropdown-selector.component';
+import { ShadowboxSubmitButtonComponent } from './components/shadowbox-submit-button/shadowbox-submit-button.component';
+import { FormDescriptorComponent } from './components/form-descriptor/form-descriptor.component';
+import { FormToastComponent } from './components/form-toast/form-toast.component';
+import { SsoService } from './services/sso.service';
+import { ShadowboxHeaderTabsComponent } from './components/shadowbox-header-tabs/shadowbox-header-tabs.component';
+import { TimespanFilterComponent } from './components/timespan-filter/timespan-filter.component';
+import { PagesService } from './services/pages.service';
+import { DateDropdownsComponent } from './components/date-dropdowns/date-dropdowns.component';
+import { SidebarMarkersService } from './layout/sidebar/markers.service';
+import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
+import { CookieService } from './services/cookie.service';
+import { MetaService } from './services/meta.service';
+import { Title, Meta } from '@angular/platform-browser';
+import { MediaProxyService } from './services/media-proxy.service';
+import { HorizontalFeedService } from './services/horizontal-feed.service';
+import { FormInputCheckboxComponent } from './components/forms/checkbox/checkbox.component';
+import { AttachmentPasteDirective } from './directives/paste/attachment-paste.directive';
+import { PhoneInputV2Component } from './components/phone-input-v2/phone-input-v2.component';
+import { PhoneInputCountryV2Component } from './components/phone-input-v2/country.component';
+import { TagsService } from './services/tags.service';
+import { ExplicitOverlayComponent } from './components/explicit-overlay/overlay.component';
+import { RedirectService } from './services/redirect.service';
+import { V3TopbarComponent } from './layout/v3-topbar/v3-topbar.component';
+import { SidebarNavigationService } from './layout/sidebar/navigation.service';
+import { TopbarService } from './layout/topbar.service';
+import { UserMenuV3Component } from './layout/v3-topbar/user-menu/user-menu.component';
+import { NestedMenuComponent } from './layout/nested-menu/nested-menu.component';
+import { StackableModalComponent } from './components/stackable-modal/stackable-modal.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { IconComponent } from './components/icon/icon.component';
+import { ButtonComponent } from './components/button-v2/button.component';
+import { OverlayComponent } from './components/overlay/overlay.component';
+import { AttachmentApiService } from './api/attachment-api.service';
+import { ApiService } from './api/api.service';
+import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { PageLayoutService } from './layout/page-layout.service';
+import {
+  PageLayoutPaneDirective,
+  PageLayoutContainerDirective,
+} from './layout/page-layout.directive';
+import { FriendlyTimePipe } from './pipes/friendlytime.pipe';
 
-PlotlyModule.plotlyjs = PlotlyJS;
+const routes: Routes = [
+  {
+    path: 'email-confirmation',
+    redirectTo: '/',
+  },
+];
 
 @NgModule({
   imports: [
@@ -131,7 +181,9 @@ PlotlyModule.plotlyjs = PlotlyJS;
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    PlotlyModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    RouterModule.forChild(routes),
   ],
   declarations: [
     MINDS_PIPES,
@@ -144,7 +196,9 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
     // V2 Layout
     V2TopbarComponent,
+    V3TopbarComponent,
     UserMenuComponent,
+    UserMenuV3Component,
 
     //
 
@@ -177,7 +231,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MDL_DIRECTIVES,
     DateSelectorComponent,
     MindsAvatar,
-    CaptchaComponent,
     Textarea,
     InlineEditorComponent,
 
@@ -193,6 +246,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MaterialBoundSwitchComponent,
 
     IfFeatureDirective,
+    IfBrowserDirective,
 
     CategoriesSelectorComponent,
     CategoriesSelectedComponent,
@@ -220,6 +274,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     SwitchComponent,
 
     FeaturedContentComponent,
+    AttachmentPasteDirective,
     PosterDateSelectorComponent,
     DraggableListComponent,
     ToggleComponent,
@@ -227,11 +282,35 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MarketingFooterComponent,
     MarketingAsFeaturedInComponent,
     SidebarMenuComponent,
-    ChartV2Component,
     PageLayoutComponent,
     DashboardLayoutComponent,
     ShadowboxLayoutComponent,
     ShadowboxHeaderComponent,
+    DropdownSelectorComponent,
+    FormDescriptorComponent,
+    FormToastComponent,
+    ShadowboxSubmitButtonComponent,
+    ShadowboxHeaderTabsComponent,
+    TimespanFilterComponent,
+    EmailConfirmationComponent,
+    EmailConfirmationComponent,
+    DateDropdownsComponent,
+    PhoneInputV2Component,
+    PhoneInputCountryV2Component,
+    FormInputCheckboxComponent,
+    ExplicitOverlayComponent,
+    NestedMenuComponent,
+    StackableModalComponent,
+    FileUploadComponent,
+    IconComponent,
+    ButtonComponent,
+    OverlayComponent,
+    DropdownMenuComponent,
+    CalendarComponent,
+    LoadingSpinnerComponent,
+    PageLayoutPaneDirective,
+    PageLayoutContainerDirective,
+    FriendlyTimePipe,
   ],
   exports: [
     MINDS_PIPES,
@@ -243,6 +322,10 @@ PlotlyModule.plotlyjs = PlotlyJS;
     // V2 Layout
     V2TopbarComponent,
     UserMenuComponent,
+
+    // V3 Layout
+    V3TopbarComponent,
+    UserMenuV3Component,
 
     //
 
@@ -275,7 +358,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MDL_DIRECTIVES,
     DateSelectorComponent,
     MindsAvatar,
-    CaptchaComponent,
     Textarea,
     InlineEditorComponent,
 
@@ -291,6 +373,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MaterialBoundSwitchComponent,
 
     IfFeatureDirective,
+    IfBrowserDirective,
 
     CategoriesSelectorComponent,
     CategoriesSelectedComponent,
@@ -316,6 +399,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     SwitchComponent,
     NSFWSelectorComponent,
     FeaturedContentComponent,
+    AttachmentPasteDirective,
     PosterDateSelectorComponent,
     ChannelModeSelectorComponent,
     DraggableListComponent,
@@ -323,18 +407,44 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MarketingComponent,
     MarketingAsFeaturedInComponent,
     SidebarMenuComponent,
-    ChartV2Component,
     PageLayoutComponent,
     DashboardLayoutComponent,
     ShadowboxLayoutComponent,
+    DropdownSelectorComponent,
+    FormDescriptorComponent,
+    FormToastComponent,
+    ShadowboxSubmitButtonComponent,
+    ShadowboxHeaderComponent,
+    ShadowboxHeaderTabsComponent,
+    TimespanFilterComponent,
+    EmailConfirmationComponent,
+    EmailConfirmationComponent,
+    DateDropdownsComponent,
+    PhoneInputV2Component,
+    PhoneInputCountryV2Component,
+    FormInputCheckboxComponent,
+    ExplicitOverlayComponent,
+    NestedMenuComponent,
+    MarketingFooterComponent,
+    StackableModalComponent,
+    FileUploadComponent,
+    IconComponent,
+    ButtonComponent,
+    OverlayComponent,
+    DropdownMenuComponent,
+    CalendarComponent,
+    LoadingSpinnerComponent,
+    PageLayoutPaneDirective,
+    PageLayoutContainerDirective,
+    FriendlyTimePipe,
   ],
   providers: [
     SiteService,
-    {
-      provide: AttachmentService,
-      useFactory: AttachmentService._,
-      deps: [Session, Client, Upload, HttpClient],
-    },
+    SsoService,
+    AttachmentService,
+    CookieService,
+    PagesService,
+    AttachmentService,
     {
       provide: UpdateMarkersService,
       useFactory: (_http, _session, _sockets) => {
@@ -345,18 +455,10 @@ PlotlyModule.plotlyjs = PlotlyJS;
     {
       provide: MindsHttpClient,
       useFactory: MindsHttpClient._,
-      deps: [HttpClient, SiteService],
+      deps: [HttpClient, CookieService],
     },
-    {
-      provide: NSFWSelectorCreatorService,
-      useFactory: _storage => new NSFWSelectorCreatorService(_storage),
-      deps: [Storage],
-    },
-    {
-      provide: NSFWSelectorConsumerService,
-      useFactory: _storage => new NSFWSelectorConsumerService(_storage),
-      deps: [Storage],
-    },
+    NSFWSelectorCreatorService,
+    NSFWSelectorConsumerService,
     {
       provide: BoostedContentService,
       useFactory: (
@@ -392,6 +494,18 @@ PlotlyModule.plotlyjs = PlotlyJS;
       useFactory: router => new RouterHistoryService(router),
       deps: [Router],
     },
+    MetaService,
+    MediaProxyService,
+    SidebarNavigationService,
+    TopbarService,
+    {
+      provide: SidebarMarkersService,
+      useFactory: SidebarMarkersService._,
+    },
+    HorizontalFeedService,
+    TagsService,
+    ApiService,
+    AttachmentApiService,
   ],
   entryComponents: [
     NotificationsToasterComponent,

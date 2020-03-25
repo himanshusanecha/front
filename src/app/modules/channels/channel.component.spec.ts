@@ -20,11 +20,9 @@ import { sessionMock } from '../../../tests/session-mock.spec';
 import { MaterialMock } from '../../../tests/material-mock.spec';
 import { FormsModule } from '@angular/forms';
 import { MaterialSwitchMock } from '../../../tests/material-switch-mock.spec';
-import { mindsTitleMock } from '../../mocks/services/ux/minds-title.service.mock.spec';
 import { ChannelComponent } from './channel.component';
 import { Upload } from '../../services/api';
 import { Session } from '../../services/session';
-import { MindsTitle } from '../../services/ux/title';
 import { scrollServiceMock } from '../../../tests/scroll-service-mock.spec';
 import { ScrollService } from '../../services/ux/scroll';
 import { recentServiceMock } from '../../../tests/minds-recent-service-mock.spec';
@@ -39,6 +37,9 @@ import { BlockListService } from '../../common/services/block-list.service';
 import { ChannelMode } from '../../interfaces/entities';
 import { ClientMetaService } from '../../common/services/client-meta.service';
 import { clientMetaServiceMock } from '../../../tests/client-meta-service-mock.spec';
+import { MetaService } from '../../common/services/meta.service';
+import { SiteService } from '../../common/services/site.service';
+import { ConfigsService } from '../../common/services/configs.service';
 
 describe('ChannelComponent', () => {
   let comp: ChannelComponent;
@@ -75,8 +76,13 @@ describe('ChannelComponent', () => {
           inputs: ['user', 'editing'],
         }),
         MockComponent({
-          selector: 'm-channel--explicit-overlay',
-          inputs: ['channel'],
+          selector: 'm-channel__sidebarv2',
+          inputs: ['user', 'editing'],
+          template: '',
+        }),
+        MockComponent({
+          selector: 'm-explicit-overlay',
+          inputs: ['entity'],
         }),
         MockComponent({
           selector: 'm-sort-selector',
@@ -95,7 +101,8 @@ describe('ChannelComponent', () => {
         { provide: Client, useValue: clientMock },
         { provide: Upload, useValue: uploadMock },
         { provide: Session, useValue: sessionMock },
-        { provide: MindsTitle, useValue: mindsTitleMock },
+        MetaService,
+        SiteService,
         { provide: ScrollService, useValue: scrollServiceMock },
         { provide: RecentService, useValue: recentServiceMock },
         { provide: ContextService, useValue: contextServiceMock },
@@ -108,6 +115,7 @@ describe('ChannelComponent', () => {
         { provide: FeaturesService, useValue: featuresServiceMock },
         { provide: BlockListService, useValue: MockService(BlockListService) },
         { provide: ClientMetaService, useValue: clientMetaServiceMock },
+        { provide: ConfigsService, useValue: MockService(ConfigsService) },
       ],
     }).compileComponents(); // compile template and css
   }));
@@ -116,12 +124,15 @@ describe('ChannelComponent', () => {
     jasmine.MAX_PRETTY_PRINT_DEPTH = 10;
     jasmine.clock().uninstall();
     jasmine.clock().install();
+
     fixture = TestBed.createComponent(ChannelComponent);
     clientMock.response = {};
     uploadMock.response = {};
     featuresServiceMock.mock('es-feeds', false);
     featuresServiceMock.mock('top-feeds', false);
     featuresServiceMock.mock('channel-filter-feeds', false);
+    featuresServiceMock.mock('navigation', false);
+
     comp = fixture.componentInstance;
     comp.username = 'username';
     comp.user = {
@@ -132,6 +143,14 @@ describe('ChannelComponent', () => {
       subscribers_count: 182,
       impressions: 18200,
       mode: ChannelMode.PUBLIC,
+      avatar_url: {
+        tiny: 'thumbs',
+        small: 'thumbs',
+        medium: 'thumbs',
+        large: 'thumbs',
+        master: 'thumbs',
+      },
+      nsfw: [],
     };
     comp.editing = false;
     fixture.detectChanges();

@@ -10,12 +10,14 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 
-import { MindsTitle } from '../../../services/ux/title';
 import { Client } from '../../../services/api';
 import { Session } from '../../../services/session';
 
 import { AnalyticsDashboardService } from './dashboard.service';
 import { Filter } from './../../../interfaces/dashboard';
+import sidebarMenu from './sidebar-menu.default';
+import { Menu } from '../../../common/components/sidebar-menu/sidebar-menu.component';
+import { MetaService } from '../../../common/services/meta.service';
 
 @Component({
   selector: 'm-analytics__dashboard',
@@ -24,6 +26,7 @@ import { Filter } from './../../../interfaces/dashboard';
   providers: [AnalyticsDashboardService],
 })
 export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
+  menu: Menu = sidebarMenu;
   paramsSubscription: Subscription;
 
   ready$ = this.analyticsService.ready$;
@@ -37,7 +40,7 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     label: 'Timespan',
     options: [],
   };
-  channelFilter: Filter;
+  // channelFilter: Filter;
   layout = 'chart';
 
   constructor(
@@ -45,7 +48,6 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     private router: Router,
     public session: Session,
-    public title: MindsTitle,
     public analyticsService: AnalyticsDashboardService,
     private cd: ChangeDetectorRef
   ) {}
@@ -55,8 +57,6 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
       this.router.navigate(['/login']);
       return;
     }
-
-    this.title.setTitle('Analytics');
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       const cat = params.get('category');
@@ -86,13 +86,18 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
       this.detectChanges();
     });
     this.analyticsService.filters$.subscribe(filters => {
-      this.channelFilter = filters.find(filter => filter.id === 'channel');
-
       // TODO: remove this once channel search is ready
-      // Temporarily remove channel search from filter options
-      this.channelFilter.options = this.channelFilter.options.filter(option => {
-        return option.id === 'all' || option.id === 'self';
-      });
+      // const channelFilter = filters.find(filter => filter.id === 'channel');
+      // if (channelFilter) {
+      //   this.channelFilter = channelFilter;
+
+      //   // Temporarily remove channel search from filter options
+      //   this.channelFilter.options = this.channelFilter.options.filter(
+      //     option => {
+      //       return option.id === 'all' || option.id === 'self';
+      //     }
+      //   );
+      // }
       this.detectChanges();
     });
 
@@ -100,6 +105,12 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
       this.analyticsService.updateFilter('channel::self');
     } else {
       this.analyticsService.updateFilter('channel::all');
+    }
+  }
+
+  filterSelectionMade($event) {
+    if ($event.filterId === 'timespan') {
+      this.analyticsService.updateTimespan($event.option.id);
     }
   }
 

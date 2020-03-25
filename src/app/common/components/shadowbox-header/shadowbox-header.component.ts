@@ -7,7 +7,11 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
+  ViewRef,
 } from '@angular/core';
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { horizontallyScrollElementIntoView } from '../../../helpers/scrollable-container-visibility';
 
 @Component({
   selector: 'm-shadowboxHeader',
@@ -16,10 +20,16 @@ import {
 })
 export class ShadowboxHeaderComponent implements AfterViewInit {
   @Input() isScrollable: boolean = true;
-  @Input() metricActivated;
+  @Input() itemActivated;
   @ViewChild('shadowboxHeaderContainer', { static: false })
-  shadowboxHeaderContainerEl: ElementRef;
-  shadowboxHeaderContainer;
+  containerEl: ElementRef;
+  container;
+  public containerScrollLeft: number = 0;
+
+  firstMetricEl;
+  activeMetricEl;
+
+  tabsArray;
 
   childClientWidth: number;
   faderWidth = 24;
@@ -28,30 +38,44 @@ export class ShadowboxHeaderComponent implements AfterViewInit {
   isAtScrollStart = true;
   showButton = { left: false, right: false };
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(
+    private cd: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) protected platformId: Object
+  ) {}
 
   ngAfterViewInit() {
-    this.checkOverflow();
-    // const activeMetric = ;//get the index of the metric with .active
-    // this.slideToActiveMetric();
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        this.container = this.containerEl.nativeElement;
+
+        this.activeMetricEl = <HTMLElement>(
+          document.querySelector('.active.m-shadowboxHeaderTab')
+        );
+
+        this.firstMetricEl = <HTMLElement>(
+          document.querySelector('.m-shadowboxHeaderTab')
+        );
+
+        this.slideToActiveMetric(this.container, this.activeMetricEl);
+        this.checkOverflow();
+      }, 50);
+    }
   }
 
-  // updateMetric(metric) {
-  //   // TODO: if clicked metric is not fully visible, slide() until it is
-  //   this.analyticsService.updateMetric(metric.id);
-  // }
-
-  // ----------------------------------------------------
-  @HostListener('click', ['$event.target'])
-  onClick(target) {
-    console.log('***Clicked on: ', target);
-    // this.slideToActiveMetric(metricIndex);
+  slideToActiveMetric(container, el) {
+    horizontallyScrollElementIntoView(container, el, true);
   }
 
-  slideToActiveMetric(metricIndex) {
-    // TODOOJM
+  @HostListener('click', ['$event'])
+  onClick($event) {
+    const targetMetric = $event.target;
+    if (targetMetric.className === 'm-shadowboxHeader__overflowFade--left') {
+      this.slide('left');
+    } else {
+      this.slideToActiveMetric(this.container, targetMetric);
+      this.checkOverflow();
+    }
   }
-  // ----------------------------------------------------
 
   @HostListener('window:resize')
   onResize() {
@@ -59,52 +83,49 @@ export class ShadowboxHeaderComponent implements AfterViewInit {
   }
 
   onScroll($event) {
+    this.containerScrollLeft = this.container.scrollLeft;
     this.checkOverflow();
   }
 
   checkOverflow() {
+    // assumes all metrics are equal width
     if (!this.isScrollable) {
       return;
     }
 
-    const firstMetric = <HTMLElement>(
-      document.querySelector('.m-shadowboxLayout__headerItem')
-    );
-    // TODO: figure out how to avoid test failure "Cannot read property 'clientWidth' of null"
-    this.childClientWidth = firstMetric ? firstMetric.clientWidth : 160;
+    if (this.firstMetricEl) {
+      this.childClientWidth = this.firstMetricEl.clientWidth;
 
-    this.shadowboxHeaderContainer = this.shadowboxHeaderContainerEl.nativeElement;
-    this.isOverflown =
-      this.shadowboxHeaderContainer.scrollWidth -
-        this.shadowboxHeaderContainer.clientWidth >
-      0;
+      this.isOverflown =
+        this.container.scrollWidth - this.container.clientWidth > 0;
 
-    this.isAtScrollStart =
-      this.shadowboxHeaderContainer.scrollLeft < this.faderWidth;
-    this.showButton.left = this.isOverflown && !this.isAtScrollStart;
+      this.isAtScrollStart = this.container.scrollLeft < this.faderWidth;
+      this.showButton.left = this.isOverflown && !this.isAtScrollStart;
 
-    this.isAtScrollEnd =
-      !this.isOverflown ||
-      this.shadowboxHeaderContainer.scrollWidth -
-        (this.shadowboxHeaderContainer.scrollLeft +
-          this.shadowboxHeaderContainer.clientWidth) <
-        this.faderWidth;
+      this.isAtScrollEnd =
+        !this.isOverflown ||
+        this.container.scrollWidth -
+          (this.container.scrollLeft + this.container.clientWidth) <
+          this.faderWidth;
 
-    this.showButton.right =
-      this.isOverflown &&
-      this.shadowboxHeaderContainer.scrollLeft >= 0 &&
-      !this.isAtScrollEnd;
-    this.detectChanges();
+      this.showButton.right =
+        this.isOverflown &&
+        this.container.scrollLeft >= 0 &&
+        !this.isAtScrollEnd;
+    }
+    if (!(this.cd as ViewRef).destroyed) {
+      this.detectChanges();
+    }
   }
 
   slide(direction) {
-    let currentScrollLeft = this.shadowboxHeaderContainer.scrollLeft;
+    let currentScrollLeft = this.container.scrollLeft;
     let targetScrollLeft;
     let scrollEndOffset = 0;
     const partiallyVisibleMetricWidth =
-      this.shadowboxHeaderContainer.clientWidth % this.childClientWidth;
+      this.container.clientWidth % this.childClientWidth;
     const completelyVisibleMetricsWidth =
-      this.shadowboxHeaderContainer.clientWidth - partiallyVisibleMetricWidth;
+      this.container.clientWidth - partiallyVisibleMetricWidth;
 
     if (direction === 'right') {
       if (currentScrollLeft < this.faderWidth) {
@@ -112,8 +133,7 @@ export class ShadowboxHeaderComponent implements AfterViewInit {
       }
       targetScrollLeft = Math.min(
         currentScrollLeft + completelyVisibleMetricsWidth,
-        this.shadowboxHeaderContainer.scrollWidth -
-          completelyVisibleMetricsWidth
+        this.container.scrollWidth - completelyVisibleMetricsWidth
       );
     } else {
       if (this.isAtScrollEnd) {
@@ -125,7 +145,7 @@ export class ShadowboxHeaderComponent implements AfterViewInit {
       );
     }
 
-    this.shadowboxHeaderContainer.scrollTo({
+    this.container.scrollTo({
       top: 0,
       left: targetScrollLeft,
       behavior: 'smooth',
