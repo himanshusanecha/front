@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Client } from '../../../../services/api';
 import isMobile from '../../../../helpers/is-mobile';
-import Plyr from 'plyr';
+import { Session } from '../../../../services/session';
 
 export type VideoSource = {
   id: string;
@@ -21,7 +21,12 @@ export class VideoPlayerService implements OnDestroy {
   /**
    * @var BehaviorSubject<VideoSource>
    */
-  sources$: BehaviorSubject<VideoSource> = new BehaviorSubject<VideoSource>({});
+  sources$: BehaviorSubject<VideoSource> = new BehaviorSubject<VideoSource>({
+    id: null,
+    type: null,
+    size: 0,
+    src: null,
+  });
 
   /**
    * @var string
@@ -30,7 +35,7 @@ export class VideoPlayerService implements OnDestroy {
 
   /**
    * A poster is thumbnail
-   * @var string
+   * @var BehaviorSubject<string>
    */
   poster$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
@@ -51,7 +56,7 @@ export class VideoPlayerService implements OnDestroy {
    */
   onReady$: Subject<void> = new Subject();
 
-  constructor(private client: Client) {}
+  constructor(private client: Client, private session: Session) {}
 
   ngOnDestroy(): void {
     if (this.poster$) {
@@ -114,7 +119,10 @@ export class VideoPlayerService implements OnDestroy {
    * @return boolean
    */
   isPlayable(): boolean {
+    const user = this.session.getLoggedInUser();
+
     return (
+      (user.plus && !user.disable_autoplay_videos) ||
       this.isModal || // Always playable in modal
       !this.shouldPlayInModal || // Equivalent of asking to play inline
       (this.canPlayInModal() && !this.isModal)

@@ -36,7 +36,7 @@ const registerForm = {
   email: 'minds-form-register #email',
   password: 'minds-form-register #password',
   password2: 'minds-form-register #password2',
-  checkbox: 'minds-form-register label:nth-child(2) .mdl-ripple--center',
+  checkbox: '[data-cy=minds-accept-tos-input] [type=checkbox]',
   submitButton: 'minds-form-register .mdl-card__actions button',
 };
 
@@ -143,6 +143,8 @@ Cypress.Commands.add('newUser', (username = '', password = '') => {
     .focus()
     .type(password);
   cy.get(registerForm.checkbox).click({ force: true });
+  
+  cy.completeCaptcha();
 
   //submit.
   cy.get(registerForm.submitButton)
@@ -153,14 +155,9 @@ Cypress.Commands.add('newUser', (username = '', password = '') => {
       expect(xhr.response.body.status).to.deep.equal('success');
     });
 
-  //onboarding modal shown.
-  cy.get(onboarding.welcomeTextContainer).contains(onboarding.welcomeText);
-
-  //skip onboarding.
-  cy.get(onboarding.nextButton).click();
-  cy.get(onboarding.nextButton).click();
-  cy.get(onboarding.nextButton).click();
-  cy.get(onboarding.nextButton).click();
+  // skip onboarding
+  cy.location('pathname').should('eq', '/onboarding/notice');
+  cy.contains("No thanks, I'll do it later").click();
 });
 
 Cypress.Commands.add('preserveCookies', () => {
@@ -227,6 +224,18 @@ Cypress.Commands.add('uploadFile', (selector, fileName, type = '') => {
   });
 });
 
+const composer = {
+  trigger: 'm-composer .m-composer__trigger',
+  messageTextArea: 'm-composer__modal > m-composer__base [data-cy="composer-textarea"]',
+  postButton: 'm-composer__modal > m-composer__base [data-cy="post-button"] [data-cy="button-default-action"]',
+};
+
+Cypress.Commands.add('openComposer', () => {
+  cy.get(composer.trigger)
+    .should('be.visible')
+    .click();
+});
+
 /**
  * Creates a new post. Must be logged in.
  * @param { string } message - The message to be posted
@@ -234,9 +243,10 @@ Cypress.Commands.add('uploadFile', (selector, fileName, type = '') => {
  */
 Cypress.Commands.add('post', message => {
   cy.server();
-  cy.route('POST', '**/v1/newsfeed**').as('postActivity');
-  cy.get(poster.textArea).type(message);
-  cy.get(poster.postButton).click();
+  cy.route('POST', '**/v2/newsfeed**').as('postActivity');
+  cy.openComposer();
+  cy.get(composer.messageTextArea).clear().type(message);
+  cy.get(composer.postButton).click();
   cy.wait('@postActivity').then(xhr => {
     expect(xhr.status).to.equal(200);
     expect(xhr.response.body.status).to.deep.equal('success');

@@ -1,20 +1,28 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  HostListener,
+} from '@angular/core';
 import { Client } from '../../services/api/client';
 import { Router } from '@angular/router';
 import { Navigation as NavigationService } from '../../services/navigation';
-import { LoginReferrerService } from '../../services/login-referrer.service';
 import { Session } from '../../services/session';
 import { RegisterForm } from '../forms/register/register';
 import { FeaturesService } from '../../services/features.service';
 import { ConfigsService } from '../../common/services/configs.service';
 import { OnboardingV2Service } from '../onboarding-v2/service/onboarding.service';
 import { MetaService } from '../../common/services/meta.service';
+import { TopbarService } from '../../common/layout/topbar.service';
+import { SidebarNavigationService } from '../../common/layout/sidebar/navigation.service';
+import { PageLayoutService } from '../../common/layout/page-layout.service';
 
 @Component({
   selector: 'm-homepage__v2',
   templateUrl: 'homepage-v2.component.html',
 })
-export class HomepageV2Component {
+export class HomepageV2Component implements OnInit {
   @ViewChild('registerForm', { static: false }) registerForm: RegisterForm;
 
   readonly cdnAssetsUrl: string;
@@ -31,7 +39,10 @@ export class HomepageV2Component {
     private featuresService: FeaturesService,
     configs: ConfigsService,
     private onboardingService: OnboardingV2Service,
-    private metaService: MetaService
+    private metaService: MetaService,
+    private navigationService: SidebarNavigationService,
+    private topbarService: TopbarService,
+    private pageLayoutService: PageLayoutService
   ) {
     this.cdnAssetsUrl = configs.get('cdn_assets_url');
     this.siteUrl = configs.get('site_url');
@@ -47,10 +58,27 @@ export class HomepageV2Component {
       .setDescription(this.description)
       .setCanonicalUrl('/')
       .setOgUrl('/');
+
+    this.navigationService.setVisible(false);
+    this.topbarService.toggleMarketingPages(true, false, false);
+
+    this.pageLayoutService.removeTopbarBackground();
+    this.pageLayoutService.removeTopbarBorder();
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    if (window.document.body.scrollTop > 52) {
+      this.pageLayoutService.useTopbarBackground();
+      this.pageLayoutService.useTopbarBorder();
+    } else {
+      this.pageLayoutService.removeTopbarBackground();
+      this.pageLayoutService.removeTopbarBorder();
+    }
   }
 
   registered() {
-    if (this.featuresService.has('onboarding-december-2019')) {
+    if (this.featuresService.has('ux-2020')) {
       if (this.onboardingService.shouldShow()) {
         this.router.navigate(['/onboarding']);
         return;

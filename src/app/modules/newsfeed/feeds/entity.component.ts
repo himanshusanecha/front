@@ -20,11 +20,12 @@ import { DynamicHostDirective } from '../../../common/directives/dynamic-host.di
   templateUrl: 'entity.component.html',
 })
 export class NewsfeedEntityComponent {
-  @Output() deleted = new EventEmitter<boolean>();
+  @Output() deleted = new EventEmitter<any>();
   @ViewChild(DynamicHostDirective, { static: false })
   host: DynamicHostDirective;
   entity;
   @Input() displayOptions = { v2: false };
+  @Input() allowAutoplayOnScroll: boolean = false;
 
   constructor(
     protected componentFactoryResolver: ComponentFactoryResolver,
@@ -74,7 +75,6 @@ export class NewsfeedEntityComponent {
    * Sets entity to null and by extension hides it.
    */
   delete(): void {
-    this.entity = null;
-    this.deleted.emit(true);
+    this.deleted.emit(this.entity);
   }
 }

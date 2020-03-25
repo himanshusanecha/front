@@ -6,7 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { MetaService } from '../../services/meta.service';
-import { V2TopbarService } from '../../layout/v2-topbar/v2-topbar.service';
+import { TopbarService } from '../../layout/topbar.service';
+import { PageLayoutService } from '../../layout/page-layout.service';
 
 @Component({
   selector: 'm-marketing',
@@ -20,7 +21,8 @@ export class MarketingComponent implements OnInit, OnDestroy {
 
   constructor(
     protected metaService: MetaService,
-    private topbarService: V2TopbarService
+    private navigationService: TopbarService,
+    private pageLayoutService: PageLayoutService
   ) {}
 
   ngOnInit() {
@@ -28,7 +30,9 @@ export class MarketingComponent implements OnInit, OnDestroy {
       this.metaService.setTitle(this.pageTitle);
     }
 
-    this.topbarService.toggleMarketingPages(
+    this.pageLayoutService.useFullWidth();
+
+    this.navigationService.toggleMarketingPages(
       true,
       this.showBottombar,
       this.forceBackground
@@ -36,6 +40,6 @@ export class MarketingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.topbarService.toggleMarketingPages(false);
+    this.navigationService.toggleMarketingPages(false);
   }
 }
