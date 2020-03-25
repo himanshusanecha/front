@@ -10,10 +10,16 @@ context('Blocked', () => {
   const testPassword = generateRandomId()+'X#';
 
   const userDropdown = '[data-cy=data-minds-user-dropdown]';
-  const blockButton = '[data-cy=data-minds-user-dropdown-block]';
+  const userDropdownBlockButton = '[data-cy=data-minds-user-dropdown-block]';
+
+  const userMenu = '[data-cy=data-minds-user-menu]';
+  const userMenuSettings = '[data-cy=data-minds-user-menu-settings]';
+  
+  const blockedChannelsButton = '[data-cy=data-minds-settings-banned-channels]'
+  const blockedChannelsContainer = '[data-cy=data-minds-blocked-channels]';
 
   before(() => {
-    cy.newUser(testUsername, testPassword);
+    cy.newUser(true, testUsername, testPassword);
     cy.logout();
     cy.login();
   });
@@ -22,10 +28,16 @@ context('Blocked', () => {
     cy.preserveCookies();
     cy.server();
     cy.route('PUT', '**/api/v1/block/**').as('putBlock');
+    cy.route('GET', '**/api/v1/block/**').as('getBlock');
+    cy.route('DELETE', '**/api/v1/block/**').as('deleteBlock');
+  });
+
+  after(() => {
+    cy.deleteUser(testUsername, testPassword)
   });
 
   it('should show nothing more to load when no users', () => {
-    cy.visit('/settings/blocked-channels');
+    navigateToBlockedChannels();
     cy.contains("Nothing more to load");
   });
 
@@ -34,7 +46,7 @@ context('Blocked', () => {
 
     cy.get(userDropdown).click();
     
-    cy.get(blockButton)
+    cy.get(userDropdownBlockButton)
       .click()
       .wait('@putBlock').then(xhr => {
         expect(xhr.status).to.equal(200);
@@ -42,8 +54,22 @@ context('Blocked', () => {
   });
 
   it('should allow a user to remove the user from their block list', () => {
-    cy.visit('/settings/blocked-channels');    
-    cy.contains(testUsername);
+    navigateToBlockedChannels();    
+    cy.get(blockedChannelsContainer)
+      .within(($list) => {
+        cy.contains(testUsername);
+        cy.contains('Unblock')
+          .click()
+          .wait('@deleteBlock').then(xhr => {
+            expect(xhr.status).to.equal(200);
+          });
+      });
   });
+
+  function navigateToBlockedChannels() {
+    cy.get(userMenu).click();
+    cy.get(userMenuSettings).click();
+    cy.get(blockedChannelsButton).click();
+  }
 
 });
