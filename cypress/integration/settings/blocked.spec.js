@@ -19,7 +19,7 @@ context('Blocked', () => {
   const blockedChannelsContainer = '[data-cy=data-minds-blocked-channels]';
 
   before(() => {
-    cy.newUser(true, testUsername, testPassword);
+    cy.newUser(testUsername, testPassword);
     cy.logout();
     cy.login();
   });
@@ -33,6 +33,8 @@ context('Blocked', () => {
   });
 
   after(() => {
+    cy.logout();
+    cy.login(true, testUsername, testPassword)
     cy.deleteUser(testUsername, testPassword)
   });
 
