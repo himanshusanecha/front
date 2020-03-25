@@ -253,6 +253,7 @@ export class Activity implements OnInit {
     this.allowComments = this.activity.allow_comments;
 
     this.activityAnalyticsOnViewService.checkVisibility(); // perform check
+    this.detectChanges();
   }
 
   getOwnerIconTime() {
