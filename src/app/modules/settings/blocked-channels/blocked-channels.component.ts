@@ -41,7 +41,7 @@ export class SettingsBlockedChannelsComponent implements OnInit {
         this.moreData = false; // Support pagination in the future
 
         if (list.length < 1) {
-          throw new Error('No more entities');
+          throw new Error('No more channels');
         }
       }),
       switchMap(async guids => {
