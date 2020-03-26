@@ -136,7 +136,9 @@ describe('ChannelSidebar', () => {
         { provide: Storage, useValue: storageMock },
         {
           provide: OnboardingWrapperService,
-          useValue: MockService(OnboardingWrapperService),
+          useValue: MockService(OnboardingWrapperService, {
+            props: { completedPercentage: { get: () => 100 } },
+          }),
         },
         {
           provide: FeaturesService,
@@ -178,6 +180,7 @@ describe('ChannelSidebar', () => {
     featuresServiceMock.mock('pro', true);
     featuresServiceMock.mock('purchase-pro', true);
     featuresServiceMock.mock('ux-2020', true);
+    featuresServiceMock.mock('navigation', false);
     clientMock.response = {};
     uploadMock.response = {};
     comp = fixture.componentInstance;

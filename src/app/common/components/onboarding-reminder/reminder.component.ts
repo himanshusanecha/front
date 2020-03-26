@@ -39,7 +39,7 @@ export class OnboardingReminderComponent implements OnInit, OnDestroy {
     protected location: Location
   ) {}
 
-  async ngOnInit(): void {
+  async ngOnInit() {
     await this.setShouldShow(this.session.getLoggedInUser());
 
     this.userEmitter$ = this.session.userEmitter.subscribe(user => {
