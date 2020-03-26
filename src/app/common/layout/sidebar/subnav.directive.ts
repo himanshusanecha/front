@@ -4,7 +4,10 @@ import {
   HostBinding,
   Renderer2,
   ChangeDetectorRef,
+  Inject,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
 
 const MIN_FULL_NAV_WIDTH = 1172; // TODO make this a constant
 
@@ -30,12 +33,14 @@ export class SidebarNavigationSubnavDirective {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit() {}
 
   ngAfterViewInit() {
+    if (isPlatformServer(this.platformId)) return;
     this.parentEl = this.el.nativeElement.parentElement;
     this.parentMouseEnterListener = this.renderer.listen(
       this.parentEl,
