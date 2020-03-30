@@ -162,9 +162,10 @@
       class="mdl-card__subtitle-text mdl-color-text--blue-grey-300 m-reset-password-link"
       [routerLink]="['/forgot-password']"
       *ngIf="!showTitle"
+      data-cy="data-minds-forgot-password-button"
     >
-      <ng-container i18n="@@FORMS__LOGIN__FORGOT_PASSWORD_LINK"
-        >Forgot Password?
+      <ng-container i18n="@@FORMS__LOGIN__FORGOT_PASSWORD_LINK">
+        Forgot Password?
       </ng-container>
     </a>
   </div>
