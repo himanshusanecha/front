@@ -28,6 +28,11 @@ import { WireSubscriptionTiersComponent } from './channel/tiers.component';
 import { WirePaymentsCreatorComponent } from './creator/payments/payments.creator.component';
 import { WirePaymentHandlersService } from './wire-payment-handlers.service';
 import { PayMarketingComponent } from './marketing/marketing.component';
+import { PayModalService } from './pay/pay-modal.service';
+import { PayComponent } from './pay/pay.component';
+import { PayOwnerBlock } from './pay/owner-block/owner-block.component';
+import { PayFormComponent } from './pay/form/form.component';
+import { PayToolbarComponent } from './pay/toolbar/toolbar.component';
 
 const wireRoutes: Routes = [
   { path: 'wire', redirectTo: 'pay' },
@@ -72,8 +77,18 @@ const wireRoutes: Routes = [
     PayMarketingComponent,
     WireConsoleOverviewComponent,
     WireSubscriptionTiersComponent,
+    // - Pay
+    PayComponent,
+    PayOwnerBlock,
+    PayFormComponent,
+    PayToolbarComponent,
   ],
-  providers: [WireService, WirePaymentHandlersService],
+  providers: [
+    WireService,
+    WirePaymentHandlersService,
+    // - Pay
+    PayModalService,
+  ],
   exports: [
     WireLockScreenComponent,
     WireButtonComponent,
@@ -88,6 +103,8 @@ const wireRoutes: Routes = [
     WireConsoleOverviewComponent,
     WireCreatorComponent,
     WireSubscriptionTiersComponent,
+    // - Pay
+    PayComponent,
   ],
   entryComponents: [
     WireCreatorComponent,
@@ -95,6 +112,8 @@ const wireRoutes: Routes = [
     WirePaymentsCreatorComponent,
     WireLockScreenComponent,
     WireConsoleRewardsInputsComponent,
+    // - Pay
+    PayComponent,
   ],
 })
 export class WireModule {}

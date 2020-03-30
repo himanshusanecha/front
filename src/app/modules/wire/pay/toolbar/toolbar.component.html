@@ -1,0 +1,38 @@
+<ng-template #typeLabel>
+  <ng-container [ngSwitch]="service.type$ | async">
+    <ng-container *ngSwitchCase="'tokens'" i18n
+      >{service.amount$ | async, plural, =1 {token} other
+      {tokens}}</ng-container
+    >
+    <ng-container *ngSwitchCase="'usd'" i18n>USD</ng-container>
+    <ng-container *ngSwitchCase="'eth'" i18n>Eth</ng-container>
+    <ng-container *ngSwitchCase="'btc'" i18n>BTC</ng-container>
+  </ng-container>
+</ng-template>
+<div class="m-pay__toolbar">
+  <div class="m-pay__toolbarItem">
+    <span i18n>Powered by</span>
+    <span i18n>MindsPay</span>
+  </div>
+
+  <div class="m-pay__toolbarItemSpacer"></div>
+
+  <m-button
+    [disabled]="service.inProgress$ | async"
+    (click)="onSubmitClick($event)"
+  >
+    <ng-container
+      *ngIf="service.recurring$ | async; else noRecurringLabel"
+      i18n
+    >
+      Send {{ service.amount$ | async | number: '1.0-4' }}
+      <ng-container *ngTemplateOutlet="typeLabel"></ng-container> monthly
+    </ng-container>
+    <ng-template #noRecurringLabel>
+      <ng-container i18n>
+        Send {{ service.amount$ | async | number: '1.0-4' }}
+        <ng-container *ngTemplateOutlet="typeLabel"></ng-container>
+      </ng-container>
+    </ng-template>
+  </m-button>
+</div>

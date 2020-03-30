@@ -1,9 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { SignupModalService } from '../../modals/signup/service';
-import { WireCreatorComponent } from '../creator/creator.component';
 import { Session } from '../../../services/session';
+import { PayModalService } from '../pay/pay-modal.service';
+import { PayEventType } from '../pay/pay.service';
 
 @Component({
   selector: 'm-wire-button',
@@ -17,15 +25,24 @@ import { Session } from '../../../services/session';
     </button>
   `,
 })
-export class WireButtonComponent {
+export class WireButtonComponent implements OnDestroy {
   @Input() object: any;
   @Output('done') doneEmitter: EventEmitter<any> = new EventEmitter();
+
+  protected payModalSubscription: Subscription;
 
   constructor(
     public session: Session,
     private overlayModal: OverlayModalService,
-    private modal: SignupModalService
+    private modal: SignupModalService,
+    private payModal: PayModalService
   ) {}
+
+  ngOnDestroy(): void {
+    if (this.payModalSubscription) {
+      this.payModalSubscription.unsubscribe();
+    }
+  }
 
   wire() {
     if (!this.session.isLoggedIn()) {
@@ -34,20 +51,20 @@ export class WireButtonComponent {
       return;
     }
 
-    const creator = this.overlayModal.create(
-      WireCreatorComponent,
-      this.object,
-      {
+    this.payModalSubscription = this.payModal
+      .present(this.object, {
         default: this.object && this.object.wire_threshold,
-        onComplete: wire => {
+      })
+      .subscribe(payEvent => {
+        if (payEvent.type === PayEventType.Completed) {
+          const wire = payEvent.payload;
+
           if (this.object.wire_totals) {
             this.object.wire_totals[wire.currency] = wire.amount;
           }
 
           this.doneEmitter.emit(wire);
-        },
-      }
-    );
-    creator.present();
+        }
+      });
   }
 }
