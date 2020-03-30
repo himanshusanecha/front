@@ -184,8 +184,9 @@ export class WalletTransactionsTokensComponent implements OnInit, OnDestroy {
         formattedTx.type = tx.contract;
         formattedTx.timestamp = tx.timestamp;
 
+        // Determine superType (aka offchain/onchain agnostic type)
         if (tx.contract.indexOf('offchain:') !== -1) {
-          formattedTx.superType = tx.contract.substr(9);
+          formattedTx.superType = tx.contract.substr(9); // 'offchain:wire' becomes 'wire'
         } else {
           formattedTx.superType = tx.contract;
         }

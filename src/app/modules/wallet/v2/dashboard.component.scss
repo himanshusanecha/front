@@ -5,6 +5,13 @@ m-walletDashboard {
   display: block;
   grid-area: content / span 2;
 
+  m-dashboardLayout {
+    min-height: 100%;
+    height: auto;
+    @include m-theme() {
+      border-right: 1px solid themed($m-borderColor--primary);
+    }
+  }
   ////////////////////////////////////////////
   // COMMON //////////////////////////////////
   ////////////////////////////////////////////
@@ -16,12 +23,13 @@ m-walletDashboard {
       i {
         font-size: 12px;
         @include m-theme() {
-          color: rgba(themed($m-grey-300), 0.7);
+          color: themed($m-textColor--tertiary);
         }
       }
       .m-tooltip--bubble {
         z-index: 99;
         font-size: 11px;
+        font-weight: 400;
         @include m-theme() {
           color: themed($m-white);
           background-color: themed($m-blue);

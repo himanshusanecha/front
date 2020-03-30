@@ -351,11 +351,13 @@ export class WalletV2Service {
   }
 
   async getProEarnings() {
+    const opts = {
+      metric: 'earnings_total',
+      timespan: 'today',
+    };
     try {
       const response = <any>(
-        await this.client.get(
-          'api/v2/analytics/dashboards/earnings?metric=earnings_total&timespan=today'
-        )
+        await this.client.get('api/v2/analytics/dashboards/earnings', opts)
       );
 
       const earnings =
@@ -363,6 +365,8 @@ export class WalletV2Service {
           .find(m => m.id === 'earnings_total')
           .visualisation.segments[0].buckets.slice(-1)[0].value / 100;
 
+      // TODOOJM
+      console.log('888', response, earnings);
       return earnings;
     } catch (e) {
       console.error(e);

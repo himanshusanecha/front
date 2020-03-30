@@ -69,9 +69,12 @@ export class WalletBalanceCashComponent implements OnInit {
       }
     );
 
-    if (this.configs.get('pro')) {
-      this.getProEarnings();
-    }
+    // todoojm
+    console.log(this.configs.get('pro'));
+    this.getProEarnings();
+    // if (this.configs.get('pro')) {
+    //   this.getProEarnings();
+    // }
   }
 
   ngOnDestroy() {
@@ -93,7 +96,9 @@ export class WalletBalanceCashComponent implements OnInit {
   async getProEarnings(): Promise<void> {
     try {
       const response: number = await this.walletService.getProEarnings();
+      console.log('response', response);
       this.proEarnings = this.walletService.splitBalance(response);
+      console.log('split earnigns', this.proEarnings);
     } catch (e) {
       console.error(e.message);
       this.proEarnings = this.walletService.splitBalance(0);

@@ -25,6 +25,8 @@ export class WalletTransactionsTableComponent {
 
   getTypeLabel(superType) {
     if (this.currency !== 'tokens' && superType === 'wire') {
+      // TODOOJM why doesn't it return 'Off0Chain Wire?
+      // TODOOJM offchain:wire is stripped from supertype in tx-tokens.comp
       return 'Wire';
     } else {
       return this.typeLabels[superType];
