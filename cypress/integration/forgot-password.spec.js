@@ -1,4 +1,4 @@
-context('Login', () => {
+context('Forgot Password', () => {
 
   beforeEach(() => {
     cy.clearCookies();
