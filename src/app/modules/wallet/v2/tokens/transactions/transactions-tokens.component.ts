@@ -109,6 +109,7 @@ export class WalletTransactionsTokensComponent implements OnInit, OnDestroy {
   async getBalance() {
     const tokenAccounts = await this.walletService.getTokenAccounts();
     this.runningTotal = tokenAccounts.tokens.balance;
+    console.log('initial getBalance() running total', this.runningTotal);
     this.loadTransactions(true);
   }
 
@@ -180,6 +181,7 @@ export class WalletTransactionsTokensComponent implements OnInit, OnDestroy {
         const txAmount = toFriendlyCryptoVal(tx.amount);
         formattedTx.amount = txAmount;
         formattedTx.runningTotal = this.formatAmount(this.runningTotal);
+        console.log('formattedTx running total', this.runningTotal);
 
         formattedTx.type = tx.contract;
         formattedTx.timestamp = tx.timestamp;

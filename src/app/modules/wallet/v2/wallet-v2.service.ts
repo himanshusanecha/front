@@ -359,8 +359,6 @@ export class WalletV2Service {
       const response = <any>(
         await this.client.get('api/v2/analytics/dashboards/earnings', opts)
       );
-      // todoojm
-      console.log(response);
 
       const earningsBuckets = response.dashboard.metrics.find(
         m => m.id === 'earnings_total'
