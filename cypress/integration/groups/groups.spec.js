@@ -2,18 +2,24 @@ import generateRandomId from '../../support/utilities';
 
 const groupId = generateRandomId();
 
+const member = {
+  username: generateRandomId(),
+  password: generateRandomId()+'A1a#!'
+}
+
 context('Groups', () => {
   before(() => {
-    cy.getCookie('minds_sess')
-    .then((sessionCookie) => {
-      if (sessionCookie === null) {
-        return cy.login(true);
-      }
-    });
+    cy.newUser(member.username, member.password);
+    cy.logout();
+    cy.login(true);
   });
 
   beforeEach(()=> {
     cy.preserveCookies();
+  });
+
+  after(() {
+    cy.deleteUser(member.username, member.password);  
   });
 
   it('should create and edit a group', () => {
@@ -145,6 +151,21 @@ context('Groups', () => {
     cy.contains('Discover Groups').click()
     cy.location('pathname')
       .should('eq', '/newsfeed/global/top;period=12h;type=groups;all=1');
+  });
+
+
+  it('should allow a user to join the group and allow the admin to kick him', () => {
+    cy.contains(groupId).click();
+    cy.url().then(url => {
+      currentURL = url;
+      cy.logout();
+      cy.login(true, member.username, member.password);
+      cy.visit(url);
+      cy.get('[data-cy=data-minds-post-menu-button]').click();
+      cy.get('[data-cy=data-minds-group-dropdown-remove]').click();
+      cy.get('[data-cy=data-minds-kick-modal-confirm]').click();
+      cy.get('[data-cy=data-minds-kick-modal-okay]').click();
+    });
   });
 
   it('should delete a group', () => {
