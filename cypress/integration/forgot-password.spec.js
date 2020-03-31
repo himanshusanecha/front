@@ -46,7 +46,6 @@ context('Login', () => {
       .wait('@postReset');
 
     cy.get(errorText)
-      .contains('Please try again with a new reset code.');
     
     cy.get(submitButton).click()
       .wait('@postReset');
