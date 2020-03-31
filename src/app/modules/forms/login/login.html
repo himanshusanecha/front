@@ -63,7 +63,11 @@
 <div class="m-login__title">
   <h3 *ngIf="showTitle">Login to Minds</h3>
 
-  <a *ngIf="showTitle" [routerLink]="['/forgot-password']">
+  <a
+    *ngIf="showTitle"
+    [routerLink]="['/forgot-password']"
+    data-cy="data-minds-forgot-password-button"
+  >
     Forgot your Password?
   </a>
 </div>

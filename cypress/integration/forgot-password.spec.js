@@ -46,10 +46,7 @@ context('Login', () => {
       .wait('@postReset');
 
     cy.get(errorText)
-      .contains('Password must have more than 8 characters.'
-        +' Including uppercase, numbers, special characters'
-        +' (ie. !,#,@), and cannot have spaces'
-      );
+      .contains('Please try again with a new reset code.');
     
     cy.get(submitButton).click()
       .wait('@postReset');
