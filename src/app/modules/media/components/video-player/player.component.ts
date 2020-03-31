@@ -154,6 +154,7 @@ export class MindsVideoPlayerComponent
 
   ngOnDestroy(): void {
     this.onReadySubscription.unsubscribe();
+    this.autoplayService.unregisterPlayer(this);
   }
 
   @Input('guid')
