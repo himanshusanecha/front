@@ -52,7 +52,16 @@ export class MindsVideoPlayerComponent
    */
   @Input() autoplay: boolean = false;
 
-  @Input() allowAutoplayOnScroll: boolean = false;
+  @Input('allowAutoplayOnScroll') set _allowAutoplayOnScroll(value: boolean) {
+    this.allowAutoplayOnScroll = value;
+
+    /* if autoplay on scroll is allowed, since it's not yet autoplaying,
+     * we should set the video to use an empty src attribute
+     */
+    this.useEmptySource = value;
+  }
+
+  allowAutoplayOnScroll: boolean = false;
 
   /**
    * See setAutoplay method
@@ -68,6 +77,15 @@ export class MindsVideoPlayerComponent
    * This is the video player component
    */
   player: PlyrComponent;
+
+  useEmptySource: boolean = false;
+
+  emptySource = {
+    id: null,
+    type: null,
+    size: 0,
+    src: '',
+  };
 
   @ViewChild(PlyrComponent, { static: false }) set _player(
     player: PlyrComponent
@@ -100,6 +118,29 @@ export class MindsVideoPlayerComponent
 
   setAutoplaying(value: boolean): void {
     this.autoplaying = value;
+
+    // if we're not autoplaying, we need to set the src attribute to ''
+    this.useEmptySource = !value;
+
+    // if we stop autoplaying, we need to free resources manually, otherwise they will eventually stop loading
+    if (!value) {
+      const sources = this.elementRef.nativeElement.getElementsByTagName(
+        'source'
+      );
+
+      // remove <source> from the DOM
+      for (const source of sources) {
+        source.remove();
+      }
+
+      // reload video so it frees up resources
+      const video = this.elementRef.nativeElement.getElementsByTagName(
+        'video'
+      )[0];
+      if (video) {
+        video.load();
+      }
+    }
 
     this.cd.markForCheck();
     this.cd.detectChanges();
