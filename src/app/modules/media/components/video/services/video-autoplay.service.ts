@@ -143,7 +143,6 @@ export class VideoAutoplayService implements OnDestroy {
    */
   stopPlaying(player: MindsVideoPlayerComponent): void {
     if (!this.userPlaying && player) {
-      player.stop();
       player.setAutoplaying(false);
     }
   }
