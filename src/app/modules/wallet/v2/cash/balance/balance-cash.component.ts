@@ -19,7 +19,7 @@ import {
   SplitBalance,
 } from '../../wallet-v2.service';
 import * as moment from 'moment';
-import { ConfigsService } from '../../../../../common/services/configs.service';
+import { ProService } from '../../../../pro/pro.service';
 @Component({
   selector: 'm-walletBalance--cash',
   templateUrl: './balance-cash.component.html',
@@ -34,6 +34,7 @@ export class WalletBalanceCashComponent implements OnInit {
   pendingBalance: SplitBalance;
   totalPaidOut: SplitBalance;
   proEarnings: SplitBalance;
+  isPro: boolean = false;
   nextPayoutDate = '';
   currency = 'usd';
   init: boolean = false;
@@ -46,8 +47,8 @@ export class WalletBalanceCashComponent implements OnInit {
     protected cd: ChangeDetectorRef,
     protected session: Session,
     protected walletService: WalletV2Service,
-    private configs: ConfigsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    protected proService: ProService
   ) {}
 
   ngOnInit() {
@@ -69,12 +70,7 @@ export class WalletBalanceCashComponent implements OnInit {
       }
     );
 
-    // todoojm
-    console.log(this.configs.get('pro'));
-    this.getProEarnings();
-    // if (this.configs.get('pro')) {
-    //   this.getProEarnings();
-    // }
+    this.getPro();
   }
 
   ngOnDestroy() {
@@ -92,13 +88,22 @@ export class WalletBalanceCashComponent implements OnInit {
     this.init = true;
     this.detectChanges();
   }
+  async getPro(): Promise<void> {
+    try {
+      this.isPro = await this.proService.isActive();
+      if (this.isPro) {
+        this.getProEarnings();
+      }
+    } catch (e) {
+      console.error(e && e.message);
+    }
+    this.detectChanges();
+  }
 
   async getProEarnings(): Promise<void> {
     try {
       const response: number = await this.walletService.getProEarnings();
-      console.log('response', response);
       this.proEarnings = this.walletService.splitBalance(response);
-      console.log('split earnigns', this.proEarnings);
     } catch (e) {
       console.error(e.message);
       this.proEarnings = this.walletService.splitBalance(0);

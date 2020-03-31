@@ -16,12 +16,12 @@ m-walletBalance--tokens {
   .m-walletBalance--tokens__equationLeft {
     display: flex;
     flex-flow: row wrap;
+    @media screen and (max-width: $max-mobile) {
+      max-width: 56px;
+    }
   }
   .m-walletBalance--tokens__buyButtonWrapper {
-    // margin-left: 36px;
-    // m-shadowboxSubmitButton {
-    //   margin-left: 36px;
-    // }
+    margin-top: 6px;
   }
   .m-walletBalance--tokens__balanceTitle {
     position: relative;
@@ -49,9 +49,13 @@ m-walletBalance--tokens {
     }
   }
   .m-walletBalance--tokens__balanceWrapper--total {
+    margin-right: 22px;
     .m-walletBalance--tokens__balanceTitle {
       font-size: 16px;
       line-height: 21px;
+      @media screen and (max-width: $max-mobile) {
+        max-width: 56px;
+      }
     }
     .m-walletBalance--tokens__balanceValWrapper {
       margin-top: 3px;
@@ -69,7 +73,7 @@ m-walletBalance--tokens {
   .m-walletBalance--tokens__balanceWrapper--subtotal {
     margin-top: 4px;
     .m-walletBalance--tokens__balanceTitle {
-      min-width: 78px;
+      min-width: 72px;
     }
     .m-walletBalance--tokens__balanceValWrapper {
       font-size: 13px;
@@ -92,7 +96,7 @@ m-walletBalance--tokens {
   }
   .m-walletBalance--tokens__balanceValWrapper {
     font-weight: 500;
-    margin-top: 8px;
+    margin-top: 4px;
   }
   .m-walletBalance--tokens__balanceVal--int {
     @include m-theme() {
@@ -101,8 +105,9 @@ m-walletBalance--tokens {
   }
 
   .m-walletBalance--tokens__equationSymbol {
-    align-self: center;
-    margin-bottom: 36px;
+    // align-self: center;
+    // margin-bottom: 10px;
+    margin-top: 12px;
     font-size: 20px;
     line-height: 23px;
   }
@@ -111,6 +116,10 @@ m-walletBalance--tokens {
     font-weight: 300;
     text-decoration: underline;
     cursor: pointer;
+
+    @media screen and (max-width: 1000px) {
+      max-width: 70px;
+    }
   }
 
   .m-walletBalance--tokens__payout {
@@ -154,14 +163,11 @@ m-walletBalance--tokens {
     .m-walletBalance--tokens__equationLeft {
       flex-direction: column;
     }
-    .m-walletBalance--tokens__buyButtonWrapper {
-      m-shadowboxSubmitButton {
-        // margin-left: 0;
-        margin-top: 22px;
-      }
+
+    .m-walletBalance--tokens__balanceWrapper--total {
+      margin-bottom: 16px;
+      margin-right: 0;
     }
-  }
-  @media screen and (max-width: $min-tablet) {
   }
 
   @media screen and (max-width: $max-mobile) {

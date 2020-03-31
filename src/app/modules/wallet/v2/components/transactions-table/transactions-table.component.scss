@@ -28,17 +28,6 @@
   }
 }
 
-.m-walletTransactionsTable__filterWrapper {
-  /*display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-end;
-  align-items: center;*/
-  m-dropdownselector {
-    vertical-align: center;
-    margin: 0;
-  }
-}
-
 @media screen and (max-width: $min-tablet) {
   .m-walletTransactions {
     margin: 34px 0px;
@@ -58,12 +47,12 @@ m-walletTransactionsTable {
     width: 100%;
   }
   .m-walletTransactionsTable__row--spacer {
-    height: 42px;
+    height: 36px;
   }
 
   .m-walletTransactionsTable__row--date {
     @include m-theme() {
-      color: themed($m-textColor--tertiary);
+      color: themed($m-textColor--primary);
     }
   }
   td {
@@ -72,7 +61,7 @@ m-walletTransactionsTable {
   }
   .m-walletTransactionsTable__time {
     @include m-theme() {
-      color: themed($m-textColor--primary);
+      color: themed($m-textColor--tertiary);
     }
     @media screen and (max-width: $max-mobile) {
       display: none;
@@ -94,6 +83,9 @@ m-walletTransactionsTable {
     position: relative;
     cursor: default;
     vertical-align: middle;
+    @include m-theme() {
+      color: themed($m-textColor--tertiary);
+    }
 
     > * {
       vertical-align: middle;
@@ -103,8 +95,11 @@ m-walletTransactionsTable {
     }
     > span {
       @include m-theme() {
-        color: themed($m-textColor--secondary);
+        color: themed($m-textColor--tertiary);
       }
+    }
+    a {
+      font-weight: inherit;
     }
   }
 
@@ -129,19 +124,19 @@ m-walletTransactionsTable {
     i {
       transform-origin: center center;
       &.positive {
-        transform: rotate(-90deg) translateX(2px);
+        transform: scaleX(0.8) rotate(-90deg) translateX(-1px);
         @include m-theme() {
           color: themed($m-green-dark);
         }
       }
       &.negative {
-        transform: rotate(90deg) translateX(-4px);
+        transform: scaleX(0.8) rotate(90deg) translateX(-2px);
         @include m-theme() {
           color: themed($m-red-dark);
         }
       }
       &.neutral {
-        transform: translateY(-2px);
+        transform: scaleY(0.8) translateY(-1px);
         @include m-theme() {
           color: themed($m-blue);
         }
@@ -151,7 +146,7 @@ m-walletTransactionsTable {
       font-size: 14px;
       line-height: 19px;
       @include m-theme() {
-        color: themed($m-textColor--secondary);
+        color: themed($m-textColor--tertiary);
       }
     }
   }
@@ -194,8 +189,14 @@ m-walletTransactionsTable {
   justify-content: flex-end;
   flex-direction: row;
   display: flex;
-
-  m-dropdownselector {
+  m-dropdownSelector {
+    vertical-align: center;
     margin: 0;
+    @media screen and (max-width: 480px) {
+      width: 100%;
+      .m-dropdownSelector__wrapper > * {
+        width: 100%;
+      }
+    }
   }
 }

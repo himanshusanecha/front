@@ -22,9 +22,9 @@
 
     <div class="m-walletBalance--tokens__balanceWrapper--subtotal">
       <div class="m-walletBalance--tokens__balanceTitle">
-        On-Chain<m-tooltip
-          ><i m-tooltip--anchor>?</i>Store tokens on your device instead of our
-          servers for more control and portability</m-tooltip
+        On-Chain<m-tooltip icon="help"
+          >Store tokens on your device instead of our servers for more control
+          and portability</m-tooltip
         >
       </div>
       <div class="m-walletBalance--tokens__balanceValWrapper">
@@ -42,9 +42,9 @@
     <div class="m-walletBalance--tokens__equationSymbol">+</div>
     <div class="m-walletBalance--tokens__balanceWrapper--subtotal">
       <div class="m-walletBalance--tokens__balanceTitle">
-        Off-Chain<m-tooltip
-          ><i m-tooltip--anchor>?</i>Store tokens on our servers for quicker
-          transaction times and no fees</m-tooltip
+        Off-Chain<m-tooltip icon="help"
+          >Store tokens on our servers for quicker transaction times and no
+          fees</m-tooltip
         >
       </div>
       <div class="m-walletBalance--tokens__balanceValWrapper">
@@ -58,7 +58,7 @@
         >
         tokens
       </div>
-      <a
+      <!-- <a
         *ngIf="
           session.getLoggedInUser().rewards &&
           wallet.offchain.balance > 0 &&
@@ -66,7 +66,8 @@
         "
         (click)="showModal = true"
         >Transfer to On-Chain</a
-      >
+      > -->
+      <a (click)="showModal = true">Transfer to On-Chain</a>
     </div>
   </div>
 

@@ -75,6 +75,9 @@ m-body.has-v3-navbar {
         themed($m-bgColor--primary) 50%
       );
     }
+    &.visible {
+      width: 36px;
+    }
   }
   &.visible {
     opacity: 1;
@@ -110,7 +113,7 @@ m-body.has-v3-navbar {
     right: -12;
   }
   &.m-shadowboxHeader__overflowScrollButton--left {
-    left: -12;
+    left: 12;
   }
   i {
     @include m-theme() {

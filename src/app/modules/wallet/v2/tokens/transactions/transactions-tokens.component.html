@@ -5,7 +5,7 @@
   <ng-container *ngIf="init">
     <div class="m-walletTransactions__filter">
       <m-dropdownSelector
-        *ngIf="transactions"
+        *ngIf="transactions.length > 1"
         [filter]="filter"
         [inlineLabel]="true"
         (selectionMade)="filterSelected($event)"

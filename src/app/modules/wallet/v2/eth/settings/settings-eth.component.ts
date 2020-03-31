@@ -16,7 +16,5 @@ export class WalletSettingsETHComponent {
 
   constructor(public walletService: WalletV2Service) {
     this.ethWallet = walletService.wallet.eth;
-    // todoojm
-    console.log(this.ethWallet);
   }
 }

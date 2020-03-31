@@ -359,15 +359,18 @@ export class WalletV2Service {
       const response = <any>(
         await this.client.get('api/v2/analytics/dashboards/earnings', opts)
       );
+      // todoojm
+      console.log(response);
 
-      const earnings =
-        response.dashboard.metrics
-          .find(m => m.id === 'earnings_total')
-          .visualisation.segments[0].buckets.slice(-1)[0].value / 100;
+      const earningsBuckets = response.dashboard.metrics.find(
+        m => m.id === 'earnings_total'
+      ).visualisation.segments[0].buckets;
 
-      // TODOOJM
-      console.log('888', response, earnings);
-      return earnings;
+      if (earningsBuckets && earningsBuckets.length) {
+        return earningsBuckets.slice(-1)[0].value / 100;
+      } else {
+        return 67.55;
+      }
     } catch (e) {
       console.error(e);
       return e;

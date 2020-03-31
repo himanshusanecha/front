@@ -130,10 +130,6 @@ export class WalletTransactionsCashComponent implements OnInit {
   formatResponse(transactions) {
     transactions.forEach((tx, i) => {
       const formattedTx: any = { ...tx };
-      // const formattedTx: any = {};
-
-      // formattedTx.timestamp = tx.timestamp;
-      // formattedTx.type = tx.type;
 
       formattedTx.superType = tx.type;
 
@@ -154,6 +150,7 @@ export class WalletTransactionsCashComponent implements OnInit {
         this.runningTotal = 0;
       }
 
+      console.log(this.runningTotal);
       formattedTx.runningTotal = this.walletService.splitBalance(
         this.runningTotal
       );
