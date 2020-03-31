@@ -203,11 +203,15 @@ export class GroupProfileFeedSortedComponent implements OnInit {
    * @param Observable entity - entity triggering the removal
    * @returns void
    */
-  kick(entity: any): void {
+  kick(entity: null): void {
     // programmatic piping as cannot use pipes in the click event.
+    if (!entity) {
+      return;
+    }
     const asyncPipe: AsyncPipe = new AsyncPipe(this.cd);
-    const userValue = asyncPipe.transform(entity);
-    this.kicking = userValue ? userValue?.ownerObj : null;
+    const userValue: Object = asyncPipe.transform(entity);
+
+    this.kicking = userValue['ownerObj'];
   }
 
   //
