@@ -1,10 +1,10 @@
 export default function entityToBannerUrl(
   entity: { guid: string; banner?: any } | null,
-  top: number = 0
+  sizeOrTop: string | number = 'fat'
 ): string {
   if (!entity) {
     return '';
   }
 
-  return `fs/v1/banners/${entity.guid}/${top}/${entity.banner}`;
+  return `fs/v1/banners/${entity.guid}/${sizeOrTop}/${entity.banner}`;
 }

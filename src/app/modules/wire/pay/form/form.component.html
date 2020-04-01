@@ -1,73 +1,136 @@
 <div class="m-pay__form">
   <div class="m-payForm__tabs m-tabs__container">
     <div class="m-tabs__tab">
-      <a (click)="service.setType('tokens')" i18n>Tokens</a>
+      <a
+        [class.m-tabs__tab--selected]="(service.type$ | async) === 'tokens'"
+        (click)="service.setType('tokens')"
+        i18n
+        >Tokens</a
+      >
     </div>
 
     <div class="m-tabs__tab">
-      <a (click)="service.setType('usd')" i18n>USD</a>
+      <a
+        [class.m-tabs__tab--selected]="(service.type$ | async) === 'usd'"
+        (click)="service.setType('usd')"
+        i18n
+        >USD</a
+      >
     </div>
 
     <div class="m-tabs__tab">
-      <a (click)="service.setType('eth')" i18n>ETH</a>
+      <a
+        [class.m-tabs__tab--selected]="(service.type$ | async) === 'eth'"
+        (click)="service.setType('eth')"
+        i18n
+        >ETH</a
+      >
     </div>
 
     <div class="m-tabs__tab">
-      <a (click)="service.setType('btc')" i18n>BTC</a>
+      <a
+        [class.m-tabs__tab--selected]="(service.type$ | async) === 'btc'"
+        (click)="service.setType('btc')"
+        i18n
+        >BTC</a
+      >
     </div>
   </div>
 
-  <div class="m-payForm__fields">
-    <div class="m-payForm__field">
-      <label for="m-payForm__amount"></label>
-      <input
-        type="text"
-        id="m-payForm__amount"
-        [ngModel]="service.amount$ | async | number: '1.0-4'"
-        (ngModelChange)="setAmount($event)"
-        placeholder="0"
-      />
-    </div>
-  </div>
-
-  <div class="m-payForm__fields">
-    <ng-container *ngIf="(service.type$ | async) === 'tokens'">
+  <div class="m-payForm__fieldset">
+    <div class="m-payForm__fields">
       <div class="m-payForm__field">
-        <span class="m-payForm__toggleLabel" i18n>On-chain</span>
-        <span class="m-payForm__toggle"
-          ><m-toggle
-            leftValue="onchain"
-            rightValue="offchain"
-            [mModel]="service.tokenType$ | async"
-            (mModelChange)="service.setTokenType($event)"
-          ></m-toggle
-        ></span>
-        <span class="m-payForm__toggleLabel" i18n>Off-chain</span>
-      </div>
+        <label
+          for="m-payForm__amount"
+          class="m-payForm__label"
+          [ngSwitch]="service.type$ | async"
+        >
+          <ng-container *ngSwitchCase="'tokens'" i18n>Tokens</ng-container>
+          <ng-container *ngSwitchCase="'usd'" i18n>USD</ng-container>
+          <ng-container *ngSwitchCase="'eth'" i18n>Ether</ng-container>
+          <ng-container *ngSwitchCase="'btc'" i18n>Bitcoin</ng-container>
+        </label>
 
-      <div class="m-payForm__field">
-        <label i18n>Wallet Balance</label>
-        <span class="m-payForm__value">{{ 1234.56 | number: '1.0-4' }}</span>
-      </div>
-    </ng-container>
-
-    <div class="m-payForm__field">
-      <label for="m-payForm__recurring" i18n>Repeat Payment Monthly</label>
-      <label for="m-payForm__recurring" class="m-payForm__controlWrapper">
         <input
-          type="checkbox"
-          id="m-payForm__recurring"
-          [ngModel]="service.recurring$ | async"
-          (ngModelChange)="service.setRecurring($event)"
+          type="text"
+          id="m-payForm__amount"
+          [ngModel]="service.amount$ | async | number: '1.0'"
+          (ngModelChange)="setAmount($event)"
+          placeholder="0"
         />
-        <span>Repeat</span>
-        <m-tooltip>
-          <span m-tooltip--anchor>?</span>
-          <ng-container i18n>
-            TBD
-          </ng-container>
-        </m-tooltip>
-      </label>
+      </div>
+    </div>
+
+    <div class="m-payForm__fields">
+      <ng-container *ngIf="(service.type$ | async) === 'tokens'">
+        <div class="m-payForm__field m-payForm__toggleField">
+          <div class="m-payForm__label" i18n>Wallet Type</div>
+
+          <div class="m-payForm__toggleContainer">
+            <span class="m-payForm__toggleLabel" i18n>On-chain</span>
+
+            <span class="m-payForm__toggle"
+              ><m-toggle
+                leftValue="onchain"
+                rightValue="offchain"
+                [mModel]="service.tokenType$ | async"
+                (mModelChange)="service.setTokenType($event)"
+              ></m-toggle
+            ></span>
+
+            <span class="m-payForm__toggleLabel" i18n>Off-chain</span>
+          </div>
+        </div>
+
+        <div class="m-payForm__field">
+          <div class="m-payForm__label" i18n>Wallet Balance</div>
+
+          <span
+            class="m-payForm__value"
+            *ngIf="(service.tokenType$ | async) === 'offchain'"
+          >
+            {{
+              service.tokenBalance.offChainBalance$
+                | async
+                | token: 18
+                | number: '1.0-6'
+            }}
+          </span>
+
+          <span
+            class="m-payForm__value"
+            *ngIf="(service.tokenType$ | async) === 'onchain'"
+          >
+            {{
+              service.tokenBalance.onChainBalance$
+                | async
+                | token: 18
+                | number: '1.0-6'
+            }}
+          </span>
+        </div>
+      </ng-container>
+
+      <div class="m-payForm__field">
+        <label for="m-payForm__recurring" class="m-payForm__label" i18n
+          >Repeat Payment Monthly</label
+        >
+        <label for="m-payForm__recurring" class="m-payForm__controlWrapper">
+          <input
+            type="checkbox"
+            id="m-payForm__recurring"
+            [ngModel]="service.recurring$ | async"
+            (ngModelChange)="service.setRecurring($event)"
+          />
+          <span>Repeat</span>
+          <m-tooltip>
+            <span m-tooltip--anchor>?</span>
+            <ng-container i18n>
+              TBD
+            </ng-container>
+          </m-tooltip>
+        </label>
+      </div>
     </div>
   </div>
 </div>

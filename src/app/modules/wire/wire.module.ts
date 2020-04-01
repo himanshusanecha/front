@@ -33,6 +33,7 @@ import { PayComponent } from './pay/pay.component';
 import { PayOwnerBlock } from './pay/owner-block/owner-block.component';
 import { PayFormComponent } from './pay/form/form.component';
 import { PayToolbarComponent } from './pay/toolbar/toolbar.component';
+import { PayTokenBalanceService } from './pay/token-balance.service';
 
 const wireRoutes: Routes = [
   { path: 'wire', redirectTo: 'pay' },
@@ -88,6 +89,7 @@ const wireRoutes: Routes = [
     WirePaymentHandlersService,
     // - Pay
     PayModalService,
+    PayTokenBalanceService,
   ],
   exports: [
     WireLockScreenComponent,

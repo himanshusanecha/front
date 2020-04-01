@@ -1,0 +1,51 @@
+.m-pay__toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: stretch;
+  padding: 30px 40px;
+  margin: 26px 0 0;
+  border-top: 1px solid;
+
+  @include m-theme() {
+    border-color: themed($m-borderColor--primary);
+  }
+
+  .m-pay__toolbarItemSpacer {
+    flex: 1;
+  }
+
+  .m-payToolbar__poweredBy {
+    .m-payToolbarPoweredBy__text,
+    .m-payToolbarPoweredBy__name {
+      display: block;
+      line-height: 19px;
+    }
+
+    .m-payToolbarPoweredBy__text {
+      font-size: 14px;
+      font-style: italic;
+
+      @include m-theme() {
+        color: themed($m-textColor--secondary);
+      }
+    }
+
+    .m-payToolbarPoweredBy__name {
+      font-size: 16px;
+
+      @include m-theme() {
+        color: themed($m-textColor--primary);
+      }
+    }
+  }
+
+  .m-payToolbar__send {
+    font-size: 17px;
+    line-height: 20px;
+
+    .m-button__defaultAction {
+      padding: 13px 15px;
+    }
+  }
+}

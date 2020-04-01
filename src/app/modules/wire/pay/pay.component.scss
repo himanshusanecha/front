@@ -3,7 +3,9 @@ m-pay {
   display: block;
   margin-bottom: 16px;
   border-radius: 5px;
+  width: 778px;
   box-sizing: border-box;
+  overflow: hidden;
 
   @include m-theme() {
     background: themed($m-bgColor--secondary);

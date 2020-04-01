@@ -1,10 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { WireService } from '../wire.service';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { WireStruc } from '../creator/creator.component';
 import { MindsUser } from '../../../interfaces/entities';
 import { ApiService } from '../../../common/api/api.service';
+import { PayTokenBalanceService } from './token-balance.service';
 
 /**
  * Pay event types
@@ -148,10 +149,15 @@ export class PayService implements OnDestroy {
 
   /**
    * Constructor. Initializes data payload observable subscription.
+   * @param tokenBalance
    * @param api
    * @param wire
    */
-  constructor(protected api: ApiService, protected wire: WireService) {
+  constructor(
+    public tokenBalance: PayTokenBalanceService,
+    protected api: ApiService,
+    protected wire: WireService
+  ) {
     // Generates the payload
     this.payloadSubscription = combineLatest([
       this.entityGuid$,
@@ -204,6 +210,9 @@ export class PayService implements OnDestroy {
           });
       }
     });
+
+    // Sync balances
+    this.tokenBalance.sync();
   }
 
   /**

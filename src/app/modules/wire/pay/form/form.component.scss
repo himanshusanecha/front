@@ -1,0 +1,127 @@
+.m-pay__form {
+  margin: 9px 0 0;
+
+  .m-payForm__tabs {
+    padding: 0 50px;
+  }
+
+  .m-payForm__fieldset {
+    margin: 39px 0 0;
+  }
+
+  .m-payForm__fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: stretch;
+    padding: 0 50px;
+
+    > .m-payForm__field {
+      flex: 1;
+      margin: 0 0 27px;
+    }
+  }
+
+  .m-payForm__field {
+    font-size: 16px;
+    line-height: 21px;
+
+    @include m-theme() {
+      color: themed($m-textColor--primary);
+    }
+
+    input[type='text'],
+    input[type='number'],
+    input[type='email'],
+    input[type='date'] {
+      appearance: none;
+      width: 6em;
+      padding: 6px 10px;
+      border-radius: 2px;
+      border: 1px solid;
+      font-size: 20px;
+      line-height: 24px;
+      background: none transparent;
+
+      @include m-theme() {
+        color: themed($m-textColor--primary);
+        border-color: themed($m-borderColor--primary);
+      }
+    }
+  }
+
+  .m-payForm__label {
+    display: block;
+    margin: 0 0 11px;
+    font-size: 15px;
+    line-height: 20px;
+
+    @include m-theme() {
+      color: themed($m-textColor--secondary);
+    }
+  }
+
+  .m-payForm__toggleContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    user-select: none;
+
+    .m-payForm__toggle {
+      margin: 0 12px;
+    }
+  }
+
+  .m-payForm__controlWrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    user-select: none;
+
+    input[type='checkbox'] {
+      appearance: none;
+      position: relative;
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      margin: 0 10px 0 0;
+      padding: 0;
+      cursor: pointer;
+      box-sizing: border-box;
+      background: transparent;
+      border: 1px solid;
+      border-radius: 2px;
+      font-size: inherit;
+      line-height: inherit;
+
+      @include m-theme() {
+        border-color: themed($m-borderColor--primary);
+      }
+
+      @include m-on-theme(light) {
+        box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      @include m-on-theme(dark) {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      &:checked::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-size: contain;
+
+        @include m-theme() {
+          background: url(checkmark-image(themed($m-textColor--primary)))
+            no-repeat center center;
+        }
+      }
+    }
+  }
+}
