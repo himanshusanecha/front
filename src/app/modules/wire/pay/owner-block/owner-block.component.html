@@ -1,18 +1,24 @@
-<div class="m-pay__ownerBlock">
+<div class="m-pay__ownerBlock" *ngIf="service.owner$ | async as owner">
   <div class="m-payOwnerBlock__channelBanner">
-    <div class="m-payOwnerBlockChannelBanner__background"></div>
-    <img class="m-payOwnerBlockChannelBanner__avatar" src="" alt="" />
+    <div
+      class="m-payOwnerBlockChannelBanner__background"
+      [ngStyle]="bannerBackgroundImageCss(owner)"
+    ></div>
+
+    <minds-avatar
+      class="m-payOwnerBlockChannelBanner__avatar"
+      [object]="owner"
+      [editMode]="false"
+    ></minds-avatar>
   </div>
 
   <div class="m-payOwnerBlock__heading">
     <div class="m-payOwnerBlockHeading__title">
       <span i18n>Pay</span>
-      <span><m-icon iconId="arrow_right"></m-icon></span>
-      <span>User Display Name</span>
+      <span><m-icon iconId="keyboard_arrow_right"></m-icon></span>
+      <span>{{ owner.name }}</span>
     </div>
 
-    <div class="m-payOwnerBlockHeading__username">
-      @username
-    </div>
+    <div class="m-payOwnerBlockHeading__username">@{{ owner.username }}</div>
   </div>
 </div>

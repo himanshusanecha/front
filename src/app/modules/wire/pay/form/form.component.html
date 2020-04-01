@@ -1,5 +1,5 @@
 <div class="m-pay__form">
-  <div class="m-tabs__container">
+  <div class="m-payForm__tabs m-tabs__container">
     <div class="m-tabs__tab">
       <a (click)="service.setType('tokens')" i18n>Tokens</a>
     </div>
@@ -9,11 +9,65 @@
     </div>
 
     <div class="m-tabs__tab">
-      <a (click)="service.setType('eth')" i18n>Eth</a>
+      <a (click)="service.setType('eth')" i18n>ETH</a>
     </div>
 
     <div class="m-tabs__tab">
       <a (click)="service.setType('btc')" i18n>BTC</a>
+    </div>
+  </div>
+
+  <div class="m-payForm__fields">
+    <div class="m-payForm__field">
+      <label for="m-payForm__amount"></label>
+      <input
+        type="text"
+        id="m-payForm__amount"
+        [ngModel]="service.amount$ | async | number: '1.0-4'"
+        (ngModelChange)="setAmount($event)"
+        placeholder="0"
+      />
+    </div>
+  </div>
+
+  <div class="m-payForm__fields">
+    <ng-container *ngIf="(service.type$ | async) === 'tokens'">
+      <div class="m-payForm__field">
+        <span class="m-payForm__toggleLabel" i18n>On-chain</span>
+        <span class="m-payForm__toggle"
+          ><m-toggle
+            leftValue="onchain"
+            rightValue="offchain"
+            [mModel]="service.tokenType$ | async"
+            (mModelChange)="service.setTokenType($event)"
+          ></m-toggle
+        ></span>
+        <span class="m-payForm__toggleLabel" i18n>Off-chain</span>
+      </div>
+
+      <div class="m-payForm__field">
+        <label i18n>Wallet Balance</label>
+        <span class="m-payForm__value">{{ 1234.56 | number: '1.0-4' }}</span>
+      </div>
+    </ng-container>
+
+    <div class="m-payForm__field">
+      <label for="m-payForm__recurring" i18n>Repeat Payment Monthly</label>
+      <label for="m-payForm__recurring" class="m-payForm__controlWrapper">
+        <input
+          type="checkbox"
+          id="m-payForm__recurring"
+          [ngModel]="service.recurring$ | async"
+          (ngModelChange)="service.setRecurring($event)"
+        />
+        <span>Repeat</span>
+        <m-tooltip>
+          <span m-tooltip--anchor>?</span>
+          <ng-container i18n>
+            TBD
+          </ng-container>
+        </m-tooltip>
+      </label>
     </div>
   </div>
 </div>

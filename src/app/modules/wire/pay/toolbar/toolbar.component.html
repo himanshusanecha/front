@@ -1,11 +1,11 @@
 <ng-template #typeLabel>
   <ng-container [ngSwitch]="service.type$ | async">
     <ng-container *ngSwitchCase="'tokens'" i18n
-      >{service.amount$ | async, plural, =1 {token} other
-      {tokens}}</ng-container
+      >{ service.amount$ | async, plural, =1 {token} other {tokens}
+      }</ng-container
     >
     <ng-container *ngSwitchCase="'usd'" i18n>USD</ng-container>
-    <ng-container *ngSwitchCase="'eth'" i18n>Eth</ng-container>
+    <ng-container *ngSwitchCase="'eth'" i18n>ETH</ng-container>
     <ng-container *ngSwitchCase="'btc'" i18n>BTC</ng-container>
   </ng-container>
 </ng-template>

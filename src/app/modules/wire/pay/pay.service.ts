@@ -1,8 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { WireService } from '../wire.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { WireStruc } from '../creator/creator.component';
+import { MindsUser } from '../../../interfaces/entities';
+import { ApiService } from '../../../common/api/api.service';
 
 /**
  * Pay event types
@@ -54,6 +56,7 @@ const DEFAULT_PAY_RECURRING_VALUE: boolean = false;
  * Data payload
  */
 interface Data {
+  entityGuid: string;
   type: PayType;
   tokenType: PayTokenType;
   amount: number;
@@ -65,6 +68,13 @@ interface Data {
  */
 @Injectable()
 export class PayService implements OnDestroy {
+  /**
+   * The entity that's going to receive the payment
+   */
+  readonly entityGuid$: BehaviorSubject<string> = new BehaviorSubject<string>(
+    ''
+  );
+
   /**
    * Pay type subject
    */
@@ -94,6 +104,27 @@ export class PayService implements OnDestroy {
   );
 
   /**
+   * User resolver that's going to asynchronously re-sync the reward tiers (state)
+   */
+  readonly ownerResolver$: BehaviorSubject<MindsUser | null> = new BehaviorSubject<MindsUser | null>(
+    null
+  );
+
+  /**
+   * User that's going to receive the payment (might be the same as the entity itself) (state)
+   */
+  readonly owner$: BehaviorSubject<MindsUser | null> = new BehaviorSubject<MindsUser | null>(
+    null
+  );
+
+  /**
+   * Sum of the accumulated Pay (wires) in the last 30 days, per currency
+   */
+  readonly sums$: BehaviorSubject<{
+    [key: string]: string;
+  }> = new BehaviorSubject<{ [key: string]: string }>({});
+
+  /**
    * "In Progress" flag subject (state)
    */
   readonly inProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
@@ -111,11 +142,19 @@ export class PayService implements OnDestroy {
   protected payloadSubscription: Subscription;
 
   /**
+   * Observer subscription that emits passed User, then refresh its rewards data
+   */
+  protected ownerResolverSubscription: Subscription;
+
+  /**
    * Constructor. Initializes data payload observable subscription.
+   * @param api
    * @param wire
    */
-  constructor(protected wire: WireService) {
+  constructor(protected api: ApiService, protected wire: WireService) {
+    // Generates the payload
     this.payloadSubscription = combineLatest([
+      this.entityGuid$,
       this.type$,
       this.tokenType$,
       this.amount$,
@@ -123,7 +162,8 @@ export class PayService implements OnDestroy {
     ])
       .pipe(
         map(
-          ([type, tokenType, amount, recurring]): Data => ({
+          ([entityGuid, type, tokenType, amount, recurring]): Data => ({
+            entityGuid,
             type,
             tokenType,
             amount,
@@ -132,6 +172,38 @@ export class PayService implements OnDestroy {
         )
       )
       .subscribe((data: Data) => this.buildPayload(data));
+
+    // Resolves the owner from the cached entity, then re-sync from the server and fetch the rewards sums
+    this.ownerResolverSubscription = this.ownerResolver$.subscribe(owner => {
+      // Emit cached owner
+      this.owner$.next(owner);
+
+      if (owner && owner.guid) {
+        // Re-sync owner and rewards
+
+        this.api
+          .get(`api/v1/wire/rewards/${owner.guid}`)
+          .toPromise()
+          .then(({ merchant, eth_wallet, wire_rewards, sums }) => {
+            // TODO: Prone to race conditions and non-cancellable, find a better rxjs-ish way
+            const currentOwnerValue = this.owner$.getValue();
+
+            if (!currentOwnerValue || currentOwnerValue.guid !== owner.guid) {
+              // Stale response, do nothing
+              return;
+            }
+
+            // Update owner
+            owner.merchant = merchant;
+            owner.eth_wallet = eth_wallet;
+            owner.wire_rewards = wire_rewards;
+
+            // Emit
+            this.owner$.next(owner);
+            this.sums$.next(sums);
+          });
+      }
+    });
   }
 
   /**
@@ -141,6 +213,41 @@ export class PayService implements OnDestroy {
     if (this.payloadSubscription) {
       this.payloadSubscription.unsubscribe();
     }
+
+    if (this.ownerResolverSubscription) {
+      this.ownerResolverSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Sets the entity and the owner of it
+   * @param entity
+   */
+  setEntity(entity: any): PayService {
+    // Set the entity
+    let guid: string = '';
+
+    if (entity && entity.guid) {
+      guid = entity.guid;
+    } else if (entity && entity.entity_guid) {
+      guid = entity.entity_guid;
+    }
+
+    // Set the owner
+    let owner: MindsUser | null = null;
+
+    if (entity && entity.type === 'user') {
+      owner = { ...entity };
+    } else if (entity && entity.ownerObj) {
+      owner = { ...entity.ownerObj };
+    }
+
+    // Emit
+    this.entityGuid$.next(guid);
+    this.ownerResolver$.next(owner);
+
+    //
+    return this;
   }
 
   /**
@@ -211,7 +318,7 @@ export class PayService implements OnDestroy {
    */
   protected buildPayload(data: Data) {
     const payload: Partial<WireStruc> = {
-      // guid
+      guid: data.entityGuid,
       amount: data.amount,
       recurring: Boolean(data.recurring),
     };
@@ -219,21 +326,28 @@ export class PayService implements OnDestroy {
     switch (data.type) {
       case 'tokens':
         payload.payloadType = data.tokenType;
+        // TODO: Wire Payload
         break;
       case 'usd':
         payload.payloadType = 'usd';
+        // TODO: Wire Payload
         break;
       case 'eth':
         payload.payloadType = 'eth';
+        // TODO: Wire Payload
         break;
       case 'btc':
         payload.payloadType = 'btc';
+        // TODO: Wire Payload
         break;
     }
 
     return payload as WireStruc;
   }
 
+  /**
+   * Submits the Wire
+   */
   async submit(): Promise<any> {
     if (!this.payload) {
       throw new Error(`There's nothing to send`);

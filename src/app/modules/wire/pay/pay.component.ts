@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { PayService } from './pay.service';
 
 @Component({
@@ -8,6 +8,10 @@ import { PayService } from './pay.service';
   providers: [PayService],
 })
 export class PayComponent {
+  @Input('object') set data(object) {
+    this.service.setEntity(object);
+  }
+
   constructor(public service: PayService) {}
 
   onSubmit(): void {}

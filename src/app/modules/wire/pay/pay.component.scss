@@ -1,0 +1,15 @@
+m-pay {
+  position: relative;
+  display: block;
+  margin-bottom: 16px;
+  border-radius: 5px;
+  box-sizing: border-box;
+
+  @include m-theme() {
+    background: themed($m-bgColor--secondary);
+  }
+
+  @media screen and (max-width: $max-mobile) {
+    border-radius: 0;
+  }
+}
