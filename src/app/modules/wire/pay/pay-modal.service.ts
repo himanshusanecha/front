@@ -46,7 +46,7 @@ export class PayModalService {
     const isPay = this.features.has('pay');
 
     const component = isPay ? PayComponent : WireCreatorComponent;
-    const wrapperClass = isPay ? 'm-modalWrapper' : '';
+    const wrapperClass = isPay ? 'm-modalV2__wrapper' : '';
 
     return new Observable<PayEvent>(subscriber => {
       let completed = false;
