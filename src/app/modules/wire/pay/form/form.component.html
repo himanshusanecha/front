@@ -89,24 +89,46 @@
             class="m-payForm__value"
             *ngIf="(service.tokenType$ | async) === 'offchain'"
           >
-            {{
-              service.tokenBalance.offChainBalance$
-                | async
-                | token: 18
-                | number: '1.0-6'
-            }}
+            <ng-container
+              *ngIf="
+                service.tokenBalance.offChainBalance$
+                  | asyncState: ''
+                  | async as offChainBalance
+              "
+            >
+              <ng-template
+                [ngIf]="offChainBalance.pending"
+                [ngIfElse]="offChainBalanceValue"
+              >
+                ...
+              </ng-template>
+              <ng-template #offChainBalanceValue>
+                {{ offChainBalance.value | token: 18 | number: '1.0-3' }}
+              </ng-template>
+            </ng-container>
           </span>
 
           <span
             class="m-payForm__value"
             *ngIf="(service.tokenType$ | async) === 'onchain'"
           >
-            {{
-              service.tokenBalance.onChainBalance$
-                | async
-                | token: 18
-                | number: '1.0-6'
-            }}
+            <ng-container
+              *ngIf="
+                service.tokenBalance.onChainBalance$
+                  | asyncState: ''
+                  | async as onChainBalance
+              "
+            >
+              <ng-template
+                [ngIf]="onChainBalance.pending"
+                [ngIfElse]="onChainBalanceValue"
+              >
+                ...
+              </ng-template>
+              <ng-template #onChainBalanceValue>
+                {{ onChainBalance.value | token: 18 | number: '1.0-3' }}
+              </ng-template>
+            </ng-container>
           </span>
         </div>
       </ng-container>
