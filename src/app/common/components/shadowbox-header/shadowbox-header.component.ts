@@ -94,13 +94,17 @@ export class ShadowboxHeaderComponent implements AfterViewInit {
 
   checkOverflow() {
     // assumes all metrics are equal width
-    if (!this.isScrollable) {
+    if (!this.isScrollable || !this.container) {
       return;
     }
 
     this.firstMetricEl = <HTMLElement>(
       document.querySelector('.m-shadowboxHeaderTab')
     );
+
+    if (!this.firstMetricEl) {
+      return;
+    }
 
     this.childClientWidth = this.firstMetricEl.clientWidth;
 
@@ -129,7 +133,7 @@ export class ShadowboxHeaderComponent implements AfterViewInit {
     let targetScrollLeft;
     let scrollEndOffset = 0;
 
-    console.log(this.container.clientWidth);
+    // console.log(this.container.clientWidth);
     const partiallyVisibleMetricWidth =
       this.container.clientWidth % this.childClientWidth;
     const completelyVisibleMetricsWidth =
