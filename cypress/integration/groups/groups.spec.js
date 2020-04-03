@@ -16,16 +16,19 @@ context('Groups', () => {
 
   beforeEach(()=> {
     cy.preserveCookies();
+    cy.server();
+    cy.route('GET', '**/api/v2/feeds/container/**').as('getGroupsFeed');
+    cy.route("POST", "**/api/v1/groups/group*").as("postGroup");
+    cy.route('GET', "**/api/v1/groups/member/**").as("getGroupsMember")
   });
 
-  after(() {
+  after(() => {
+    cy.logout(true);
+    cy.login(false, member.username, member.password);
     cy.deleteUser(member.username, member.password);  
   });
 
   it('should create and edit a group', () => {
-
-    cy.server();
-    cy.route("POST", "**/api/v1/groups/group*").as("postGroup");
 
     cy.get('m-group--sidebar-markers li:first-child').contains('New group').click();
 
@@ -89,7 +92,7 @@ context('Groups', () => {
   })
 
   it('should be able to toggle conversation and comment on it', () => {
-    cy.contains(groupId).click();
+    cy.contains(groupId).click({force: true});
 
     // toggle the conversation
     cy.get('.m-groupGrid__right').should('be.visible');
@@ -154,33 +157,87 @@ context('Groups', () => {
   });
 
 
-  it('should allow a user to join the group and allow the admin to kick him', () => {
-    cy.contains(groupId).click();
+  it('should allow a user to join the group and allow the admin to kick them', () => {
+    // load group as group owner
+    cy.contains(groupId)
+      .click()
+      .wait('@getGroupsFeed').then((xhr) => {
+        expect(xhr.status).to.equal(200);
+        expect(xhr.response.body.status).to.equal("success");
+      });
+
+    // store URL
     cy.url().then(url => {
-      currentURL = url;
-      cy.logout();
+
+      // logout and login as new user.
+      cy.logout(true);
       cy.login(true, member.username, member.password);
-      cy.visit(url);
-      cy.get('[data-cy=data-minds-post-menu-button]').click();
-      cy.get('[data-cy=data-minds-group-dropdown-remove]').click();
+      
+      // go to group as new user.
+      cy.visit(url)
+        .wait('@getGroupsFeed').then((xhr) => {
+          expect(xhr.status).to.equal(200);
+          expect(xhr.response.body.status).to.equal("success");
+        });
+      
+      // join.
+      cy.get('.m-groupInfo__actionButtons')
+        .contains('Join')
+        .click();
+
+      // make a post.
+      const postContent = generateRandomId();
+      cy.post(postContent);
+      
+      // log out and log back in as owner
+      cy.logout(true);
+      cy.login(true, Cypress.env().username, Cypress.env().password);
+
+      // nav to group organically.
+      cy.contains(groupId).click();
+
+      // get the parental activity, and within it...
+      cy.contains(postContent)
+        .parentsUntil('minds-activity')
+        .parent()
+        .within(($list) => {
+          // click dropdown and then remove option.
+          cy.get('[data-cy=data-minds-post-menu-button]').click();
+          cy.get('[data-cy=data-minds-group-dropdown-remove]').click();
+        });
+
+      // confirm
       cy.get('[data-cy=data-minds-kick-modal-confirm]').click();
       cy.get('[data-cy=data-minds-kick-modal-okay]').click();
     });
   });
 
   it('should delete a group', () => {
-    cy.get('.m-groupSidebarMarkers__list').children().its('length').then((size) => {
-      // cy.get(`m-group--sidebar-markers li:nth-child(${size - 2})`).click();
-      cy.contains(groupId).click();
-      // cleanup
-      cy.get('minds-groups-settings-button > button').click();
-      cy.contains('Delete Group').click();
-      cy.contains('Confirm').click();
+    // reset state after last test
+    cy.logout(true);
+    cy.login(true, Cypress.env().username, Cypress.env().password);
 
-      cy.location('pathname').should('eq', '/groups/member');
+    // nav to group.
+    cy.contains(groupId)
+        .click()
+        .wait('@getGroupsFeed')
+        .then((xhr) => {
+          expect(xhr.status).to.equal(200);
+          expect(xhr.response.body.status).to.equal("success");
+        });
 
-      cy.get('.m-groupSidebarMarkers__list').children().should('have.length', size - 1);
-    });
+    // click settings cog.
+    cy.get('minds-groups-settings-button > button').click();
+
+    // hit delete group, and confirm.
+    cy.contains('Delete Group').click();
+    cy.contains('Confirm')
+      .click()
+      .location('pathname')
+      .should('eq', '/groups/member');
+    
+    // assert groupId no longer exists on sidebar.
+    cy.contains(groupId).should('not.exist');
   });
 
 })
