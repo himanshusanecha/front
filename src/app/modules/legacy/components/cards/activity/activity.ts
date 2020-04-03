@@ -34,7 +34,7 @@ import { ConfigsService } from '../../../../../common/services/configs.service';
 import { RedirectService } from '../../../../../common/services/redirect.service';
 import { ComposerService } from '../../../../composer/services/composer.service';
 import { ModalService } from '../../../../composer/components/modal/modal.service';
-import { WireModalService } from '../../../../wire/v2/wire-modal.service';
+import { WireModalService } from '../../../../wire/wire-modal.service';
 import { WireEventType } from '../../../../wire/v2/wire-v2.service';
 
 @Component({

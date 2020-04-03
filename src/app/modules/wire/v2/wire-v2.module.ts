@@ -1,12 +1,27 @@
 import { NgModule } from '@angular/core';
+import { CommonModule as NgCommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '../../../common/common.module';
+import { WireCreatorComponent } from './creator/wire-creator.component';
+import { WireCreatorOwnerBlock } from './creator/owner-block/owner-block.component';
+import { WireCreatorFormComponent } from './creator/form/form.component';
+import { WireCreatorToolbarComponent } from './creator/toolbar/toolbar.component';
+import { WireService } from '../wire.service';
 
-const COMPONENTS = [];
+const COMPONENTS = [WireCreatorComponent];
 
-const INTERNAL_COMPONENTS = [];
+const INTERNAL_COMPONENTS = [
+  WireCreatorOwnerBlock,
+  WireCreatorFormComponent,
+  WireCreatorToolbarComponent,
+];
 
-const PROVIDERS = [];
+const PROVIDERS = [
+  WireService, // V1, used by V2
+];
 
 @NgModule({
+  imports: [NgCommonModule, CommonModule, FormsModule],
   declarations: [...INTERNAL_COMPONENTS, ...COMPONENTS],
   exports: COMPONENTS,
   entryComponents: COMPONENTS,

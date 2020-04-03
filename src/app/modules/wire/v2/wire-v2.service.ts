@@ -367,6 +367,7 @@ export class WireV2Service implements OnDestroy {
     try {
       console.log(this.v1Payload);
       this.inProgress$.next(false);
+      return {};
       //return await this.wire.submitWire(this.payload);
     } catch (e) {
       this.inProgress$.next(false);

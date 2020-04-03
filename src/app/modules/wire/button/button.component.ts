@@ -1,16 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-} from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { SignupModalService } from '../../modals/signup/service';
 import { Session } from '../../../services/session';
-import { WireModalService } from '../v2/wire-modal.service';
+import { WireModalService } from '../wire-modal.service';
 import { WireEventType } from '../v2/wire-v2.service';
 
 @Component({
@@ -25,46 +18,38 @@ import { WireEventType } from '../v2/wire-v2.service';
     </button>
   `,
 })
-export class WireButtonComponent implements OnDestroy {
+export class WireButtonComponent {
   @Input() object: any;
   @Output('done') doneEmitter: EventEmitter<any> = new EventEmitter();
-
-  protected payModalSubscription: Subscription;
 
   constructor(
     public session: Session,
     private overlayModal: OverlayModalService,
     private modal: SignupModalService,
-    private payModal: WireModalService
+    private wireModal: WireModalService
   ) {}
 
-  ngOnDestroy(): void {
-    if (this.payModalSubscription) {
-      this.payModalSubscription.unsubscribe();
-    }
-  }
-
-  wire() {
+  async wire() {
     if (!this.session.isLoggedIn()) {
       this.modal.open();
 
       return;
     }
 
-    this.payModalSubscription = this.payModal
+    const wireEvent = await this.wireModal
       .present(this.object, {
         default: this.object && this.object.wire_threshold,
       })
-      .subscribe(payEvent => {
-        if (payEvent.type === WireEventType.Completed) {
-          const wire = payEvent.payload;
+      .toPromise();
 
-          if (this.object.wire_totals) {
-            this.object.wire_totals[wire.currency] = wire.amount;
-          }
+    if (wireEvent.type === WireEventType.Completed) {
+      const wire = wireEvent.payload;
 
-          this.doneEmitter.emit(wire);
-        }
-      });
+      if (this.object.wire_totals) {
+        this.object.wire_totals[wire.currency] = wire.amount;
+      }
+
+      this.doneEmitter.emit(wire);
+    }
   }
 }

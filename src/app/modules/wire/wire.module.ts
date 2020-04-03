@@ -28,11 +28,8 @@ import { WireSubscriptionTiersComponent } from './channel/tiers.component';
 import { WirePaymentsCreatorComponent } from './creator/payments/payments.creator.component';
 import { WirePaymentHandlersService } from './wire-payment-handlers.service';
 import { PayMarketingComponent } from './marketing/marketing.component';
-import { WireModalService } from './v2/wire-modal.service';
-import { WireV2CreatorComponent } from './v2/creator/wire-v2-creator.component';
-import { WireCreatorOwnerBlock } from './v2/creator/owner-block/owner-block.component';
-import { WireCreatorFormComponent } from './v2/creator/form/form.component';
-import { WireCreatorToolbarComponent } from './v2/creator/toolbar/toolbar.component';
+import { WireV2Module } from './v2/wire-v2.module';
+import { WireModalService } from './wire-modal.service';
 
 const wireRoutes: Routes = [
   { path: 'wire', redirectTo: 'pay' },
@@ -57,6 +54,7 @@ const wireRoutes: Routes = [
     CheckoutModule,
     FaqModule,
     PaymentsModule,
+    WireV2Module,
   ],
   declarations: [
     WireLockScreenComponent,
@@ -77,18 +75,8 @@ const wireRoutes: Routes = [
     PayMarketingComponent,
     WireConsoleOverviewComponent,
     WireSubscriptionTiersComponent,
-    // - Pay
-    WireV2CreatorComponent,
-    WireCreatorOwnerBlock,
-    WireCreatorFormComponent,
-    WireCreatorToolbarComponent,
   ],
-  providers: [
-    WireService,
-    WirePaymentHandlersService,
-    // - Pay
-    WireModalService,
-  ],
+  providers: [WireService, WirePaymentHandlersService, WireModalService],
   exports: [
     WireLockScreenComponent,
     WireButtonComponent,
@@ -103,8 +91,6 @@ const wireRoutes: Routes = [
     WireConsoleOverviewComponent,
     WireCreatorComponent,
     WireSubscriptionTiersComponent,
-    // - Pay
-    WireV2CreatorComponent,
   ],
   entryComponents: [
     WireCreatorComponent,
@@ -112,8 +98,6 @@ const wireRoutes: Routes = [
     WirePaymentsCreatorComponent,
     WireLockScreenComponent,
     WireConsoleRewardsInputsComponent,
-    // - Pay
-    WireV2CreatorComponent,
   ],
 })
 export class WireModule {}

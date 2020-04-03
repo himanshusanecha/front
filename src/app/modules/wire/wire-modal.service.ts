@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WireEvent, WireEventType } from './wire-v2.service';
-import { OverlayModalService } from '../../../services/ux/overlay-modal';
-import { WireCreatorComponent } from '../creator/creator.component';
-import { FeaturesService } from '../../../services/features.service';
-import { WireV2CreatorComponent } from './creator/wire-v2-creator.component';
+import { WireEvent, WireEventType } from './v2/wire-v2.service';
+import { OverlayModalService } from '../../services/ux/overlay-modal';
+import { FeaturesService } from '../../services/features.service';
+import { WireCreatorComponent as WireV1CreatorComponent } from './creator/creator.component';
+import { WireCreatorComponent as WireV2CreatorComponent } from './v2/creator/wire-creator.component';
 
 /**
  * WireModal.present() options.default interface
@@ -48,7 +48,7 @@ export class WireModalService {
   ): Observable<WireEvent> {
     const isV2 = this.features.has('pay');
 
-    const component = isV2 ? WireV2CreatorComponent : WireCreatorComponent;
+    const component = isV2 ? WireV2CreatorComponent : WireV1CreatorComponent;
     const wrapperClass = isV2 ? 'm-modalV2__wrapper' : '';
 
     return new Observable<WireEvent>(subscriber => {
@@ -57,6 +57,7 @@ export class WireModalService {
       this.overlayModal
         .create(component, entity, {
           ...options,
+
           onComplete: wire => {
             completed = true;
 
@@ -65,20 +66,19 @@ export class WireModalService {
               payload: wire,
             });
 
-            subscriber.complete();
+            this.dismiss();
           },
-          onDidDismiss: () => {
-            if (!completed) {
-              completed = true;
-
-              subscriber.next({
-                type: WireEventType.Cancelled,
-              });
-
-              subscriber.complete();
-            }
-          },
+          onDismissIntent: () => this.dismiss(),
           wrapperClass,
+        })
+        .onDidDismiss(() => {
+          if (!completed) {
+            subscriber.next({
+              type: WireEventType.Cancelled,
+            });
+          }
+
+          subscriber.complete();
         })
         .present();
 
@@ -92,5 +92,12 @@ export class WireModalService {
         }
       };
     });
+  }
+
+  /**
+   * Dismisses the modal
+   */
+  dismiss() {
+    this.overlayModal.dismiss();
   }
 }
