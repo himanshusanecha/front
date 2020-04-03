@@ -9,6 +9,35 @@ export interface AsyncState<T> {
 }
 
 /**
+ * Checks if the passed value matches the pending partial. For
+ * non-objects it'll perform a strict equality of the values.
+ * For objects it'll check all the keys.
+ * @param value
+ * @param pendingIf
+ */
+function isPending<T>(value: T, pendingIf: T | Partial<T>): boolean {
+  if (typeof pendingIf !== 'object') {
+    return value === pendingIf;
+  }
+
+  if (typeof value !== 'object') {
+    return true;
+  }
+
+  const props = Object.getOwnPropertyNames(pendingIf);
+
+  for (let i = 0; i < props.length; i++) {
+    const propName = props[i];
+
+    if (value[propName] !== pendingIf[propName]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
  * This pipe will wrap an observable onto an object which
  * will reflect its pending state, value and/or error message.
  */
@@ -18,7 +47,7 @@ export interface AsyncState<T> {
 export class AsyncStatePipe implements PipeTransform {
   transform<T>(
     value: Observable<T> | T,
-    pendingIf: T = null
+    pendingIf: T | Partial<T> = null
   ): Observable<AsyncState<T>> {
     if (!isObservable(value)) {
       return of({
@@ -31,7 +60,7 @@ export class AsyncStatePipe implements PipeTransform {
       // Map value changes to AsyncState
       map(
         (value: T): AsyncState<T> => ({
-          pending: typeof value === 'undefined' || value === pendingIf,
+          pending: typeof value === 'undefined' || isPending(value, pendingIf),
           value,
         })
       ),

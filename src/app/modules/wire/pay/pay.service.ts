@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { WireStruc } from '../creator/creator.component';
 import { MindsUser } from '../../../interfaces/entities';
 import { ApiService } from '../../../common/api/api.service';
-import { PayTokenBalanceService } from './token-balance.service';
+import { WalletV2Service } from '../../wallet/v2/wallet-v2.service';
 
 /**
  * Pay event types
@@ -149,12 +149,12 @@ export class PayService implements OnDestroy {
 
   /**
    * Constructor. Initializes data payload observable subscription.
-   * @param tokenBalance
+   * @param wallet
    * @param api
    * @param wire
    */
   constructor(
-    public tokenBalance: PayTokenBalanceService,
+    public wallet: WalletV2Service,
     protected api: ApiService,
     protected wire: WireService
   ) {
@@ -212,7 +212,7 @@ export class PayService implements OnDestroy {
     });
 
     // Sync balances
-    this.tokenBalance.sync();
+    this.wallet.getTokenAccounts();
   }
 
   /**
