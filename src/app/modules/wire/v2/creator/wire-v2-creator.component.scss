@@ -1,4 +1,4 @@
-m-pay {
+m-wireCreator {
   @media screen and (max-width: $max-mobile) {
     display: flex;
     flex-direction: column;
@@ -7,7 +7,7 @@ m-pay {
   }
 }
 
-.m-pay {
+.m-wireCreator {
   width: 778px;
   max-width: 100%;
 
@@ -15,7 +15,7 @@ m-pay {
     flex: 1;
     width: 100%;
 
-    m-pay__form {
+    m-wireCreator__form {
       flex: 1;
     }
   }

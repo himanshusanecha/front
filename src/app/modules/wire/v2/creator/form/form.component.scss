@@ -1,11 +1,11 @@
-.m-pay__form {
+.m-wireCreator__form {
   margin: 11px 0 0;
 
   @media screen and (max-width: $max-mobile) {
     margin: 31px 0 0;
   }
 
-  .m-payForm__tabs {
+  .m-wireCreatorForm__tabs {
     padding: 0 50px;
 
     @media screen and (max-width: $max-mobile) {
@@ -18,18 +18,18 @@
     }
   }
 
-  .m-payForm__fieldset {
+  .m-wireCreatorForm__fieldset {
     margin: 39px 0 0;
   }
 
-  .m-payForm__fields {
+  .m-wireCreatorForm__fields {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: stretch;
     padding: 0 50px;
 
-    > .m-payForm__field {
+    > .m-wireCreatorForm__field {
       flex: 1;
       margin: 0 0 27px;
 
@@ -46,7 +46,7 @@
     }
   }
 
-  .m-payForm__field {
+  .m-wireCreatorForm__field {
     font-size: 16px;
     line-height: 21px;
 
@@ -74,7 +74,7 @@
     }
   }
 
-  .m-payForm__label {
+  .m-wireCreatorForm__label {
     display: block;
     margin: 0 0 11px;
     font-size: 15px;
@@ -85,19 +85,19 @@
     }
   }
 
-  .m-payForm__toggleContainer {
+  .m-wireCreatorForm__toggleContainer {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     user-select: none;
 
-    .m-payForm__toggle {
+    .m-wireCreatorForm__toggle {
       margin: 0 12px;
     }
   }
 
-  .m-payFormRecurring__tooltip {
+  .m-wireCreatorFormRecurring__tooltip {
     font-size: 15px;
     line-height: 18px;
 

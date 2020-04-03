@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { WireService } from '../wire.service';
+import { WireService as WireV1Service } from '../wire.service';
 import { map } from 'rxjs/operators';
 import { WireStruc } from '../creator/creator.component';
 import { MindsUser } from '../../../interfaces/entities';
@@ -8,67 +8,67 @@ import { ApiService } from '../../../common/api/api.service';
 import { WalletV2Service } from '../../wallet/v2/wallet-v2.service';
 
 /**
- * Pay event types
+ * Wire event types
  */
-export enum PayEventType {
+export enum WireEventType {
   Completed = 1,
   Cancelled,
 }
 
 /**
- * Pay event
+ * Wire event
  */
-export interface PayEvent {
-  type: PayEventType;
+export interface WireEvent {
+  type: WireEventType;
   payload?: any;
 }
 
 /**
- * Pay types
+ * Wire types
  */
-type PayType = 'tokens' | 'usd' | 'eth' | 'btc';
+type WireType = 'tokens' | 'usd' | 'eth' | 'btc';
 
 /**
  * Default type value
  */
-const DEFAULT_PAY_TYPE_VALUE: PayType = 'tokens';
+const DEFAULT_TYPE_VALUE: WireType = 'tokens';
 
 /**
- * Pay token types
+ * Wire token types
  */
-type PayTokenType = 'offchain' | 'onchain';
+type WireTokenType = 'offchain' | 'onchain';
 
 /**
  * Default token type value
  */
-const DEFAULT_PAY_TOKEN_TYPE_VALUE: PayTokenType = 'offchain';
+const DEFAULT_TOKEN_TYPE_VALUE: WireTokenType = 'offchain';
 
 /**
  * Default amount value
  */
-const DEFAULT_PAY_AMOUNT_VALUE: number = 1;
+const DEFAULT_AMOUNT_VALUE: number = 1;
 
 /**
  * Default recurring flag value
  */
-const DEFAULT_PAY_RECURRING_VALUE: boolean = false;
+const DEFAULT_RECURRING_VALUE: boolean = false;
 
 /**
  * Data payload
  */
 interface Data {
   entityGuid: string;
-  type: PayType;
-  tokenType: PayTokenType;
+  type: WireType;
+  tokenType: WireTokenType;
   amount: number;
   recurring: boolean;
 }
 
 /**
- * Pay service, using Wire as low-level implementation
+ * Wire v2 service, using v1 Wire as low-level implementation
  */
 @Injectable()
-export class PayService implements OnDestroy {
+export class WireV2Service implements OnDestroy {
   /**
    * The entity that's going to receive the payment
    */
@@ -77,31 +77,31 @@ export class PayService implements OnDestroy {
   );
 
   /**
-   * Pay type subject
+   * Wire type subject
    */
-  readonly type$: BehaviorSubject<PayType> = new BehaviorSubject<PayType>(
-    DEFAULT_PAY_TYPE_VALUE
+  readonly type$: BehaviorSubject<WireType> = new BehaviorSubject<WireType>(
+    DEFAULT_TYPE_VALUE
   );
 
   /**
-   * Pay token type subject
+   * Wire token type subject
    */
-  readonly tokenType$: BehaviorSubject<PayTokenType> = new BehaviorSubject<
-    PayTokenType
-  >(DEFAULT_PAY_TOKEN_TYPE_VALUE);
+  readonly tokenType$: BehaviorSubject<WireTokenType> = new BehaviorSubject<
+    WireTokenType
+  >(DEFAULT_TOKEN_TYPE_VALUE);
 
   /**
    * Amount subject
    */
   readonly amount$: BehaviorSubject<number> = new BehaviorSubject<number>(
-    DEFAULT_PAY_AMOUNT_VALUE
+    DEFAULT_AMOUNT_VALUE
   );
 
   /**
    * Recurring flag subject
    */
   readonly recurring$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    DEFAULT_PAY_RECURRING_VALUE
+    DEFAULT_RECURRING_VALUE
   );
 
   /**
@@ -119,7 +119,7 @@ export class PayService implements OnDestroy {
   );
 
   /**
-   * Sum of the accumulated Pay (wires) in the last 30 days, per currency
+   * Sum of the accumulated Wires in the last 30 days, per currency
    */
   readonly sums$: BehaviorSubject<{
     [key: string]: string;
@@ -133,9 +133,9 @@ export class PayService implements OnDestroy {
   );
 
   /**
-   * Wire payload
+   * Wire v1 payload
    */
-  protected payload: WireStruc;
+  protected v1Payload: WireStruc;
 
   /**
    * Observer subscription that continuously builds the payload
@@ -151,12 +151,12 @@ export class PayService implements OnDestroy {
    * Constructor. Initializes data payload observable subscription.
    * @param wallet
    * @param api
-   * @param wire
+   * @param v1Wire
    */
   constructor(
     public wallet: WalletV2Service,
     protected api: ApiService,
-    protected wire: WireService
+    protected v1Wire: WireV1Service
   ) {
     // Generates the payload
     this.payloadSubscription = combineLatest([
@@ -177,7 +177,7 @@ export class PayService implements OnDestroy {
           })
         )
       )
-      .subscribe((data: Data) => this.buildPayload(data));
+      .subscribe((data: Data) => this.buildV1Payload(data));
 
     // Resolves the owner from the cached entity, then re-sync from the server and fetch the rewards sums
     this.ownerResolverSubscription = this.ownerResolver$.subscribe(owner => {
@@ -232,7 +232,7 @@ export class PayService implements OnDestroy {
    * Sets the entity and the owner of it
    * @param entity
    */
-  setEntity(entity: any): PayService {
+  setEntity(entity: any): WireV2Service {
     // Set the entity
     let guid: string = '';
 
@@ -260,37 +260,37 @@ export class PayService implements OnDestroy {
   }
 
   /**
-   * Sets the Pay type
+   * Sets the Wire type
    * @param type
    */
-  setType(type: PayType): PayService {
+  setType(type: WireType): WireV2Service {
     this.type$.next(type);
     return this;
   }
 
   /**
-   * Sets the Pay token type
+   * Sets the Wire token type
    * @param tokenType
    */
-  setTokenType(tokenType: PayTokenType): PayService {
+  setTokenType(tokenType: WireTokenType): WireV2Service {
     this.tokenType$.next(tokenType);
     return this;
   }
 
   /**
-   * Sets the Pay amount
+   * Sets the Wire amount
    * @param amount
    */
-  setAmount(amount: number): PayService {
+  setAmount(amount: number): WireV2Service {
     this.amount$.next(amount);
     return this;
   }
 
   /**
-   * Sets the Pay recurring flag
+   * Sets the Wire recurring flag
    * @param recurring
    */
-  setRecurring(recurring: boolean): PayService {
+  setRecurring(recurring: boolean): WireV2Service {
     this.recurring$.next(recurring);
     return this;
   }
@@ -299,7 +299,7 @@ export class PayService implements OnDestroy {
    * Sets the "In Progress" flag
    * @param inProgress
    */
-  setInProgress(inProgress: boolean): PayService {
+  setInProgress(inProgress: boolean): WireV2Service {
     this.inProgress$.next(inProgress);
     return this;
   }
@@ -307,12 +307,12 @@ export class PayService implements OnDestroy {
   /**
    * Reset the behaviors to its original subjects
    */
-  reset(): PayService {
+  reset(): WireV2Service {
     // Data
-    this.setType(DEFAULT_PAY_TYPE_VALUE);
-    this.setTokenType(DEFAULT_PAY_TOKEN_TYPE_VALUE);
-    this.setAmount(DEFAULT_PAY_AMOUNT_VALUE);
-    this.setRecurring(DEFAULT_PAY_RECURRING_VALUE);
+    this.setType(DEFAULT_TYPE_VALUE);
+    this.setTokenType(DEFAULT_TOKEN_TYPE_VALUE);
+    this.setAmount(DEFAULT_AMOUNT_VALUE);
+    this.setRecurring(DEFAULT_RECURRING_VALUE);
 
     // State
     this.setInProgress(false);
@@ -322,10 +322,10 @@ export class PayService implements OnDestroy {
   }
 
   /**
-   * Builds the Wire payload
+   * Builds the v1 Wire payload
    * @param data
    */
-  protected buildPayload(data: Data) {
+  protected buildV1Payload(data: Data) {
     const payload: Partial<WireStruc> = {
       guid: data.entityGuid,
       amount: data.amount,
@@ -351,20 +351,21 @@ export class PayService implements OnDestroy {
         break;
     }
 
-    this.payload = payload as WireStruc;
+    this.v1Payload = payload as WireStruc;
   }
 
   /**
    * Submits the Wire
    */
   async submit(): Promise<any> {
-    if (!this.payload) {
+    if (!this.v1Payload) {
       throw new Error(`There's nothing to send`);
     }
+
     this.inProgress$.next(true);
 
     try {
-      console.log(this.payload);
+      console.log(this.v1Payload);
       this.inProgress$.next(false);
       //return await this.wire.submitWire(this.payload);
     } catch (e) {

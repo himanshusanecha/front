@@ -34,8 +34,8 @@ import { ConfigsService } from '../../../../../common/services/configs.service';
 import { RedirectService } from '../../../../../common/services/redirect.service';
 import { ComposerService } from '../../../../composer/services/composer.service';
 import { ModalService } from '../../../../composer/components/modal/modal.service';
-import { PayModalService } from '../../../../wire/pay/pay-modal.service';
-import { PayEventType } from '../../../../wire/pay/pay.service';
+import { WireModalService } from '../../../../wire/v2/wire-modal.service';
+import { WireEventType } from '../../../../wire/v2/wire-v2.service';
 
 @Component({
   selector: 'minds-activity',
@@ -211,7 +211,7 @@ export class Activity implements OnInit {
     private redirectService: RedirectService,
     protected composer: ComposerService,
     protected composerModal: ModalService,
-    protected payModal: PayModalService,
+    protected payModal: WireModalService,
     protected selfInjector: Injector
   ) {
     this.clientMetaService.inherit(injector);
@@ -435,7 +435,7 @@ export class Activity implements OnInit {
       this.payModalEventSubscription = this.payModal
         .present(entity)
         .subscribe(payEvent => {
-          if (payEvent.type === PayEventType.Completed) {
+          if (payEvent.type === WireEventType.Completed) {
             this.wireSubmitted(payEvent.payload);
           }
         });

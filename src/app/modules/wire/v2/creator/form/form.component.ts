@@ -1,14 +1,22 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PayService } from '../pay.service';
+import { WireV2Service } from '../../wire-v2.service';
 
 @Component({
-  selector: 'm-pay__form',
+  selector: 'm-wireCreator__form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'form.component.html',
 })
-export class PayFormComponent {
-  constructor(public service: PayService) {}
+export class WireCreatorFormComponent {
+  /**
+   * Constructor
+   * @param service
+   */
+  constructor(public service: WireV2Service) {}
 
+  /**
+   * Sanitizes and sets the payment amount
+   * @param amount
+   */
   setAmount(amount: string): void {
     amount = amount.trim();
 

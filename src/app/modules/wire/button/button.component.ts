@@ -10,8 +10,8 @@ import { Subscription } from 'rxjs';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { SignupModalService } from '../../modals/signup/service';
 import { Session } from '../../../services/session';
-import { PayModalService } from '../pay/pay-modal.service';
-import { PayEventType } from '../pay/pay.service';
+import { WireModalService } from '../v2/wire-modal.service';
+import { WireEventType } from '../v2/wire-v2.service';
 
 @Component({
   selector: 'm-wire-button',
@@ -35,7 +35,7 @@ export class WireButtonComponent implements OnDestroy {
     public session: Session,
     private overlayModal: OverlayModalService,
     private modal: SignupModalService,
-    private payModal: PayModalService
+    private payModal: WireModalService
   ) {}
 
   ngOnDestroy(): void {
@@ -56,7 +56,7 @@ export class WireButtonComponent implements OnDestroy {
         default: this.object && this.object.wire_threshold,
       })
       .subscribe(payEvent => {
-        if (payEvent.type === PayEventType.Completed) {
+        if (payEvent.type === WireEventType.Completed) {
           const wire = payEvent.payload;
 
           if (this.object.wire_totals) {

@@ -1,4 +1,4 @@
-.m-pay__toolbar {
+.m-wireCreator__toolbar {
   padding: 30px 40px;
   margin: 26px 0 0;
   border-top: 1px solid;
@@ -11,14 +11,14 @@
     border-color: themed($m-borderColor--primary);
   }
 
-  .m-payToolbar__poweredBy {
-    .m-payToolbarPoweredBy__text,
-    .m-payToolbarPoweredBy__name {
+  .m-wireCreatorToolbar__poweredBy {
+    .m-wireCreatorToolbarPoweredBy__text,
+    .m-wireCreatorToolbarPoweredBy__name {
       display: block;
       line-height: 19px;
     }
 
-    .m-payToolbarPoweredBy__text {
+    .m-wireCreatorToolbarPoweredBy__text {
       font-size: 14px;
       font-style: italic;
 
@@ -27,7 +27,7 @@
       }
     }
 
-    .m-payToolbarPoweredBy__name {
+    .m-wireCreatorToolbarPoweredBy__name {
       font-size: 16px;
 
       @include m-theme() {

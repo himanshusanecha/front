@@ -1,32 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PayEvent, PayEventType } from './pay.service';
+import { WireEvent, WireEventType } from './wire-v2.service';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { WireCreatorComponent } from '../creator/creator.component';
 import { FeaturesService } from '../../../services/features.service';
-import { PayComponent } from './pay.component';
+import { WireV2CreatorComponent } from './creator/wire-v2-creator.component';
 
 /**
- * PayModal.present() options.default interface
+ * WireModal.present() options.default interface
  */
-interface PayModalPresentDefaultOptions {
+interface WireModalPresentDefaultOptions {
   type: string;
   min: number;
 }
 
 /**
- * PayModal.present options interface
+ * WireModal.present options interface
  */
-interface PayModalPresentOptions {
-  default?: PayModalPresentDefaultOptions;
+interface WireModalPresentOptions {
+  default?: WireModalPresentDefaultOptions;
   disableThresholdCheck?: boolean;
 }
 
 /**
- * Handles Pay modal display
+ * Handles Wire modal display
  */
 @Injectable()
-export class PayModalService {
+export class WireModalService {
   /**
    * Constructor
    * @param features
@@ -38,17 +38,20 @@ export class PayModalService {
   ) {}
 
   /**
-   * Presents the Pay modal and returns an Observable
+   * Presents the modal and returns an Observable
    * @param entity
    * @param options
    */
-  present(entity, options: PayModalPresentOptions = {}): Observable<PayEvent> {
-    const isPay = this.features.has('pay');
+  present(
+    entity,
+    options: WireModalPresentOptions = {}
+  ): Observable<WireEvent> {
+    const isV2 = this.features.has('pay');
 
-    const component = isPay ? PayComponent : WireCreatorComponent;
-    const wrapperClass = isPay ? 'm-modalV2__wrapper' : '';
+    const component = isV2 ? WireV2CreatorComponent : WireCreatorComponent;
+    const wrapperClass = isV2 ? 'm-modalV2__wrapper' : '';
 
-    return new Observable<PayEvent>(subscriber => {
+    return new Observable<WireEvent>(subscriber => {
       let completed = false;
 
       this.overlayModal
@@ -58,7 +61,7 @@ export class PayModalService {
             completed = true;
 
             subscriber.next({
-              type: PayEventType.Completed,
+              type: WireEventType.Completed,
               payload: wire,
             });
 
@@ -69,7 +72,7 @@ export class PayModalService {
               completed = true;
 
               subscriber.next({
-                type: PayEventType.Cancelled,
+                type: WireEventType.Cancelled,
               });
 
               subscriber.complete();
@@ -84,7 +87,7 @@ export class PayModalService {
           try {
             this.overlayModal.dismiss();
           } catch (e) {
-            console.error('PayModalService.present', component, e);
+            console.error('WireModalService.present', component, e);
           }
         }
       };

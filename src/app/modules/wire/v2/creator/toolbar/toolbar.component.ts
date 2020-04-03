@@ -4,22 +4,22 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { PayService } from '../pay.service';
+import { WireV2Service } from '../../wire-v2.service';
 
 /**
- * Bottom toolbar for Pay modal
+ * Bottom toolbar for Wire modal
  */
 @Component({
-  selector: 'm-pay__toolbar',
+  selector: 'm-wireCreator__toolbar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'toolbar.component.html',
 })
-export class PayToolbarComponent {
+export class WireCreatorToolbarComponent {
   /**
-   * Constructor.
+   * Constructor
    * @param service
    */
-  constructor(public service: PayService) {}
+  constructor(public service: WireV2Service) {}
 
   /**
    * Submit intent
