@@ -46,7 +46,7 @@ const DEFAULT_PAY_TOKEN_TYPE_VALUE: PayTokenType = 'offchain';
 /**
  * Default amount value
  */
-const DEFAULT_PAY_AMOUNT_VALUE: number = 0;
+const DEFAULT_PAY_AMOUNT_VALUE: number = 1;
 
 /**
  * Default recurring flag value
@@ -351,7 +351,7 @@ export class PayService implements OnDestroy {
         break;
     }
 
-    return payload as WireStruc;
+    this.payload = payload as WireStruc;
   }
 
   /**

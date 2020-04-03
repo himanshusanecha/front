@@ -13,6 +13,4 @@ export class PayComponent {
   }
 
   constructor(public service: PayService) {}
-
-  onSubmit(): void {}
 }

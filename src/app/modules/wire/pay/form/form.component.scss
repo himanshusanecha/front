@@ -1,8 +1,21 @@
 .m-pay__form {
-  margin: 9px 0 0;
+  margin: 11px 0 0;
+
+  @media screen and (max-width: $max-mobile) {
+    margin: 31px 0 0;
+  }
 
   .m-payForm__tabs {
     padding: 0 50px;
+
+    @media screen and (max-width: $max-mobile) {
+      justify-content: flex-start;
+      padding: 0 20px;
+
+      .m-tabs__tab > a:first-child {
+        margin-left: 0;
+      }
+    }
   }
 
   .m-payForm__fieldset {
@@ -19,6 +32,17 @@
     > .m-payForm__field {
       flex: 1;
       margin: 0 0 27px;
+
+      @media screen and (max-width: $max-mobile) {
+        margin: 0 0 35px;
+      }
+    }
+
+    @media screen and (max-width: $max-mobile) {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 0 20px;
     }
   }
 
@@ -73,55 +97,12 @@
     }
   }
 
-  .m-payForm__controlWrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-start;
-    cursor: pointer;
-    user-select: none;
+  .m-payFormRecurring__tooltip {
+    font-size: 15px;
+    line-height: 18px;
 
-    input[type='checkbox'] {
-      appearance: none;
-      position: relative;
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-      margin: 0 10px 0 0;
-      padding: 0;
-      cursor: pointer;
-      box-sizing: border-box;
-      background: transparent;
-      border: 1px solid;
-      border-radius: 2px;
-      font-size: inherit;
-      line-height: inherit;
-
-      @include m-theme() {
-        border-color: themed($m-borderColor--primary);
-      }
-
-      @include m-on-theme(light) {
-        box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
-      }
-
-      @include m-on-theme(dark) {
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-      }
-
-      &:checked::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-size: contain;
-
-        @include m-theme() {
-          background: url(checkmark-image(themed($m-textColor--primary)))
-            no-repeat center center;
-        }
-      }
+    @include m-theme() {
+      color: themed($m-textColor--secondary);
     }
   }
 }

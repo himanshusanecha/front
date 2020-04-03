@@ -10,18 +10,20 @@
   </ng-container>
 </ng-template>
 
-<div class="m-pay__toolbar">
+<div class="m-pay__toolbar m-modalV2__toolbar">
   <div class="m-payToolbar__poweredBy">
     <span class="m-payToolbarPoweredBy__text" i18n>Powered by</span>
     <span class="m-payToolbarPoweredBy__name" i18n>MindsPay</span>
   </div>
 
-  <div class="m-pay__toolbarItemSpacer"></div>
+  <div class="m-layout__spacer"></div>
 
-  <m-button
+  <m-shadowboxSubmitButton
     class="m-payToolbar__send"
-    [disabled]="(service.inProgress$ | async) || (service.amount$ | async) <= 0"
+    [disabled]="(service.amount$ | async) <= 0"
+    [saving]="service.inProgress$ | async"
     (click)="onSubmitClick($event)"
+    data-cy="pay-send"
   >
     <ng-container
       *ngIf="service.recurring$ | async; else noRecurringLabel"
@@ -36,5 +38,5 @@
         <ng-container *ngTemplateOutlet="typeLabel"></ng-container>
       </ng-container>
     </ng-template>
-  </m-button>
+  </m-shadowboxSubmitButton>
 </div>

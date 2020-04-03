@@ -1,4 +1,4 @@
-<div class="m-pay__form">
+<div class="m-pay__form m-formWrapper">
   <div class="m-payForm__tabs m-tabs__container">
     <div class="m-tabs__tab">
       <a
@@ -137,15 +137,21 @@
         <label for="m-payForm__recurring" class="m-payForm__label" i18n
           >Repeat Payment Monthly</label
         >
-        <label for="m-payForm__recurring" class="m-payForm__controlWrapper">
+        <label
+          for="m-payForm__recurring"
+          class="m-form__customInputWrapper__checkbox"
+        >
           <input
             type="checkbox"
             id="m-payForm__recurring"
+            class="form-control"
             [ngModel]="service.recurring$ | async"
             (ngModelChange)="service.setRecurring($event)"
           />
+          <span class="m-form__customInput__checkbox"></span>
+
           <span>Repeat</span>
-          <m-tooltip>
+          <m-tooltip class="m-payFormRecurring__tooltip">
             <span m-tooltip--anchor>?</span>
             <ng-container i18n>
               TBD

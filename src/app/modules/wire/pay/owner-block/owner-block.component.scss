@@ -5,6 +5,11 @@
   margin: 0 0 17px;
   user-select: none;
 
+  @media screen and (max-width: $max-mobile) {
+    height: 100px;
+    margin: 66px 0 24px;
+  }
+
   .m-payOwnerBlockChannelBanner__background {
     position: absolute;
     top: 0;
@@ -32,6 +37,10 @@
     border: 3px solid;
     border-radius: 50%;
 
+    @media screen and (max-width: $max-mobile) {
+      transform: translate(-50%, 24px);
+    }
+
     @include m-theme() {
       background-color: themed($m-bgColor--primary);
       border-color: themed($m-bgColor--primary);
@@ -50,6 +59,10 @@
 .m-payOwnerBlock__heading {
   padding: 11px 0 0;
 
+  @media screen and (max-width: $max-mobile) {
+    padding: 24px 0 0;
+  }
+
   .m-payOwnerBlockHeading__title {
     display: flex;
     flex-direction: row;
@@ -63,6 +76,8 @@
     }
 
     m-icon {
+      margin: 0 7px;
+
       @include m-theme() {
         color: themed($m-positive);
       }
@@ -72,7 +87,7 @@
   .m-payOwnerBlockHeading__username {
     text-align: center;
     font-size: 16px;
-    line-height: 30px;
+    line-height: 24px;
 
     @include m-theme() {
       color: themed($m-textColor--secondary);

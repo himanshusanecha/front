@@ -8,6 +8,10 @@ export interface AsyncState<T> {
   error?: any;
 }
 
+/**
+ * This pipe will wrap an observable onto an object which
+ * will reflect its pending state, value and/or error message.
+ */
 @Pipe({
   name: 'asyncState',
 })
