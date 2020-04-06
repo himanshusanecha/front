@@ -170,7 +170,7 @@ context('Groups', () => {
     cy.url().then(url => {
 
       // logout and login as new user.
-      cy.logout(true);
+      cy.logout();
       cy.login(true, member.username, member.password);
       
       // go to group as new user.
@@ -190,7 +190,7 @@ context('Groups', () => {
       cy.post(postContent);
       
       // log out and log back in as owner
-      cy.logout(true);
+      cy.logout();
       cy.login(true, Cypress.env().username, Cypress.env().password);
 
       // nav to group organically.
