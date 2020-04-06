@@ -214,7 +214,7 @@ context('Groups', () => {
 
   it('should delete a group', () => {
     // reset state after last test
-    cy.logout(true);
+    cy.logout();
     cy.login(true, Cypress.env().username, Cypress.env().password);
 
     // nav to group.
