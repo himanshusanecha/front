@@ -109,15 +109,8 @@ Cypress.Commands.add('login', (canary = false, username, password) => {
  * @param organic - if true, log out organically through menu rather than URL.
  * @returns void
  */
-Cypress.Commands.add('logout', (organic = null) => {
-  if (!organic) {
+Cypress.Commands.add('logout', () => {
     cy.visit('/logout');
-    cy.clearCookies();
-    return;
-  }
-  cy.get(nav.hamburgerMenu).click();
-  cy.contains('Logout').click();
-  cy.clearCookies();
 });
 
 /**
