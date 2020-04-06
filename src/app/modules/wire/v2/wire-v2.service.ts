@@ -24,6 +24,37 @@ export interface WireEvent {
 }
 
 /**
+ * Wire reward structure
+ */
+interface WireReward {
+  id: string;
+  amount: number;
+  description: string;
+}
+
+const buildWireRewardEntries = (
+  key: string,
+  data: Array<any>
+): Array<WireReward> =>
+  data
+    .map(entry => ({
+      id: `${key}:${entry.amount}`,
+      amount: entry.amount,
+      description: entry.description,
+    }))
+    .sort((a, b) => a.amount - b.amount);
+
+/**
+ * Wire rewards
+ */
+interface WireRewards {
+  description: string;
+  count: number;
+  tokens: Array<WireReward>;
+  usd: Array<WireReward>;
+}
+
+/**
  * Wire types
  */
 type WireType = 'tokens' | 'usd' | 'eth' | 'btc';
@@ -52,6 +83,16 @@ const DEFAULT_AMOUNT_VALUE: number = 1;
  * Default recurring flag value
  */
 const DEFAULT_RECURRING_VALUE: boolean = false;
+
+/**
+ * Default empty wire rewards
+ */
+const DEFAULT_WIRE_REWARDS_VALUE: WireRewards = {
+  description: '',
+  count: 0,
+  tokens: [],
+  usd: [],
+};
 
 /**
  * Data payload
@@ -117,6 +158,13 @@ export class WireV2Service implements OnDestroy {
   readonly owner$: BehaviorSubject<MindsUser | null> = new BehaviorSubject<MindsUser | null>(
     null
   );
+
+  /**
+   * Wire Rewards (Shop support tiers)
+   */
+  readonly wireRewards$: BehaviorSubject<WireRewards> = new BehaviorSubject<
+    WireRewards
+  >(DEFAULT_WIRE_REWARDS_VALUE);
 
   /**
    * Sum of the accumulated Wires in the last 30 days, per currency
@@ -203,6 +251,25 @@ export class WireV2Service implements OnDestroy {
             owner.merchant = merchant;
             owner.eth_wallet = eth_wallet;
             owner.wire_rewards = wire_rewards;
+
+            // Update rewards
+            const tokenRewards = buildWireRewardEntries(
+              'tokens',
+              wire_rewards.rewards.tokens
+            );
+            const usdRewards = buildWireRewardEntries(
+              'usd',
+              wire_rewards.rewards.money
+            );
+
+            console.log({ tokenRewards, usdRewards });
+
+            this.wireRewards$.next({
+              description: wire_rewards.description || '',
+              count: tokenRewards.length + usdRewards.length,
+              tokens: tokenRewards,
+              usd: usdRewards,
+            });
 
             // Emit
             this.owner$.next(owner);

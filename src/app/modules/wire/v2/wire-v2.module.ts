@@ -7,6 +7,8 @@ import { WireCreatorOwnerBlock } from './creator/owner-block/owner-block.compone
 import { WireCreatorFormComponent } from './creator/form/form.component';
 import { WireCreatorToolbarComponent } from './creator/toolbar/toolbar.component';
 import { WireService } from '../wire.service';
+import { WireCreatorShopComponent } from './creator/shop/shop.component';
+import { RouterModule } from '@angular/router';
 
 const COMPONENTS = [WireCreatorComponent];
 
@@ -14,6 +16,7 @@ const INTERNAL_COMPONENTS = [
   WireCreatorOwnerBlock,
   WireCreatorFormComponent,
   WireCreatorToolbarComponent,
+  WireCreatorShopComponent,
 ];
 
 const PROVIDERS = [
@@ -21,7 +24,7 @@ const PROVIDERS = [
 ];
 
 @NgModule({
-  imports: [NgCommonModule, CommonModule, FormsModule],
+  imports: [NgCommonModule, CommonModule, FormsModule, RouterModule],
   declarations: [...INTERNAL_COMPONENTS, ...COMPONENTS],
   exports: COMPONENTS,
   entryComponents: COMPONENTS,
