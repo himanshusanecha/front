@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -29,8 +30,9 @@ export class WireCreatorShopComponent implements OnInit, OnDestroy {
   /**
    * Constructor
    * @param service
+   * @param cd
    */
-  constructor(public service: WireV2Service) {}
+  constructor(public service: WireV2Service, protected cd: ChangeDetectorRef) {}
 
   /**
    * Initialization. Set type/amount/recurring subscription.
@@ -61,8 +63,31 @@ export class WireCreatorShopComponent implements OnInit, OnDestroy {
   onValuesChange(type: string, amount: number, recurring: boolean): void {
     if (!recurring) {
       this.selectedId = '';
+      this.detectChanges();
       return;
     }
+
+    const rewards = this.service.wireRewards$.getValue()[type];
+
+    if (!rewards) {
+      this.selectedId = '';
+      this.detectChanges();
+      return;
+    }
+
+    let selectedId = '';
+
+    for (let i = rewards.length - 1; i >= 0; i--) {
+      const entry = rewards[i];
+
+      if (entry.amount <= amount) {
+        selectedId = entry.id;
+        break;
+      }
+    }
+
+    this.selectedId = selectedId;
+    this.detectChanges();
   }
 
   /**
@@ -93,10 +118,18 @@ export class WireCreatorShopComponent implements OnInit, OnDestroy {
         break;
 
       default:
-        return;
+        throw new Error(`Invalid type: ${type}`);
     }
 
     this.service.setAmount(amount);
     this.service.setRecurring(true);
+  }
+
+  /**
+   * Triggers change detection
+   */
+  detectChanges() {
+    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 }

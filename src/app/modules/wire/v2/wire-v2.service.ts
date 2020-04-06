@@ -257,12 +257,11 @@ export class WireV2Service implements OnDestroy {
               'tokens',
               wire_rewards.rewards.tokens
             );
+
             const usdRewards = buildWireRewardEntries(
               'usd',
               wire_rewards.rewards.money
             );
-
-            console.log({ tokenRewards, usdRewards });
 
             this.wireRewards$.next({
               description: wire_rewards.description || '',
@@ -332,6 +331,11 @@ export class WireV2Service implements OnDestroy {
    */
   setType(type: WireType): WireV2Service {
     this.type$.next(type);
+
+    if (['tokens', 'usd'].indexOf(type) === -1) {
+      this.recurring$.next(false);
+    }
+
     return this;
   }
 

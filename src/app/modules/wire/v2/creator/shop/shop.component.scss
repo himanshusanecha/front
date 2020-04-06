@@ -63,5 +63,11 @@
         width: 100%;
       }
     }
+
+    &.m-wireCreatorShopSelect__placeholder .m-form__row--input select {
+      @include m-theme() {
+        color: themed($m-textColor--secondary) !important;
+      }
+    }
   }
 }
