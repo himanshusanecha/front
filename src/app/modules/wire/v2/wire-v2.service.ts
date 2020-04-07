@@ -36,7 +36,7 @@ const buildWireRewardEntries = (
   key: string,
   data: Array<any>
 ): Array<WireReward> =>
-  data
+  (data || [])
     .map(entry => ({
       id: `${key}:${entry.amount}`,
       amount: entry.amount,
@@ -58,6 +58,11 @@ interface WireRewards {
  * Wire types
  */
 type WireType = 'tokens' | 'usd' | 'eth' | 'btc';
+
+/**
+ * Wire types that can have a recurring subscription
+ */
+export const CAN_RECUR: Array<WireType> = ['tokens', 'usd'];
 
 /**
  * Default type value
@@ -332,7 +337,7 @@ export class WireV2Service implements OnDestroy {
   setType(type: WireType): WireV2Service {
     this.type$.next(type);
 
-    if (['tokens', 'usd'].indexOf(type) === -1) {
+    if (!this.canRecur(type)) {
       this.recurring$.next(false);
     }
 
@@ -445,5 +450,13 @@ export class WireV2Service implements OnDestroy {
       // Re-throw
       throw e;
     }
+  }
+
+  /**
+   * Checks if a Wire type can have a recurring subscription
+   * @param type
+   */
+  canRecur(type: WireType): boolean {
+    return CAN_RECUR.indexOf(type) > -1;
   }
 }

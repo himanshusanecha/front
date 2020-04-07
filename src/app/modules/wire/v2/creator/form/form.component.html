@@ -110,7 +110,10 @@
         </div>
       </ng-container>
 
-      <div class="m-wireCreatorForm__field">
+      <div
+        *ngIf="service.canRecur(service.type$ | async)"
+        class="m-wireCreatorForm__field"
+      >
         <label
           for="m-wireCreatorForm__recurring"
           class="m-wireCreatorForm__label"
