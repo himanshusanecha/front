@@ -116,10 +116,12 @@ export class ActivityContentComponent
     return !!this.entity.perma_url && !this.isVideo && !this.isImage;
   }
 
+  get mediaTitle(): string {
+    return this.isImage || this.isVideo ? this.entity.title : '';
+  }
+
   get mediaDescription(): string {
-    return this.isImage || this.isVideo
-      ? this.entity.message || this.entity.title
-      : '';
+    return this.isImage || this.isVideo ? this.entity.message : '';
   }
 
   get isVideo(): boolean {
