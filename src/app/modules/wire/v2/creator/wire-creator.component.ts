@@ -33,10 +33,27 @@ export class WireCreatorComponent {
    *
    * @param onComplete
    * @param onDismissIntent
+   * @param defaults
    */
-  set opts({ onComplete, onDismissIntent }) {
+  set opts({ onComplete, onDismissIntent, default: defaultValues }) {
     this.onComplete = onComplete || (() => {});
     this.onDismissIntent = onDismissIntent || (() => {});
+
+    if (defaultValues) {
+      switch (defaultValues.type) {
+        case 'tokens':
+          this.service.setType('tokens');
+          this.service.setTokenType('offchain');
+          break;
+
+        case 'money':
+          this.service.setType('usd');
+          break;
+      }
+
+      this.service.setAmount(parseFloat(defaultValues.min || '0'));
+      this.service.setRecurring(true);
+    }
   }
 
   /**

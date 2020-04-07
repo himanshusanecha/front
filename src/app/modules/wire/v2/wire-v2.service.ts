@@ -367,7 +367,12 @@ export class WireV2Service implements OnDestroy {
    * @param recurring
    */
   setRecurring(recurring: boolean): WireV2Service {
-    this.recurring$.next(recurring);
+    const canRecur = this.canRecur(
+      this.type$.getValue(),
+      this.tokenType$.getValue()
+    );
+
+    this.recurring$.next(canRecur && recurring);
     return this;
   }
 

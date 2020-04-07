@@ -19,7 +19,7 @@ interface WireModalPresentDefaultOptions {
  */
 interface WireModalPresentOptions {
   default?: WireModalPresentDefaultOptions;
-  disableThresholdCheck?: boolean;
+  disableThresholdCheck?: boolean /* UNUSED */;
 }
 
 /**
