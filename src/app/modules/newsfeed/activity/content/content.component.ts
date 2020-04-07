@@ -100,7 +100,7 @@ export class ActivityContentComponent
 
   get message(): string {
     // No message if media post
-    if (this.mediaDescription) return '';
+    if (this.mediaDescription || this.mediaTitle) return '';
 
     // No message if the same as blog title
     if (
@@ -121,7 +121,10 @@ export class ActivityContentComponent
   }
 
   get mediaDescription(): string {
-    return this.isImage || this.isVideo ? this.entity.message : '';
+    return (this.isImage || this.isVideo) &&
+      this.entity.message !== this.entity.title
+      ? this.entity.message
+      : '';
   }
 
   get isVideo(): boolean {
