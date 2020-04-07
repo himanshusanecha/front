@@ -17,8 +17,10 @@
     <div class="m-onboarding__input">
       <m-phoneInput
         [disabled]="disabled"
-        [(ngModel)]="number"
+        [ngModel]="number"
+        (ngModelChange)="numberChange($event)"
         ngDefaultControl
+        #input
       ></m-phoneInput>
 
       <div class="m-onboarding__spinnerWrapper" *ngIf="inProgress">
@@ -36,7 +38,10 @@
         Verify
       </button>
     </div>
-    <div class="m-onboarding__error" *ngIf="numberError">
+    <div
+      class="m-onboarding__error"
+      [style.visibility]="numberError && !this.error ? 'visible' : 'hidden'"
+    >
       {{ numberError }}
     </div>
   </div>
@@ -65,9 +70,21 @@
         placeholder="eg. 198349"
         i18n-placeholder
       />
-      <div class="m-onboarding__error" *ngIf="codeError">
+
+      <div
+        class="m-onboarding__error"
+        [style.visibility]="codeError && !this.error ? 'visible' : 'hidden'"
+      >
         {{ codeError }}
       </div>
     </div>
   </ng-container>
 </ng-template>
+<div
+  class="m-onboarding__error"
+  [style.visibility]="
+    error && error === 'verify:phonenumber' ? 'visible' : 'hidden'
+  "
+>
+  <span i18n>You must verify your phone number</span>
+</div>

@@ -1,6 +1,7 @@
 @import 'defaults';
 @import 'fonts';
 @import '~ng-pick-datetime/assets/style/picker.min.css';
+@import '../app/common/layout/layout';
 
 body.m-theme__light,
 body .m-theme--wrapper.m-theme--wrapper__light {
@@ -179,6 +180,10 @@ minds-topbar {
 .minds-spacer-2x {
   height: $minds-padding * 2;
   width: $minds-padding * 2;
+}
+.m-spacer {
+  height: 20px; // Make this a constant
+  width: 20px;
 }
 
 .minds-block {

@@ -9,6 +9,17 @@ context('Composer Modal', () => {
 
   beforeEach(() => {
     cy.preserveCookies();
+    cy.overrideFeatureFlags({
+      composer: true,
+      navigation: true,
+    });
+  });
+
+  after(() => {
+    cy.overrideFeatureFlags({
+      composer: false,
+      navigation: false,
+    });
   });
 
   const composerTrigger = 'm-composer .m-composer__trigger';
@@ -22,8 +33,7 @@ context('Composer Modal', () => {
       .should('be.visible')
       .click();
 
-    cy.get(modalBaseComposer)
-      .should('be.visible');
+    cy.get(modalBaseComposer).should('be.visible');
   });
 
   it('should open a composer modal popup in discovery', () => {
@@ -33,8 +43,7 @@ context('Composer Modal', () => {
       .should('be.visible')
       .click();
 
-    cy.get(modalBaseComposer)
-      .should('be.visible');
+    cy.get(modalBaseComposer).should('be.visible');
   });
 
   it('should open a composer modal popup in own channel', () => {
@@ -44,7 +53,16 @@ context('Composer Modal', () => {
       .should('be.visible')
       .click();
 
-    cy.get(modalBaseComposer)
-      .should('be.visible');
+    cy.get(modalBaseComposer).should('be.visible');
+  });
+
+  it('should open a composer modal popup from topbar', () => {
+    cy.visit(`/`);
+
+    cy.get('.m-composer__topbarButton')
+      .should('be.visible')
+      .click();
+
+    cy.get(modalBaseComposer).should('be.visible');
   });
 });

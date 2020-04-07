@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CountrySelectedEvent } from './country.component';
 
 export const PHONE_INPUT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -38,6 +39,7 @@ export class PhoneInputV2Component
   @ViewChild('input', { static: true }) input: ElementRef;
   selectedCountry;
   init: boolean = false;
+  dirty: boolean = false;
 
   propagateChange = (_: any) => {};
 
@@ -45,9 +47,13 @@ export class PhoneInputV2Component
 
   ngOnInit() {}
 
-  countrySelected($event) {
-    this.selectedCountry = $event;
-    this.onPhoneNumberChange();
+  countrySelected(event: CountrySelectedEvent) {
+    this.selectedCountry = event.number;
+
+    if (event.emit) {
+      this.onPhoneNumberChange();
+    }
+
     if (this.init) {
       this.input.nativeElement.focus();
       this.inputFocused = true;
@@ -56,6 +62,7 @@ export class PhoneInputV2Component
   }
 
   public onPhoneNumberChange(): void {
+    this.dirty = this.phoneNumber.length !== 0;
     this.propagateChange(this.number);
   }
 
