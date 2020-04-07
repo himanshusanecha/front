@@ -19,12 +19,12 @@
   <div
     *ngIf="service.wireRewards$ | async as wireRewards"
     class="m-wireCreatorShop__select m-form__field--select"
-    [class.m-wireCreatorShopSelect__placeholder]="!selectedId"
+    [class.m-wireCreatorShopSelect__placeholder]="!(shop.selectedId$ | async)"
   >
     <div class="m-form__row--input">
       <select
-        [ngModel]="selectedId"
-        (ngModelChange)="onWireRewardSelect($event)"
+        [ngModel]="shop.selectedId$ | async"
+        (ngModelChange)="shop.select($event)"
       >
         <option value="" disabled i18n>Select Support Tier</option>
 

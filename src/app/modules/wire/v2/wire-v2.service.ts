@@ -57,12 +57,7 @@ interface WireRewards {
 /**
  * Wire types
  */
-type WireType = 'tokens' | 'usd' | 'eth' | 'btc';
-
-/**
- * Wire types that can have a recurring subscription
- */
-export const CAN_RECUR: Array<WireType> = ['tokens', 'usd'];
+export type WireType = 'tokens' | 'usd' | 'eth' | 'btc';
 
 /**
  * Default type value
@@ -72,7 +67,7 @@ const DEFAULT_TYPE_VALUE: WireType = 'tokens';
 /**
  * Wire token types
  */
-type WireTokenType = 'offchain' | 'onchain';
+export type WireTokenType = 'offchain' | 'onchain';
 
 /**
  * Default token type value
@@ -337,7 +332,7 @@ export class WireV2Service implements OnDestroy {
   setType(type: WireType): WireV2Service {
     this.type$.next(type);
 
-    if (!this.canRecur(type)) {
+    if (!this.canRecur(type, this.tokenType$.getValue())) {
       this.recurring$.next(false);
     }
 
@@ -350,6 +345,11 @@ export class WireV2Service implements OnDestroy {
    */
   setTokenType(tokenType: WireTokenType): WireV2Service {
     this.tokenType$.next(tokenType);
+
+    if (!this.canRecur(this.type$.getValue(), tokenType)) {
+      this.recurring$.next(false);
+    }
+
     return this;
   }
 
@@ -455,8 +455,9 @@ export class WireV2Service implements OnDestroy {
   /**
    * Checks if a Wire type can have a recurring subscription
    * @param type
+   * @param tokenType
    */
-  canRecur(type: WireType): boolean {
-    return CAN_RECUR.indexOf(type) > -1;
+  canRecur(type: WireType, tokenType: WireTokenType): boolean {
+    return (type === 'tokens' && tokenType === 'offchain') || type === 'usd';
   }
 }

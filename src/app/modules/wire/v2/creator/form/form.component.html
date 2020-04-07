@@ -111,7 +111,9 @@
       </ng-container>
 
       <div
-        *ngIf="service.canRecur(service.type$ | async)"
+        *ngIf="
+          service.canRecur(service.type$ | async, service.tokenType$ | async)
+        "
         class="m-wireCreatorForm__field"
       >
         <label
