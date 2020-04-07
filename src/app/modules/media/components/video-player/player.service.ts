@@ -126,6 +126,7 @@ export class VideoPlayerService implements OnDestroy {
 
     return (
       (user.plus && !user.disable_autoplay_videos) ||
+      true ||
       this.isModal || // Always playable in modal
       !this.shouldPlayInModal || // Equivalent of asking to play inline
       (this.canPlayInModal() && !this.isModal)

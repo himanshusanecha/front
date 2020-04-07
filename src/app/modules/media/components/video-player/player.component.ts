@@ -59,6 +59,12 @@ export class MindsVideoPlayerComponent
      * we should set the video to use an empty src attribute
      */
     this.useEmptySource = value;
+
+    if (value) {
+      this.autoplayService.registerPlayer(this);
+    } else {
+      this.autoplayService.unregisterPlayer(this);
+    }
   }
 
   allowAutoplayOnScroll: boolean = false;
@@ -187,10 +193,6 @@ export class MindsVideoPlayerComponent
 
   ngAfterViewInit() {
     this.setAutoplay(this.autoplay);
-
-    if (this.allowAutoplayOnScroll) {
-      this.autoplayService.registerPlayer(this);
-    }
   }
 
   ngOnDestroy(): void {
