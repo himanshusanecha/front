@@ -3,6 +3,7 @@ import { MindsUser, MindsGroup } from '../../../interfaces/entities';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ConfigsService } from '../../../common/services/configs.service';
+import { Session } from '../../../services/session';
 
 export type ActivityDisplayOptions = {
   showOwnerBlock: boolean;
@@ -36,6 +37,7 @@ export type ActivityEntity = {
   paywall: boolean;
   impressions: number;
   boostToggle: boolean;
+  url?: string;
 };
 
 // Constants of blocks
@@ -46,7 +48,7 @@ export const ACTIVITY_COMMENTS_MORE_HEIGHT = 42;
 export const ACTIVITY_CONTENT_PADDING = 16;
 
 // Constants of fixed heights
-export const ACTIVITY_FIXED_HEIGHT_HEIGHT = 750;
+export const ACTIVITY_FIXED_HEIGHT_HEIGHT = 600;
 export const ACTIVITY_FIXED_HEIGHT_WIDTH = 500;
 export const ACTIVITY_FIXED_HEIGHT_RATIO =
   ACTIVITY_FIXED_HEIGHT_WIDTH / ACTIVITY_FIXED_HEIGHT_HEIGHT;
@@ -54,6 +56,8 @@ export const ACTIVITY_FIXED_HEIGHT_RATIO =
 
 @Injectable()
 export class ActivityService {
+  readonly siteUrl: string;
+
   entity$ = new BehaviorSubject(null);
 
   /**
@@ -62,8 +66,7 @@ export class ActivityService {
   canonicalUrl$: Observable<string> = this.entity$.pipe(
     map((entity: ActivityEntity) => {
       if (!entity) return '';
-      const guid = entity.entity_guid || entity.guid;
-      return `/newsfeed/${guid}`;
+      return this.buildCanonicalUrl(entity, false);
     })
   );
 
@@ -85,7 +88,11 @@ export class ActivityService {
     this.isNsfwConsented$
   ).pipe(
     map(([entity, isConsented]: [ActivityEntity, boolean]) => {
-      return entity.nsfw.length > 0 && !isConsented;
+      return (
+        entity.nsfw.length > 0 &&
+        !isConsented &&
+        !(this.session.isLoggedIn() && this.session.getLoggedInUser().mature)
+      );
     })
   );
 
@@ -148,7 +155,9 @@ export class ActivityService {
     fixedHeight: false,
   };
 
-  constructor(private configs: ConfigsService) {}
+  constructor(private configs: ConfigsService, private session: Session) {
+    this.siteUrl = configs.get('site_url');
+  }
 
   /**
    * Emits new entity
@@ -171,6 +180,12 @@ export class ActivityService {
     return this;
   }
 
+  buildCanonicalUrl(entity: ActivityEntity, full: boolean): string {
+    const guid = entity.entity_guid || entity.guid;
+    const prefix = full ? this.siteUrl : '/';
+    return `${prefix}newsfeed/${guid}`;
+  }
+
   private patchForeignEntity(entity): ActivityEntity {
     switch (entity.subtype) {
       case 'image':
@@ -188,6 +203,9 @@ export class ActivityService {
         entity.blurb = entity.description;
         entity.custom_type = 'video';
         entity.entity_guid = entity.guid;
+        entity.custom_data = {
+          thumbnail_src: entity.thumbnail_src,
+        };
         break;
       case 'album':
         // Not supported
