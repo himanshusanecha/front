@@ -86,7 +86,11 @@ export class Activity implements OnInit {
   /**
    * Whether or not we allow autoplay on scroll
    */
-  @Input() allowAutoplayOnScroll: boolean = false;
+  _allowAutoplayOnScroll: boolean = false;
+  @Input('allowAutoplayOnScroll') set allowAutoplayOnScroll(value: boolean) {
+    this._allowAutoplayOnScroll = value;
+    this.detectChanges();
+  }
 
   /**
    * Whether or not autoplay is allowed (this is used for single entity view, media modal and media view)
