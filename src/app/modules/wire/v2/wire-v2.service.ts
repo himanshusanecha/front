@@ -6,6 +6,7 @@ import { WireStruc } from '../creator/creator.component';
 import { MindsUser } from '../../../interfaces/entities';
 import { ApiService } from '../../../common/api/api.service';
 import { WalletV2Service } from '../../wallet/v2/wallet-v2.service';
+import { TokenType } from '@angular/compiler';
 
 /**
  * Wire event types
@@ -95,7 +96,8 @@ const DEFAULT_WIRE_REWARDS_VALUE: WireRewards = {
 };
 
 /**
- * Data payload
+ * Data payload. Must match definition bewlow.
+ * @see {DataArray}
  */
 interface Data {
   entityGuid: string;
@@ -103,7 +105,23 @@ interface Data {
   tokenType: WireTokenType;
   amount: number;
   recurring: boolean;
+  owner: MindsUser | null;
+  usdPaymentMethodId: string;
 }
+
+/**
+ * Data payload as sorted array. Must match above definition.
+ * @see {Data}
+ */
+type DataArray = [
+  string,
+  WireType,
+  WireTokenType,
+  number,
+  boolean,
+  MindsUser,
+  string
+];
 
 /**
  * Wire v2 service, using v1 Wire as low-level implementation
@@ -144,6 +162,13 @@ export class WireV2Service implements OnDestroy {
   readonly recurring$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     DEFAULT_RECURRING_VALUE
   );
+
+  /**
+   * USD payload subject (card selector payment ID)
+   */
+  readonly usdPaymentMethodId$: BehaviorSubject<string> = new BehaviorSubject<
+    string
+  >('');
 
   /**
    * User resolver that's going to asynchronously re-sync the reward tiers (state)
@@ -213,15 +238,27 @@ export class WireV2Service implements OnDestroy {
       this.tokenType$,
       this.amount$,
       this.recurring$,
+      this.owner$,
+      this.usdPaymentMethodId$,
     ])
       .pipe(
         map(
-          ([entityGuid, type, tokenType, amount, recurring]): Data => ({
+          ([
             entityGuid,
             type,
             tokenType,
             amount,
             recurring,
+            owner,
+            usdPaymentMethodId,
+          ]: DataArray): Data => ({
+            entityGuid,
+            type,
+            tokenType,
+            amount,
+            recurring,
+            owner,
+            usdPaymentMethodId,
           })
         )
       )
@@ -386,6 +423,15 @@ export class WireV2Service implements OnDestroy {
   }
 
   /**
+   * Sets the USD payload data
+   * @param paymentMethodId
+   */
+  setUsdPaymentMethodId(paymentMethodId: string): WireV2Service {
+    this.usdPaymentMethodId$.next(paymentMethodId);
+    return this;
+  }
+
+  /**
    * Reset the behaviors to its original subjects
    */
   reset(): WireV2Service {
@@ -407,32 +453,52 @@ export class WireV2Service implements OnDestroy {
    * @param data
    */
   protected buildV1Payload(data: Data) {
-    const payload: Partial<WireStruc> = {
+    const wire: Partial<WireStruc> = {
       guid: data.entityGuid,
       amount: data.amount,
-      recurring: Boolean(data.recurring),
+      recurring: Boolean(
+        this.canRecur(data.type, data.tokenType) && data.recurring
+      ),
     };
 
     switch (data.type) {
       case 'tokens':
-        payload.payloadType = data.tokenType;
-        // TODO: Wire Payload
+        wire.payloadType = data.tokenType;
+
+        if (data.tokenType === 'offchain') {
+          wire.payload = {};
+        } else if (data.tokenType === 'onchain') {
+          wire.payload = {
+            receiver: data.owner && data.owner.eth_wallet,
+            address: '',
+          };
+        }
         break;
+
       case 'usd':
-        payload.payloadType = 'usd';
-        // TODO: Wire Payload
+        wire.payloadType = 'usd';
+        wire.payload = {
+          paymentMethodId: data.usdPaymentMethodId,
+        };
         break;
+
       case 'eth':
-        payload.payloadType = 'eth';
-        // TODO: Wire Payload
+        wire.payloadType = 'eth';
+        wire.payload = {
+          receiver: data.owner && data.owner.eth_wallet,
+          address: '',
+        };
         break;
+
       case 'btc':
-        payload.payloadType = 'btc';
-        // TODO: Wire Payload
+        wire.payloadType = 'btc';
+        wire.payload = {
+          receiver: data.owner && data.owner.btc_address,
+        };
         break;
     }
 
-    this.v1Payload = payload as WireStruc;
+    this.v1Payload = wire as WireStruc;
   }
 
   /**

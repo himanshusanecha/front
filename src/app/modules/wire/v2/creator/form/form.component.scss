@@ -25,7 +25,7 @@
   .m-wireCreatorForm__fields {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: stretch;
     padding: 0 50px;
 
@@ -36,11 +36,20 @@
       @media screen and (max-width: $max-mobile) {
         margin: 0 0 35px;
       }
+
+      // Margin fix to take in account select box height change. This is awful :(
+      .m-wireCreatorFormRecurring--usdMarginFix {
+        margin-top: 21px;
+
+        @media screen and (max-width: $max-mobile) {
+          margin-top: 0;
+        }
+      }
     }
 
     @media screen and (max-width: $max-mobile) {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: stretch;
       justify-content: flex-start;
       padding: 0 20px;
     }
@@ -70,6 +79,41 @@
       @include m-theme() {
         color: themed($m-textColor--primary);
         border-color: themed($m-borderColor--primary);
+      }
+    }
+
+    m-payments__selectCard {
+      display: block;
+      width: calc(100% - 20px);
+
+      @media screen and (max-width: $max-mobile) {
+        width: 100%;
+      }
+
+      .m-selector select {
+        width: 100%;
+      }
+
+      .m-paymentsSelectCard__addNewCard {
+        position: relative;
+
+        iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 660px;
+          max-width: calc(100vw - 40px);
+          height: auto;
+          z-index: 1;
+
+          @include m-on-theme(light) {
+            box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+          }
+
+          @include m-on-theme(dark) {
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+          }
+        }
       }
     }
   }

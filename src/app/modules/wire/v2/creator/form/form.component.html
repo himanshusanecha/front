@@ -62,7 +62,9 @@
     </div>
 
     <div class="m-wireCreatorForm__fields">
+      <!-- Type === tokens -->
       <ng-container *ngIf="(service.type$ | async) === 'tokens'">
+        <!-- Token wallet toggle -->
         <div class="m-wireCreatorForm__field">
           <div class="m-wireCreatorForm__label" i18n>Wallet Type</div>
 
@@ -82,6 +84,7 @@
           </div>
         </div>
 
+        <!-- Token wallet balance -->
         <div class="m-wireCreatorForm__field">
           <div class="m-wireCreatorForm__label" i18n>Wallet Balance</div>
 
@@ -109,7 +112,22 @@
           </span>
         </div>
       </ng-container>
+      <!--  End of type === tokens -->
 
+      <!-- Type === usd -->
+      <ng-container *ngIf="(service.type$ | async) === 'usd'">
+        <!-- Card selector -->
+        <div class="m-wireCreatorForm__field">
+          <div class="m-wireCreatorForm__label" i18n>Payment Method</div>
+
+          <m-payments__selectCard
+            (selected)="service.setUsdPaymentMethodId($event)"
+          ></m-payments__selectCard>
+        </div>
+      </ng-container>
+      <!--  End of type === usd -->
+
+      <!-- Recurring checkbox -->
       <div
         *ngIf="
           service.canRecur(service.type$ | async, service.tokenType$ | async)
@@ -125,6 +143,9 @@
         <label
           for="m-wireCreatorForm__recurring"
           class="m-form__customInputWrapper__checkbox"
+          [class.m-wireCreatorFormRecurring--usdMarginFix]="
+            (service.type$ | async) === 'usd'
+          "
         >
           <input
             type="checkbox"
