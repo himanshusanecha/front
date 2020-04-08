@@ -27,10 +27,12 @@
 
   <m-shadowboxSubmitButton
     class="m-wireCreatorToolbar__send"
-    [disabled]="!(service.validation$ | async)?.isValid"
+    [disabled]="
+      !(service.validation$ | async)?.isValid || (service.inProgress$ | async)
+    "
     [saving]="service.inProgress$ | async"
     (click)="onSubmitClick($event)"
-    data-cy="wire-send"
+    data-cy="wire-v2-send"
   >
     <ng-container
       *ngIf="service.recurring$ | async; else noRecurringLabel"

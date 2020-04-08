@@ -108,7 +108,9 @@ Cypress.Commands.add('login', (canary = false, username, password) => {
  * @returns void
  */
 Cypress.Commands.add('logout', () => {
-  cy.visit('/logout');
+  cy.visit('/logout')
+    .location('pathname')
+    .should('eq', `/login`);
 });
 
 /**
@@ -120,7 +122,7 @@ Cypress.Commands.add('logout', () => {
  * @param { string } password - The users password.
  * @returns void
  */
-Cypress.Commands.add('newUser', (username = '', password = '') => {
+Cypress.Commands.add('newUser', (username = '', password = '', skipOnboarding = true) => {
   cy.visit('/register')
     .location('pathname')
     .should('eq', `/register`);
@@ -156,8 +158,10 @@ Cypress.Commands.add('newUser', (username = '', password = '') => {
     });
 
   // skip onboarding
-  cy.location('pathname').should('eq', '/onboarding/notice');
-  cy.contains("No thanks, I'll do it later").click();
+  if (skipOnboarding) {
+    cy.location('pathname').should('eq', '/onboarding/notice');
+    cy.contains("No thanks, I'll do it later").click();
+  }
 });
 
 Cypress.Commands.add('preserveCookies', () => {

@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { WireService as WireV1Service } from '../wire.service';
 import { map } from 'rxjs/operators';
-import { WireStruc } from '../creator/creator.component';
 import { MindsUser } from '../../../interfaces/entities';
 import { ApiService } from '../../../common/api/api.service';
 import { Wallet, WalletV2Service } from '../../wallet/v2/wallet-v2.service';
+import { WireService as WireV1Service } from '../wire.service';
+import { WireStruc } from '../creator/creator.component';
 
 /**
  * Wire event types
