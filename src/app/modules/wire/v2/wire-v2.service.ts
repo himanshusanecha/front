@@ -5,8 +5,7 @@ import { map } from 'rxjs/operators';
 import { WireStruc } from '../creator/creator.component';
 import { MindsUser } from '../../../interfaces/entities';
 import { ApiService } from '../../../common/api/api.service';
-import { WalletV2Service } from '../../wallet/v2/wallet-v2.service';
-import { TokenType } from '@angular/compiler';
+import { Wallet, WalletV2Service } from '../../wallet/v2/wallet-v2.service';
 
 /**
  * Wire event types
@@ -96,7 +95,7 @@ const DEFAULT_WIRE_REWARDS_VALUE: WireRewards = {
 };
 
 /**
- * Data payload. Must match definition bewlow.
+ * Data payload. Must match definition below.
  * @see {DataArray}
  */
 interface Data {
@@ -107,6 +106,7 @@ interface Data {
   recurring: boolean;
   owner: MindsUser | null;
   usdPaymentMethodId: string;
+  wallet: Wallet;
 }
 
 /**
@@ -120,8 +120,18 @@ type DataArray = [
   number,
   boolean,
   MindsUser,
-  string
+  string,
+  Wallet
 ];
+
+/**
+ * Data validation.
+ */
+interface DataValidation {
+  isValid: boolean;
+  isErrorVisible?: boolean;
+  error?: string;
+}
 
 /**
  * Wire v2 service, using v1 Wire as low-level implementation
@@ -206,14 +216,24 @@ export class WireV2Service implements OnDestroy {
   );
 
   /**
-   * Wire v1 payload
+   * Validate data observable
    */
-  protected v1Payload: WireStruc;
+  readonly validation$: Observable<DataValidation>;
 
   /**
-   * Observer subscription that continuously builds the payload
+   * Wire payload observable
    */
-  protected payloadSubscription: Subscription;
+  protected readonly wirePayload$: Observable<WireStruc>;
+
+  /**
+   * Wire payload snapshot
+   */
+  protected wirePayload: WireStruc;
+
+  /**
+   * Wire snapshot subscription
+   */
+  protected readonly wirePayloadSnapshotSubscription: Subscription;
 
   /**
    * Observer subscription that emits passed User, then refresh its rewards data
@@ -231,8 +251,8 @@ export class WireV2Service implements OnDestroy {
     protected api: ApiService,
     protected v1Wire: WireV1Service
   ) {
-    // Generates the payload
-    this.payloadSubscription = combineLatest([
+    // Combine state
+    const wireData$ = combineLatest([
       this.entityGuid$,
       this.type$,
       this.tokenType$,
@@ -240,29 +260,45 @@ export class WireV2Service implements OnDestroy {
       this.recurring$,
       this.owner$,
       this.usdPaymentMethodId$,
-    ])
-      .pipe(
-        map(
-          ([
-            entityGuid,
-            type,
-            tokenType,
-            amount,
-            recurring,
-            owner,
-            usdPaymentMethodId,
-          ]: DataArray): Data => ({
-            entityGuid,
-            type,
-            tokenType,
-            amount,
-            recurring,
-            owner,
-            usdPaymentMethodId,
-          })
-        )
+      this.wallet.wallet$,
+    ]).pipe(
+      map(
+        ([
+          entityGuid,
+          type,
+          tokenType,
+          amount,
+          recurring,
+          owner,
+          usdPaymentMethodId,
+          wallet,
+        ]: DataArray): Data => ({
+          entityGuid,
+          type,
+          tokenType,
+          amount,
+          recurring,
+          owner,
+          usdPaymentMethodId,
+          wallet,
+        })
       )
-      .subscribe((data: Data) => this.buildV1Payload(data));
+    );
+
+    // Wire payload observable
+    this.wirePayload$ = wireData$.pipe(
+      map((data: Data): WireStruc => this.buildWirePayload(data))
+    );
+
+    // Wire data validation
+    this.validation$ = wireData$.pipe(
+      map((data: Data): DataValidation => this.validate(data))
+    );
+
+    // Build Wire payload snapshot
+    this.wirePayloadSnapshotSubscription = this.wirePayload$.subscribe(
+      wirePayload => (this.wirePayload = wirePayload)
+    );
 
     // Resolves the owner from the cached entity, then re-sync from the server and fetch the rewards sums
     this.ownerResolverSubscription = this.ownerResolver$.subscribe(owner => {
@@ -322,8 +358,8 @@ export class WireV2Service implements OnDestroy {
    * Destroy lifecycle hook
    */
   ngOnDestroy(): void {
-    if (this.payloadSubscription) {
-      this.payloadSubscription.unsubscribe();
+    if (this.wirePayloadSnapshotSubscription) {
+      this.wirePayloadSnapshotSubscription.unsubscribe();
     }
 
     if (this.ownerResolverSubscription) {
@@ -449,10 +485,94 @@ export class WireV2Service implements OnDestroy {
   }
 
   /**
-   * Builds the v1 Wire payload
+   * Checks if a Wire type can have a recurring subscription
+   * @param type
+   * @param tokenType
+   */
+  canRecur(type: WireType, tokenType: WireTokenType): boolean {
+    return (type === 'tokens' && tokenType === 'offchain') || type === 'usd';
+  }
+
+  /**
+   * Validates the data
    * @param data
    */
-  protected buildV1Payload(data: Data) {
+  protected validate(data: Data): DataValidation {
+    const valid = (): DataValidation => ({ isValid: true });
+
+    const invalid = (error?: string, isErrorVisible?: boolean) => ({
+      isValid: false,
+      error,
+      isErrorVisible,
+    });
+
+    if (!data || !data.entityGuid) {
+      return invalid();
+    }
+
+    if (data.amount <= 0) {
+      return invalid('Amount should be greater than zero', false);
+    }
+
+    const username = data.owner ? `@${data.owner.username}` : 'This channel';
+
+    switch (data.type) {
+      case 'tokens':
+      case 'eth':
+        if (data.type === 'tokens' && data.tokenType === 'offchain') {
+          // Off-chain
+          if (data.wallet.loaded && data.amount > data.wallet.limits.wire) {
+            return invalid(
+              `Cannot spend more than ${data.wallet.limits.wire} tokens today`,
+              true
+            );
+          } else if (
+            data.wallet.loaded &&
+            data.amount > data.wallet.offchain.balance
+          ) {
+            return invalid(
+              `Canot spend more than ${data.wallet.offchain.balance} tokens`,
+              true
+            );
+          }
+        } else {
+          // On-chain & Eth
+          if (!data.owner || !data.owner.eth_wallet) {
+            return invalid(
+              `${username} has not configured their Ethereum wallet yet`,
+              true
+            );
+          }
+        }
+        break;
+
+      case 'usd':
+        if (!data.owner || !data.owner.merchant || !data.owner.merchant.id) {
+          return invalid(
+            `${username} is not able to receive USD at the moment`,
+            true
+          );
+        }
+        break;
+
+      case 'btc':
+        if (!data.owner || !data.owner.btc_address) {
+          return invalid(
+            `${username} has not configured their Bitcoin address yet`,
+            true
+          );
+        }
+        break;
+    }
+
+    return valid();
+  }
+
+  /**
+   * Builds the Wire payload, suit for v1 Wire service
+   * @param data
+   */
+  protected buildWirePayload(data: Data): WireStruc {
     const wire: Partial<WireStruc> = {
       guid: data.entityGuid,
       amount: data.amount,
@@ -498,37 +618,28 @@ export class WireV2Service implements OnDestroy {
         break;
     }
 
-    this.v1Payload = wire as WireStruc;
+    return wire as WireStruc;
   }
 
   /**
    * Submits the Wire
    */
   async submit(): Promise<any> {
-    if (!this.v1Payload) {
+    if (!this.wirePayload) {
       throw new Error(`There's nothing to send`);
     }
 
     this.inProgress$.next(true);
 
     try {
-      console.log(this.v1Payload);
+      const response = await this.v1Wire.submitWire(this.wirePayload);
       this.inProgress$.next(false);
-      return {};
-      //return await this.wire.submitWire(this.payload);
+
+      return response;
     } catch (e) {
       this.inProgress$.next(false);
       // Re-throw
       throw e;
     }
-  }
-
-  /**
-   * Checks if a Wire type can have a recurring subscription
-   * @param type
-   * @param tokenType
-   */
-  canRecur(type: WireType, tokenType: WireTokenType): boolean {
-    return (type === 'tokens' && tokenType === 'offchain') || type === 'usd';
   }
 }

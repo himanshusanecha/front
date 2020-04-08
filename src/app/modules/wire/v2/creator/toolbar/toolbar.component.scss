@@ -36,6 +36,21 @@
     }
   }
 
+  .m-wireCreatorToolbar__message {
+    flex: 1;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: right;
+
+    .m-wireCreatorToolbarMessage__error {
+      padding: 0 20px 0 40px;
+
+      @include m-theme() {
+        color: themed($m-alert);
+      }
+    }
+  }
+
   m-shadowboxSubmitButton {
     @media screen and (max-width: $max-mobile) {
       min-width: initial;

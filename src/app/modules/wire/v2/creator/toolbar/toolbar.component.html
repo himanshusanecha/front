@@ -16,11 +16,18 @@
     <span class="m-wireCreatorToolbarPoweredBy__name" i18n>MindsPay</span>
   </div>
 
-  <div class="m-layout__spacer"></div>
+  <div class="m-wireCreatorToolbar__message">
+    <div
+      *ngIf="(service.validation$ | async)?.isErrorVisible"
+      class="m-wireCreatorToolbarMessage__error"
+    >
+      {{ (service.validation$ | async)?.error }}
+    </div>
+  </div>
 
   <m-shadowboxSubmitButton
     class="m-wireCreatorToolbar__send"
-    [disabled]="(service.amount$ | async) <= 0"
+    [disabled]="!(service.validation$ | async)?.isValid"
     [saving]="service.inProgress$ | async"
     (click)="onSubmitClick($event)"
     data-cy="wire-send"
