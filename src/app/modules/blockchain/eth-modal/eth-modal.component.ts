@@ -97,6 +97,7 @@ export class BlockchainEthModalComponent implements OnInit {
       failureRedirectUrl: `${this.site.baseUrl}token?purchaseFailed=true`,
     };
 
+    console.log(sendWyreConfig);
     this.sendWyreService.redirect(sendWyreConfig);
     this.close.next(true);
   }

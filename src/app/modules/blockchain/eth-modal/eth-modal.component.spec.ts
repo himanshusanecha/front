@@ -4,6 +4,11 @@ import { MockService, MockComponent } from '../../../utils/mock';
 import { Web3WalletService } from '../web3-wallet.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { SendWyreService } from '../sendwyre/sendwyre.service';
+import { SendWyreConfig } from '../sendwyre/sendwyre.interface';
+import { sessionMock } from '../../../../tests/session-mock.spec';
+import { SiteService } from '../../../common/services/site.service';
+import { Session } from '../../../services/session';
+import { siteServiceMock } from '../../notifications/notification.service.spec';
 
 describe('BlockchainEthModalComponent', () => {
   let comp: BlockchainEthModalComponent;
@@ -36,6 +41,14 @@ describe('BlockchainEthModalComponent', () => {
           provide: SendWyreService,
           useValue: sendWyreMock,
         },
+        {
+          provide: Session,
+          useValue: sessionMock,
+        },
+        {
+          provide: SiteService,
+          useValue: siteServiceMock,
+        },
       ],
     }).compileComponents();
   }));
@@ -48,7 +61,9 @@ describe('BlockchainEthModalComponent', () => {
     comp = fixture.componentInstance;
 
     this.hasMetamask = true;
-
+    spyOn(comp.session, 'getLoggedInUser').and.returnValue({
+      eth_wallet: '0x',
+    });
     fixture.detectChanges();
     if (fixture.isStable()) {
       done();
@@ -66,7 +81,18 @@ describe('BlockchainEthModalComponent', () => {
 
   it('should redirect when buy clicked', () => {
     comp.usd = 40;
+    siteServiceMock.baseUrl = 'https://www.minds.com/';
+
     comp.buy();
-    expect(sendWyreMock.redirect).toHaveBeenCalledWith(40);
+
+    expect(sendWyreMock.redirect).toHaveBeenCalledWith({
+      paymentMethod: 'debit-card',
+      accountId: 'AC_TNCD9GVCFA9',
+      dest: 'ethereum:0x',
+      destCurrency: 'ETH',
+      sourceAmount: '40',
+      redirectUrl: 'https://www.minds.com/token',
+      failureRedirectUrl: 'https://www.minds.com/token?purchaseFailed=true',
+    });
   });
 });

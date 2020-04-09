@@ -1,4 +1,5 @@
-import { SendWyreService, SendWyreConfig } from './sendwyre.service';
+import { SendWyreService } from './sendwyre.service';
+import { SendWyreConfig } from './sendwyre.interface';
 import { sessionMock } from '../../../../tests/session-mock.spec';
 import { MockService } from '../../../utils/mock';
 import { SiteService } from '../../../common/services/site.service';
@@ -34,7 +35,7 @@ describe('BlockchainService', () => {
 
   // Fix when we enable deeper integrations.
   xit('should redirect the user when buy called', () => {
-    service.redirect(40);
+    service.redirect(sendWyreConfigMock);
     expect(service.amountUsd).toBe('40');
     expect(window.location.assign).toHaveBeenCalled();
   });
