@@ -168,7 +168,6 @@ import {
 import { FriendlyTimePipe } from './pipes/friendlytime.pipe';
 import { SidebarWidgetComponent } from './components/sidebar-widget/sidebar-widget.component';
 import { SidebarNavigationSubnavDirective } from './layout/sidebar/subnav.directive';
-
 const routes: Routes = [
   {
     path: 'email-confirmation',

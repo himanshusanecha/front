@@ -6,12 +6,7 @@ import { SiteService } from '../../../common/services/site.service';
 describe('BlockchainService', () => {
   let service: SendWyreService;
 
-  const siteServiceMock: any = MockService(SiteService, {
-    props: {
-      isProDomain: { get: () => false },
-      pro: { get: () => false },
-    },
-  });
+  const siteServiceMock: any = MockService(SiteService);
 
   const sendWyreConfigMock: SendWyreConfig = {
     paymentMethod: 'debit-card',
@@ -37,9 +32,11 @@ describe('BlockchainService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should redirect the user when buy called', () => {
+  // Fix when we enable deeper integrations.
+  xit('should redirect the user when buy called', () => {
     service.redirect(40);
     expect(service.amountUsd).toBe('40');
+    expect(window.location.assign).toHaveBeenCalled();
   });
 
   it('should build args into querystring', () => {

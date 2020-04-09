@@ -52,7 +52,7 @@ export class SendWyreService {
    */
   public redirect(amount: number): void {
     this.amountUsd = amount.toString();
-    window.location.replace(this.getUrl(this.args));
+    window.location.assign(this.getUrl(this.args));
   }
 
   /**
