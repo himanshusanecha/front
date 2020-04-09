@@ -1,0 +1,16 @@
+m-sendWyre {
+  .m-sendWyre-container {
+    iframe {
+      height: 627px;
+      width: 100%;
+      max-width: 500px;
+    }
+  }
+}
+
+.m-modal-container {
+  @media screen and (min-width: $min-tablet) {
+    min-width: 500px !important;
+  }
+  max-width: 500px;
+}

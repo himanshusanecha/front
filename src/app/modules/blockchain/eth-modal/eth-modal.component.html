@@ -1,5 +1,8 @@
 <m-modal open="true" (closed)="close.next(true)">
-  <div class="m-blockchain--marketing--modal m-blockchain__ethModal">
+  <div
+    class="m-blockchain--marketing--modal m-blockchain__ethModal"
+    *ngIf="step === 1"
+  >
     <h2>Buy ETH (US Only)</h2>
 
     <div class="m-layout__row m-blockchainEthModal__form">
@@ -34,18 +37,18 @@
       class="m-btn m-btn--slim m-btn--action"
       (click)="buy()"
       *ngIf="hasMetamask"
-      disabled="true"
     >
       Buy with SendWyre
     </button>
 
-    <!--Remove with the resolution of https://gitlab.com/minds/front/-/issues/2822-->
+    <!-- Remove with the resolution of https://gitlab.com/minds/front/-/issues/2822
     <p></p>
     <p class="m-error mdl-color-text--red">
       We are currently experiencing some issues with SendWyre - please check
       back later.
-    </p>
+    </p> -->
 
+    <!--TODO: establish if we need metamask for this-->
     <a
       href="https://metamask.io/"
       target="_blank"
@@ -59,5 +62,11 @@
         Sorry, this feature is only available on desktop
       </button>
     </a>
+    <a class="m-user-menu__Anchor" (click)="toggleMenu()">
+      <i class="material-icons">menu</i>
+    </a>
   </div>
+  <ng-container *ngIf="step === 2">
+    <m-sendWyre [amountUsd]="usd"></m-sendWyre>
+  </ng-container>
 </m-modal>

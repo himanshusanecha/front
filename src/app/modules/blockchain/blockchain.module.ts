@@ -26,6 +26,7 @@ import { GetMetamaskComponent } from './metamask/getmetamask.component';
 import { BlockchainEthModalComponent } from './eth-modal/eth-modal.component';
 import { BlockchainMarketingOnboardComponent } from './token-purchase/onboard.component';
 import { BlockchainPurchaseComponent } from './token-purchase/purchase.component';
+import { SendWyreComponent } from './sendwyre/sendwyre.component';
 import { ModalsModule } from '../modals/modals.module';
 import { ConfigsService } from '../../common/services/configs.service';
 
@@ -60,6 +61,7 @@ const cryptoRoutes: Routes = [
     BlockchainEthModalComponent,
     BlockchainMarketingOnboardComponent,
     BlockchainPurchaseComponent,
+    SendWyreComponent,
   ],
   providers: [
     {
@@ -92,6 +94,7 @@ const cryptoRoutes: Routes = [
     GetMetamaskComponent,
     BlockchainEthModalComponent,
     BlockchainPurchaseComponent,
+    SendWyreComponent,
   ],
   entryComponents: [BlockchainTdeBuyComponent],
 })

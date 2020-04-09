@@ -32,6 +32,7 @@ export class BlockchainEthModalComponent implements OnInit {
   error: string = '';
   usd: number = 40;
   hasMetamask: boolean = true; // True by default
+  step: number = 1;
 
   constructor(
     private web3Wallet: Web3WalletService,
@@ -64,24 +65,27 @@ export class BlockchainEthModalComponent implements OnInit {
   }
 
   async buy() {
-    this.error = '';
-    this.detectChanges();
+    // TODO: Remove below and integrate transaction callback
+    // this.error = '';
+    // this.detectChanges();
 
-    if (!this.hasMetamask) {
-      this.error = 'You need to install metamask';
-      this.detectChanges();
-      return;
-    }
+    // if (!this.hasMetamask) {
+    //   this.error = 'You need to install metamask';
+    //   this.detectChanges();
+    //   return;
+    // }
 
-    if (this.usd > 40) {
-      this.usd = 40;
-      this.error = 'You can not purchase more than $40';
-      this.detectChanges();
-      return;
-    }
+    // if (this.usd > 40) {
+    //   this.usd = 40;
+    //   this.error = 'You can not purchase more than $40';
+    //   this.detectChanges();
+    //   return;
+    // }
 
-    let win = window.open('/checkout?usd=' + this.usd);
-    this.close.next(true);
+    // let win = window.open('/checkout?usd=' + this.usd);
+    // this.close.next(true);
+
+    this.step = 2;
   }
 
   detectChanges() {
