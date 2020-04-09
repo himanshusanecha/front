@@ -531,7 +531,7 @@ export class WireV2Service implements OnDestroy {
             data.amount > data.wallet.offchain.balance
           ) {
             return invalid(
-              `Canot spend more than ${data.wallet.offchain.balance} tokens`,
+              `Cannot spend more than ${data.wallet.offchain.balance} tokens`,
               true
             );
           }
