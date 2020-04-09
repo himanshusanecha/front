@@ -34,7 +34,7 @@ context('v2 Wire', () => {
       // Visit target's channel
       cy.visit(`/${to}`)
         .location('pathname')
-        .should('eq', `/${to}`);
+        .should('contains', `/${to}`);
 
       // Click on the Wire button
       cy.get(wireButton)
