@@ -19,7 +19,7 @@ context('v1 Wire', () => {
   const sendButton = '[data-cy=data-minds-wire-send-button]';
   const modal = 'm-overlay-modal > div.m-overlay-modal';
 
-  it.skip('should allow a user to send a wire to another user', () => {
+  it('should allow a user to send a wire to another user', () => {
     cy.server();
     cy.route('POST', '**/api/v2/wire/*').as('wirePost');
     cy.route('GET', '**/api/v2/blockchain/wallet/balance*').as('balanceGet');
@@ -32,7 +32,7 @@ context('v1 Wire', () => {
 
     // Login with our test user
     cy.logout();
-    cy.login(true)
+    cy.login(true);
 
     cy.overrideFeatureFlags({
       pay: false,
@@ -97,4 +97,4 @@ context('v1 Wire', () => {
     cy.get(modal).should('be.hidden');
     cy.deleteUser(receiver.username, receiver.password);
   });
-})
+});
