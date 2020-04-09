@@ -5,7 +5,7 @@ import { Web3WalletService } from '../web3-wallet.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { SendWyreService } from '../sendwyre/sendwyre.service';
 
-fdescribe('BlockchainEthModalComponent', () => {
+describe('BlockchainEthModalComponent', () => {
   let comp: BlockchainEthModalComponent;
   let fixture: ComponentFixture<BlockchainEthModalComponent>;
   let sendWyreMock: any = MockService(SendWyreService);

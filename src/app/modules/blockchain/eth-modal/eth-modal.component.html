@@ -1,7 +1,6 @@
 <m-modal open="true" (closed)="close.next(true)">
   <div
     class="m-blockchain--marketing--modal m-blockchain__ethModal"
-    *ngIf="step === 1"
   >
     <h2>Buy ETH (US Only)</h2>
 
@@ -41,14 +40,6 @@
       Buy with SendWyre
     </button>
 
-    <!-- Remove with the resolution of https://gitlab.com/minds/front/-/issues/2822
-    <p></p>
-    <p class="m-error mdl-color-text--red">
-      We are currently experiencing some issues with SendWyre - please check
-      back later.
-    </p> -->
-
-    <!--TODO: establish if we need metamask for this-->
     <a
       href="https://metamask.io/"
       target="_blank"
@@ -66,7 +57,4 @@
       <i class="material-icons">menu</i>
     </a>
   </div>
-  <ng-container *ngIf="step === 2">
-    <m-sendWyre [amountUsd]="usd"></m-sendWyre>
-  </ng-container>
 </m-modal>

@@ -1,11 +1,6 @@
-/**
- * SendWyre popup component.
- * @author Ben Hayward
- */
-import { Component, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Session } from '../../../services/session';
 import { SiteService } from '../../../common/services/site.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 /**
  * Interface for SendWyre config object
@@ -20,19 +15,16 @@ export interface SendWyreConfig {
   failureRedirectUrl: string;
 }
 
-@Component({
-  selector: 'm-sendWyre',
-  template: `
-    <div class="m-sendWyre-container">
-      <iframe [src]="getUrl(args)"></iframe>
-    </div>
-  `,
-})
-export class SendWyreComponent {
+/**
+ * Service to handle redirection to SendWyre pay.
+ * @author Ben Hayward
+ */
+@Injectable()
+export class SendWyreService {
   /**
    * Amount to be purchased in USD
    */
-  @Input() amountUsd: string = '0';
+  public amountUsd: string = '0';
 
   /**
    * SendWyre base URL
@@ -45,29 +37,31 @@ export class SendWyreComponent {
   private args: SendWyreConfig = {
     paymentMethod: 'debit-card',
     accountId: 'AC_TNCD9GVCFA9',
-    dest: this.session.getLoggedInUser().eth_wallet,
+    dest: `ethereum:${this.session.getLoggedInUser().eth_wallet}`,
     destCurrency: 'ETH',
     sourceAmount: this.amountUsd,
-    redirectUrl: this.site.baseUrl,
-    failureRedirectUrl: `${this.site.baseUrl}token`,
+    redirectUrl: `${this.site.baseUrl}token`,
+    failureRedirectUrl: `${this.site.baseUrl}token?purchaseFailed=true`,
   };
 
-  constructor(
-    public session: Session,
-    public site: SiteService,
-    public sanitizer: DomSanitizer
-  ) {
-    // console.log(`SendWyre | url is ${this.getUrl(this.args)}`);
+  constructor(public session: Session, public site: SiteService) {}
+
+  /**
+   * Redirects to SendWyre
+   * @param amount - amount of USD to be purchased.
+   */
+  public redirect(amount: number): void {
+    this.amountUsd = amount.toString();
+    window.location.replace(this.getUrl(this.args));
   }
 
   /**
    * Gets the url.
-   * @param { SendWyreConfig } args - config object.
+   * @param { SendWyreConfig } args - config object
+   * @returns { string }.- the URL.
    */
-  public getUrl(args: Object): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.baseUrl + this.buildArgs(this.args)
-    );
+  public getUrl(args: Object): string {
+    return this.baseUrl + this.buildArgs(args);
   }
 
   /**

@@ -18,6 +18,7 @@ import { Session } from '../../../services/session';
 import { Web3WalletService } from '../web3-wallet.service';
 import { TokenDistributionEventService } from '../contracts/token-distribution-event.service';
 import isMobile from '../../../helpers/is-mobile';
+import { SendWyreService } from '../sendwyre/sendwyre.service';
 import * as BN from 'bn.js';
 
 @Component({
@@ -36,7 +37,8 @@ export class BlockchainEthModalComponent implements OnInit {
 
   constructor(
     private web3Wallet: Web3WalletService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private sendWyreService: SendWyreService,
   ) {}
 
   ngOnInit() {
@@ -65,27 +67,24 @@ export class BlockchainEthModalComponent implements OnInit {
   }
 
   async buy() {
-    // TODO: Remove below and integrate transaction callback
-    // this.error = '';
-    // this.detectChanges();
+    this.error = '';
+    this.detectChanges();
 
-    // if (!this.hasMetamask) {
-    //   this.error = 'You need to install metamask';
-    //   this.detectChanges();
-    //   return;
-    // }
+    if (!this.hasMetamask) {
+      this.error = 'You need to install metamask';
+      this.detectChanges();
+      return;
+    }
 
-    // if (this.usd > 40) {
-    //   this.usd = 40;
-    //   this.error = 'You can not purchase more than $40';
-    //   this.detectChanges();
-    //   return;
-    // }
+    if (this.usd > 40) {
+      this.usd = 40;
+      this.error = 'You can not purchase more than $40';
+      this.detectChanges();
+      return;
+    }
 
-    // let win = window.open('/checkout?usd=' + this.usd);
-    // this.close.next(true);
-
-    this.step = 2;
+    this.sendWyreService.redirect(this.usd);
+    this.close.next(true);
   }
 
   detectChanges() {

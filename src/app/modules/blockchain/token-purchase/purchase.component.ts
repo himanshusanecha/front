@@ -79,10 +79,13 @@ export class BlockchainPurchaseComponent implements OnInit {
       this.detectChanges();
     });
     this.paramsSubscription = this.route.params.subscribe(params => {
+      console.log(params)
       if (params.purchaseEth) {
         this.purchaseEth();
       }
     });
+    const initialParams = this.route.snapshot.queryParamMap;
+    console.log('initialParams', initialParams)
   }
 
   ngOnDestroy() {
