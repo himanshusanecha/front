@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Session } from '../../../services/session';
 import { SiteService } from '../../../common/services/site.service';
 import { SendWyreConfig } from './sendwyre.interface';
+import { ConfigsService } from '../../../common/services/configs.service';
 
 /**
  * Service to handle redirection to SendWyre pay.
@@ -10,19 +11,24 @@ import { SendWyreConfig } from './sendwyre.interface';
 @Injectable()
 export class SendWyreService {
   // Amount to be purchased in USD.
-  public amountUsd: string = '0';
+  public amountUsd: string = '40';
 
-  // SendWyre base URL.
-  private baseUrl: string = 'https://pay.sendwyre.com/';
-
-  constructor(public session: Session, public site: SiteService) {}
+  constructor(
+    public session: Session,
+    public site: SiteService,
+    public configs: ConfigsService
+  ) {}
 
   /**
    * Redirects to SendWyre.
    * @param { SendWyreConfig } sendWyreConfig - args for querystring.
    */
   public redirect(sendWyreConfig: SendWyreConfig): void {
-    window.location.assign(this.getUrl(sendWyreConfig));
+    if (this.configs.get('sendwyre')['baseUrl']) {
+      window.location.assign(this.getUrl(sendWyreConfig));
+    } else {
+      console.warn('SendWyre baseUrl not configured');
+    }
   }
 
   /**
@@ -31,7 +37,7 @@ export class SendWyreService {
    * @returns { string }.- the URL.
    */
   public getUrl(args: SendWyreConfig): string {
-    return this.baseUrl + this.buildArgs(args);
+    return this.configs.get('sendwyre')['baseUrl'] + this.buildArgs(args);
   }
 
   /**

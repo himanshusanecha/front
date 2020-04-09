@@ -3,11 +3,14 @@ import { SendWyreConfig } from './sendwyre.interface';
 import { sessionMock } from '../../../../tests/session-mock.spec';
 import { MockService } from '../../../utils/mock';
 import { SiteService } from '../../../common/services/site.service';
+import { ConfigsService } from '../../../common/services/configs.service';
 
 describe('BlockchainService', () => {
   let service: SendWyreService;
 
   const siteServiceMock: any = MockService(SiteService);
+
+  const configsServiceMock: any = MockService(ConfigsService);
 
   const sendWyreConfigMock: SendWyreConfig = {
     paymentMethod: 'debit-card',
@@ -22,7 +25,11 @@ describe('BlockchainService', () => {
   beforeEach(() => {
     jasmine.clock().uninstall();
     jasmine.clock().install();
-    service = new SendWyreService(sessionMock, siteServiceMock);
+    service = new SendWyreService(
+      sessionMock,
+      siteServiceMock,
+      configsServiceMock
+    );
   });
 
   afterEach(() => {
@@ -41,6 +48,9 @@ describe('BlockchainService', () => {
   });
 
   it('should build args into querystring', () => {
+    configsServiceMock.get = {
+      baseUrl: 'https://pay.sendwyre.com/',
+    };
     const expectedString =
       'https://pay.sendwyre.com/?paymentMethod' +
       '=debit-card&accountId=X&dest=0x&destCurrency=ETH&sourceAmount' +
