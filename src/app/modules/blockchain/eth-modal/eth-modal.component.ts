@@ -20,6 +20,8 @@ import { TokenDistributionEventService } from '../contracts/token-distribution-e
 import isMobile from '../../../helpers/is-mobile';
 import { SendWyreService } from '../sendwyre/sendwyre.service';
 import * as BN from 'bn.js';
+import { SendWyreConfig } from '../sendwyre/sendwyre.interface';
+import { SiteService } from '../../../common/services/site.service';
 
 @Component({
   selector: 'm-blockchain__eth-modal',
@@ -38,7 +40,9 @@ export class BlockchainEthModalComponent implements OnInit {
   constructor(
     private web3Wallet: Web3WalletService,
     private cd: ChangeDetectorRef,
-    private sendWyreService: SendWyreService
+    private sendWyreService: SendWyreService,
+    public session: Session,
+    public site: SiteService
   ) {}
 
   ngOnInit() {
@@ -83,7 +87,17 @@ export class BlockchainEthModalComponent implements OnInit {
       return;
     }
 
-    this.sendWyreService.redirect(this.usd);
+    const sendWyreConfig: SendWyreConfig = {
+      paymentMethod: 'debit-card',
+      accountId: 'AC_TNCD9GVCFA9',
+      dest: `ethereum:${this.session.getLoggedInUser().eth_wallet}`,
+      destCurrency: 'ETH',
+      sourceAmount: this.usd.toString(),
+      redirectUrl: `${this.site.baseUrl}token`,
+      failureRedirectUrl: `${this.site.baseUrl}token?purchaseFailed=true`,
+    };
+
+    this.sendWyreService.redirect(sendWyreConfig);
     this.close.next(true);
   }
 
