@@ -38,7 +38,7 @@ export class BlockchainEthModalComponent implements OnInit {
   constructor(
     private web3Wallet: Web3WalletService,
     private cd: ChangeDetectorRef,
-    private sendWyreService: SendWyreService,
+    private sendWyreService: SendWyreService
   ) {}
 
   ngOnInit() {
