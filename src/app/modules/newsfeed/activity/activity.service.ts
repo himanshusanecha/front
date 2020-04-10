@@ -38,6 +38,8 @@ export type ActivityEntity = {
   impressions: number;
   boostToggle: boolean;
   url?: string;
+  urn?: string;
+  boosted_guid?: string;
 };
 
 // Constants of blocks
@@ -189,6 +191,7 @@ export class ActivityService {
   private patchForeignEntity(entity): ActivityEntity {
     switch (entity.subtype) {
       case 'image':
+        entity.message = entity.description;
         entity.entity_guid = entity.guid;
         entity.custom_type = 'batch';
         entity.custom_data = [
@@ -200,7 +203,7 @@ export class ActivityService {
         ];
         break;
       case 'video':
-        entity.blurb = entity.description;
+        entity.message = entity.description;
         entity.custom_type = 'video';
         entity.entity_guid = entity.guid;
         entity.custom_data = {
