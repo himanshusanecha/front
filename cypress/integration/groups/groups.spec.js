@@ -189,14 +189,14 @@ context.only('Groups', () => {
 
       // make a post.
       cy.post(postContent);
+
+      // log out and log back in as owner
       cy.logout();
+      cy.login();
     });
   });
       
   it('should allow an admin to kick the new user', () => {
-    // log out and log back in as owner
-    cy.login(true, Cypress.env().username, Cypress.env().password);
-
     // nav to group organically.
     cy.contains(groupId)
       .click()
