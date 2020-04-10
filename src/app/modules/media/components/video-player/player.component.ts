@@ -140,7 +140,7 @@ export class MindsVideoPlayerComponent
       }
 
       // reload video so it frees up resources
-      const video = this.elementRef.nativeElement.getElementsByTagName(
+      const video: HTMLVideoElement = this.elementRef.nativeElement.getElementsByTagName(
         'video'
       )[0];
       if (video) {
@@ -251,7 +251,7 @@ export class MindsVideoPlayerComponent
   onPlaceholderClick(e: MouseEvent): void {
     // If we have a player, then play
     if (this.player) {
-      this.player.player.play();
+      this.play();
       return;
     }
     // Play in modal if required
@@ -278,9 +278,11 @@ export class MindsVideoPlayerComponent
     return this.player ? this.player.player.muted : false;
   }
 
-  play(): void {
+  async play() {
     if (this.player) {
-      this.player.player.play();
+      try {
+        await this.player.player.play();
+      } catch (e) {}
     }
   }
 
