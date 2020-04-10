@@ -7,6 +7,8 @@ const member = {
   password: generateRandomId()+'A1a#!'
 }
 
+const postContent = generateRandomId();
+
 context.only('Groups', () => {
   before(() => {
     cy.newUser(member.username, member.password);
@@ -157,7 +159,7 @@ context.only('Groups', () => {
   });
 
 
-  it('should allow a user to join the group and allow the admin to kick them', () => {
+  it('should allow a user to join the group', () => {
     // load group as group owner
     cy.contains(groupId)
       .click()
@@ -186,36 +188,38 @@ context.only('Groups', () => {
         .click();
 
       // make a post.
-      const postContent = generateRandomId();
       cy.post(postContent);
-      
-      // log out and log back in as owner
       cy.logout();
-      cy.login(true, Cypress.env().username, Cypress.env().password);
-
-      // nav to group organically.
-      cy.contains(groupId)
-        .click()
-        .wait('@getGroupsFeed').then((xhr) => {
-          expect(xhr.status).to.equal(200);
-          expect(xhr.response.body.status).to.equal("success");
-        });
-
-      // get the parental activity, and within it...
-      cy.contains(postContent)
-        .parentsUntil('minds-activity')
-        .parent()
-        .within(($list) => {
-          // click dropdown and then remove option.
-          cy.get('[data-cy=data-minds-post-menu-button]').click();
-          cy.get('[data-cy=data-minds-group-dropdown-remove]').click();
-        });
-
-      // confirm
-      cy.get('[data-cy=data-minds-kick-modal-confirm]').click();
-      cy.get('[data-cy=data-minds-kick-modal-okay]').click();
     });
   });
+      
+  it('should allow an admin to kick the new user', () => {
+    // log out and log back in as owner
+    cy.login(true, Cypress.env().username, Cypress.env().password);
+
+    // nav to group organically.
+    cy.contains(groupId)
+      .click()
+      .wait('@getGroupsFeed').then((xhr) => {
+        expect(xhr.status).to.equal(200);
+        expect(xhr.response.body.status).to.equal("success");
+      });
+
+    // get the parental activity, and within it...
+    cy.contains(postContent)
+      .parentsUntil('minds-activity')
+      .parent()
+      .within(($list) => {
+        // click dropdown and then remove option.
+        cy.get('[data-cy=data-minds-post-menu-button]').click();
+        cy.get('[data-cy=data-minds-group-dropdown-remove]').click();
+      });
+
+    // confirm
+    cy.get('[data-cy=data-minds-kick-modal-confirm]').click();
+    cy.get('[data-cy=data-minds-kick-modal-okay]').click();
+  });
+  
 
   it('should delete a group', () => {
     // reset state after last test
