@@ -94,7 +94,7 @@ export class BlockchainEthModalComponent implements OnInit {
       destCurrency: 'ETH',
       sourceAmount: this.usd.toString(),
       redirectUrl: `${this.site.baseUrl}token`,
-      failureRedirectUrl: `${this.site.baseUrl}token?purchaseFailed=true`,
+      failureRedirectUrl: `${this.site.baseUrl}token?failed=1`,
     };
 
     this.sendWyreService.redirect(sendWyreConfig);

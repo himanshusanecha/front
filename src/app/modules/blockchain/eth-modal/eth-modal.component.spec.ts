@@ -92,7 +92,7 @@ describe('BlockchainEthModalComponent', () => {
       destCurrency: 'ETH',
       sourceAmount: '40',
       redirectUrl: 'https://www.minds.com/token',
-      failureRedirectUrl: 'https://www.minds.com/token?purchaseFailed=true',
+      failureRedirectUrl: 'https://www.minds.com/token?failed=1',
     });
   });
 });
