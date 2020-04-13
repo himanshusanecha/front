@@ -223,9 +223,9 @@ context.only('Groups', () => {
   
 
   it('should delete a group', () => {
-    // reset state after last test
-    cy.logout();
-    cy.login(true, Cypress.env().username, Cypress.env().password);
+    // // reset state after last test
+    // cy.logout();
+    // cy.login(true, Cypress.env().username, Cypress.env().password);
 
     // nav to group.
     cy.contains(groupId)
@@ -239,10 +239,14 @@ context.only('Groups', () => {
     // click settings cog.
     cy.get('minds-groups-settings-button > button').click();
 
+    cy.wait(500);
+    
     // hit delete group, and confirm.
-    cy.contains('Delete Group')
+    cy.contains('data-cy=data-minds-group-dropdown-delete]')
       .click({force: true});
-
+    
+    cy.wait(500);
+    
     cy.contains('Confirm')
       .click()
       .location('pathname')
