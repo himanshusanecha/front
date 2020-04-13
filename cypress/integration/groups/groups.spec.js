@@ -53,7 +53,7 @@ context.only('Groups', () => {
     // type in another hashtag manually
     cy.get('m-hashtags-selector m-form-tags-input input').type('hashtag{enter}').click();
     // click away
-    cy.get('m-hashtags-selector .minds-bg-overlay').click();
+    cy.get('m-hashtags-selector .minds-bg-overlay').click({force: true});
 
     cy.get('.m-groups-save > button').contains('Create').click();
     cy.route("POST", "**/api/v1/groups/group/*/banner*").as("postBanner");
@@ -244,17 +244,23 @@ context.only('Groups', () => {
        .click();
  
      cy.contains('Remove from Group').click();
-     cy.contains('[data-cy=data-minds-modal-confirm]').click();
+     cy.get('[data-cy=data-minds-modal-confirm]').click();
   });
   
 
   it('should delete a group', () => {
+    // reset state after last test
+    cy.logout();
+    cy.login();
+
+     // nav to group.
     cy.contains(groupId)
-      .click()
-      .wait('@getGroupsFeed').then((xhr) => {
-        expect(xhr.status).to.equal(200);
-        expect(xhr.response.body.status).to.equal("success");
-      });
+        .click()
+        .wait('@getGroupsFeed')
+        .then((xhr) => {
+          expect(xhr.status).to.equal(200);
+          expect(xhr.response.body.status).to.equal("success");
+        });
 
     // click settings cog.
     cy.get('minds-groups-settings-button > button').click();
