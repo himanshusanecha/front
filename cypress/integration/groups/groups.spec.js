@@ -22,6 +22,7 @@ context.only('Groups', () => {
     cy.route('GET', '**/api/v2/feeds/container/**').as('getGroupsFeed');
     cy.route("POST", "**/api/v1/groups/group*").as("postGroup");
     cy.route('GET', "**/api/v1/groups/member/**").as("getGroupsMember")
+    cy.route('GET', '**/v1/groups/group/**').as('getGroupsGroup');
   });
 
   after(() => {
@@ -189,15 +190,11 @@ context.only('Groups', () => {
 
       // make a post.
       cy.post(postContent);
-
-      // log out and log back in as owner
-      cy.logout();
-      cy.login();
     });
   });
    
   // Causes pipeline to hang currently.
-  xit('should allow an admin to kick the new user', () => {
+  xit('should allow an admin to kick the new user by post menu', () => {
     // nav to group organically.
     cy.contains(groupId)
       .click()
@@ -221,20 +218,43 @@ context.only('Groups', () => {
     cy.get('[data-cy=data-minds-kick-modal-okay]').click();
   });
   
+  it('should allow an admin to kick the new user by members menu', () => {
+    // reset state after last test
+     cy.logout();
+     cy.login();
+ 
+     // nav to group.
+     cy.contains(groupId)
+         .click()
+         .wait('@getGroupsFeed')
+         .then((xhr) => {
+           expect(xhr.status).to.equal(200);
+           expect(xhr.response.body.status).to.equal("success");
+         });
+ 
+     cy.contains('+ Members')
+       .click()
+       .wait('@getGroupsGroup')
+       .then((xhr) => {
+         expect(xhr.status).to.equal(200);
+         expect(xhr.response.body.status).to.equal("success");
+       });
+     cy.get('.minds-usercard-buttons')
+       .contains('settings')
+       .click();
+ 
+     cy.contains('Remove from Group').click();
+     cy.contains('[data-cy=data-minds-modal-confirm]').click();
+  });
+  
 
   it('should delete a group', () => {
-    // // reset state after last test
-    // cy.logout();
-    // cy.login(true, Cypress.env().username, Cypress.env().password);
-
-    // nav to group.
     cy.contains(groupId)
-        .click()
-        .wait('@getGroupsFeed')
-        .then((xhr) => {
-          expect(xhr.status).to.equal(200);
-          expect(xhr.response.body.status).to.equal("success");
-        });
+      .click()
+      .wait('@getGroupsFeed').then((xhr) => {
+        expect(xhr.status).to.equal(200);
+        expect(xhr.response.body.status).to.equal("success");
+      });
 
     // click settings cog.
     cy.get('minds-groups-settings-button > button').click();
@@ -242,7 +262,7 @@ context.only('Groups', () => {
     cy.wait(500);
     
     // hit delete group, and confirm.
-    cy.contains('data-cy=data-minds-group-dropdown-delete')
+    cy.get('[data-cy=data-minds-group-dropdown-delete]')
       .click({force: true});
     
     cy.wait(500);
