@@ -38,7 +38,9 @@ export class ShopService implements OnDestroy {
    * Destroy. Remove subscription.
    */
   ngOnDestroy(): void {
-    this.valuesSubscription.unsubscribe();
+    if (this.valuesSubscription) {
+      this.valuesSubscription.unsubscribe();
+    }
   }
 
   /**
