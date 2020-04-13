@@ -22,6 +22,7 @@ import { SendWyreService } from '../sendwyre/sendwyre.service';
 import * as BN from 'bn.js';
 import { SendWyreConfig } from '../sendwyre/sendwyre.interface';
 import { SiteService } from '../../../common/services/site.service';
+import { ConfigsService } from '../../../common/services/configs.service';
 
 @Component({
   selector: 'm-blockchain__eth-modal',
@@ -42,7 +43,8 @@ export class BlockchainEthModalComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private sendWyreService: SendWyreService,
     public session: Session,
-    public site: SiteService
+    public site: SiteService,
+    private configs: ConfigsService
   ) {}
 
   ngOnInit() {
@@ -89,7 +91,7 @@ export class BlockchainEthModalComponent implements OnInit {
 
     const sendWyreConfig: SendWyreConfig = {
       paymentMethod: 'debit-card',
-      accountId: 'AC_TNCD9GVCFA9',
+      accountId: this.configs.get('sendwyre')['accountId'] || '',
       dest: `ethereum:${this.session.getLoggedInUser().eth_wallet}`,
       destCurrency: 'ETH',
       sourceAmount: this.usd.toString(),
