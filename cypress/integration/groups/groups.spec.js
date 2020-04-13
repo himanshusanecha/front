@@ -242,7 +242,7 @@ context.only('Groups', () => {
     cy.wait(500);
     
     // hit delete group, and confirm.
-    cy.contains('data-cy=data-minds-group-dropdown-delete]')
+    cy.contains('data-cy=data-minds-group-dropdown-delete')
       .click({force: true});
     
     cy.wait(500);
