@@ -27,7 +27,6 @@ context('v1 Wire', () => {
     cy.preserveCookies();
 
     // Create a user
-    cy.logout();
     cy.newUser(receiver.username, receiver.password, false);
 
     // Login with our test user

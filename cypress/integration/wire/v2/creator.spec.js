@@ -67,9 +67,6 @@ context('v2 Wire', () => {
         .should('not.exist');
     };
 
-    // Logout
-    cy.logout();
-
     // Create a new temp receiver user
     cy.newUser(receiver.username, receiver.password, false);
     cy.logout();
