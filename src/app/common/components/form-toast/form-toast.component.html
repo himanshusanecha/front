@@ -2,7 +2,8 @@
   <ng-container *ngFor="let toast of toasts; let i = index">
     <div
       class="m-formToast__wrapper"
-      [ngClass]="{ dismissed: toast.dismissed }"
+      [ngClass]="{ hidden: toast.hidden }"
+      [@fadeOut]="toast.active ? 'show' : 'hide'"
     >
       <div [ngClass]="['m-formToast__iconWrapper--' + toast.type]">
         <i class="material-icons">
@@ -16,7 +17,7 @@
       </div>
       <p i18n>{{ toast.message }}</p>
       <div class="m-formToast__iconWrapper--close">
-        <i class="material-icons" (click)="toast.dismissed = true">clear</i>
+        <i class="material-icons" (click)="dismiss(i)">clear</i>
       </div>
     </div>
   </ng-container>

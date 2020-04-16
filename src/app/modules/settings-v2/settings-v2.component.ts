@@ -31,6 +31,9 @@ export class SettingsV2Component implements OnInit {
   user: string | null = null;
   onMainNav: boolean = false;
 
+  //todoojm
+  tempp = 0;
+
   protected paramMap$: Subscription;
 
   mainMenus: NestedMenu[] = [
@@ -294,7 +297,8 @@ export class SettingsV2Component implements OnInit {
 
   //TODOOJM remove AND remove reference from HTML
   temp() {
-    this.formToastService.success('Changes saved');
+    this.tempp++;
+    this.formToastService.success('Changes saved' + this.tempp);
   }
 
   mainMenuItemSelected(): void {

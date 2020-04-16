@@ -1,19 +1,22 @@
 // Not using color themes mix-in because everything
 // is the same in both light mode and dark mode
 m-formToast {
+  display: block;
+  border: 1px solid red;
   position: fixed;
-  bottom: 40px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
   max-width: 522px;
   width: 60%;
-  transition: all 0.3s cubic-bezier(0.25, 0.1, -0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
 }
 .m-formToast__toastsContainer {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-end;
+  border: 1px solid blue;
 }
 .m-formToast__wrapper {
   display: flex;
@@ -22,24 +25,22 @@ m-formToast {
   min-height: 56px;
   width: 100%;
   border-radius: 2px;
-  margin-bottom: 16px;
-  animation-name: fadeIn;
-  animation-timing-function: cubic-bezier(0.25, 0.1, -0.25, 1);
-  animation-duration: 0.4s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  opacity: 0.8;
-  transition: opacity 0.3s cubic-bezier(0.25, 0.1, -0.25, 1);
+  opacity: 0.85;
+  transition: all 3s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
   color: #7d7d82;
   background-color: #fff;
   box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.2);
   overflow: hidden;
-
+  margin-bottom: 16px;
+  border: 1px solid gold;
+  &:last-child {
+    margin-bottom: 40px;
+  }
+  &.hidden {
+    display: none;
+  }
   &:hover {
     opacity: 1;
-  }
-  &.dismissed {
-    display: none;
   }
   p {
     font-size: 17px;
@@ -51,24 +52,17 @@ m-formToast {
   }
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 [class*='m-formToast__iconWrapper--'] {
   display: flex;
   justify-content: center;
   align-items: center;
+  i {
+    font-size: 20px;
+  }
   &:not(.m-formToast__iconWrapper--close) {
     align-self: stretch;
     min-width: 58px;
     i {
-      font-size: 20px;
       color: #fff;
     }
   }
@@ -89,19 +83,27 @@ m-formToast {
   cursor: pointer;
   align-self: start;
   margin: 18.5px 19px 0 0;
-  transition: all 0.2s cubic-bezier(0.25, 0.1, -0.25, 1);
+  transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
   &:hover {
     transform: scale(1.1);
   }
   i {
-    font-size: 18px;
     opacity: 0.8;
   }
 }
 
 @media screen and (max-width: $max-mobile) {
   m-formToast {
-    bottom: 48px;
-    width: 75%;
+    width: 100%;
+    bottom: 0;
+  }
+  .m-formToast__wrapper {
+    border-radius: 0;
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
