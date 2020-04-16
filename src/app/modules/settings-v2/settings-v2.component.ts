@@ -279,11 +279,22 @@ export class SettingsV2Component implements OnInit {
       elementRef.formSubmitted.subscribe($event => {
         if ($event.formSubmitted) {
           this.formToastService.success('Changes saved');
+          this.formToastService.error('Changes saved');
+          this.formToastService.inform('Changes saved');
+          this.formToastService.warn(
+            'Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved'
+          );
+          //TODOOJM remove
         } else {
           this.formToastService.error($event.error || 'Save error');
         }
       });
     }
+  }
+
+  //TODOOJM remove AND remove reference from HTML
+  temp() {
+    this.formToastService.success('Changes saved');
   }
 
   mainMenuItemSelected(): void {

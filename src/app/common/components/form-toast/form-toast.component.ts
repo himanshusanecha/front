@@ -37,7 +37,7 @@ export class FormToastComponent implements OnInit, OnDestroy {
         this.toasts[toastIndex]['dismissed'] = true;
 
         this.detectChanges();
-      }, 3400);
+      }, 2000400); //todoojm 3400
 
       this.timeoutIds.push(setTimeout(() => toastTimeout));
     });
