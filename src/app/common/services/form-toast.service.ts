@@ -4,7 +4,6 @@ import { Observable, Subject } from 'rxjs';
 export interface FormToast {
   type?: 'success' | 'error' | 'warning' | 'info' | null;
   message?: string;
-  active?: boolean;
 }
 
 @Injectable()
@@ -52,7 +51,6 @@ export class FormToastService {
     if (!toast.type) {
       toast.type = 'info';
     }
-    toast.active = true;
     this.subject.next(toast);
   }
 }

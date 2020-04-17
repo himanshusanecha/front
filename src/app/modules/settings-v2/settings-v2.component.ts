@@ -31,9 +31,6 @@ export class SettingsV2Component implements OnInit {
   user: string | null = null;
   onMainNav: boolean = false;
 
-  //todoojm
-  tempp = 0;
-
   protected paramMap$: Subscription;
 
   mainMenus: NestedMenu[] = [
@@ -282,23 +279,11 @@ export class SettingsV2Component implements OnInit {
       elementRef.formSubmitted.subscribe($event => {
         if ($event.formSubmitted) {
           this.formToastService.success('Changes saved');
-          this.formToastService.error('Changes saved');
-          this.formToastService.inform('Changes saved');
-          this.formToastService.warn(
-            'Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved Changes saved'
-          );
-          //TODOOJM remove
         } else {
           this.formToastService.error($event.error || 'Save error');
         }
       });
     }
-  }
-
-  //TODOOJM remove AND remove reference from HTML
-  temp() {
-    this.tempp++;
-    this.formToastService.success('Changes saved' + this.tempp);
   }
 
   mainMenuItemSelected(): void {

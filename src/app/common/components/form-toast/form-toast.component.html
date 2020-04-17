@@ -2,8 +2,7 @@
   <ng-container *ngFor="let toast of toasts; let i = index">
     <div
       class="m-formToast__wrapper"
-      [ngClass]="{ hidden: toast.hidden }"
-      [@fadeOut]="toast.active ? 'show' : 'hide'"
+      [@fader]="toast.dismissed ? 'dismissed' : 'active'"
     >
       <div [ngClass]="['m-formToast__iconWrapper--' + toast.type]">
         <i class="material-icons">
@@ -20,5 +19,11 @@
         <i class="material-icons" (click)="dismiss(i)">clear</i>
       </div>
     </div>
+    <!-- The spacer replaces margin-bottom b/c smoother animation -->
+    <div
+      class="m-formToast__spacer"
+      [@fader]="toast.dismissed ? 'dismissed' : 'active'"
+    ></div>
   </ng-container>
+  <div class="m-formToastContainer__spacer"></div>
 </div>
