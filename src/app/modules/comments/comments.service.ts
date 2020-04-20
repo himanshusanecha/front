@@ -33,7 +33,7 @@ export class CommentsService {
     loadNext;
     loadPrevious;
     descending;
-    includeOffset;
+    includeOffset?;
   }) {
     const focusedUrnObject = this.focusedUrn
       ? this.decodeUrn(this.focusedUrn)
