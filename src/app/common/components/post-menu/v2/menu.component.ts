@@ -66,7 +66,7 @@ export class PostMenuV2Component implements OnInit {
     this.service.setEntityOwner(this.user);
   }
 
-  showEdit() {
+  shouldShowEdit(): boolean {
     if (this.mediaModal) {
       return false;
     }
@@ -77,7 +77,7 @@ export class PostMenuV2Component implements OnInit {
     );
   }
 
-  showDelete() {
+  shouldShowDelete(): boolean {
     if (this.mediaModal) {
       return false;
     }

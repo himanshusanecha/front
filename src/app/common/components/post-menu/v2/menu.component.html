@@ -14,7 +14,7 @@
     </li>
     <li
       class="m-dropdownList__item"
-      *ngIf="showEdit()"
+      *ngIf="shouldShowEdit()"
       (click)="onSelectedOption('edit')"
       i18n="@@M__ACTION__EDIT"
     >
@@ -186,7 +186,7 @@
     <!-- DELETE -->
     <li
       class="m-dropdownList__item m-dropdownList__item--destructive"
-      *ngIf="showDelete()"
+      *ngIf="shouldShowDelete()"
       (click)="onSelectedOption('delete')"
       i18n="@@M__ACTION__DELETE"
     >
