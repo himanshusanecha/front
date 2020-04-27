@@ -27,7 +27,7 @@
 
     <li
       class="m-dropdownList__item m-userMenuDropdown__item"
-      *ngIf="getCurrentUser()"
+      *ngIf="getCurrentUser() && !getCurrentUser().pro"
       (click)="closeMenu()"
     >
       <a routerLink="/upgrades">
