@@ -1,8 +1,10 @@
 m-youtubeMigration__dashboard {
   .m-tabs__container {
     margin: 10px 0 !important;
+    padding: 0 !important;
     .m-tabs__tab > a {
       padding: 10px 0 !important;
+      margin-left: 0 !important;
     }
   }
 }

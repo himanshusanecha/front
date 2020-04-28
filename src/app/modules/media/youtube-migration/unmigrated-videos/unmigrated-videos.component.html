@@ -4,7 +4,7 @@
 </div>
 <ng-container *ngIf="init">
   <m-youtubeMigration__videoList
-    *ngIf="videos.length > 0"
+    *ngIf="videos.length > 0 && videos[0].display"
     [videos]="videos"
     (requestPlay)="openYoutubeWindow($event)"
   ></m-youtubeMigration__videoList>

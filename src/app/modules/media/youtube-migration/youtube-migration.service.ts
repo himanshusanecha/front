@@ -3,7 +3,6 @@ import { Client } from '../../../common/api/client.service';
 import { Session } from '../../../services/session';
 import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
-import fakeData from './fake-data';
 
 export interface YoutubeChannel {
   id: string;
@@ -21,11 +20,10 @@ export class YoutubeMigrationService {
       video_id: '',
     },
   ];
-  // TODOOJM remove moonboot 123
   selectedChannel: YoutubeChannel = {
     id: '',
     title: '',
-    connected: 1588013297,
+    connected: 1,
     auto_import: false,
   };
   channels: YoutubeChannel[];
@@ -88,7 +86,7 @@ export class YoutubeMigrationService {
       return;
     }
     //todoojm remove
-    console.log('888 selected channel', selectedChannel);
+    // console.log('888 selected channel', selectedChannel);
 
     this.selectedChannel$.next(selectedChannel);
 
@@ -109,10 +107,10 @@ export class YoutubeMigrationService {
    * @param channelId
    */
   async getAllVideos(channelId: string): Promise<{ void }> {
-    console.log('888 getallvids run?');
-    if (!channelId) {
-      console.log('888 not giving an id to getallvideos');
-    }
+    // console.log('888 getallvids run?');
+    // if (!channelId) {
+    //   console.log('888 not giving an id to getallvideos');
+    // }
     const opts = {
       channelId: channelId,
       status: null,
@@ -123,37 +121,52 @@ export class YoutubeMigrationService {
         await this.client.get(`${this.endpoint}videos`, opts)
       );
 
-      console.log('888 getAllVideos: ', response);
-      response.videos.forEach(v => {
-        v.display = {};
-        v.display.duration = this.formatDuration(v.duration);
+      // console.log('888 getAllVideos: ', response);
 
-        if (v.status === 'completed') {
-          v.display.title = v.entity.title;
-          v.display.thumb = v.entity.thumbnail_src;
-          v.display.date = this.formatDate(v.entity.time_created);
-        } else {
-          v.display.title = v.title;
-          v.display.thumb = v.thumbnail;
-          v.display.date = this.formatDate(v.youtubeCreationDate);
-        }
-      });
+      const formattedVideos = this.formatVideos(response.videos);
+      console.log('888 formatted getALlvids', formattedVideos);
 
-      console.log(
-        '888 formatted vids',
-        response.videos,
-        response.videos[0].display
-      );
       this.unmigratedVideos$.next(
-        response.filter(v => v.status !== 'completed')
+        formattedVideos.filter(v => v.status !== 'completed')
       );
-      this.migratedVideos$.next(response.filter(v => v.status === 'completed'));
+      this.migratedVideos$.next(
+        formattedVideos.filter(v => v.status === 'completed')
+      );
     } catch (e) {
       console.error('getAllVideos(): ', e);
       return e;
     }
   }
 
+  /**
+   * Format video response for display template
+   */
+  formatVideos(videos: any): any {
+    if (!videos) {
+      return;
+    }
+    videos.forEach(v => {
+      v.display = {};
+      v.display.duration = this.formatDuration(v.duration);
+
+      if (v.status === 'completed') {
+        v.display.title = v.entity.title;
+        v.display.thumb = v.entity.thumbnail_src;
+        v.display.date = this.formatDate(v.entity.time_created);
+      } else {
+        v.display.title = v.title;
+        v.display.thumb = v.thumbnail;
+        v.display.date = this.formatDate(v.youtubeCreationDate);
+      }
+      // Handle null view count
+      v.views = v.views || 0;
+    });
+    return videos;
+  }
+
+  /**
+   * Format duration for video display template
+   */
   formatDuration(duration: string | number): string {
     const durationFormat = duration >= 3600 ? 'H:mm:ss' : 'mm:ss';
     return moment
@@ -161,6 +174,9 @@ export class YoutubeMigrationService {
       .format(durationFormat);
   }
 
+  /**
+   * Format create date for video display template
+   */
   formatDate(date: string | number): string {
     return moment(date, 'X').format('MMM Do YYYY');
   }

@@ -12,6 +12,7 @@ import { YoutubeMigrationService } from './youtube-migration.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Session } from '../../../services/session';
+import { FeaturesService } from '../../../services/features.service';
 
 @Component({
   selector: 'm-youtubeMigration',
@@ -29,6 +30,7 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
 
   constructor(
     protected youtubeService: YoutubeMigrationService,
+    protected featuresService: FeaturesService,
     protected router: Router,
     protected route: ActivatedRoute,
     protected session: Session,
@@ -37,18 +39,22 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if (!this.featuresService.has('yt-importer')) {
+      this.router.navigate(['settings/canary/other']);
+      return;
+    }
+
     // Initialize connected observable
     this.youtubeService.isConnected();
 
     this.connectedSubscription = this.youtubeService.connected$.subscribe(
       connected => {
         this.isConnected = connected;
-        console.log('888 isconnected??', this.isConnected);
+        // console.log('888 isconnected??', this.isConnected);
         // Initialize video list observables
         if (this.isConnected) {
           // TODO populate multi-channel dropdown with channels
           // this.channels = this.youtubeService.getChannels();
-          console.log('888 getting channels');
           this.youtubeService.getChannels();
         } else {
           this.init = true;
@@ -70,12 +76,12 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
         );
         if (this.isConnected) {
           this.youtubeService.getAllVideos(channel.id);
+          this.channelTitle = channel.title;
 
           // TODOOJM handle the daily limit
           // refresh only when click transfer all
           // or click import
 
-          // this.channelTitle = channel.title;
           // if (this.refreshInterval) {
           //   clearInterval(this.refreshInterval);
           // }
@@ -86,8 +92,8 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
           //   }, 5000);
           // }
           this.init = true;
-          this.detectChanges();
         }
+        this.detectChanges();
       }
     );
   }
@@ -96,8 +102,12 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
     if (this.refreshInterval) {
       clearInterval(this.refreshInterval);
     }
-    this.connectedSubscription.unsubscribe();
-    this.selectedChannelSubscription.unsubscribe();
+    if (this.connectedSubscription) {
+      this.connectedSubscription.unsubscribe();
+    }
+    if (this.selectedChannelSubscription) {
+      this.selectedChannelSubscription.unsubscribe();
+    }
   }
 
   /**

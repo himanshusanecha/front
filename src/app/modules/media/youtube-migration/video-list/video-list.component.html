@@ -1,6 +1,6 @@
-<ng-container *ngIf="videos">
+<ng-container *ngIf="videos && videos[0].display">
   <div class="m-youtubeMigration__video" *ngFor="let v of videos">
-    <a (click)="clickedVideo(v)">
+    <a (click)="playRequested(v)">
       <div
         class="m-youtubeMigration__videoThumb"
         [ngStyle]="{ 'background-image': 'url(' + v.display.thumb + ')' }"
@@ -15,7 +15,7 @@
     </a>
     <div class="m-youtubeMigration__videoInfo">
       <div>
-        <a (click)="clickedVideo(v)"
+        <a (click)="playRequested(v)"
           ><div class="m-youtubeMigration__videoTitle">
             {{ v.display.title }}
           </div></a

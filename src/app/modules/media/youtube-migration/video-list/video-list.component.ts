@@ -11,15 +11,15 @@ export class YoutubeMigrationVideoListComponent {
 
   constructor(protected youtubeService: YoutubeMigrationService) {}
 
-  clickedVideo(video: any): void {
+  playRequested(video: any): void {
     this.requestPlay.emit({ video: video });
   }
 
-  cancel(channelId, videoId) {
+  cancel(channelId, videoId): void {
     this.youtubeService.cancelImport(channelId, videoId);
   }
 
-  import(channelId, videoId) {
+  import(channelId, videoId): void {
     this.youtubeService.import(channelId, videoId);
   }
 }

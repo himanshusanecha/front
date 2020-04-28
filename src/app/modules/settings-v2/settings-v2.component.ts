@@ -31,6 +31,7 @@ export class SettingsV2Component implements OnInit {
   newNavigation: boolean = false;
   user: string | null = null;
   onMainNav: boolean = false;
+  hasYoutubeFeature: boolean = false;
 
   protected paramMap$: Subscription;
 
@@ -164,13 +165,7 @@ export class SettingsV2Component implements OnInit {
           { label: 'Paywall Preview', id: 'paywall-preview' },
         ],
       },
-      {
-        header: {
-          label: 'Content Migration',
-          id: 'content-migration',
-        },
-        items: [{ label: 'Youtube', id: 'youtube-migration' }],
-      },
+
       {
         header: {
           label: 'Deactivate and Delete Account',
@@ -194,6 +189,7 @@ export class SettingsV2Component implements OnInit {
     public featuresService: FeaturesService
   ) {
     this.newNavigation = this.featuresService.has('navigation');
+    this.hasYoutubeFeature = this.featuresService.has('yt-importer');
   }
 
   ngOnInit() {
@@ -229,6 +225,17 @@ export class SettingsV2Component implements OnInit {
       .subscribe(event => {
         this.setSecondaryPane();
       });
+
+    // Conditionally show youtube migration menu item
+    if (this.hasYoutubeFeature) {
+      const youtubeMenuItem = {
+        header: {
+          label: 'Content Migration',
+          id: 'content-migration',
+        },
+        items: [{ label: 'Youtube', id: 'youtube-migration' }],
+      };
+    }
 
     this.setProRoutes();
     this.setSecondaryPane();

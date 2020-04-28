@@ -39,6 +39,7 @@ export class YoutubeMigrationUnmigratedVideosComponent
 
     this.route.queryParamMap.subscribe(params => {
       if (params.get('status') === 'setup') {
+        // TODOOJM make modal popup
         alert('first time setup');
       }
     });
