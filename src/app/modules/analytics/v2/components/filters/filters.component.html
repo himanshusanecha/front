@@ -1,4 +1,9 @@
-<div class="m-analytics__filtersContainer">
+<div class="m-analytics__filtersContainer" *ngIf="timespanFilter && filters">
+  <m-dropdownSelector
+    [filter]="timespanFilter"
+    [showLabel]="false"
+    (selectionMade)="selectionMade($event)"
+  ></m-dropdownSelector>
   <ng-container *ngFor="let filter of filters">
     <m-dropdownSelector
       [filter]="filter"
