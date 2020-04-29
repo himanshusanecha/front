@@ -3,6 +3,8 @@
   <div class="mdl-spinner mdl-js-spinner is-active" [mdl]></div>
 </div>
 <ng-container *ngIf="init">
+  <!-- TODOOJM remove this clickme -->
+  <h1 (click)="openSetupModal()">click me</h1>
   <m-youtubeMigration__videoList
     *ngIf="videos.length > 0 && videos[0].display"
     [videos]="videos"

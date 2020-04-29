@@ -141,6 +141,7 @@ export class SentryErrorHandler implements ErrorHandler {
     ChannelsModule,
     UpgradesModule,
     SharedModule,
+    YoutubeMigrationModule,
 
     //last due to :username route
     AppRoutingModule,

@@ -4,11 +4,15 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
+  Injector,
+  SkipSelf,
 } from '@angular/core';
 import { YoutubeMigrationService } from '../youtube-migration.service';
 import { Session } from '../../../../services/session';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { OverlayModalService } from '../../../../services/ux/overlay-modal';
+import { YoutubeMigrationSetupModalComponent } from '../setup-modal/setup-modal.component';
 
 @Component({
   selector: 'm-youtubeMigration__unmigratedVideos',
@@ -17,6 +21,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class YoutubeMigrationUnmigratedVideosComponent
   implements OnInit, OnDestroy {
+  @SkipSelf() private injector: Injector;
+
   init: boolean = false;
   videos: any = [];
   unmigratedVideosSubscription: Subscription;
@@ -25,6 +31,7 @@ export class YoutubeMigrationUnmigratedVideosComponent
     protected youtubeService: YoutubeMigrationService,
     protected session: Session,
     protected route: ActivatedRoute,
+    protected overlayModal: OverlayModalService,
     protected cd: ChangeDetectorRef
   ) {}
 
@@ -39,8 +46,7 @@ export class YoutubeMigrationUnmigratedVideosComponent
 
     this.route.queryParamMap.subscribe(params => {
       if (params.get('status') === 'setup') {
-        // TODOOJM make modal popup
-        alert('first time setup');
+        this.openSetupModal();
       }
     });
   }
@@ -52,6 +58,19 @@ export class YoutubeMigrationUnmigratedVideosComponent
   openYoutubeWindow($event): void {
     const url: string = $event.video.url;
     window.open(url, '_blank');
+  }
+
+  openSetupModal(): void {
+    this.overlayModal
+      .create(
+        YoutubeMigrationSetupModalComponent,
+        null,
+        {
+          wrapperClass: 'm-modalV2__wrapper',
+        },
+        this.injector
+      )
+      .present();
   }
 
   detectChanges() {

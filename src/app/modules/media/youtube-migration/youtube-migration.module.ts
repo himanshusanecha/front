@@ -12,6 +12,7 @@ import { YoutubeMigrationService } from './youtube-migration.service';
 import { YoutubeMigrationUnmigratedVideosComponent } from './unmigrated-videos/unmigrated-videos.component';
 import { YoutubeMigrationMigratedVideosComponent } from './migrated-videos/migrated-videos.component';
 import { YoutubeMigrationVideoListComponent } from './video-list/video-list.component';
+import { YoutubeMigrationSetupModalComponent } from './setup-modal/setup-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { YoutubeMigrationVideoListComponent } from './video-list/video-list.comp
     YoutubeMigrationUnmigratedVideosComponent,
     YoutubeMigrationMigratedVideosComponent,
     YoutubeMigrationVideoListComponent,
+    YoutubeMigrationSetupModalComponent,
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,10 @@ import { YoutubeMigrationVideoListComponent } from './video-list/video-list.comp
     YoutubeMigrationUnmigratedVideosComponent,
     YoutubeMigrationConfigComponent,
   ],
-  entryComponents: [YoutubeMigrationComponent],
+  entryComponents: [
+    YoutubeMigrationComponent,
+    YoutubeMigrationSetupModalComponent,
+  ],
   providers: [YoutubeMigrationService],
 })
 export class YoutubeMigrationModule {}

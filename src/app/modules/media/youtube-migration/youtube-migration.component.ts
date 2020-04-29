@@ -50,7 +50,7 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
     this.connectedSubscription = this.youtubeService.connected$.subscribe(
       connected => {
         this.isConnected = connected;
-        // console.log('888 isconnected??', this.isConnected);
+        console.log('888 comp isconnected??', this.isConnected);
         // Initialize video list observables
         if (this.isConnected) {
           // TODO populate multi-channel dropdown with channels
@@ -70,7 +70,7 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
     this.selectedChannelSubscription = this.youtubeService.selectedChannel$.subscribe(
       channel => {
         console.log(
-          '888 interval is connected?channel?',
+          '888 comp selectedchannel$ interval is connected?channel?',
           this.isConnected,
           channel
         );

@@ -115,6 +115,9 @@ m-youtubeMigration__videoList {
       @include m-theme() {
         color: themed($m-textColor--secondary);
       }
+      span {
+        display: inline-block;
+      }
     }
     .m-youtubeMigration__videoStatus {
       @include m-theme() {

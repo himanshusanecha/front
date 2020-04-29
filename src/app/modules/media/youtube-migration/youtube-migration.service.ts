@@ -26,6 +26,7 @@ export class YoutubeMigrationService {
     connected: 1,
     auto_import: false,
   };
+
   channels: YoutubeChannel[];
   connected: boolean = false;
 
@@ -58,7 +59,7 @@ export class YoutubeMigrationService {
   }
 
   getChannels(): YoutubeChannel[] | null {
-    if (!this.connected) {
+    if (!this.isConnected()) {
       console.log('888 getchannels is connected?', this.connected);
       return;
     }
