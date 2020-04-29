@@ -4,7 +4,9 @@ m-youtubeMigration__dashboard {
     padding: 0 !important;
     .m-tabs__tab > a {
       padding: 10px 0 !important;
-      margin-left: 0 !important;
+      &:first-child {
+        margin-left: 0 !important;
+      }
     }
   }
 }

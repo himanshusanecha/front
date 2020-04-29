@@ -165,7 +165,6 @@ export class SettingsV2Component implements OnInit {
           { label: 'Paywall Preview', id: 'paywall-preview' },
         ],
       },
-
       {
         header: {
           label: 'Deactivate and Delete Account',
@@ -235,6 +234,7 @@ export class SettingsV2Component implements OnInit {
         },
         items: [{ label: 'Youtube', id: 'youtube-migration' }],
       };
+      this.secondaryMenus.other.splice(2, 0, youtubeMenuItem);
     }
 
     this.setProRoutes();
