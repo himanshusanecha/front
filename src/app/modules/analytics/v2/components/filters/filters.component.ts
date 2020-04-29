@@ -21,7 +21,6 @@ export class AnalyticsFiltersComponent implements OnInit, OnDestroy {
   filters: Filter[];
 
   timespanSubscription: Subscription;
-  timespans$ = this.analyticsService.timespans$;
   selectedTimespan;
   timespanFilter: Filter = {
     id: 'timespan',
@@ -54,8 +53,6 @@ export class AnalyticsFiltersComponent implements OnInit, OnDestroy {
     this.timespanSubscription = this.analyticsService.timespans$.subscribe(
       timespans => {
         this.timespanFilter.options = timespans;
-        // TODOOJM
-        console.log('888 ts', this.timespanFilter);
         this.detectChanges();
       }
     );
