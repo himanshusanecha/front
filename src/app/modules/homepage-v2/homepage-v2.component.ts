@@ -58,7 +58,7 @@ export class HomepageV2Component implements OnInit {
       .setDescription(this.description)
       .setCanonicalUrl('/')
       .setOgUrl('/')
-      .setOgImage('/en/assets/logos/bulb.svg');
+      .setOgImage('/assets/logos/bulb.jpg');
 
     this.navigationService.setVisible(false);
     this.topbarService.toggleMarketingPages(true, false, false);
