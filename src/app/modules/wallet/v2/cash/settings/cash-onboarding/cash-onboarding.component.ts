@@ -106,7 +106,9 @@ export class WalletCashOnboardingComponent implements OnInit {
   }
 
   detectChanges(): void {
-    if ((this.cd as ViewRef).destroyed) return;
+    if ((this.cd as ViewRef).destroyed) {
+      return;
+    }
     this.cd.markForCheck();
     this.cd.detectChanges();
   }
