@@ -32,7 +32,7 @@ export class NotificationsFlyoutComponent implements OnDestroy {
   ) {
     this.newNavigation = this.featuresService.has('navigation');
     this.routerSubscription = this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
+      if (event instanceof NavigationStart && this.visible) {
         this.close(); // close flyout on route change.
       }
     });
