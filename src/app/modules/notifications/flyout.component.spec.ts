@@ -95,7 +95,7 @@ describe('NotificationsFlyoutComponent', () => {
 
   it('Should subscribe to router', () => {
     spyOn(comp.closeEvt, 'emit').and.callThrough();
-
+    comp.visible = true;
     // push fake router event
     const event = new NavigationStart(1, '/');
     TestBed.get(Router).events.next(event);
