@@ -64,11 +64,7 @@ export class MindsVideoPlayerComponent
      * component has already been initialised
      */
     if (this.init) {
-      if (value) {
-        this.autoplayService.registerPlayer(this);
-      } else {
-        this.autoplayService.unregisterPlayer(this);
-      }
+      this.togglePlayerRegistration();
     }
   }
 
@@ -202,11 +198,7 @@ export class MindsVideoPlayerComponent
   }
 
   ngAfterViewInit() {
-    if (this.allowAutoplayOnScroll) {
-      this.autoplayService.registerPlayer(this);
-    } else {
-      this.autoplayService.unregisterPlayer(this);
-    }
+    this.togglePlayerRegistration();
 
     this.setAutoplay(this.autoplay);
   }
@@ -380,6 +372,14 @@ export class MindsVideoPlayerComponent
   onPlay(): void {
     if (!this.autoplaying) {
       this.autoplayService.userPlay(this);
+    }
+  }
+
+  private togglePlayerRegistration() {
+    if (this.allowAutoplayOnScroll) {
+      this.autoplayService.registerPlayer(this);
+    } else {
+      this.autoplayService.unregisterPlayer(this);
     }
   }
 }
