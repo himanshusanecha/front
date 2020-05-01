@@ -23,7 +23,6 @@ export class UserMenuV3Component implements OnInit, OnDestroy {
 
   isOpen: boolean = false;
 
-  minds = window.Minds;
   isDark: boolean = false;
   themeSubscription: Subscription;
 
@@ -41,7 +40,6 @@ export class UserMenuV3Component implements OnInit, OnDestroy {
   maxFooterLinks = 5;
 
   constructor(
-    public navigation: NavigationService,
     protected session: Session,
     protected cd: ChangeDetectorRef,
     private themeService: ThemeService
