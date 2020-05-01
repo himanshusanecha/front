@@ -26,7 +26,8 @@ export class YoutubeMigrationSetupModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getChannel();
+    // TODOOJM getChannels isn't returning anything
+    // this.getChannel();
   }
 
   /**
@@ -54,14 +55,14 @@ export class YoutubeMigrationSetupModalComponent implements OnInit {
   enableAutoImport() {
     this.inProgress = true;
     this.detectChanges();
-    this.youtubeService.enableAutoImport(this.activeChannel.id);
+    this.youtubeService.enableAutoImport();
     this.overlayModal.dismiss();
   }
 
   disableAutoImport() {
     this.inProgress = true;
     this.detectChanges();
-    this.youtubeService.disableAutoImport(this.activeChannel.id);
+    this.youtubeService.disableAutoImport();
     this.overlayModal.dismiss();
   }
 

@@ -3,7 +3,6 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  OnDestroy,
 } from '@angular/core';
 import { OverlayModalService } from '../../../../services/ux/overlay-modal';
 import { MediaModalComponent } from '../../../media/modal/modal.component';
@@ -17,12 +16,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './migrated-videos.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class YoutubeMigrationMigratedVideosComponent
-  implements OnInit, OnDestroy {
+export class YoutubeMigrationMigratedVideosComponent implements OnInit {
   init: boolean = false;
-  inProgress: boolean = false;
   videos: any = [];
-  migratedVideosSubscription: Subscription;
+  nextPageToken: string = '';
+  moreData = true;
+  inProgress = false;
 
   constructor(
     protected youtubeService: YoutubeMigrationService,
@@ -33,17 +32,49 @@ export class YoutubeMigrationMigratedVideosComponent
   ) {}
 
   ngOnInit() {
-    this.migratedVideosSubscription = this.youtubeService.migratedVideos$.subscribe(
-      migratedVideos => {
-        this.videos = migratedVideos;
-        this.init = true;
-        this.detectChanges();
-      }
-    );
+    this.load(true);
+    this.init = true;
+    this.detectChanges();
   }
 
-  ngOnDestroy() {
-    this.migratedVideosSubscription.unsubscribe();
+  async load(refresh: boolean = false) {
+    if (this.inProgress) {
+      return;
+    }
+    this.inProgress = true;
+
+    if (refresh) {
+      this.videos = [];
+      this.moreData = true;
+    }
+
+    try {
+      const response = <any>(
+        await this.youtubeService.getVideos(null, this.nextPageToken)
+      );
+
+      if (!response.videos.length) {
+        this.inProgress = false;
+        this.moreData = false;
+        this.detectChanges();
+        return;
+      }
+
+      if (response['nextPageToken']) {
+        this.nextPageToken = response['nextPageToken'];
+      } else {
+        this.moreData = false;
+      }
+
+      this.videos.push(...response.videos);
+      this.inProgress = false;
+      this.detectChanges();
+    } catch (e) {
+      this.moreData = false;
+      this.inProgress = false;
+      this.detectChanges();
+      console.error(e);
+    }
   }
 
   // TODO: consider refactoring bc it is duplicated

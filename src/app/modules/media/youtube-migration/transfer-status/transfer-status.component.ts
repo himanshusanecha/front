@@ -30,26 +30,19 @@ export class YoutubeMigrationTransferStatusComponent
   }
 
   dailyLimit: number;
-  selectedChannelSubscription: Subscription;
-  selectedChannel: YoutubeChannel;
+  statusCountsSubscription: Subscription;
   queuedCount: number = 0;
   transferringCount: number = 0;
-  unmigratedVideos: any = [];
-  unmigratedVideosSubscription: Subscription;
   init: boolean = false;
 
   ngOnInit() {
-    this.selectedChannelSubscription = this.youtubeService.selectedChannel$.subscribe(
-      channel => {
-        this.selectedChannel = channel;
-        this.detectChanges();
-      }
-    );
+    // Initialize statusCounts$
+    this.youtubeService.getStatusCounts();
 
-    this.unmigratedVideosSubscription = this.youtubeService.unmigratedVideos$.subscribe(
-      unmigratedVideos => {
-        this.unmigratedVideos = unmigratedVideos;
-        this.getCounts();
+    this.statusCountsSubscription = this.youtubeService.statusCounts$.subscribe(
+      counts => {
+        this.queuedCount = counts.queued;
+        this.transferringCount = counts.transferring;
         this.init = true;
         this.detectChanges();
       }
@@ -57,22 +50,12 @@ export class YoutubeMigrationTransferStatusComponent
   }
 
   ngOnDestroy() {
-    this.unmigratedVideosSubscription.unsubscribe();
-    this.selectedChannelSubscription.unsubscribe();
-  }
-
-  getCounts(): void {
-    this.queuedCount = this.unmigratedVideos.filter(
-      v => v.status === 'queued'
-    ).length;
-    this.transferringCount = this.unmigratedVideos.filter(
-      v => v.status === 'transferring'
-    ).length;
-    this.detectChanges();
+    this.statusCountsSubscription.unsubscribe();
   }
 
   async transferAllVideos(): Promise<any> {
-    this.youtubeService.import(this.selectedChannel.id, 'all');
+    this.youtubeService.import('all');
+    this.youtubeService.getStatusCounts();
   }
 
   detectChanges() {

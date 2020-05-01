@@ -30,7 +30,7 @@
       <ng-container *ngIf="v.status !== 'completed'">
         <div class="m-youtubeMigration__videoStatus">
           <ng-container *ngIf="v.status">
-            <a (click)="cancel(v.video_id, v.channel_id)">Cancel</a>
+            <a (click)="cancel(v)">Cancel</a>
             ·
             <span
               *ngIf="v.status === 'transcoding'"
@@ -43,9 +43,7 @@
               >Queued</span
             >
           </ng-container>
-          <a *ngIf="!v.status" (click)="import(v.video_id, v.channel_id)"
-            >Transfer</a
-          >
+          <a *ngIf="!v.status" (click)="import(v)">Transfer</a>
         </div>
       </ng-container>
     </div>

@@ -4,10 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
-  Inject,
-  PLATFORM_ID,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { YoutubeMigrationService } from './youtube-migration.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -26,7 +23,6 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
   isConnected: boolean;
   channelTitle: string = '';
   channelId: string = '';
-  refreshInterval: any;
 
   constructor(
     protected youtubeService: YoutubeMigrationService,
@@ -34,8 +30,7 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected route: ActivatedRoute,
     protected session: Session,
-    protected cd: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -44,53 +39,34 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Initialize connected observable
+    // Initialize connected$ observable
     this.youtubeService.isConnected();
 
     this.connectedSubscription = this.youtubeService.connected$.subscribe(
       connected => {
         this.isConnected = connected;
-        console.log('888 comp isconnected??', this.isConnected);
-        // Initialize video list observables
+
         if (this.isConnected) {
-          // TODO populate multi-channel dropdown with channels
-          // this.channels = this.youtubeService.getChannels();
           this.youtubeService.getChannels();
+          // TODO populate multi-channel dropdown with channels
         } else {
           this.init = true;
           this.detectChanges();
         }
 
+        // Route to diff components based on connected state
         const destination = this.isConnected ? 'dashboard' : 'connect';
         this.router.navigate([destination], { relativeTo: this.route });
         this.detectChanges();
       }
     );
 
+    // Display the name of the selected channel
     this.selectedChannelSubscription = this.youtubeService.selectedChannel$.subscribe(
       channel => {
-        console.log(
-          '888 comp selectedchannel$ interval is connected?channel?',
-          this.isConnected,
-          channel
-        );
         if (this.isConnected) {
-          this.youtubeService.getAllVideos(channel.id);
           this.channelTitle = channel.title;
 
-          // TODOOJM handle the daily limit
-          // refresh only when click transfer all
-          // or click import
-
-          // if (this.refreshInterval) {
-          //   clearInterval(this.refreshInterval);
-          // }
-          // if (isPlatformBrowser(this.platformId)) {
-          //   this.refreshInterval = setInterval(() => {
-          //     console.log('888 getting all vids interval');
-          //     this.youtubeService.getAllVideos(channel.id);
-          //   }, 5000);
-          // }
           this.init = true;
         }
         this.detectChanges();
@@ -99,9 +75,6 @@ export class YoutubeMigrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.refreshInterval) {
-      clearInterval(this.refreshInterval);
-    }
     if (this.connectedSubscription) {
       this.connectedSubscription.unsubscribe();
     }

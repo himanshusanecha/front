@@ -70,9 +70,7 @@ export class YoutubeMigrationConfigComponent implements OnInit, OnDestroy {
 
     if (this.autoImport.value) {
       try {
-        const response: any = await this.youtubeService.enableAutoImport(
-          this.selectedChannel.id
-        );
+        const response: any = await this.youtubeService.enableAutoImport();
         if (response.status === 'success') {
           this.form.markAsPristine();
         }
@@ -87,9 +85,7 @@ export class YoutubeMigrationConfigComponent implements OnInit, OnDestroy {
       }
     } else {
       try {
-        const response: any = await this.youtubeService.disableAutoImport(
-          this.selectedChannel.id
-        );
+        const response: any = await this.youtubeService.disableAutoImport();
         if (response.status === 'success') {
           this.form.markAsPristine();
         }
@@ -118,9 +114,7 @@ export class YoutubeMigrationConfigComponent implements OnInit, OnDestroy {
     this.detectChanges();
 
     try {
-      const response: any = await this.youtubeService.disconnectAccount(
-        this.selectedChannel.id
-      );
+      const response: any = await this.youtubeService.disconnectAccount();
     } catch (e) {
       this.formToastService.error(
         'Sorry, there was an error and your changes have not been saved.'

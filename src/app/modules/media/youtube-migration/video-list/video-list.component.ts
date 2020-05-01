@@ -15,11 +15,15 @@ export class YoutubeMigrationVideoListComponent {
     this.requestPlay.emit({ video: video });
   }
 
-  cancel(channelId, videoId): void {
-    this.youtubeService.cancelImport(channelId, videoId);
+  cancel(video: any): void {
+    const videoId = video.video_id;
+    this.youtubeService.cancelImport(videoId);
+    video.status = this.youtubeService.getVideoStatus(videoId);
   }
 
-  import(channelId, videoId): void {
-    this.youtubeService.import(channelId, videoId);
+  import(video: any): void {
+    const videoId = video.video_id;
+    this.youtubeService.import(videoId);
+    video.status = this.youtubeService.getVideoStatus(videoId);
   }
 }
