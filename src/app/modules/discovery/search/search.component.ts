@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { DiscoveryFeedsService } from '../feeds/feeds.service';
 import { FeedsService } from '../../../common/services/feeds.service';
@@ -24,6 +24,7 @@ export class DiscoverySearchComponent {
   constructor(
     private route: ActivatedRoute,
     private service: DiscoveryFeedsService,
+    private router: Router,
     configs: ConfigsService
   ) {
     this.cdnUrl = configs.get('cdn_url');
@@ -43,8 +44,15 @@ export class DiscoverySearchComponent {
         this.service.period$
       )
         .pipe(debounceTime(300))
-        .subscribe(() => {
-          this.service.search(this.q);
+        .subscribe(([nsfw$, type$, period$]) => {
+          if (['blogs', 'images', 'videos'].indexOf(type$) > -1) {
+            this.router.navigate([], {
+              queryParams: { q: this.q, f: type$ },
+              queryParamsHandling: 'merge',
+            });
+          } else {
+            this.service.search(this.q);
+          }
         }),
     ];
   }
