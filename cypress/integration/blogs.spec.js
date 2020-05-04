@@ -20,6 +20,9 @@ context('Blogs', () => {
 
   beforeEach(() => {
     cy.preserveCookies();
+    cy.overrideFeatureFlags({
+      channels: false,
+    });
     cy.server();
     cy.route('POST', '**/api/v1/blog/new').as('postBlog');
     cy.route('POST', '**/api/v1/media**').as('postMedia');
@@ -65,7 +68,7 @@ context('Blogs', () => {
       '../fixtures/international-space-station-1776401_1920.jpg',
       'image/jpg'
     )
-      .wait('@postMedia')
+      .wait('@postMedia', { timeout: 30000 })
       .then(xhr => {
         expect(xhr.status).to.equal(200);
         expect(xhr.response.body.status).to.equal('success');
