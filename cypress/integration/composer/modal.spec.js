@@ -10,14 +10,15 @@ context('Composer Modal', () => {
   beforeEach(() => {
     cy.preserveCookies();
     cy.overrideFeatureFlags({
-      composer: true,
+      'activity-composer': true,
       navigation: true,
+      channels: false,
     });
   });
 
   after(() => {
     cy.overrideFeatureFlags({
-      composer: false,
+      'activity-composer': false,
       navigation: false,
     });
   });
