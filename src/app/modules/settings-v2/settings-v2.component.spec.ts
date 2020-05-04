@@ -63,6 +63,7 @@ describe('SettingsV2Component', () => {
   beforeEach(() => {
     router = TestBed.get(Router);
     featuresServiceMock.mock('navigation', true);
+    featuresServiceMock.mock('yt-importer', true);
 
     clientMock.response = [];
     clientMock.response[`api/v1/settings`] = {
@@ -156,8 +157,13 @@ describe('SettingsV2Component', () => {
   });
 
   it("should have an 'Account Upgrade' submenu which is only visible if you're neither pro nor plus", () => {
-    const accountMenu = component.secondaryMenus.account[2];
+    const accountMenu: any = component.secondaryMenus.account[2];
     expect(accountMenu.header.label).toEqual('Account Upgrade');
+
+    sessionMock.user.pro = false;
+    sessionMock.user.plus = false;
+
+    fixture.detectChanges();
 
     expect(accountMenu.shouldShow()).toBeTruthy();
 
