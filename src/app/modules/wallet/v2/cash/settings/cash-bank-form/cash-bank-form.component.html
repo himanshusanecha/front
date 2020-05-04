@@ -31,11 +31,9 @@
             class="form-control"
             data-minds="country"
             [allowed]="allowedCountries"
-            [country]="'hk'"
+            [country]="country.value"
             (countryChange)="countryChange($event)"
           ></minds-country-input>
-          <!-- [country]="country.value" -->
-          <!-- todoojm -->
         </div>
       </div>
       <!-- -------------------------------------------- -->

@@ -41,9 +41,8 @@ export class WalletCashBankFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('888 bank form init');
     this.form = this.fb.group({
-      country: ['us', Validators.required],
+      country: ['US', Validators.required],
       accountNumber: ['', Validators.required],
       routingNumber: ['', requiredFor(['US'])],
     });
@@ -53,17 +52,8 @@ export class WalletCashBankFormComponent implements OnInit {
         ? this.account.bankAccount.country
         : this.account.country;
       this.country.setValue(this.initCountry);
-      console.log(
-        '888 cash bank form has account - account? hasBank? initcountry?',
-        this.account,
-        this.hasBank,
-        this.initCountry
-      );
-      console.log('888 country.value?', this.country.value);
       this.editing = !this.hasBank;
     }
-
-    console.log('888 cash bank form allowedCountries', this.allowedCountries);
   }
 
   async removeBank(): Promise<void> {
@@ -143,7 +133,6 @@ export class WalletCashBankFormComponent implements OnInit {
   }
 
   countryChange($event) {
-    console.log('888 countryChange $event', $event);
     this.country.setValue($event);
   }
 

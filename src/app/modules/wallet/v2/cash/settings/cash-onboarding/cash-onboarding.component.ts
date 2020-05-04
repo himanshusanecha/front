@@ -105,6 +105,10 @@ export class WalletCashOnboardingComponent implements OnInit {
     });
   }
 
+  countryChange($event) {
+    this.country.setValue($event);
+    this.revalidateForm();
+  }
   detectChanges(): void {
     if ((this.cd as ViewRef).destroyed) {
       return;
