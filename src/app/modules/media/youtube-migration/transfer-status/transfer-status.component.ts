@@ -33,6 +33,7 @@ export class YoutubeMigrationTransferStatusComponent
   statusCountsSubscription: Subscription;
   queuedCount: number = 0;
   transferringCount: number = 0;
+  transferringAll: boolean = false;
   init: boolean = false;
 
   ngOnInit() {
@@ -56,6 +57,8 @@ export class YoutubeMigrationTransferStatusComponent
   async transferAllVideos(): Promise<any> {
     this.youtubeService.import('all');
     this.youtubeService.getStatusCounts();
+    this.transferringAll = true;
+    this.detectChanges();
   }
 
   detectChanges() {
