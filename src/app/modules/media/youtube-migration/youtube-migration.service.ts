@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Client } from '../../../common/api/client.service';
 import { Session } from '../../../services/session';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import * as moment from 'moment';
 
 export interface YoutubeChannel {
@@ -30,18 +30,30 @@ export class YoutubeMigrationService {
   };
 
   // Set up behavior subjects
-  connected$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  autoImport$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  importingAllVideos$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  selectedChannel$: BehaviorSubject<YoutubeChannel> = new BehaviorSubject(
+  connectedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  connected$ = this.connectedSubject.asObservable();
+
+  autoImportSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  autoImport$ = this.autoImportSubject.asObservable();
+
+  importingAllVideosSubject: BehaviorSubject<boolean> = new BehaviorSubject(
+    false
+  );
+  importingAllVideos$ = this.importingAllVideosSubject.asObservable();
+
+  selectedChannelSubject: BehaviorSubject<YoutubeChannel> = new BehaviorSubject(
     this.selectedChannelPrimer
   );
-  statusCounts$: BehaviorSubject<any> = new BehaviorSubject(
+  selectedChannel$ = this.selectedChannelSubject.asObservable();
+
+  statusCountsSubject: BehaviorSubject<any> = new BehaviorSubject(
     this.statusCountsPrimer
   );
+  statusCounts$ = this.statusCountsSubject.asObservable();
 
   // These current values of the behavior subjects are used inside the service
   connected: boolean = false;
+  autoImport: boolean = false;
   selectedChannel: YoutubeChannel;
 
   constructor(private client: Client, protected session: Session) {}
@@ -51,15 +63,14 @@ export class YoutubeMigrationService {
    */
   isConnected(): boolean {
     const user = this.session.getLoggedInUser();
-    this.connected$.subscribe(connected => {
-      this.connected = connected;
+    const connected = user.yt_channels && user.yt_channels.length > 0;
+
+    this.connected$.subscribe(data => {
+      this.connected = data;
     });
-    if (!user.yt_channels || user.yt_channels.length < 1) {
-      this.connected$.next(false);
-    } else {
-      this.connected$.next(true);
-    }
-    return this.connected;
+    this.connectedSubject.next(connected);
+
+    return connected;
   }
 
   /**
@@ -70,10 +81,10 @@ export class YoutubeMigrationService {
       return;
     }
     this.channels = this.session.getLoggedInUser().yt_channels;
-
     // On load, select the first channel by default
-    if (!this.initChannels) {
+    if (!this.initChannels || !this.selectedChannel) {
       this.selectChannel(this.channels[0].id);
+    } else {
     }
     this.initChannels = true;
     return this.channels;
@@ -89,14 +100,17 @@ export class YoutubeMigrationService {
     }
     this.selectedChannel$.subscribe(channel => {
       this.selectedChannel = channel;
+      this.autoImportSubject.next(channel.auto_import);
+    });
+    this.autoImport$.subscribe(autoImport => {
+      this.autoImport = autoImport;
     });
 
     const selectedChannel =
       this.channels.find(c => c.id === channelId) || this.channels[0];
 
-    this.selectedChannel$.next(selectedChannel);
-    this.autoImport$.next(selectedChannel.auto_import);
-
+    this.selectedChannelSubject.next(selectedChannel);
+    this.autoImportSubject.next(selectedChannel.auto_import);
     return selectedChannel;
   }
 
@@ -182,7 +196,7 @@ export class YoutubeMigrationService {
         }
       );
 
-      this.statusCounts$.next(response.counts);
+      this.statusCountsSubject.next(response.counts);
 
       return response.counts;
     } catch (e) {
@@ -214,7 +228,7 @@ export class YoutubeMigrationService {
       // Send out a trigger to refresh unmigrated video list so
       // video transfer statuses are visually updated
       if (videoId === 'all') {
-        this.importingAllVideos$.next(true);
+        this.importingAllVideosSubject.next(true);
       }
       this.getStatusCounts();
 
@@ -234,10 +248,6 @@ export class YoutubeMigrationService {
     if (!this.connected) {
       return;
     }
-    // const opts = {
-    //   channelId: this.selectedChannel.id,
-    //   videoId: videoId,
-    // };
     try {
       const response = <any>(
         await this.client.delete(
@@ -256,18 +266,27 @@ export class YoutubeMigrationService {
    * Automatically transfer of newly-uploaded youtube videos to Minds
    */
   async enableAutoImport(): Promise<any> {
-    if (!this.connected) {
-      this.getChannels();
+    const channels: YoutubeChannel[] = this.session.getLoggedInUser()
+      .yt_channels;
+    if (!channels) {
+      return;
     }
-    const opts = {
-      channelId: this.selectedChannel.id,
-    };
+
+    let selectedChannel: YoutubeChannel;
+    if (!this.selectedChannel) {
+      selectedChannel = channels[0];
+      this.selectChannel(selectedChannel.id);
+    } else {
+      selectedChannel = this.selectedChannel;
+    }
     try {
       const response = <any>(
-        await this.client.post(`${this.endpoint}subscribe`, opts)
+        await this.client.post(
+          `${this.endpoint}subscribe?channelId=${selectedChannel.id}`
+        )
       );
-
-      this.autoImport$.next(true);
+      this.autoImport = true;
+      this.autoImportSubject.next(true);
       return response;
     } catch (e) {
       console.error('enableAutoImport: ', e);
@@ -289,7 +308,8 @@ export class YoutubeMigrationService {
           `${this.endpoint}subscribe?channelId=${this.selectedChannel.id}`
         )
       );
-      this.autoImport$.next(false);
+      this.autoImport = false;
+      this.autoImportSubject.next(false);
       return response;
     } catch (e) {
       console.error('disableAutoImport(): ', e);
@@ -306,7 +326,7 @@ export class YoutubeMigrationService {
     try {
       const response = <any>await this.client.get(`${this.endpoint}account`);
 
-      this.connected$.next(true);
+      this.connectedSubject.next(true);
       return response;
     } catch (e) {
       console.error('connectAccount(): ', e);
@@ -327,7 +347,7 @@ export class YoutubeMigrationService {
           )
         );
 
-        this.connected$.next(false);
+        this.connectedSubject.next(false);
         return response;
       } catch (e) {
         console.error('disconnectAccount(): ', e);

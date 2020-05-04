@@ -9,25 +9,25 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { YoutubeMigrationService } from '../youtube-migration.service';
 import { Router } from '@angular/router';
 import { FormToastService } from '../../../../common/services/form-toast.service';
-import { Subscription } from 'rxjs';
+import { Session } from '../../../../services/session';
 
 @Component({
   selector: 'm-youtubeMigration__config',
   templateUrl: './config.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class YoutubeMigrationConfigComponent implements OnInit, OnDestroy {
+export class YoutubeMigrationConfigComponent implements OnInit {
   init: boolean = false;
   inProgress: boolean = false;
   user;
-  autoImportSubscription: Subscription;
   form: FormGroup;
 
   constructor(
     protected cd: ChangeDetectorRef,
     protected youtubeService: YoutubeMigrationService,
     protected router: Router,
-    protected formToastService: FormToastService
+    protected formToastService: FormToastService,
+    protected session: Session
   ) {}
 
   ngOnInit() {
@@ -35,14 +35,10 @@ export class YoutubeMigrationConfigComponent implements OnInit, OnDestroy {
       autoImport: new FormControl(false),
     });
 
-    this.autoImportSubscription = this.youtubeService.autoImport$.subscribe(
-      autoImport => {
-        if (autoImport !== this.autoImport.value) {
-          this.autoImport.patchValue(autoImport);
-          this.detectChanges();
-        }
-      }
-    );
+    this.youtubeService.autoImport$.subscribe(autoImport => {
+      this.autoImport.patchValue(autoImport);
+      this.detectChanges();
+    });
 
     this.autoImport.valueChanges.subscribe(val => {
       this.submit();
@@ -50,10 +46,6 @@ export class YoutubeMigrationConfigComponent implements OnInit, OnDestroy {
 
     this.init = true;
     this.detectChanges();
-  }
-
-  ngOnDestroy() {
-    this.autoImportSubscription.unsubscribe();
   }
 
   async submit() {
