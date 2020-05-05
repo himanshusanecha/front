@@ -12,7 +12,9 @@
         >@{{ owner?.username }} has support tiers exclusive offers</ng-container
       >
       &middot;
-      <a [routerLink]="['/', owner.username]">Explore Shop</a>
+      <a (click)="dismiss()" [routerLink]="['/', owner.username, 'shop']"
+        >Explore Shop</a
+      >
     </div>
   </div>
 
