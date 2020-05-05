@@ -1,38 +1,64 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ChannelShopService } from './shop.service';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { ChannelsV2Service } from '../channels-v2.service';
 import { WireModalService } from '../../../wire/wire-modal.service';
+import {
+  SupportTier,
+  WireSupportTiersService,
+} from '../../../wire/v2/wire-support-tiers.service';
+import { Subscription } from 'rxjs';
+import { MindsUser } from '../../../../interfaces/entities';
 
 @Component({
   selector: 'm-channelShop__brief',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'brief.component.html',
-  providers: [ChannelShopService],
+  providers: [WireSupportTiersService],
 })
-export class ChannelShopBriefComponent {
+export class ChannelShopBriefComponent implements OnDestroy {
   /**
-   * Constructor
-   * @param shop
+   * Channel GUID subscription
+   */
+  protected channelGuidSubscription: Subscription;
+
+  /**
+   * Constructor. Set channel GUID subscription.
    * @param channel
+   * @param wireSupportTiers
    * @param wireModal
    */
   constructor(
-    public shop: ChannelShopService,
     public channel: ChannelsV2Service,
+    public wireSupportTiers: WireSupportTiersService,
     protected wireModal: WireModalService
-  ) {}
+  ) {
+    this.channelGuidSubscription = this.channel.guid$.subscribe(guid =>
+      this.wireSupportTiers.setEntityGuid(guid)
+    );
+  }
+
+  /**
+   * Component destroy
+   */
+  ngOnDestroy(): void {
+    if (this.channelGuidSubscription) {
+      this.channelGuidSubscription.unsubscribe();
+    }
+  }
 
   /**
    * Triggers Wire modal
-   * @param type
-   * @param reward
+   * @param channel
+   * @param supportTier
    */
-  async onEntryClick(type, reward) {
+  async onEntryClick(channel: MindsUser, supportTier: SupportTier) {
+    const type =
+      supportTier.currency === 'usd' ? 'money' : supportTier.currency;
+
     await this.wireModal
-      .present(this.channel.channel$.getValue(), {
+      .present(channel, {
         default: {
-          min: reward.amount,
-          type: type,
+          min: supportTier.amount,
+          type,
         },
       })
       .toPromise();
