@@ -4,6 +4,7 @@ import {
   Component,
   OnInit,
   OnDestroy,
+  ViewRef,
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { YoutubeMigrationService } from '../youtube-migration.service';
@@ -100,8 +101,10 @@ export class YoutubeMigrationConfigComponent implements OnInit {
   }
 
   detectChanges() {
-    this.cd.markForCheck();
-    this.cd.detectChanges();
+    if (!(this.cd as ViewRef).destroyed) {
+      this.cd.markForCheck();
+      this.cd.detectChanges();
+    }
   }
 
   get autoImport() {

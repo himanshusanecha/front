@@ -56,7 +56,9 @@ export class YoutubeMigrationService {
   autoImport: boolean = false;
   selectedChannel: YoutubeChannel;
 
-  constructor(private client: Client, protected session: Session) {}
+  constructor(private client: Client, protected session: Session) {
+    console.log('888 i am the youtube service constructor');
+  }
 
   /**
    * Check if current user has connected a YouTube account
