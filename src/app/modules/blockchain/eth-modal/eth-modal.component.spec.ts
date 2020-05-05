@@ -9,6 +9,7 @@ import { SiteService } from '../../../common/services/site.service';
 import { Session } from '../../../services/session';
 import { siteServiceMock } from '../../notifications/notification.service.spec';
 import { ConfigsService } from '../../../common/services/configs.service';
+import { FormToastService } from '../../../common/services/form-toast.service';
 
 describe('BlockchainEthModalComponent', () => {
   let comp: BlockchainEthModalComponent;
@@ -60,6 +61,10 @@ describe('BlockchainEthModalComponent', () => {
         {
           provide: ConfigsService,
           useValue: configsServiceMock,
+        },
+        {
+          provide: FormToastService,
+          useValue: MockService(FormToastService),
         },
       ],
     }).compileComponents();
