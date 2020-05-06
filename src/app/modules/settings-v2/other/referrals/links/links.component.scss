@@ -49,6 +49,9 @@
       border-radius: 18px;
       display: flex;
       justify-content: space-between;
+      @include m-theme() {
+        background-color: themed($m-bgColor--secondary);
+      }
 
       &.focused {
         @include m-theme() {
@@ -102,7 +105,6 @@
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
-      padding-left: $minds-padding;
 
       button {
         cursor: pointer;

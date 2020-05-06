@@ -1,12 +1,14 @@
 .m-settingsV2__referralsDashboard {
-  @include m-theme() {
-    color: themed($m-textColor--tertiary);
-  }
-  .m-settingsV2__headerLabel {
+  .m-settingsV2__referralsDashboard__flexTable {
     @include m-theme() {
-      color: themed($m-textColor--primary);
+      color: themed($m-textColor--tertiary);
     }
   }
+  // .m-settingsV2__headerLabel {
+  //   @include m-theme() {
+  //     color: themed($m-textColor--primary);
+  //   }
+  // }
 
   .m-settingsV2__referralsDashboard__supportingText {
     padding: 20px;
