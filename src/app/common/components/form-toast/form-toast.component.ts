@@ -88,23 +88,39 @@ export class FormToastComponent implements OnInit, OnDestroy {
         return;
       }
 
+      // if all saved toasts have already been dismissed, then clean the array to prevent leaks
+      if (this.toasts.findIndex(value => !value.dismissed) === -1) {
+        this.timeoutIds = [];
+        this.toasts = [];
+      }
+
       const toastIndex = this.toasts.push(toast) - 1;
       this.detectChanges();
 
-      const toastTimeout = setTimeout(() => {
-        this.dismiss(toastIndex);
-
-        this.detectChanges();
-      }, 3400);
-
-      this.timeoutIds.push(setTimeout(() => toastTimeout));
+      this.setToastTimeout(toastIndex);
     });
   }
 
+  pauseTimeout(toastIndex: number) {
+    clearTimeout(this.timeoutIds[toastIndex]);
+  }
+
+  resumeTimeout(toastIndex: number) {
+    this.setToastTimeout(toastIndex);
+  }
+
   dismiss(toastIndex: number) {
-    this.toasts[toastIndex]['dismissed'] = true;
-    this.toasts.splice(toastIndex, 1);
-    this.timeoutIds.splice(toastIndex, 1);
+    this.toasts[toastIndex].dismissed = true;
+  }
+
+  private setToastTimeout(toastIndex: number) {
+    const toastTimeout: number = window.setTimeout(() => {
+      this.dismiss(toastIndex);
+
+      this.detectChanges();
+    }, 3400);
+
+    this.timeoutIds[toastIndex] = toastTimeout;
   }
 
   detectChanges() {
