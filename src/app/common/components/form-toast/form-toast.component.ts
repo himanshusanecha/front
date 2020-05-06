@@ -103,6 +103,8 @@ export class FormToastComponent implements OnInit, OnDestroy {
 
   dismiss(toastIndex: number) {
     this.toasts[toastIndex]['dismissed'] = true;
+    this.toasts.splice(toastIndex, 1);
+    this.timeoutIds.splice(toastIndex, 1);
   }
 
   detectChanges() {
