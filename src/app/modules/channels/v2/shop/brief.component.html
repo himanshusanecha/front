@@ -1,5 +1,5 @@
 <div
-  *ngIf="wireSupportTiers.supportTier$ | async as supportTiers"
+  *ngIf="supportTiers.list$ | async as supportTiers"
   class="m-channelShop__brief"
   [hidden]="supportTiers.length === 0"
 >
@@ -7,17 +7,17 @@
     <span class="m-channelShopBriefTitle__text">Shop</span>
     <a
       class="m-channelShopBriefTitle__seeAll"
-      [routerLink]="['/', channel.username$ | async, 'shop']"
+      [routerLink]="['/', service.username$ | async, 'shop']"
       i18n
       >See All</a
     >
   </div>
 
-  <ng-container *ngIf="channel.channel$ | async as channelEntity">
+  <ng-container *ngIf="service.channel$ | async as channel">
     <div
       *ngFor="let supportTier of supportTiers"
       class="m-channelShopBrief__row"
-      (click)="onEntryClick(channelEntity, supportTier)"
+      (click)="onEntryClick(channel, supportTier)"
     >
       <span class="m-channelShopBriefRow__description">{{
         supportTier.name

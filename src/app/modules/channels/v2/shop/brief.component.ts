@@ -3,8 +3,8 @@ import { ChannelsV2Service } from '../channels-v2.service';
 import { WireModalService } from '../../../wire/wire-modal.service';
 import {
   SupportTier,
-  WireSupportTiersService,
-} from '../../../wire/v2/wire-support-tiers.service';
+  SupportTiersService,
+} from '../../../wire/v2/support-tiers.service';
 import { Subscription } from 'rxjs';
 import { MindsUser } from '../../../../interfaces/entities';
 
@@ -12,7 +12,7 @@ import { MindsUser } from '../../../../interfaces/entities';
   selector: 'm-channelShop__brief',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'brief.component.html',
-  providers: [WireSupportTiersService],
+  providers: [SupportTiersService],
 })
 export class ChannelShopBriefComponent implements OnDestroy {
   /**
@@ -22,17 +22,17 @@ export class ChannelShopBriefComponent implements OnDestroy {
 
   /**
    * Constructor. Set channel GUID subscription.
-   * @param channel
-   * @param wireSupportTiers
+   * @param service
+   * @param supportTiers
    * @param wireModal
    */
   constructor(
-    public channel: ChannelsV2Service,
-    public wireSupportTiers: WireSupportTiersService,
+    public service: ChannelsV2Service,
+    public supportTiers: SupportTiersService,
     protected wireModal: WireModalService
   ) {
-    this.channelGuidSubscription = this.channel.guid$.subscribe(guid =>
-      this.wireSupportTiers.setEntityGuid(guid)
+    this.channelGuidSubscription = this.service.guid$.subscribe(guid =>
+      this.supportTiers.setEntityGuid(guid)
     );
   }
 

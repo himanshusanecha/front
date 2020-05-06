@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, switchAll } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  switchAll,
+} from 'rxjs/operators';
 import { ApiResponse, ApiService } from '../../../common/api/api.service';
 
+/**
+ *
+ */
 export interface SupportTier {
   urn: string;
   entity_guid: string;
@@ -13,8 +21,19 @@ export interface SupportTier {
   description: string;
 }
 
+/**
+ *
+ */
+export interface GroupedSupportTiers {
+  tokens: Array<SupportTier>;
+  usd: Array<SupportTier>;
+}
+
+/**
+ *
+ */
 @Injectable()
-export class WireSupportTiersService {
+export class SupportTiersService {
   /**
    *
    */
@@ -25,7 +44,12 @@ export class WireSupportTiersService {
   /**
    *
    */
-  readonly supportTier$: Observable<Array<SupportTier>>;
+  readonly list$: Observable<Array<SupportTier>>;
+
+  /**
+   *
+   */
+  readonly groupedList$: Observable<GroupedSupportTiers>;
 
   /**
    * Constructor. Set observables.
@@ -33,7 +57,7 @@ export class WireSupportTiersService {
    */
   constructor(protected api: ApiService) {
     // Fetch Support Tiers list
-    this.supportTier$ = this.entityGuid$.pipe(
+    this.list$ = this.entityGuid$.pipe(
       distinctUntilChanged(),
       map(
         (entityGuid: string): Observable<ApiResponse> =>
@@ -42,9 +66,18 @@ export class WireSupportTiersService {
             : of(null)
       ),
       switchAll(),
-      map(response =>
-        this.parseApiResponse((response && response.support_tiers) || [])
-      )
+      shareReplay({ bufferSize: 1, refCount: true }),
+      map(response => this.parseApiResponse(response && response.support_tiers))
+    );
+
+    // Grouped
+    this.groupedList$ = this.list$.pipe(
+      map(supportTiers => ({
+        tokens: supportTiers.filter(
+          supportTier => supportTier.currency === 'tokens'
+        ),
+        usd: supportTiers.filter(supportTier => supportTier.currency === 'usd'),
+      }))
     );
   }
 
@@ -63,6 +96,10 @@ export class WireSupportTiersService {
   protected parseApiResponse(
     supportTiers: Array<SupportTier>
   ): Array<SupportTier> {
+    if (!supportTiers) {
+      return [];
+    }
+
     return supportTiers.sort((a, b) => {
       if (a.currency === b.currency) {
         return a.amount - b.amount;

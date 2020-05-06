@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { WireV2Service } from '../../wire-v2.service';
 import { ShopService } from './shop.service';
+import { SupportTier, SupportTiersService } from '../../support-tiers.service';
 
 /**
  * Shop (Wire Reward Tiers) component
@@ -36,5 +37,14 @@ export class WireCreatorShopComponent {
    */
   dismiss() {
     this.dismissIntentEmitter.emit();
+  }
+
+  /**
+   * Compare 2 support tiers by their URN. Used by <select>
+   * @param a
+   * @param b
+   */
+  byUrn(a: SupportTier, b: SupportTier) {
+    return a && b && a.urn === b.urn;
   }
 }
