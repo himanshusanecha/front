@@ -10,54 +10,63 @@ export interface YoutubeChannel {
   connected: number;
   auto_import: boolean;
 }
+export interface YoutubeStatusCounts {
+  queued: number;
+  transferring: number;
+}
 
 @Injectable()
 export class YoutubeMigrationService {
   endpoint = 'api/v3/media/youtube-importer/';
-  initChannels: boolean = false;
   channels: YoutubeChannel[];
-
-  // Prime behavior subjects with dummy data
-  selectedChannelPrimer: YoutubeChannel = {
-    id: '',
-    title: '',
-    connected: 1,
-    auto_import: false,
-  };
-  statusCountsPrimer: any = {
-    queued: 0,
-    transferring: 0,
-  };
+  initChannels: boolean = false;
 
   // Set up behavior subjects
   connectedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  connected$ = this.connectedSubject.asObservable();
+  connected$;
+  connected: boolean = false;
+
+  selectedChannelSubject: BehaviorSubject<YoutubeChannel> = new BehaviorSubject(
+    {
+      id: '',
+      title: '',
+      connected: 1,
+      auto_import: false,
+    }
+  );
+  selectedChannel$;
+  selectedChannel: YoutubeChannel;
 
   autoImportSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  autoImport$ = this.autoImportSubject.asObservable();
+  autoImport$;
+  autoImport: boolean = false;
+
+  statusCountsSubject: BehaviorSubject<
+    YoutubeStatusCounts
+  > = new BehaviorSubject({
+    queued: 0,
+    transferring: 0,
+  });
+  statusCounts$ = this.statusCountsSubject.asObservable();
 
   importingAllVideosSubject: BehaviorSubject<boolean> = new BehaviorSubject(
     false
   );
-  importingAllVideos$ = this.importingAllVideosSubject.asObservable();
+  importingAllVideos$;
 
-  selectedChannelSubject: BehaviorSubject<YoutubeChannel> = new BehaviorSubject(
-    this.selectedChannelPrimer
-  );
-  selectedChannel$ = this.selectedChannelSubject.asObservable();
+  constructor(private client: Client, protected session: Session) {}
 
-  statusCountsSubject: BehaviorSubject<any> = new BehaviorSubject(
-    this.statusCountsPrimer
-  );
-  statusCounts$ = this.statusCountsSubject.asObservable();
+  /**
+   * Initialize the subscriptions that update vals
+   * used in multiple functions within this service
+   */
+  setup(): void {
+    this.connected$ = this.connectedSubject.asObservable();
+    this.selectedChannel$ = this.selectedChannelSubject.asObservable();
+    this.autoImport$ = this.autoImportSubject.asObservable();
+    this.importingAllVideos$ = this.importingAllVideosSubject.asObservable();
 
-  // These current values of the behavior subjects are used inside the service
-  connected: boolean = false;
-  autoImport: boolean = false;
-  selectedChannel: YoutubeChannel;
-
-  constructor(private client: Client, protected session: Session) {
-    console.log('888 i am the youtube service constructor');
+    this.updateConnected(this.isConnected());
   }
 
   /**
@@ -65,28 +74,21 @@ export class YoutubeMigrationService {
    */
   isConnected(): boolean {
     const user = this.session.getLoggedInUser();
-    const connected = user.yt_channels && user.yt_channels.length > 0;
-
-    this.connected$.subscribe(data => {
-      this.connected = data;
-    });
-    this.connectedSubject.next(connected);
-
-    return connected;
+    return user.yt_channels && user.yt_channels.length > 0;
   }
 
   /**
    * Get array of youtube channels associated with user
    */
   getChannels(): YoutubeChannel[] | null {
-    if (!this.connected) {
-      return;
-    }
     this.channels = this.session.getLoggedInUser().yt_channels;
+
     // On load, select the first channel by default
-    if (!this.initChannels || !this.selectedChannel) {
+    if (
+      (!this.initChannels || !this.selectedChannel.id) &&
+      this.channels.length > 0
+    ) {
       this.selectChannel(this.channels[0].id);
-    } else {
     }
     this.initChannels = true;
     return this.channels;
@@ -100,19 +102,11 @@ export class YoutubeMigrationService {
     if (!this.connected) {
       return;
     }
-    this.selectedChannel$.subscribe(channel => {
-      this.selectedChannel = channel;
-      this.autoImportSubject.next(channel.auto_import);
-    });
-    this.autoImport$.subscribe(autoImport => {
-      this.autoImport = autoImport;
-    });
 
     const selectedChannel =
       this.channels.find(c => c.id === channelId) || this.channels[0];
 
-    this.selectedChannelSubject.next(selectedChannel);
-    this.autoImportSubject.next(selectedChannel.auto_import);
+    this.updateSelectedChannel(selectedChannel);
     return selectedChannel;
   }
 
@@ -120,11 +114,12 @@ export class YoutubeMigrationService {
    * Get videos from selected youtube channel
    *
    * Null status returns from youtube SDK and joins with Cassandra where exists
-   * Status value queries Cassandra only
+   * Non-null status queries Cassandra only
    *
    * Additional fields (owner entity, video entity) included in response for
    * videos that have been transferred to Minds (or are queued/transcoding)
    * @param status
+   * @param nextPageToken
    */
   async getVideos(
     status: string | null = null,
@@ -198,7 +193,7 @@ export class YoutubeMigrationService {
         }
       );
 
-      this.statusCountsSubject.next(response.counts);
+      this.updateStatusCounts(response.counts);
 
       return response.counts;
     } catch (e) {
@@ -230,7 +225,7 @@ export class YoutubeMigrationService {
       // Send out a trigger to refresh unmigrated video list so
       // video transfer statuses are visually updated
       if (videoId === 'all') {
-        this.importingAllVideosSubject.next(true);
+        this.updateImportingAllVideos(true);
       }
       this.getStatusCounts();
 
@@ -265,7 +260,7 @@ export class YoutubeMigrationService {
   }
 
   /**
-   * Automatically transfer of newly-uploaded youtube videos to Minds
+   * Automatically transfer newly-uploaded youtube videos to Minds
    */
   async enableAutoImport(): Promise<any> {
     const channels: YoutubeChannel[] = this.session.getLoggedInUser()
@@ -287,8 +282,7 @@ export class YoutubeMigrationService {
           `${this.endpoint}subscribe?channelId=${selectedChannel.id}`
         )
       );
-      this.autoImport = true;
-      this.autoImportSubject.next(true);
+      this.updateAutoImport(true);
       return response;
     } catch (e) {
       console.error('enableAutoImport: ', e);
@@ -310,8 +304,7 @@ export class YoutubeMigrationService {
           `${this.endpoint}subscribe?channelId=${this.selectedChannel.id}`
         )
       );
-      this.autoImport = false;
-      this.autoImportSubject.next(false);
+      this.updateAutoImport(false);
       return response;
     } catch (e) {
       console.error('disableAutoImport(): ', e);
@@ -328,7 +321,7 @@ export class YoutubeMigrationService {
     try {
       const response = <any>await this.client.get(`${this.endpoint}account`);
 
-      this.connectedSubject.next(true);
+      this.updateConnected(true);
       return response;
     } catch (e) {
       console.error('connectAccount(): ', e);
@@ -349,7 +342,7 @@ export class YoutubeMigrationService {
           )
         );
 
-        this.connectedSubject.next(false);
+        this.updateConnected(false);
         return response;
       } catch (e) {
         console.error('disconnectAccount(): ', e);
@@ -401,5 +394,47 @@ export class YoutubeMigrationService {
    */
   formatDate(date: string | number): string {
     return moment(date, 'X').format('MMM Do YYYY');
+  }
+
+  /**
+   * Update whether the user's yt accound is connected
+   * */
+  updateConnected(connected: boolean) {
+    this.connected = connected;
+    if (connected) {
+      this.getChannels();
+    }
+    this.connectedSubject.next(connected);
+  }
+
+  /**
+   * Update autoImport preference
+   * */
+  updateAutoImport(autoImport: boolean) {
+    this.autoImport = autoImport;
+    this.autoImportSubject.next(autoImport);
+  }
+
+  /**
+   * Update selected channel
+   * */
+  updateSelectedChannel(channel: YoutubeChannel) {
+    this.selectedChannel = channel;
+    this.updateAutoImport(channel.auto_import);
+    this.selectedChannelSubject.next(channel);
+  }
+
+  /**
+   * Update the status counts
+   * */
+  updateStatusCounts(counts: YoutubeStatusCounts) {
+    this.statusCountsSubject.next(counts);
+  }
+
+  /**
+   * Update importingAllVideos
+   * */
+  updateImportingAllVideos(importingAllVideos: boolean) {
+    this.importingAllVideosSubject.next(importingAllVideos);
   }
 }

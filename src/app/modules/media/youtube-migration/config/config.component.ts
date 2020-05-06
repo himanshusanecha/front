@@ -11,17 +11,19 @@ import { YoutubeMigrationService } from '../youtube-migration.service';
 import { Router } from '@angular/router';
 import { FormToastService } from '../../../../common/services/form-toast.service';
 import { Session } from '../../../../services/session';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'm-youtubeMigration__config',
   templateUrl: './config.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class YoutubeMigrationConfigComponent implements OnInit {
+export class YoutubeMigrationConfigComponent implements OnInit, OnDestroy {
   init: boolean = false;
   inProgress: boolean = false;
   user;
   form: FormGroup;
+  autoImportSubscription: Subscription;
 
   constructor(
     protected cd: ChangeDetectorRef,
@@ -36,13 +38,17 @@ export class YoutubeMigrationConfigComponent implements OnInit {
       autoImport: new FormControl(false),
     });
 
-    this.youtubeService.autoImport$.subscribe(autoImport => {
-      this.autoImport.patchValue(autoImport);
-      this.detectChanges();
-    });
+    this.autoImportSubscription = this.youtubeService.autoImport$.subscribe(
+      autoImport => {
+        this.autoImport.patchValue(autoImport);
+        this.detectChanges();
+      }
+    );
 
     this.autoImport.valueChanges.subscribe(val => {
-      this.submit();
+      if (this.init) {
+        this.submit();
+      }
     });
 
     this.init = true;
@@ -65,6 +71,7 @@ export class YoutubeMigrationConfigComponent implements OnInit {
       }
       if (response.status === 'success') {
         this.form.markAsPristine();
+        this.formToastService.success('Auto-import preference saved');
       }
     } catch (e) {
       console.error('error', e);
@@ -74,6 +81,12 @@ export class YoutubeMigrationConfigComponent implements OnInit {
     } finally {
       this.inProgress = false;
       this.detectChanges();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.autoImportSubscription) {
+      this.autoImportSubscription.unsubscribe();
     }
   }
 
@@ -90,7 +103,7 @@ export class YoutubeMigrationConfigComponent implements OnInit {
     this.detectChanges();
 
     try {
-      const response: any = await this.youtubeService.disconnectAccount();
+      await this.youtubeService.disconnectAccount();
     } catch (e) {
       this.formToastService.error(
         'Sorry, there was an error and your changes have not been saved.'
