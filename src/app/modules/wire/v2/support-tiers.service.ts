@@ -11,10 +11,15 @@ import { ApiResponse, ApiService } from '../../../common/api/api.service';
 /**
  *
  */
+export type SupportTierCurrency = 'tokens' | 'usd';
+
+/**
+ *
+ */
 export interface SupportTier {
   urn: string;
   entity_guid: string;
-  currency: string;
+  currency: SupportTierCurrency;
   guid: string;
   amount: number;
   name: string;
@@ -87,6 +92,38 @@ export class SupportTiersService {
    */
   setEntityGuid(entityGuid: string) {
     this.entityGuid$.next(entityGuid);
+  }
+
+  /**
+   * Transforms wire_threshold/wire_rewards type to Support Tier currency
+   * @param monetizationType
+   */
+  toSupportTierCurrency(
+    monetizationType: 'tokens' | 'money'
+  ): SupportTierCurrency {
+    switch (monetizationType) {
+      case 'money':
+        return 'usd';
+
+      default:
+        return monetizationType;
+    }
+  }
+
+  /**
+   * Transforms Support Tier currency to wire_threshold/wire_rewards type
+   * @param supportTierCurrency
+   */
+  toMonetizationType(
+    supportTierCurrency: SupportTierCurrency
+  ): 'tokens' | 'money' {
+    switch (supportTierCurrency) {
+      case 'usd':
+        return 'money';
+
+      default:
+        return supportTierCurrency;
+    }
   }
 
   /**
