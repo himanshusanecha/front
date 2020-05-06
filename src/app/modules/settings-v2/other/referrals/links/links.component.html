@@ -1,25 +1,25 @@
-<div class="m-referralsLinks">
-  <div class="m-referralsLinks__copyableLinks">
+<div class="m-settingsV2__referralsLinks">
+  <div class="m-settingsV2__referralsLinks__copyableLinks">
     <h3
-      class="m-referralsLinks__modalShow"
+      class="m-settingsV2__referralsLinks__modalShow"
       i18n="@@M_REFERRALS__LINKS_MODAL_HEADER"
     >
       Earn tokens for referring your friends
     </h3>
     <p
-      class="m-referralsLinks__modalHide"
+      class="m-settingsV2__referralsLinks__modalHide"
       i18n="@@M_REFERRALS__LINKS_REGISTER_URL_DESC"
     >
       Send this link to your friends to earn tokens for referrals
     </p>
 
     <div
-      class="m-referralsLinks__copyableLink m-border"
+      class="m-settingsV2__referralsLinks__copyableLink m-border"
       [class.focused]="registerUrlFocused"
       (click)="applyFocus(registerUrlEl, 'registerUrl')"
     >
       <input
-        class="m-referralsLinks__copyableLinkText"
+        class="m-settingsV2__referralsLinks__copyableLinkText m-copyableLink"
         [class.recentlyCopied]="registerUrlRecentlyCopied"
         readonly
         tabindex="-1"
@@ -30,7 +30,7 @@
       />
       <div
         (click)="copyToClipboard(registerUrlEl, 'registerUrl')"
-        class="m-referralsLinks__copyableLinkButton"
+        class="m-settingsV2__referralsLinks__copyableLinkButton"
       >
         <div
           *ngIf="!registerUrlRecentlyCopied"
@@ -52,12 +52,12 @@
       link you share
     </p>
     <div
-      class="m-referralsLinks__copyableLink m-border"
+      class="m-settingsV2__referralsLinks__copyableLink m-border"
       [class.focused]="referrerParamFocused"
       (click)="applyFocus(referrerParamEl, 'referrerParam')"
     >
       <input
-        class="m-referralsLinks__copyableLinkText"
+        class="m-settingsV2__referralsLinks__copyableLinkText m-copyableLink"
         [class.recentlyCopied]="referrerParamRecentlyCopied"
         readonly
         tabindex="-1"
@@ -68,7 +68,7 @@
       />
       <div
         (click)="copyToClipboard(referrerParamEl, 'referrerParam')"
-        class="m-referralsLinks__copyableLinkButton"
+        class="m-settingsV2__referralsLinks__copyableLinkButton"
       >
         <div
           i18n="@@M_REFERRALS__LINKS_COPY_ACTION"
@@ -86,13 +86,13 @@
     </div>
   </div>
 
-  <div class="m-referralsLinks__share">
+  <div class="m-settingsV2__referralsLinks__share">
     <h4 i18n="@@M_REFERRALS__SHARE_HEADER">More ways to share</h4>
-    <div class="m-referralsLinks__shareButtons">
+    <div class="m-settingsV2__referralsLinks__shareButtons">
       <button
         i18n-title="@@M_REFERRALS__SHARE_BUTTON_TWITTER"
         title="Twitter"
-        class="m-referralsLinks__shareButton m-referralsLinks__shareButton--twitter"
+        class="m-settingsV2__referralsLinks__shareButton m-settingsV2__referralsLinks__shareButton--twitter"
         (click)="openTwitter()"
       >
         <img [src]="cdnAssetsUrl + 'assets/icons/twitter.svg'" />
@@ -101,7 +101,7 @@
       <button
         i18n-title="@@M_REFERRALS__SHARE_BUTTON_FACEBOOK"
         title="Facebook"
-        class="m-referralsLinks__shareButton m-referralsLinks__shareButton--facebook"
+        class="m-settingsV2__referralsLinks__shareButton m-settingsV2__referralsLinks__shareButton--facebook"
         (click)="openFacebook()"
       >
         <img [src]="cdnAssetsUrl + 'assets/icons/facebook.svg'" />
@@ -110,7 +110,7 @@
       <button
         i18n-title="@@M_REFERRALS__SHARE_BUTTON_MESSENGER"
         title="Messenger"
-        class="m-referralsLinks__shareButton m-referralsLinks__shareButton--messenger"
+        class="m-settingsV2__referralsLinks__shareButton m-settingsV2__referralsLinks__shareButton--messenger"
         *ngIf="isMobileOrTablet()"
         (click)="openMessenger()"
       >
@@ -120,7 +120,7 @@
       <button
         i18n-title="@@M_REFERRALS__SHARE_BUTTON_Whatsapp"
         title="Whatsapp"
-        class="m-referralsLinks__shareButton m-referralsLinks__shareButton--whatsapp"
+        class="m-settingsV2__referralsLinks__shareButton m-settingsV2__referralsLinks__shareButton--whatsapp"
         *ngIf="isMobileOrTablet()"
         (click)="openWhatsapp()"
       >
@@ -130,7 +130,7 @@
       <button
         i18n-title="@@M_REFERRALS__SHARE_BUTTON_SMS"
         title="SMS"
-        class="m-referralsLinks__shareButton m-referralsLinks__shareButton--sms"
+        class="m-settingsV2__referralsLinks__shareButton m-settingsV2__referralsLinks__shareButton--sms"
         *ngIf="isMobile()"
         (click)="openSMS()"
       >
@@ -140,15 +140,20 @@
       <button
         i18n-title="@@M_REFERRALS__SHARE_BUTTON_EMAIL"
         title="Email"
-        class="m-referralsLinks__shareButton m-referralsLinks__shareButton--email"
+        class="m-settingsV2__referralsLinks__shareButton m-settingsV2__referralsLinks__shareButton--email"
         (click)="openEmail()"
       >
         <img [src]="cdnAssetsUrl + 'assets/icons/email.svg'" />
       </button>
     </div>
   </div>
-  <div class="m-referralsLinks__modalShow m-referralsLinks__modalButton">
-    <a [routerLink]="referralsConsoleUrl" (click)="closeModal()">
+  <div
+    class="m-settingsV2__referralsLinks__modalShow m-settingsV2__referralsLinks__modalButton"
+  >
+    <a
+      [routerLink]="['/settings/canary/other/referrals']"
+      (click)="closeModal()"
+    >
       <button class="m-btn m-btn--slim m-btn--action">
         <span i18n-title="@@M_REFERRALS__LINKS_CONSOLE_BUTTON"
           >Go to Referrals Console</span

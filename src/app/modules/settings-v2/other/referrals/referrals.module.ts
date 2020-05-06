@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import { ReferralsComponent } from './referrals.component';
-import { ReferralsDashboardComponent } from './dashboard/dashboard.component';
-import { ReferralsLinksComponent } from './links/links.component';
+import { SettingsV2ReferralsComponent } from './referrals.component';
+import { SettingsV2ReferralsDashboardComponent } from './dashboard/dashboard.component';
+import { SettingsV2ReferralsLinksComponent } from './links/links.component';
 import { CommonModule as NgCommonModule } from '@angular/common';
 import { CommonModule } from '../../../../common/common.module';
 import { RouterModule } from '@angular/router';
@@ -10,19 +10,19 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [NgCommonModule, RouterModule, CommonModule],
   declarations: [
-    ReferralsComponent,
-    ReferralsDashboardComponent,
-    ReferralsLinksComponent,
+    SettingsV2ReferralsComponent,
+    SettingsV2ReferralsDashboardComponent,
+    SettingsV2ReferralsLinksComponent,
   ],
   exports: [
-    ReferralsComponent,
-    ReferralsDashboardComponent,
-    ReferralsLinksComponent,
+    SettingsV2ReferralsComponent,
+    SettingsV2ReferralsDashboardComponent,
+    SettingsV2ReferralsLinksComponent,
   ],
   entryComponents: [
-    ReferralsComponent,
-    ReferralsDashboardComponent,
-    ReferralsLinksComponent,
+    SettingsV2ReferralsComponent,
+    SettingsV2ReferralsDashboardComponent,
+    SettingsV2ReferralsLinksComponent,
   ],
 })
-export class ReferralsModule {}
+export class ReferralsV2Module {}

@@ -20,7 +20,6 @@ export class SettingsV2ReferralsLinksComponent implements OnInit, OnDestroy {
   encodedRegisterUrl = '';
   registerMessage = '';
   encodedRegisterMessage = '';
-  referralsConsoleUrl = '';
 
   registerUrlTimeout;
   referrerParamTimeout;
@@ -48,12 +47,6 @@ export class SettingsV2ReferralsLinksComponent implements OnInit, OnDestroy {
       encodeURI(this.siteUrl) +
       encodeURIComponent('register' + this.referrerParam);
     this.encodedRegisterMessage = 'Join%20me%20on%20Minds%20%f0%9f%92%a1%20';
-
-    if (this.featuresService.has('settings-referrals')) {
-      this.referralsConsoleUrl = '/settings/canary/other/referrals';
-    } else {
-      this.referralsConsoleUrl = '/wallet/tokens/referrals';
-    }
   }
 
   // Only show Messenger/Whatsapp share buttons if mobile or tablet

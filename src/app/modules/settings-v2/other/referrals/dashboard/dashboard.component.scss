@@ -1,10 +1,15 @@
-.m-referrals-dashboard {
+.m-settingsV2__referralsDashboard {
   @include m-theme() {
-    color: themed($m-grey-800);
+    color: themed($m-textColor--tertiary);
+  }
+  .m-settingsV2__headerLabel {
+    @include m-theme() {
+      color: themed($m-textColor--primary);
+    }
   }
 
-  .m-referrals-dashboard__supportingText {
-    padding: $minds-padding * 2;
+  .m-settingsV2__referralsDashboard__supportingText {
+    padding: 20px;
     padding-bottom: 0;
 
     h3 {
@@ -12,16 +17,16 @@
     }
   }
 
-  .m-referrals-dashboard__flexTable {
+  .m-settingsV2__referralsDashboard__flexTable {
     width: 100%;
   }
 
   m-tooltip {
-    i:not(.m-referrals-dashboard__pingIcon) {
+    i:not(.m-settingsV2__referralsDashboard__pingIcon) {
       font-size: 12px;
       margin-left: 1px;
       @include m-theme() {
-        color: themed($m-grey-500);
+        color: themed($m-textColor--tertiary);
       }
     }
     .m-tooltip--bubble {
@@ -33,30 +38,29 @@
     }
   }
 
-  .m-referrals-dashboard__row {
+  .m-settingsV2__referralsDashboard__row {
     display: flex;
     justify-content: space-between;
 
-    &.m-referrals-dashboard__headerRow {
+    &.m-settingsV2__referralsDashboard__headerRow {
       align-items: center;
-      font-weight: bold;
       font-size: 12px;
       span {
         @include m-theme() {
-          color: themed($m-grey-500) !important;
+          color: themed($m-textColor--tertiary) !important;
         }
       }
 
-      .m-referrals-dashboard__rewardsCol {
+      .m-settingsV2__referralsDashboard__rewardsCol {
         .m-tooltip--bubble {
           right: 2px;
         }
       }
     }
-    &.m-referrals-dashboard__dataRow {
+    &.m-settingsV2__referralsDashboard__dataRow {
       font-size: 13px;
       @include m-theme() {
-        border-top: 1px solid themed($m-grey-50);
+        border-top: 1px solid themed($m-borderColor--primary);
       }
     }
 
@@ -65,7 +69,7 @@
     }
   }
 
-  .m-referrals-dashboard__cell {
+  .m-settingsV2__referralsDashboard__cell {
     display: flex;
     padding: 8px 8px 8px 0;
     align-items: center;
@@ -74,19 +78,21 @@
     height: 32px;
   }
 
-  .m-referrals-dashboard__userCol {
+  .m-settingsV2__referralsDashboard__userCol {
     min-width: 130px;
     flex: 6 2 0;
-    padding-left: $minds-padding * 2;
+    @include m-theme() {
+      color: themed($m-textColor--primary);
+    }
 
-    .m-referrals-dashboard__userNameWrapper,
-    .m-referrals-dashboard__userNameWrapper * {
+    .m-settingsV2__referralsDashboard__userNameWrapper,
+    .m-settingsV2__referralsDashboard__userNameWrapper * {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .m-referrals-dashboard__userAvatar {
+    .m-settingsV2__referralsDashboard__userAvatar {
       border-radius: 50%;
       margin-right: 8px;
       width: 24px;
@@ -105,22 +111,22 @@
       }
     }
   }
-  .m-referrals-dashboard__statusCol {
+  .m-settingsV2__referralsDashboard__statusCol {
     min-width: 60px;
     flex: 3 5 0;
   }
-  .m-referrals-dashboard__registerCol {
+  .m-settingsV2__referralsDashboard__registerCol {
     min-width: 50px;
     flex: 3 4 0;
   }
-  .m-referrals-dashboard__rewardsCol {
+  .m-settingsV2__referralsDashboard__rewardsCol {
     min-width: 80px;
     flex: 4 2 0;
-    padding-right: $minds-padding * 2;
+    padding-right: 20px;
     overflow: visible;
     white-space: normal;
 
-    .m-referrals-dashboard__pingButtonContainer {
+    .m-settingsV2__referralsDashboard__pingButtonContainer {
       display: flex;
 
       button {
@@ -143,7 +149,7 @@
             color: themed($m-blue-light);
           }
         }
-        &.m-referrals-dashboard__pingButton--disabled {
+        &.m-settingsV2__referralsDashboard__pingButton--disabled {
           cursor: default;
           @include m-theme() {
             border-color: rgba(themed($m-grey-200), 0.7);
@@ -151,26 +157,25 @@
           }
         }
 
-        .m-referrals-dashboard__pingIcon {
+        .m-settingsV2__referralsDashboard__pingIcon {
           font-size: 18px;
         }
       }
     }
   }
 
-  .m-referrals-dashboard__footer {
-    justify-content: center;
-    margin-top: $minds-padding;
-    padding-bottom: $minds-padding * 2;
+  .m-settingsV2__referralsDashboard__footer {
+    margin-top: 10px;
+    padding-bottom: 20px;
 
-    &.m-referrals-dashboard__notice {
+    &.m-settingsV2__referralsDashboard__notice {
       @include m-theme() {
-        color: themed($m-grey-500);
+        color: themed($m-textColor--secondary);
       }
     }
   }
 
-  .m-referrals-dashboard__rewardsPendingIcon {
+  .m-settingsV2__referralsDashboard__rewardsPendingIcon {
     display: none;
     margin-left: 12px;
     > i {
@@ -181,23 +186,23 @@
   }
 
   @media screen and (max-width: 910px) {
-    .m-referrals-dashboard__row.m-referrals-dashboard__headerRow {
+    .m-settingsV2__referralsDashboard__row.m-settingsV2__referralsDashboard__headerRow {
       span {
         white-space: normal !important;
         max-width: 35px;
       }
-      .m-referrals-dashboard__registerCol,
-      .m-referrals-dashboard__rewardsCol {
+      .m-settingsV2__referralsDashboard__registerCol,
+      .m-settingsV2__referralsDashboard__rewardsCol {
         align-items: flex-start !important;
       }
-      .m-referrals-dashboard__rewardsCol span {
+      .m-settingsV2__referralsDashboard__rewardsCol span {
         max-width: 46px;
       }
     }
-    .m-referrals-dashboard__cell.m-referrals-dashboard__rewardsCol {
+    .m-settingsV2__referralsDashboard__cell.m-settingsV2__referralsDashboard__rewardsCol {
       flex: 2 3 0;
 
-      .m-referrals-dashboard__pingButtonContainer button {
+      .m-settingsV2__referralsDashboard__pingButtonContainer button {
         padding: 8px;
 
         span {
@@ -207,22 +212,22 @@
     }
   }
   @media screen and (max-width: 800px) {
-    .m-referrals-dashboard__cell.m-referrals-dashboard__registerCol {
+    .m-settingsV2__referralsDashboard__cell.m-settingsV2__referralsDashboard__registerCol {
       display: none;
     }
-    .m-referrals-dashboard__userCol {
+    .m-settingsV2__referralsDashboard__userCol {
       min-width: 100px;
     }
-    .m-referrals-dashboard__statusCol {
+    .m-settingsV2__referralsDashboard__statusCol {
       min-width: 60px;
     }
-    .m-referrals-dashboard__rewardsCol {
+    .m-settingsV2__referralsDashboard__rewardsCol {
       max-width: 75px;
     }
   }
 }
 
-.m-referrals-dashboard__pingIcon--wiggle {
+.m-settingsV2__referralsDashboard__pingIcon--wiggle {
   animation: wiggle 0.2s infinite;
 }
 

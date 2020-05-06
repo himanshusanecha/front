@@ -11,6 +11,7 @@ import { ThemeService } from '../../../../common/services/theme.service';
 import { Subscription } from 'rxjs';
 import { Navigation as NavigationService } from '../../../../services/navigation';
 import { RouterLink } from '@angular/router';
+import { FeaturesService } from '../../../../services/features.service';
 
 @Component({
   selector: 'm-usermenu__v3',
@@ -44,7 +45,8 @@ export class UserMenuV3Component implements OnInit, OnDestroy {
     public navigation: NavigationService,
     protected session: Session,
     protected cd: ChangeDetectorRef,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    protected featuresService: FeaturesService
   ) {}
 
   ngOnInit() {
@@ -52,6 +54,14 @@ export class UserMenuV3Component implements OnInit, OnDestroy {
     this.themeSubscription = this.themeService.isDark$.subscribe(
       isDark => (this.isDark = isDark)
     );
+
+    if (this.featuresService.has('settings-referrals')) {
+      const referralsLink = {
+        label: 'Referrals',
+        routerLink: ['/settings/canary/other/referrals'],
+      };
+      this.footerLinks.splice(1, 0, referralsLink);
+    }
   }
 
   getCurrentUser() {
