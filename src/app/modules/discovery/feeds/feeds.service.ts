@@ -58,6 +58,7 @@ export class DiscoveryFeedsService {
         period: this.period$.value,
         algorithm: this.filter$.value,
         nsfw: this.getNsfwString(),
+        type: this.type$.value,
       })
       .fetch();
   }
