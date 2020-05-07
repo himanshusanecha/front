@@ -44,10 +44,10 @@ export class DiscoverySearchComponent {
         this.service.period$
       )
         .pipe(debounceTime(300))
-        .subscribe(([nsfw$, type$, period$]) => {
-          if (['blogs', 'images', 'videos'].indexOf(type$) > -1) {
+        .subscribe(([nsfw, type, period]) => {
+          if (['blogs', 'images', 'videos'].indexOf(type) > -1) {
             this.router.navigate([], {
-              queryParams: { q: this.q, f: type$ },
+              queryParams: { q: this.q, f: type },
               queryParamsHandling: 'merge',
             });
           } else {
