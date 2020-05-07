@@ -12,6 +12,12 @@ m-activity__toolbar {
     background-color: themed($m-bgColor--secondary);
   }
 
+  span.minds-counter {
+    @include m-theme() {
+      color: themed($m-textColor--secondary) !important;
+    }
+  }
+
   > * {
     margin-right: 22px;
 
@@ -45,7 +51,7 @@ m-activity__toolbar {
     .selected i.material-icons,
     .selected .minds-counter {
       @include m-theme() {
-        color: themed($m-grey-500);
+        color: themed($m-textColor--secondary);
       }
     }
   }
@@ -60,7 +66,7 @@ m-activity__toolbar {
       padding: 0;
       > .ion-icon {
         @include m-theme() {
-          color: themed($m-grey-500);
+          color: themed($m-textColor--secondary);
         }
       }
       span {
