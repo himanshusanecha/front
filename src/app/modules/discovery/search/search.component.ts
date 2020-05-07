@@ -47,7 +47,7 @@ export class DiscoverySearchComponent {
         .subscribe(([nsfw, type, period]) => {
           if (['blogs', 'images', 'videos'].indexOf(type) > -1) {
             this.router.navigate([], {
-              queryParams: { q: this.q, f: type },
+              queryParams: { q: this.q, f: '', t: type },
               queryParamsHandling: 'merge',
             });
           } else {
