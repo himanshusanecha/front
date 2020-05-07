@@ -74,15 +74,25 @@ export class ActivityService {
   );
 
   /**
+   * Subject for Activity's canDelete property, w
+   */
+  canDeleteOverride$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+
+  /**
    * Returns whether or not the user can edit an activity
    */
   canDelete$: Observable<boolean> = combineLatest([
     this.entity$,
+    this.canDeleteOverride$,
     this.session.user$,
   ]).pipe(
     map(
-      ([entity, user]) =>
-        entity && user && (entity.owner_guid == user.guid || user.is_admin)
+      ([entity, binding, user]) =>
+        entity &&
+        user &&
+        (entity.owner_guid == user.guid || user.is_admin || binding)
     )
   );
 

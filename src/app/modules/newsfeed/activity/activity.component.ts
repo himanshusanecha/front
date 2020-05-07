@@ -48,7 +48,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   entity$: Observable<ActivityEntity> = this.service.entity$;
 
   @Input('canDelete') set _canDelete(value: boolean) {
-    this.canDeleteBinding$.next(value);
+    this.service.canDeleteOverride$.next(value);
   }
 
   @Input() set entity(entity) {
@@ -93,12 +93,6 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
 
   heightSubscription: Subscription;
 
-  canDelete$: Observable<boolean>;
-
-  protected canDeleteBinding$: BehaviorSubject<boolean> = new BehaviorSubject<
-    boolean
-  >(false);
-
   constructor(
     public service: ActivityService,
     private el: ElementRef,
@@ -107,14 +101,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     private clientMetaService: ClientMetaService,
     private elementVisibilityService: ElementVisibilityService,
     private newsfeedService: NewsfeedService
-  ) {
-    this.canDelete$ = combineLatest([
-      this.service.canDelete$,
-      this.canDeleteBinding$,
-    ]).pipe(
-      map(([serviceCanDelete, activity]) => serviceCanDelete || activity)
-    );
-  }
+  ) {}
 
   ngOnInit() {
     this.isFixedHeight = this.service.displayOptions.fixedHeight;

@@ -13,7 +13,7 @@
     </ng-container>
 
     <m-activity__menu
-      [canDelete]="canDelete$ | async"
+      [canDelete]="service.canDelete$ | async"
       (deleted)="delete()"
     ></m-activity__menu>
   </ng-container>
