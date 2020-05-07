@@ -467,7 +467,7 @@ const SETTINGS_V2_ROUTES: Routes = [
     SettingsV2ProCancelComponent,
     SettingsV2AutoplayVideosComponent,
   ],
-  providers: [SettingsV2Service, YoutubeMigrationService],
+  providers: [SettingsV2Service],
   exports: [SettingsV2Component],
 })
 export class SettingsV2Module {}
