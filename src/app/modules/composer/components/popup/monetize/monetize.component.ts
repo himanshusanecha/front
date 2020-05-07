@@ -15,6 +15,7 @@ import {
   SupportTiersService,
 } from '../../../../wire/v2/support-tiers.service';
 import { Session } from '../../../../../services/session';
+import { FeaturesService } from '../../../../../services/features.service';
 
 interface MonetizationState {
   enabled: boolean;
@@ -52,10 +53,12 @@ export class MonetizeComponent implements OnInit {
    * @param service
    * @param supportTiers
    * @param session
+   * @param features
    */
   constructor(
     public service: ComposerService,
     public supportTiers: SupportTiersService,
+    public features: FeaturesService,
     protected session: Session
   ) {
     this.supportTiers.setEntityGuid(this.session.getLoggedInUser().guid);
@@ -110,8 +113,11 @@ export class MonetizeComponent implements OnInit {
       payload = {
         type: this.state.type,
         min: this.state.amount,
-        support_tier: this.state.supportTier || null,
       };
+
+      if (this.features.has('channels-shop')) {
+        payload.support_tier = this.state.supportTier || null;
+      }
     }
 
     this.service.monetization$.next(payload);

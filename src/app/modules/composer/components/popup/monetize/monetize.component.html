@@ -25,7 +25,7 @@
     </div>
 
     <div [hidden]="!state.enabled">
-      <div class="m-form__field--select">
+      <div *mIfFeature="'channels-shop'" class="m-form__field--select">
         <div class="m-form__row--input">
           <select
             *ngIf="supportTiers.groupedList$ | async as groupedSupportTiers"
@@ -65,7 +65,9 @@
         </div>
       </div>
 
-      <ng-container *ngIf="!state.supportTier">
+      <ng-container
+        *ngIf="!state.supportTier || !features.has('channels-shop')"
+      >
         <div
           class="m-form__fieldsContainer m-composerPopup__field m-composerMonetize__typeField"
         >
