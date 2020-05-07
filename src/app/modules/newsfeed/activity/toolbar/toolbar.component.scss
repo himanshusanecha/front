@@ -12,12 +12,6 @@ m-activity__toolbar {
     background-color: themed($m-bgColor--secondary);
   }
 
-  span.minds-counter {
-    @include m-theme() {
-      color: themed($m-textColor--secondary) !important;
-    }
-  }
-
   > * {
     margin-right: 22px;
 
@@ -26,34 +20,29 @@ m-activity__toolbar {
 
       i.material-icons {
         font-size: 18px;
+      }
+
+      i.material-icons,
+      .minds-counter {
+        vertical-align: middle;
         @include m-theme() {
           color: themed($m-textColor--secondary);
         }
       }
 
       &.selected {
-        i.material-icons {
+        i.material-icons,
+        .minds-counter {
           @include m-theme() {
             color: themed($m-blue);
           }
         }
-      }
-
-      i.material-icons,
-      .minds-counter {
-        vertical-align: middle;
       }
     }
   }
 
   minds-button-comment {
     cursor: pointer;
-    .selected i.material-icons,
-    .selected .minds-counter {
-      @include m-theme() {
-        color: themed($m-textColor--secondary);
-      }
-    }
   }
 
   :last-child {
