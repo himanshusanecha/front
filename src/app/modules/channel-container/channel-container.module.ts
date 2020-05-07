@@ -5,6 +5,7 @@ import { ProModule } from '../pro/pro.module';
 import { ChannelContainerComponent } from './channel-container.component';
 import { CommonModule } from '../../common/common.module';
 import { ChannelsV2Module } from '../channels/v2/channels-v2.module';
+import { ChannelContainerErrorComponent } from './error/channel-container-error.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { ChannelsV2Module } from '../channels/v2/channels-v2.module';
     ChannelsModule,
     ChannelsV2Module,
   ],
-  declarations: [ChannelContainerComponent],
+  declarations: [ChannelContainerComponent, ChannelContainerErrorComponent],
   entryComponents: [ChannelContainerComponent],
 })
 export class ChannelContainerModule {}
