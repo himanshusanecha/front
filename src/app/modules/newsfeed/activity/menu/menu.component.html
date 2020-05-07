@@ -1,6 +1,6 @@
 <m-postMenu--v2
   [entity]="service.entity$ | async"
-  [canDelete]="service.canDelete$ | async"
+  [canDelete]="canDelete"
   [isTranslatable]="false"
   [options]="menuOptions"
   (optionSelected)="onOptionSelected($event)"

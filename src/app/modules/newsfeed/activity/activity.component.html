@@ -12,7 +12,10 @@
       </span>
     </ng-container>
 
-    <m-activity__menu (deleted)="delete()"></m-activity__menu>
+    <m-activity__menu
+      [canDelete]="canDelete$ | async"
+      (deleted)="delete()"
+    ></m-activity__menu>
   </ng-container>
 </m-activity__ownerBlock>
 
@@ -37,7 +40,7 @@
   <m-comments__entityOutlet
     *ngIf="service.displayOptions.showComments"
     [entity]="service.entity$ | async"
-    [canDelete]="service.canDelete$ | async"
+    [canDelete]="canDelete$ | async"
     [showOnlyPoster]="service.displayOptions.showOnlyCommentsInput"
     [fixedHeight]="service.displayOptions.fixedHeight"
   >

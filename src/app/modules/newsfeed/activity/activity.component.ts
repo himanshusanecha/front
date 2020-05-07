@@ -22,11 +22,12 @@ import {
   ACTIVITY_FIXED_HEIGHT_RATIO,
   ActivityEntity,
 } from './activity.service';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { ComposerService } from '../../composer/services/composer.service';
 import { ClientMetaService } from '../../../common/services/client-meta.service';
 import { ElementVisibilityService } from '../../../common/services/element-visibility.service';
 import { NewsfeedService } from '../services/newsfeed.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'm-activity',
@@ -45,6 +46,10 @@ import { NewsfeedService } from '../services/newsfeed.service';
 })
 export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   entity$: Observable<ActivityEntity> = this.service.entity$;
+
+  @Input('canDelete') set _canDelete(value: boolean) {
+    this.canDeleteBinding$.next(value);
+  }
 
   @Input() set entity(entity) {
     this.service.setEntity(entity);
@@ -88,6 +93,12 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
 
   heightSubscription: Subscription;
 
+  canDelete$: Observable<boolean>;
+
+  protected canDeleteBinding$: BehaviorSubject<boolean> = new BehaviorSubject<
+    boolean
+  >(false);
+
   constructor(
     public service: ActivityService,
     private el: ElementRef,
@@ -96,7 +107,14 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     private clientMetaService: ClientMetaService,
     private elementVisibilityService: ElementVisibilityService,
     private newsfeedService: NewsfeedService
-  ) {}
+  ) {
+    this.canDelete$ = combineLatest([
+      this.service.canDelete$,
+      this.canDeleteBinding$,
+    ]).pipe(
+      map(([serviceCanDelete, activity]) => serviceCanDelete || activity)
+    );
+  }
 
   ngOnInit() {
     this.isFixedHeight = this.service.displayOptions.fixedHeight;
