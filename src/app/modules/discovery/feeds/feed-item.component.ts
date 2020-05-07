@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterContentInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { DiscoveryFeedsService } from './feeds.service';
 import { ConfigsService } from '../../../common/services/configs.service';
