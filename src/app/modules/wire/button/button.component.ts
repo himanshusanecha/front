@@ -33,7 +33,7 @@ export class WireButtonComponent {
     private overlayModal: OverlayModalService,
     private modal: SignupModalService,
     private wireModal: WireModalService,
-    protected features: FeaturesService
+    public features: FeaturesService
   ) {}
 
   async wire() {
