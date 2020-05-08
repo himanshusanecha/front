@@ -21,7 +21,6 @@ import { FeaturesService } from '../../../../services/features.service';
   templateUrl: 'menu.component.html',
 })
 export class ActivityMenuComponent implements OnInit, OnDestroy {
-  @Input() canDelete: boolean = false;
   @Output() deleted: EventEmitter<any> = new EventEmitter<any>();
   private entitySubscription: Subscription;
 

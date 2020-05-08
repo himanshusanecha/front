@@ -12,10 +12,7 @@
       </span>
     </ng-container>
 
-    <m-activity__menu
-      [canDelete]="service.canDelete$ | async"
-      (deleted)="delete()"
-    ></m-activity__menu>
+    <m-activity__menu (deleted)="delete()"></m-activity__menu>
   </ng-container>
 </m-activity__ownerBlock>
 
