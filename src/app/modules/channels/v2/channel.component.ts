@@ -15,6 +15,8 @@ import { ChannelEditIntentService } from './services/edit-intent.service';
 import { WireModalService } from '../../wire/wire-modal.service';
 import { SeoService } from '../../../common/services/seo.service';
 import { ClientMetaService } from '../../../common/services/client-meta.service';
+import { Session } from '../../../services/session';
+import { RecentService } from '../../../services/ux/recent';
 
 /**
  * Views
@@ -66,27 +68,31 @@ export class ChannelComponent implements OnInit, OnDestroy {
   /**
    * Last user GUID that emitted an Analytics beacon
    */
-  protected lastUserAnalyticsBeacon: string;
+  protected lastChannel: string;
 
   /**
    * Constructor
    * @param service
    * @param router
    * @param route
+   * @param session
    * @param clientMeta
    * @param seo
    * @param channelEditIntent
    * @param wireModal
+   * @param recent
    * @param injector
    */
   constructor(
     public service: ChannelsV2Service,
     protected router: Router,
     protected route: ActivatedRoute,
+    protected session: Session,
     protected clientMeta: ClientMetaService,
     protected seo: SeoService,
     protected channelEditIntent: ChannelEditIntentService,
     protected wireModal: WireModalService,
+    protected recent: RecentService,
     @SkipSelf() injector: Injector
   ) {
     this.clientMeta
@@ -125,14 +131,31 @@ export class ChannelComponent implements OnInit, OnDestroy {
     this.userSubscription = combineLatest([
       this.service.channel$,
       this.service.username$,
-    ]).subscribe(([user, username]) => {
-      this.seo.set(user || username || 'Channel');
-
-      if (user && user.guid && this.lastUserAnalyticsBeacon !== user.guid) {
-        this.lastUserAnalyticsBeacon = user.guid;
-        this.clientMeta.recordView(user);
-      }
+      this.session.user$,
+    ]).subscribe(([user, username, currentUser]) => {
+      this.onChannelChange(user, username, currentUser);
     });
+  }
+
+  /**
+   * Initialization per-channel load
+   * @param user
+   * @param username
+   * @param currentUser
+   */
+  onChannelChange(user, username, currentUser) {
+    this.seo.set(user || username || 'Channel');
+
+    if (user && user.guid && this.lastChannel !== user.guid) {
+      this.lastChannel = user.guid;
+      this.clientMeta.recordView(user);
+
+      if (currentUser && currentUser.guid !== user.guid) {
+        this.recent
+          .store('recent', user, entry => entry.guid == user.guid)
+          .splice('recent', 50);
+      }
+    }
   }
 
   /**
