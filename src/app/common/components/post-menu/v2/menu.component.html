@@ -28,26 +28,28 @@
     >
       Share
     </li>
-    <li
-      class="m-dropdownList__item"
-      *ngIf="
-        options.indexOf('pin') !== -1 && (service.isPinned$ | async) === false
-      "
-      (click)="onSelectedOption('pin')"
-      i18n="@@M__ACTION__PIN"
-    >
-      Pin
-    </li>
-    <li
-      class="m-dropdownList__item"
-      *ngIf="
-        options.indexOf('pin') !== -1 && (service.isPinned$ | async) === true
-      "
-      (click)="onSelectedOption('pin')"
-      i18n="@@M__ACTION__PIN"
-    >
-      Remove pin
-    </li>
+    <ng-container *ngIf="service.canPin$ | async">
+      <li
+        class="m-dropdownList__item"
+        *ngIf="
+          options.indexOf('pin') !== -1 && (service.isPinned$ | async) === false
+        "
+        (click)="onSelectedOption('pin')"
+        i18n="@@M__ACTION__PIN"
+      >
+        Pin
+      </li>
+      <li
+        class="m-dropdownList__item"
+        *ngIf="
+          options.indexOf('pin') !== -1 && (service.isPinned$ | async) === true
+        "
+        (click)="onSelectedOption('pin')"
+        i18n="@@M__ACTION__PIN"
+      >
+        Remove pin
+      </li>
+    </ng-container>
     <li
       class="m-dropdownList__item"
       *ngIf="options.indexOf('translate') !== -1 && isTranslatable"
