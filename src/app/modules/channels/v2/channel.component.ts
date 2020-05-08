@@ -8,9 +8,10 @@ import {
 import { ChannelsV2Service } from './channels-v2.service';
 import { MindsUser } from '../../../interfaces/entities';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { ChannelEditIntentService } from './services/edit-intent.service';
 import { WireModalService } from '../../wire/wire-modal.service';
+import { SeoService } from '../../../common/services/seo.service';
 
 /**
  * Views
@@ -55,19 +56,26 @@ export class ChannelComponent implements OnInit, OnDestroy {
   protected routeSubscription: Subscription;
 
   /**
+   * Subscription to user
+   */
+  protected userSubscription: Subscription;
+
+  /**
    * Constructor
    * @param service
    * @param channelEditIntent
    * @param wireModal
    * @param router
    * @param route
+   * @param seo
    */
   constructor(
     public service: ChannelsV2Service,
     protected channelEditIntent: ChannelEditIntentService,
     protected wireModal: WireModalService,
     protected router: Router,
-    protected route: ActivatedRoute
+    protected route: ActivatedRoute,
+    protected seo: SeoService
   ) {}
 
   /**
@@ -92,6 +100,17 @@ export class ChannelComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    // Initialize SEO
+    this.seo.set('Channel');
+
+    // Subscribe to user entity and username changes for SEO
+    this.userSubscription = combineLatest([
+      this.service.channel$,
+      this.service.username$,
+    ]).subscribe(([user, username]) => {
+      this.seo.set(user || username || 'Channel');
+    });
   }
 
   /**
@@ -100,6 +119,10 @@ export class ChannelComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
+    }
+
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 

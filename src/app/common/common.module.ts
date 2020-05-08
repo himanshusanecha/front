@@ -173,6 +173,7 @@ import { FeedFilterComponent } from './components/feed-filter/feed-filter.compon
 import { AccordionComponent } from './components/accordion/accordion.component';
 import { AccordionPaneComponent } from './components/accordion/accordion-pane.component';
 import { StickySidebarDirective } from './components/sticky-sidebar/sticky-sidebar.directive';
+import { SeoService } from './services/seo.service';
 
 const routes: Routes = [
   {
@@ -524,6 +525,7 @@ const routes: Routes = [
     TagsService,
     ApiService,
     AttachmentApiService,
+    SeoService,
   ],
   entryComponents: [
     NotificationsToasterComponent,

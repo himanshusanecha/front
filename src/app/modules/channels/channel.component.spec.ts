@@ -37,9 +37,9 @@ import { BlockListService } from '../../common/services/block-list.service';
 import { ChannelMode } from '../../interfaces/entities';
 import { ClientMetaService } from '../../common/services/client-meta.service';
 import { clientMetaServiceMock } from '../../../tests/client-meta-service-mock.spec';
-import { MetaService } from '../../common/services/meta.service';
 import { SiteService } from '../../common/services/site.service';
 import { ConfigsService } from '../../common/services/configs.service';
+import { SeoService } from '../../common/services/seo.service';
 
 describe('ChannelComponent', () => {
   let comp: ChannelComponent;
@@ -101,7 +101,7 @@ describe('ChannelComponent', () => {
         { provide: Client, useValue: clientMock },
         { provide: Upload, useValue: uploadMock },
         { provide: Session, useValue: sessionMock },
-        MetaService,
+        { provide: SeoService, useValue: MockService(SeoService) },
         SiteService,
         { provide: ScrollService, useValue: scrollServiceMock },
         { provide: RecentService, useValue: recentServiceMock },
@@ -136,6 +136,7 @@ describe('ChannelComponent', () => {
     comp = fixture.componentInstance;
     comp.username = 'username';
     comp.user = {
+      type: 'user',
       guid: 'guidguid',
       name: 'name',
       username: 'username',
