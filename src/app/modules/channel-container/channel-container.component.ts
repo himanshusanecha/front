@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Client } from '../../services/api/client';
 import { MindsUser } from '../../interfaces/entities';
 import { MindsChannelResponse } from '../../interfaces/responses';
@@ -16,7 +16,6 @@ import { Session } from '../../services/session';
 import { SiteService } from '../../common/services/site.service';
 import { FeaturesService } from '../../services/features.service';
 import { ChannelComponent as ChannelV2Component } from '../channels/v2/channel.component';
-import { ConfigsService } from '../../common/services/configs.service';
 
 @Component({
   selector: 'm-channel-container',
@@ -25,17 +24,9 @@ import { ConfigsService } from '../../common/services/configs.service';
 })
 export class ChannelContainerComponent implements OnInit, OnDestroy {
   inProgress: boolean = false;
-  readonly error$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  error: string;
 
   channel: MindsUser;
-
-  private readonly loadingExceptions: string[] = [
-    'ChannelNotFoundException',
-    'ChannelDisabledException',
-    'ChannelBannedException',
-  ];
-
-  readonly cdnAssetsUrl: string;
 
   protected username: string;
   protected showPro: boolean;
@@ -121,12 +112,8 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
         });
       }
     } catch (e) {
-      if (this.loadingExceptions.indexOf(e.type) > -1) {
-        this.error$.next(e.message);
-        return;
-      }
-
-      this.error$.next('Sorry, there was an error loading this channel');
+      this.error = e.message;
+      console.error(e);
     }
 
     this.inProgress = false;

@@ -3,7 +3,11 @@
     <m-channel__actions></m-channel__actions>
   </m-channel__header>
 
-  <ng-container *ngIf="!(service.isBlocked$ | async); else blockedMessage">
+  <ng-container
+    *ngIf="
+      !(service.isBlocked$ | async) && !(contentBlockedService.show$ | async)
+    "
+  >
     <m-channelAbout__brief
       class="m-channel__narrowBrief"
     ></m-channelAbout__brief>
@@ -54,9 +58,10 @@
     </ng-container>
   </ng-container>
 
-  <ng-template #blockedMessage>
+  <ng-template *ngIf="service.isBlocked$ | async">
     <div class="m-channel__blockedMessage" i18n>
       You have blocked @{{ service.username$ | async }}
     </div>
   </ng-template>
+  <m-channel__contentBlocked></m-channel__contentBlocked>
 </div>

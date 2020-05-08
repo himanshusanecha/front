@@ -9,6 +9,7 @@ import { ChannelsV2Service } from './channels-v2.service';
 import { MindsUser } from '../../../interfaces/entities';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { ChannelContentBlockedService } from './content-blocked/content-blocked.service';
 
 /**
  * Views
@@ -38,6 +39,7 @@ export class ChannelComponent implements OnInit, OnDestroy {
    */
   @Input('channel') set _channel(channel: MindsUser) {
     this.service.load(channel);
+    this.contentBlockedService.deriveState(channel);
   }
 
   /**
@@ -59,7 +61,8 @@ export class ChannelComponent implements OnInit, OnDestroy {
    */
   constructor(
     public service: ChannelsV2Service,
-    protected route: ActivatedRoute
+    protected route: ActivatedRoute,
+    private contentBlockedService: ChannelContentBlockedService
   ) {}
 
   /**
