@@ -29,9 +29,15 @@ m-channel__contentBlocked {
     }
 
     .m-channel-contentBlocked__secondaryText {
-      font-size: 14pt;
+      font-size: 12pt;
       text-align: center;
-      font-weight: 500;
+      font-weight: 400;
+
+      a {
+        @include m-theme() {
+          color: themed($m-link);
+        }
+      }
     }
 
     .m-channel-contentBlocked__confirmButton {

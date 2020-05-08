@@ -2,11 +2,9 @@
  * A container for channel loading errors.
  * (channel not found, channel banned ect).
  *
- * <m-channel-container__error [error$]="error$"></m-channel-container__error>
-
  * @author Ben Hayward
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { ConfigsService } from '../../../../common/services/configs.service';
 import { ChannelContentBlockedService } from './content-blocked.service';
 
@@ -23,9 +21,15 @@ import { ChannelContentBlockedService } from './content-blocked.service';
       <h3 class="m-channel-contentBlocked__primaryText" i18n>
         {{ service.text$ | async }}
       </h3>
-      <span class="m-channel-contentBlocked__secondaryText" i18n>{{
-        service.secondaryText$ | async
-      }}</span>
+      <span class="m-channel-contentBlocked__secondaryText" i18n
+        >{{ service.secondaryText$ | async
+        }}<a
+          *ngIf="service.contentPolicyLink$ | async"
+          routerLink="/content-policy"
+          i18n
+          >Minds content policy</a
+        >
+      </span>
       <button
         *ngIf="service.dismissButtonText$ | async"
         class="m-channel-contentBlocked__confirmButton"
@@ -37,7 +41,7 @@ import { ChannelContentBlockedService } from './content-blocked.service';
     </div>
   `,
 })
-export class ChannelContentBlockedComponent {
+export class ChannelContentBlockedComponent implements OnDestroy {
   // Assets url.
   readonly cdnAssetsUrl: string;
 
@@ -48,6 +52,10 @@ export class ChannelContentBlockedComponent {
     public service: ChannelContentBlockedService
   ) {
     this.cdnAssetsUrl = configs.get('cdn_assets_url');
+  }
+
+  ngOnDestroy(): void {
+    this.service.reset();
   }
 
   onConfirmationClick() {
