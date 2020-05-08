@@ -43,6 +43,12 @@ m-activity__toolbar {
 
   minds-button-comment {
     cursor: pointer;
+    .selected i.material-icons,
+    .selected .minds-counter {
+      @include m-theme() {
+        color: themed($m-textColor--secondary);
+      }
+    }
   }
 
   :last-child {
