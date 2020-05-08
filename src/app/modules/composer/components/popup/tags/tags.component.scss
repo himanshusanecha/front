@@ -9,6 +9,11 @@
 
   .m-composerTags__trending {
     margin: 0 0 6px; // Trending items have 20px bottom margin
+    padding-right: 60px;
+
+    @media screen and (max-width: $max-mobile) {
+      padding-right: 0;
+    }
   }
 
   label:not(.m-composerPopup__trigger),

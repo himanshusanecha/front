@@ -111,6 +111,11 @@ m-composer__popup {
   .m-composerPopup__text,
   .m-composerPopup__smallNote {
     font-weight: normal;
+    padding-right: 60px;
+
+    @media screen and (max-width: $max-mobile) {
+      padding-right: 0;
+    }
 
     @include m-theme() {
       color: themed($m-textColor--secondary);
