@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
+  SkipSelf,
 } from '@angular/core';
 import { ChannelsV2Service } from './channels-v2.service';
 import { MindsUser } from '../../../interfaces/entities';
@@ -75,6 +77,7 @@ export class ChannelComponent implements OnInit, OnDestroy {
    * @param seo
    * @param channelEditIntent
    * @param wireModal
+   * @param injector
    */
   constructor(
     public service: ChannelsV2Service,
@@ -83,8 +86,14 @@ export class ChannelComponent implements OnInit, OnDestroy {
     protected clientMeta: ClientMetaService,
     protected seo: SeoService,
     protected channelEditIntent: ChannelEditIntentService,
-    protected wireModal: WireModalService
-  ) {}
+    protected wireModal: WireModalService,
+    @SkipSelf() injector: Injector
+  ) {
+    this.clientMeta
+      .inherit(injector)
+      .setSource('single')
+      .setMedium('single');
+  }
 
   /**
    * Component initialization
