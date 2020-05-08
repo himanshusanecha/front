@@ -89,10 +89,10 @@ export class ActivityService {
     this.session.user$,
   ]).pipe(
     map(
-      ([entity, binding, user]) =>
+      ([entity, override, user]) =>
         entity &&
         user &&
-        (entity.owner_guid == user.guid || user.is_admin || binding)
+        (entity.owner_guid == user.guid || user.is_admin || override)
     )
   );
 
