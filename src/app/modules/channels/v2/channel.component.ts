@@ -12,6 +12,7 @@ import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { ChannelEditIntentService } from './services/edit-intent.service';
 import { WireModalService } from '../../wire/wire-modal.service';
 import { SeoService } from '../../../common/services/seo.service';
+import { ClientMetaService } from '../../../common/services/client-meta.service';
 
 /**
  * Views
@@ -31,7 +32,7 @@ type ChannelView =
   selector: 'm-channel-v2',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'channel.component.html',
-  providers: [ChannelsV2Service, ChannelEditIntentService],
+  providers: [ChannelsV2Service, ClientMetaService, ChannelEditIntentService],
 })
 export class ChannelComponent implements OnInit, OnDestroy {
   /**
@@ -61,21 +62,28 @@ export class ChannelComponent implements OnInit, OnDestroy {
   protected userSubscription: Subscription;
 
   /**
+   * Last user GUID that emitted an Analytics beacon
+   */
+  protected lastUserAnalyticsBeacon: string;
+
+  /**
    * Constructor
    * @param service
-   * @param channelEditIntent
-   * @param wireModal
    * @param router
    * @param route
+   * @param clientMeta
    * @param seo
+   * @param channelEditIntent
+   * @param wireModal
    */
   constructor(
     public service: ChannelsV2Service,
-    protected channelEditIntent: ChannelEditIntentService,
-    protected wireModal: WireModalService,
     protected router: Router,
     protected route: ActivatedRoute,
-    protected seo: SeoService
+    protected clientMeta: ClientMetaService,
+    protected seo: SeoService,
+    protected channelEditIntent: ChannelEditIntentService,
+    protected wireModal: WireModalService
   ) {}
 
   /**
@@ -110,6 +118,11 @@ export class ChannelComponent implements OnInit, OnDestroy {
       this.service.username$,
     ]).subscribe(([user, username]) => {
       this.seo.set(user || username || 'Channel');
+
+      if (user && user.guid && this.lastUserAnalyticsBeacon !== user.guid) {
+        this.lastUserAnalyticsBeacon = user.guid;
+        this.clientMeta.recordView(user);
+      }
     });
   }
 
