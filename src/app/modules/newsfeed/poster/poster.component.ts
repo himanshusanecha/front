@@ -20,6 +20,7 @@ import { InMemoryStorageService } from '../../../services/in-memory-storage.serv
 import { AutocompleteSuggestionsService } from '../../suggestions/services/autocomplete-suggestions.service';
 import { NSFWSelectorComponent } from '../../../common/components/nsfw-selector/nsfw-selector.component';
 import { TagsService } from '../../../common/services/tags.service';
+import { FormToastService } from '../../../common/services/form-toast.service';
 
 @Component({
   moduleId: module.id,
@@ -69,7 +70,8 @@ export class PosterComponent {
     protected elementRef: ElementRef,
     protected router: Router,
     protected inMemoryStorageService: InMemoryStorageService,
-    protected tagsService: TagsService
+    protected tagsService: TagsService,
+    protected formToastService: FormToastService
   ) {}
 
   @HostListener('window:resize') _widthDetection() {
@@ -227,7 +229,7 @@ export class PosterComponent {
       .catch(e => {
         this.inProgress = false;
         if (!e.must_verify) {
-          alert(e.message);
+          this.formToastService.error(e.message);
         }
       });
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Client } from '../../../services/api';
+import { FormToastService } from '../../../common/services/form-toast.service';
 
 @Component({
   moduleId: module.id,
@@ -12,7 +13,10 @@ export class AdminTagcloud implements OnInit {
   age: number | boolean = false;
   hidden: string[] = [];
 
-  constructor(private client: Client) {}
+  constructor(
+    private client: Client,
+    protected formToastService: FormToastService
+  ) {}
 
   ngOnInit() {
     this.load();
@@ -37,7 +41,7 @@ export class AdminTagcloud implements OnInit {
         }
       )
       .catch(e => {
-        alert(`Error loading tags: ${e.message}`);
+        this.formToastService.error(`Error loading tags: ${e.message}`);
       });
   }
 
@@ -59,7 +63,7 @@ export class AdminTagcloud implements OnInit {
       })
       .catch(e => {
         this.load();
-        alert(`Error deleting #${tag}!`);
+        this.formToastService.error(`Error deleting #${tag}!`);
       });
   }
 
@@ -81,7 +85,7 @@ export class AdminTagcloud implements OnInit {
       })
       .catch(e => {
         this.load();
-        alert(`Error showing #${tag}!`);
+        this.formToastService.error(`Error showing #${tag}!`);
       });
   }
 
@@ -98,7 +102,7 @@ export class AdminTagcloud implements OnInit {
         this.load();
       })
       .catch(e => {
-        alert(`Error resyncing!`);
+        this.formToastService.error(`Error resyncing!`);
       });
   }
 }

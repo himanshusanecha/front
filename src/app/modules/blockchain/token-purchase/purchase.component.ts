@@ -21,6 +21,7 @@ import { TokenDistributionEventService } from '../contracts/token-distribution-e
 import * as BN from 'bn.js';
 import { GetMetamaskComponent } from '../../blockchain/metamask/getmetamask.component';
 import { Router } from '@angular/router';
+import { FormToastService } from '../../../common/services/form-toast.service';
 
 @Component({
   selector: 'm-blockchain--purchase',
@@ -70,7 +71,8 @@ export class BlockchainPurchaseComponent implements OnInit {
     protected tde: TokenDistributionEventService,
     public session: Session,
     private route: ActivatedRoute,
-    protected router: Router
+    protected router: Router,
+    protected formToastService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -208,7 +210,7 @@ export class BlockchainPurchaseComponent implements OnInit {
     this.detectChanges();
     //let win = window.open('/checkout');
     //win.onload = function() {
-    //  alert('opened');
+    //  this.formToastService.error('opened');
     //}
   }
 
@@ -229,7 +231,9 @@ export class BlockchainPurchaseComponent implements OnInit {
   }
 
   promptTokenInput(input) {
-    alert('Please enter how many tokens you wish to purchase');
+    this.formToastService.error(
+      'Please enter how many tokens you wish to purchase'
+    );
     setTimeout(() => {
       input.focus();
     }, 100);

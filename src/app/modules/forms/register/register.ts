@@ -21,6 +21,7 @@ import { ExperimentsService } from '../../experiments/experiments.service';
 import { RouterHistoryService } from '../../../common/services/router-history.service';
 import { PopoverComponent } from '../popover-validation/popover.component';
 import { FeaturesService } from '../../../services/features.service';
+import { FormToastService } from '../../../common/services/form-toast.service';
 
 @Component({
   moduleId: module.id,
@@ -52,6 +53,8 @@ export class RegisterForm {
   form: FormGroup;
   fbForm: FormGroup;
 
+  errorDisplays: any = {};
+
   @ViewChild('popover', { static: false }) popover: PopoverComponent;
 
   constructor(
@@ -60,7 +63,8 @@ export class RegisterForm {
     fb: FormBuilder,
     public zone: NgZone,
     private experiments: ExperimentsService,
-    private routerHistoryService: RouterHistoryService
+    private routerHistoryService: RouterHistoryService,
+    protected formToastService: FormToastService
   ) {
     this.form = fb.group(
       {
@@ -197,5 +201,10 @@ export class RegisterForm {
 
   onPopoverChange(valid: boolean) {
     this.passwordFieldValid = !valid;
+  }
+
+  showToastError(errorMessage: string): void {
+    this.errorMessage = errorMessage;
+    this.formToastService.error(this.errorDisplays[this.errorMessage]);
   }
 }
