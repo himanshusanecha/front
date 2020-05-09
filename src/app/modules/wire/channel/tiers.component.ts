@@ -32,7 +32,7 @@ export class WireSubscriptionTiersComponent {
   constructor(
     public session: Session,
     private client: Client,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -60,7 +60,7 @@ export class WireSubscriptionTiersComponent {
       this.session.getLoggedInUser().wire_rewards = this.rewards;
       this.isSaved.next(true);
     } catch (e) {
-      this.formToastService.error((e && e.message) || 'Server error');
+      this.toasterService.error((e && e.message) || 'Server error');
     } finally {
       this.isSaving.next(false);
     }

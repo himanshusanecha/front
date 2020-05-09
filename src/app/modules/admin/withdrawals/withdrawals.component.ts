@@ -20,7 +20,7 @@ export class AdminWithdrawals {
   constructor(
     protected client: Client,
     protected route: ActivatedRoute,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -102,7 +102,7 @@ export class AdminWithdrawals {
 
       withdrawal.status = 'approved';
     } catch (e) {
-      this.formToastService.error(
+      this.toasterService.error(
         `There was an issue while approving withdrawal: ${(e && e.message) ||
           'Unknown server error'}`
       );
@@ -129,7 +129,7 @@ export class AdminWithdrawals {
 
       withdrawal.status = 'rejected';
     } catch (e) {
-      this.formToastService.error(
+      this.toasterService.error(
         `There was an issue while rejecting withdrawal: ${(e && e.message) ||
           'Unknown server error'}`
       );

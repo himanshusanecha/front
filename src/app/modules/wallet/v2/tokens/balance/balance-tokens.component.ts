@@ -48,7 +48,7 @@ export class WalletBalanceTokensV2Component implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     protected session: Session,
     protected walletService: WalletV2Service,
-    protected formToastService: FormToastService,
+    protected toasterService: FormToastService,
     @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
@@ -113,7 +113,7 @@ export class WalletBalanceTokensV2Component implements OnInit, OnDestroy {
   }
 
   transferComplete() {
-    this.formToastService.success('On-chain transfer complete');
+    this.toasterService.success('On-chain transfer complete');
     this.showModal = false;
   }
 

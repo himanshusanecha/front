@@ -71,7 +71,7 @@ export class PosterComponent {
     protected router: Router,
     protected inMemoryStorageService: InMemoryStorageService,
     protected tagsService: TagsService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   @HostListener('window:resize') _widthDetection() {
@@ -165,6 +165,7 @@ export class PosterComponent {
   onTagsChange(tags: string[]) {
     if (this.hashtagsSelector.tags.length > 5) {
       this.errorMessage = 'You can only select up to 5 hashtags';
+      this.toasterService.error(this.errorMessage);
       this.tooManyTags = true;
     } else {
       this.tooManyTags = false;
@@ -177,6 +178,7 @@ export class PosterComponent {
   showTagsError() {
     if (this.tags.length > 5) {
       this.errorMessage = 'You can only select up to 5 hashtags';
+      this.toasterService.error(this.errorMessage);
       this.tooManyTags = true;
     } else {
       this.tooManyTags = false;
@@ -229,7 +231,7 @@ export class PosterComponent {
       .catch(e => {
         this.inProgress = false;
         if (!e.must_verify) {
-          this.formToastService.error(e.message);
+          this.toasterService.error(e.message);
         }
       });
   }
@@ -349,6 +351,7 @@ export class PosterComponent {
 
   posterDateSelectorError(msg) {
     this.errorMessage = msg;
+    this.toasterService.error(this.errorMessage);
   }
 
   /**

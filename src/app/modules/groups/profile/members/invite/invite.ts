@@ -34,7 +34,7 @@ export class GroupsProfileMembersInvite {
     public client: Client,
     public service: GroupsService,
     configs: ConfigsService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {
     this.cdnUrl = configs.get('cdn_url');
   }
@@ -45,7 +45,7 @@ export class GroupsProfileMembersInvite {
 
   invite(user) {
     if (!user.subscriber) {
-      return this.formToastService.error(
+      return this.toasterService.error(
         'You can only invite users who are subscribed to you'
       );
     }

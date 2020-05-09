@@ -27,7 +27,7 @@ export class BlockchainWalletAddressNoticeComponent implements OnInit {
     protected blockchain: BlockchainService,
     protected router: Router,
     protected cd: ChangeDetectorRef,
-    protected formToastService: FormToastService,
+    protected toasterService: FormToastService,
     @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
@@ -57,7 +57,7 @@ export class BlockchainWalletAddressNoticeComponent implements OnInit {
       this.address = void 0;
       this.detectChanges();
     } catch (e) {
-      this.formToastService.error(e);
+      this.toasterService.error(e);
     }
   }
 

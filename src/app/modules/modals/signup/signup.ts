@@ -50,7 +50,7 @@ export class SignupModal {
     private analyticsService: AnalyticsService,
     private site: SiteService,
     private configs: ConfigsService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {
     this.listen();
     this.service.isOpen.subscribe({
@@ -126,7 +126,7 @@ export class SignupModal {
         };
         window.onErrorCallback = reason => {
           if (reason) {
-            this.formToastService.error(reason);
+            this.toasterService.error(reason);
           }
         };
         window.open(

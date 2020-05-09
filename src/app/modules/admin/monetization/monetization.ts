@@ -22,7 +22,7 @@ export class AdminMonetization {
   constructor(
     public client: Client,
     private route: ActivatedRoute,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -69,7 +69,7 @@ export class AdminMonetization {
       .post(`api/v1/admin/paywall/${entity.guid}/demonetize`, {})
       .then((response: any) => {
         if (response.status !== 'success') {
-          this.formToastService.error(
+          this.toasterService.error(
             'There was a problem demonetizing this content. Please try again.'
           );
           return;
@@ -77,7 +77,7 @@ export class AdminMonetization {
         this.removeFromList(index);
       })
       .catch(e => {
-        this.formToastService.error(
+        this.toasterService.error(
           'There was a problem demonetizing this content. Please try again.'
         );
       });

@@ -54,7 +54,7 @@ export class ReportCreatorComponent implements AfterViewInit {
     private _changeDetectorRef: ChangeDetectorRef,
     private overlayModal: OverlayModalService,
     private client: Client,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngAfterViewInit() {
@@ -96,6 +96,9 @@ export class ReportCreatorComponent implements AfterViewInit {
       this.validate();
     } catch (e) {
       this.error = e.message;
+      if (!this.inProgress) {
+        this.toasterService.error(this.error);
+      }
     }
   }
 
@@ -146,8 +149,8 @@ export class ReportCreatorComponent implements AfterViewInit {
     } catch (e) {
       this.inProgress = false;
       //this.overlayModal.dismiss();\
-      this.formToastService.error('There was an error sending your report.');
-      this.formToastService.error(e.message ? e.message : e);
+      this.toasterService.error('There was an error sending your report.');
+      this.toasterService.error(e.message ? e.message : e);
     }
   }
 }

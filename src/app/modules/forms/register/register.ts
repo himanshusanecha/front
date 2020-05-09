@@ -64,7 +64,7 @@ export class RegisterForm {
     public zone: NgZone,
     private experiments: ExperimentsService,
     private routerHistoryService: RouterHistoryService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {
     this.form = fb.group(
       {
@@ -205,6 +205,6 @@ export class RegisterForm {
 
   showToastError(errorMessage: string): void {
     this.errorMessage = errorMessage;
-    this.formToastService.error(this.errorDisplays[this.errorMessage]);
+    this.toasterService.error(this.errorDisplays[this.errorMessage]);
   }
 }

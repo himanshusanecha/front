@@ -15,7 +15,7 @@ export class SettingsV2RecurringPaymentsComponent {
   constructor(
     private client: Client,
     private cd: ChangeDetectorRef,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -64,7 +64,7 @@ export class SettingsV2RecurringPaymentsComponent {
         this.cd.detectChanges();
       })
       .catch(e => {
-        this.formToastService.error('Sorry, there was an error');
+        this.toasterService.error('Sorry, there was an error');
         subscription._cancelling = false;
         this.inProgress = false;
         this.cd.detectChanges();

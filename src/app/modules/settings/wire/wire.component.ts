@@ -45,7 +45,7 @@ export class SettingsWireComponent implements OnInit {
     public upload: Upload,
     private cd: ChangeDetectorRef,
     private configs: ConfigsService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {
     this.rewards = session.getLoggedInUser().wire_rewards;
   }
@@ -129,7 +129,7 @@ export class SettingsWireComponent implements OnInit {
         return true;
       })
       .catch(e => {
-        this.formToastService.error('Sorry, there was a problem. Try again.');
+        this.toasterService.error('Sorry, there was a problem. Try again.');
         input.value = null;
         this.detectChanges();
 
@@ -152,7 +152,7 @@ export class SettingsWireComponent implements OnInit {
         await this.saveRewards();
       }*/
     } catch (e) {
-      this.formToastService.error((e && e.message) || 'Server error');
+      this.toasterService.error((e && e.message) || 'Server error');
     }
     this.inProgress = false;
   }

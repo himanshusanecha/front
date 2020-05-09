@@ -40,7 +40,7 @@ export class WireConsoleSettingsComponent {
     public upload: Upload,
     private cd: ChangeDetectorRef,
     private configs: ConfigsService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -124,7 +124,7 @@ export class WireConsoleSettingsComponent {
         return true;
       })
       .catch(e => {
-        this.formToastService.error('Sorry, there was a problem. Try again.');
+        this.toasterService.error('Sorry, there was a problem. Try again.');
         input.value = null;
         this.detectChanges();
 

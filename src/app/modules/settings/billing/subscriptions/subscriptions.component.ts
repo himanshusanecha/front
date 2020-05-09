@@ -14,7 +14,7 @@ export class SettingsBillingSubscriptionsComponent {
   constructor(
     private client: Client,
     private cd: ChangeDetectorRef,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -59,7 +59,7 @@ export class SettingsBillingSubscriptionsComponent {
         this.cd.detectChanges();
       })
       .catch(e => {
-        this.formToastService.error('Sorry, there was an error');
+        this.toasterService.error('Sorry, there was an error');
         this.inProgress = false;
         this.cd.detectChanges();
       });

@@ -15,7 +15,7 @@ export class AdminTagcloud implements OnInit {
 
   constructor(
     private client: Client,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class AdminTagcloud implements OnInit {
         }
       )
       .catch(e => {
-        this.formToastService.error(`Error loading tags: ${e.message}`);
+        this.toasterService.error(`Error loading tags: ${e.message}`);
       });
   }
 
@@ -63,7 +63,7 @@ export class AdminTagcloud implements OnInit {
       })
       .catch(e => {
         this.load();
-        this.formToastService.error(`Error deleting #${tag}!`);
+        this.toasterService.error(`Error deleting #${tag}!`);
       });
   }
 
@@ -85,7 +85,7 @@ export class AdminTagcloud implements OnInit {
       })
       .catch(e => {
         this.load();
-        this.formToastService.error(`Error showing #${tag}!`);
+        this.toasterService.error(`Error showing #${tag}!`);
       });
   }
 
@@ -102,7 +102,7 @@ export class AdminTagcloud implements OnInit {
         this.load();
       })
       .catch(e => {
-        this.formToastService.error(`Error resyncing!`);
+        this.toasterService.error(`Error resyncing!`);
       });
   }
 }

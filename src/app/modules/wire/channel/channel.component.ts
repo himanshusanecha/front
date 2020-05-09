@@ -46,7 +46,7 @@ export class WireChannelComponent implements OnInit {
     private wireModal: WireModalService,
     private client: Client,
     private signupModal: SignupModalService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -106,7 +106,7 @@ export class WireChannelComponent implements OnInit {
       this.session.getLoggedInUser().wire_rewards = this.rewards;
     } catch (e) {
       this.editing = true;
-      this.formToastService.error((e && e.message) || 'Server error');
+      this.toasterService.error((e && e.message) || 'Server error');
     }
   }
 

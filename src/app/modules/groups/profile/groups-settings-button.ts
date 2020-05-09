@@ -248,7 +248,7 @@ export class GroupsSettingsButton {
     public session: Session,
     public overlayService: OverlayModalService,
     public router: Router,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {}
@@ -334,9 +334,7 @@ export class GroupsSettingsButton {
    */
   async deletePrompt() {
     if ((await this.service.countMembers(this.group.guid)) !== 1) {
-      this.formToastService.error(
-        'You cannot delete a group that has members.'
-      );
+      this.toasterService.error('You cannot delete a group that has members.');
       return;
     }
     this.isGoingToBeDeleted = true;

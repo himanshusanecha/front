@@ -17,7 +17,7 @@ export class ModerationAppealComponent {
     private client: Client,
     public service: JurySessionService,
     private cd: ChangeDetectorRef,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   async sendAppeal() {
@@ -35,7 +35,7 @@ export class ModerationAppealComponent {
 
       this.detectChanges();
     } catch (e) {
-      this.formToastService.error((e && e.message) || 'Error sending appeal');
+      this.toasterService.error((e && e.message) || 'Error sending appeal');
     } finally {
       this.appeal.inProgress = false;
     }

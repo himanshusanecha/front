@@ -21,7 +21,7 @@ export class ReportConsoleComponent implements OnInit {
   constructor(
     private client: Client,
     public service: JurySessionService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -88,7 +88,7 @@ export class ReportConsoleComponent implements OnInit {
 
       this.appeals.splice(i, 1);
     } catch (e) {
-      this.formToastService.error((e && e.message) || 'Error sending appeal');
+      this.toasterService.error((e && e.message) || 'Error sending appeal');
     }
   }
 

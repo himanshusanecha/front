@@ -21,7 +21,7 @@ export class WireConsoleRewardsComponent {
   constructor(
     private client: Client,
     private session: Session,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {
     this.rewards = this.session.getLoggedInUser().wire_rewards;
     this.user = this.session.getLoggedInUser();
@@ -51,7 +51,7 @@ export class WireConsoleRewardsComponent {
         this.rewardsSaved = true;
       })
       .catch(e => {
-        this.formToastService.error((e && e.message) || 'Server error');
+        this.toasterService.error((e && e.message) || 'Server error');
       });
   }
 

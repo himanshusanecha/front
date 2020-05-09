@@ -29,20 +29,6 @@ export class LoginForm {
 
   form: FormGroup;
 
-  errorDisplays: any = {
-    'LoginException::AttemptsExceeded':
-      'You have exceeded your login attempts. Please try again in a few minutes.',
-    'LoginException::DisabledUser': 'This account has been disabled',
-    'LoginException::AuthenticationFailed':
-      'Incorrect username/password. Please try again.',
-    'LoginException::AccountLocked': 'Account locked',
-    'LoginException:BannedUser': 'You are not allowed to login.',
-    'LoginException::CodeVerificationFailed':
-      "Sorry, we couldn't verify your two factor code. Please try logging again.",
-    'LoginException::InvalidToken': 'Invalid token',
-    'LoginException::Unknown': 'Sorry, there was an error. Please try again.',
-  };
-
   // Taken from advice in https://stackoverflow.com/a/1373724
   private emailRegex: RegExp = new RegExp(
     "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
@@ -54,7 +40,7 @@ export class LoginForm {
     fb: FormBuilder,
     private zone: NgZone,
     private userAvatarService: UserAvatarService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {
     this.form = fb.group({
       username: ['', Validators.required],
@@ -157,6 +143,20 @@ export class LoginForm {
 
   showToastError(errorMessage: string): void {
     this.errorMessage = errorMessage;
-    this.formToastService.error(this.errorDisplays[this.errorMessage]);
+
+    const errorDisplays: any = {
+      'LoginException::AttemptsExceeded':
+        'You have exceeded your login attempts. Please try again in a few minutes.',
+      'LoginException::DisabledUser': 'This account has been disabled',
+      'LoginException::AuthenticationFailed':
+        'Incorrect username/password. Please try again.',
+      'LoginException::AccountLocked': 'Account locked',
+      'LoginException:BannedUser': 'You are not allowed to login.',
+      'LoginException::CodeVerificationFailed':
+        "Sorry, we couldn't verify your two factor code. Please try logging again.",
+      'LoginException::InvalidToken': 'Invalid token',
+      'LoginException::Unknown': 'Sorry, there was an error. Please try again.',
+    };
+    this.toasterService.error(errorDisplays[this.errorMessage] || errorMessage);
   }
 }

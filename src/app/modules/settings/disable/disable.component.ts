@@ -21,7 +21,7 @@ export class SettingsDisableChannelComponent {
     public client: Client,
     public router: Router,
     private overlayModal: OverlayModalService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   disable() {
@@ -31,7 +31,7 @@ export class SettingsDisableChannelComponent {
         this.router.navigate(['/logout']);
       })
       .catch((e: any) => {
-        this.formToastService.error('Sorry, we could not disable your account');
+        this.toasterService.error('Sorry, we could not disable your account');
       });
   }
 
@@ -55,7 +55,7 @@ export class SettingsDisableChannelComponent {
               this.router.navigate(['/logout']);
             })
             .catch((e: any) => {
-              this.formToastService.error(
+              this.toasterService.error(
                 'Sorry, we could not delete your account'
               );
             });

@@ -26,7 +26,7 @@ export class SettingsV2DeleteAccountComponent implements OnInit {
     public client: Client,
     public router: Router,
     protected overlayModal: OverlayModalService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -52,7 +52,7 @@ export class SettingsV2DeleteAccountComponent implements OnInit {
               this.router.navigate(['/logout']);
             })
             .catch((e: any) => {
-              this.formToastService.error(
+              this.toasterService.error(
                 'Sorry, we could not delete your account'
               );
               this.detectChanges();

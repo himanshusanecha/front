@@ -38,7 +38,7 @@ export class GroupsProfileReviewComponent implements OnInit {
     protected router: Router,
     protected client: Client,
     protected cd: ChangeDetectorRef,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -138,7 +138,7 @@ export class GroupsProfileReviewComponent implements OnInit {
 
       this.group['adminqueue:count'] = this.group['adminqueue:count'] - 1;
     } catch (e) {
-      this.formToastService.error((e && e.message) || 'Internal server error');
+      this.toasterService.error((e && e.message) || 'Internal server error');
     }
   }
 
@@ -156,7 +156,7 @@ export class GroupsProfileReviewComponent implements OnInit {
 
       this.group['adminqueue:count'] = this.group['adminqueue:count'] - 1;
     } catch (e) {
-      this.formToastService.error((e && e.message) || 'Internal server error');
+      this.toasterService.error((e && e.message) || 'Internal server error');
     }
   }
 

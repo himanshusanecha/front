@@ -80,7 +80,7 @@ export class SubscribeButton {
     public session: Session,
     public client: Client,
     public modal: SignupModalService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   @Input('user')
@@ -113,7 +113,7 @@ export class SubscribeButton {
       })
       .catch(e => {
         this._user.subscribed = false;
-        this.formToastService.error("You can't subscribe to this user.");
+        this.toasterService.error("You can't subscribe to this user.");
       });
   }
 

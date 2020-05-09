@@ -23,7 +23,7 @@ export class SettingsV2DeactivateAccountComponent implements OnInit {
     protected cd: ChangeDetectorRef,
     public client: Client,
     public router: Router,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class SettingsV2DeactivateAccountComponent implements OnInit {
         this.router.navigate(['/logout']);
       })
       .catch((e: any) => {
-        this.formToastService.error('Sorry, we could not disable your account');
+        this.toasterService.error('Sorry, we could not disable your account');
         this.detectChanges();
       });
   }
@@ -68,7 +68,7 @@ export class SettingsV2DeactivateAccountComponent implements OnInit {
   //             this.router.navigate(['/logout']);
   //           })
   //           .catch((e: any) => {
-  //             this.formToastService.error('Sorry, we could not delete your account');
+  //             this.toasterService.error('Sorry, we could not delete your account');
   //           });
   //       },
   //     }

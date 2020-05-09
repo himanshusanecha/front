@@ -83,7 +83,7 @@ export class MediaViewComponent implements OnInit, OnDestroy {
     configs: ConfigsService,
     @SkipSelf() injector: Injector,
     private featuresService: FeaturesService,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {
     this.clientMetaService
       .inherit(injector)
@@ -172,7 +172,7 @@ export class MediaViewComponent implements OnInit, OnDestroy {
         this.router.navigate([`/media/${type}/my`]);
       })
       .catch(e => {
-        this.formToastService.error((e && e.message) || 'Server error');
+        this.toasterService.error((e && e.message) || 'Server error');
       });
   }
 

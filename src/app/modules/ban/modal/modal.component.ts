@@ -43,7 +43,7 @@ export class BanModalComponent implements AfterViewInit {
     private _changeDetectorRef: ChangeDetectorRef,
     private overlayModal: OverlayModalService,
     private client: Client,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngAfterViewInit() {
@@ -82,6 +82,9 @@ export class BanModalComponent implements AfterViewInit {
       this.validate();
     } catch (e) {
       this.error = e.message;
+      if (!this.inProgress) {
+        this.toasterService.error(this.error);
+      }
     }
   }
 
@@ -118,7 +121,7 @@ export class BanModalComponent implements AfterViewInit {
         this.inProgress = false;
         this.user.banned = 'no';
 
-        this.formToastService.error(e.message ? e.message : e);
+        this.toasterService.error(e.message ? e.message : e);
       });
   }
 }

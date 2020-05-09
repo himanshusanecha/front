@@ -72,7 +72,7 @@ export class BlockchainPurchaseComponent implements OnInit {
     public session: Session,
     private route: ActivatedRoute,
     protected router: Router,
-    protected formToastService: FormToastService
+    protected toasterService: FormToastService
   ) {}
 
   ngOnInit() {
@@ -89,6 +89,7 @@ export class BlockchainPurchaseComponent implements OnInit {
 
     if (this.route.snapshot.queryParamMap.get('failed') === '1') {
       this.sendWyreError = 'Sorry, your purchase appears to have failed.';
+      this.toasterService.error(this.sendWyreError);
     }
   }
 
@@ -184,6 +185,7 @@ export class BlockchainPurchaseComponent implements OnInit {
       tx = await this.tde.buy(amount, this.rate);
     } catch (err) {
       this.error = err;
+      this.toasterService.error(this.error);
       this.confirming = false;
       this.detectChanges();
       return;
@@ -210,7 +212,7 @@ export class BlockchainPurchaseComponent implements OnInit {
     this.detectChanges();
     //let win = window.open('/checkout');
     //win.onload = function() {
-    //  this.formToastService.error('opened');
+    //  this.toasterService.error('opened');
     //}
   }
 
@@ -231,7 +233,7 @@ export class BlockchainPurchaseComponent implements OnInit {
   }
 
   promptTokenInput(input) {
-    this.formToastService.error(
+    this.toasterService.error(
       'Please enter how many tokens you wish to purchase'
     );
     setTimeout(() => {
