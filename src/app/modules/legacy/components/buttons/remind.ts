@@ -55,7 +55,9 @@ export class RemindButton {
 
     this.remindOpen = true;
     this.overlayModal
-      .create(RemindComposerModalComponent, this.object)
+      .create(RemindComposerModalComponent, this.object, {
+        class: 'm-overlayModal--remind',
+      })
       .onDidDismiss(() => {
         this.remindOpen = false;
         this.counter = this.object.reminds;

@@ -28,6 +28,10 @@
       background: none rgba(themed($m-white), 0.95);
     }
 
+    &.m-overlayModal--remind {
+      width: 520px;
+    }
+
     &.m-overlay-modal--large {
       max-width: 990px;
     }
