@@ -85,6 +85,7 @@ export class ChannelsV2Service {
           : of(null)
       ),
       switchAll(),
+      shareReplay({ bufferSize: 1, refCount: true }),
       map(response => parseFloat((response && response.tokens) || '0'))
     );
 
@@ -95,6 +96,7 @@ export class ChannelsV2Service {
         channel ? this.api.get(`api/v1/wire/rewards/${channel.guid}`) : of(null)
       ),
       switchAll(),
+      shareReplay({ bufferSize: 1, refCount: true }),
       map(response =>
         parseFloat((response && response.sums && response.sums.tokens) || '0')
       )
@@ -108,8 +110,8 @@ export class ChannelsV2Service {
           ? this.api.get(`api/v3/channel/${channel.guid}/groups/count`)
           : of(null)
       ),
-      shareReplay({ bufferSize: 1, refCount: true }),
       switchAll(),
+      shareReplay({ bufferSize: 1, refCount: true }),
       map(response => (response && response.count) || 0)
     );
 
