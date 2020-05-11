@@ -46,6 +46,10 @@ describe('ChannelComponent', () => {
   let fixture: ComponentFixture<ChannelComponent>;
 
   beforeEach(async(() => {
+    TestBed.overrideProvider(SeoService, {
+      useValue: MockService(SeoService),
+    });
+
     TestBed.configureTestingModule({
       declarations: [
         MaterialMock,
