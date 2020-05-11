@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { MindsUser } from '../../interfaces/entities';
-import { MetaService, MIN_METRIC_FOR_ROBOTS } from './meta.service';
+import { MindsUser } from '../../../interfaces/entities';
+import {
+  MetaService,
+  MIN_METRIC_FOR_ROBOTS,
+} from '../../../common/services/meta.service';
 
 /**
  * SEO meta headers service
@@ -14,29 +17,15 @@ export class SeoService {
   constructor(protected meta: MetaService) {}
 
   /**
-   * Guess an entity type and sets SEO meta headers
-   * @param entity
+   * Sets SEO meta headers
+   * @param user
    */
-  set(entity: MindsUser | string): void {
-    if (typeof entity === 'string') {
-      this.meta.setTitle(entity);
+  set(user: MindsUser | string): void {
+    if (typeof user === 'string') {
+      this.meta.setTitle(user);
       return;
     }
 
-    switch (entity.type) {
-      case 'user':
-        this.setUser(entity);
-        break;
-      default:
-        console.warn('Unknown Entity for SEO', entity);
-    }
-  }
-
-  /**
-   * Sets SEO meta headers for a User entity
-   * @param user
-   */
-  protected setUser(user: MindsUser) {
     const url = `/${user.username.toLowerCase()}`;
     this.meta
       .setTitle(`${user.name} (@${user.username})`)

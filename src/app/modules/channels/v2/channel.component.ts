@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { ChannelEditIntentService } from './services/edit-intent.service';
 import { WireModalService } from '../../wire/wire-modal.service';
-import { SeoService } from '../../../common/services/seo.service';
+import { SeoService } from './seo.service';
 import { ClientMetaService } from '../../../common/services/client-meta.service';
 import { Session } from '../../../services/session';
 import { RecentService } from '../../../services/ux/recent';
@@ -36,7 +36,12 @@ type ChannelView =
   selector: 'm-channel-v2',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'channel.component.html',
-  providers: [ChannelsV2Service, ClientMetaService, ChannelEditIntentService],
+  providers: [
+    ChannelsV2Service,
+    ClientMetaService,
+    ChannelEditIntentService,
+    SeoService,
+  ],
 })
 export class ChannelComponent implements OnInit, OnDestroy {
   /**

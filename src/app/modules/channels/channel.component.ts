@@ -19,12 +19,12 @@ import { BlockListService } from '../../common/services/block-list.service';
 import { ChannelSortedComponent } from './sorted/sorted.component';
 import { ClientMetaService } from '../../common/services/client-meta.service';
 import { ConfigsService } from '../../common/services/configs.service';
-import { SeoService } from '../../common/services/seo.service';
+import { SeoService } from './v2/seo.service';
 
 @Component({
   selector: 'm-channel',
   templateUrl: 'channel.component.html',
-  providers: [ClientMetaService],
+  providers: [ClientMetaService, SeoService],
 })
 export class ChannelComponent {
   readonly cdnAssetsUrl: string;
