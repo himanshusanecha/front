@@ -41,3 +41,20 @@
     <m-discoveryTrends__listItem [trend]="trend"></m-discoveryTrends__listItem>
   </li>
 </ul>
+
+<div class="m-discoveryFeeds__feed" *ngIf="showPreferredFeed">
+  <m-discovery__feedItem
+    *ngFor="let entity$ of entities$ | async"
+    [entity]="entity$ | async"
+    [allowAutoplayOnScroll]="true"
+    [openComments]="false"
+  ></m-discovery__feedItem>
+
+  <infinite-scroll
+    distance="25%"
+    (load)="loadMore()"
+    [moreData]="hasMoreData$ | async"
+    [inProgress]="inProgress$ | async"
+  >
+  </infinite-scroll>
+</div>
