@@ -3,6 +3,7 @@ import {
   Component,
   ComponentFactoryResolver,
   EventEmitter,
+  HostBinding,
   Input,
   ViewChild,
 } from '@angular/core';
@@ -27,6 +28,10 @@ export class RemindComposerModalComponent implements AfterViewInit {
 
   @Input('object') set data(object) {
     this.object = object;
+  }
+
+  @HostBinding('class') get class() {
+    return 'mdl-card';
   }
 
   set _default(message: string) {

@@ -28,6 +28,7 @@ m-modal__remindComposer {
       box-sizing: content-box;
       padding: $minds-padding (24px + $minds-padding) $minds-padding
         $minds-padding;
+      font-size: 16px;
       @include m-theme() {
         border: 1px solid themed($m-grey-100);
       }
@@ -64,6 +65,7 @@ m-modal__remindComposer {
       position: relative !important;
       //padding: ($minds-padding * 2) !important;
     }
+
     //
     //  .m-mature-overlay {
     //    display: none !important;
