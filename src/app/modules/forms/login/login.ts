@@ -4,7 +4,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Client } from '../../../services/api';
 import { Session } from '../../../services/session';
 import { UserAvatarService } from '../../../common/services/user-avatar.service';
-import { FormToastService } from '../../../common/services/form-toast.service';
 
 @Component({
   moduleId: module.id,
@@ -29,20 +28,6 @@ export class LoginForm {
 
   form: FormGroup;
 
-  errorDisplays: any = {
-    'LoginException::AttemptsExceeded':
-      'You have exceeded your login attempts. Please try again in a few minutes.',
-    'LoginException::DisabledUser': 'This account has been disabled',
-    'LoginException::AuthenticationFailed':
-      'Incorrect username/password. Please try again.',
-    'LoginException::AccountLocked': 'Account locked',
-    'LoginException:BannedUser': 'You are not allowed to login.',
-    'LoginException::CodeVerificationFailed':
-      "Sorry, we couldn't verify your two factor code. Please try logging again.",
-    'LoginException::InvalidToken': 'Invalid token',
-    'LoginException::Unknown': 'Sorry, there was an error. Please try again.',
-  };
-
   // Taken from advice in https://stackoverflow.com/a/1373724
   private emailRegex: RegExp = new RegExp(
     "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
@@ -53,8 +38,7 @@ export class LoginForm {
     public client: Client,
     fb: FormBuilder,
     private zone: NgZone,
-    private userAvatarService: UserAvatarService,
-    protected formToastService: FormToastService
+    private userAvatarService: UserAvatarService
   ) {
     this.form = fb.group({
       username: ['', Validators.required],
@@ -114,11 +98,11 @@ export class LoginForm {
         this.inProgress = false;
 
         if (!e) {
-          this.showToastError('LoginException::Unknown');
+          this.errorMessage = 'LoginException::Unknown';
           this.session.logout();
         } else if (e.status === 'failed') {
           // incorrect login details
-          this.showToastError('LoginException::AuthenticationFailed');
+          this.errorMessage = 'LoginException::AuthenticationFailed';
           this.session.logout();
         } else if (e.status === 'error') {
           if (
@@ -132,7 +116,7 @@ export class LoginForm {
           this.twofactorToken = e.message;
           this.hideLogin = true;
         } else {
-          this.showToastError('LoginException::Unknown');
+          this.errorMessage = 'LoginException::Unknown';
         }
       });
   }
@@ -149,14 +133,9 @@ export class LoginForm {
         this.done.next(data.user);
       })
       .catch(e => {
-        this.showToastError(e.message);
+        this.errorMessage = e.message;
         this.twofactorToken = '';
         this.hideLogin = false;
       });
-  }
-
-  showToastError(errorMessage: string): void {
-    this.errorMessage = errorMessage;
-    this.formToastService.error(this.errorDisplays[this.errorMessage]);
   }
 }
