@@ -50,7 +50,7 @@ export class ChannelAboutExtraInfoComponent {
    * @param dateStr
    */
   dobToDate(dateStr: string): Date {
-    const parts = dateStr.split('-').map(part => parseInt(part));
+    const parts = `${dateStr}`.split('-').map(part => parseInt(part));
 
     if (parts.length !== 3) {
       return null;

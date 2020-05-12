@@ -31,6 +31,7 @@ import { ChannelLocationTypeaheadComponent } from './location-typeahead/location
 import { ChannelListComponent } from './list/list.component';
 import { ChannelListConnectionsComponent } from './list/connections.component';
 import { ChannelAboutExtraInfoComponent } from './about/extra-info.component';
+import { ChannelListGroupsComponent } from './list/groups.component';
 
 /**
  * Generally available components
@@ -63,6 +64,7 @@ const INTERNAL_COMPONENTS = [
   ChannelLocationTypeaheadComponent,
   ChannelListComponent,
   ChannelListConnectionsComponent,
+  ChannelListGroupsComponent,
 ];
 
 /**

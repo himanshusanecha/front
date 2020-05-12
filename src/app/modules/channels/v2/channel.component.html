@@ -58,7 +58,7 @@
         subscribeEndpointParam="subscriptions"
         *ngSwitchCase="'subscriptions'"
       ></m-channelList__connections>
-      <!--<m-channelList__groups *ngSwitchCase="'groups'"></m-channelList__groups>-->
+      <m-channelList__groups *ngSwitchCase="'groups'"></m-channelList__groups>
       <m-channel__feed
         [view]="view$ | async"
         *ngSwitchDefault
