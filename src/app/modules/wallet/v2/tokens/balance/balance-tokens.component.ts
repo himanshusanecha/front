@@ -114,7 +114,7 @@ export class WalletBalanceTokensV2Component implements OnInit, OnDestroy {
   }
 
   transferComplete() {
-    this.formToastService.success('On-chain transfer complete');
+    this.toasterService.success('On-chain transfer complete');
     this.showTransferModal = false;
   }
 
