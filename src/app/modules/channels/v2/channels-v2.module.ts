@@ -30,6 +30,10 @@ import { ChannelSocialLinksComponent } from './social-links/social-links.compone
 import { ChannelLocationTypeaheadComponent } from './location-typeahead/location-typeahead.component';
 import { ChannelContentBlockedComponent } from './content-blocked/content-blocked.component';
 import { ChannelContentBlockedService } from './content-blocked/content-blocked.service';
+import { ChannelListComponent } from './list/list.component';
+import { ChannelListConnectionsComponent } from './list/connections.component';
+import { ChannelAboutExtraInfoComponent } from './about/extra-info.component';
+import { ChannelListGroupsComponent } from './list/groups.component';
 
 /**
  * Generally available components
@@ -46,6 +50,7 @@ const INTERNAL_COMPONENTS = [
   ChannelShopBriefComponent,
   ChannelAboutComponent,
   ChannelAboutBriefComponent,
+  ChannelAboutExtraInfoComponent,
   ChannelActionsComponent,
   ChannelActionsSubscribeComponent,
   ChannelActionsEditComponent,
@@ -60,6 +65,9 @@ const INTERNAL_COMPONENTS = [
   ChannelSocialLinksComponent,
   ChannelLocationTypeaheadComponent,
   ChannelContentBlockedComponent,
+  ChannelListComponent,
+  ChannelListConnectionsComponent,
+  ChannelListGroupsComponent,
 ];
 
 /**
