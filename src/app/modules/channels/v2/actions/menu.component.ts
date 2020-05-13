@@ -154,6 +154,15 @@ export class ChannelActionsMenuComponent {
     this.postMenu.setEntity({ ownerObj: channel }).reIndex();
   }
 
+  async setRating(rating: number) {
+    const channel = { ...this.service.channel$.getValue() };
+
+    // Optimistic mutation
+    this.service.setChannel({ ...channel, rating: rating, subscribed: false });
+
+    await this.postMenu.setEntity({ ownerObj: channel }).setRating(rating);
+  }
+
   /**
    * Block a user
    * @todo Create a generic service along with post menu things

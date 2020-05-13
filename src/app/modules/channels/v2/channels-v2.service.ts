@@ -46,6 +46,11 @@ export class ChannelsV2Service {
   >([]);
 
   /**
+   * Boost rating
+   */
+  readonly rating$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+
+  /**
    * Tokens the channel received in the last period
    */
   readonly tokens$: Observable<number>;
@@ -229,6 +234,7 @@ export class ChannelsV2Service {
     this.username$.next(channel ? channel.username : '');
     this.email$.next(channel ? channel.email : null);
     this.nsfw$.next(channel ? channel.nsfw : []);
+    this.rating$.next(channel ? channel.rating : 1);
     return this;
   }
 }

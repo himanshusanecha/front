@@ -60,21 +60,21 @@
       </li>
 
       <ng-container *ngIf="service.isExplicit$ | async; else setExplicitOption">
-        <li
-          (click)="setExplicit(false)"
-          i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR"
-        >
-          <span class="m-dropdownMenu__item">
+        <li (click)="setExplicit(false)">
+          <span
+            class="m-dropdownMenu__item"
+            i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR"
+          >
             Remove explicit
           </span>
         </li>
       </ng-container>
       <ng-template #setExplicitOption>
-        <li
-          (click)="setExplicit(true)"
-          i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR"
-        >
-          <span class="m-dropdownMenu__item">
+        <li (click)="setExplicit(true)">
+          <span
+            class="m-dropdownMenu__item"
+            i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR"
+          >
             Set as explicit
           </span>
         </li>
@@ -94,6 +94,22 @@
           Reindex
         </span>
       </li>
+
+      <li
+        *ngIf="(service.rating$ | async) === 2; else markAsOpenOption"
+        (click)="setRating(1)"
+      >
+        <span class="m-dropdownMenu__item" i18n="@@M__ACTION__MARK_AS_SAFE">
+          Mark as Safe
+        </span>
+      </li>
+      <ng-template #markAsOpenOption>
+        <li (click)="setRating(2)">
+          <span class="m-dropdownMenu__item" i18n="@@M__ACTION__MARK_AS_OPEN">
+            Mark as Open
+          </span>
+        </li>
+      </ng-template>
     </ng-container>
 
     <ng-container *ngIf="!(service.isAdmin$ | async)">

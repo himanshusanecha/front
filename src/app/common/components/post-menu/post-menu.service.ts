@@ -224,6 +224,16 @@ export class PostMenuService {
     }
   }
 
+  async setRating(rating: number): Promise<void> {
+    try {
+      await this.client.post(
+        `api/v1/admin/rating/${this.entity.ownerObj.guid}/${rating}`
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   async block(): Promise<void> {
     this.isBlocked$.next(true);
     try {
