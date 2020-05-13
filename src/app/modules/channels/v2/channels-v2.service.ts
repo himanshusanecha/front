@@ -39,6 +39,13 @@ export class ChannelsV2Service {
   readonly email$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   /**
+   * Nsfw reasons
+   */
+  readonly nsfw$: BehaviorSubject<Array<number>> = new BehaviorSubject<
+    Array<number>
+  >([]);
+
+  /**
    * Tokens the channel received in the last period
    */
   readonly tokens$: Observable<number>;
@@ -221,6 +228,7 @@ export class ChannelsV2Service {
     this.channel$.next(channel);
     this.username$.next(channel ? channel.username : '');
     this.email$.next(channel ? channel.email : null);
+    this.nsfw$.next(channel ? channel.nsfw : []);
     return this;
   }
 }

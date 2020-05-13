@@ -7,4 +7,16 @@ m-channelActions__menu {
       right: 10px; // TODO: Remove when smart anchoring is implemented
     }
   }
+
+  m-nsfw-selector {
+    border: 0;
+    width: 100%;
+    padding: 0;
+
+    .m-nsfwSelector__label {
+      m-tooltip {
+        display: none;
+      }
+    }
+  }
 }

@@ -79,6 +79,15 @@
           </span>
         </li>
       </ng-template>
+
+      <li (click)="$event.preventDefault(); $event.stopPropagation()">
+        <m-nsfw-selector
+          service="editing"
+          [selected]="service.nsfw$ | async"
+          (selectedChange)="setNSFWLock($event)"
+        >
+        </m-nsfw-selector>
+      </li>
     </ng-container>
 
     <ng-container *ngIf="!(service.isAdmin$ | async)">

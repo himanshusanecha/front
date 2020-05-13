@@ -246,7 +246,9 @@ export class PostMenuService {
   }
 
   async setNsfw(nsfw) {
-    await this.client.post(`api/v2/admin/nsfw/${this.entity.guid}`, { nsfw });
+    await this.client.post(`api/v2/admin/nsfw/${this.entity.ownerObj.guid}`, {
+      nsfw,
+    });
     this.entity.nsfw = nsfw;
   }
 

@@ -138,6 +138,17 @@ export class ChannelActionsMenuComponent {
     await this.postMenu.setEntity({ ownerObj: channel }).setExplicit(explicit);
   }
 
+  async setNSFWLock(reasons: Array<{ label; value; selected }>) {
+    const channel = { ...this.service.channel$.getValue() };
+
+    const nsfw = reasons.map(reason => reason.value);
+
+    // Optimistic mutation
+    this.service.setChannel({ ...channel, nsfw: nsfw, subscribed: false });
+
+    await this.postMenu.setEntity({ ownerObj: channel }).setNsfw(nsfw);
+  }
+
   /**
    * Block a user
    * @todo Create a generic service along with post menu things
