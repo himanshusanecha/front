@@ -20,6 +20,7 @@
       </li>
     </ng-template>
 
+    <!-- ******** admin block ******** -->
     <ng-container *ngIf="service.isAdmin$ | async">
       <li *ngIf="service.isBanned$ | async; else banOption" (click)="unBan()">
         <span class="m-dropdownMenu__item">
@@ -33,6 +34,30 @@
           </span>
         </li>
       </ng-template>
+      <li
+        (click)="viewLedger()"
+        i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_LEDGER"
+      >
+        <span class="m-dropdownMenu__item">
+          View Ledger
+        </span>
+      </li>
+      <li
+        (click)="viewWithdrawals()"
+        i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_WITHDRAWALS"
+      >
+        <span class="m-dropdownMenu__item">
+          View Withdrawals
+        </span>
+      </li>
+      <li
+        (click)="viewEmail()"
+        i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR"
+      >
+        <span class="m-dropdownMenu__item">
+          E-mail Address
+        </span>
+      </li>
     </ng-container>
 
     <ng-container *ngIf="!(service.isAdmin$ | async)">
@@ -60,3 +85,23 @@
     </li>
   </ul>
 </ng-template>
+
+<m-modal
+  *ngIf="service.email$ | async as email"
+  [open]="true"
+  (closed)="service.email$.next(null)"
+>
+  <div
+    class="mdl-card__supporting-text"
+    style="padding: 64px; font-size: 20px; text-align: center;"
+  >
+    @{{ service.username$ | async }}'s email:
+    <a
+      *ngIf="email"
+      [href]="'mailto:' + email"
+      style="text-decoration: none;"
+      >{{ email }}</a
+    >
+    <ng-container *ngIf="!email">...</ng-container>
+  </div>
+</m-modal>

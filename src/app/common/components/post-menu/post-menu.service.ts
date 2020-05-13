@@ -21,6 +21,7 @@ export class PostMenuService {
   isLoadingBlock = false;
   isBlocked$: BehaviorSubject<boolean> = new BehaviorSubject(null);
   isBanned$: BehaviorSubject<boolean> = new BehaviorSubject(null);
+  email$: BehaviorSubject<string> = new BehaviorSubject(null);
   showSubscribe$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   showUnSubscribe$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isPinned$: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -182,6 +183,19 @@ export class PostMenuService {
       );
     } catch (e) {
       this.isBanned$.next(true);
+    }
+  }
+
+  async getEmail(): Promise<string> {
+    try {
+      const response: any = await this.client.get(
+        `api/v2/admin/user/${this.entity.ownerObj.username}/email`
+      );
+      this.email$.next(response.email);
+      return response.email;
+    } catch (e) {
+      console.error('viewEmail', e);
+      this.email$.next(null);
     }
   }
 

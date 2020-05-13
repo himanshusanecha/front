@@ -34,6 +34,11 @@ export class ChannelsV2Service {
   >(null);
 
   /**
+   * The user's email
+   */
+  readonly email$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+
+  /**
    * Tokens the channel received in the last period
    */
   readonly tokens$: Observable<number>;
@@ -153,7 +158,7 @@ export class ChannelsV2Service {
     );
 
     // Set isAdmin$ observable
-    this.isAdmin$ = this.channel$.pipe(
+    this.isAdmin$ = this.session.user$.pipe(
       map(channel => channel && channel.is_admin)
     );
   }
@@ -186,6 +191,7 @@ export class ChannelsV2Service {
   setChannel(channel: MindsUser | null): ChannelsV2Service {
     this.channel$.next(channel);
     this.username$.next(channel ? channel.username : '');
+    this.email$.next(channel ? channel.email : null);
     return this;
   }
 }

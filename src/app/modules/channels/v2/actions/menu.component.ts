@@ -4,6 +4,7 @@ import { PostMenuService } from '../../../../common/components/post-menu/post-me
 import { ActivityService } from '../../../../common/services/activity.service';
 import { BanModalComponent } from '../../../ban/modal/modal.component';
 import { OverlayModalService } from '../../../../services/ux/overlay-modal';
+import { Router } from '@angular/router';
 
 /**
  * Extra actions dropdown menu
@@ -20,12 +21,14 @@ export class ChannelActionsMenuComponent {
    * @param service
    * @param overlayModalService
    * @param postMenu
+   * @param router
    * @param activity
    */
   constructor(
     public service: ChannelsV2Service,
     protected overlayModalService: OverlayModalService,
     protected postMenu: PostMenuService,
+    protected router: Router,
     activity: ActivityService
   ) {}
 
@@ -100,6 +103,31 @@ export class ChannelActionsMenuComponent {
 
     // Let Post Menu service handle ban operation
     await this.postMenu.setEntity({ ownerObj: channel }).unBan();
+  }
+
+  viewLedger() {
+    this.router.navigate([
+      '/wallet/tokens/transactions',
+      { remote: this.service.channel$.getValue().username },
+    ]);
+  }
+
+  viewWithdrawals() {
+    this.router.navigate([
+      '/admin/withdrawals',
+      { user: this.service.channel$.getValue().username },
+    ]);
+  }
+
+  async viewEmail() {
+    const channel = { ...this.service.channel$.getValue() };
+
+    const email = await this.postMenu
+      .setEntity({ ownerObj: channel })
+      .getEmail();
+
+    // Optimistic mutation
+    this.service.setChannel({ ...channel, email: email, subscribed: false });
   }
 
   /**

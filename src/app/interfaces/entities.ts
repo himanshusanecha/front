@@ -125,6 +125,7 @@ export interface MindsUser {
   disable_autoplay_videos?: boolean;
   dob?: string;
   public_dob?: boolean | BitBoolean;
+  email?: string;
 }
 
 export interface MindsGroup {
