@@ -35,9 +35,6 @@ export class DiscoveryTrendsComponent implements OnInit, OnDestroy {
     })
   );
   routerEventsSubscription: Subscription;
-  entities$ = this.discoveryFeedsService.entities$;
-  hasMoreData$ = this.discoveryFeedsService.hasMoreData$;
-
   showPreferredFeed: boolean = false;
 
   constructor(
@@ -78,9 +75,8 @@ export class DiscoveryTrendsComponent implements OnInit, OnDestroy {
       !this.showPreferredFeed &&
       element.scrollTop + element.clientHeight / 2 >= element.scrollHeight / 2
     ) {
+      this.discoveryFeedsService.setFilter('preferred');
       this.showPreferredFeed = true;
-      this.discoveryFeedsService.setFilter('prefered');
-      this.discoveryFeedsService.load();
     }
   }
 
