@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   providers: [PostMenuService, ActivityService],
 })
 export class ChannelActionsMenuComponent {
+  banToggle: boolean = false;
   /**
    * Constructor
    * @param service
