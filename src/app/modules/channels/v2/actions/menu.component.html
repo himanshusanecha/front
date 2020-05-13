@@ -34,30 +34,51 @@
           </span>
         </li>
       </ng-template>
-      <li
-        (click)="viewLedger()"
-        i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_LEDGER"
-      >
-        <span class="m-dropdownMenu__item">
+      <li (click)="viewLedger()">
+        <span
+          class="m-dropdownMenu__item"
+          i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_LEDGER"
+        >
           View Ledger
         </span>
       </li>
-      <li
-        (click)="viewWithdrawals()"
-        i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_WITHDRAWALS"
-      >
-        <span class="m-dropdownMenu__item">
+      <li (click)="viewWithdrawals()">
+        <span
+          class="m-dropdownMenu__item"
+          i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_WITHDRAWALS"
+        >
           View Withdrawals
         </span>
       </li>
-      <li
-        (click)="viewEmail()"
-        i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR"
-      >
-        <span class="m-dropdownMenu__item">
+      <li (click)="viewEmail()">
+        <span
+          class="m-dropdownMenu__item"
+          i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR"
+        >
           E-mail Address
         </span>
       </li>
+
+      <ng-container *ngIf="service.isExplicit$ | async; else setExplicitOption">
+        <li
+          (click)="setExplicit(false)"
+          i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR"
+        >
+          <span class="m-dropdownMenu__item">
+            Remove explicit
+          </span>
+        </li>
+      </ng-container>
+      <ng-template #setExplicitOption>
+        <li
+          (click)="setExplicit(true)"
+          i18n="@@MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR"
+        >
+          <span class="m-dropdownMenu__item">
+            Set as explicit
+          </span>
+        </li>
+      </ng-template>
     </ng-container>
 
     <ng-container *ngIf="!(service.isAdmin$ | async)">

@@ -126,8 +126,16 @@ export class ChannelActionsMenuComponent {
       .setEntity({ ownerObj: channel })
       .getEmail();
 
-    // Optimistic mutation
     this.service.setChannel({ ...channel, email: email, subscribed: false });
+  }
+
+  async setExplicit(explicit: boolean) {
+    const channel = { ...this.service.channel$.getValue() };
+
+    // Optimistic mutation
+    this.service.setChannel({ ...channel, is_mature: true, subscribed: false });
+
+    await this.postMenu.setEntity({ ownerObj: channel }).setExplicit(explicit);
   }
 
   /**

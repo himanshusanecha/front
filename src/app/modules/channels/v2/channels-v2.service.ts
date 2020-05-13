@@ -69,6 +69,11 @@ export class ChannelsV2Service {
   readonly isBanned$: Observable<boolean>;
 
   /**
+   * Explicit status
+   */
+  readonly isExplicit$: Observable<boolean>;
+
+  /**
    * Admin status
    */
   readonly isAdmin$: Observable<boolean>;
@@ -154,6 +159,30 @@ export class ChannelsV2Service {
       map(
         ([isOwner, currentUser, channel]) =>
           !isOwner && currentUser && channel && channel.blocked
+      )
+    );
+
+    // Set isBanned$ observable
+    this.isBanned$ = combineLatest([
+      this.isOwner$,
+      this.session.user$,
+      this.channel$,
+    ]).pipe(
+      map(
+        ([isOwner, currentUser, channel]) =>
+          !isOwner && currentUser && channel && channel.banned === 'yes'
+      )
+    );
+
+    // Set isExplicit$ observable
+    this.isExplicit$ = combineLatest([
+      this.isOwner$,
+      this.session.user$,
+      this.channel$,
+    ]).pipe(
+      map(
+        ([isOwner, currentUser, channel]) =>
+          !isOwner && currentUser && channel && channel.is_mature
       )
     );
 

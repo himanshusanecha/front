@@ -21,6 +21,7 @@ export class PostMenuService {
   isLoadingBlock = false;
   isBlocked$: BehaviorSubject<boolean> = new BehaviorSubject(null);
   isBanned$: BehaviorSubject<boolean> = new BehaviorSubject(null);
+  isExplicit$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   email$: BehaviorSubject<string> = new BehaviorSubject(null);
   showSubscribe$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   showUnSubscribe$: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -196,6 +197,20 @@ export class PostMenuService {
     } catch (e) {
       console.error('viewEmail', e);
       this.email$.next(null);
+    }
+  }
+
+  async setExplicit(explicit: boolean) {
+    this.isExplicit$.next(explicit);
+    try {
+      await this.client.post(
+        `api/v1/entities/explicit/${this.entity.ownerObj.guid}`,
+        {
+          value: explicit ? '1' : '0',
+        }
+      );
+    } catch (e) {
+      this.isExplicit$.next(!explicit);
     }
   }
 
