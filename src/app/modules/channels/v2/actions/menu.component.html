@@ -88,6 +88,12 @@
         >
         </m-nsfw-selector>
       </li>
+
+      <li (click)="reIndex()">
+        <span class="m-dropdownMenu__item" i18n="@@M__ACTION__REINDEX">
+          Reindex
+        </span>
+      </li>
     </ng-container>
 
     <ng-container *ngIf="!(service.isAdmin$ | async)">

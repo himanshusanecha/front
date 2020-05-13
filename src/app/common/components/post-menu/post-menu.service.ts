@@ -214,6 +214,16 @@ export class PostMenuService {
     }
   }
 
+  async reIndex(): Promise<void> {
+    try {
+      this.client.post('api/v2/admin/reindex', {
+        guid: this.entity.ownerObj.guid,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   async block(): Promise<void> {
     this.isBlocked$.next(true);
     try {

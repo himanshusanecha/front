@@ -149,6 +149,11 @@ export class ChannelActionsMenuComponent {
     await this.postMenu.setEntity({ ownerObj: channel }).setNsfw(nsfw);
   }
 
+  async reIndex() {
+    const channel = { ...this.service.channel$.getValue() };
+    this.postMenu.setEntity({ ownerObj: channel }).reIndex();
+  }
+
   /**
    * Block a user
    * @todo Create a generic service along with post menu things
