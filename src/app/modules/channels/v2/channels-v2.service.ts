@@ -59,6 +59,11 @@ export class ChannelsV2Service {
   readonly isBlocked$: Observable<boolean>;
 
   /**
+   * Banned status
+   */
+  readonly isBanned$: Observable<boolean>;
+
+  /**
    * Admin status
    */
   readonly isAdmin$: Observable<boolean>;

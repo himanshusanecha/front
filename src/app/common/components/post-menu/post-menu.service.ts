@@ -20,6 +20,7 @@ export class PostMenuService {
   isFollowing$: BehaviorSubject<boolean> = new BehaviorSubject(null);
   isLoadingBlock = false;
   isBlocked$: BehaviorSubject<boolean> = new BehaviorSubject(null);
+  isBanned$: BehaviorSubject<boolean> = new BehaviorSubject(null);
   showSubscribe$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   showUnSubscribe$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isPinned$: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -163,6 +164,24 @@ export class PostMenuService {
       throw new Error('E_NOT_DONE');
     } catch (e) {
       this.isFollowing$.next(true);
+    }
+  }
+
+  async ban(): Promise<void> {
+    this.isBanned$.next(true);
+
+    // no need to call API as the BanModal does this
+  }
+
+  async unBan(): Promise<void> {
+    this.isBanned$.next(false);
+    try {
+      await this.client.delete(
+        'api/v1/admin/ban/' + this.entity.ownerObj.guid,
+        {}
+      );
+    } catch (e) {
+      this.isBanned$.next(true);
     }
   }
 

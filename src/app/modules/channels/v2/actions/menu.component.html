@@ -4,11 +4,36 @@
 
 <ng-template #actionsDropdown>
   <ul>
-    <li *ngIf="service.isSubscribed$ | async" (click)="unsubscribe()">
+    <li
+      *ngIf="service.isSubscribed$ | async; else subscribeOption"
+      (click)="unsubscribe()"
+    >
       <span class="m-dropdownMenu__item">
         <span i18n>Unsubscribe</span>
       </span>
     </li>
+    <ng-template #subscribeOption>
+      <li (click)="subscribe()">
+        <span class="m-dropdownMenu__item">
+          <span i18n>Subscribe</span>
+        </span>
+      </li>
+    </ng-template>
+
+    <ng-container *ngIf="service.isAdmin$ | async">
+      <li *ngIf="service.isBanned$ | async; else banOption" (click)="unBan()">
+        <span class="m-dropdownMenu__item">
+          <span i18n>Un-ban globally</span>
+        </span>
+      </li>
+      <ng-template #banOption>
+        <li (click)="ban()">
+          <span class="m-dropdownMenu__item">
+            <span i18n>Ban globally</span>
+          </span>
+        </li>
+      </ng-template>
+    </ng-container>
 
     <ng-container *ngIf="!(service.isAdmin$ | async)">
       <li

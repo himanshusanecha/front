@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ChannelsV2Service } from '../channels-v2.service';
 import { PostMenuService } from '../../../../common/components/post-menu/post-menu.service';
 import { ActivityService } from '../../../../common/services/activity.service';
+import { BanModalComponent } from '../../../ban/modal/modal.component';
+import { OverlayModalService } from '../../../../services/ux/overlay-modal';
 
 /**
  * Extra actions dropdown menu
@@ -16,14 +18,34 @@ export class ChannelActionsMenuComponent {
   /**
    * Constructor
    * @param service
+   * @param overlayModalService
    * @param postMenu
    * @param activity
    */
   constructor(
     public service: ChannelsV2Service,
+    protected overlayModalService: OverlayModalService,
     protected postMenu: PostMenuService,
     activity: ActivityService
   ) {}
+
+  /**
+   * Subscribe to the user
+   * @todo Create a generic service along with post menu things
+   */
+  async subscribe(): Promise<void> {
+    // Shallow clone current user
+    const channel = { ...this.service.channel$.getValue() };
+
+    // Optimistic mutation
+    this.service.setChannel({ ...channel, subscribed: false });
+
+    // Let Post Menu service handle subscription
+    await this.postMenu.setEntityOwner(channel).subscribe();
+
+    // Post menu service mutates passed object
+    this.service.setChannel({ ...channel });
+  }
 
   /**
    * Unsubscribe from the user
@@ -41,6 +63,43 @@ export class ChannelActionsMenuComponent {
 
     // Post menu service mutates passed object
     this.service.setChannel({ ...channel });
+  }
+
+  /**
+   * Ban a user
+   * @todo Create a generic service along with post menu things
+   */
+  async ban() {
+    // Shallow clone current user
+    const channel = { ...this.service.channel$.getValue() };
+
+    // Optimistic mutation
+    this.service.setChannel({ ...channel, banned: 'yes', subscribed: false });
+
+    this.overlayModalService
+      .create(BanModalComponent, channel)
+      .onDidDismiss(data => {
+        if (data.banned) {
+          // Let Post Menu service handle ban operation
+          this.postMenu.setEntity({ ownerObj: channel }).ban();
+        }
+      })
+      .present();
+  }
+
+  /**
+   * Unban a user
+   * @todo Create a generic service along with post menu things
+   */
+  async unBan() {
+    // Shallow clone current user
+    const channel = { ...this.service.channel$.getValue() };
+
+    // Optimistic mutation
+    this.service.setChannel({ ...channel, banned: 'no', subscribed: false });
+
+    // Let Post Menu service handle ban operation
+    await this.postMenu.setEntity({ ownerObj: channel }).unBan();
   }
 
   /**
