@@ -11,7 +11,7 @@ import { HashtagsTopbarSelectorComponent } from './topbar-selector/topbar-select
 import { SidebarSelectorComponent } from './sidebar-selector/sidebar-selector.component';
 import { SidebarSelectorItemComponent } from './sidebar-selector/item.component';
 import { TextInputAutocompleteModule } from '../../common/components/autocomplete';
-import { TrendingComponent } from './trending/trending.component';
+import { HashtagsDefaultComponent } from './defaults/defaults.component';
 import { TypeaheadInputComponent } from './typeahead-input/typeahead-input.component';
 import { TrendingService } from './service/trending.service';
 import { SuggestedService } from './service/suggested.service';
@@ -32,7 +32,7 @@ import { MruService } from './service/mru.service';
     HashtagsTopbarSelectorComponent,
     SidebarSelectorComponent,
     SidebarSelectorItemComponent,
-    TrendingComponent,
+    HashtagsDefaultComponent,
     TypeaheadInputComponent,
   ],
   exports: [
@@ -42,7 +42,7 @@ import { MruService } from './service/mru.service';
     TopbarHashtagsComponent,
     HashtagsTopbarSelectorComponent,
     SidebarSelectorComponent,
-    TrendingComponent,
+    HashtagsDefaultComponent,
     TypeaheadInputComponent,
   ],
   providers: [
