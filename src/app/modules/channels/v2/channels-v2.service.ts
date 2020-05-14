@@ -76,6 +76,11 @@ export class ChannelsV2Service {
   readonly isBlocked$: Observable<boolean>;
 
   /**
+   * Can interact with channel?
+   */
+  readonly canInteract$: Observable<boolean>;
+
+  /**
    * Banned status
    */
   readonly isBanned$: Observable<boolean>;
@@ -162,7 +167,7 @@ export class ChannelsV2Service {
       )
     );
 
-    // Set isBlocked$ observable
+    // Set isBlocked$ observable (blocked or banned)
     this.isBlocked$ = combineLatest([
       this.isOwner$,
       this.session.user$,
@@ -171,6 +176,14 @@ export class ChannelsV2Service {
       map(
         ([isOwner, currentUser, channel]) =>
           !isOwner && currentUser && channel && channel.blocked
+      )
+    );
+
+    // Set canInteract$ observable
+    this.canInteract$ = combineLatest([this.channel$, this.isBlocked$]).pipe(
+      map(
+        ([channel, isBlocked]) =>
+          !isBlocked && channel && channel.guid && channel.banned !== 'yes'
       )
     );
 
