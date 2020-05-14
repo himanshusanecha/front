@@ -16,7 +16,7 @@ import { Session } from '../../services/session';
 import { SiteService } from '../../common/services/site.service';
 import { FeaturesService } from '../../services/features.service';
 import { ChannelComponent as ChannelV2Component } from '../channels/v2/channel.component';
-import { TRIGGER_EXCEPTION } from '../channels/v2/content-blocked/content-blocked.service';
+import { TRIGGER_EXCEPTION } from '../channels/v2/content/content.service';
 
 @Component({
   selector: 'm-channel-container',
@@ -114,6 +114,7 @@ export class ChannelContainerComponent implements OnInit, OnDestroy {
       }
     } catch (e) {
       this.channel = {
+        type: 'user',
         guid: '',
         name: '',
         username: this.username,

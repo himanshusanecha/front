@@ -28,8 +28,7 @@ import { ChannelEditHashtagsComponent } from './edit/hashtags.component';
 import { ChannelEditSocialLinksComponent } from './edit/social-links.component';
 import { ChannelSocialLinksComponent } from './social-links/social-links.component';
 import { ChannelLocationTypeaheadComponent } from './location-typeahead/location-typeahead.component';
-import { ChannelContentBlockedComponent } from './content-blocked/content-blocked.component';
-import { ChannelContentBlockedService } from './content-blocked/content-blocked.service';
+import { ChannelContentComponent } from './content/content.component';
 import { ChannelListComponent } from './list/list.component';
 import { ChannelListConnectionsComponent } from './list/connections.component';
 import { ChannelAboutExtraInfoComponent } from './about/extra-info.component';
@@ -64,7 +63,7 @@ const INTERNAL_COMPONENTS = [
   ChannelEditSocialLinksComponent,
   ChannelSocialLinksComponent,
   ChannelLocationTypeaheadComponent,
-  ChannelContentBlockedComponent,
+  ChannelContentComponent,
   ChannelListComponent,
   ChannelListConnectionsComponent,
   ChannelListGroupsComponent,
@@ -73,7 +72,7 @@ const INTERNAL_COMPONENTS = [
 /**
  * Service providers
  */
-const PROVIDERS = [ChannelEditModalService, ChannelContentBlockedService];
+const PROVIDERS = [ChannelEditModalService];
 
 /**
  * Module definition

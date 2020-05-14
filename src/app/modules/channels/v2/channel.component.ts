@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { ChannelsV2Service } from './channels-v2.service';
 import { MindsUser } from '../../../interfaces/entities';
-import { ChannelContentBlockedService } from './content-blocked/content-blocked.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { ChannelEditIntentService } from './services/edit-intent.service';
@@ -28,7 +27,10 @@ type ChannelView =
   | 'videos'
   | 'blogs'
   | 'shop'
-  | 'about';
+  | 'about'
+  | 'subscribers'
+  | 'subscriptions'
+  | 'groups';
 
 /**
  * 2020 Design channel component
@@ -52,7 +54,6 @@ export class ChannelComponent implements OnInit, OnDestroy {
    */
   @Input('channel') set _channel(channel: MindsUser) {
     this.service.load(channel);
-    this.contentBlockedService.deriveState(channel);
   }
 
   /**
@@ -99,7 +100,6 @@ export class ChannelComponent implements OnInit, OnDestroy {
     protected seo: SeoService,
     protected channelEditIntent: ChannelEditIntentService,
     protected wireModal: WireModalService,
-    protected contentBlockedService: ChannelContentBlockedService,
     protected recent: RecentService,
     @SkipSelf() injector: Injector
   ) {
