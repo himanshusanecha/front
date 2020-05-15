@@ -9,17 +9,18 @@
   [maxHeightAllowed]="isTextOnly ? maxFixedHeightContent : maxMessageHeight"
   *ngIf="message"
 >
-  <span [innerHtml]="message | tags"></span>
-  <m-read-more--button [v2]="true"></m-read-more--button>
-
+  <div class="m-activityContent__messageWrapper">
+    <span [innerHtml]="message | tags"></span>
+    <m-read-more--button [v2]="true"></m-read-more--button>
+  </div>
+  <!-- (onTranslateInit)="propagateTranslation($event)" -->
   <m-translate
     *mIfBrowser
-    [open]="translateToggle"
+    [open]="service.displayOptions.showTranslation"
     [entity]="entity"
     [translateEvent]="translateEvent"
-    (onTranslateInit)="propagateTranslation($event)"
-    (onTranslate)="translateToggle = false"
-    (onTranslateError)="translateToggle = false"
+    (onTranslate)="(service.displayOptions.showTranslation === false)"
+    (onTranslateError)="(service.displayOptions.showTranslation === false)"
     #translate
   ></m-translate>
 </div>

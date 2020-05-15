@@ -1,6 +1,7 @@
 import { Component, EventEmitter, ChangeDetectorRef } from '@angular/core';
 
 import { TranslationService } from '../../services/translation';
+import { FeaturesService } from '../../services/features.service';
 
 @Component({
   moduleId: module.id,
@@ -38,10 +39,12 @@ export class Translate {
     source: '',
   };
   translationInProgress: boolean;
+  hasNav2020: boolean = false;
 
   constructor(
     public translationService: TranslationService,
-    public changeDetectorRef: ChangeDetectorRef
+    public changeDetectorRef: ChangeDetectorRef,
+    public featuresService: FeaturesService
   ) {}
 
   set _open(value: any) {
@@ -79,6 +82,7 @@ export class Translate {
   ngOnInit() {
     this.languagesInProgress = true;
 
+    this.hasNav2020 = this.featuresService.has('navigation');
     this.translationService
       .getLanguages()
       .then((languages: any[]) => {
