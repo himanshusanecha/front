@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ChannelsV2Service } from '../channels-v2.service';
 import { PostMenuService } from '../../../../common/components/post-menu/post-menu.service';
 import { ActivityService } from '../../../../common/services/activity.service';
-import { BanModalComponent } from '../../../ban/modal/modal.component';
 import { OverlayModalService } from '../../../../services/ux/overlay-modal';
 import { Router } from '@angular/router';
 
@@ -16,7 +15,6 @@ import { Router } from '@angular/router';
   providers: [PostMenuService, ActivityService],
 })
 export class ChannelActionsMenuComponent {
-  banToggle: boolean = false;
   /**
    * Constructor
    * @param service
@@ -67,28 +65,6 @@ export class ChannelActionsMenuComponent {
 
     // Post menu service mutates passed object
     this.service.setChannel({ ...channel });
-  }
-
-  /**
-   * Ban a user
-   * @todo Create a generic service along with post menu things
-   */
-  async ban() {
-    // Shallow clone current user
-    const channel = { ...this.service.channel$.getValue() };
-
-    // Optimistic mutation
-    this.service.setChannel({ ...channel, banned: 'yes', subscribed: false });
-
-    this.overlayModalService
-      .create(BanModalComponent, channel)
-      .onDidDismiss(data => {
-        if (data.banned) {
-          // Let Post Menu service handle ban operation
-          this.postMenu.setEntity({ ownerObj: channel }).ban();
-        }
-      })
-      .present();
   }
 
   /**

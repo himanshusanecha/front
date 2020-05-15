@@ -169,12 +169,6 @@ export class PostMenuService {
     }
   }
 
-  async ban(): Promise<void> {
-    this.isBanned$.next(true);
-
-    // no need to call API as the BanModal does this
-  }
-
   async unBan(): Promise<void> {
     this.isBanned$.next(false);
     try {
