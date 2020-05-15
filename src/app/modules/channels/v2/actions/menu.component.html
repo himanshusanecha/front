@@ -175,12 +175,9 @@
     style="padding: 64px; font-size: 20px; text-align: center;"
   >
     @{{ service.username$ | async }}'s email:
-    <a
-      *ngIf="email"
-      [href]="'mailto:' + email"
-      style="text-decoration: none;"
-      >{{ email }}</a
-    >
+    <a *ngIf="email" [href]="'mailto:' + email" style="text-decoration: none;">
+      {{ email }}
+    </a>
     <ng-container *ngIf="!email">...</ng-container>
   </div>
 </m-modal>

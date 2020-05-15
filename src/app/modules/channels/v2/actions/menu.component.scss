@@ -19,4 +19,8 @@ m-channelActions__menu {
       }
     }
   }
+
+  m-modal .mdl-card__supporting-text {
+    user-select: text;
+  }
 }
