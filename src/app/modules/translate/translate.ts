@@ -2,6 +2,7 @@ import { Component, EventEmitter, ChangeDetectorRef } from '@angular/core';
 
 import { TranslationService } from '../../services/translation';
 import { FeaturesService } from '../../services/features.service';
+import { FormToastService } from '../../common/services/form-toast.service';
 
 @Component({
   moduleId: module.id,
@@ -44,7 +45,8 @@ export class Translate {
   constructor(
     public translationService: TranslationService,
     public changeDetectorRef: ChangeDetectorRef,
-    public featuresService: FeaturesService
+    public featuresService: FeaturesService,
+    private toasterService: FormToastService
   ) {}
 
   set _open(value: any) {
@@ -200,6 +202,9 @@ export class Translate {
       .catch(e => {
         this.translationInProgress = false;
         this.translation.error = true;
+        this.toasterService.error(
+          'Sorry, there was an error when translating this content.'
+        );
 
         this.onTranslateError.emit({
           entity: this.entity,

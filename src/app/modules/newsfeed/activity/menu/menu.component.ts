@@ -133,9 +133,6 @@ export class ActivityMenuComponent implements OnInit, OnDestroy {
       case 'translate':
         this.service.displayOptions.showTranslation = true;
         break;
-      case 'hide-translate':
-        this.service.displayOptions.showTranslation = false;
-        break;
     }
   }
 }

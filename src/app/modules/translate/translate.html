@@ -1,71 +1,14 @@
 <div [ngClass]="{'m-translate__hasNav2020': hasNav2020}">
-  <hr />
-  <div
-    *ngIf="open"
-    class="m-translation-label m-translate__selectWrapper"
-    [ngClass]="{'mdl-card__supporting-text mdl-color-text--grey-600': !hasNav2020}"
-  >
-    <i class="material-icons m-material-icons-inline" *ngIf="!hasNav2020"
-      >public</i
-    >
-    <span i18n="@@TRANSLATE__TO_LABEL" class="m-translate__selectLabel"
-      >Translate to</span
-    >
-    <div class="m-translate-select">
-      <select
-        class="m-translate-select-control"
-        (change)="select($event.target.value)"
-        [disabled]="languagesInProgress"
-      >
-        <option value="" selected i18n="@@TRANSLATE__LANGUAGE_PLACEHOLDER"
-          >Select Language</option
-        >
+  <hr
+    *ngIf="(translation.translated  || translationInProgress) && hasNav2020"
+  />
 
-        <optgroup
-          label="Preferred Languages"
-          i18n-label="@@TRANSLATE__PREFERRED_LANGUAGES_LABEL"
-          *ngIf="preferredLanguages.length > 0"
-        >
-          <option
-            *ngFor="let language of preferredLanguages"
-            [value]="language.language"
-          >
-            {{ language.name }} ({{ language.language }})
-          </option>
-        </optgroup>
+  <ng-container
+    [ngTemplateOutlet]="selectLanguage"
+    *ngIf="!hasNav2020"
+  ></ng-container>
 
-        <optgroup
-          label="{{ preferredLanguages.length > 0 ? 'Other' : 'All Languages' }}"
-        >
-          <option
-            *ngFor="let language of languages"
-            [value]="language.language"
-          >
-            {{ language.name }} ({{ language.language }})
-          </option>
-        </optgroup>
-      </select>
-    </div>
-  </div>
-
-  <div
-    class="m-translation-label"
-    [ngClass]="{'mdl-card__supporting-text mdl-color-text--grey-600': !hasNav2020}"
-    *ngIf="translationInProgress"
-  >
-    <i *ngIf="!hasNav2020" class="material-icons m-material-icons-inline"
-      >public</i
-    >
-    <ng-container i18n="@@TRANSLATE__TRANSLATING_LABEL"
-      >Translating</ng-container
-    ><span
-      *ngIf="translation.target"
-      i18n="Translation target@@TRANSLATE__TRANSLATING_TO_PART"
-    >
-      to {{ translation.target }}</span
-    >&hellip;
-  </div>
-
+  <!-- TRANSLATED MESSAGE  ----------------------- -->
   <div *ngIf="translation.translated" class="m-translation-wrapper">
     <div
       class="message"
@@ -76,67 +19,142 @@
     </div>
 
     <div
-      class="mdl-card__supporting-text message"
+      class="message"
+      [ngClass]="{'mdl-card__supporting-text': !hasNav2020}"
       *ngIf="translation.description"
     >
       <span [innerHtml]="translation.description | tags"></span>
     </div>
 
-    <div class="mdl-card__supporting-text message" *ngIf="translation.body">
+    <div
+      class="message"
+      [ngClass]="{'mdl-card__supporting-text': !hasNav2020}"
+      *ngIf="translation.body"
+    >
       <span [innerHtml]="translation.body | tags"></span>
     </div>
 
+    <!-- TRANSLATION IN PROGRESS (LEGACY) ----------------------- -->
     <div
-      class="m-translation-label"
+      class="m-translation-label m-translate__translating"
       [ngClass]="{'mdl-card__supporting-text mdl-color-text--grey-600': !hasNav2020}"
+      *ngIf="translationInProgress && !hasNav2020"
     >
-      <i *ngIf="!hasNav2020" class="material-icons m-material-icons-inline"
-        >public</i
-      >
-      <ng-container i18n="@@TRANSLATE__TRANSLATED_LABEL"
-        >Translated</ng-container
-      ><span
-        *ngIf="translation.source"
-        i18n="Translation source@@TRANSLATE__TRANSLATED_FROM_PART"
-      >
-        from {{ translation.source }}</span
-      ><span> - </span>
-      <ng-container *ngIf="!hasNav2020">
-        <a
-          (click)="hideTranslation()"
-          i18n="@@TRANSLATE__HIDE_TRANSLATION_ACTION"
-          >Hide translation</a
+      <div class="m-translationLabel__content">
+        <i class="material-icons m-material-icons-inline">public</i>
+        <ng-container i18n="@@TRANSLATE__TRANSLATING_LABEL"
+          >Translating</ng-container
+        ><span
+          *ngIf="translation.target"
+          i18n="Translation target@@TRANSLATE__TRANSLATING_TO_PART"
         >
-        |
+          to {{ translation.target }}</span
+        >&hellip;
+      </div>
+    </div>
+    <!-- TRANSLATED FROM + OPTIONS ----------------------- -->
+    <div
+      class="m-translation-label m-translate__translatedFrom"
+      [ngClass]="{'mdl-card__supporting-text mdl-color-text--grey-600': !hasNav2020}"
+      *ngIf="!translationInProgress && !open"
+    >
+      <div class="m-translationLabel__content">
+        <i *ngIf="!hasNav2020" class="material-icons m-material-icons-inline"
+          >public</i
+        >
+        <ng-container i18n="@@TRANSLATE__TRANSLATED_LABEL"
+          >Translated</ng-container
+        ><span
+          *ngIf="translation.source"
+          i18n="Translation source@@TRANSLATE__TRANSLATED_FROM_PART"
+        >
+          from {{ translation.source }}</span
+        ><span> - </span>
+        <ng-container *ngIf="!hasNav2020">
+          <a
+            (click)="hideTranslation()"
+            i18n="@@TRANSLATE__HIDE_TRANSLATION_ACTION"
+            >hide translation</a
+          >
+          <span class="m-translate__optionsSeparator">|</span></ng-container
+        >
         <a
-          (click)="changeDefaultLanguage()"
-          i18n="@@TRANSLATE__CHANGE_LANGUAGE_ACTION"
-          >Change language</a
-        ></ng-container
-      ><ng-container *ngIf="hasNav2020"
-        ><a
           (click)="changeDefaultLanguage()"
           i18n="@@TRANSLATE__CHANGE_LANGUAGE_ACTION"
           >change language</a
-        ></ng-container
-      >
+        >
+      </div>
     </div>
   </div>
-
+  <!-- TRANSLATION IN PROGRESS ----------------------- -->
   <div
-    class="m-translation-label m-translation__error"
-    [ngClass]="{'mdl-card__supporting-text mdl-color-text--red-900': !hasNav2020}"
-    *ngIf="!translationInProgress && translation.error"
+    class="m-translation-label m-translate__translating"
+    [ngClass]="{'mdl-card__supporting-text mdl-color-text--grey-600': !hasNav2020}"
+    *ngIf="translationInProgress && hasNav2020"
   >
-    <i class="material-icons m-material-icons-inline">warning</i>
-    <ng-container i18n="@@TRANSLATE__ERROR_TRANSLATING_LABEL"
-      >There was an error when translating this content.</ng-container
-    >
-    <a
-      class="mdl-color-text--red-900"
-      (click)="translation.error = false"
-      i18n="@@TRANSLATE__DISMISS_ACTION"
-      >Dismiss</a
-    >
+    <div class="m-translationLabel__content">
+      <div class="m-blinkingEllipsis__container">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </div>
+  <ng-container
+    [ngTemplateOutlet]="selectLanguage"
+    *ngIf="hasNav2020"
+  ></ng-container>
 </div>
+
+<!-- SELECT LANGUAGE ----------------------- -->
+<ng-template #selectLanguage>
+  <div
+    *ngIf="open"
+    class="m-translation-label m-translate__selectWrapper"
+    [ngClass]="{'mdl-card__supporting-text mdl-color-text--grey-600': !hasNav2020}"
+  >
+    <div class="m-translationLabel__content">
+      <i class="material-icons m-material-icons-inline" *ngIf="!hasNav2020"
+        >public</i
+      >
+      <span i18n="@@TRANSLATE__TO_LABEL" class="m-translate__selectLabel"
+        >Translate to</span
+      >
+      <div class="m-translate-select">
+        <select
+          class="m-translate-select-control"
+          (change)="select($event.target.value)"
+          [disabled]="languagesInProgress"
+        >
+          <option value="" selected i18n="@@TRANSLATE__LANGUAGE_PLACEHOLDER"
+            >Select Language</option
+          >
+
+          <optgroup
+            label="Preferred Languages"
+            i18n-label="@@TRANSLATE__PREFERRED_LANGUAGES_LABEL"
+            *ngIf="preferredLanguages.length > 0"
+          >
+            <option
+              *ngFor="let language of preferredLanguages"
+              [value]="language.language"
+            >
+              {{ language.name }} ({{ language.language }})
+            </option>
+          </optgroup>
+
+          <optgroup
+            label="{{ preferredLanguages.length > 0 ? 'Other' : 'All Languages' }}"
+          >
+            <option
+              *ngFor="let language of languages"
+              [value]="language.language"
+            >
+              {{ language.name }} ({{ language.language }})
+            </option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+  </div>
+</ng-template>
