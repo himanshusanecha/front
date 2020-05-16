@@ -26,6 +26,9 @@ m-translate {
         @include m-theme() {
           border-left: none;
         }
+        a {
+          font-weight: 400;
+        }
       }
     }
     .m-translate__selectWrapper {
