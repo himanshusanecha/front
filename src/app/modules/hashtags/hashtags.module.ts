@@ -16,6 +16,7 @@ import { TypeaheadInputComponent } from './typeahead-input/typeahead-input.compo
 import { TrendingService } from './service/trending.service';
 import { SuggestedService } from './service/suggested.service';
 import { MruService } from './service/mru.service';
+import { HashtagDefaultsService } from './service/defaults.service';
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { MruService } from './service/mru.service';
   providers: [
     TopbarHashtagsService,
     TrendingService,
+    HashtagDefaultsService,
     SuggestedService,
     MruService,
   ],
