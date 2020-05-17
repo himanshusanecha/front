@@ -10,7 +10,7 @@ const noOp = () => {};
 })
 export class DiscoveryTagSettingsComponent {
   tags$: Observable<DiscoveryTag[]> = this.service.tags$;
-  default$: Observable<DiscoveryTag[]> = this.service.default$;
+  defaults$: Observable<DiscoveryTag[]> = this.service.defaults$;
   inProgress$: Observable<boolean> = this.service.inProgress$;
   saving$: Observable<boolean> = this.service.saving$;
   onDismissIntent: () => void = noOp;

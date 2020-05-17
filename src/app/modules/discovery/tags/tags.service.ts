@@ -29,7 +29,7 @@ export class DiscoveryTagsService {
   /**
    * Default tags without user ones
    */
-  default$: Observable<DiscoveryTag[]> = combineLatest([
+  defaults$: Observable<DiscoveryTag[]> = combineLatest([
     this.tags$,
     this.hashtagDefaults.tags$,
   ]).pipe(
