@@ -17,6 +17,7 @@ import { TrendingService } from './service/trending.service';
 import { SuggestedService } from './service/suggested.service';
 import { MruService } from './service/mru.service';
 import { HashtagDefaultsService } from './service/defaults.service';
+import { TrendingComponent } from './trending/trending.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { HashtagDefaultsService } from './service/defaults.service';
     HashtagsTopbarSelectorComponent,
     SidebarSelectorComponent,
     SidebarSelectorItemComponent,
+    TrendingComponent,
     HashtagsDefaultComponent,
     TypeaheadInputComponent,
   ],
@@ -43,6 +45,7 @@ import { HashtagDefaultsService } from './service/defaults.service';
     TopbarHashtagsComponent,
     HashtagsTopbarSelectorComponent,
     SidebarSelectorComponent,
+    TrendingComponent,
     HashtagsDefaultComponent,
     TypeaheadInputComponent,
   ],
