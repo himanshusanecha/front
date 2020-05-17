@@ -1450,8 +1450,8 @@
         <target>Đang dịch</target>
       </trans-unit>
       <trans-unit id="TRANSLATE__TRANSLATING_TO_PART">
-        <source>to <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;" /><x id="INTERPOLATION" /><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;" /></source>
-        <target>sang <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;" /><x id="INTERPOLATION" />{{id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"}</target>
+        <source>to <x id="INTERPOLATION" /></source>
+        <target>sang <x id="INTERPOLATION" /></target>
         <note>Translation target</note>
       </trans-unit>
       <trans-unit id="TRANSLATE__TRANSLATED_LABEL">
@@ -1459,8 +1459,8 @@
         <target>Đã dịch</target>
       </trans-unit>
       <trans-unit id="TRANSLATE__TRANSLATED_FROM_PART">
-        <source>from <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;" /><x id="INTERPOLATION" /><x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;" /></source>
-        <target>từ <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;" /><x id="INTERPOLATION" />{{id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"}</target>
+        <source>from <x id="INTERPOLATION" /></source>
+        <target>từ <x id="INTERPOLATION" /></target>
         <note>Translation source</note>
       </trans-unit>
       <trans-unit id="TRANSLATE__HIDE_TRANSLATION_ACTION">
