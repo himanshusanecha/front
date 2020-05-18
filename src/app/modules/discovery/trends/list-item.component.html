@@ -2,7 +2,10 @@
   [routerLink]="
     trend.guid ? '/discovery/trend/' + trend.guid : '/discovery/search'
   "
-  [queryParams]="{ q: !trend.guid ? '#' + trend.hashtag : null, f: 'top' }"
+  [queryParams]="{
+    q: !trend.guid ? '#' + trend.hashtag : null,
+    f: trend.period <= 24 ? 'top' : 'latest'
+  }"
 >
   <ng-container *ngIf="trend.title">
     <div>
