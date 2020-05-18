@@ -23,7 +23,12 @@
   <ng-container *ngIf="!trend.title">
     <div>
       <div class="m-discoveryTrendListItem__supportingText--above">
-        <span>Trending {{ trend.period }}h</span>
+        <span>
+          <ng-container i18n>Trending</ng-container>
+          <ng-container *ngIf="trend.period <= 24" i18n>
+            {{ trend.period }}h
+          </ng-container>
+        </span>
         <span>{{ trend.volume }} posts</span>
       </div>
       <h4>#{{ trend.hashtag }}</h4>
