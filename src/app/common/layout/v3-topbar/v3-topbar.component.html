@@ -1,5 +1,5 @@
 <ng-template #searchBar>
-  <div class="m-v3Topbar__searchBox">
+  <div class="m-v3Topbar__searchBox" *ngIf="showSearchBar">
     <ng-content select="[search]"></ng-content>
   </div>
 </ng-template>
@@ -91,11 +91,13 @@
             [showFooterLinks]="true"
           ></m-usermenu__v3>
         </div>
+
+        <div class="m-v3Topbar__notificationsToasterWrapper">
+          <div class="m-v3Topbar__notificationsToaster">
+            <ng-template dynamic-host></ng-template>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-<div class="m-v3Topbar__notificationsToaster">
-  <ng-template dynamic-host></ng-template>
 </div>

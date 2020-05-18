@@ -6,6 +6,7 @@ import { Session } from '../../../services/session';
 import {
   distinctUntilChanged,
   map,
+  shareReplay,
   switchAll,
   switchMap,
 } from 'rxjs/operators';
@@ -33,6 +34,23 @@ export class ChannelsV2Service {
   >(null);
 
   /**
+   * The user's email
+   */
+  readonly email$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+
+  /**
+   * Nsfw reasons
+   */
+  readonly nsfw$: BehaviorSubject<Array<number>> = new BehaviorSubject<
+    Array<number>
+  >([]);
+
+  /**
+   * Boost rating
+   */
+  readonly rating$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+
+  /**
    * Tokens the channel received in the last period
    */
   readonly tokens$: Observable<number>;
@@ -58,6 +76,21 @@ export class ChannelsV2Service {
   readonly isBlocked$: Observable<boolean>;
 
   /**
+   * Can interact with channel?
+   */
+  readonly canInteract$: Observable<boolean>;
+
+  /**
+   * Banned status
+   */
+  readonly isBanned$: Observable<boolean>;
+
+  /**
+   * Explicit status
+   */
+  readonly isExplicit$: Observable<boolean>;
+
+  /**
    * Admin status
    */
   readonly isAdmin$: Observable<boolean>;
@@ -76,45 +109,43 @@ export class ChannelsV2Service {
     // Set tokens$ observable
     this.tokens$ = this.channel$.pipe(
       distinctUntilChanged((a, b) => !a || !b || a.guid === b.guid),
-      map(
-        channel =>
-          channel &&
-          this.api.get(`api/v1/wire/sums/overview/${channel.guid}`, {
-            merchant: channel.merchant ? 1 : 0,
-          })
+      map(channel =>
+        channel
+          ? this.api.get(`api/v1/wire/sums/overview/${channel.guid}`, {
+              merchant: channel.merchant ? 1 : 0,
+            })
+          : of(null)
       ),
       switchAll(),
+      shareReplay({ bufferSize: 1, refCount: true }),
       map(response => parseFloat((response && response.tokens) || '0'))
     );
 
     // Set tokensSent$ observable
     this.tokensSent$ = this.channel$.pipe(
       distinctUntilChanged((a, b) => !a || !b || a.guid === b.guid),
-      map(
-        channel =>
-          channel && this.api.get(`api/v1/wire/rewards/${channel.guid}`)
+      map(channel =>
+        channel ? this.api.get(`api/v1/wire/rewards/${channel.guid}`) : of(null)
       ),
       switchAll(),
+      shareReplay({ bufferSize: 1, refCount: true }),
       map(response =>
         parseFloat((response && response.sums && response.sums.tokens) || '0')
       )
     );
 
-    // TODO: To be done in another iteration
-    //
     // Set groupCount$ observable
-    // this.groupCount$ = this.channel$.pipe(
-    //   distinctUntilChanged((a, b) => !a || !b || a.guid === b.guid),
-    //   map(
-    //     channel =>
-    //       channel && this.api.get(`api/v2/channel/groups/${channel.guid}/count`)
-    //   ),
-    //   switchAll(),
-    //   map(response =>
-    //     (response && response.count) || 0
-    //   )
-    // );
-    this.groupCount$ = of(0);
+    this.groupCount$ = this.channel$.pipe(
+      distinctUntilChanged((a, b) => !a || !b || a.guid === b.guid),
+      map(channel =>
+        channel
+          ? this.api.get(`api/v3/channel/${channel.guid}/groups/count`)
+          : of(null)
+      ),
+      switchAll(),
+      shareReplay({ bufferSize: 1, refCount: true }),
+      map(response => (response && response.count) || 0)
+    );
 
     // Set isOwner$ observable
     this.isOwner$ = combineLatest([this.guid$, this.session.user$]).pipe(
@@ -136,7 +167,7 @@ export class ChannelsV2Service {
       )
     );
 
-    // Set isBlocked$ observable
+    // Set isBlocked$ observable (blocked or banned)
     this.isBlocked$ = combineLatest([
       this.isOwner$,
       this.session.user$,
@@ -148,8 +179,40 @@ export class ChannelsV2Service {
       )
     );
 
+    // Set canInteract$ observable
+    this.canInteract$ = combineLatest([this.channel$, this.isBlocked$]).pipe(
+      map(
+        ([channel, isBlocked]) =>
+          !isBlocked && channel && channel.guid && channel.banned !== 'yes'
+      )
+    );
+
+    // Set isBanned$ observable
+    this.isBanned$ = combineLatest([
+      this.isOwner$,
+      this.session.user$,
+      this.channel$,
+    ]).pipe(
+      map(
+        ([isOwner, currentUser, channel]) =>
+          !isOwner && currentUser && channel && channel.banned === 'yes'
+      )
+    );
+
+    // Set isExplicit$ observable
+    this.isExplicit$ = combineLatest([
+      this.isOwner$,
+      this.session.user$,
+      this.channel$,
+    ]).pipe(
+      map(
+        ([isOwner, currentUser, channel]) =>
+          !isOwner && currentUser && channel && channel.is_mature
+      )
+    );
+
     // Set isAdmin$ observable
-    this.isAdmin$ = this.channel$.pipe(
+    this.isAdmin$ = this.session.user$.pipe(
       map(channel => channel && channel.is_admin)
     );
   }
@@ -182,6 +245,9 @@ export class ChannelsV2Service {
   setChannel(channel: MindsUser | null): ChannelsV2Service {
     this.channel$.next(channel);
     this.username$.next(channel ? channel.username : '');
+    this.email$.next(channel ? channel.email : null);
+    this.nsfw$.next(channel ? channel.nsfw : []);
+    this.rating$.next(channel ? channel.rating : 1);
     return this;
   }
 }

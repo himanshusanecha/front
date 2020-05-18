@@ -13,6 +13,7 @@ export type ActivityDisplayOptions = {
   showBoostMenuOptions: boolean;
   showEditedTag: boolean;
   showVisibiltyState: boolean;
+  showTranslation: boolean;
   fixedHeight: boolean;
   fixedHeightContainer: boolean; // Will use fixedHeight but relies on container to set the height
 };
@@ -74,9 +75,27 @@ export class ActivityService {
   );
 
   /**
-   * TODO
+   * Subject for Activity's canDelete property, w
    */
-  canDelete$: Observable<boolean> = this.entity$.pipe();
+  canDeleteOverride$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+
+  /**
+   * Returns whether or not the user can edit an activity
+   */
+  canDelete$: Observable<boolean> = combineLatest([
+    this.entity$,
+    this.canDeleteOverride$,
+    this.session.user$,
+  ]).pipe(
+    map(
+      ([entity, override, user]) =>
+        entity &&
+        user &&
+        (entity.owner_guid === user.guid || user.is_admin || override)
+    )
+  );
 
   /**
    * Allows for components to give nsfw consent
@@ -118,6 +137,24 @@ export class ActivityService {
   shouldShowPaywall$: Observable<boolean> = this.entity$.pipe(
     map((entity: ActivityEntity) => {
       return !!entity.paywall;
+    })
+  );
+
+  /**
+   * Only allow translation menu item if there is content to translate
+   */
+  isTranslatable$: Observable<boolean> = this.entity$.pipe(
+    map((entity: ActivityEntity) => {
+      if (typeof entity.message !== 'undefined' && entity.message) {
+        return true;
+      } else if (
+        entity.custom_type &&
+        ((typeof entity.title !== 'undefined' && entity.title) ||
+          (typeof entity.blurb !== 'undefined' && entity.blurb))
+      ) {
+        return true;
+      }
+      return false;
     })
   );
 
@@ -164,6 +201,7 @@ export class ActivityService {
     showBoostMenuOptions: false,
     showEditedTag: false,
     showVisibiltyState: false,
+    showTranslation: false,
     fixedHeight: false,
     fixedHeightContainer: false,
   };

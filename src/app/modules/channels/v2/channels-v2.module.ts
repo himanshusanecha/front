@@ -28,6 +28,12 @@ import { ChannelEditHashtagsComponent } from './edit/hashtags.component';
 import { ChannelEditSocialLinksComponent } from './edit/social-links.component';
 import { ChannelSocialLinksComponent } from './social-links/social-links.component';
 import { ChannelLocationTypeaheadComponent } from './location-typeahead/location-typeahead.component';
+import { ChannelContentComponent } from './content/content.component';
+import { ChannelListComponent } from './list/list.component';
+import { ChannelListConnectionsComponent } from './list/connections.component';
+import { ChannelAboutExtraInfoComponent } from './about/extra-info.component';
+import { ChannelListGroupsComponent } from './list/groups.component';
+import { ModalsModule } from '../../modals/modals.module';
 
 /**
  * Generally available components
@@ -44,6 +50,7 @@ const INTERNAL_COMPONENTS = [
   ChannelShopBriefComponent,
   ChannelAboutComponent,
   ChannelAboutBriefComponent,
+  ChannelAboutExtraInfoComponent,
   ChannelActionsComponent,
   ChannelActionsSubscribeComponent,
   ChannelActionsEditComponent,
@@ -57,6 +64,10 @@ const INTERNAL_COMPONENTS = [
   ChannelEditSocialLinksComponent,
   ChannelSocialLinksComponent,
   ChannelLocationTypeaheadComponent,
+  ChannelContentComponent,
+  ChannelListComponent,
+  ChannelListConnectionsComponent,
+  ChannelListGroupsComponent,
 ];
 
 /**
@@ -76,6 +87,7 @@ const PROVIDERS = [ChannelEditModalService];
     NewsfeedModule,
     MessengerModule,
     HashtagsModule,
+    ModalsModule,
   ],
   declarations: [...INTERNAL_COMPONENTS, ...COMPONENTS],
   exports: COMPONENTS,

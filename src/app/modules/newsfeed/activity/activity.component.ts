@@ -22,11 +22,13 @@ import {
   ACTIVITY_FIXED_HEIGHT_RATIO,
   ActivityEntity,
 } from './activity.service';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { ComposerService } from '../../composer/services/composer.service';
 import { ClientMetaService } from '../../../common/services/client-meta.service';
 import { ElementVisibilityService } from '../../../common/services/element-visibility.service';
 import { NewsfeedService } from '../services/newsfeed.service';
+import { map } from 'rxjs/operators';
+import { TranslationService } from '../../../services/translation';
 
 @Component({
   selector: 'm-activity',
@@ -45,6 +47,10 @@ import { NewsfeedService } from '../services/newsfeed.service';
 })
 export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   entity$: Observable<ActivityEntity> = this.service.entity$;
+
+  @Input('canDelete') set _canDelete(value: boolean) {
+    this.service.canDeleteOverride$.next(value);
+  }
 
   @Input() set entity(entity) {
     this.service.setEntity(entity);
@@ -95,7 +101,8 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     @SkipSelf() private injector: Injector,
     private clientMetaService: ClientMetaService,
     private elementVisibilityService: ElementVisibilityService,
-    private newsfeedService: NewsfeedService
+    private newsfeedService: NewsfeedService,
+    private translationService: TranslationService
   ) {}
 
   ngOnInit() {
@@ -153,5 +160,10 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
 
   delete() {
     this.deleted.emit(this.service.entity$.value);
+  }
+
+  translate() {
+    console.log('translate selected');
+    // this.showTranslation
   }
 }

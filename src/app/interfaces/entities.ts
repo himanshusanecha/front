@@ -60,6 +60,7 @@ export enum ChannelMode {
 }
 
 export interface MindsUser {
+  type: 'user';
   guid: string;
   name: string;
   username: string;
@@ -124,6 +125,10 @@ export interface MindsUser {
   disable_autoplay_videos?: boolean;
   dob?: string;
   public_dob?: boolean | BitBoolean;
+  mature?: number | boolean;
+  enabled?: string | boolean;
+  not_found?: boolean;
+  email?: string;
 }
 
 export interface MindsGroup {
