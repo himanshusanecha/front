@@ -1,6 +1,9 @@
 <div class="m-marketing__footer">
   <!--Language bar-->
-  <div class="m-grid m-marketingFooter__columns m-marketingFooter__languageBar">
+  <div
+    *ngIf="features.has('localization-2020')"
+    class="m-grid m-marketingFooter__columns m-marketingFooter__languageBar"
+  >
     <div
       class="m-grid__column-3 m-marketingFooter__column m-marketingFooter__currentLanguage"
     >
@@ -32,6 +35,7 @@
   </div>
 
   <div
+    *ngIf="features.has('localization-2020')"
     class="m-marketing__sep m-marketing__sep--dashed m-marketing__sep--big"
   ></div>
 

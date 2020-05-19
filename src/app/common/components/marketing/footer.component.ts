@@ -11,6 +11,7 @@ import { ConfigsService } from '../../services/configs.service';
 import { OverlayModalService } from '../../../services/ux/overlay-modal';
 import { LanguageModalComponent } from '../language-modal/language-modal.component';
 import { BehaviorSubject } from 'rxjs';
+import { FeaturesService } from '../../../services/features.service';
 
 @Component({
   selector: 'm-marketing__footer',
@@ -60,6 +61,7 @@ export class MarketingFooterComponent implements OnInit {
     private configs: ConfigsService,
     protected cd: ChangeDetectorRef,
     private overlayModal: OverlayModalService,
+    public features: FeaturesService,
     @SkipSelf() private injector: Injector
   ) {
     this.cdnAssetsUrl = configs.get('cdn_assets_url');
@@ -102,7 +104,7 @@ export class MarketingFooterComponent implements OnInit {
         this.injector
       )
       .onDidDismiss(() => {
-        console.log('closed tag settings');
+        console.log('closed modal');
       })
       .present();
   }

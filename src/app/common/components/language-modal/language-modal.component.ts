@@ -10,7 +10,7 @@ const noOp = () => {};
   template: `
     <div class="m-modalV2__inner">
       <div class="m-modalV2__header">
-        <h2 class="m-modalV2Header__title">Language</h2>
+        <h2 class="m-modalV2Header__title" i18n>Language</h2>
       </div>
       <div class="m-layout__spacer"></div>
 
