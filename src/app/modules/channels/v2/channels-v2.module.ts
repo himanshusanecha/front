@@ -34,6 +34,8 @@ import { ChannelListConnectionsComponent } from './list/connections.component';
 import { ChannelAboutExtraInfoComponent } from './about/extra-info.component';
 import { ChannelListGroupsComponent } from './list/groups.component';
 import { ModalsModule } from '../../modals/modals.module';
+import { DiscoveryModule } from '../../discovery/discovery.module';
+import { DiscoverySharedModule } from '../../discovery/discovery-shared.module';
 
 /**
  * Generally available components
@@ -88,6 +90,7 @@ const PROVIDERS = [ChannelEditModalService];
     MessengerModule,
     HashtagsModule,
     ModalsModule,
+    DiscoverySharedModule,
   ],
   declarations: [...INTERNAL_COMPONENTS, ...COMPONENTS],
   exports: COMPONENTS,
