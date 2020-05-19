@@ -1,4 +1,41 @@
 <div class="m-marketing__footer">
+  <!--Language bar-->
+  <div class="m-grid m-marketingFooter__columns m-marketingFooter__languageBar">
+    <div
+      class="m-grid__column-3 m-marketingFooter__column m-marketingFooter__currentLanguage"
+    >
+      <m-tooltip icon="language" i18n>
+        Language
+      </m-tooltip>
+      <span i18n>{{ currentLanguage$ | async }}</span>
+    </div>
+    <div class="m-grid__column-7 m-marketingFooter__column">
+      <span
+        *ngFor="let language of languages.slice(0, 8)"
+        class="m-marketingFooter__languageOption"
+        (click)="onLanguageSelect(language)"
+        i18n
+      >
+        {{ language }}
+      </span>
+    </div>
+    <div
+      class="m-grid__column-1 m-marketingFooter__column m-marketingFooter__squareButtonWrapper"
+    >
+      <button
+        (click)="openLanguageModal()"
+        class="m-marketingFooter__squareButton"
+      >
+        +
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="m-marketing__sep m-marketing__sep--dashed m-marketing__sep--big"
+  ></div>
+
+  <!--Main body & links-->
   <div class="m-grid m-marketingFooter__columns">
     <div
       class="m-grid__column-4 m-grid__column-12--mobile m-marketingFooter__column m-marketingFooter__brandColumn"

@@ -1,0 +1,22 @@
+.m-modalV2__body {
+  padding-bottom: 32px !important;
+}
+
+.m-languageModal__languageOption {
+  display: inline-flex;
+  width: 30%;
+  line-height: 3;
+
+  cursor: pointer;
+  text-decoration: underline;
+  @include m-theme() {
+    color: themed($m-link);
+  }
+
+  &:hover {
+    text-decoration: none;
+    @include m-theme() {
+      text-shadow: 1px 1px 1px themed($m-aqua);
+    }
+  }
+}

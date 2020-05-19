@@ -36,7 +36,7 @@ import { FeaturesService } from '../../services/features.service';
 import { featuresServiceMock } from '../../../tests/features-service-mock.spec';
 import { IfFeatureDirective } from '../../common/directives/if-feature.directive';
 import { TopbarService } from '../../common/layout/topbar.service';
-import { MockService } from '../../utils/mock';
+import { MockService, MockComponent } from '../../utils/mock';
 import { SidebarNavigationService } from '../../common/layout/sidebar/navigation.service';
 import { MarketingFooterComponent } from '../../common/components/marketing/footer.component';
 import { PageLayoutService } from '../../common/layout/page-layout.service';
@@ -76,6 +76,7 @@ describe('LoginComponent', () => {
         LoginComponent,
         IfFeatureDirective,
         MarketingFooterComponent,
+        MockComponent({ selector: 'm-tooltip', inputs: ['icon', 'i18n'] }),
       ],
       imports: [
         RouterTestingModule,
