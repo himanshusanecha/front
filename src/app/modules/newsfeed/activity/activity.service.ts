@@ -42,7 +42,6 @@ export type ActivityEntity = {
   url?: string;
   urn?: string;
   boosted_guid?: string;
-  boosted?: boolean;
 };
 
 // Constants of blocks
