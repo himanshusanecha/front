@@ -39,57 +39,6 @@ m-marketing__footer {
     }
   }
 
-  .m-marketingFooter__languageBar {
-    .m-marketingFooter__currentLanguage {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      @include m-theme() {
-        color: themed($m-textColor--secondary);
-      }
-
-      span {
-        padding-left: 8px;
-      }
-    }
-
-    .m-marketingFooter__languageOption {
-      padding-right: 16px;
-      line-height: 2;
-
-      cursor: pointer;
-      text-decoration: underline;
-      @include m-theme() {
-        color: themed($m-link);
-      }
-
-      &:hover {
-        text-decoration: none;
-        @include m-theme() {
-          text-shadow: 1px 1px 1px themed($m-aqua);
-        }
-      }
-    }
-
-    .m-marketingFooter__squareButtonWrapper {
-      display: inline-flex;
-
-      .m-marketingFooter__squareButton {
-        padding: 0;
-        margin: 0;
-        height: 20px;
-        width: 20px;
-        margin: 0 auto;
-
-        @include m-theme() {
-          border: 1px outset themed($m-borderColor--primary);
-          background-color: themed($m-white);
-        }
-      }
-    }
-  }
-
   .m-marketingFooter__column {
     @media screen and(max-width: $m-grid-max-mobile) {
       @for $i from 1 through 5 {

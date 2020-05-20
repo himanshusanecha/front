@@ -174,7 +174,7 @@ import { AccordionComponent } from './components/accordion/accordion.component';
 import { AccordionPaneComponent } from './components/accordion/accordion-pane.component';
 import { StickySidebarDirective } from './components/sticky-sidebar/sticky-sidebar.directive';
 import { RemindComposerModalComponent } from '../modules/modals/remind-composer-v2/reminder-composer.component';
-import { LanguageModalComponent } from './components/language-modal/language-modal.component';
+import { LanguageModule } from '../modules/language/language.module';
 
 const routes: Routes = [
   {
@@ -192,6 +192,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    LanguageModule,
     RouterModule.forChild(routes),
   ],
   declarations: [
@@ -326,7 +327,6 @@ const routes: Routes = [
     AccordionComponent,
     AccordionPaneComponent,
     StickySidebarDirective,
-    LanguageModalComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -458,7 +458,6 @@ const routes: Routes = [
     AccordionComponent,
     AccordionPaneComponent,
     StickySidebarDirective,
-    LanguageModalComponent,
   ],
   providers: [
     SiteService,
@@ -534,7 +533,6 @@ const routes: Routes = [
     ReferralsLinksComponent,
     ShareModalComponent,
     RemindComposerModalComponent,
-    LanguageModalComponent,
   ],
 })
 export class CommonModule {}

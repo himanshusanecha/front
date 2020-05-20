@@ -1,38 +1,5 @@
 <div class="m-marketing__footer">
-  <!--Language bar-->
-  <div
-    *ngIf="features.has('localization-2020')"
-    class="m-grid m-marketingFooter__columns m-marketingFooter__languageBar"
-  >
-    <div
-      class="m-grid__column-3 m-marketingFooter__column m-marketingFooter__currentLanguage"
-    >
-      <m-tooltip icon="language" i18n>
-        Language
-      </m-tooltip>
-      <span i18n>{{ currentLanguage$ | async }}</span>
-    </div>
-    <div class="m-grid__column-7 m-marketingFooter__column">
-      <span
-        *ngFor="let language of languages.slice(0, 8)"
-        class="m-marketingFooter__languageOption"
-        (click)="onLanguageSelect(language)"
-        i18n
-      >
-        {{ language }}
-      </span>
-    </div>
-    <div
-      class="m-grid__column-1 m-marketingFooter__column m-marketingFooter__squareButtonWrapper"
-    >
-      <button
-        (click)="openLanguageModal()"
-        class="m-marketingFooter__squareButton"
-      >
-        +
-      </button>
-    </div>
-  </div>
+  <m-language__bar *ngIf="features.has('localization-2020')"></m-language__bar>
 
   <div
     *ngIf="features.has('localization-2020')"
