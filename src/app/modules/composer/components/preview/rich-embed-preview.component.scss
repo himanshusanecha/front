@@ -8,6 +8,7 @@
 
   .m-composerRichEmbedPreview__thumbnail {
     flex: 1;
+    max-height: 100%;
 
     > img {
       object-fit: cover;
@@ -41,9 +42,16 @@
     font-size: 13px;
     line-height: 24px;
     font-weight: 400;
+    position: absolute;
+    top: 0;
+    right: 0;
 
     @include m-theme() {
       color: themed($m-textColor--tertiary);
+
+      &:hover {
+        color: themed($m-textColor--primary);
+      }
     }
   }
 }
