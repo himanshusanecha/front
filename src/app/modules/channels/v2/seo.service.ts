@@ -26,6 +26,10 @@ export class SeoService {
       return;
     }
 
+    if (user.not_found || !user.avatar_url) {
+      return;
+    }
+
     const url = `/${user.username.toLowerCase()}`;
     this.meta
       .setTitle(`${user.name} (@${user.username})`)
