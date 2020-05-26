@@ -173,7 +173,6 @@ export class SettingsV2Component implements OnInit {
         },
         items: [
           { label: 'Subscription Tier Management', id: 'subscription-tiers' },
-          { label: 'Paywall Preview', id: 'paywall-preview' },
         ],
       },
       {

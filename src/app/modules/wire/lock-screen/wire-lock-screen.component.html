@@ -1,13 +1,4 @@
-<div
-  class="m-wire--lock-screen--transaction-made-notice"
-  *ngIf="showSubmittedInfo"
-  i18n="@@WIRE__LOCK_SCREEN__RECEIVED_TIMEOUT_LABEL"
->
-  We've received your transaction. Please try unlocking this post after it gets
-  processed. We estimate it may take around 5 minutes.
-</div>
-
-<div class="m-wire--lock-screen--button">
+<!-- <div class="m-wire--lock-screen--button">
   <div class="m-wire--lock-screen-introduction">
     <p *ngIf="!isOwner()">
       <b>&ldquo;</b>
@@ -84,7 +75,6 @@
   </div>
   <button
     class="m-unlock-button mdl-button mdl-button--colored mdl-color--green-500 mdl-color-text--white"
-    (click)="unlock()"
   >
     <i class="mdl-color-text--white ion-icon ion-flash"></i>
     <span
@@ -99,73 +89,61 @@
       ></div>
     </div>
   </button>
-</div>
+</div> -->
 
 <div
   class="m-wire--lock-screen"
   *ngIf="entity.wire_threshold"
   [style.backgroundImage]="getBackground()"
+  (click)="unlock()"
 >
   <div class="m-wire--lock-screen-overlay"></div>
+  <div class="m-wire--lock-screen-badge">
+    <i class="material-icons">lock</i>
+    <span>Locked</span>
+  </div>
 
-  <i class="ion-icon ion-flash"></i>
+  <h5 class="m-wire--lock-screen--message">
+    <ng-container *ngIf="!showSubmittedInfo">
+      <ng-container i18n="@@WIRE__LOCK_SCREEN__CAN_ONLY_BE_SEEN_TITLE_PART"
+        >This post can only be seen by supporters who wire</ng-container
+      >
 
-  <h2 class="m-wire--lock-screen-amount">
-    <span>
       <ng-container
         *ngIf="entity?.wire_threshold?.type == 'money'"
-        i18n="@@WIRE__LOCK_SCREEN__USD_PER_MONTH"
+        i18n="@@WIRE__LOCK_SCREEN__OVER_USD_PER_MONTH"
       >
+        over
         {{ entity.wire_threshold.min | currency: 'USD':true:'1.0-0' }}/month
       </ng-container>
 
       <ng-container
         *ngIf="entity?.wire_threshold?.type == 'points'"
-        i18n="@@WIRE__LOCK_SCREEN__POINTS_PER_MONTH"
+        i18n="@@WIRE__LOCK_SCREEN__OVER_POINTS_PER_MONTH"
       >
-        {{ entity.wire_threshold.min | number }} points/month
+        over {{ entity.wire_threshold.min | number }} points/month
       </ng-container>
 
       <ng-container
         *ngIf="entity?.wire_threshold?.type == 'tokens'"
-        i18n="@@WIRE__LOCK_SCREEN__TOKENS_PER_MONTH"
+        i18n="@@WIRE__LOCK_SCREEN__OVER_TOKENS_PER_MONTH"
       >
-        {{ entity.wire_threshold.min | number: '1.0-4' }} Tokens/month
+        over {{ entity.wire_threshold.min | number }} Tokens/month
       </ng-container>
-    </span>
-  </h2>
 
-  <h5 class="m-wire--lock-screen--message">
-    <ng-container i18n="@@WIRE__LOCK_SCREEN__CAN_ONLY_BE_SEEN_TITLE_PART"
-      >This post can only be seen by supporters who wire</ng-container
+      <ng-container
+        *ngIf="entity?.ownerObj?.username"
+        i18n="@@WIRE__LOCK_SCREEN__TO_USERNAME_PART"
+      >
+        to @{{ entity.ownerObj.username }}
+      </ng-container></ng-container
     >
-
     <ng-container
-      *ngIf="entity?.wire_threshold?.type == 'money'"
-      i18n="@@WIRE__LOCK_SCREEN__OVER_USD_PER_MONTH"
+      *ngIf="showSubmittedInfo"
+      i18n="@@WIRE__LOCK_SCREEN__RECEIVED_TIMEOUT_LABEL"
     >
-      over {{ entity.wire_threshold.min | currency: 'USD':true:'1.0-0' }}/month
-    </ng-container>
-
-    <ng-container
-      *ngIf="entity?.wire_threshold?.type == 'points'"
-      i18n="@@WIRE__LOCK_SCREEN__OVER_POINTS_PER_MONTH"
+      We've received your transaction. Please try unlocking this post after it
+      gets processed. We estimate it may take around 5 minutes.</ng-container
     >
-      over {{ entity.wire_threshold.min | number }} points/month
-    </ng-container>
-
-    <ng-container
-      *ngIf="entity?.wire_threshold?.type == 'tokens'"
-      i18n="@@WIRE__LOCK_SCREEN__OVER_TOKENS_PER_MONTH"
-    >
-      over {{ entity.wire_threshold.min | number }} Tokens/month
-    </ng-container>
-
-    <ng-container
-      *ngIf="entity?.ownerObj?.username"
-      i18n="@@WIRE__LOCK_SCREEN__TO_USERNAME_PART"
-    >
-      to @{{ entity.ownerObj.username }}
-    </ng-container>
   </h5>
 </div>
