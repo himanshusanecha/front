@@ -47,6 +47,10 @@ export class ChartV2Component implements OnInit, OnDestroy {
     this._interval = value;
     if (value) {
       //redraw chart
+      if (this.isDark) {
+        this.setData();
+        this.setLayout();
+      }
       this.initPlot();
     }
   }

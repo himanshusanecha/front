@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  OnInit,
 } from '@angular/core';
 import { Client } from '../../../services/api/client';
 import { Session } from '../../../services/session';
@@ -18,7 +19,7 @@ import { WireModalService } from '../wire-modal.service';
   templateUrl: 'wire-lock-screen.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WireLockScreenComponent {
+export class WireLockScreenComponent implements OnInit {
   @Input() entity: any;
   @Output('entityChange') update: EventEmitter<any> = new EventEmitter<any>();
 
@@ -26,6 +27,8 @@ export class WireLockScreenComponent {
 
   showSubmittedInfo: boolean = false;
   inProgress: boolean = false;
+  contentType: string;
+  isGif: boolean = false;
 
   constructor(
     public session: Session,
@@ -35,6 +38,28 @@ export class WireLockScreenComponent {
     private modal: SignupModalService,
     private configs: ConfigsService
   ) {}
+
+  ngOnInit() {
+    this.contentType = this.getContentType();
+  }
+
+  getContentType(): string {
+    if (!this.entity) {
+      return '';
+    }
+    const e = this.entity;
+    if (e.perma_url && e.entity_guid) {
+      return 'blog';
+    }
+    if (e.custom_type === 'video') {
+      return 'video';
+    }
+    if (e.custom_type === 'batch') {
+      // TODOOJM custom_data[0].gif
+      return 'image';
+    }
+    return 'status';
+  }
 
   unlock() {
     if (this.preview) {
@@ -97,29 +122,20 @@ export class WireLockScreenComponent {
   }
 
   getBackground() {
-    if (!this.entity) {
-      return;
-    }
-
-    if (this.entity._preview) {
-      return `url(${this.entity.ownerObj.merchant.exclusive._backgroundPreview})`;
-    }
-
-    if (
-      !this.entity.ownerObj ||
-      !this.entity.ownerObj.merchant ||
-      !this.entity.ownerObj.merchant.exclusive ||
-      !this.entity.ownerObj.merchant.exclusive.background
-    ) {
+    if (!this.entity || this.contentType === 'status') {
       return null;
     }
+    let image;
 
-    let image =
-      this.configs.get('cdn_assets_url') +
-      'fs/v1/paywall/preview/' +
-      this.entity.ownerObj.guid +
-      '/' +
-      this.entity.ownerObj.merchant.exclusive.background;
+    if (this.contentType === 'image') {
+      image =
+        this.configs.get('cdn_assets_url') +
+        // 'fs/v1/paywall/preview/' +
+        'fs/v1/thumbnail/' +
+        this.entity.guid;
+      // +
+      // '/xlarge'
+    }
 
     return `url(${image})`;
   }
