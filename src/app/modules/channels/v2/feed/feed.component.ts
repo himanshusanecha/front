@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ChannelsV2Service } from '../channels-v2.service';
 import { FeedFilterType } from '../../../../common/components/feed-filter/feed-filter.component';
 import { FeedsService } from '../../../../common/services/feeds.service';
+import { FeedsUpdateService } from '../../../../common/services/feeds-update.service';
 import { Subscription } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -57,6 +58,11 @@ export class ChannelFeedComponent implements OnDestroy {
   protected guidSubscription: Subscription;
 
   /**
+   * Listening for new posts.
+   */
+  private feedsUpdatedSubscription: Subscription;
+
+  /**
    * Constructor
    * @param feed
    * @param service
@@ -66,6 +72,7 @@ export class ChannelFeedComponent implements OnDestroy {
     public feed: FeedService,
     public service: ChannelsV2Service,
     protected router: Router,
+    public feedsUpdate: FeedsUpdateService,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     if (isPlatformBrowser(platformId)) {
@@ -73,6 +80,36 @@ export class ChannelFeedComponent implements OnDestroy {
         this.feed.guid$.next(guid)
       );
     }
+    this.feedsUpdatedSubscription = feedsUpdate.postEmitter.subscribe(
+      newPost => {
+        this.prepend(newPost);
+      }
+    );
+  }
+
+  prepend(activity: any) {
+    if (!activity) {
+      return;
+    }
+
+    // TODO: Increment scheduled count https://gitlab.com/minds/front/-/issues/3127
+    // if (activity.time_created > Date.now() / 1000) { // and route is actually on a channel.
+    // this.feed.scheduledCount$ = this.feed.scheduledCount$.pipe(
+    //   map(count => count++)
+    // );
+    // }
+
+    let feedItem = {
+      entity: activity,
+      urn: activity.urn,
+      guid: activity.guid,
+    };
+
+    // Todo: Move to FeedsService
+    this.feed.service.rawFeed.next([
+      ...[feedItem],
+      ...this.feed.service.rawFeed.getValue(),
+    ]);
   }
 
   /**
@@ -81,6 +118,9 @@ export class ChannelFeedComponent implements OnDestroy {
   ngOnDestroy(): void {
     if (this.guidSubscription) {
       this.guidSubscription.unsubscribe();
+    }
+    if (this.feedsUpdatedSubscription) {
+      this.feedsUpdatedSubscription.unsubscribe();
     }
   }
 

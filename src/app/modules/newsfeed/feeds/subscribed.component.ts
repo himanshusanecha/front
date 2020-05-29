@@ -30,6 +30,7 @@ import { NewsfeedService } from '../services/newsfeed.service';
 import { ClientMetaService } from '../../../common/services/client-meta.service';
 import { isPlatformServer } from '@angular/common';
 import { ComposerComponent } from '../../composer/composer.component';
+import { FeedsUpdateService } from '../../../common/services/feeds-update.service';
 
 @Component({
   selector: 'm-newsfeed--subscribed',
@@ -61,6 +62,11 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
   reloadFeedSubscription: Subscription;
   routerSubscription: Subscription;
 
+  /**
+   * Listening for new posts.
+   */
+  private feedsUpdatedSubscription: Subscription;
+
   @ViewChild('poster', { static: false }) private poster: PosterComponent;
 
   @ViewChild('composer', { static: false }) private composer: ComposerComponent;
@@ -77,6 +83,7 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
     public feedsService: FeedsService,
     protected newsfeedService: NewsfeedService,
     protected clientMetaService: ClientMetaService,
+    public feedsUpdate: FeedsUpdateService,
     @SkipSelf() injector: Injector,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -84,6 +91,12 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
       .inherit(injector)
       .setSource('feed/subscribed')
       .setMedium('feed');
+
+    this.feedsUpdatedSubscription = feedsUpdate.postEmitter.subscribe(
+      newPost => {
+        this.prepend(newPost);
+      }
+    );
   }
 
   ngOnInit() {
@@ -120,6 +133,7 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
     this.paramsSubscription.unsubscribe();
     this.reloadFeedSubscription.unsubscribe();
     this.routerSubscription.unsubscribe();
+    this.feedsUpdatedSubscription.unsubscribe();
   }
 
   load(refresh: boolean = false, forceSync: boolean = false) {
