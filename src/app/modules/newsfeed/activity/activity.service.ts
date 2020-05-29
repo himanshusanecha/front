@@ -42,6 +42,7 @@ export type ActivityEntity = {
   url?: string;
   urn?: string;
   boosted_guid?: string;
+  content_type: string;
 };
 
 // Constants of blocks
@@ -119,15 +120,11 @@ export class ActivityService {
   );
 
   /**
-   * We do not render the contents if nsfw (and no consent) or
-   * a paywall is in place
+   * We do not render the contents if nsfw (and no consent)
    */
-  shouldShowContent$: Observable<boolean> = combineLatest(
-    this.entity$,
-    this.shouldShowNsfwConsent$
-  ).pipe(
-    map(([entity, shouldShowNsfwContsent]: [ActivityEntity, boolean]) => {
-      return !shouldShowNsfwContsent && !entity.paywall;
+  shouldShowContent$: Observable<boolean> = this.shouldShowNsfwConsent$.pipe(
+    map((shouldShowNsfwConsent: boolean) => {
+      return !shouldShowNsfwConsent;
     })
   );
 

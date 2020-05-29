@@ -1,3 +1,9 @@
+<m-paywallBadge
+  *ngIf="!!entity.paywall || entity.paywall_unlocked"
+></m-paywallBadge>
+<m-activity__paywall
+  *ngIf="service.shouldShowPaywall$ | async"
+></m-activity__paywall>
 <div class="m-activityContent__fixedHeightSpacer" *ngIf="isTextOnly"></div>
 <div
   #messageEl
@@ -13,6 +19,7 @@
     <span [innerHtml]="message | tags"></span>
     <m-read-more--button [v2]="true"></m-read-more--button>
   </div>
+  <!-- TODO use this for remind translations -->
   <!-- (onTranslateInit)="propagateTranslation($event)" -->
   <m-translate
     *mIfBrowser

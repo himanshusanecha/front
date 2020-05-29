@@ -12,6 +12,7 @@ import { Session } from '../../../services/session';
 import { SignupModalService } from '../../modals/signup/service';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { WireModalService } from '../wire-modal.service';
+import getEntityContentType from '../../../helpers/entity-content-type';
 
 @Component({
   moduleId: module.id,
@@ -25,10 +26,13 @@ export class WireLockScreenComponent implements OnInit {
 
   @Input() preview: any;
 
+  init: boolean = false;
   showSubmittedInfo: boolean = false;
   inProgress: boolean = false;
   contentType: string;
-  isGif: boolean = false;
+  hasTeaser: boolean = false;
+  paywallType: 'plus' | 'tier' | 'ppv' = 'ppv';
+  tierName: string | null;
 
   constructor(
     public session: Session,
@@ -40,28 +44,28 @@ export class WireLockScreenComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.contentType = this.getContentType();
-  }
-
-  getContentType(): string {
     if (!this.entity) {
-      return '';
+      return;
     }
-    const e = this.entity;
-    if (e.perma_url && e.entity_guid) {
-      return 'blog';
+    this.contentType = getEntityContentType(this.entity);
+    if (this.contentType === 'video' || this.contentType === 'blog') {
+      this.hasTeaser = true;
     }
-    if (e.custom_type === 'video') {
-      return 'video';
-    }
-    if (e.custom_type === 'batch') {
-      // TODOOJM custom_data[0].gif
-      return 'image';
-    }
-    return 'status';
+    this.getPaywallType();
+    this.init = true;
+    this.detectChanges();
   }
 
-  unlock() {
+  // This is temporary until we get this.entity.support_tier
+  getPaywallType(): void {
+    // this.paywallType = 'plus';
+    // this.paywallType = 'tier';
+    this.paywallType = 'ppv';
+  }
+
+  unlock($event) {
+    $event.stopPropagation();
+
     if (this.preview) {
       return;
     }
@@ -119,25 +123,6 @@ export class WireLockScreenComponent implements OnInit {
 
   isOwner() {
     return this.entity.ownerObj.guid === this.session.getLoggedInUser().guid;
-  }
-
-  getBackground() {
-    if (!this.entity || this.contentType === 'status') {
-      return null;
-    }
-    let image;
-
-    if (this.contentType === 'image') {
-      image =
-        this.configs.get('cdn_assets_url') +
-        // 'fs/v1/paywall/preview/' +
-        'fs/v1/thumbnail/' +
-        this.entity.guid;
-      // +
-      // '/xlarge'
-    }
-
-    return `url(${image})`;
   }
 
   private detectChanges() {

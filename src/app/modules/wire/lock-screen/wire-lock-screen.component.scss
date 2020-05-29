@@ -1,69 +1,47 @@
 m-wire--lock-screen {
   display: flex;
   flex-flow: column nowrap;
-  position: relative;
-}
-.m-wire--lock-screen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  text-align: center;
-  position: relative;
-  min-height: 300px;
-  cursor: pointer;
-  @include m-theme() {
-    color: themed($m-white);
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
-  > * {
-    z-index: 1;
-  }
-  &.textOnly {
+  .m-wire--lock-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+
+    z-index: 0;
+    cursor: pointer;
     @include m-theme() {
-      color: themed($m-textColor--secondary);
-      border-top: 1px solid themed($m-borderColor--tertiary);
+      color: themed($m-white);
     }
-    .m-wire--lock-screen--message {
+
+    > * {
+      z-index: 1;
+    }
+    &.isStatus {
+      // min-height: 100px;
+
       @include m-theme() {
-        text-shadow: 0 0 0 rgba(themed($m-black-always), 0);
+        color: themed($m-textColor--secondary);
+        border-top: 1px solid themed($m-borderColor--tertiary);
+        background-color: themed($m-white);
+      }
+      .m-wire--lock-screen--message {
+        @include m-theme() {
+          text-shadow: 0 0 0 rgba(themed($m-black-always), 0);
+        }
       }
     }
   }
 
   .m-wire--lock-screen-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
     @include m-theme() {
-      background-color: themed($m-white);
-    }
-  }
-
-  .m-wire--lock-screen-badge {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    top: 12px;
-    right: 24px;
-    border-radius: 3px;
-    padding: 4px 5px;
-    font-size: 12px;
-    line-height: 12px;
-    font-weight: 500;
-    @include m-theme() {
-      color: themed($m-white);
-      background-color: themed($m-textColor--secondary);
-      box-shadow: 0 1px 3px 0 rgba(themed($m-black-always), 0.3);
-    }
-    i {
-      font-size: 11px;
-      line-height: 12px;
-      margin-right: 3px;
-      margin-left: -2px;
+      background-color: rgba(themed($m-black-always), 0.4);
     }
   }
 
@@ -75,7 +53,7 @@ m-wire--lock-screen {
     font-size: inherit;
     line-height: 20px;
     @include m-theme() {
-      text-shadow: 0 0 2px rgba(themed($m-black-always), 0.4);
+      text-shadow: 0 0 2px rgba(themed($m-black-always), 0.6);
     }
   }
 }

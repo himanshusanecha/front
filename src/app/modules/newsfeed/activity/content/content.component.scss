@@ -1,11 +1,11 @@
 m-activity__content {
   display: block;
   width: 100%;
+  position: relative;
 }
 .m-activity--fixedHeight {
   m-activity__content {
     flex: 1;
-    // overflow: hidden;
     display: flex;
     flex-direction: column;
     height: auto;

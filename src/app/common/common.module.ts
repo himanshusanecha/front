@@ -175,6 +175,7 @@ import { AccordionPaneComponent } from './components/accordion/accordion-pane.co
 import { StickySidebarDirective } from './components/sticky-sidebar/sticky-sidebar.directive';
 import { RemindComposerModalComponent } from '../modules/modals/remind-composer-v2/reminder-composer.component';
 import { LanguageModule } from '../modules/language/language.module';
+import { PaywallBadgeComponent } from './components/paywall-badge/paywall-badge.component';
 
 const routes: Routes = [
   {
@@ -327,6 +328,7 @@ const routes: Routes = [
     AccordionComponent,
     AccordionPaneComponent,
     StickySidebarDirective,
+    PaywallBadgeComponent,
   ],
   exports: [
     MINDS_PIPES,
@@ -458,6 +460,7 @@ const routes: Routes = [
     AccordionComponent,
     AccordionPaneComponent,
     StickySidebarDirective,
+    PaywallBadgeComponent,
   ],
   providers: [
     SiteService,

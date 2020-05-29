@@ -1,0 +1,8 @@
+<div
+  class="m-paywallBadge"
+  [ngClass]="{ isPlus: paywallType === 'plus', isPPV: paywallType === 'ppv' }"
+>
+  <i *ngIf="paywallType !== 'plus'" class="material-icons">lock</i>
+  <span *ngIf="paywallType === 'plus'">PLUS</span>
+  <span *ngIf="paywallType === 'tier'">Members Only</span>
+</div>
