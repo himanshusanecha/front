@@ -54,6 +54,17 @@ m-activity__ownerBlock {
     text-overflow: ellipsis;
     overflow: hidden;
   }
+
+  .m-activityOwnerBlock__scheduledTooltip {
+    i {
+      padding-right: 4px;
+      font-size: 20px;
+
+      @include m-theme() {
+        color: themed($m-blue);
+      }
+    }
+  }
 }
 
 .m-activityOwnerBlock__groupName {

@@ -11,6 +11,14 @@
       *ngIf="service.isRemind$ | async"
       >repeat</i
     >
+    <m-tooltip
+      class="m-activityOwnerBlock__scheduledTooltip"
+      *ngIf="isScheduled()"
+      icon="schedule"
+      i18n
+    >
+      Scheduled for posting at: {{ toReadableDate(entity.time_created) }}
+    </m-tooltip>
     <strong [title]="displayName">{{ displayName }}</strong>
     <m-channel--badges
       class="m-channel--badges-activity"
