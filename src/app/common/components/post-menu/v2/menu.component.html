@@ -81,7 +81,9 @@
     <span class="m-dropdownMenu__divider"></span>
 
     <!-- NOTIFICATIONS -->
-    <ng-container *ngIf="options.indexOf('follow') !== -1">
+    <ng-container
+      *ngIf="session.isLoggedIn() && options.indexOf('follow') !== -1"
+    >
       <li
         class="m-dropdownList__item"
         *ngIf="(service.isFollowing$ | async) === null"
@@ -92,7 +94,7 @@
       </li>
       <li
         class="m-dropdownList__item"
-        *ngIf="(service.isFollowing$ | async) === true"
+        *ngIf="session.isLoggedIn() && (service.isFollowing$ | async) === true"
         (click)="onSelectedOption('unfollow')"
         i18n="@@COMMON__POST_MENU__UNFOLLOW_NOTIFICATIONS"
       >
@@ -100,7 +102,7 @@
       </li>
       <li
         class="m-dropdownList__item"
-        *ngIf="(service.isFollowing$ | async) === false"
+        *ngIf="session.isLoggedIn() && (service.isFollowing$ | async) === false"
         (click)="onSelectedOption('follow')"
         i18n="@@COMMON__POST_MENU__FOLLOW_NOTIFICATIONS"
       >
@@ -111,6 +113,7 @@
     <!-- BLOCK -->
     <ng-container
       *ngIf="
+        session.isLoggedIn() &&
         options.indexOf('block') !== -1 &&
         entity.ownerObj.guid != session.getLoggedInUser().guid
       "
@@ -197,6 +200,7 @@
     <li
       class="m-dropdownList__item m-dropdownList__item--destructive"
       *ngIf="
+        session.isLoggedIn() &&
         options.indexOf('report') !== -1 &&
         entity.owner_guid != session.getLoggedInUser().guid
       "
