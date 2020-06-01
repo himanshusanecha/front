@@ -83,7 +83,7 @@
       [class.m-activityContent__mediaTitle--noDescription]="!mediaDescription"
       *ngIf="mediaTitle"
     ></p>
-    <p [innerHtml]="mediaDescription | tags"></p>
+    <p *ngIf="mediaDescription" [innerHtml]="mediaDescription | tags"></p>
     <m-read-more--button [v2]="true"></m-read-more--button>
   </div>
   <!-- (onTranslateInit)="propagateTranslation($event)" -->
