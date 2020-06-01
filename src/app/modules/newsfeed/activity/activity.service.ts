@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { Session } from '../../../services/session';
+import getEntityContentType from '../../../helpers/entity-content-type';
 
 export type ActivityDisplayOptions = {
   showOwnerBlock: boolean;
@@ -42,7 +43,8 @@ export type ActivityEntity = {
   url?: string;
   urn?: string;
   boosted_guid?: string;
-  content_type: string;
+  content_type?: string;
+  paywall_unlocked?: boolean;
 };
 
 // Constants of blocks
@@ -214,6 +216,7 @@ export class ActivityService {
    */
   setEntity(entity): ActivityService {
     if (entity.type !== 'activity') entity = this.patchForeignEntity(entity);
+    entity.content_type = getEntityContentType(entity);
     this.entity$.next(entity);
     return this;
   }

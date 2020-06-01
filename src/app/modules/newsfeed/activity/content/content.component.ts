@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  HostBinding,
 } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 
@@ -68,6 +69,9 @@ export class ActivityContentComponent
 
   entity: ActivityEntity;
 
+  @HostBinding('class.m-activityContent--paywalledStatus')
+  isPaywalledStatus: boolean;
+
   constructor(
     public service: ActivityService,
     private overlayModal: OverlayModalService,
@@ -84,6 +88,9 @@ export class ActivityContentComponent
       (entity: ActivityEntity) => {
         this.entity = entity;
         this.calculateFixedContentHeight();
+        this.isPaywalledStatus =
+          entity.content_type === 'status' &&
+          (!!entity.paywall || entity.paywall_unlocked);
       }
     );
     this.activityHeightSubscription = this.service.height$.subscribe(

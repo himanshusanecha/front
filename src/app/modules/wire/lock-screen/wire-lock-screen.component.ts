@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   OnInit,
+  HostBinding,
 } from '@angular/core';
 import { Client } from '../../../services/api/client';
 import { Session } from '../../../services/session';
@@ -13,6 +14,8 @@ import { SignupModalService } from '../../modals/signup/service';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { WireModalService } from '../wire-modal.service';
 import getEntityContentType from '../../../helpers/entity-content-type';
+import { FeaturesService } from '../../../services/features.service';
+import { WireEventType } from '../v2/wire-v2.service';
 
 @Component({
   moduleId: module.id,
@@ -34,13 +37,17 @@ export class WireLockScreenComponent implements OnInit {
   paywallType: 'plus' | 'tier' | 'ppv' = 'ppv';
   tierName: string | null;
 
+  @HostBinding('class.m-wire--lock-screen-2020')
+  isPaywall2020: boolean = false;
+
   constructor(
     public session: Session,
     private client: Client,
     private cd: ChangeDetectorRef,
     private wireModal: WireModalService,
     private modal: SignupModalService,
-    private configs: ConfigsService
+    private configs: ConfigsService,
+    private featuresService: FeaturesService
   ) {}
 
   ngOnInit() {
@@ -51,8 +58,12 @@ export class WireLockScreenComponent implements OnInit {
     if (this.contentType === 'video' || this.contentType === 'blog') {
       this.hasTeaser = true;
     }
-    this.getPaywallType();
-    this.init = true;
+    if (this.featuresService.has('paywall-2020')) {
+      this.isPaywall2020 = true;
+      this.getPaywallType();
+      this.init = true;
+    }
+
     this.detectChanges();
   }
 
@@ -111,9 +122,13 @@ export class WireLockScreenComponent implements OnInit {
       .present(this.entity, {
         default: this.entity.wire_threshold,
       })
-      .toPromise();
-
-    this.wireSubmitted();
+      .subscribe(payEvent => {
+        if (payEvent.type === WireEventType.Completed) {
+          this.wireSubmitted();
+        }
+      });
+    // .toPromise();
+    // this.wireSubmitted();
   }
 
   wireSubmitted() {
@@ -123,6 +138,34 @@ export class WireLockScreenComponent implements OnInit {
 
   isOwner() {
     return this.entity.ownerObj.guid === this.session.getLoggedInUser().guid;
+  }
+
+  getBackground() {
+    if (!this.entity) {
+      return;
+    }
+
+    if (this.entity._preview) {
+      return `url(${this.entity.ownerObj.merchant.exclusive._backgroundPreview})`;
+    }
+
+    if (
+      !this.entity.ownerObj ||
+      !this.entity.ownerObj.merchant ||
+      !this.entity.ownerObj.merchant.exclusive ||
+      !this.entity.ownerObj.merchant.exclusive.background
+    ) {
+      return null;
+    }
+
+    let image =
+      this.configs.get('cdn_assets_url') +
+      'fs/v1/paywall/preview/' +
+      this.entity.ownerObj.guid +
+      '/' +
+      this.entity.ownerObj.merchant.exclusive.background;
+
+    return `url(${image})`;
   }
 
   private detectChanges() {

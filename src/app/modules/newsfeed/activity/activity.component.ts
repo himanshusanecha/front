@@ -92,6 +92,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   heightPx: string;
 
   heightSubscription: Subscription;
+  contentType: string;
 
   constructor(
     public service: ActivityService,

@@ -1,3 +1,6 @@
+m-paywallBadge {
+  z-index: 3;
+}
 .m-paywallBadge {
   position: absolute;
   display: flex;
@@ -9,7 +12,7 @@
   font-size: 12px;
   line-height: 12px;
   font-weight: 500;
-  z-index: 2;
+  z-index: 3;
   @include m-theme() {
     color: themed($m-white);
     background-color: themed($m-textColor--secondary);

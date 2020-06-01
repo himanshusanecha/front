@@ -2,6 +2,13 @@ m-activity__content {
   display: block;
   width: 100%;
   position: relative;
+  &.m-activityContent--paywalledStatus {
+    min-height: 100px;
+    padding-top: 50px;
+  }
+  m-paywallBadge {
+    cursor: pointer;
+  }
 }
 .m-activity--fixedHeight {
   m-activity__content {
