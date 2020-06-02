@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActivityService, ActivityEntity } from '../activity.service';
@@ -10,11 +10,10 @@ import { NSFW_REASONS } from '../../../../common/components/nsfw-selector/nsfw-s
   templateUrl: 'nsfw-consent.component.html',
 })
 export class ActivityNsfwConsentComponent {
-  showPaywallBadge: boolean = false;
+  @Input() showPaywallBadge: boolean = false;
 
   reasonsLabel$: Observable<string> = this.service.entity$.pipe(
     map((entity: ActivityEntity) => {
-      this.showPaywallBadge = !!entity.paywall || entity.paywall_unlocked;
       const reasons = NSFW_REASONS.filter(
         reason => entity.nsfw.indexOf(reason.value) > -1
       );

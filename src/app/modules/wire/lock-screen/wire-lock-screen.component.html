@@ -1,4 +1,4 @@
-<ng-container *mIfFeature="'paywall-2020'; else legacyPaywall">
+<ng-container *ngIf="isPaywall2020; else legacyPaywall">
   <div
     class="m-wire--lock-screen"
     [ngClass]="{ isStatus: contentType === 'status' }"

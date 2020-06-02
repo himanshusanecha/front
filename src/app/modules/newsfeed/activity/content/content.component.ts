@@ -44,6 +44,9 @@ export class ActivityContentComponent
    */
   @Input() autoplayVideo: boolean = false;
 
+  @Input() showPaywall: boolean = false;
+  @Input() showPaywallBadge: boolean = false;
+
   @ViewChild('mediaEl', { static: false, read: ElementRef })
   mediaEl: ElementRef;
 
@@ -70,7 +73,7 @@ export class ActivityContentComponent
   entity: ActivityEntity;
 
   @HostBinding('class.m-activityContent--paywalledStatus')
-  isPaywalledStatus: boolean;
+  isPaywalledStatusPost: boolean;
 
   constructor(
     public service: ActivityService,
@@ -88,9 +91,8 @@ export class ActivityContentComponent
       (entity: ActivityEntity) => {
         this.entity = entity;
         this.calculateFixedContentHeight();
-        this.isPaywalledStatus =
-          entity.content_type === 'status' &&
-          (!!entity.paywall || entity.paywall_unlocked);
+        this.isPaywalledStatusPost =
+          this.showPaywall && entity.content_type === 'status';
       }
     );
     this.activityHeightSubscription = this.service.height$.subscribe(
@@ -202,6 +204,19 @@ export class ActivityContentComponent
     if (!this.mediaEl) return '';
     const height = this.mediaEl.nativeElement.clientWidth / (16 / 9);
     return `${height}px`;
+  }
+
+  get mediaHeight(): number | null {
+    if (this.isImage) {
+      return parseInt(this.imageHeight.slice(0, -2), 10);
+    }
+    if (this.isVideo) {
+      return parseInt(this.videoHeight.slice(0, -2), 10);
+    }
+    if (this.isRichEmbed) {
+      return 220;
+    }
+    return null;
   }
 
   calculateFixedContentHeight(): void {

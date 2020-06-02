@@ -19,9 +19,14 @@
   *ngIf="service.shouldShowContent$ | async"
   [allowAutoplayOnScroll]="allowAutoplayOnScroll"
   [autoplayVideo]="autoplayVideo"
+  [showPaywall]="service.shouldShowPaywall$ | async"
+  [showPaywallBadge]="service.shouldShowPaywallBadge$ | async"
 ></m-activity__content>
 
-<m-activity__nsfwConsent *ngIf="service.shouldShowNsfwConsent$ | async">
+<m-activity__nsfwConsent
+  *ngIf="service.shouldShowNsfwConsent$ | async"
+  [showPaywallBadge]="service.shouldShowPaywallBadge$ | async"
+>
 </m-activity__nsfwConsent>
 
 <m-activity__toolbar

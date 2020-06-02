@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { Session } from '../../../services/session';
-import getEntityContentType from '../../../helpers/entity-content-type';
+import getActivityContentType from '../../../helpers/activity-content-type';
 
 export type ActivityDisplayOptions = {
   showOwnerBlock: boolean;
@@ -135,7 +135,17 @@ export class ActivityService {
    */
   shouldShowPaywall$: Observable<boolean> = this.entity$.pipe(
     map((entity: ActivityEntity) => {
-      return !!entity.paywall;
+      const isOwner =
+        entity.ownerObj.guid === this.session.getLoggedInUser().guid;
+      return !!entity.paywall && !isOwner;
+    })
+  );
+  /**
+   * Show the paywall badge both before and after the paywall is unlocked
+   */
+  shouldShowPaywallBadge$: Observable<boolean> = this.entity$.pipe(
+    map((entity: ActivityEntity) => {
+      return !!entity.paywall || entity.paywall_unlocked;
     })
   );
 
@@ -216,7 +226,7 @@ export class ActivityService {
    */
   setEntity(entity): ActivityService {
     if (entity.type !== 'activity') entity = this.patchForeignEntity(entity);
-    entity.content_type = getEntityContentType(entity);
+    entity.content_type = getActivityContentType(entity);
     this.entity$.next(entity);
     return this;
   }

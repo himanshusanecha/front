@@ -13,7 +13,7 @@ import { Session } from '../../../services/session';
 import { SignupModalService } from '../../modals/signup/service';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { WireModalService } from '../wire-modal.service';
-import getEntityContentType from '../../../helpers/entity-content-type';
+import getActivityContentType from '../../../helpers/activity-content-type';
 import { FeaturesService } from '../../../services/features.service';
 import { WireEventType } from '../v2/wire-v2.service';
 
@@ -28,6 +28,8 @@ export class WireLockScreenComponent implements OnInit {
   @Output('entityChange') update: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() preview: any;
+  @Input() mediaHeight: number | null = null;
+  @Input() showLegacyPaywall: boolean = true;
 
   init: boolean = false;
   showSubmittedInfo: boolean = false;
@@ -54,16 +56,17 @@ export class WireLockScreenComponent implements OnInit {
     if (!this.entity) {
       return;
     }
-    this.contentType = getEntityContentType(this.entity);
-    if (this.contentType === 'video' || this.contentType === 'blog') {
+    this.contentType = getActivityContentType(this.entity);
+    if (this.contentType === 'video' || this.contentType === 'rich-embed') {
       this.hasTeaser = true;
     }
-    if (this.featuresService.has('paywall-2020')) {
+    if (this.featuresService.has('paywall-2020') && !this.showLegacyPaywall) {
       this.isPaywall2020 = true;
       this.getPaywallType();
       this.init = true;
     }
 
+    console.log(this.mediaHeight);
     this.detectChanges();
   }
 

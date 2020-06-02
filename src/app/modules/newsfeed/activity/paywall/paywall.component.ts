@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActivityService, ActivityEntity } from '../activity.service';
@@ -10,6 +10,8 @@ import { NSFW_REASONS } from '../../../../common/components/nsfw-selector/nsfw-s
   templateUrl: './paywall.component.html',
 })
 export class ActivityPaywallComponent {
+  @Input() mediaHeight: number | null = null;
+
   constructor(public service: ActivityService) {}
 
   onEntityUpdated(entity: ActivityEntity): void {
