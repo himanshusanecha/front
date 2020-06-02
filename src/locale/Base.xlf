@@ -82,67 +82,45 @@
           <context context-type="sourcefile">app/common/layout/sidebar/navigation.component.html</context>
           <context context-type="linenumber">47</context>
         </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="34c9e853fd1f6f0253eaba24979150db65c30c8a" datatype="html">
-        <source>
-            Newsfeed
-          </source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/sidebar/navigation.component.html</context>
           <context context-type="linenumber">51</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="471b8ed63bbcfca63bd75ab5749e55d92d577688" datatype="html">
+      <trans-unit id="COMMON__DISCOVERY" datatype="html">
         <source>Discovery</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/sidebar/navigation.component.html</context>
           <context context-type="linenumber">68</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
-          <context context-type="linenumber">18</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="e683cb0954b9663b51a6fd6a7847e9cac5d116c8" datatype="html">
-        <source>
-            Discovery
-          </source>
-        <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/sidebar/navigation.component.html</context>
           <context context-type="linenumber">71</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="c0d4baf68f21ee9c4246d66f0ac828c5b73ae745" datatype="html">
+      <trans-unit id="COMMON__WALLET" datatype="html">
         <source>Wallet</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/sidebar/navigation.component.html</context>
           <context context-type="linenumber">88</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="497ea697c15a2c0ce8bc61ec2cd8274a24c6cb04" datatype="html">
-        <source>
-            Wallet
-          </source>
-        <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/sidebar/navigation.component.html</context>
           <context context-type="linenumber">91</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
+          <context context-type="linenumber">37</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -154,15 +132,13 @@
           <context context-type="sourcefile">app/common/layout/sidebar/navigation.component.html</context>
           <context context-type="linenumber">108</context>
         </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="0204b556eda93035e07319afd3be81e704fbc4d2" datatype="html">
-        <source>
-            Analytics
-          </source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/sidebar/navigation.component.html</context>
           <context context-type="linenumber">111</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
+          <context context-type="linenumber">52</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -173,6 +149,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/sidebar/navigation.component.html</context>
           <context context-type="linenumber">163</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
+          <context context-type="linenumber">178</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -192,6 +172,7 @@
           <context context-type="sourcefile">app/modules/pro/channel/channel.component.html</context>
           <context context-type="linenumber">97</context>
         </context-group>
+        <note priority="1" from="description">COMMON__SETTINGS</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="61d35f6c3e2606dbe51cf859054a1a2bab96e7de" datatype="html">
@@ -368,19 +349,16 @@
         <note priority="1" from="meaning">verb</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="8be27183c3495da1b6d4fe5d95e9d2fa8aa746ea" datatype="html">
+      <trans-unit id="M__ACTION__VIEW_CHANNEL" datatype="html">
         <source>View Channel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
           <context context-type="linenumber">40</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
+        <note priority="1" from="meaning">verb</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="408cb6073e60c5d966296a3207fc596adca75e01" datatype="html">
+      <trans-unit id="COMMON__ADMIN" datatype="html">
         <source>Admin</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
@@ -396,43 +374,27 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="121cc5391cd2a5115bc2b3160379ee5b36cd7716" datatype="html">
+      <trans-unit id="COMMON_SETTINGS" datatype="html">
         <source>Settings</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
           <context context-type="linenumber">60</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
-          <context context-type="linenumber">178</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="4b6dbf2d92858e82bcf6ae5dbc8dfb4b29d82ad0" datatype="html">
+      <trans-unit id="COMMON_FAQ" datatype="html">
         <source>FAQ</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
           <context context-type="linenumber">68</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
-          <context context-type="linenumber">96</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
-          <context context-type="linenumber">108</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="89344cba51658a2a48cea1883693132223c7f8a3" datatype="html">
+      <trans-unit id="COMMON__HELP DESK" datatype="html">
         <source>Help Desk</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
           <context context-type="linenumber">76</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
-          <context context-type="linenumber">85</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -442,17 +404,18 @@
           <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
           <context context-type="linenumber">82</context>
         </context-group>
+        <note priority="1" from="description">COMMON__HELP_AND_SUPPORT</note>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__WHITEPAPER" datatype="html">
+        <source>Whitepaper</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
-          <context context-type="linenumber">106</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
-          <context context-type="linenumber">117</context>
+          <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
+          <context context-type="linenumber">92</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="406672d9dc7adf836b2bd31b8772c2de48321847" datatype="html">
+      <trans-unit id="COMMON__OPT_INTO_EXPERIMENTS" datatype="html">
         <source>Opt-in to Experiments</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
@@ -460,7 +423,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="f31f8461caa69352a332cb1d1e79109021bd14d0" datatype="html">
+      <trans-unit id="COMMON__CANARY" datatype="html">
         <source>Canary</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
@@ -468,19 +431,11 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="bb694b49d408265c91c62799c2b3a7e3151c824d" datatype="html">
+      <trans-unit id="COMMON_LOGOUT" datatype="html">
         <source>Logout</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/topbar/topbar.component.html</context>
           <context context-type="linenumber">115</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
-          <context context-type="linenumber">189</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
-          <context context-type="linenumber">128</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -533,14 +488,6 @@
           <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
           <context context-type="linenumber">115</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
-          <context context-type="linenumber">58</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="06375eb36e4f6830e469f34d4658c478e5b8cabf" datatype="html">
@@ -559,11 +506,23 @@
         <source>Newsfeed</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
-          <context context-type="linenumber">11</context>
+          <context context-type="linenumber">6</context>
         </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="471b8ed63bbcfca63bd75ab5749e55d92d577688" datatype="html">
+        <source>Discovery</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
-          <context context-type="linenumber">6</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="c0d4baf68f21ee9c4246d66f0ac828c5b73ae745" datatype="html">
+        <source>Wallet</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/v2-topbar.component.html</context>
+          <context context-type="linenumber">32</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -738,11 +697,23 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="efbe55685ffef5af777f95b5b512f2c8b15cbfcc" datatype="html">
-        <source>Analytics</source>
+      <trans-unit id="COMMON__LOGIN" datatype="html">
+        <source>Login</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__VIEW_CHANNEL" datatype="html">
+        <source>View Channel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
+          <context context-type="linenumber">31</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -762,7 +733,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d5ec2c3b782309020477be1ec74f02144ff26162" datatype="html">
+      <trans-unit id="COMMON__BOOST_CONSOLE" datatype="html">
         <source>Boost Console</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
@@ -774,19 +745,55 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
+      <trans-unit id="COMMON__HELP_DESK" datatype="html">
+        <source>Help Desk</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__FAQ" datatype="html">
+        <source>FAQ</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__HELP_AND_SUPPORT" datatype="html">
+        <source>Help &amp;amp;amp; Support</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
+          <context context-type="linenumber">117</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
       <trans-unit id="ad7688cc12aa900a4e064ff2139132b0f6e82de1" datatype="html">
         <source>Canary Mode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
           <context context-type="linenumber">119</context>
         </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__CANARY_MODE" datatype="html">
+        <source>Canary Mode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
           <context context-type="linenumber">122</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="17ceb1ff9a7e150e7a6cc52704adb198f7d749dc" datatype="html">
+      <trans-unit id="COMMON__MOBILE_APP" datatype="html">
         <source>Mobile App</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
@@ -794,15 +801,16 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="9dd35a9218553de2162f6a0b7189bca507939efa" datatype="html">
+      <trans-unit id="COMMON__STORE" datatype="html">
         <source>Store</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
           <context context-type="linenumber">143</context>
         </context-group>
+        <note priority="1" from="meaning">noun</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="57361cbe21b33dfd75b61abe3ad093c42a1149e3" datatype="html">
+      <trans-unit id="COMMON__CONTENT_POLICY" datatype="html">
         <source>Content Policy</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
@@ -816,17 +824,34 @@
           <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
           <context context-type="linenumber">166</context>
         </context-group>
+        <note priority="1" from="description">COMMON_LIGHT_MODE</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="c943d5ecc32b916a210d7c984fe5f55771ad0b1a" datatype="html">
+      <trans-unit id="COMMON__DARK_MODE" datatype="html">
         <source>Dark Mode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
           <context context-type="linenumber">167</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b8944144b143874654d2d62c1be459551641aab3" datatype="html">
+      <trans-unit id="COMMON__LOGOUT" datatype="html">
+        <source>Logout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v2-topbar/user-menu.component.html</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__UPGRADE" datatype="html">
         <source>
         Upgrade
       </source>
@@ -836,7 +861,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="a43a55b51cee19c95ee1068f3fb8c5621b867617" datatype="html">
+      <trans-unit id="COMMON__BUY_TOKENS" datatype="html">
         <source>
         Buy tokens
       </source>
@@ -844,9 +869,14 @@
           <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
           <context context-type="linenumber">43</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
+          <context context-type="linenumber">240</context>
+        </context-group>
+        <note priority="1" from="meaning">verb</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b70ac00fdb7e379c223348f98326166008bca053" datatype="html">
+      <trans-unit id="COMMON__LIGHT_MODE" datatype="html">
         <source>Enter Light Mode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
@@ -854,15 +884,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="2ab1deea69bbe270e6f177df6d7d74f3f005b8c4" datatype="html">
-        <source>Enter Dark Mode</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
-          <context context-type="linenumber">79</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="85b79c9064aed1ead31ace985f31aa1363f6bdaf" datatype="html">
+      <trans-unit id="COMMON__HELP" datatype="html">
         <source>Help</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
@@ -870,7 +892,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="ac0f81713a84217c9bd1d9bb460245d8190b073f" datatype="html">
+      <trans-unit id="COMMON__MORE" datatype="html">
         <source>More</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
@@ -878,7 +900,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="03f110b6989134d0caf40ca72582afe6d0eeb76e" datatype="html">
+      <trans-unit id="COMMON__LESS" datatype="html">
         <source>Less</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/layout/v3-topbar/user-menu/user-menu.component.html</context>
@@ -1051,7 +1073,7 @@
         <note priority="1" from="description">Plus as user status</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="af76e6309123a864ae76d9f732983582e704f100" datatype="html">
+      <trans-unit id="COMMON__BADGES__PRO" datatype="html">
         <source>
       Pro
     </source>
@@ -2109,7 +2131,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="f4e529ae5ffd73001d1ff4bbdeeb0a72e342e5c8" datatype="html">
+      <trans-unit id="COMMON__CLOSE" datatype="html">
         <source>Close</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/composer/components/popup/popup.component.html</context>
@@ -3071,7 +3093,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b7af548814df1b1db6bb2684aa258ac02ff89d42" datatype="html">
+      <trans-unit id="AS_FEATURED_IN" datatype="html">
         <source>As featured in</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/components/marketing/as-featured-in.component.html</context>
@@ -3079,7 +3101,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="966fb24274f6a4278fd49a003a5a4d7da2880734" datatype="html">
+      <trans-unit id="MINDS_IN_THE_PRESS" datatype="html">
         <source>Minds in the press</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/components/marketing/as-featured-in.component.html</context>
@@ -3087,7 +3109,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d02527197823847587ac049be44683100fb66ad3" datatype="html">
+      <trans-unit id="ONBOARDING__FINISHED_SETTING_UP" datatype="html">
         <source>
       Finish setting up your account
     </source>
@@ -3097,7 +3119,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="5203bb8808ba7b6cf451a3f2eccb49c88cef3753" datatype="html">
+      <trans-unit id="TAKE_BACK_CONTROL" datatype="html">
         <source>
         Take back control of your social media
       </source>
@@ -3107,19 +3129,15 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="004b222ff9ef9dd4771b777950ca1d0e4cd4348a" datatype="html">
+      <trans-unit id="COMMON_FOOTER__ABOUT" datatype="html">
         <source>About</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/components/marketing/footer.component.html</context>
           <context context-type="linenumber">32</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/channel.component.html</context>
-          <context context-type="linenumber">48</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="4253c9df67b96647b9b7374c5bfab809ee12a7ec" datatype="html">
+      <trans-unit id="COMMON_FOOTER__MOBILE" datatype="html">
         <source>
             Mobile
           </source>
@@ -3129,7 +3147,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="707268cd136579740f4ea7a42eedf51a88916bb0" datatype="html">
+      <trans-unit id="COMMON_FOOTER__CAREERS" datatype="html">
         <source>
             Careers
           </source>
@@ -3139,7 +3157,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="bfecef30f512ee3d9cc06eb7f93892cc0a82d8b6" datatype="html">
+      <trans-unit id="COMMON_FOOTER__INVESTORS" datatype="html">
         <source>
             Investors
           </source>
@@ -3149,7 +3167,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="836d77ca2b6e8c4f5585509e365cce62bcc1f609" datatype="html">
+      <trans-unit id="COMMON_FOOTER__BLOG" datatype="html">
         <source>
             Blog
           </source>
@@ -3159,7 +3177,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="3c1c39b6ffd591ecf464351a1bbfbc40e5294cc0" datatype="html">
+      <trans-unit id="COMMON_FOOTER__WHITEPAPER" datatype="html">
         <source>
             Whitepaper
           </source>
@@ -3169,7 +3187,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d31a081e3831894ef1a6ac2d3789f23bed4547b0" datatype="html">
+      <trans-unit id="COMMON_FOOTER__EVENTS" datatype="html">
         <source>
             Events
           </source>
@@ -3179,7 +3197,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="23aef05a3dd4c957b162dfab2281384e01d1ed32" datatype="html">
+      <trans-unit id="COMMON_FOOTER__STORE" datatype="html">
         <source>
             Store
           </source>
@@ -3189,7 +3207,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e45bb24e9faf557d26abd6822d6a6da37e3ff171" datatype="html">
+      <trans-unit id="COMMON_FOOTER__BUSINESS" datatype="html">
         <source>Business</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/components/marketing/footer.component.html</context>
@@ -3197,7 +3215,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="4b7e1482fc5f13f344986134824df60cdf5838ed" datatype="html">
+      <trans-unit id="COMMON_FOOTER__UPGRADE" datatype="html">
         <source>
             Upgrade
           </source>
@@ -3207,7 +3225,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="ed38dd048bd07e3bc79365566f02fed252d51f1f" datatype="html">
+      <trans-unit id="COMMON_FOOTER__TOKEN" datatype="html">
         <source>
             Token
           </source>
@@ -3217,7 +3235,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e246c6823a140a72e6109bd9e92505b322e3e20d" datatype="html">
+      <trans-unit id="COMMON_FOOTER__PLUS" datatype="html">
         <source>
             Plus
           </source>
@@ -3227,7 +3245,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="071f2a352c66115baf4659dd812cfd7a16fe258f" datatype="html">
+      <trans-unit id="COMMON_FOOTER__PRO" datatype="html">
         <source>
             Pro
           </source>
@@ -3237,7 +3255,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="17c6100fef5dafd622c40b9637d1fa59035bcf53" datatype="html">
+      <trans-unit id="COMMON_FOOTER__PAY" datatype="html">
         <source>
             Pay
           </source>
@@ -3247,7 +3265,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="f59a91bbfdc3f7f6408bfa12443fe96d7ff26863" datatype="html">
+      <trans-unit id="COMMON_FOOTER__NODES" datatype="html">
         <source>
             Nodes
           </source>
@@ -3257,7 +3275,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e18f842c089869f49bae1a75e1c9290622bd0bbb" datatype="html">
+      <trans-unit id="COMMON_FOOTER__BOOST" datatype="html">
         <source>
             Boost
           </source>
@@ -3267,7 +3285,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="0018d2945bb8e21468068cd719c3349d1e830e50" datatype="html">
+      <trans-unit id="COMMON_FOOTER__REWARDS" datatype="html">
         <source>
             Rewards
           </source>
@@ -3277,7 +3295,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="fe02c964ff26601b2c6064f0f30a28f8dff0c3f3" datatype="html">
+      <trans-unit id="COMMON_FOOTER__YOUTUBE_MIGRATION" datatype="html">
         <source>
             YouTube Migration
           </source>
@@ -3287,7 +3305,15 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="8753c249493a2a10b30e6f35e848a0282490aa2d" datatype="html">
+      <trans-unit id="COMMON_FOOTER__DEVELOPERS" datatype="html">
+        <source>Developers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/components/marketing/footer.component.html</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON_FOOTER__DOCUMENTATION" datatype="html">
         <source>
             Documentation
           </source>
@@ -3297,7 +3323,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="9cdc4a11ab5e497f953d8a789049efad22406d3d" datatype="html">
+      <trans-unit id="COMMON_FOOTER__COMMUNITY" datatype="html">
         <source>
             Community
           </source>
@@ -3311,7 +3337,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="c7766157f5f688a42875360b9c41b0118c0427af" datatype="html">
+      <trans-unit id="COMMON_FOOTER__CODE" datatype="html">
         <source>
             Code
           </source>
@@ -3321,7 +3347,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b2fc7f41717682d746f677e8bc1555e6f728f185" datatype="html">
+      <trans-unit id="COMMON_FOOTER__CANARY" datatype="html">
         <source>
             Canary
           </source>
@@ -3331,7 +3357,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="c5b74022d09563d7243338c93d83d2962724d5a7" datatype="html">
+      <trans-unit id="COMMON_FOOTER__BRANDING" datatype="html">
         <source>
             Branding
           </source>
@@ -3341,7 +3367,15 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b4453d54940e4dbff474e0e9ea6d4fafe4d51519" datatype="html">
+      <trans-unit id="COMMON_FOOTER__SUPPORT" datatype="html">
+        <source>Support</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/common/components/marketing/footer.component.html</context>
+          <context context-type="linenumber">186</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON_FOOTER__HELP_DESK" datatype="html">
         <source>
             Help Desk
           </source>
@@ -3351,7 +3385,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="089eaab6541402691eda30bad07da9bce0f1e824" datatype="html">
+      <trans-unit id="COMMON_FOOTER__LANGUAGES" datatype="html">
         <source>
             Languages
           </source>
@@ -3361,7 +3395,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e3b6d30d5953925c3d6894abbe4427e123d542ac" datatype="html">
+      <trans-unit id="COMMON_FOOTER__STATUS" datatype="html">
         <source>
             Status
           </source>
@@ -3371,7 +3405,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="372c4134139e1e72b503027572c2416fa5d2fe67" datatype="html">
+      <trans-unit id="COMMON_FOOTER__TERMS_OF_SERVICE" datatype="html">
         <source>
             Terms of Service
           </source>
@@ -3381,7 +3415,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="5c4d0636165364fd21f2b009f270b81cde0bbc69" datatype="html">
+      <trans-unit id="COMMON_FOOTER__PRIVACY_POLICY" datatype="html">
         <source>
             Privacy Policy
           </source>
@@ -3391,7 +3425,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="a795d118720917e1d57f7e149be127d87e2d5317" datatype="html">
+      <trans-unit id="COMMON_FOOTER__CONTENT_POLICY" datatype="html">
         <source>
             Content Policy
           </source>
@@ -3401,7 +3435,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="798478bb7de6fb6fce12b63efae4ca49fb9ee5b5" datatype="html">
+      <trans-unit id="COMMON_FOOTER__DMCA" datatype="html">
         <source>
             DMCA
           </source>
@@ -3411,7 +3445,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="5ca707824ab93066c7d9b44e1b8bf216725c2c22" datatype="html">
+      <trans-unit id="COMMON__FILTER" datatype="html">
         <source>Filter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/common/components/feed-filter/feed-filter.component.html</context>
@@ -3532,10 +3566,6 @@
           <context context-type="linenumber">52</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
-          <context context-type="linenumber">95</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">app/modules/wire/v2/creator/form/form.component.html</context>
           <context context-type="linenumber">17</context>
         </context-group>
@@ -3568,20 +3598,12 @@
           <context context-type="linenumber">25</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/blockchain/token-purchase/purchase.component.html</context>
-          <context context-type="linenumber">15</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">app/modules/pro/subscription/subscription.component.html</context>
           <context context-type="linenumber">25</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
           <context context-type="linenumber">38</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
-          <context context-type="linenumber">80</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/wire/v2/creator/form/form.component.html</context>
@@ -3722,10 +3744,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/upgrades/upgrade-options.component.html</context>
           <context context-type="linenumber">104</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/sidebar/sidebar.html</context>
-          <context context-type="linenumber">282</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -9047,7 +9065,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="02cb0e42d5d14d10a93ab57cefd4f4d8677e8256" datatype="html">
+      <trans-unit id="BLOGS__DELETE_CONFIRMATION" datatype="html">
         <source>Are you sure you want to delete this blog?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blogs/view/view.html</context>
@@ -9055,15 +9073,11 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="ea22e46f0779785fc5791a6a17b75b9b27623260" datatype="html">
+      <trans-unit id="BLOGS__THERES_NO_UNDO" datatype="html">
         <source>There&amp;amp;apos;s no UNDO!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blogs/view/view.html</context>
           <context context-type="linenumber">176</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/media/view/view.component.html</context>
-          <context context-type="linenumber">350</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -10331,6 +10345,7 @@
           <context context-type="sourcefile">app/modules/auth/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">56</context>
         </context-group>
+        <note priority="1" from="description">COMMON__PASSWORD_RESET_EMAIL_SENT</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="39ceff686c0c8f08cebfba4e75263fe4847c9318" datatype="html">
@@ -10341,6 +10356,7 @@
           <context context-type="sourcefile">app/modules/auth/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">57</context>
         </context-group>
+        <note priority="1" from="description">COMMON__PASSWORD_UNLOCK_CODE_SENT</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="MINDS__HOME__FORGOT_PASSWORD__CONFIRM_PASSWORD_LABEL" datatype="html">
@@ -10419,11 +10435,27 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="dd165f09c7b7947820e61d7d7742f4b5a95c0d88" datatype="html">
+      <trans-unit id="COMMON__PURCHASE_TOKENS" datatype="html">
         <source>Purchase Tokens</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/token-purchase/purchase.component.html</context>
           <context context-type="linenumber">1</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__TOKENS" datatype="html">
+        <source>Tokens</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/blockchain/token-purchase/purchase.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
+          <context context-type="linenumber">7</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -10437,47 +10469,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="dd59e6b7e9306fa22733ed79a08fc5f0ea12e500" datatype="html">
-        <source>
-          <x id="ICU" equiv-text="{tokens, plural, =1 {...} other {...}}"/>
-           = 
-          <x id="ICU_1" equiv-text="{calculatedViews, plural, =1 {...} other {...}}"/>
-        </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/blockchain/token-purchase/purchase.component.html</context>
-          <context context-type="linenumber">36</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="d254b119da7e7db81962b870b5e6b91514522c84" datatype="html">
-        <source>
-          {VAR_PLURAL, plural, =1 {
-          <x id="INTERPOLATION" equiv-text="{{tokens | number}}"/>
-           token} other {
-          <x id="INTERPOLATION" equiv-text="{{tokens | number}}"/>
-           tokens} }
-        </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/blockchain/token-purchase/purchase.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="210578125975f1e4e9a55bcd5d8544f5e9575c91" datatype="html">
-        <source>
-          {VAR_PLURAL, plural, =1 {
-          <x id="INTERPOLATION" equiv-text="{{calculatedViews | number}}"/>
-           view} other {
-          <x id="INTERPOLATION" equiv-text="{{calculatedViews | number}}"/>
-           views} }
-        </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/blockchain/token-purchase/purchase.component.html</context>
-          <context context-type="linenumber">38</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="fc2805b4fbd03064e5c17320275b6c3f6ebbb746" datatype="html">
+      <trans-unit id="COMMON__BUY_ETH" datatype="html">
         <source>Buy Eth</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/token-purchase/purchase.component.html</context>
@@ -10827,7 +10819,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="9eb2736ed0e4ee163b94b80106633502e0e71516" datatype="html">
+      <trans-unit id="MINDS__COMMENTS__LOGIN_TO_COMMENT" datatype="html">
         <source>
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&amp;amp;lt;b&amp;amp;gt;"/>
           Log in
@@ -10841,7 +10833,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d49eca18b1f63a349ec09fa83cb8d8b6f5c86c8f" datatype="html">
+      <trans-unit id="COMMENT_POSTER__LOGIN_SEND_MESSAGE" datatype="html">
         <source>
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&amp;amp;lt;b&amp;amp;gt;"/>
           Log in
@@ -10854,7 +10846,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="a7aa938d4e050a6f945e9b634b1f47a4fe561d17" datatype="html">
+      <trans-unit id="MINDS__COMMENTS__CONTAINS_BLOCKED_REPLIES" datatype="html">
         <source>
     This thread contains replies from blocked channels.
   </source>
@@ -10870,6 +10862,7 @@
           <context context-type="sourcefile">app/modules/comments/thread/thread.component.html</context>
           <context context-type="linenumber">117</context>
         </context-group>
+        <note priority="1" from="description">MINDS__COMMENTS__NO_LIVE_COMMENTS</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="MINDS__COMMENTS__SOCKET_RETRY" datatype="html">
@@ -10959,7 +10952,7 @@
         <note priority="1" from="description">Count of supporters</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="3f335d88a21b4a37e82007c185193d2c910ec723" datatype="html">
+      <trans-unit id="CHANNEL__TRY_PRO" datatype="html">
         <source>Try Pro</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/sidebar/sidebar.html</context>
@@ -10967,10 +10960,12 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b10320640b22d8a4098f495cf2cfbd2f7a0743a2" datatype="html">
-        <source>
-        Pro
-      </source>
+      <trans-unit id="COMMON__PRO" datatype="html">
+        <source>Pro</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/sidebar/sidebar.html</context>
+          <context context-type="linenumber">282</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/sidebar/sidebar.html</context>
           <context context-type="linenumber">297</context>
@@ -11033,7 +11028,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="ccac601bf473fa28c9ac46794f1cd40542f74347" datatype="html">
+      <trans-unit id="COMMON__MESSAGE" datatype="html">
         <source>Message</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/sidebar-v2/sidebar-v2.component.html</context>
@@ -11041,15 +11036,11 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="506a8569098f2412ee410abf96f805a1eb097987" datatype="html">
+      <trans-unit id="COMMON__PAY" datatype="html">
         <source>Pay</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/sidebar-v2/sidebar-v2.component.html</context>
           <context context-type="linenumber">9</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/wire/v2/creator/owner-block/owner-block.component.html</context>
-          <context context-type="linenumber">17</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -11758,10 +11749,6 @@
           <context context-type="sourcefile">app/modules/channels/v2/edit/edit.component.html</context>
           <context context-type="linenumber">38</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/about/about.component.html</context>
-          <context context-type="linenumber">22</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="c13fd95dff3e54dd637edd859ed7300d786fea4d" datatype="html">
@@ -12053,10 +12040,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/pro/channel/hamburger-menu/hamburger-menu.component.html</context>
           <context context-type="linenumber">82</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
-          <context context-type="linenumber">37</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -12474,19 +12457,15 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d4717113115ca7106a354a5aac54d1c0126261d9" datatype="html">
+      <trans-unit id="COMMON__NSFW" datatype="html">
         <source>NSFW</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/composer/components/popup/nsfw/nsfw.component.html</context>
           <context context-type="linenumber">3</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/composer/components/toolbar/toolbar.component.html</context>
-          <context context-type="linenumber">34</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="1ef75970a32251b639d53c84c4e6996f0432c50b" datatype="html">
+      <trans-unit id="COMPOSER_NSFW__IF_POST_CONTAINS" datatype="html">
         <source>
       If this post contains content that is NSFW (Not Safe for Work) it is your
       responsibility to tag it accordingly. Failing to do so will violate our
@@ -12498,7 +12477,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="6b7acb280a052c6c614409350d82166386800cd6" datatype="html">
+      <trans-unit id="COMPOSER_NSFW__GUIDELINES_FURTHER_INFORMATION" datatype="html">
         <source>
           
       See 
@@ -12514,7 +12493,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="2a62a59d9424e9e869061ebf3e8f8b8f95411571" datatype="html">
+      <trans-unit id="COMMON__SAVE" datatype="html">
         <source>
       Save
     </source>
@@ -12522,29 +12501,17 @@
           <context context-type="sourcefile">app/modules/composer/components/popup/nsfw/nsfw.component.html</context>
           <context context-type="linenumber">33</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
-          <context context-type="linenumber">143</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/composer/components/popup/schedule/schedule.component.html</context>
-          <context context-type="linenumber">48</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="897204fa20fd72bcbed459a3c953216c3142903c" datatype="html">
+      <trans-unit id="COMMON__MONETIZE" datatype="html">
         <source>Monetize</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
           <context context-type="linenumber">3</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/composer/components/toolbar/toolbar.component.html</context>
-          <context context-type="linenumber">50</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="063fbe1bf555e9252157255a571bd0410387b6f6" datatype="html">
+      <trans-unit id="COMPOSER__MONETIZE_POST" datatype="html">
         <source>
       Monetize post by making it available to your users who support your
       channel.
@@ -12555,7 +12522,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e66e1792fb0ceca817cdbd8c8d1fc41e83765951" datatype="html">
+      <trans-unit id="COMPOSER__PAYWALL_SETTINGS" datatype="html">
         <source>Paywall status</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
@@ -12563,7 +12530,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="ab475248b99c08a7c4b702b4f2a7c364a5b3187a" datatype="html">
+      <trans-unit id="COMPOSER__ENABLE_PAYWALL" datatype="html">
         <source>Enable Paywall</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
@@ -12571,7 +12538,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="a5c05002b0ac2040f1aede5e727e0ffd06eda819" datatype="html">
+      <trans-unit id="COMMON__CUSTOM" datatype="html">
         <source>Custom</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
@@ -12608,6 +12575,14 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
+      <trans-unit id="COMPOSER__USD" datatype="html">
+        <source>USD</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
       <trans-unit id="09a6f7d66f5ad59c08284ed6ca9fae9edefbcee4" datatype="html">
         <source>Minimum Tokens/Month</source>
         <context-group purpose="location">
@@ -12624,13 +12599,27 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="48ee9aa7ad8896a05be6a5a87c4f42af1ae53131" datatype="html">
+      <trans-unit id="COMPOSER__AMOUNT_REQUIRED_REQUIRED_ACCESS" datatype="html">
         <source>
               Amount required to access membership tier
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
           <context context-type="linenumber">120</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="2a62a59d9424e9e869061ebf3e8f8b8f95411571" datatype="html">
+        <source>
+      Save
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/composer/components/popup/monetize/monetize.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/composer/components/popup/schedule/schedule.component.html</context>
+          <context context-type="linenumber">48</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -13072,7 +13061,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="8f16fcd50a4dce66f08c0e13561a6bd886d4eb90" datatype="html">
+      <trans-unit id="COMMON__BOOST" datatype="html">
         <source>
           Boost
         </source>
@@ -13082,7 +13071,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d5545a825229590c77ba43a125137af6b8a37a70" datatype="html">
+      <trans-unit id="BOOST_MARKETING__EXPAND_YOUR_REACH_GAIN_VIEWS" datatype="html">
         <source>
           
           Expand your reach and gain
@@ -13097,7 +13086,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="154787d4a23e9bb2531e665b69e843e7151a25c4" datatype="html">
+      <trans-unit id="BOOST_MARKETING__USE_TOKENS_GAIN_VIEWS" datatype="html">
         <source>
           Use Minds Tokens to gain more views on your content from other active
           channels on the network. Reach new audiences and grow your channels to
@@ -13109,7 +13098,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b46cd63e7b76b9f6eb2699fbdf9eb7f5649e302f" datatype="html">
+      <trans-unit id="BOOST_MARKETING__CREATE_BOOST" datatype="html">
         <source>
             Create Boost
           </source>
@@ -13123,7 +13112,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b7375a8382249d48f9e11ff36bba48fddeb8cfc2" datatype="html">
+      <trans-unit id="BOOST_MARKETING__1_TOKEN_1000_VIEWS" datatype="html">
         <source>1 token = 1,000 views</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/boost/marketing.component.html</context>
@@ -13131,7 +13120,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="6b4750e9f60037a71cdbfbf92c010234dcc94828" datatype="html">
+      <trans-unit id="BOOST_MARKETING__EXPAND_YOUR_REACH" datatype="html">
         <source>
             Expand your reach and access new audiences. You can exchange one
             Minds Token for 1,000 boosted views across the network.
@@ -13142,7 +13131,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="44f894ba012abdf01d80135a0fc984c809f526b6" datatype="html">
+      <trans-unit id="BOOST_MARKETING__PROMOTE_YOUR_CONTENT" datatype="html">
         <source>
             Promote your content, group or channel directly in the newsfeed or
             sidebar of other active Minds channels.
@@ -13153,7 +13142,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="34ad6622515a4164bd971ac9fbde054864e1b9c2" datatype="html">
+      <trans-unit id="BOOST_MARKETING__BOOST_CAMPAIGNS" datatype="html">
         <source>Boost Campaigns</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/boost/marketing.component.html</context>
@@ -13161,7 +13150,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b3b2f51c604d55ad6b49844281cd70158f4a3672" datatype="html">
+      <trans-unit id="BOOST_MARKETING__AUTOMATE_YOUR_CONTENT" datatype="html">
         <source>
             Automate your content promotion by using a Boost Campaign. Set your
             own budget, choose the length of time to promote the content and
@@ -13174,7 +13163,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="21e58a78cc3fe4edde4f5ff029421f3eb72825f1" datatype="html">
+      <trans-unit id="BOOST_MARKETING__BOOST_OFFERS" datatype="html">
         <source>Boost Offers</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/boost/marketing.component.html</context>
@@ -13182,7 +13171,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="098fedcd2081102045105ff0901c717a0f0d08e9" datatype="html">
+      <trans-unit id="BOOST_MARKETING__CUT_OUT_MIDDLEMAN" datatype="html">
         <source>
             Cut out the middle man and send an offer directly to another channel
             in exchange for sharing your content, group or channel on their feed
@@ -13194,7 +13183,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e6eca8824a6564761d19da5cc6529880f3484d26" datatype="html">
+      <trans-unit id="BOOST_MARKETING__OPTION_HANDLE_ADVERTISING" datatype="html">
         <source>
             We want you to have the option to handle your advertising
             relationships directly, without any risk of someone getting in the
@@ -13206,7 +13195,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b8bfd91fa52e53cc239ba75a1f9a54e17a467527" datatype="html">
+      <trans-unit id="BOOST_MARKETING__OTHER_BOOST_FEATURES" datatype="html">
         <source>Other Boost features</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/boost/marketing.component.html</context>
@@ -13214,7 +13203,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="787f07f92ca04517720e3c9ebe0718fd4d1734d1" datatype="html">
+      <trans-unit id="BOOST_MARKETING__TRACK_YOUR_RESULTS" datatype="html">
         <source>Track your results</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/boost/marketing.component.html</context>
@@ -13222,19 +13211,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e29267d6e19ec05a8b61099fb8396eb1ed506ac8" datatype="html">
-        <source/>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/boost/marketing.component.html</context>
-          <context context-type="linenumber">180</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/boost/marketing.component.html</context>
-          <context context-type="linenumber">190</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="7b654f441a63913d6883cc69903248dcbfdbf866" datatype="html">
+      <trans-unit id="BOOST_MARKETING__FILTER_YOUR_BOOSTS" datatype="html">
         <source>Filter your boosts</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/boost/marketing.component.html</context>
@@ -13795,6 +13772,14 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
+      <trans-unit id="506a8569098f2412ee410abf96f805a1eb097987" datatype="html">
+        <source>Pay</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/wire/v2/creator/owner-block/owner-block.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
       <trans-unit id="7ecb8b95dc813971f5a98c558fcffe7537d18d2d" datatype="html">
         <source>ETH</source>
         <context-group purpose="location">
@@ -14029,6 +14014,14 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
+      <trans-unit id="ea22e46f0779785fc5791a6a17b75b9b27623260" datatype="html">
+        <source>There&amp;amp;apos;s no UNDO!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/media/view/view.component.html</context>
+          <context context-type="linenumber">350</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
       <trans-unit id="MINDS__MEDIA__DELETION_CONFIRMATION" datatype="html">
         <source>The media has been deleted.</source>
         <context-group purpose="location">
@@ -14250,6 +14243,22 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/composer/components/toolbar/toolbar.component.html</context>
           <context context-type="linenumber">23</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="d4717113115ca7106a354a5aac54d1c0126261d9" datatype="html">
+        <source>NSFW</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/composer/components/toolbar/toolbar.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="897204fa20fd72bcbed459a3c953216c3142903c" datatype="html">
+        <source>Monetize</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/composer/components/toolbar/toolbar.component.html</context>
+          <context context-type="linenumber">50</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -14917,10 +14926,6 @@
           <context context-type="sourcefile">app/modules/plus/marketing.component.html</context>
           <context context-type="linenumber">193</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
-          <context context-type="linenumber">227</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="953935ea228abcd225ada03bd4ff1305c08ec365" datatype="html">
@@ -15283,14 +15288,6 @@
           <context context-type="sourcefile">app/modules/onboarding-v2/steps/info/info.component.html</context>
           <context context-type="linenumber">16</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/edit/info.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="9663f48eabdc5e884dd1e9bd05c9d5b6182ee51b" datatype="html">
@@ -15443,7 +15440,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="05738562bcafdd131d91e8b376e1ed0f3ae99ab5" datatype="html">
+      <trans-unit id="COMMON__VIEW_MORE" datatype="html">
         <source>View More</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/sorted/module.component.html</context>
@@ -15451,7 +15448,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="76b703a66a03e0a8c6b4dd4d20e722d23db5a425" datatype="html">
+      <trans-unit id="CHANNEL_STATS__FOLLOWERS" datatype="html">
         <source>
       Followers
     </source>
@@ -15465,7 +15462,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b8fc58e36ff843addb629ace3e90b398cd534ef1" datatype="html">
+      <trans-unit id="CHANNEL_STATS__FOLLOWING" datatype="html">
         <source>
       Following
     </source>
@@ -15475,7 +15472,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="68de88f7f12df6e70605cd5dc6fbaeca75ac0ad0" datatype="html">
+      <trans-unit id="CHANNEL_STATS__VIEWS" datatype="html">
         <source>
       Views
     </source>
@@ -15633,10 +15630,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/settings/settings.component.html</context>
           <context context-type="linenumber">111</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/edit/edit.component.html</context>
-          <context context-type="linenumber">8</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -16034,17 +16027,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="bb60ff228575ccfc02d6f3e848d3cdd443c95c55" datatype="html">
-        <source>
-          Tokens
-        </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="4d54a29f951627d7c2785c0b188e9043a77c8b71" datatype="html">
+      <trans-unit id="MARKETING__FUEL_OF_NETWORK" datatype="html">
         <source>
           
           The 
@@ -16060,7 +16043,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="66587522f20e11d20842a0116cf3b879f3df9738" datatype="html">
+      <trans-unit id="MARKETING__BUY_TOKENS_SUPPORT_MINDS" datatype="html">
         <source>
           Buy tokens to support Minds and your favorite channels. Unlock premium
           features and launch advertising campaigns to expand your reach.
@@ -16071,7 +16054,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="bba890f0b1ae28e20b55d92486c8bb1cf1616a21" datatype="html">
+      <trans-unit id="MARKETING__EXPAND_YOUR_REACH" datatype="html">
         <source>Expand your reach</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
@@ -16079,7 +16062,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="4e32296f1162e2440357d564be59c54dfe77a3c3" datatype="html">
+      <trans-unit id="MARKETING__TOKEN_VIEWS_EXPLANATION" datatype="html">
         <source>
             1 token = 1,000 views from the network. Launch advertising
             campaigns, send offers to other channels for more exposure and grow
@@ -16091,7 +16074,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="53cce04e5bd312bc4c1e6e64e957fc32f2cf770e" datatype="html">
+      <trans-unit id="COMMON__DOWNLOAD_WHITEPAPER" datatype="html">
         <source>Download Whitepaper</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
@@ -16099,7 +16082,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="32e6cf6929190d9cfb66fa68b4f463c74d524245" datatype="html">
+      <trans-unit id="COMMON__SETUP_WALLET" datatype="html">
         <source>
                   Setup Wallet
                 </source>
@@ -16109,7 +16092,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="416a46d229af5e414f3d671aa71f07d5975f7183" datatype="html">
+      <trans-unit id="COMMON__LEARN_ABOUT_BOOST" datatype="html">
         <source>
                   Learn About Boost
                 </source>
@@ -16119,7 +16102,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="c1964a95828c93f16fcbf00767f69a5139ab8f1f" datatype="html">
+      <trans-unit id="COMMON__BUY_PREMIUM_SUBSCRIPTIONS" datatype="html">
         <source>Buy premium subscriptions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
@@ -16127,7 +16110,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="723725673cb8eb49f1a7241dac7d762affb72fcf" datatype="html">
+      <trans-unit id="MARKETING__SPEND_TOKENS_TO_UPGRADE" datatype="html">
         <source>
             Spend tokens to upgrade your channel to Pro or Plus. Access
             exclusive content and other custom offerings from your favorite
@@ -16139,7 +16122,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e7dc9af8a9d01ba64140a733ba1fe9514a07b63d" datatype="html">
+      <trans-unit id="COMMON__LEARN_ABOUT_PRO" datatype="html">
         <source>
                   Learn About Pro
                 </source>
@@ -16149,7 +16132,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d39d3cc79a3e8eba9c7a3daaad305fc99d044d97" datatype="html">
+      <trans-unit id="COMMON__LEARN_ABOUT_PLUS" datatype="html">
         <source>
                   Learn About Plus
                 </source>
@@ -16159,7 +16142,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b3870510df67aa111702508f56ec255fa24e84d8" datatype="html">
+      <trans-unit id="COMMON__SEND_TIPS_SUPPORT_CHANNELS" datatype="html">
         <source>Send tips and support other channels</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
@@ -16167,7 +16150,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="775ca074dcc6e9f0d8f7ce4f7f2d5b7ea92e0315" datatype="html">
+      <trans-unit id="MARKETING_ENJOY_POST_OTHER_CHANNELS" datatype="html">
         <source>
             Enjoy a post from another channel? Send them tokens to show your
             support. Tokens help other creators promote their content and build
@@ -16179,7 +16162,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="93c739590c28f20e90086fdcba109f043b171016" datatype="html">
+      <trans-unit id="COMMON__OTHER_FEATURES" datatype="html">
         <source>Other features</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
@@ -16187,7 +16170,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="6e087831f39c544e4f186396bbd1de0afa5977a6" datatype="html">
+      <trans-unit id="COMMON__DECENTRALIZED" datatype="html">
         <source>Decentralized</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
@@ -16195,7 +16178,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e2bc5ed59cdb3943fa0a36ef55daee355f6bd065" datatype="html">
+      <trans-unit id="COMMON__ERC20_HARNESSING_BLOCKCHAIN" datatype="html">
         <source>
           
             An
@@ -16214,7 +16197,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="baa00a7b660b3fa808e9e208583f9134b8d31424" datatype="html">
+      <trans-unit id="COMMON__EARN_DAILY_REWARDS" datatype="html">
         <source>Earn daily rewards</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
@@ -16222,7 +16205,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="c93760074e21b0e5c23335838a4b1f01ed736083" datatype="html">
+      <trans-unit id="COMMON__DONT_HAVE_FUNDS_EARN_TOKENS" datatype="html">
         <source>
           
             Don’t have the funds to buy tokens? You can also earn them as
@@ -16240,7 +16223,15 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="96419996fd22968f33b051d4d99f70ac50c7fe76" datatype="html">
+      <trans-unit id="COMMON__SUPPORT_MINDS" datatype="html">
+        <source>Support Minds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
+          <context context-type="linenumber">227</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__BUYING_TOKENS_KEEP_MINDS_INDEPENDANT" datatype="html">
         <source>
             Buying tokens is one of the best ways to keep Minds independent and
             support Internet freedom.
@@ -16251,17 +16242,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="07722dadaa4ad86581e58811dfd41d6d0230e63f" datatype="html">
-        <source>
-            Buy Tokens
-          </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/blockchain/marketing/token.component.html</context>
-          <context context-type="linenumber">240</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="883cad4559416cad5fd7d2c4b6a7034147cc5ca8" datatype="html">
+      <trans-unit id="COMMON__MINDS_REWARDS" datatype="html">
         <source>
           Minds Rewards
         </source>
@@ -16271,7 +16252,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="007cd773fe4b5508e46ba5cd8fdaf8d47092361d" datatype="html">
+      <trans-unit id="COMMON__EARN_TOKENS_FOR_CONTRIBUTIONS" datatype="html">
         <source>
           
           Earn tokens for your
@@ -16286,7 +16267,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="f31f673f8fc3dc8d58b228e44485ae147ea1a430" datatype="html">
+      <trans-unit id="COMMON__EACH_DAY_RECEIVED" datatype="html">
         <source>
           Each day you will receive a contribution score for your activity on
           the network.
@@ -16297,7 +16278,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="6b0bd8b0066eab6c5d46f33a0dcac45f200a0d93" datatype="html">
+      <trans-unit id="COMMON__SCORE_DETERMINES SHARE" datatype="html">
         <source>
           This score determines your share of the daily rewards pool and results
           in a payout of Minds Tokens, which can be used to support other
@@ -16309,7 +16290,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d45273913093b007212705ad8b82a495911f592c" datatype="html">
+      <trans-unit id="COMMON__JOIN_REWARDS" datatype="html">
         <source>
             Join Rewards
           </source>
@@ -16323,7 +16304,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="1d9dd0b87b5670797bd308f9d137e1194e0f46b2" datatype="html">
+      <trans-unit id="COMMON__ENGAGEMENT" datatype="html">
         <source>Engagement</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
@@ -16331,7 +16312,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="8ecc7153dbb141b980f23494d2a5a48f2448d655" datatype="html">
+      <trans-unit id="COMMON__REWARD_FOR_UNIQUE_ENGAGEMENT" datatype="html">
         <source>
             We reward you for the amount of unique engagement received on your
             content. In order to prevent fraud, you can only receive credit once
@@ -16343,7 +16324,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="7060fa4e851b694aee9c4f1b0cdbf62ea61394b8" datatype="html">
+      <trans-unit id="COMMON__VOTES" datatype="html">
         <source>
           
               Votes =
@@ -16372,7 +16353,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="559e088e59dec23d5bf3538857170565866bccbf" datatype="html">
+      <trans-unit id="COMMON__COMMENTS" datatype="html">
         <source>
           
               Comments =
@@ -16401,7 +16382,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="23c0132bcc4fa7d3882f8a490d82f089c9017883" datatype="html">
+      <trans-unit id="COMMON__SUBSCRIBERS" datatype="html">
         <source>
           
               Subscribers =
@@ -16413,6 +16394,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
           <context context-type="linenumber">89</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/about/brief.component.html</context>
+          <context context-type="linenumber">26</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -16430,7 +16415,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="a5072c2066c19fb4e440a3572f4ca7ecb4d52d6f" datatype="html">
+      <trans-unit id="COMMON__REMINDS" datatype="html">
         <source>
           
               Reminds =
@@ -16459,15 +16444,19 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="5b650a22aa384d42aadae1367aeca2dd7042c962" datatype="html">
+      <trans-unit id="COMMON__REFERRALS" datatype="html">
         <source>Referrals</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
           <context context-type="linenumber">137</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="39f352ef84dd71bed5d8b9785fceb7a0014fb103" datatype="html">
+      <trans-unit id="COMMON__YOU_DESERVE_CREDIT" datatype="html">
         <source>
             You deserve credit for the people you bring to the Minds network. We
             reward you with 50 points for every new user that signs up through
@@ -16476,21 +16465,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
           <context context-type="linenumber">139</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="c11911ff460a5ae3c328827e7db9b1e68130bd63" datatype="html">
-        <source>
-          
-              Referrals =
-              
-          <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&amp;amp;lt;em&amp;amp;gt;"/>
-          <x id="ICU" equiv-text="{contributionValues.referrals, plural, =1 {...} other {...}}"/>
-          <x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&amp;amp;lt;/em&amp;amp;gt;"/>
-        </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
-          <context context-type="linenumber">146</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -16508,7 +16482,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="7f3f6a4fb2545cacf800f0623582b6d41d1f8791" datatype="html">
+      <trans-unit id="COMMON__DEVELOPMENT" datatype="html">
         <source>Development</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
@@ -16516,7 +16490,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="cc46f770b35272c2cdd0425815fa2bda912471e3" datatype="html">
+      <trans-unit id="COMMON__OUR_DEVELOPMENT_IS_PUBLIC" datatype="html">
         <source>
             All of our development is publicly available on Gitlab. Any
             contribution you make to the code will be manually reviewed in order
@@ -16529,7 +16503,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="ea8a75901642ce867424bf89bc6def978db13955" datatype="html">
+      <trans-unit id="COMMON__VIEW_SOURCECODE" datatype="html">
         <source>
               View Sourcecode
             </source>
@@ -16539,7 +16513,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="ab42996c6c695dd1fd4a648f747c7b49505c50bd" datatype="html">
+      <trans-unit id="COMMON__OTHER_REWARDS" datatype="html">
         <source>Other Rewards</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
@@ -16547,7 +16521,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="246315232a035a5b020ecf72dcb2fc3725c6383f" datatype="html">
+      <trans-unit id="COMMON__ONCHAIN_TRANSACTIONS" datatype="html">
         <source>OnChain Transactions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
@@ -16555,7 +16529,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="4efe8f98536c523c62667941784f0d37d428fb61" datatype="html">
+      <trans-unit id="COMMON__EARN_EVERY_TIME_TRANSACTIONS" datatype="html">
         <source>
           
             Earn
@@ -16588,7 +16562,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="cb04700eb77b792cb25100a81d92c337c917a26b" datatype="html">
+      <trans-unit id="COMMON__JURY_DUTY" datatype="html">
         <source>Jury Duty</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
@@ -16596,7 +16570,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="4e0270f4653fbc1ccdd80af0723729c97d5a4b65" datatype="html">
+      <trans-unit id="COMMON__EARN_EVERY_TIME_DECISIONS" datatype="html">
         <source>
           
             Earn
@@ -16629,7 +16603,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="a19ce983ee2846dd31325e02ab651dcbaa28017d" datatype="html">
+      <trans-unit id="COMMON__HOURLY_CHECK_INS" datatype="html">
         <source>Hourly Check-ins</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/blockchain/marketing/rewards.component.html</context>
@@ -16637,7 +16611,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="2263114d16c648767748e290894ce5b209a3f2e3" datatype="html">
+      <trans-unit id="COMMON__VOTING_COMMENTING" datatype="html">
         <source>
           
             Earn
@@ -17558,83 +17532,6 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="cf0562fc7cae8d4373a09ee436fee4bf40abb06a" datatype="html">
-        <source>
-          <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&amp;amp;lt;b&amp;amp;gt;"/>
-          @
-          <x id="INTERPOLATION" equiv-text="{{ user }}"/>
-          <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&amp;amp;lt;/b&amp;amp;gt;"/>
-          &amp;amp;apos;s withdrawals
-    
-        </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/withdrawals/withdrawals.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="c9978bf011265a2a7fe9635435d66e7342ad2064" datatype="html">
-        <source>
-      Pending Withdrawals
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/withdrawals/withdrawals.component.html</context>
-          <context context-type="linenumber">8</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="dac1da772be9797ce39c7364d0e01373e4955ed1" datatype="html">
-        <source>Requested</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/withdrawals/withdrawals.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="e08a77594f3d89311cdf6da5090044270909c194" datatype="html">
-        <source>User</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/withdrawals/withdrawals.component.html</context>
-          <context context-type="linenumber">27</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="4857d168a3dca8d98fa8551783c3a7af30fb93fe" datatype="html">
-        <source>Signed up</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/withdrawals/withdrawals.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="3398352ebbc7b52c9e26a38b9803b5bf7468220a" datatype="html">
-        <source>Referrer</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/withdrawals/withdrawals.component.html</context>
-          <context context-type="linenumber">45</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="dfc2fb58e2a04ed944a4bd80f0a2087775134068" datatype="html">
-        <source>Amount</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/withdrawals/withdrawals.component.html</context>
-          <context context-type="linenumber">60</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/wallet/v2/components/onchain-transfer/onchain-transfer.component.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="81b97b8ea996ad1e4f9fca8415021850214884b1" datatype="html">
-        <source>Status</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/withdrawals/withdrawals.component.html</context>
-          <context context-type="linenumber">70</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
       <trans-unit id="M__ADMIN__REPORTS_DOWNLOAD__SELECT_REPORT" datatype="html">
         <source>Select Report:</source>
         <context-group purpose="location">
@@ -17648,34 +17545,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/admin/reports-download/reports-download.html</context>
           <context context-type="linenumber">30</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="296429209e5e94f0063864b3f1a36d75b4abd149" datatype="html">
-        <source>
-          <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&amp;amp;lt;b&amp;amp;gt;"/>
-          Environment
-          <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&amp;amp;lt;/b&amp;amp;gt;"/>
-          : 
-          <x id="INTERPOLATION" equiv-text="{{ environment }}"/>
-        </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/features/admin-features.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="9b3e900bc901afdb9bcef195e328b4894c627c31" datatype="html">
-        <source>
-          <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&amp;amp;lt;b&amp;amp;gt;"/>
-          Features for
-          <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&amp;amp;lt;/b&amp;amp;gt;"/>
-          : 
-          <x id="INTERPOLATION" equiv-text="{{ readableFor }}"/>
-        </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/admin/features/admin-features.component.html</context>
-          <context context-type="linenumber">7</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -19660,6 +19529,14 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
+      <trans-unit id="dfc2fb58e2a04ed944a4bd80f0a2087775134068" datatype="html">
+        <source>Amount</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/wallet/v2/components/onchain-transfer/onchain-transfer.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
       <trans-unit id="a43f25a9ac40e8e2441ff0be7a36b8e5d15534df" datatype="html">
         <source>Country</source>
         <context-group purpose="location">
@@ -20027,10 +19904,6 @@
           <context context-type="sourcefile">app/modules/settings-v2/account/display-name/display-name.component.html</context>
           <context context-type="linenumber">5</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/edit/info.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="2cc332a3dd280d8a05548541c63a8764a929e7d3" datatype="html">
@@ -20347,11 +20220,19 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d3781ad331fdd0bc9055c45a41664ac467de63af" datatype="html">
+      <trans-unit id="CHANNEL_EDIT__EDIT_PROFILE" datatype="html">
         <source>Edit Profile</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/edit/edit.component.html</context>
           <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="CHANNEL_EDIT__PRO_SETTINGS" datatype="html">
+        <source>Pro Settings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/edit/edit.component.html</context>
+          <context context-type="linenumber">8</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -20377,10 +20258,6 @@
           <context context-type="sourcefile">app/modules/channels/v2/edit/edit.component.html</context>
           <context context-type="linenumber">46</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/about/about.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="72f34b3ac267bb423e47c3bed43123f99239d1da" datatype="html">
@@ -20388,6 +20265,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/channel.component.html</context>
           <context context-type="linenumber">35</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="004b222ff9ef9dd4771b777950ca1d0e4cd4348a" datatype="html">
+        <source>About</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/channel.component.html</context>
+          <context context-type="linenumber">48</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -20445,19 +20330,31 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="19991529f3b2827b8665b273580c9d52194df9e8" datatype="html">
+      <trans-unit id="CHANNEL_ABOUT__BIO" datatype="html">
         <source>Bio</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/about/about.component.html</context>
           <context context-type="linenumber">11</context>
         </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__HASHTAGS" datatype="html">
+        <source>Hashtags</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/edit/bio.component.html</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="sourcefile">app/modules/channels/v2/about/about.component.html</context>
+          <context context-type="linenumber">22</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="d96d1d63c15ef636a5239afb1b65dadc429a146e" datatype="html">
+      <trans-unit id="CHANNEL_ABOUT__SOCIAL_LINKS" datatype="html">
+        <source>Social Links</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/about/about.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__READ_MORE" datatype="html">
         <source>
         Read More
       </source>
@@ -20467,19 +20364,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="2326d5adeb13a23a2f1e6f598625f0bf73952899" datatype="html">
-        <source>Subscribers</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/about/brief.component.html</context>
-          <context context-type="linenumber">26</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
-          <context context-type="linenumber">53</context>
-        </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="357064ca9d9ac859eb618e28e8126fa32be049e2" datatype="html">
+      <trans-unit id="COMMON__SUBSCRIPTIONS" datatype="html">
         <source>Subscriptions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/about/brief.component.html</context>
@@ -20491,7 +20376,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b7641aed03492978b4ec6843b1e53f30464294d9" datatype="html">
+      <trans-unit id="COMMON__VIEWS" datatype="html">
         <source>Views</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/about/brief.component.html</context>
@@ -20499,19 +20384,27 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="4dfbe8e9e0b5fd0f16d3d888ba2359495c7f996f" datatype="html">
+      <trans-unit id="COMMON__LOCATION" datatype="html">
+        <source>Location</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/edit/info.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__DATE_OF_BIRTH" datatype="html">
         <source>Date of birth</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
           <context context-type="linenumber">16</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/edit/info.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="75dc591672a3991cacd52e008f75ed42ce40d0d9" datatype="html">
+      <trans-unit id="COMMON__BADGES" datatype="html">
         <source>Badges</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
@@ -20519,7 +20412,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b02848788dd80d8d9a2508bd35f873860b01ff43" datatype="html">
+      <trans-unit id="COMMON__JOINED" datatype="html">
         <source>Joined</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
@@ -20527,11 +20420,27 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="0da9b3d05be0315cb1d6d0822394bcecb6c21415" datatype="html">
+      <trans-unit id="COMMON__GROUPS" datatype="html">
+        <source>Groups</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="CHANNEL_EXTRA__VIEWS" datatype="html">
         <source>Channel Views</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
           <context context-type="linenumber">46</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON_SUBSCRIBERS" datatype="html">
+        <source>Subscribers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/about/extra-info.component.html</context>
+          <context context-type="linenumber">53</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
@@ -20541,10 +20450,7 @@
           <context context-type="sourcefile">app/modules/channels/v2/actions/subscribe.component.html</context>
           <context context-type="linenumber">3</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/modules/channels/v2/actions/menu.component.html</context>
-          <context context-type="linenumber">21</context>
-        </context-group>
+        <note priority="1" from="description">@COMMON__SUBSCRIBE</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
       <trans-unit id="eb9062dd05394a25879f197ba90765bfffe6703f" datatype="html">
@@ -20557,7 +20463,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="3042bd3ad8dffcfeca5fd1ae6159fd1047434e95" datatype="html">
+      <trans-unit id="COMMON__UNSUBSCRIBE" datatype="html">
         <source>Unsubscribe</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/actions/menu.component.html</context>
@@ -20565,7 +20471,15 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="976290585256e70180b578d39e2c81e4e2fb62b2" datatype="html">
+      <trans-unit id="COMMON__SUBSCRIBE" datatype="html">
+        <source>Subscribe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/actions/menu.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="MINDS_BUTTON__USER_DROPDOWN__UNBAN_GLOBALLY" datatype="html">
         <source>Un-ban globally</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/actions/menu.component.html</context>
@@ -20589,9 +20503,18 @@
           <context context-type="sourcefile">app/modules/channels/v2/actions/menu.component.html</context>
           <context context-type="linenumber">119</context>
         </context-group>
+        <note priority="1" from="description">MINDS_BUTTON__USER_DROPDOWN__REPORT</note>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="041375e78b17ee9eec235795071a63ea131fa10a" datatype="html">
+      <trans-unit id="CHANNEL_EDIT__BIO" datatype="html">
+        <source>Bio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/edit/bio.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="COMMON__SELECT_CITY" datatype="html">
         <source>Select city</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/location-typeahead/location-typeahead.component.html</context>
@@ -20599,7 +20522,23 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="b17452ab5dc0d43690230180c8a4d35d632f9ba1" datatype="html">
+      <trans-unit id="CHANNEL_EDIT_INFO__DISPLAY_NAME" datatype="html">
+        <source>Display Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/edit/info.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="CHANNEL_EDIT_INFO__DATE_OF_BIRTH" datatype="html">
+        <source>Date of birth</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/modules/channels/v2/edit/info.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note priority="1" from="meaning">ng2.template</note>
+      </trans-unit>
+      <trans-unit id="CHANNEL_EDIT_INFO__MAKE_DOB_PUBLIC" datatype="html">
         <source>
           Make my date of birth public
         </source>
@@ -20631,7 +20570,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="786562de75ca0d0b404e9a3f12421c4c49c501b5" datatype="html">
+      <trans-unit id="CHANNEL_CONTENT__SORRY_CHANNEL_DOES_NOT_EXIST" datatype="html">
         <source>
         Sorry, this channel doesn&amp;amp;apos;t appear to exist
       </source>
@@ -20641,30 +20580,19 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="dc406673a4ef6ab528f80f9956881cb8f8425695" datatype="html">
+      <trans-unit id="CHANNEL_CONTENT__ACCOUNT_BANNED" datatype="html">
         <source>Account banned</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/content/content.component.html</context>
           <context context-type="linenumber">26</context>
         </context-group>
-        <note priority="1" from="meaning">ng2.template</note>
-      </trans-unit>
-      <trans-unit id="140a26573313bcdf6b8798024e5ba7039069f8b1" datatype="html">
-        <source>
-          
-          This account has been banned for violating the
-          
-          <x id="START_LINK" ctype="x-a" equiv-text="&amp;amp;lt;a&amp;amp;gt;"/>
-          Minds content policy
-          <x id="CLOSE_LINK" ctype="x-a" equiv-text="&amp;amp;lt;/a&amp;amp;gt;"/>
-        </source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/content/content.component.html</context>
           <context context-type="linenumber">27</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="c1605dd9841c8740a32185da32ac376e6d1572b9" datatype="html">
+      <trans-unit id="CHANNEL_CONTENT__ACCOUNT_DISABLED" datatype="html">
         <source>
         This channel has been disabled
       </source>
@@ -20674,7 +20602,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="e3a6623a8c7a87feb0de9c4d3500cfd794222bbe" datatype="html">
+      <trans-unit id="CHANNEL_CONTENT__BLOCKED_CHANNEL" datatype="html">
         <source>
         You have blocked this channel
       </source>
@@ -20684,7 +20612,7 @@
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
       </trans-unit>
-      <trans-unit id="9230d332c824e22273210b59b7a3c119289d1a75" datatype="html">
+      <trans-unit id="CHANNEL_CONTENT__CHANNEL_NSFW" datatype="html">
         <source>This channel is NSFW</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/modules/channels/v2/content/content.component.html</context>
