@@ -8,7 +8,7 @@ export class TagsService {
   private regex: Object = {
     url: /(\b(https?|ftp|file):\/\/[^\s\]]+)/gim,
     mail: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gim,
-    hash: /(^|\s||)#(\w+)/gim,
+    hash: /(^|[^&]\s||)#(\w+)/,
     at: /(^|\W|\s)@([a-z0-9_\-\.]+[a-z0-9_])/gim,
   };
 
