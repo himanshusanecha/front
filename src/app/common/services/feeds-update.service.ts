@@ -1,5 +1,4 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
 
 /**
  * Mini-service allowing components to hook into
