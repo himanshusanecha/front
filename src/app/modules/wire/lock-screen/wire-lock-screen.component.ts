@@ -38,6 +38,7 @@ export class WireLockScreenComponent implements OnInit {
   hasTeaser: boolean = false;
   paywallType: 'plus' | 'tier' | 'ppv' = 'ppv';
   tierName: string | null;
+  messageTopOffset: string = '50px';
 
   @HostBinding('class.m-wire--lock-screen-2020')
   isPaywall2020: boolean = false;
@@ -60,9 +61,13 @@ export class WireLockScreenComponent implements OnInit {
     if (this.contentType === 'video' || this.contentType === 'rich-embed') {
       this.hasTeaser = true;
     }
+
     if (this.featuresService.has('paywall-2020') && !this.showLegacyPaywall) {
       this.isPaywall2020 = true;
       this.getPaywallType();
+      if (this.mediaHeight) {
+        this.messageTopOffset = `${this.mediaHeight / 2}px`;
+      }
       this.init = true;
     }
 

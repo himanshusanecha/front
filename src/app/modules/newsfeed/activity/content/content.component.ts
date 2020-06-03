@@ -69,6 +69,7 @@ export class ActivityContentComponent
   private activityHeightSubscription: Subscription;
 
   readonly siteUrl: string;
+  readonly cdnAssetsUrl: string;
 
   entity: ActivityEntity;
 
@@ -84,6 +85,7 @@ export class ActivityContentComponent
     configs: ConfigsService
   ) {
     this.siteUrl = configs.get('site_url');
+    this.cdnAssetsUrl = configs.get('cdn_assets_url');
   }
 
   ngOnInit() {
@@ -161,16 +163,24 @@ export class ActivityContentComponent
     );
   }
 
+  get isPaywalledGif(): boolean {
+    return this.showPaywall && this.isImage && this.entity.custom_data[0].gif;
+  }
+
   get imageUrl(): string {
-    if (this.entity.custom_type == 'batch') {
-      return this.entity.custom_data[0].src;
+    if (this.entity.custom_type === 'batch') {
+      if (this.isPaywalledGif) {
+        return `${this.cdnAssetsUrl}assets/photos/andromeda-galaxy.jpg`;
+      } else {
+        return this.entity.custom_data[0].src;
+      }
     }
 
     if (this.entity.thumbnail_src && this.entity.custom_type !== 'video') {
       return this.entity.thumbnail_src;
     }
 
-    return ''; // TODO: placehol;der
+    return ''; // TODO: placeholder
   }
 
   get imageHeight(): string {

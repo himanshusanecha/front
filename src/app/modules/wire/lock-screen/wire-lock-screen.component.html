@@ -1,7 +1,10 @@
 <ng-container *ngIf="isPaywall2020; else legacyPaywall">
   <div
     class="m-wire--lock-screen"
-    [ngClass]="{ isStatus: contentType === 'status' }"
+    [ngClass]="{
+      isStatus: contentType === 'status',
+      isMedia: contentType !== 'status'
+    }"
     (click)="unlock($event)"
     *ngIf="entity.wire_threshold && init"
   >
@@ -16,8 +19,9 @@
     <!-- ------------------------------ -->
     <!-- THRESHOLD/TIER REQUIREMENTS -->
     <!-- ------------------------------ -->
-    <ng-container *ngIf="!showSubmittedInfo && !hasTeaser">
-      <h5 class="m-wire--lock-screen--message">
+
+    <h5 class="m-wire--lock-screen--message" [style.top]="messageTopOffset">
+      <ng-container *ngIf="!showSubmittedInfo && !hasTeaser">
         <ng-container i18n="@@WIRE__LOCK_SCREEN__CAN_ONLY_BE_SEEN_TITLE_PART"
           >This post can only be seen by supporters who wire</ng-container
         >
@@ -50,12 +54,10 @@
         >
           to @{{ entity.ownerObj.username }}
         </ng-container>
-      </h5>
-    </ng-container>
-    <!-- ------------------------------ -->
-    <!-- ONCHAIN PAYMENT IS PROCESSING -->
-    <!-- ------------------------------ -->
-    <h5 class="m-wire--lock-screen--message">
+      </ng-container>
+      <!-- ------------------------------ -->
+      <!-- ONCHAIN PAYMENT IS PROCESSING -->
+      <!-- ------------------------------ -->
       <ng-container
         *ngIf="showSubmittedInfo"
         i18n="@@WIRE__LOCK_SCREEN__RECEIVED_TIMEOUT_LABEL"

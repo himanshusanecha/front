@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { Session } from '../../../services/session';
 import getActivityContentType from '../../../helpers/activity-content-type';
+import { FeaturesService } from '../../../services/features.service';
 
 export type ActivityDisplayOptions = {
   showOwnerBlock: boolean;
@@ -122,15 +123,6 @@ export class ActivityService {
   );
 
   /**
-   * We do not render the contents if nsfw (and no consent)
-   */
-  shouldShowContent$: Observable<boolean> = this.shouldShowNsfwConsent$.pipe(
-    map((shouldShowNsfwConsent: boolean) => {
-      return !shouldShowNsfwConsent;
-    })
-  );
-
-  /**
    * If a paywall is required
    */
   shouldShowPaywall$: Observable<boolean> = this.entity$.pipe(
@@ -140,6 +132,22 @@ export class ActivityService {
       return !!entity.paywall && !isOwner;
     })
   );
+
+  /**
+   * We do not render the contents if nsfw (and no consent)
+   */
+  shouldShowContent$: Observable<boolean> = combineLatest(
+    this.shouldShowNsfwConsent$,
+    this.shouldShowPaywall$
+  ).pipe(
+    map(([shouldShowNsfwConsent, shouldShowPaywall]) => {
+      if (this.featuresService.has('paywall-2020')) {
+        return !shouldShowNsfwConsent;
+      }
+      return !shouldShowNsfwConsent && !shouldShowPaywall;
+    })
+  );
+
   /**
    * Show the paywall badge both before and after the paywall is unlocked
    */
@@ -215,7 +223,11 @@ export class ActivityService {
     fixedHeightContainer: false,
   };
 
-  constructor(private configs: ConfigsService, private session: Session) {
+  constructor(
+    private configs: ConfigsService,
+    private session: Session,
+    private featuresService: FeaturesService
+  ) {
     this.siteUrl = configs.get('site_url');
   }
 

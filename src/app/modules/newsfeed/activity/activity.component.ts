@@ -28,6 +28,7 @@ import { ClientMetaService } from '../../../common/services/client-meta.service'
 import { ElementVisibilityService } from '../../../common/services/element-visibility.service';
 import { NewsfeedService } from '../services/newsfeed.service';
 import { map } from 'rxjs/operators';
+import { FeaturesService } from '../../../services/features.service';
 
 @Component({
   selector: 'm-activity',
@@ -93,6 +94,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
 
   heightSubscription: Subscription;
   contentType: string;
+  isPaywall2020: boolean = false;
 
   constructor(
     public service: ActivityService,
@@ -101,13 +103,15 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     @SkipSelf() private injector: Injector,
     private clientMetaService: ClientMetaService,
     private elementVisibilityService: ElementVisibilityService,
-    private newsfeedService: NewsfeedService
+    private newsfeedService: NewsfeedService,
+    public featuresService: FeaturesService
   ) {}
 
   ngOnInit() {
     this.isFixedHeight = this.service.displayOptions.fixedHeight;
     this.isFixedHeightContainer = this.service.displayOptions.fixedHeightContainer;
     this.noOwnerBlock = !this.service.displayOptions.showOwnerBlock;
+    this.isPaywall2020 = this.featuresService.has('paywall-2020');
     this.heightSubscription = this.service.height$.subscribe(
       (height: number) => {
         if (!this.service.displayOptions.fixedHeight) return;

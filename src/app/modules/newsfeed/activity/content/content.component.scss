@@ -6,9 +6,6 @@ m-activity__content {
     min-height: 100px;
     padding-top: 50px;
   }
-  m-paywallBadge {
-    cursor: pointer;
-  }
 }
 .m-activity--fixedHeight {
   m-activity__content {
@@ -127,6 +124,15 @@ m-activity__content {
     object-fit: contain;
     width: 100%;
     max-height: 800px;
+  }
+  &.isPaywalledGif {
+    overflow: hidden;
+    img {
+      object-fit: cover;
+      -webkit-filter: blur(10px);
+      filter: blur(10px);
+      transform: scale(1.3);
+    }
   }
 }
 
