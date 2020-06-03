@@ -5,6 +5,7 @@ import {
   OnDestroy,
   Inject,
   PLATFORM_ID,
+  OnInit,
 } from '@angular/core';
 import { FeedService } from './feed.service';
 import { Router } from '@angular/router';
@@ -14,6 +15,8 @@ import { FeedsService } from '../../../../common/services/feeds.service';
 import { FeedsUpdateService } from '../../../../common/services/feeds-update.service';
 import { Subscription } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { tap } from 'rxjs/operators';
+import { Session } from '../../../../services/session';
 
 /**
  * Channel feed component
@@ -24,7 +27,7 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: 'feed.component.html',
   providers: [FeedService, FeedsService],
 })
-export class ChannelFeedComponent implements OnDestroy {
+export class ChannelFeedComponent implements OnDestroy, OnInit {
   /**
    * Parses the view onto the current feed/type
    * @param view
@@ -73,6 +76,7 @@ export class ChannelFeedComponent implements OnDestroy {
     public service: ChannelsV2Service,
     protected router: Router,
     public feedsUpdate: FeedsUpdateService,
+    private session: Session,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     if (isPlatformBrowser(platformId)) {
@@ -80,9 +84,16 @@ export class ChannelFeedComponent implements OnDestroy {
         this.feed.guid$.next(guid)
       );
     }
-    this.feedsUpdatedSubscription = feedsUpdate.postEmitter.subscribe(
+  }
+
+  ngOnInit() {
+    this.feedsUpdatedSubscription = this.feedsUpdate.postEmitter.subscribe(
       newPost => {
-        this.prepend(newPost);
+        if (
+          this.feed.guid$.getValue() === this.session.getLoggedInUser().guid
+        ) {
+          this.prepend(newPost);
+        }
       }
     );
   }

@@ -91,12 +91,6 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
       .inherit(injector)
       .setSource('feed/subscribed')
       .setMedium('feed');
-
-    this.feedsUpdatedSubscription = feedsUpdate.postEmitter.subscribe(
-      newPost => {
-        this.prepend(newPost);
-      }
-    );
   }
 
   ngOnInit() {
@@ -125,6 +119,12 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
 
       this.newUserPromo = !!params['newUser'];
     });
+
+    this.feedsUpdatedSubscription = this.feedsUpdate.postEmitter.subscribe(
+      newPost => {
+        this.prepend(newPost);
+      }
+    );
 
     this.context.set('activity');
   }
