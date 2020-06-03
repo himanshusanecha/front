@@ -11,14 +11,6 @@
       *ngIf="service.isRemind$ | async"
       >repeat</i
     >
-    <m-tooltip
-      class="m-activityOwnerBlock__scheduledTooltip"
-      *ngIf="isScheduled()"
-      icon="schedule"
-      i18n
-    >
-      Scheduled for posting at: {{ toReadableDate(entity.time_created) }}
-    </m-tooltip>
     <strong [title]="displayName">{{ displayName }}</strong>
     <m-channel--badges
       class="m-channel--badges-activity"
@@ -41,9 +33,16 @@
       [routerLink]="service.canonicalUrl$ | async"
       class="m-activityOwnerBlock__permalink"
     >
+      <div *ngIf="isScheduled()" class="m-activityOwnerBlockPermalink__text">
+        <i class="material-icons">schedule</i>
+        <span>
+          {{ toReadableDate(entity.time_created) }}
+        </span>
+      </div>
       <span
         class="m-activityOwnerBlockPermalink__text--timestamp"
         [title]="entity.time_created * 1000 | date: 'medium'"
+        *ngIf="!isScheduled()"
       >
         {{ entity.time_created * 1000 | friendlydatediff }}
       </span>
