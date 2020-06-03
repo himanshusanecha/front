@@ -4,7 +4,7 @@
  */
 import generateRandomId from '../../support/utilities';
 
-context('Boost Console', () => {
+context.skip('Boost Console', () => {
   const postContent = 'Test boost, please reject...' + generateRandomId();
 
   before(() => {

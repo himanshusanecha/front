@@ -1,6 +1,6 @@
 import generateRandomId from '../support/utilities';
 
-context('Newsfeed', () => {
+context.skip('Newsfeed', () => {
   before(() => {
     cy.getCookie('minds_sess').then(sessionCookie => {
       if (!sessionCookie) {

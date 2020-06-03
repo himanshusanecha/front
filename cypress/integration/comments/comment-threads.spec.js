@@ -6,7 +6,7 @@ import generateRandomId from '../../support/utilities';
  * @modify date 2019-08-09 14:42:51
  * @desc Spec tests for comment threads.
  */
-context('Comment Threads', () => {
+context.skip('Comment Threads', () => {
   const testUsername = generateRandomId();
   const testPassword = generateRandomId() + 'rR.7';
 

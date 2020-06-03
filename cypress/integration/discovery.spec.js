@@ -1,4 +1,4 @@
-context('Discovery', () => {
+context.skip('Discovery', () => {
   before(() => {
     cy.getCookie('minds_sess').then(sessionCookie => {
       if (sessionCookie === null) {

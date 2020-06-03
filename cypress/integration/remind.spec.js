@@ -1,4 +1,4 @@
-context('Remind', () => {
+context.skip('Remind', () => {
   const remindText = 'remind test text';
 
   before(() => {
