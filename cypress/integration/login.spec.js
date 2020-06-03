@@ -1,4 +1,4 @@
-context.only('Login', () => {
+context('Login', () => {
   beforeEach(() => {
     cy.clearCookies();
     cy.visit('/')
