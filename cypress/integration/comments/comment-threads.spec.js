@@ -220,24 +220,24 @@ context.only('Comment Threads', () => {
       });
 
       cy.get('.m-share__copyableLinkText')
-      .invoke('val')
-      .then(val => {
-        // log out
-        cy.logout();
+        .invoke('val')
+        .then(val => {
+          // log out
+          cy.logout();
 
-        // visit link
-        cy.visit(val);
+          // visit link
+          cy.visit(val);
 
-        // assert toggle works.
-        cy.contains('naughty message').should('have.class', 'm-mature-text');
+          // assert toggle works.
+          cy.contains('naughty message').should('have.class', 'm-mature-text');
 
-        cy.get('.m-mature-text-toggle').click();
+          cy.get('.m-mature-text-toggle').click();
 
-        cy.contains('naughty message').should(
-          'not.have.class',
-          'm-mature-text'
-        );
-      });
+          cy.contains('naughty message').should(
+            'not.have.class',
+            'm-mature-text'
+          );
+        });
     });
 
   it('should paginate correctly', () => {

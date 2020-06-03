@@ -4,7 +4,7 @@
  */
 import generateRandomId from '../../support/utilities';
 
-context.skip('Boost Console', () => {
+context('Boost Console', () => {
   const postContent = 'Test boost, please reject...' + generateRandomId();
 
   before(() => {
@@ -106,7 +106,7 @@ context.skip('Boost Console', () => {
 
     cy.post(text);
 
-    cy.get('#boost-actions')
+    cy.get('.m-boostButton')
       .first()
       .click();
 
