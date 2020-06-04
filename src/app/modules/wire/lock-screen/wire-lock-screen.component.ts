@@ -71,7 +71,6 @@ export class WireLockScreenComponent implements OnInit {
       this.init = true;
     }
 
-    console.log(this.mediaHeight);
     this.detectChanges();
   }
 

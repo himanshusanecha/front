@@ -8,7 +8,6 @@
   <m-activity__paywall
     *ngIf="service.shouldShowPaywall$ | async"
     [mediaHeight]="mediaHeight"
-    (unblurImage)="unblurImage($event)"
   ></m-activity__paywall
 ></ng-container>
 <!-- ----------------------------------- -->
@@ -85,7 +84,6 @@
       [style.height]="imageHeight"
       (error)="onImageError($event)"
       (click)="onModalRequested($event)"
-      [ngClass]="{ isPaywalledGif: isPaywalledGif }"
     />
   </a>
 </div>

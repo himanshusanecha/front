@@ -47,7 +47,6 @@ export class ActivityContentComponent
 
   @Input() showPaywall: boolean = false;
   @Input() showPaywallBadge: boolean = false;
-  unblurImage: boolean = false;
 
   @ViewChild('mediaEl', { static: false, read: ElementRef })
   mediaEl: ElementRef;
@@ -66,6 +65,8 @@ export class ActivityContentComponent
   activityHeight: number;
   remindWidth: number;
   remindHeight: number;
+
+  paywallUnlocked: boolean = false;
 
   private entitySubscription: Subscription;
   private activityHeightSubscription: Subscription;
@@ -97,6 +98,9 @@ export class ActivityContentComponent
         this.calculateFixedContentHeight();
         this.isPaywalledStatusPost =
           this.showPaywall && entity.content_type === 'status';
+        if (this.entity.paywall_unlocked && !this.paywallUnlocked) {
+          this.paywallUnlocked = true;
+        }
       }
     );
     this.activityHeightSubscription = this.service.height$.subscribe(
@@ -166,21 +170,25 @@ export class ActivityContentComponent
   }
 
   get isPaywalledGif(): boolean {
-    return this.showPaywall && this.isImage && this.entity.custom_data[0].gif;
+    return (
+      this.isImage &&
+      this.entity.custom_data[0].gif &&
+      this.showPaywallBadge &&
+      !this.paywallUnlocked
+    );
   }
 
   get imageUrl(): string {
     if (this.entity.custom_type === 'batch') {
       if (this.isPaywalledGif) {
         return `${this.cdnAssetsUrl}assets/photos/andromeda-galaxy.jpg`;
-      } else {
-        let thumbUrl = this.entity.custom_data[0].src;
-        if (this.showPaywall) {
-          const thumbTimestamp = this.unblurImage ? moment().unix() : '0';
-          thumbUrl += `/?unlock_paywall=${thumbTimestamp}`;
-        }
-        return thumbUrl;
       }
+      let thumbUrl = this.entity.custom_data[0].src;
+      if (this.showPaywallBadge) {
+        const thumbTimestamp = this.paywallUnlocked ? moment().unix() : '0';
+        thumbUrl += `/?unlock_paywall=${thumbTimestamp}`;
+      }
+      return thumbUrl;
     }
 
     if (this.entity.thumbnail_src && this.entity.custom_type !== 'video') {

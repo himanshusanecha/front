@@ -116,6 +116,7 @@ m-activity__content {
 }
 
 .m-activityContent__media--image {
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   a {
     height: 100%;
     widows: 100%;
@@ -124,6 +125,7 @@ m-activity__content {
     object-fit: contain;
     width: 100%;
     max-height: 800px;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   }
   &.isPaywalledGif {
     overflow: hidden;
