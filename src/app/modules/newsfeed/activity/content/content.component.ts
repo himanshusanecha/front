@@ -27,6 +27,7 @@ import { OverlayModalService } from '../../../../services/ux/overlay-modal';
 import { MediaModalComponent } from '../../../media/modal/modal.component';
 import { ConfigsService } from '../../../../common/services/configs.service';
 import { RedirectService } from '../../../../common/services/redirect.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'm-activity__content',
@@ -46,6 +47,7 @@ export class ActivityContentComponent
 
   @Input() showPaywall: boolean = false;
   @Input() showPaywallBadge: boolean = false;
+  unblurImage: boolean = false;
 
   @ViewChild('mediaEl', { static: false, read: ElementRef })
   mediaEl: ElementRef;
@@ -172,7 +174,12 @@ export class ActivityContentComponent
       if (this.isPaywalledGif) {
         return `${this.cdnAssetsUrl}assets/photos/andromeda-galaxy.jpg`;
       } else {
-        return this.entity.custom_data[0].src;
+        let thumbUrl = this.entity.custom_data[0].src;
+        if (this.showPaywall) {
+          const thumbTimestamp = this.unblurImage ? moment().unix() : '0';
+          thumbUrl += `/?unlock_paywall=${thumbTimestamp}`;
+        }
+        return thumbUrl;
       }
     }
 

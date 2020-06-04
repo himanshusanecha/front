@@ -8,6 +8,7 @@
   <m-activity__paywall
     *ngIf="service.shouldShowPaywall$ | async"
     [mediaHeight]="mediaHeight"
+    (unblurImage)="unblurImage($event)"
   ></m-activity__paywall
 ></ng-container>
 <!-- ----------------------------------- -->
