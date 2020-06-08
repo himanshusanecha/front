@@ -9,7 +9,7 @@
           <context context-type="linenumber">5</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Groups</target>
+        <target state="translated">Grupos</target>
       </trans-unit>
       <trans-unit id="M__COMMON__NEW_GROUP" datatype="html">
         <source>New group</source>
@@ -108,7 +108,7 @@
           <context context-type="linenumber">94</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Wallet</target>
+        <target state="translated">Billetera</target>
       </trans-unit>
       <trans-unit id="COMMON__ANALYTICS" datatype="html">
         <source>Analytics</source>
@@ -182,7 +182,7 @@
           <context context-type="linenumber">93</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Settings</target>
+        <target state="translated">Opciones</target>
       </trans-unit>
       <trans-unit id="CHANNEL__ONBOARDING__CHOOSE_DISPLAY_NAME" datatype="html">
         <source>Choose your display name</source>
@@ -227,7 +227,7 @@
           <context context-type="linenumber">25</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Join</target>
+        <target state="translated">Unirte</target>
       </trans-unit>
       <trans-unit id="WALLET__TOKENS__ONBOARDING__REWARDS__ENTER_CODE_DESC" datatype="html">
         <source>
@@ -277,7 +277,7 @@
           <context context-type="linenumber">67</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Confirm</target>
+        <target state="translated">Confirmar</target>
       </trans-unit>
       <trans-unit id="WALLET__TOKENS__ONBOARDING__REWARDS__GO_BACK_ACTION" datatype="html">
         <source>Go Back</source>
@@ -339,7 +339,7 @@
         </context-group>
         <note priority="1" from="meaning">verb</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">View Channel</target>
+        <target state="translated">Mirar Canal</target>
       </trans-unit>
       <trans-unit id="COMMON__ADMIN" datatype="html">
         <source>Admin</source>
@@ -352,7 +352,7 @@
           <context context-type="linenumber">68</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Admin</target>
+        <target state="translated">Admin</target>
       </trans-unit>
       <trans-unit id="COMMON_SETTINGS" datatype="html">
         <source>Settings</source>
@@ -361,7 +361,7 @@
           <context context-type="linenumber">60</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Settings</target>
+        <target state="translated">Opciones</target>
       </trans-unit>
       <trans-unit id="COMMON_FAQ" datatype="html">
         <source>FAQ</source>
@@ -370,7 +370,7 @@
           <context context-type="linenumber">68</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">FAQ</target>
+        <target state="translated">FAQ</target>
       </trans-unit>
       <trans-unit id="COMMON__HELP DESK" datatype="html">
         <source>Help Desk</source>
@@ -428,7 +428,7 @@
           <context context-type="linenumber">119</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Logout</target>
+        <target state="translated">Salir</target>
       </trans-unit>
       <trans-unit id="M__ACTION__LOGIN" datatype="html">
         <source>Login</source>
@@ -462,7 +462,7 @@
           <context context-type="linenumber">64</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Open may contain controversial content. By selecting Open, you acknowledge that you are willing to see controversial content.</target>
+        <target state="translated">Abrir puede contener contenido polémico. Al seleccionar Abrir, reconoce que está dispuesto a ver contenido polémico.</target>
       </trans-unit>
       <trans-unit id="COMMON__LOGIN" datatype="html">
         <source>Login</source>
@@ -475,7 +475,7 @@
           <context context-type="linenumber">58</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Login</target>
+        <target state="translated">Ingresar</target>
       </trans-unit>
       <trans-unit id="COMMON__JOIN_MINDS_NOW" datatype="html">
         <source>Join Minds Now</source>
@@ -556,7 +556,7 @@
           <context context-type="linenumber">108</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">FAQ</target>
+        <target state="translated">FAQ</target>
       </trans-unit>
       <trans-unit id="COMMON__LOGOUT" datatype="html">
         <source>Logout</source>
@@ -569,7 +569,7 @@
           <context context-type="linenumber">34</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Logout</target>
+        <target state="translated">Salir</target>
       </trans-unit>
       <trans-unit id="COMMON__MORE" datatype="html">
         <source>More</source>
@@ -694,7 +694,7 @@
           <context context-type="linenumber">28</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Select your city:</target>
+        <target state="translated">Selecciona tu ciudad:</target>
       </trans-unit>
       <trans-unit id="M__COMMON__COUNTRY_STATE" datatype="html">
         <source>State</source>
@@ -732,7 +732,7 @@
         </context-group>
         <note priority="1" from="description">Plus as user status</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Plus</target>
+        <target state="translated">Plus</target>
       </trans-unit>
       <trans-unit id="COMMON__BADGES__PRO" datatype="html">
         <source>Pro</source>
@@ -751,7 +751,7 @@
         </context-group>
         <note priority="1" from="description">Admin as user status</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Admin</target>
+        <target state="translated">Admin</target>
       </trans-unit>
       <trans-unit id="COMMON__BADGES__VERIFIED" datatype="html">
         <source>Verified</source>
@@ -761,7 +761,7 @@
         </context-group>
         <note priority="1" from="description">Verified as user status</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Verified</target>
+        <target state="translated">Verificado</target>
       </trans-unit>
       <trans-unit id="COMMON__BADGES__FOUNDER" datatype="html">
         <source>Founder</source>
@@ -775,7 +775,7 @@
         </context-group>
         <note priority="1" from="description">Founder as user status</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Founder</target>
+        <target state="translated">Fundador</target>
       </trans-unit>
       <trans-unit id="BADGES__BOOSTER" datatype="html">
         <source>Boosted OnChain in the last 7 days</source>
@@ -1392,7 +1392,7 @@
           <context context-type="linenumber">83</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Cancel</target>
+        <target state="translated">Cancelar</target>
       </trans-unit>
       <trans-unit id="MM__ACTION__COMPLETE" datatype="html">
         <source>Complete</source>
@@ -1401,7 +1401,7 @@
           <context context-type="linenumber">119</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Complete</target>
+        <target state="translated">Completar</target>
       </trans-unit>
       <trans-unit id="M__BLOCKCHAIN__TX_OVERLAY__WARNING_REMEMBER_KEY_FOREVER" datatype="html">
         <source>Warning: Remembering the private key for the rest of the session can be insecure and might lead to your ETH being stolen.</source>
@@ -1441,7 +1441,7 @@
           <context context-type="linenumber">337</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Cancel</target>
+        <target state="translated">Cancelar</target>
       </trans-unit>
       <trans-unit id="COMMON__APPROVE" datatype="html">
         <source>Approve</source>
@@ -1454,7 +1454,7 @@
           <context context-type="linenumber">33</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Approve</target>
+        <target state="translated">Aprobar</target>
       </trans-unit>
       <trans-unit id="M__FEATURE__BOOST" datatype="html">
         <source>Boost</source>
@@ -1472,7 +1472,7 @@
           <context context-type="linenumber">12</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boost Type</target>
+        <target state="translated">Tipo de promoción</target>
       </trans-unit>
       <trans-unit id="M__FEATURE__NEWSFEED_PLURAL" datatype="html">
         <source>Feeds</source>
@@ -1581,7 +1581,7 @@
           <context context-type="linenumber">51</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Your content will be shared to a specific channel in exchange for USD or tokens.</target>
+        <target state="translated">Su contenido será compartido en un canal específico a cambio de USD o tokens.</target>
       </trans-unit>
       <trans-unit id="M__FEATURE__SIDEBAR_PLURAL" datatype="html">
         <source>Sidebars</source>
@@ -1603,7 +1603,7 @@
           <context context-type="linenumber">72</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Your content will display on the sidebars throughout the site.</target>
+        <target state="translated">Tu contenido se mostrará en la barras laterales del sitio.</target>
       </trans-unit>
       <trans-unit id="BOOST__CREATOR__BID_TITLE" datatype="html">
         <source>How many views do you want?</source>
@@ -1621,7 +1621,7 @@
           <context context-type="linenumber">96</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">What's your offer?</target>
+        <target state="translated">¿Cuál es tu oferta?</target>
       </trans-unit>
       <trans-unit id="BOOST__CREATOR__VIEWS_INPUT_LABEL" datatype="html">
         <source>views</source>
@@ -1674,7 +1674,7 @@
           <context context-type="linenumber">172</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Payment Method</target>
+        <target state="translated">Métodos Pago</target>
       </trans-unit>
       <trans-unit id="BOOST__CREATOR__PRIORITY_TITLE" datatype="html">
         <source>Priority</source>
@@ -1692,7 +1692,7 @@
           <context context-type="linenumber">197</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Priority content goes to the front of the line, but costs at least twice the price of a regular boost.</target>
+        <target state="translated">El contenido de prioridad va al principio de la fila, pero cuesta al menos el doble de una promoción regular.</target>
       </trans-unit>
       <trans-unit id="M__ACTION__SELECT" datatype="html">
         <source>Select</source>
@@ -1784,7 +1784,7 @@
           <context context-type="linenumber">279</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Search for the channel you want to boost to.</target>
+        <target state="translated">Busca el canal al que quieres promover.</target>
       </trans-unit>
       <trans-unit id="BOOST__CREATOR__PLEASE_ENTER_BILLING" datatype="html">
         <source>Please enter your billing details</source>
@@ -1803,7 +1803,7 @@
         </context-group>
         <note priority="1" from="meaning">verb</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Next</target>
+        <target state="translated">Próximo</target>
       </trans-unit>
       <trans-unit id="M__ACTION__BOOST_BACK" datatype="html">
         <source>Back</source>
@@ -1813,7 +1813,7 @@
         </context-group>
         <note priority="1" from="meaning">verb</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Back</target>
+        <target state="translated">Anterior</target>
       </trans-unit>
       <trans-unit id="BOOST__CREATOR__BOOSTED_LABEL" datatype="html">
         <source>Boosted!</source>
@@ -1853,7 +1853,7 @@
           <context context-type="linenumber">35</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Speak your mind...</target>
+        <target state="translated">Di lo que piensas...</target>
       </trans-unit>
       <trans-unit id="WIRE__CREATOR__AMOUNT_TITLE_HOW_MANY_TOKENS" datatype="html">
         <source>Pick a subscriptions tier</source>
@@ -1925,7 +1925,7 @@
           <context context-type="linenumber">76</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">USD</target>
+        <target state="translated">Dolar</target>
       </trans-unit>
       <trans-unit id="WIRE__CREATOR__REPEAT_TRANSACTION_MONTHLY" datatype="html">
         <source>Repeat this transaction monthly.</source>
@@ -1947,7 +1947,7 @@
           <context context-type="linenumber">166</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Payment Method</target>
+        <target state="translated">Métodos Pago</target>
       </trans-unit>
       <trans-unit id="M__COMMON__OFFCHAIN" datatype="html">
         <source>Tokens</source>
@@ -1999,7 +1999,7 @@
           <context context-type="linenumber">201</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">This balance is for your Minds.com OffChain wallet. Transactions made from this address will not appear on the blockchain.</target>
+        <target state="translated">Este saldo es para tu billetera OffChain de Minds.com. Las transacciones realizadas desde esta dirección no aparecerán en la cadena de bloques.</target>
       </trans-unit>
       <trans-unit id="M__COMMON__ONCHAIN" datatype="html">
         <source>USD</source>
@@ -2089,7 +2089,7 @@
           <context context-type="linenumber">148</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">SEND</target>
+        <target state="translated">ENVIAR</target>
       </trans-unit>
       <trans-unit id="WIRE__CREATOR__WIRED_NOTICE" datatype="html">
         <source>Wired!</source>
@@ -2185,7 +2185,7 @@
           <context context-type="linenumber">91</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Unlisted</target>
+        <target state="translated">No listado</target>
       </trans-unit>
       <trans-unit id="M__ACTION__SAVE" datatype="html">
         <source>Save</source>
@@ -2250,7 +2250,7 @@
           <context context-type="linenumber">19</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Save</target>
+        <target state="translated">Guardar</target>
       </trans-unit>
       <trans-unit id="ACTIVITY__REMIND_NOT_AVAILABLE" datatype="html">
         <source>
@@ -2298,7 +2298,7 @@
           <context context-type="linenumber">486</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boost this post to reach more people!</target>
+        <target state="translated">¡Promueve esta publicación para llegar a más gente!</target>
       </trans-unit>
       <trans-unit id="MINDS__CARDS__ACTIVITY__PINNED_POST" datatype="html">
         <source>This post is pinned</source>
@@ -2315,7 +2315,7 @@
           <context context-type="linenumber">505</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">This post is pinned</target>
+        <target state="translated">Esta publicación está fijada</target>
       </trans-unit>
       <trans-unit id="MINDS__CARDS__ACTIVITY__CLICK_TO_PIN" datatype="html">
         <source>Click to pin this post to the top of your channel feed</source>
@@ -2332,7 +2332,7 @@
           <context context-type="linenumber">512</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Click to pin this post to the top of your channel feed</target>
+        <target state="translated">Pulsa para fijar esta publicación al principio de tu canal</target>
       </trans-unit>
       <trans-unit id="MINDS__CARDS__ACTIVITY__AWAITING_MODERATION" datatype="html">
         <source>This post is awaiting moderation.</source>
@@ -2349,7 +2349,7 @@
           <context context-type="linenumber">545</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">This post is awaiting moderation.</target>
+        <target state="translated">Esta publicación está a la espera de ser moderada.</target>
       </trans-unit>
       <trans-unit id="M__COMMON__MEMBERS" datatype="html">
         <source>Members</source>
@@ -2420,7 +2420,7 @@
           <context context-type="linenumber">86</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">SUBMIT</target>
+        <target state="translated">ENVIAR</target>
       </trans-unit>
       <trans-unit id="REPORT__CREATOR__NEXT_ACTION" datatype="html">
         <source>NEXT</source>
@@ -2429,7 +2429,7 @@
           <context context-type="linenumber">119</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">NEXT</target>
+        <target state="translated">SIGUIENTE</target>
       </trans-unit>
       <trans-unit id="M__COMMON__THANKS_LET_US_KNOW_KEEP_MINDS_SAFE" datatype="html">
         <source>Thanks for letting us know! We appreciate your effort to keep Minds safe and secure.</source>
@@ -2442,7 +2442,7 @@
           <context context-type="linenumber">97</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Thanks for letting us know! We appreciate your effort to keep Minds safe and secure.</target>
+        <target state="translated">¡Gracias por avisarnos! Apreciamos tu esfuerzo para mantener Minds seguro y a salvo.</target>
       </trans-unit>
       <trans-unit id="M__COMMON__REVIEW_REPORT_ASAP" datatype="html">
         <source>We will review your report as soon as possible.</source>
@@ -2565,7 +2565,7 @@
           <context context-type="linenumber">53</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Start the conversation!</target>
+        <target state="translated">¡Inicia la conversación!</target>
       </trans-unit>
       <trans-unit id="M__COMMON__WAIT_UPLOAD" datatype="html">
         <source>Please wait until the upload is complete.</source>
@@ -2701,7 +2701,7 @@
           <context context-type="linenumber">13</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Mark as spam</target>
+        <target state="translated">Marcar como spam</target>
       </trans-unit>
       <trans-unit id="M__ACTION__NOT_SPAM" datatype="html">
         <source>Not spam</source>
@@ -2710,7 +2710,7 @@
           <context context-type="linenumber">21</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Not spam</target>
+        <target state="translated">No spam</target>
       </trans-unit>
       <trans-unit id="COMMON__ADMIN_ACTIONS__MARK_AS_DELETED" datatype="html">
         <source>Mark as deleted</source>
@@ -2719,7 +2719,7 @@
           <context context-type="linenumber">29</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Mark as deleted</target>
+        <target state="translated">Marcar como eliminado</target>
       </trans-unit>
       <trans-unit id="COMMON__ADMIN_ACTIONS__UNDELETE" datatype="html">
         <source>Undelete</source>
@@ -2728,7 +2728,7 @@
           <context context-type="linenumber">37</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Undelete</target>
+        <target state="translated">Recuperar</target>
       </trans-unit>
       <trans-unit id="COMMON__CATEGORIES__SELECT_A_CATEGORY" datatype="html">
         <source>select a category</source>
@@ -2900,7 +2900,7 @@
           <context context-type="linenumber">103</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Token</target>
+        <target state="translated">Token</target>
       </trans-unit>
       <trans-unit id="COMMON_FOOTER__PLUS" datatype="html">
         <source>Plus</source>
@@ -2909,7 +2909,7 @@
           <context context-type="linenumber">109</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Plus</target>
+        <target state="translated">Plus</target>
       </trans-unit>
       <trans-unit id="COMMON_FOOTER__PRO" datatype="html">
         <source>Pro</source>
@@ -2927,7 +2927,7 @@
           <context context-type="linenumber">121</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Pay</target>
+        <target state="translated">Pagar</target>
       </trans-unit>
       <trans-unit id="COMMON_FOOTER__NODES" datatype="html">
         <source>Nodes</source>
@@ -2945,7 +2945,7 @@
           <context context-type="linenumber">133</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boost</target>
+        <target state="translated">Boost</target>
       </trans-unit>
       <trans-unit id="COMMON_FOOTER__REWARDS" datatype="html">
         <source>Rewards</source>
@@ -2954,7 +2954,7 @@
           <context context-type="linenumber">139</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Rewards</target>
+        <target state="translated">Recompensas</target>
       </trans-unit>
       <trans-unit id="COMMON_FOOTER__YOUTUBE_MIGRATION" datatype="html">
         <source>YouTube Migration</source>
@@ -3057,7 +3057,7 @@
           <context context-type="linenumber">236</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Status</target>
+        <target state="translated">Estado</target>
       </trans-unit>
       <trans-unit id="COMMON_FOOTER__TERMS_OF_SERVICE" datatype="html">
         <source>Terms of Service</source>
@@ -3119,7 +3119,7 @@
           <context context-type="linenumber">25</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Feed</target>
+        <target state="translated">Actividades</target>
       </trans-unit>
       <trans-unit id="COMMON__VIDEOS" datatype="html">
         <source>Videos</source>
@@ -3136,7 +3136,7 @@
           <context context-type="linenumber">52</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Videos</target>
+        <target state="translated">Videos</target>
       </trans-unit>
       <trans-unit id="COMMON__IMAGES" datatype="html">
         <source>Images</source>
@@ -3153,7 +3153,7 @@
           <context context-type="linenumber">62</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Images</target>
+        <target state="translated">Imágenes</target>
       </trans-unit>
       <trans-unit id="COMMON__ARTICLES" datatype="html">
         <source>Articles</source>
@@ -3183,7 +3183,7 @@
           <context context-type="linenumber">41</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Groups</target>
+        <target state="translated">Grupos</target>
       </trans-unit>
       <trans-unit id="COMMON__WIRE" datatype="html">
         <source>Wire</source>
@@ -3192,7 +3192,7 @@
           <context context-type="linenumber">81</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Wire</target>
+        <target state="translated">Transferir</target>
       </trans-unit>
       <trans-unit id="COMMON__SETTING" datatype="html">
         <source>Settings</source>
@@ -3201,7 +3201,7 @@
           <context context-type="linenumber">102</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Settings</target>
+        <target state="translated">Opciones</target>
       </trans-unit>
       <trans-unit id="COMMON__YEARLY" datatype="html">
         <source>Yearly</source>
@@ -3241,7 +3241,7 @@
         </context-group>
         <note priority="1" from="meaning">currency</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">USD</target>
+        <target state="translated">Dolar</target>
       </trans-unit>
       <trans-unit id="COMMON__TOKENS" datatype="html">
         <source>Tokens</source>
@@ -3279,7 +3279,7 @@
         </context-group>
         <note priority="1" from="meaning">currency</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Tokens</target>
+        <target state="translated">Tokens</target>
       </trans-unit>
       <trans-unit id="UPGRADE_OPTIONS__PLUS" datatype="html">
         <source>Plus</source>
@@ -3288,7 +3288,7 @@
           <context context-type="linenumber">35</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Plus</target>
+        <target state="translated">Plus</target>
       </trans-unit>
       <trans-unit id="UPGRADE_OPTIONS__IDEAL_MINDS_USERS" datatype="html">
         <source>Ideal for all Minds Users</source>
@@ -3378,7 +3378,7 @@
           <context context-type="linenumber">105</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Upgrade to Plus</target>
+        <target state="translated">Subir a Plus</target>
       </trans-unit>
       <trans-unit id="COMMON__PRO" datatype="html">
         <source>Pro</source>
@@ -3603,7 +3603,7 @@
           <context context-type="linenumber">17</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">USD</target>
+        <target state="translated">Dolar</target>
       </trans-unit>
       <trans-unit id="PLUS_SUBSCRIPTION_OPTION__TOKENS" datatype="html">
         <source>Tokens</source>
@@ -3612,7 +3612,7 @@
           <context context-type="linenumber">25</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Tokens</target>
+        <target state="translated">Tokens</target>
       </trans-unit>
       <trans-unit id="PLUS_SUBSCRIPTION__PER_MONTH" datatype="html">
         <source>
@@ -3644,7 +3644,7 @@
           <context context-type="linenumber">52</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Upgrade to Plus</target>
+        <target state="translated">Subir a Plus</target>
       </trans-unit>
       <trans-unit id="PLUS_SUBSCRIPTION__CANCEL_PLUS" datatype="html">
         <source>Cancel Plus</source>
@@ -3653,7 +3653,7 @@
           <context context-type="linenumber">65</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Cancel Plus</target>
+        <target state="translated">Cancelar Plus</target>
       </trans-unit>
       <trans-unit id="PLUS__VERIFY__LINKS_INPUT_LABEL" datatype="html">
         <source>Please post your Minds channel page (eg. https://minds.com/YourUsername) on two other social media sites where you own the same username to verify yourself. They must link back to your Minds channel so we know it is you.</source>
@@ -3671,7 +3671,7 @@
           <context context-type="linenumber">34</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Please give a brief statement as to why you should be verified</target>
+        <target state="translated">Por favor, describe brevemente por qué deberías ser verificado</target>
       </trans-unit>
       <trans-unit id="PLUS__VERIFY__SUBMIT_ACTION" datatype="html">
         <source>Submit</source>
@@ -3680,7 +3680,7 @@
           <context context-type="linenumber">45</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Submit</target>
+        <target state="translated">Enviar</target>
       </trans-unit>
       <trans-unit id="ADS__BOOSTED_CONTENT" datatype="html">
         <source>Boosted content</source>
@@ -3698,7 +3698,7 @@
           <context context-type="linenumber">13</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boosts shown on user's feeds</target>
+        <target state="translated">Boots mostrados en los feeds del usuario</target>
       </trans-unit>
       <trans-unit id="MINDS__BOOST_CONSOLE__TOPBAR__SIDEBAR_TOOLTIP" datatype="html">
         <source>Boosts shown on sidebars</source>
@@ -3707,7 +3707,7 @@
           <context context-type="linenumber">26</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boosts shown on sidebars</target>
+        <target state="translated">Boots mostrados en barras laterales</target>
       </trans-unit>
       <trans-unit id="MINDS__BOOST_CONSOLE__TOPBAR__OFFERS_TOOLTIP" datatype="html">
         <source>Boosts you&apos;ve offered to other users or that&apos;ve been offered to you</source>
@@ -3716,7 +3716,7 @@
           <context context-type="linenumber">39</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boosts you've offered to other users or that've been offered to you</target>
+        <target state="translated">Boots que ofreciste a otros usuarios o que te ofrecieron</target>
       </trans-unit>
       <trans-unit id="M__FEATURE__PUBLISHER" datatype="html">
         <source>Publisher</source>
@@ -3734,7 +3734,7 @@
           <context context-type="linenumber">54</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boost Publisher program</target>
+        <target state="translated">Boots programa de Editor</target>
       </trans-unit>
       <trans-unit id="BOOST__CONSOLE__INBOX_TAB" datatype="html">
         <source>Inbox</source>
@@ -3752,7 +3752,7 @@
           <context context-type="linenumber">79</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boosts that have been offered to you</target>
+        <target state="translated">Boots que te han ofrecido</target>
       </trans-unit>
       <trans-unit id="BOOST__CONSOLE__OUTBOX_TAB" datatype="html">
         <source>Outbox</source>
@@ -3770,7 +3770,7 @@
           <context context-type="linenumber">92</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boosts you've offered other users</target>
+        <target state="translated">Boots que has ofrecido a otros</target>
       </trans-unit>
       <trans-unit id="BOOST__CONSOLE__LIST__EMPTY_BOOSTS_PRE" datatype="html">
         <source>You have no boosted posts.</source>
@@ -3908,7 +3908,7 @@
           <context context-type="linenumber">114</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Revoke</target>
+        <target state="translated">Anular</target>
       </trans-unit>
       <trans-unit id="M__ACTION__REJECT" datatype="html">
         <source>Reject</source>
@@ -3921,7 +3921,7 @@
           <context context-type="linenumber">34</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Reject</target>
+        <target state="translated">Rechazar</target>
       </trans-unit>
       <trans-unit id="M__ACTION__ACCEPT" datatype="html">
         <source>Accept</source>
@@ -3938,7 +3938,7 @@
           <context context-type="linenumber">28</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Accept</target>
+        <target state="translated">Aceptar</target>
       </trans-unit>
       <trans-unit id="BOOST__CONSOLE__CARD__PREVIOUS_REJECTION" datatype="html">
         <source>
@@ -4042,7 +4042,7 @@
           <context context-type="linenumber">65</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">You have no content yet. Why don't you post something?</target>
+        <target state="translated">No tienes contenido todavía ¿Por qué no publicas algo?</target>
       </trans-unit>
       <trans-unit id="BOOST__CONSOLE__BOOSTER__YOUR_CHANNEL_TITLE" datatype="html">
         <source>Your channel</source>
@@ -4060,7 +4060,7 @@
           <context context-type="linenumber">43</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Your recent media</target>
+        <target state="translated">Tus medios recientes</target>
       </trans-unit>
       <trans-unit id="WIRE__LOCK_SCREEN__RECEIVED_TIMEOUT_LABEL" datatype="html">
         <source>We&apos;ve received your transaction. Please try unlocking this post after it gets processed. We estimate it may take around 5 minutes.</source>
@@ -4295,7 +4295,7 @@
           <context context-type="linenumber">5</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Rewards</target>
+        <target state="translated">Recompensas</target>
       </trans-unit>
       <trans-unit id="WIRE__CHANNEL__REWARDS_PARENT_TOOLTIP" datatype="html">
         <source>Give your supporters something in exchange for tokens or cash.</source>
@@ -4394,7 +4394,7 @@
           <context context-type="linenumber">57</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">See a breakdown of all your Wires in your wallet</target>
+        <target state="translated">Ver los detalles de todas tus transferencias en tu monedero</target>
       </trans-unit>
       <trans-unit id="WIRE__CHANNEL__OVERVIEW__YOU_SENT_CARD_LABEL" datatype="html">
         <source>You Sent</source>
@@ -4559,7 +4559,7 @@
           <context context-type="linenumber">23</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Date</target>
+        <target state="translated">Fecha</target>
       </trans-unit>
       <trans-unit id="WIRE__CONSOLE__LEDGER__CHANNEL_COLUMN" datatype="html">
         <source>Channel</source>
@@ -4568,7 +4568,7 @@
           <context context-type="linenumber">94</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Channel</target>
+        <target state="translated">Canal</target>
       </trans-unit>
       <trans-unit id="M__COMMON__COLUMN" datatype="html">
         <source>Amount</source>
@@ -4605,7 +4605,7 @@
           <context context-type="linenumber">181</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">No Wires to show.</target>
+        <target state="translated">No hay transferencias que mostrar.</target>
       </trans-unit>
       <trans-unit id="WIRE__CONSOLE__SUPPORTER__THIS_MONTH" datatype="html">
         <source>this month</source>
@@ -4614,7 +4614,7 @@
           <context context-type="linenumber">19</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">this month</target>
+        <target state="translated">este mes</target>
       </trans-unit>
       <trans-unit id="WIRE__CONSOLE__REWARDS_TABLE__INPUTS__TOKENS_LABEL" datatype="html">
         <source>Tokens</source>
@@ -4695,7 +4695,7 @@
           <context context-type="linenumber">12</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">The below description and preview image is what your subscribers will see on your exclusive posts until they become a supporter.</target>
+        <target state="translated">La descripción a continuación y la imagen de vista previa es lo que verán sus suscriptores en tus publicaciones exclusivas hasta que se conviertan en un partidario.</target>
       </trans-unit>
       <trans-unit id="WIRE__CONSOLE__SETTINGS__DESCRIPTION_LABEL" datatype="html">
         <source>Description</source>
@@ -4749,7 +4749,7 @@
           <context context-type="linenumber">10</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">The total wires you have received</target>
+        <target state="translated">Cuántas transferencias has recibido en los últimos 30 días</target>
       </trans-unit>
       <trans-unit id="M__COMMON__EARNINGS" datatype="html">
         <source>Tokens</source>
@@ -4771,7 +4771,7 @@
           <context context-type="linenumber">25</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">The total in Tokens you have earned</target>
+        <target state="translated">El total de Tokens que has obtenido</target>
       </trans-unit>
       <trans-unit id="WIRE__CONSOLE__OVERVIEW__MONEY_EARNINGS_TOOLTIP" datatype="html">
         <source>The total in USD you have earned</source>
@@ -4780,7 +4780,7 @@
           <context context-type="linenumber">40</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">The total in USD you have earned</target>
+        <target state="translated">El total en USD que has obtenido</target>
       </trans-unit>
       <trans-unit id="M__COMMON__REVIEW_PENDING" datatype="html">
         <source>Review Pending</source>
@@ -4838,7 +4838,7 @@
           <context context-type="linenumber">64</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">SUBMIT</target>
+        <target state="translated">ENVIAR</target>
       </trans-unit>
       <trans-unit id="M__BAN__MODAL__NEXT_CAPS" datatype="html">
         <source>NEXT</source>
@@ -4847,7 +4847,7 @@
           <context context-type="linenumber">87</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">NEXT</target>
+        <target state="translated">SIGUIENTE</target>
       </trans-unit>
       <trans-unit id="M__ACTION__SHARE" datatype="html">
         <source>Share</source>
@@ -4891,7 +4891,7 @@
           <context context-type="linenumber">69</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Select a page to link below</target>
+        <target state="translated">Selecciona una página para enlazar debajo</target>
       </trans-unit>
       <trans-unit id="COMMENTS__DISABLED" datatype="html">
         <source>Comments have been disabled for this post</source>
@@ -4926,7 +4926,7 @@
           <context context-type="linenumber">53</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Feature</target>
+        <target state="translated">Destacar</target>
       </trans-unit>
       <trans-unit id="MODALS__REMIND_COMPOSER__REMIND_TITLE" datatype="html">
         <source>Remind</source>
@@ -4939,7 +4939,7 @@
           <context context-type="linenumber">11</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Remind</target>
+        <target state="translated">Recordar</target>
       </trans-unit>
       <trans-unit id="MODALS__REMIND_COMPOSER__PLACEHOLDER" datatype="html">
         <source>Enter your remind status here (optional)</source>
@@ -5017,7 +5017,7 @@
           <context context-type="linenumber">33</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Subscribe</target>
+        <target state="translated">Suscribirte</target>
       </trans-unit>
       <trans-unit id="MINDS__BUTTONS__USER_DROPDOWN__UNSUBSCRIBE" datatype="html">
         <source>Unsubscribe</source>
@@ -5026,7 +5026,7 @@
           <context context-type="linenumber">41</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Unsubscribe</target>
+        <target state="translated">Eliminar suscripción</target>
       </trans-unit>
       <trans-unit id="MINDS__BUTTONS__USER_DROPDOWN__UNBAN_GLOBALLY" datatype="html">
         <source>Un-ban globally</source>
@@ -5035,7 +5035,7 @@
           <context context-type="linenumber">50</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Un-ban globally</target>
+        <target state="translated">Readmitir globalmente</target>
       </trans-unit>
       <trans-unit id="MINDS_BUTTON__USER_DROPDOWN__VIEW_LEDGER" datatype="html">
         <source>View Ledger</source>
@@ -5048,7 +5048,7 @@
           <context context-type="linenumber">39</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">View Ledger</target>
+        <target state="translated">Ver libro de mayor</target>
       </trans-unit>
       <trans-unit id="MINDS_BUTTON__USER_DROPDOWN__VIEW_WITHDRAWALS" datatype="html">
         <source>View Withdrawals</source>
@@ -5061,7 +5061,7 @@
           <context context-type="linenumber">47</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">View Withdrawals</target>
+        <target state="translated">Ver Retiros</target>
       </trans-unit>
       <trans-unit id="MINDS_BUTTON__USER_DROPDOWN__VIEW_EMAIL_ADDR" datatype="html">
         <source>E-mail Address</source>
@@ -5100,7 +5100,7 @@
           <context context-type="linenumber">122</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Remove Explicit</target>
+        <target state="translated">Quitar explícito</target>
       </trans-unit>
       <trans-unit id="M__ACTION__REINDEX" datatype="html">
         <source>Reindex</source>
@@ -5126,7 +5126,7 @@
           <context context-type="linenumber">96</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Mark as Safe</target>
+        <target state="translated">Marcar como seguro</target>
       </trans-unit>
       <trans-unit id="M__ACTION__MENU__MARK_AS_OPEN" datatype="html">
         <source>Mark as Open</source>
@@ -5135,7 +5135,7 @@
           <context context-type="linenumber">135</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Mark as Open</target>
+        <target state="translated">Marcar como abierto</target>
       </trans-unit>
       <trans-unit id="MINDS__BAN__CONFIRMATION" datatype="html">
         <source>Are you sure you want to ban this user?</source>
@@ -5162,7 +5162,7 @@
           <context context-type="linenumber">167</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">User has been banned.</target>
+        <target state="translated">El usuario a sido baneado.</target>
       </trans-unit>
       <trans-unit id="M__ACTION__BAN_USER" datatype="html">
         <source>Ban user</source>
@@ -5211,7 +5211,7 @@
           <context context-type="linenumber">197</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">User has been banned from monetization.</target>
+        <target state="translated">El usuario ha sido baneado de la monetización.</target>
       </trans-unit>
       <trans-unit id="MINDS__BANNER__CLICK__TO__ADD" datatype="html">
         <source>Click here to add a new banner</source>
@@ -5220,7 +5220,7 @@
           <context context-type="linenumber">19</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Click here to add a new banner</target>
+        <target state="translated">Pulsa aquí para agregar una nueva portada</target>
       </trans-unit>
       <trans-unit id="ccbfe7707dbf576cbdf0fe024e77b2b15c2a2216" datatype="html">
         <source>Recommended minimum size 2000px × 1125px (Ratio 16:9)</source>
@@ -5577,7 +5577,7 @@
           <context context-type="linenumber">13</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Remove two factor</target>
+        <target state="translated">Quitar autenticación de dos factores</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__SETUP_ACTION" datatype="html">
         <source>Setup</source>
@@ -5586,7 +5586,7 @@
           <context context-type="linenumber">40</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Setup</target>
+        <target state="translated">Configuración</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__SENT_SMS_LABEL" datatype="html">
         <source>
@@ -5637,7 +5637,7 @@
           <context context-type="linenumber">71</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Enter your code here</target>
+        <target state="translated">Introduce tu código de autentificación aquí</target>
       </trans-unit>
       <trans-unit id="M__ACTION__CONFIRM" datatype="html">
         <source>Confirm</source>
@@ -5671,7 +5671,7 @@
           <context context-type="linenumber">86</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Retry</target>
+        <target state="translated">Reintentar</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__PAID_SUBSCRIPTIONS_TITLE" datatype="html">
         <source>Paid Subscriptions</source>
@@ -5680,7 +5680,7 @@
           <context context-type="linenumber">6</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Paid Subscriptions</target>
+        <target state="translated">Suscripciones pagadas</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__WIRE__PREVIEW_DESC" datatype="html">
         <source>The below description and preview image is what your subscribers will see on your exclusive posts until they become a supporter.</source>
@@ -5689,7 +5689,7 @@
           <context context-type="linenumber">35</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">The below description and preview image is what your subscribers will see on your exclusive posts until they become a supporter.</target>
+        <target state="translated">La descripción a continuación y la imagen de vista previa es lo que verán sus suscriptores en tus publicaciones exclusivas hasta que se conviertan en un partidario.</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__WIRE__DESCRIPTION_LABEL" datatype="html">
         <source>Description</source>
@@ -5768,7 +5768,7 @@
           <context context-type="linenumber">38</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Block</target>
+        <target state="translated">Bloquear</target>
       </trans-unit>
       <trans-unit id="MODALS__SIGNUP__ON_ACTION_SUBTITLE" datatype="html">
         <source>
@@ -5862,7 +5862,7 @@
           <context context-type="linenumber">15</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Only paid subscribers can see this post</target>
+        <target state="translated">Sólo los suscriptores de pago pueden ver esta publicación</target>
       </trans-unit>
       <trans-unit id="PAYMENTS__PAYWALL__VIEW_ACTION" datatype="html">
         <source>View</source>
@@ -5915,7 +5915,7 @@
           <context context-type="linenumber">15</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">You have exceeded your login attempts. Please try again in a few minutes.</target>
+        <target state="translated">Has excedido tus intentos de inicio de sesión. Por favor, inténtalo de nuevo en unos minutos.</target>
       </trans-unit>
       <trans-unit id="MINDS__LOGIN__EXCEPTION__DISABLED_USER" datatype="html">
         <source>This account has been disabled</source>
@@ -5924,7 +5924,7 @@
           <context context-type="linenumber">21</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">This account has been disabled</target>
+        <target state="translated">Esta cuenta ha sido deshabilitad</target>
       </trans-unit>
       <trans-unit id="MINDS__LOGIN__EXCEPTION__INCORRECT_USERNAME_PASSWORD" datatype="html">
         <source>Incorrect username/password. Please try again.</source>
@@ -5933,7 +5933,7 @@
           <context context-type="linenumber">27</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Incorrect username/password. Please try again.</target>
+        <target state="translated">Nombre de usuario / Contraseña incorrectos. Inténtalo de nuevo.</target>
       </trans-unit>
       <trans-unit id="MINDS__LOGIN__EXCEPTION__ACCOUNT_LOCKED" datatype="html">
         <source>Account locked</source>
@@ -5942,7 +5942,7 @@
           <context context-type="linenumber">33</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Account locked</target>
+        <target state="translated">Cuenta bloqueada</target>
       </trans-unit>
       <trans-unit id="MINDS__LOGIN__EXCEPTION__BANNED_USER" datatype="html">
         <source>You are not allowed to login.</source>
@@ -5951,7 +5951,7 @@
           <context context-type="linenumber">39</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">You are not allowed to login.</target>
+        <target state="translated">No estás autorizado a iniciar sesión.</target>
       </trans-unit>
       <trans-unit id="MINDS__LOGIN__EXCEPTION__CODE_VERIFICATION_FAILED" datatype="html">
         <source>Sorry, we couldn&apos;t verify your two factor code. Please try logging again.</source>
@@ -5960,7 +5960,7 @@
           <context context-type="linenumber">45</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Sorry, we couldn't verify your two factor code. Please try logging again.</target>
+        <target state="translated">Lo sentimos, no pudimos verificar tu código de dos factores. Intenta iniciar sesión de nuevo.</target>
       </trans-unit>
       <trans-unit id="MINDS__LOGIN__EXCEPTION__INVALID_TOKEN" datatype="html">
         <source>Invalid token</source>
@@ -5969,7 +5969,7 @@
           <context context-type="linenumber">51</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Invalid token</target>
+        <target state="translated">Token invalido</target>
       </trans-unit>
       <trans-unit id="MINDS__LOGIN__EXCEPTION__SORRY_THERE_WAS_AN_ERROR_PLEASE_TRY_AGAIN" datatype="html">
         <source>Sorry, there was an error. Please try again.</source>
@@ -5987,7 +5987,7 @@
           <context context-type="linenumber">85</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Username</target>
+        <target state="translated">Nombre de usuario</target>
       </trans-unit>
       <trans-unit id="MINDS__LOGIN__EXCEPTION__ENTERED_EMAIL_ADDRESS_NOT_USERNAME" datatype="html">
         <source>Please enter a username instead of an email address.</source>
@@ -6018,7 +6018,7 @@
           <context context-type="linenumber">95</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Password</target>
+        <target state="translated">Contraseña</target>
       </trans-unit>
       <trans-unit id="LOGIN__JOIN_MINDS_NOW" datatype="html">
         <source>Join Minds Now</source>
@@ -6036,7 +6036,7 @@
           <context context-type="linenumber">171</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Forgot Password?</target>
+        <target state="translated">¿Olvidaste tu contraseña?</target>
       </trans-unit>
       <trans-unit id="FORMS__LOGIN__2FA_LOGIN_TITLE" datatype="html">
         <source>Twofactor Login</source>
@@ -6045,7 +6045,7 @@
           <context context-type="linenumber">182</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Twofactor Login</target>
+        <target state="translated">Autenticación de dos factores</target>
       </trans-unit>
       <trans-unit id="FORMS__LOGIN__2FA_LOGIN_SMS_SENT" datatype="html">
         <source>We just sent you a text. Enter the code below to authenticate.</source>
@@ -6054,7 +6054,7 @@
           <context context-type="linenumber">188</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">We just sent you a text. Enter the code below to authenticate.</target>
+        <target state="translated">Te enviamos un mensaje. Introduce el código abajo para autenticar.</target>
       </trans-unit>
       <trans-unit id="REGISTRATION_VALIDATOR__MORE_THAN_8_CHARACTERS" datatype="html">
         <source>8 or more characters</source>
@@ -6112,7 +6112,7 @@
           <context context-type="linenumber">38</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Username</target>
+        <target state="translated">Nombre de usuario</target>
       </trans-unit>
       <trans-unit id="MINDS__REGISTER__EXCEPTION__USERNAME_TOO_SHORT" datatype="html">
         <source>Must be at least 4 characters long</source>
@@ -6148,7 +6148,7 @@
           <context context-type="linenumber">71</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Email</target>
+        <target state="translated">E-mail</target>
       </trans-unit>
       <trans-unit id="MINDS__REGISTER__EXCEPTION__INVALID_EMAIL" datatype="html">
         <source>Invalid email</source>
@@ -6170,7 +6170,7 @@
           <context context-type="linenumber">122</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Confirm your password</target>
+        <target state="translated">Confirma tu contraseña</target>
       </trans-unit>
       <trans-unit id="COMMON__CAPTCHA" datatype="html">
         <source>Captcha</source>
@@ -6188,7 +6188,7 @@
           <context context-type="linenumber">188</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Signup</target>
+        <target state="translated">Registrar</target>
       </trans-unit>
       <trans-unit id="FORMS__REGISTER__JOIN_MINDS_NOW_ACTION" datatype="html">
         <source>Join Minds Now</source>
@@ -7513,7 +7513,7 @@
 
             boost</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">is awaiting approval.</target>
+        <target state="translated">está esperando aprobación.</target>
       </trans-unit>
       <trans-unit id="NOTIFICATIONS__NOTIFICATION__X_POINTS_FOR" datatype="html">
         <source>
@@ -7681,7 +7681,7 @@
           <context context-type="linenumber">1057</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Your offer has been refunded.</target>
+        <target state="translated">Tu oferta ha sido reembolsada.</target>
       </trans-unit>
       <trans-unit id="NOTIFICATIONS__NOTIFICATION__BOOST_ACCEPTED__WERE_ACCEPTED" datatype="html">
         <source>were accepted.</source>
@@ -7694,7 +7694,7 @@
           <context context-type="linenumber">1163</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">were accepted.</target>
+        <target state="translated">fueron aceptados.</target>
       </trans-unit>
       <trans-unit id="NOTIFICATIONS__NOTIFICATION__BOOST_COMPLETED__BEEN_MET" datatype="html">
         <source>have been met.</source>
@@ -7703,7 +7703,7 @@
           <context context-type="linenumber">1224</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">have been met.</target>
+        <target state="translated">han sido alcanzados.</target>
       </trans-unit>
       <trans-unit id="NOTIFICATIONS__NOTIFICATION__BOOST_PEER_REQUEST__IS_OFFERING" datatype="html">
         <source>
@@ -7788,7 +7788,7 @@
           <context context-type="linenumber">1400</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">for</target>
+        <target state="translated">para</target>
       </trans-unit>
       <trans-unit id="NOTIFICATIONS__NOTIFICATION__THEIR_POST" datatype="html">
         <source>their post</source>
@@ -8001,7 +8001,7 @@
           <context context-type="linenumber">1549</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">You can gain more reach by boosting your content. Hit the blue boost icon on your posts.</target>
+        <target state="translated">Puedes ganar más alcance promoviendo tu contenido. Pulsa el icono azul de Boost en tus publicaciones.</target>
       </trans-unit>
       <trans-unit id="NOTIFICATIONS__NOTIFICATION__WELCOME_CHAT" datatype="html">
         <source>Chat securely with your mutual subscriptions.</source>
@@ -8010,7 +8010,7 @@
           <context context-type="linenumber">1557</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Chat securely with your mutual subscriptions.</target>
+        <target state="translated">Chatea de forma segura con tus suscripciones mutuas.</target>
       </trans-unit>
       <trans-unit id="NOTIFICATIONS__NOTIFICATION__WELCOME_DISCOVER" datatype="html">
         <source>
@@ -8339,7 +8339,7 @@
           <context context-type="linenumber">22</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Remove user</target>
+        <target state="translated">Quitar usuario</target>
       </trans-unit>
       <trans-unit id="GROUPS__THIS_GROUP_CONTAINS_NSFW" datatype="html">
         <source>This group contains content that is NSFW</source>
@@ -8459,7 +8459,7 @@
           <context context-type="linenumber">262</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Default view: Conversations</target>
+        <target state="translated">Vista predeterminada: Conversaciones</target>
       </trans-unit>
       <trans-unit id="GROUPS__VIDEO_CALLS_ENABLED" datatype="html">
         <source>Video calls enabled</source>
@@ -8521,7 +8521,7 @@
           <context context-type="linenumber">85</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Description</target>
+        <target state="translated">Descripción</target>
       </trans-unit>
       <trans-unit id="CREATE_GROUP__GROUP_TYPE" datatype="html">
         <source>Group Type</source>
@@ -8548,7 +8548,7 @@
           <context context-type="linenumber">119</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Open</target>
+        <target state="translated">Abrir</target>
       </trans-unit>
       <trans-unit id="M__COMMON_TOPBAR_TOP" datatype="html">
         <source>Top</source>
@@ -8582,7 +8582,7 @@
           <context context-type="linenumber">110</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Top displays the top content on Minds</target>
+        <target state="translated">La parte superior muestra el contenido principal en Minds</target>
       </trans-unit>
       <trans-unit id="M__COMMON_TOPBAR__MY_GROUPS" datatype="html">
         <source>My Groups</source>
@@ -8600,7 +8600,7 @@
           <context context-type="linenumber">35</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Your Groups</target>
+        <target state="translated">Tus Grupos</target>
       </trans-unit>
       <trans-unit id="M__COMMON_TOPBAR__START_A_NEW_GROUP" datatype="html">
         <source>Start a new group</source>
@@ -8618,7 +8618,7 @@
           <context context-type="linenumber">51</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Start a new group</target>
+        <target state="translated">Iniciar un nuevo grupo</target>
       </trans-unit>
       <trans-unit id="GROUPS__JOIN_BUTTON__JOIN_ACTION" datatype="html">
         <source>
@@ -8650,7 +8650,7 @@
           <context context-type="linenumber">56</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Decline</target>
+        <target state="translated">Declinar</target>
       </trans-unit>
       <trans-unit id="GROUPS__JOIN_BUTTON__LEAVE_ACTION" datatype="html">
         <source>Leave</source>
@@ -8663,7 +8663,7 @@
           <context context-type="linenumber">46</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Leave</target>
+        <target state="translated">Salir</target>
       </trans-unit>
       <trans-unit id="GROUPS__JOIN_BUTTON__CANCEL_REQ_ACTION" datatype="html">
         <source>Cancel request</source>
@@ -8676,7 +8676,7 @@
           <context context-type="linenumber">54</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Cancel request</target>
+        <target state="translated">Cancelar solcitud</target>
       </trans-unit>
       <trans-unit id="GROUPS__JOIN_BUTTON__JOIN_A_GROUP_TITLE" datatype="html">
         <source>join a group</source>
@@ -8709,7 +8709,7 @@
           <context context-type="linenumber">7</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Invite</target>
+        <target state="translated">Invitar</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__REQUESTS" datatype="html">
         <source>Requests</source>
@@ -8718,7 +8718,7 @@
           <context context-type="linenumber">11</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Requests</target>
+        <target state="translated">Solicitudes</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__MEMBERS__INVITE__ITEM_ONLY_SUBSCRIBERS" datatype="html">
         <source>You can only invite users who are your subscribers</source>
@@ -8727,7 +8727,7 @@
           <context context-type="linenumber">19</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">You can only invite users who are your subscribers</target>
+        <target state="translated">Solo puedes invitar a usuarios que sean tus suscriptores</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__MEMBERS__INVITE__ITEM_NOTIFICATION_INFO" datatype="html">
         <source>They will receive a notification to confirm they want to be a member of this group</source>
@@ -8736,7 +8736,7 @@
           <context context-type="linenumber">22</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">They will receive a notification to confirm they want to be a member of this group</target>
+        <target state="translated">Recibirán una notificación para confirmar si quieren ser miembros de este grupo</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__MEMBERS__INVITE__ITEM_BAN_REINVITE" datatype="html">
         <source>If the user was banned from the group, inviting them will lift the ban</source>
@@ -8745,7 +8745,7 @@
           <context context-type="linenumber">30</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">If the user was banned from the group, inviting them will lift the ban</target>
+        <target state="translated">Si el usuario fue baneado del grupo, invitarlo revocará el baneo</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__MEMBERS__INVITE__INVITING" datatype="html">
         <source>Inviting...</source>
@@ -8772,7 +8772,7 @@
           <context context-type="linenumber">22</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Remove from Group</target>
+        <target state="translated">Eliminar del grupo</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__CARD_USER_ACTIONS__REINVITE" datatype="html">
         <source>Re-invite to Group</source>
@@ -8781,7 +8781,7 @@
           <context context-type="linenumber">34</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Re-invite to Group</target>
+        <target state="translated">Volver a invitar al grupo</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__CARD_USER_ACTIONS__INVITED" datatype="html">
         <source>Invited</source>
@@ -8817,7 +8817,7 @@
           <context context-type="linenumber">76</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Make Moderator</target>
+        <target state="translated">Hacer moderador</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__CARD_USER_ACTIONS__REMOVE_AS_MODERATOR" datatype="html">
         <source>Remove as Moderator</source>
@@ -8826,7 +8826,7 @@
           <context context-type="linenumber">84</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Remove as Moderator</target>
+        <target state="translated">Quitar moderador</target>
       </trans-unit>
       <trans-unit id="GROUPS__REMOVE_X_FROM_Y_CONFIRM" datatype="html">
         <source>
@@ -8900,7 +8900,7 @@
           <context context-type="linenumber">96</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Disable Notifications</target>
+        <target state="translated">Deshabilitar notificaciones</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__GROUP_SETTINGS_BTN__ENABLE_NOTIFICATIONS" datatype="html">
         <source>Enable Notifications</source>
@@ -8909,7 +8909,7 @@
           <context context-type="linenumber">104</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Enable Notifications</target>
+        <target state="translated">Habilitar notificaciones</target>
       </trans-unit>
       <trans-unit id="M__ACTION__SET_EXPLICIT" datatype="html">
         <source>Set Explicit</source>
@@ -8927,7 +8927,7 @@
           <context context-type="linenumber">139</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Delete Group</target>
+        <target state="translated">Eliminar grupo</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__GROUP_SETTINGS_BTN__DELETE_GROUP_CONFIRM" datatype="html">
         <source>
@@ -8953,7 +8953,7 @@
           <context context-type="linenumber">188</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">-- SELECT A CATEGORY --</target>
+        <target state="translated">-- Seleccione una categoría --</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__FILTER_SELECTOR__FEED_OPTION" datatype="html">
         <source>Feed</source>
@@ -9167,7 +9167,7 @@
           <context context-type="linenumber">76</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Save draft</target>
+        <target state="translated">Guardar borrador</target>
       </trans-unit>
       <trans-unit id="BLOGS__EDIT__PUBLISH_ACTION" datatype="html">
         <source>Publish</source>
@@ -9176,7 +9176,7 @@
           <context context-type="linenumber">85</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Publish</target>
+        <target state="translated">Publicar</target>
       </trans-unit>
       <trans-unit id="BLOGS__EDIT__LICENCE_PLACEHOLDER" datatype="html">
         <source>-- License --</source>
@@ -9239,7 +9239,7 @@
           <context context-type="linenumber">35</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Blogs from channels you are subscribed to</target>
+        <target state="translated">Blogs de canales a los que estas suscripto</target>
       </trans-unit>
       <trans-unit id="M__COMMON_TOPBAR_MY_BLOGS" datatype="html">
         <source>My Blogs</source>
@@ -9257,7 +9257,7 @@
           <context context-type="linenumber">49</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Your blogs</target>
+        <target state="translated">Tus Blogs</target>
       </trans-unit>
       <trans-unit id="M__COMMON_TOPBAR_WRITE_NEW_BLOG" datatype="html">
         <source>Write a new blog</source>
@@ -9275,7 +9275,7 @@
           <context context-type="linenumber">63</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Write a new Blog</target>
+        <target state="translated">Escriba un nuevo Blog</target>
       </trans-unit>
       <trans-unit id="M__ACTION__VIEW" datatype="html">
         <source>View</source>
@@ -9288,7 +9288,7 @@
           <context context-type="linenumber">12</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">View</target>
+        <target state="translated">Ver</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__UNFEATURE" datatype="html">
         <source>un-Feature</source>
@@ -9297,7 +9297,7 @@
           <context context-type="linenumber">61</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">un-Feature</target>
+        <target state="translated">Quitar destacado</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__MONETIZE" datatype="html">
         <source>Monetize</source>
@@ -9306,7 +9306,7 @@
           <context context-type="linenumber">72</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Monetize</target>
+        <target state="translated">Monetizar</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__UNMONETIZE" datatype="html">
         <source>un-Monetize</source>
@@ -9315,7 +9315,7 @@
           <context context-type="linenumber">80</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">un-Monetize</target>
+        <target state="translated">Desmonetizar</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__UNSUBSCRIBE" datatype="html">
         <source>Unsubscribe</source>
@@ -9328,7 +9328,7 @@
           <context context-type="linenumber">76</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Unsubscribe</target>
+        <target state="translated">Eliminar suscripción</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__FOLLOW_NOTIFICATIONS" datatype="html">
         <source>Follow post</source>
@@ -9349,7 +9349,7 @@
           <context context-type="linenumber">106</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Follow post</target>
+        <target state="translated">Seguir publicación</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__UNFOLLOW_NOTIFICATIONS" datatype="html">
         <source>Un-follow post</source>
@@ -9362,7 +9362,7 @@
           <context context-type="linenumber">98</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Un-follow post</target>
+        <target state="translated">Des-seguir publicación</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__BLOCK_AND_UNBLOCK" datatype="html">
         <source>Block/Unblock</source>
@@ -9388,7 +9388,7 @@
           <context context-type="linenumber">131</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Block user</target>
+        <target state="translated">Bloquear usuario</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__UNBLOCK" datatype="html">
         <source>Unblock user</source>
@@ -9401,7 +9401,7 @@
           <context context-type="linenumber">139</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Unblock user</target>
+        <target state="translated">Desbloquear usuario</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__ALLOW_COMMENTS" datatype="html">
         <source>Allow Comments</source>
@@ -9436,7 +9436,7 @@
           <context context-type="linenumber">246</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Mark as Safe</target>
+        <target state="translated">Marcar como seguro</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__MARK_AS_OPEN" datatype="html">
         <source>Mark as Open</source>
@@ -9445,7 +9445,7 @@
           <context context-type="linenumber">254</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Mark as Open</target>
+        <target state="translated">Marcar como abierto</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__DELETE_MODAL_MESSAGE" datatype="html">
         <source>Are you sure you want to delete this post? There&apos;s no UNDO.</source>
@@ -9454,7 +9454,7 @@
           <context context-type="linenumber">276</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Are you sure you want to delete this post? There's no UNDO.</target>
+        <target state="translated">¿Estás seguro de que quieres eliminar esta publicación? No se puede DESHACER.</target>
       </trans-unit>
       <trans-unit id="COMMON__POST_MENU__DELETE_MODAL_ATTACHMENT_MESSAGE" datatype="html">
         <source>This action will also delete the attached media from your gallery.</source>
@@ -9533,7 +9533,7 @@
           <context context-type="linenumber">124</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Show newly created content first</target>
+        <target state="translated">Mostrar contenido nuevo primero</target>
       </trans-unit>
       <trans-unit id="M__FEATURE__CHANNEL__PLURAL" datatype="html">
         <source>Channels</source>
@@ -9555,7 +9555,7 @@
           <context context-type="linenumber">36</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Show only channels</target>
+        <target state="translated">Ver solamente canales</target>
       </trans-unit>
       <trans-unit id="M__FEATURE__POST_PLURAL" datatype="html">
         <source>Posts</source>
@@ -9585,7 +9585,7 @@
           <context context-type="linenumber">138</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Show only Posts</target>
+        <target state="translated">Ver solamente publicaciones</target>
       </trans-unit>
       <trans-unit id="M__FEATURE__VIDEO_PLURAL" datatype="html">
         <source>Videos</source>
@@ -9619,7 +9619,7 @@
           <context context-type="linenumber">152</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Show only videos</target>
+        <target state="translated">Ver solamente videos</target>
       </trans-unit>
       <trans-unit id="M__FEATURE__IMAGE_PLURAL" datatype="html">
         <source>Images</source>
@@ -9653,7 +9653,7 @@
           <context context-type="linenumber">166</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Show only images</target>
+        <target state="translated">Ver solamente imagenes</target>
       </trans-unit>
       <trans-unit id="M__FEATURE__BLOG_PLURAL" datatype="html">
         <source>Blogs</source>
@@ -9687,7 +9687,7 @@
           <context context-type="linenumber">180</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Show only blogs</target>
+        <target state="translated">Ver solamente blogs</target>
       </trans-unit>
       <trans-unit id="MINDS__CHANNELS__TOPBAR__GROUPS_TOOLTIP" datatype="html">
         <source>Show only groups</source>
@@ -9696,7 +9696,7 @@
           <context context-type="linenumber">94</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Show only groups</target>
+        <target state="translated">Ver solamente grupos</target>
       </trans-unit>
       <trans-unit id="M__COMMON__EXPLICIT" datatype="html">
         <source>Explicit</source>
@@ -9718,7 +9718,7 @@
           <context context-type="linenumber">200</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Include explicit content (+18) search results</target>
+        <target state="translated">Incluir resultados con contenido explícito (+18)</target>
       </trans-unit>
       <trans-unit id="SEARCH__EXCLUSIVE_TOOLTIP" datatype="html">
         <source>Include exclusive content in search results</source>
@@ -9727,7 +9727,7 @@
           <context context-type="linenumber">216</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Include exclusive content in search results</target>
+        <target state="translated">Incluir resultados con contenido exclusivo</target>
       </trans-unit>
       <trans-unit id="SEARCH_SUGGESTIONS__CLEAR_HISTORY" datatype="html">
         <source>Search History</source>
@@ -9821,7 +9821,7 @@
           <context context-type="linenumber">25</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Unlock</target>
+        <target state="translated">Desbloquear</target>
       </trans-unit>
       <trans-unit id="MESSENGER__ENCRYPTION__YOU_HAVENT_SETUP_PWD_DESC" datatype="html">
         <source>
@@ -9864,7 +9864,7 @@
           <context context-type="linenumber">61</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Setup</target>
+        <target state="translated">Configuración</target>
       </trans-unit>
       <trans-unit id="MESSENGER__ENCRYPTION__CHANGING_PWD_NOTE" datatype="html">
         <source>Changing your encryption password will cause your previous messages to be unreadable.</source>
@@ -9873,7 +9873,7 @@
           <context context-type="linenumber">72</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Changing your encryption password will cause your previous messages to be unreadable.</target>
+        <target state="translated">Cambiar la contraseña de encriptación volverá ilegibles tus mensajes previos.</target>
       </trans-unit>
       <trans-unit id="MESSENGER__ENCRYPTION__CANCEL_ACTION" datatype="html">
         <source>Cancel</source>
@@ -9891,7 +9891,7 @@
           <context context-type="linenumber">100</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Change</target>
+        <target state="translated">Cambiar</target>
       </trans-unit>
       <trans-unit id="MESSENGER__CONVERSATION__DELETE_TOOLTIP" datatype="html">
         <source>Delete chat history</source>
@@ -10179,7 +10179,7 @@
           <context context-type="linenumber">60</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Confirm</target>
+        <target state="translated">Confirmar</target>
       </trans-unit>
       <trans-unit id="M__COMMON__SKIP_W_PERIOD" datatype="html">
         <source>Skip.</source>
@@ -10215,7 +10215,7 @@
           <context context-type="linenumber">114</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">This will enable/disable the Boost box on top of your feed from self-rotating.</target>
+        <target state="translated">Esto habilitará/deshabilitará la rotación de la caja de promociones en la parte superior de tu sección de noticias.</target>
       </trans-unit>
       <trans-unit id="MINDS__NEWSFEED__BOOST_ROTATOR__HIDE_BOOST_ITEM" datatype="html">
         <source>Hide Boost</source>
@@ -10246,7 +10246,7 @@
           <context context-type="linenumber">164</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Plus users may hide Boosts from their newsfeed.</target>
+        <target state="translated">Los usuarios Plus pueden ocutar las promociones de su sección de noticias.</target>
       </trans-unit>
       <trans-unit id="MINDS__NEWSFEED__BOOST_ROTATOR__BOOST_VISIBILITY_UPGRADE_TOOLTIP" datatype="html">
         <source>Upgrade to Plus in order to turn off Boost.</source>
@@ -10256,7 +10256,7 @@
         </context-group>
         <note priority="1" from="description"/>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Upgrade to Plus in order to turn off Boost.</target>
+        <target state="translated">Actualízate a Plus para desactivar las promociones.</target>
       </trans-unit>
       <trans-unit id="MINDS__NEWSFEED__BOOST_ROTATOR__ABOUT_BOOST" datatype="html">
         <source>About Boost</source>
@@ -10265,7 +10265,7 @@
           <context context-type="linenumber">187</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">About Boost</target>
+        <target state="translated">Acerca de Promover</target>
       </trans-unit>
       <trans-unit id="M__COMMON__BOOSTFEED" datatype="html">
         <source>Boostfeed</source>
@@ -10302,7 +10302,7 @@
           <context context-type="linenumber">51</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Open</target>
+        <target state="translated">Abrir</target>
       </trans-unit>
       <trans-unit id="SIDEBAR_SELECTOR__PREFERRED" datatype="html">
         <source>Preferred</source>
@@ -10462,7 +10462,7 @@
         </context-group>
         <note priority="1" from="description"/>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">To request a new password, enter your username</target>
+        <target state="translated">Si olvido su clave, escriba su nombre de usuario</target>
       </trans-unit>
       <trans-unit id="M__ACTION__CONTINUE" datatype="html">
         <source>Continue</source>
@@ -10471,7 +10471,7 @@
           <context context-type="linenumber">47</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Continue</target>
+        <target state="translated">Continuar</target>
       </trans-unit>
       <trans-unit id="COMMON__PASSWORD_RESET_EMAIL_SENT" datatype="html">
         <source>Password Reset Email Sent</source>
@@ -10489,7 +10489,7 @@
           <context context-type="linenumber">65</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">We have sent an unlock code to your registered email address.</target>
+        <target state="translated">Enviamos un codigo de desbloqueo a su email registrado</target>
       </trans-unit>
       <trans-unit id="MINDS__HOME__FORGOT_PASSWORD__CONFIRM_PASSWORD_LABEL" datatype="html">
         <source>Password (confirm)</source>
@@ -10498,7 +10498,7 @@
           <context context-type="linenumber">116</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Password (confirm)</target>
+        <target state="translated">Clave (confirmar)</target>
       </trans-unit>
       <trans-unit id="MINDS__HOME__FORGOT_PASSWORD__RESET_ACTION" datatype="html">
         <source>Reset</source>
@@ -10507,7 +10507,7 @@
           <context context-type="linenumber">126</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Reset</target>
+        <target state="translated">Cambiar</target>
       </trans-unit>
       <trans-unit id="BLOCKCHAIN__OPTIONS__INSTALL_WEB3" datatype="html">
         <source>
@@ -10537,7 +10537,7 @@
           <context context-type="linenumber">35</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">There are no local wallets available, the wallet manager is locked, or you're connected to a different network.</target>
+        <target state="translated">No hay billeteras locales disponibles, el administrador de billeteras está bloqueado o estás conectado a una red diferente.</target>
       </trans-unit>
       <trans-unit id="BLOCKCHAIN__WALLET_ADDRESS_NOTICE" datatype="html">
         <source>Hey, do you want to setup your Tokens wallet?</source>
@@ -10735,7 +10735,7 @@
           <context context-type="linenumber">159</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Please wait...</target>
+        <target state="translated">Por favor, espera…</target>
       </trans-unit>
       <trans-unit id="M__PURCHASE_COMPLETED" datatype="html">
         <source>Completed</source>
@@ -11077,7 +11077,7 @@
           <context context-type="linenumber">4</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Message</target>
+        <target state="translated">Mensaje</target>
       </trans-unit>
       <trans-unit id="COMMON__PAY" datatype="html">
         <source>Pay</source>
@@ -11090,7 +11090,7 @@
           <context context-type="linenumber">17</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Pay</target>
+        <target state="translated">Pagar</target>
       </trans-unit>
       <trans-unit id="MINDS__CHANNELS__FLAGGED_AS_SPAM" datatype="html">
         <source>This user was flagged as spam.</source>
@@ -11232,7 +11232,7 @@
           <context context-type="linenumber">44</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Status:</target>
+        <target state="translated">Estado:</target>
       </trans-unit>
       <trans-unit id="YOUTUBE_MIGRATOR__CONNECTED" datatype="html">
         <source>Connected</source>
@@ -12060,7 +12060,7 @@
           <context context-type="linenumber">909</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Payout Method</target>
+        <target state="translated">Método de pago</target>
       </trans-unit>
       <trans-unit id="PRO_SETTINGS__USD" datatype="html">
         <source>USD</source>
@@ -12069,7 +12069,7 @@
           <context context-type="linenumber">918</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">USD</target>
+        <target state="translated">Dolar</target>
       </trans-unit>
       <trans-unit id="PRO_SETTINGS__MINDS_TOKENS" datatype="html">
         <source>Minds Tokens</source>
@@ -12105,7 +12105,7 @@
           <context context-type="linenumber">1017</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Cancel Subscription</target>
+        <target state="translated">Cancelar Suscripción</target>
       </trans-unit>
       <trans-unit id="PRO_SETTINGS__SAVE" datatype="html">
         <source>
@@ -12147,7 +12147,7 @@
           <context context-type="linenumber">17</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">USD</target>
+        <target state="translated">Dolar</target>
       </trans-unit>
       <trans-unit id="PRO_SUBSCRIPTION__TOKENS" datatype="html">
         <source>Tokens</source>
@@ -12156,7 +12156,7 @@
           <context context-type="linenumber">25</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Tokens</target>
+        <target state="translated">Tokens</target>
       </trans-unit>
       <trans-unit id="PRO_SUBSCRIPTION__PER_MONTH" datatype="html">
         <source>
@@ -12245,7 +12245,7 @@
           <context context-type="linenumber">9</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">All</target>
+        <target state="translated">Todo</target>
       </trans-unit>
       <trans-unit id="PRO_CHANNEL_LIST__VIDEOS" datatype="html">
         <source>Videos</source>
@@ -12254,7 +12254,7 @@
           <context context-type="linenumber">12</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Videos</target>
+        <target state="translated">Videos</target>
       </trans-unit>
       <trans-unit id="PRO_CHANNEL_LIST__IMAGES" datatype="html">
         <source>Images</source>
@@ -12263,7 +12263,7 @@
           <context context-type="linenumber">15</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Images</target>
+        <target state="translated">Imágenes</target>
       </trans-unit>
       <trans-unit id="PRO_CHANNEL_LIST__ARTICLES" datatype="html">
         <source>Articles</source>
@@ -12281,7 +12281,7 @@
           <context context-type="linenumber">21</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Groups</target>
+        <target state="translated">Grupos</target>
       </trans-unit>
       <trans-unit id="PRO_CHANNEL_LIST__FEED" datatype="html">
         <source>Feed</source>
@@ -12290,7 +12290,7 @@
           <context context-type="linenumber">24</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Feed</target>
+        <target state="translated">Actividades</target>
       </trans-unit>
       <trans-unit id="COMMON__SUBSCRIBERS__WITH__COUNT" datatype="html">
         <source>
@@ -12326,7 +12326,7 @@
           <context context-type="linenumber">21</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Subscribe</target>
+        <target state="translated">Suscribirte</target>
       </trans-unit>
       <trans-unit id="COMMON__SUBSCRIBED" datatype="html">
         <source>Subscribed</source>
@@ -12344,7 +12344,7 @@
           <context context-type="linenumber">3</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Select Language</target>
+        <target state="translated">Idioma…</target>
       </trans-unit>
       <trans-unit id="MINDS__HASHTAGS__TOPBAR__HASHTAGS" datatype="html">
         <source>
@@ -12384,7 +12384,7 @@
           <context context-type="linenumber">61</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">#all</target>
+        <target state="translated">#todas</target>
       </trans-unit>
       <trans-unit id="MINDS__HASHTAGS__TOPBAR__MORE" datatype="html">
         <source>MORE</source>
@@ -12458,7 +12458,7 @@
           <context context-type="linenumber">35</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Join</target>
+        <target state="translated">Unirte</target>
       </trans-unit>
       <trans-unit id="COMMON__JOINING" datatype="html">
         <source>Joining</source>
@@ -12539,7 +12539,7 @@
           <context context-type="linenumber">76</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Save</target>
+        <target state="translated">Guardar</target>
       </trans-unit>
       <trans-unit id="COMMON__MONETIZE" datatype="html">
         <source>Monetize</source>
@@ -12552,7 +12552,7 @@
           <context context-type="linenumber">53</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Monetize</target>
+        <target state="translated">Monetizar</target>
       </trans-unit>
       <trans-unit id="COMPOSER__MONETIZE_POST" datatype="html">
         <source>Monetize post by making it available to your users who support your channel.</source>
@@ -12618,7 +12618,7 @@
           <context context-type="linenumber">54</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">USD</target>
+        <target state="translated">Dolar</target>
       </trans-unit>
       <trans-unit id="COMPOSER__USD" datatype="html">
         <source>USD</source>
@@ -12627,7 +12627,7 @@
           <context context-type="linenumber">95</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">USD</target>
+        <target state="translated">Dolar</target>
       </trans-unit>
       <trans-unit id="CHANNELS__MONETIZE__MIN_TOKENS_PER_MONTH" datatype="html">
         <source>Minimum Tokens/Month</source>
@@ -12729,7 +12729,7 @@
           <context context-type="linenumber">18</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Date</target>
+        <target state="translated">Fecha</target>
       </trans-unit>
       <trans-unit id="COMMON__TIME" datatype="html">
         <source>Time</source>
@@ -12783,7 +12783,7 @@
           <context context-type="linenumber">35</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">If you wish to appeal, please contact us at info@minds.com.</target>
+        <target state="translated">Si desea apelar, escribanos a info@minds.com</target>
       </trans-unit>
       <trans-unit id="MINDS__NEWSFEED__200_FREE_VIEWS" datatype="html">
         <source>Have 200 free views on us. Hit post to be boosted.</source>
@@ -12891,7 +12891,7 @@
           <context context-type="linenumber">147</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Your credit card information is safe, secure and PCI compliant.</target>
+        <target state="translated">La información de tu tarjeta de crédito está segura y cumple con el estándar PCI.</target>
       </trans-unit>
       <trans-unit id="M__COMMON__COMPLETE" datatype="html">
         <source>Complete</source>
@@ -12919,7 +12919,7 @@
           <context context-type="linenumber">21</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Select a card to use</target>
+        <target state="translated">Selecciona una tarjeta para usar</target>
       </trans-unit>
       <trans-unit id="CHECKOUT__USE_NEW_CARD" datatype="html">
         <source>Use a new card</source>
@@ -12947,7 +12947,7 @@
         </context-group>
         <note priority="1" from="meaning">wallet selector</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Local Wallets</target>
+        <target state="translated">Billeteras Locales</target>
       </trans-unit>
       <trans-unit id="FAQ__VIEW_FULL_ACTION" datatype="html">
         <source>View the full FAQ</source>
@@ -12965,7 +12965,7 @@
           <context context-type="linenumber">59</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Save Address</target>
+        <target state="translated">Salvar dirección</target>
       </trans-unit>
       <trans-unit id="BOOST__PUBLISHER__EARNINGS" datatype="html">
         <source>Earnings</source>
@@ -12996,7 +12996,7 @@
           <context context-type="linenumber">5</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Boost</target>
+        <target state="translated">Boost</target>
       </trans-unit>
       <trans-unit id="BOOST_MARKETING__EXPAND_YOUR_REACH_GAIN_VIEWS" datatype="html">
         <source>
@@ -13219,7 +13219,7 @@
           <context context-type="linenumber">110</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">This balance is for your Minds.com OffChain wallet. Transactions made from this address will not appear on the blockchain.</target>
+        <target state="translated">Este saldo es para tu billetera OffChain de Minds.com. Las transacciones realizadas desde esta dirección no aparecerán en la cadena de bloques.</target>
       </trans-unit>
       <trans-unit id="BOOST__CREATOR__CC_SELECTOR" datatype="html">
         <source>Credit Card</source>
@@ -13387,7 +13387,7 @@
           <context context-type="linenumber">9</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Being a publisher allows you to earn points and/or money by showing boosts on your channel page.</target>
+        <target state="translated">Ser editor te permite ganar puntos y / o dinero al mostrar los boots en la página de tu canal.</target>
       </trans-unit>
       <trans-unit id="BOOST_CONSOLE_PUBLISHER__SETTINGS__BECOME_A_PUBLISHER" datatype="html">
         <source>Become a Publisher</source>
@@ -13396,7 +13396,7 @@
           <context context-type="linenumber">20</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Become a Publisher</target>
+        <target state="translated">Convertirse en Ediror</target>
       </trans-unit>
       <trans-unit id="BOOST_CONSOLE_PUBLISHER__OPTIONS__STOP_BEING_A_PUBLISHER" datatype="html">
         <source>Stop Being a Publisher</source>
@@ -13405,7 +13405,7 @@
           <context context-type="linenumber">30</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Stop Being a Publisher</target>
+        <target state="translated">Dejar de ser un Editor</target>
       </trans-unit>
       <trans-unit id="BOOST__PUBLISHER__LEDGER__FROM" datatype="html">
         <source>From:</source>
@@ -13432,7 +13432,7 @@
           <context context-type="linenumber">29</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Views</target>
+        <target state="translated">Vistas</target>
       </trans-unit>
       <trans-unit id="BOOST__PUBLISHER__LEDGER__EARNINGS" datatype="html">
         <source>Earnings</source>
@@ -13450,7 +13450,7 @@
           <context context-type="linenumber">64</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">No earnings to show.</target>
+        <target state="translated">No nay ganancias que mostrar.</target>
       </trans-unit>
       <trans-unit id="WIRE__CHANNEL__REWARDS_PAYMENT_TOOLTIP" datatype="html">
         <source>Minimum payment from supporters to receive the reward.</source>
@@ -13515,7 +13515,7 @@
           <context context-type="linenumber">30</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Wire allows you to receive money for rewards and exclusive content. You can configure your rewards on your channel page.</target>
+        <target state="translated">Transferir te permite recibir dinero como recompensa y contenido exclusivo. Puedes configurar las recompensas en la página de tu canal.</target>
       </trans-unit>
       <trans-unit id="MARKETING_WIRE__MINDS_PAY" datatype="html">
         <source>Minds Pay</source>
@@ -13565,7 +13565,7 @@
           <context context-type="linenumber">198</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Monetize your channel</target>
+        <target state="translated">Monetiza tu canal</target>
       </trans-unit>
       <trans-unit id="MARKETING_WIRE__MULTI_CURRENCY_SUPPORT" datatype="html">
         <source>Multi-currency support</source>
@@ -13681,7 +13681,7 @@
           <context context-type="linenumber">58</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Description</target>
+        <target state="translated">Descripción</target>
       </trans-unit>
       <trans-unit id="WIRE__CHANNEL__REWARD_DESCRIPTION_PLACEHOLDER" datatype="html">
         <source>About your offerings. Describe what your supporters will receive.</source>
@@ -13769,7 +13769,7 @@
           <context context-type="linenumber">153</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Payment Method</target>
+        <target state="translated">Métodos Pago</target>
       </trans-unit>
       <trans-unit id="WIRE_CREATOR_FORM__REPEAT_MONTHLY_PAYMENT" datatype="html">
         <source>Repeat Payment Monthly</source>
@@ -13816,7 +13816,7 @@
         </context-group>
         <note priority="1" from="meaning">currency</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">USD</target>
+        <target state="translated">Dolar</target>
       </trans-unit>
       <trans-unit id="COMMON_ETHER" datatype="html">
         <source>Ether</source>
@@ -13940,7 +13940,7 @@
           <context context-type="linenumber">36</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Tokens</target>
+        <target state="translated">Tokens</target>
       </trans-unit>
       <trans-unit id="CREATOR_SHOP__USD" datatype="html">
         <source>USD</source>
@@ -13949,7 +13949,7 @@
           <context context-type="linenumber">50</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">USD</target>
+        <target state="translated">Dolar</target>
       </trans-unit>
       <trans-unit id="OWNER_BLOCK__UNLISTED" datatype="html">
         <source>Unlisted</source>
@@ -13958,7 +13958,7 @@
           <context context-type="linenumber">66</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Unlisted</target>
+        <target state="translated">No listado</target>
       </trans-unit>
       <trans-unit id="MEDIA__THUMBNAIL_SELECTOR__THUMBNAILS_TITLE" datatype="html">
         <source>Thumbnails</source>
@@ -14290,7 +14290,7 @@
           <context context-type="linenumber">24</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Upload</target>
+        <target state="translated">Subir</target>
       </trans-unit>
       <trans-unit id="COMMON__TAGS" datatype="html">
         <source>Tags</source>
@@ -14299,7 +14299,7 @@
           <context context-type="linenumber">70</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Tags</target>
+        <target state="translated">etiquetas</target>
       </trans-unit>
       <trans-unit id="COMMON__POST" datatype="html">
         <source>Post</source>
@@ -14309,7 +14309,7 @@
         </context-group>
         <note priority="1" from="meaning">verb</note>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Post</target>
+        <target state="translated">Publicar</target>
       </trans-unit>
       <trans-unit id="COMPOSER__SCHEDULE_POST" datatype="html">
         <source>Schedule Post</source>
@@ -14539,7 +14539,7 @@
           <context context-type="linenumber">18</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Continue</target>
+        <target state="translated">Continuar</target>
       </trans-unit>
       <trans-unit id="ONBOARDING_PHONE__MOBILE_PHONE_NUMBER" datatype="html">
         <source>Mobile Phone Number</source>
@@ -14579,7 +14579,7 @@
           <context context-type="linenumber">41</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Verify</target>
+        <target state="translated">Verificar</target>
       </trans-unit>
       <trans-unit id="ONBOARDING_PHONE__YOUR_NUMBER_HAS_BEEN_VERIFIED" datatype="html">
         <source>Your phone number has been verified.</source>
@@ -14623,7 +14623,7 @@
           <context context-type="linenumber">78</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">eg. 198349</target>
+        <target state="translated">ej.: 198349</target>
       </trans-unit>
       <trans-unit id="ONBOARDING_PHONE__RESEND_VERIFICATION_CODE" datatype="html">
         <source>Re-send verification code</source>
@@ -14694,7 +14694,7 @@
           <context context-type="linenumber">18</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Date of Birth</target>
+        <target state="translated">Fecha de nacimiento</target>
       </trans-unit>
       <trans-unit id="ONBOARDING_INFO__PLEASE_ENTER_DOB" datatype="html">
         <source>Please enter your birth date to confirm your age and help us improve our recommendations.</source>
@@ -14721,7 +14721,7 @@
           <context context-type="linenumber">102</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Continue</target>
+        <target state="translated">Continuar</target>
       </trans-unit>
       <trans-unit id="COMMON__FINISH" datatype="html">
         <source>Finish</source>
@@ -14767,7 +14767,7 @@
           <context context-type="linenumber">42</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Cancel</target>
+        <target state="translated">Cancelar</target>
       </trans-unit>
       <trans-unit id="COMMON__UPLOAD_A_PHOTO" datatype="html">
         <source>Upload a Photo</source>
@@ -14800,7 +14800,7 @@
           <context context-type="linenumber">11</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Minds Plus</target>
+        <target state="translated">Minds Plus</target>
       </trans-unit>
       <trans-unit id="MARKETING_PLUS__UPGRADE_CHANNEL_PREMIUM_FEATURES" datatype="html">
         <source>
@@ -14975,7 +14975,7 @@
           <context context-type="linenumber">250</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Upgrade to Plus</target>
+        <target state="translated">Subir a Plus</target>
       </trans-unit>
       <trans-unit id="COMMON__MINDS_PLUS" datatype="html">
         <source>Minds Plus</source>
@@ -14984,7 +14984,7 @@
           <context context-type="linenumber">5</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Minds Plus</target>
+        <target state="translated">Minds Plus</target>
       </trans-unit>
       <trans-unit id="COMMON__REJECT" datatype="html">
         <source>Reject</source>
@@ -14993,7 +14993,7 @@
           <context context-type="linenumber">41</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Reject</target>
+        <target state="translated">Rechazar</target>
       </trans-unit>
       <trans-unit id="GROUPS__PROFILE__FEED__USER_WAS_KICKED" datatype="html">
         <source>
@@ -15028,7 +15028,7 @@
           <context context-type="linenumber">46</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">View More</target>
+        <target state="translated">Ver más</target>
       </trans-unit>
       <trans-unit id="CHANNEL_STATS__FOLLOWERS" datatype="html">
         <source>Followers</source>
@@ -15059,7 +15059,7 @@
           <context context-type="linenumber">40</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Views</target>
+        <target state="translated">Vistas</target>
       </trans-unit>
       <trans-unit id="PLUS__MKT__PLUS_TITLE" datatype="html">
         <source>Content Policy</source>
@@ -15086,7 +15086,7 @@
           <context context-type="linenumber">36</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Appeal</target>
+        <target state="translated">Apelar</target>
       </trans-unit>
       <trans-unit id="M__COMMON__VIEW_PARENT_COMMENT_THREAD" datatype="html">
         <source>View parent and its comment thread</source>
@@ -15095,7 +15095,7 @@
           <context context-type="linenumber">63</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">View parent and its comment thread</target>
+        <target state="translated">Ver origen e hilo de comentarios</target>
       </trans-unit>
       <trans-unit id="M__COMMON__POST_NOT_FOUND" datatype="html">
         <source>Post not found</source>
@@ -15104,7 +15104,7 @@
           <context context-type="linenumber">75</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Post not found</target>
+        <target state="translated">Publicación no encontrada</target>
       </trans-unit>
       <trans-unit id="I18N__LOCALIZATION_TITLE" datatype="html">
         <source>Localization</source>
@@ -15404,7 +15404,7 @@
           <context context-type="linenumber">236</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Close All Sessions</target>
+        <target state="translated">Cerrar todas las sesiones</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__DISABLE_CHANNEL" datatype="html">
         <source>Disable Channel</source>
@@ -15422,7 +15422,7 @@
           <context context-type="linenumber">16</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">I'm sure - Disable</target>
+        <target state="translated">Estoy seguro – Deshabilitar</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__DELETE_CHANNEL" datatype="html">
         <source>Delete Channel</source>
@@ -15476,7 +15476,7 @@
           <context context-type="linenumber">72</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">I have unread notifications</target>
+        <target state="translated">Tengo notificaciones sin leer</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__WIRE_RECEIVED_LABEL" datatype="html">
         <source>I receive a wire</source>
@@ -15485,7 +15485,7 @@
           <context context-type="linenumber">87</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">I receive a wire</target>
+        <target state="translated">Recibo una transferencia</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__BOOST_COMPLETED_LABEL" datatype="html">
         <source>My boost has been completed</source>
@@ -15494,7 +15494,7 @@
           <context context-type="linenumber">102</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">My boost has been completed</target>
+        <target state="translated">Mi promocion ha sido completada</target>
       </trans-unit>
       <trans-unit id="SETTINGS__EMAIL__EMAIL_ME_WITH" datatype="html">
         <source>Email me with</source>
@@ -15512,7 +15512,7 @@
           <context context-type="linenumber">127</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Top posts from my network</target>
+        <target state="translated">Publicaciones principales de mi red</target>
       </trans-unit>
       <trans-unit id="SETTINGS__EMAIL__PERIODICALLY_OPTION" datatype="html">
         <source>Periodically</source>
@@ -15548,7 +15548,7 @@
           <context context-type="linenumber">162</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Tips on how to improve my channel</target>
+        <target state="translated">Consejos sobre cómo mejorar mi canal</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__SINCE_MISSED_SINCE_LAST_LOGIN_LABEL" datatype="html">
         <source>Things I&apos;ve missed since my last login</source>
@@ -15557,7 +15557,7 @@
           <context context-type="linenumber">179</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Things I've missed since my last login</target>
+        <target state="translated">Cosas que me he perdido desde mi último inicio de sesión</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__NEW_CHANNELS_LABEL" datatype="html">
         <source>New channels to subscribe to</source>
@@ -15566,7 +15566,7 @@
           <context context-type="linenumber">194</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">New channels to subscribe to</target>
+        <target state="translated">Nuevos canales a suscribirse</target>
       </trans-unit>
       <trans-unit id="SETTINGS__EMAIL__KEEP_ME_UPDATED_WITH_TITLE" datatype="html">
         <source>Keep me updated with</source>
@@ -15584,7 +15584,7 @@
           <context context-type="linenumber">221</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">News about new Minds products and features</target>
+        <target state="translated">Noticias acerca de nuevos productos y servicios en Minds</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__TIPS_ON_HOW_TO_USE_MINDS_LABEL" datatype="html">
         <source>Tips on how to use Minds</source>
@@ -15593,7 +15593,7 @@
           <context context-type="linenumber">236</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Tips on how to use Minds</target>
+        <target state="translated">Consejos para utilizar Minds</target>
       </trans-unit>
       <trans-unit id="MINDS__SETTINGS__EXCLUSIVE_PROMOTIONS_LABEL" datatype="html">
         <source>Exclusive promotions</source>
@@ -15602,7 +15602,7 @@
           <context context-type="linenumber">251</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Exclusive promotions</target>
+        <target state="translated">Promociones exclusivas</target>
       </trans-unit>
       <trans-unit id="MARKETING__FUEL_OF_NETWORK" datatype="html">
         <source>
@@ -16391,7 +16391,7 @@
           <context context-type="linenumber">90</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Save</target>
+        <target state="translated">Guardar</target>
       </trans-unit>
       <trans-unit id="HELPDESK__EDIT__ANSWER_PLACEHOLDER" datatype="html">
         <source>Your answer</source>
@@ -16747,7 +16747,7 @@
           <context context-type="linenumber">31</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Amount</target>
+        <target state="translated">Cantidad</target>
       </trans-unit>
       <trans-unit id="WALLET__V2__CASH__NO__TRANSACTIONS__YET" datatype="html">
         <source>
@@ -16773,7 +16773,7 @@
           <context context-type="linenumber">27</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Country</target>
+        <target state="translated">País</target>
       </trans-unit>
       <trans-unit id="CASH_ONBOARDING__FIRST_NAME" datatype="html">
         <source>First Name</source>
@@ -16800,7 +16800,7 @@
           <context context-type="linenumber">112</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Phone Number</target>
+        <target state="translated">Número de teléfono</target>
       </trans-unit>
       <trans-unit id="CASH_ONBOARDING__HK_ID_CARD" datatype="html">
         <source>Hong Kong Identity Card (HKID)</source>
@@ -16809,7 +16809,7 @@
           <context context-type="linenumber">141</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Hong Kong Identity Card (HKID)</target>
+        <target state="translated">Tarjeta de Identidad de Hong Kong (HKID)</target>
       </trans-unit>
       <trans-unit id="CASH_ONBOARDING__SG_ID_CARD" datatype="html">
         <source>National Registration Identity Card (NRIC)</source>
@@ -16827,7 +16827,7 @@
           <context context-type="linenumber">170</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">SSN (last 4 digits)</target>
+        <target state="translated">SSN (últimos 4 dígitos)</target>
       </trans-unit>
       <trans-unit id="CASH_ONBOARDING__ADDRESS" datatype="html">
         <source>Address</source>
@@ -16836,7 +16836,7 @@
           <context context-type="linenumber">194</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Address</target>
+        <target state="translated">Dirección</target>
       </trans-unit>
       <trans-unit id="CASH_ONBOARDING__CITY" datatype="html">
         <source>City</source>
@@ -16845,7 +16845,7 @@
           <context context-type="linenumber">216</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">City</target>
+        <target state="translated">Ciudad</target>
       </trans-unit>
       <trans-unit id="CASH_ONBOARDING__STATE" datatype="html">
         <source>State</source>
@@ -16854,7 +16854,7 @@
           <context context-type="linenumber">238</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">State</target>
+        <target state="translated">Estado</target>
       </trans-unit>
       <trans-unit id="CASH_ONBOARDING__STATE_PROVINCE" datatype="html">
         <source>State / Province</source>
@@ -16863,7 +16863,7 @@
           <context context-type="linenumber">257</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">State / Province</target>
+        <target state="translated">Estado / Provincia</target>
       </trans-unit>
       <trans-unit id="CASH_ONBOARDING__ZIP_CODE" datatype="html">
         <source>Zip Code</source>
@@ -16953,7 +16953,7 @@
           <context context-type="linenumber">88</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Phone Number</target>
+        <target state="translated">Número de teléfono</target>
       </trans-unit>
       <trans-unit id="CASH_ONBOARDING__EXTRAS__PERSONAL_ID_TEXT" datatype="html">
         <source>Personal ID / Social Security Number (SSN) / National Insurance Number</source>
@@ -16971,7 +16971,7 @@
           <context context-type="linenumber">24</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Country</target>
+        <target state="translated">País</target>
       </trans-unit>
       <trans-unit id="CASH_BANK_FORM__BANK_IBAN_NUMBER" datatype="html">
         <source>Bank Account Number / IBAN</source>
@@ -16989,7 +16989,7 @@
           <context context-type="linenumber">65</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Routing Number / Sort Code</target>
+        <target state="translated">Número de ruta / orden</target>
       </trans-unit>
       <trans-unit id="CASH_BANK_FORM__CANCEL" datatype="html">
         <source>Cancel</source>
@@ -16998,7 +16998,7 @@
           <context context-type="linenumber">95</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Cancel</target>
+        <target state="translated">Cancelar</target>
       </trans-unit>
       <trans-unit id="CASH_BANK_FORM__ADD_BANK_ACCOUNT" datatype="html">
         <source>Add Bank Account</source>
@@ -17043,7 +17043,7 @@
           <context context-type="linenumber">22</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Settings</target>
+        <target state="translated">Opciones</target>
       </trans-unit>
       <trans-unit id="REFERRALS__MY_REFERRALS" datatype="html">
         <source>My Referrals</source>
@@ -17248,7 +17248,7 @@
           <context context-type="linenumber">6</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Display Name</target>
+        <target state="translated">Nombre público</target>
       </trans-unit>
       <trans-unit id="ACCOUNT_DISPLAY_NAME__SAVE_DISPLAY_NAME" datatype="html">
         <source>Save Display Name</source>
@@ -17323,7 +17323,7 @@
           <context context-type="linenumber">6</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Language</target>
+        <target state="translated">Idioma</target>
       </trans-unit>
       <trans-unit id="LANGUAGE__UPDATE_LANGUAGE" datatype="html">
         <source>Update Language</source>
@@ -17433,7 +17433,7 @@
           <context context-type="linenumber">19</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">I have unread notifications</target>
+        <target state="translated">Tengo notificaciones sin leer</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__RECEIVED_WIRE" datatype="html">
         <source>I receive a wire</source>
@@ -17442,7 +17442,7 @@
           <context context-type="linenumber">39</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">I receive a wire</target>
+        <target state="translated">Recibo una transferencia</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__BOOST_BEEN_COMPLETED" datatype="html">
         <source>My boost has been completed</source>
@@ -17451,7 +17451,7 @@
           <context context-type="linenumber">62</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">My boost has been completed</target>
+        <target state="translated">Mi promocion ha sido completada</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__EMAIL_ME_WITH" datatype="html">
         <source>Email me with</source>
@@ -17469,7 +17469,7 @@
           <context context-type="linenumber">88</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Top posts from my network</target>
+        <target state="translated">Publicaciones principales de mi red</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__IMPROVE_CHANNEL_TIPS" datatype="html">
         <source>Tips on how to improve my channel</source>
@@ -17478,7 +17478,7 @@
           <context context-type="linenumber">112</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Tips on how to improve my channel</target>
+        <target state="translated">Consejos sobre cómo mejorar mi canal</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__MISSED_SINCE_LAST_LOGIN" datatype="html">
         <source>Things I&apos;ve missed since my last login</source>
@@ -17487,7 +17487,7 @@
           <context context-type="linenumber">135</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Things I've missed since my last login</target>
+        <target state="translated">Cosas que me he perdido desde mi último inicio de sesión</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__NEW_CHANNELS_SUB_TO" datatype="html">
         <source>New channels to subscribe to</source>
@@ -17496,7 +17496,7 @@
           <context context-type="linenumber">155</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">New channels to subscribe to</target>
+        <target state="translated">Nuevos canales a suscribirse</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__KEEP_ME_UPDATED_WITH" datatype="html">
         <source>Keep me updated with</source>
@@ -17514,7 +17514,7 @@
           <context context-type="linenumber">183</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">News about new Minds products and features</target>
+        <target state="translated">Noticias acerca de nuevos productos y servicios en Minds</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__MINDS_USAGE_TIPS" datatype="html">
         <source>Tips on how to use Minds</source>
@@ -17523,7 +17523,7 @@
           <context context-type="linenumber">203</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Tips on how to use Minds</target>
+        <target state="translated">Consejos para utilizar Minds</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__EXCLUSIVE_PROMOTIONS" datatype="html">
         <source>Exclusive promotions</source>
@@ -17532,7 +17532,7 @@
           <context context-type="linenumber">226</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Exclusive promotions</target>
+        <target state="translated">Promociones exclusivas</target>
       </trans-unit>
       <trans-unit id="EMAIL_NOTIFICATIONS__UPDATE_PREFERENCES" datatype="html">
         <source>Update Preferences</source>
@@ -18073,7 +18073,7 @@
           <context context-type="linenumber">15</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Cancel Subscription</target>
+        <target state="translated">Cancelar Suscripción</target>
       </trans-unit>
       <trans-unit id="AUTOPLAY_VIDEOS__CONTROL_AUTOPLAY_INFORMATION" datatype="html">
         <source>
@@ -18266,7 +18266,7 @@
           <context context-type="linenumber">32</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Subscribers</target>
+        <target state="translated">Suscriptores</target>
       </trans-unit>
       <trans-unit id="COMMON__SUBSCRIPTIONS" datatype="html">
         <source>Subscriptions</source>
@@ -18279,7 +18279,7 @@
           <context context-type="linenumber">70</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Subscriptions</target>
+        <target state="translated">Suscripciones</target>
       </trans-unit>
       <trans-unit id="COMMON__VIEWS" datatype="html">
         <source>Views</source>
@@ -18288,7 +18288,7 @@
           <context context-type="linenumber">56</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Views</target>
+        <target state="translated">Vistas</target>
       </trans-unit>
       <trans-unit id="COMMON__LOCATION" datatype="html">
         <source>Location</source>
@@ -18337,7 +18337,7 @@
           <context context-type="linenumber">59</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Subscribers</target>
+        <target state="translated">Suscriptores</target>
       </trans-unit>
       <trans-unit id="eb9062dd05394a25879f197ba90765bfffe6703f" datatype="html">
         <source>Edit Channel</source>
@@ -18355,7 +18355,7 @@
           <context context-type="linenumber">15</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Unsubscribe</target>
+        <target state="translated">Eliminar suscripción</target>
       </trans-unit>
       <trans-unit id="MINDS_BUTTON__USER_DROPDOWN__UNBAN_GLOBALLY" datatype="html">
         <source>Un-ban globally</source>
@@ -18364,7 +18364,7 @@
           <context context-type="linenumber">31</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Un-ban globally</target>
+        <target state="translated">Readmitir globalmente</target>
       </trans-unit>
       <trans-unit id="M__ACTION__MARK_AS_OPEN" datatype="html">
         <source>Mark as Open</source>
@@ -18373,7 +18373,7 @@
           <context context-type="linenumber">102</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Mark as Open</target>
+        <target state="translated">Marcar como abierto</target>
       </trans-unit>
       <trans-unit id="MINDS_BUTTON__USER_DROPDOWN__UNBLOCK" datatype="html">
         <source>Unblock</source>
@@ -18391,7 +18391,7 @@
           <context context-type="linenumber">120</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Block</target>
+        <target state="translated">Bloquear</target>
       </trans-unit>
       <trans-unit id="MINDS_BUTTON__USER_DROPDOWN__REPORT" datatype="html">
         <source>Report</source>
@@ -18400,7 +18400,7 @@
           <context context-type="linenumber">127</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Report</target>
+        <target state="translated">Denunciar</target>
       </trans-unit>
       <trans-unit id="CHANNEL_EDIT__BIO" datatype="html">
         <source>Bio</source>
@@ -18427,7 +18427,7 @@
           <context context-type="linenumber">3</context>
         </context-group>
         <note priority="1" from="meaning">ng2.template</note>
-        <target state="needs-translation">Display Name</target>
+        <target state="translated">Nombre público</target>
       </trans-unit>
       <trans-unit id="CHANNEL_EDIT_INFO__DATE_OF_BIRTH" datatype="html">
         <source>Date of birth</source>
