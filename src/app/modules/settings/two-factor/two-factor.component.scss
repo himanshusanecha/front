@@ -39,30 +39,3 @@ m-settings--two-factor {
     color: themed($m-textColor--primary);
   }
 }
-
-.m-login-2fa__container {
-  padding: 0 32px 0 0;
-
-  .m-login-2fa__titleContainer {
-    h2 {
-      font-size: 24px;
-      line-height: 48px;
-      font-weight: bold;
-      margin: 8px 0;
-
-      @include m-theme() {
-        color: themed($m-grey-800);
-      }
-    }
-
-    .m-login-2fa__infoContainer {
-    }
-
-    .m-login-2fa__inputContainer {
-    }
-  }
-}
-
-.minds-settings-text {
-  overflow-x: hidden;
-}
