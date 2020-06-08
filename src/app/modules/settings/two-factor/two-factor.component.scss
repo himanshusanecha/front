@@ -3,3 +3,66 @@ m-settings--two-factor {
     overflow: visible;
   }
 }
+
+.m-twoFactor__sendButtonWrapper {
+  .m-twoFactor__sendButton {
+    position: relative;
+    cursor: pointer;
+    padding: 10px 20px;
+    min-width: 100px;
+    min-height: 42px;
+    border: 0;
+    transition: all 0.2s ease;
+    outline: 0;
+
+    @include m-theme {
+      background-color: themed($m-btn--primary);
+      color: themed($m-textColor--primary);
+    }
+  }
+}
+
+.m-twoFactor__codeInputLabel {
+  padding: 8px;
+}
+
+.m-twoFactor__confirm {
+  @include m-theme {
+    background-color: themed($m-btn--primary) !important;
+    color: themed($m-white-always) !important;
+  }
+}
+
+.m-twoFactor__retry {
+  @include m-theme {
+    // background-color: themed($m-btn--primary);
+    color: themed($m-textColor--primary);
+  }
+}
+
+.m-login-2fa__container {
+  padding: 0 32px 0 0;
+
+  .m-login-2fa__titleContainer {
+    h2 {
+      font-size: 24px;
+      line-height: 48px;
+      font-weight: bold;
+      margin: 8px 0;
+
+      @include m-theme() {
+        color: themed($m-grey-800);
+      }
+    }
+
+    .m-login-2fa__infoContainer {
+    }
+
+    .m-login-2fa__inputContainer {
+    }
+  }
+}
+
+.minds-settings-text {
+  overflow-x: hidden;
+}
