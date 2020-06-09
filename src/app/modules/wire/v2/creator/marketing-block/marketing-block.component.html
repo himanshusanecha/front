@@ -20,16 +20,18 @@
       </div>
     </div>
     <div class="m-wireCreatorMarketingBlock__title">
-      <span i18n>Unlock the power of Minds</span>
+      <span i18n="@@WIRE_CREATOR_MARKETING__UNLOCK_POWER"
+        >Unlock the power of Minds</span
+      >
     </div>
 
     <div class="m-wireCreatorMarketingBlock__desc">
-      <ng-container *ngIf="isPlus" i18n
+      <ng-container *ngIf="isPlus" i18n="@@WIRE_CREATOR_MARKETING__PLUS_DESC"
         >Support Minds and unlock features such as earning revenue for your
         content, hiding ads, accessing exclusive content, receiving a badge and
         verifying your channel.</ng-container
       >
-      <ng-container *ngIf="isPro" i18n
+      <ng-container *ngIf="isPro" i18n="@@WIRE_CREATOR_MARKETING__PRO_DESC"
         >Get paid for your traffic and referrals, launch your own website,
         receive multi-currency tips and subscription payments from fans and much
         more.</ng-container
@@ -37,9 +39,8 @@
     </div>
     <div class="m-wireCreatorMarketingBlock__learnMore">
       <a>
-        <span i18n
-          >Learn More about Minds
-          <ng-container *ngIf="isPlus">+</ng-container>
+        <span i18n="@@WIRE_CREATOR_MARKETING__LEARN_MORE"
+          >Learn More about Minds<ng-container *ngIf="isPlus">+</ng-container>
           <ng-container *ngIf="isPro"> Pro</ng-container>
         </span>
         <i class="material-icons">trending_flat</i>

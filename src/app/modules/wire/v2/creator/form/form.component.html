@@ -54,7 +54,11 @@
       <div class="m-wireCreatorForm__field">
         <div class="m-wireCreatorForm__field">
           <div class="m-wireCreatorForm__toggleContainer">
-            <span class="m-wireCreatorForm__toggleLabel" i18n>USD</span>
+            <span
+              class="m-wireCreatorForm__toggleLabel"
+              i18n="currency|@@COMMON__USD"
+              >USD</span
+            >
 
             <span class="m-wireCreatorForm__toggle"
               ><m-toggle
@@ -65,7 +69,11 @@
               ></m-toggle
             ></span>
 
-            <span class="m-wireCreatorForm__toggleLabel" i18n>Tokens</span>
+            <span
+              class="m-wireCreatorForm__toggleLabel"
+              i18n="currency|@@COMMON__TOKENS"
+              >Tokens</span
+            >
           </div>
         </div>
       </div>
@@ -83,7 +91,7 @@
             "
             (click)="service.setUpgradeInterval('yearly')"
           >
-            <div i18n>Annually</div>
+            <div i18n="@@COMMON__ANNUALLY">Annually</div>
             <div>
               <ng-container *ngIf="(service.type$ | async) === 'usd'"
                 >$</ng-container
@@ -93,11 +101,12 @@
               <span
                 ><ng-container
                   *ngIf="(service.type$ | async) === 'tokens'"
-                  i18n
+                  i18n="currency|@@COMMON__TOKENS"
                 >
                   tokens</ng-container
                 >
-                / month</span
+                /
+                <ng-container i18n="@@COMMON__MONTH">month</ng-container></span
               >
             </div>
           </div>
@@ -108,7 +117,7 @@
               (service.upgradeInterval$ | async) === 'monthly'
             "
           >
-            <div i18n>Monthly</div>
+            <div i18n="@@COMMON__MONTHLY">Monthly</div>
             <div>
               <ng-container *ngIf="(service.type$ | async) === 'usd'"
                 >$</ng-container
@@ -119,11 +128,12 @@
               ><span
                 ><ng-container
                   *ngIf="(service.type$ | async) === 'tokens'"
-                  i18n
+                  i18n="currency|@@COMMON__TOKENS"
                 >
                   tokens</ng-container
                 >
-                / month</span
+                /
+                <ng-container i18n="@@COMMON__MONTH">month</ng-container></span
               >
             </div>
           </div>
@@ -202,20 +212,17 @@
                 ></m-toggle
               ></span>
 
-              <<<<<<< HEAD
               <span
                 class="m-wireCreatorForm__toggleLabel"
                 i18n="@@COMMON__OFFCHAIN"
                 >Off-chain</span
               >
             </div>
-            =======
             <span
               class="m-wireCreatorForm__toggleLabel"
               i18n="@@COMMON__OFFCHAIN"
               >Off-chain</span
             >
-            >>>>>>> e2b2514af92f142eeb7bbbaadda76f3aa5053c4f
           </div>
         </ng-container>
 
@@ -254,6 +261,7 @@
                 class="m-wireCreatorForm__topUpLink"
                 *ngIf="service.isUpgrade$ | async"
                 routerLink="/token"
+                i18n="@@WIRE_CREATOR_FORM__TOP_UP_WALLET"
                 >Top-up wallet</a
               >
             </ng-template>

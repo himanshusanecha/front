@@ -8,6 +8,9 @@ import { WireService as WireV1Service } from '../wire.service';
 import { WireStruc } from '../creator/creator.component';
 import { UpgradeOptionInterval } from '../../upgrades/upgrade-options.component';
 import { ConfigsService } from '../../../common/services/configs.service';
+import { PlusService } from '../../plus/plus.service';
+import { PlusSubscription } from '../../../mocks/modules/plus/subscription';
+import { ProService } from '../../pro/pro.service';
 
 /**
  * Wire event types
@@ -334,6 +337,8 @@ export class WireV2Service implements OnDestroy {
     public wallet: WalletV2Service,
     protected api: ApiService,
     protected v1Wire: WireV1Service,
+    private plusService: PlusService,
+    private proService: ProService,
     configs: ConfigsService
   ) {
     this.upgrades = configs.get('upgrades');
@@ -544,7 +549,7 @@ export class WireV2Service implements OnDestroy {
       this.type$.value
     ];
     if (upgradeInterval === 'yearly') {
-      upgradePrice = upgradePrice / 12;
+      upgradePrice = upgradePrice;
     }
 
     this.setAmount(upgradePrice);
@@ -672,6 +677,16 @@ export class WireV2Service implements OnDestroy {
       return invalid();
     }
 
+    // TODOOJM
+    if (this.isUpgrade$.value) {
+      if (this.upgradeType$.value === 'pro' && this.proService.isActive()) {
+        return invalid('You are already a Pro member', true);
+      }
+      if (this.upgradeType$.value === 'plus' && this.plusService.isActive()) {
+        return invalid('You are already a Plus member', true);
+      }
+    }
+
     if (data.amount <= 0) {
       return invalid('Amount should be greater than zero', false);
     }
@@ -780,6 +795,7 @@ export class WireV2Service implements OnDestroy {
         break;
     }
 
+    console.log('wire', wire);
     return wire as WireStruc;
   }
 
@@ -789,6 +805,12 @@ export class WireV2Service implements OnDestroy {
   async submit(): Promise<any> {
     if (!this.wirePayload) {
       throw new Error(`There's nothing to send`);
+    }
+
+    // TODOOJM
+    if (this.isUpgrade$.value) {
+      console.log('upgrade', this.wirePayload);
+      return;
     }
 
     this.inProgress$.next(true);
