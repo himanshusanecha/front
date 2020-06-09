@@ -42,6 +42,23 @@
     m-attachment-paste
     tabindex="0"
     data-cy="composer-textarea"
+    mTextInputAutocomplete
+    [triggerCharacters]="['#', '@']"
+    [findChoices]="suggestions.findSuggestions"
+    [getChoiceLabel]="suggestions.getChoiceLabel"
+    [itemTemplate]="itemTemplate"
+    [adjustForScrollOffset]="true"
     #messageInput
   ></textarea>
+
+  <ng-template
+    #itemTemplate
+    let-choice="choice"
+    let-selectChoice="selectChoice"
+  >
+    <m-post-autocomplete-item-renderer
+      [choice]="choice"
+      [selectChoice]="selectChoice"
+    ></m-post-autocomplete-item-renderer>
+  </ng-template>
 </div>
