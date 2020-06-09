@@ -17,7 +17,7 @@ function node_walk(node, func) {
  */
 export function getContentEditableCaretCoordinates(
   elem
-): { start: number; end: number } | void {
+): { start: number; end: number } {
   var sel: any = window.getSelection();
   var cum_length = [0, 0];
 
@@ -26,9 +26,12 @@ export function getContentEditableCaretCoordinates(
   } else {
     var nodes_to_find = [sel.anchorNode, sel.focusNode];
 
-    if (!elem.contains(sel.anchorNode) || !elem.contains(sel.focusNode))
-      return undefined;
-    else {
+    if (!elem.contains(sel.anchorNode) || !elem.contains(sel.focusNode)) {
+      return {
+        start: undefined,
+        end: undefined,
+      };
+    } else {
       var found: any = [0, 0];
       var i;
       node_walk(elem, function(node) {
