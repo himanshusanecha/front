@@ -22,6 +22,9 @@ import currency from '../../../helpers/currency';
 import { Location } from '@angular/common';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { FormToastService } from '../../../common/services/form-toast.service';
+import { WireModalService } from '../../wire/wire-modal.service';
+import { WireEventType } from '../../wire/v2/wire-v2.service';
+import { FeaturesService } from '../../../services/features.service';
 
 @Component({
   selector: 'm-plus--subscription',
@@ -61,7 +64,9 @@ export class PlusSubscriptionComponent implements OnInit {
     protected route: ActivatedRoute,
     protected router: Router,
     configs: ConfigsService,
-    protected toasterService: FormToastService
+    protected toasterService: FormToastService,
+    private wireModal: WireModalService,
+    private features: FeaturesService
   ) {
     this.upgrades = configs.get('upgrades');
   }
@@ -118,28 +123,43 @@ export class PlusSubscriptionComponent implements OnInit {
     this.detectChanges();
 
     try {
-      this.overlayModal
-        .create(
-          WirePaymentsCreatorComponent,
-          await this.wirePaymentHandlers.get('plus'),
-          {
-            interval: this.interval,
-            currency: this.currency,
-            amount: this.upgrades.plus[this.interval][this.currency],
-            onComplete: () => {
-              this.active = true;
-              this.session.getLoggedInUser().plus = true;
-              this.onEnable.emit(Date.now());
-              this.inProgress = false;
-              this.detectChanges();
+      const isV2 = this.features.has('pay');
+      if (isV2) {
+        const plusGuid = await this.wirePaymentHandlers.get('plus');
+
+        const wireEvent = await this.wireModal
+          .present(plusGuid, {
+            default: {
+              type: 'money',
+              upgradeType: 'plus',
             },
-          }
-        )
-        .onDidDismiss(() => {
-          this.inProgress = false;
-          this.detectChanges();
-        })
-        .present();
+          })
+          .toPromise();
+
+        if (wireEvent.type === WireEventType.Completed) {
+          const wire = wireEvent.payload;
+          this.paymentComplete();
+        }
+      } else {
+        this.overlayModal
+          .create(
+            WirePaymentsCreatorComponent,
+            await this.wirePaymentHandlers.get('plus'),
+            {
+              interval: this.interval,
+              currency: this.currency,
+              amount: this.upgrades.plus[this.interval][this.currency],
+              onComplete: () => {
+                this.paymentComplete();
+              },
+            }
+          )
+          .onDidDismiss(() => {
+            this.inProgress = false;
+            this.detectChanges();
+          })
+          .present();
+      }
     } catch (e) {
       this.active = false;
       this.session.getLoggedInUser().plus = false;
@@ -148,6 +168,14 @@ export class PlusSubscriptionComponent implements OnInit {
       this.inProgress = false;
     }
 
+    this.detectChanges();
+  }
+
+  paymentComplete() {
+    this.active = true;
+    this.session.getLoggedInUser().plus = true;
+    this.onEnable.emit(Date.now());
+    this.inProgress = false;
     this.detectChanges();
   }
 
