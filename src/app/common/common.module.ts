@@ -94,8 +94,6 @@ import { Storage } from '../services/storage';
 import { HttpClient } from '@angular/common/http';
 import { AndroidAppDownloadComponent } from './components/android-app-download-button/button.component';
 import { SwitchComponent } from './components/switch/switch.component';
-import { V2TopbarComponent } from './layout/v2-topbar/v2-topbar.component';
-import { UserMenuComponent } from './layout/v2-topbar/user-menu.component';
 import { FeaturedContentComponent } from './components/featured-content/featured-content.component';
 import { FeaturedContentService } from './components/featured-content/featured-content.service';
 import { BoostedContentService } from './services/boosted-content.service';
@@ -104,7 +102,6 @@ import { EntitiesService } from './services/entities.service';
 import { BlockListService } from './services/block-list.service';
 import { SettingsService } from '../modules/settings/settings.service';
 import { HorizontalInfiniteScroll } from './components/infinite-scroll/horizontal-infinite-scroll.component';
-import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/links/links.component';
 import { PosterDateSelectorComponent } from './components/poster-date-selector/selector.component';
 import { ChannelModeSelectorComponent } from './components/channel-mode-selector/channel-mode-selector.component';
 import { ShareModalComponent } from '../modules/modals/share/share';
@@ -121,7 +118,10 @@ import { PageLayoutComponent } from './components/page-layout/page-layout.compon
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
 import { ShadowboxLayoutComponent } from './components/shadowbox-layout/shadowbox-layout.component';
 import { ShadowboxHeaderComponent } from './components/shadowbox-header/shadowbox-header.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import {
+  OwlDateTimeModule,
+  OwlNativeDateTimeModule,
+} from '@danielmoncada/angular-datetime-picker';
 import { DropdownSelectorComponent } from './components/dropdown-selector/dropdown-selector.component';
 import { ShadowboxSubmitButtonComponent } from './components/shadowbox-submit-button/shadowbox-submit-button.component';
 import { FormDescriptorComponent } from './components/form-descriptor/form-descriptor.component';
@@ -175,6 +175,8 @@ import { AccordionPaneComponent } from './components/accordion/accordion-pane.co
 import { StickySidebarDirective } from './components/sticky-sidebar/sticky-sidebar.directive';
 import { RemindComposerModalComponent } from '../modules/modals/remind-composer-v2/reminder-composer.component';
 import { LanguageModule } from '../modules/language/language.module';
+import { ClientMetaDirective } from './directives/client-meta.directive';
+import { ClientMetaService } from './services/client-meta.service';
 
 const routes: Routes = [
   {
@@ -205,9 +207,7 @@ const routes: Routes = [
     TopbarOptionsComponent,
 
     // V2 Layout
-    V2TopbarComponent,
     V3TopbarComponent,
-    UserMenuComponent,
     UserMenuV3Component,
 
     //
@@ -327,6 +327,7 @@ const routes: Routes = [
     AccordionComponent,
     AccordionPaneComponent,
     StickySidebarDirective,
+    ClientMetaDirective,
   ],
   exports: [
     MINDS_PIPES,
@@ -334,10 +335,6 @@ const routes: Routes = [
     TopbarComponent,
     SidebarNavigationComponent,
     TopbarOptionsComponent,
-
-    // V2 Layout
-    V2TopbarComponent,
-    UserMenuComponent,
 
     // V3 Layout
     V3TopbarComponent,
@@ -458,6 +455,7 @@ const routes: Routes = [
     AccordionComponent,
     AccordionPaneComponent,
     StickySidebarDirective,
+    ClientMetaDirective,
   ],
   providers: [
     SiteService,
@@ -527,12 +525,7 @@ const routes: Routes = [
     TagsService,
     ApiService,
     AttachmentApiService,
-  ],
-  entryComponents: [
-    NotificationsToasterComponent,
-    ReferralsLinksComponent,
-    ShareModalComponent,
-    RemindComposerModalComponent,
+    ClientMetaService,
   ],
 })
 export class CommonModule {}

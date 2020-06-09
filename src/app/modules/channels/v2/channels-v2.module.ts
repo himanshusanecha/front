@@ -95,7 +95,6 @@ const PROVIDERS = [ChannelEditModalService];
   ],
   declarations: [...INTERNAL_COMPONENTS, ...COMPONENTS],
   exports: COMPONENTS,
-  entryComponents: COMPONENTS,
   providers: PROVIDERS,
 })
 export class ChannelsV2Module {}

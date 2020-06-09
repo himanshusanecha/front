@@ -1,12 +1,18 @@
 <ng-template #typeLabel>
   <ng-container [ngSwitch]="service.type$ | async">
-    <ng-container *ngSwitchCase="'tokens'" i18n
+    <ng-container *ngSwitchCase="'tokens'" i18n="@@CREATOR_TOOLBAR__OTHER"
       >{ service.amount$ | async, plural, =1 {token} other {tokens}
       }</ng-container
     >
-    <ng-container *ngSwitchCase="'usd'" i18n>USD</ng-container>
-    <ng-container *ngSwitchCase="'eth'" i18n>Ether</ng-container>
-    <ng-container *ngSwitchCase="'btc'" i18n>Bitcoin</ng-container>
+    <ng-container *ngSwitchCase="'usd'" i18n="currency|@@COMMON_USD"
+      >USD</ng-container
+    >
+    <ng-container *ngSwitchCase="'eth'" i18n="currency|@@COMMON_ETHER"
+      >Ether</ng-container
+    >
+    <ng-container *ngSwitchCase="'btc'" i18n="currency|@@COMMON_BITCOIN"
+      >Bitcoin</ng-container
+    >
   </ng-container>
 </ng-template>
 
@@ -15,7 +21,11 @@
     class="m-wireCreatorToolbar__poweredBy"
     *ngIf="!(service.isUpgrade$ | async)"
   >
-    <span class="m-wireCreatorToolbarPoweredBy__text" i18n>Powered by</span>
+    <span
+      class="m-wireCreatorToolbarPoweredBy__text"
+      i18n="@@CREATOR_TOOLBAR__POWERED_BY"
+      >Powered by</span
+    >
     <span class="m-wireCreatorToolbarPoweredBy__name" i18n>MindsPay</span>
   </div>
 
@@ -40,13 +50,13 @@
     <ng-container *ngIf="!(service.isUpgrade$ | async)">
       <ng-container
         *ngIf="service.recurring$ | async; else noRecurringLabel"
-        i18n
+        i18n="@@CREATOR_TOOLBAR__SEND"
       >
         Send {{ service.amount$ | async | number: '1.0-6' }}
         <ng-container *ngTemplateOutlet="typeLabel"></ng-container> monthly
       </ng-container>
       <ng-template #noRecurringLabel>
-        <ng-container i18n>
+        <ng-container i18n="@@CREATOR_TOOLBAR__SEND">
           Send {{ service.amount$ | async | number: '1.0-6' }}
           <ng-container *ngTemplateOutlet="typeLabel"></ng-container>
         </ng-container>
