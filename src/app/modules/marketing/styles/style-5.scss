@@ -1,8 +1,8 @@
-@import '../../../../foundation/grid-values';
+@import '../../../foundation/grid-values';
 
 .m-marketing__main,
 .m-marketing__section {
-  &.m-marketing__section--style-3 {
+  &.m-marketing__section--style-5 {
     margin-bottom: 100px;
 
     @media screen and (max-width: $m-grid-max-mobile) {
@@ -21,39 +21,10 @@
 
     .m-marketing__body {
       position: relative;
-      margin: auto 0;
-      padding: 0 60px;
-      min-height: 330px;
+      padding: 95px 0 0;
 
       @media screen and (max-width: $m-grid-max-mobile) {
         padding: 0 30px 0;
-        min-height: 0;
-      }
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: -360px;
-        left: 0;
-        bottom: auto;
-        height: calc(100% + 160px);
-        transform: translate(-230px, -80px);
-        clip-path: polygon(0% 6%, 0% 95%, 100% 100%, 100% 0%);
-        z-index: -1;
-
-        @include m-theme() {
-          background: linear-gradient(
-            180deg,
-            themed($m-marketing-bg-colored-gradient-start) 0%,
-            themed($m-marketing-bg-colored-gradient-end) 99.99%
-          );
-        }
-
-        @media screen and (max-width: $m-grid-max-mobile) {
-          content: initial;
-          display: none;
-        }
       }
 
       h2 {
@@ -64,7 +35,7 @@
         @media screen and (max-width: $m-grid-max-mobile) {
           font-size: 28px;
           line-height: 32px;
-          margin: 20px 0 17px;
+          margin: 0 0 17px;
           text-align: center;
         }
       }
@@ -72,7 +43,10 @@
 
     p.m-marketing__description {
       margin-bottom: 42px;
-      padding: 0;
+
+      @media screen and(min-width: $min-tablet) {
+        padding-right: 200px;
+      }
 
       @include m-theme() {
         color: themed($m-grey-300);
@@ -120,19 +94,14 @@
       grid-column-start: 1;
       grid-row: 1;
 
-      @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
-        margin-left: 60px;
-      }
-
       img.m-marketing__image--1 {
         object-fit: cover;
         width: 438px;
         height: 518px;
         clip-path: polygon(0% 1%, 0% 100%, 100% 96%, 100% 0%);
 
-        @media screen and (min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
+        @media screen and (min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
           width: 100%;
-          //height: auto;
         }
 
         @media screen and (max-width: $m-grid-max-mobile) {
@@ -150,6 +119,10 @@
         right: 0;
         bottom: 35px;
         transform: translate(15px, 0);
+
+        @media screen and (min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
+          width: 100%;
+        }
 
         @media screen and (max-width: $m-grid-max-mobile) {
           right: auto;
