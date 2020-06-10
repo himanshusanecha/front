@@ -5,8 +5,7 @@ m-composer__textArea {
     display: flex;
     flex-direction: column;
     flex: 1;
-    // do not cut off auto-complete container.
-    overflow-y: visible;
+    overflow-y: visible; // do not cut off auto-complete container.
 
     m-composer__modal & {
       @media screen and (max-width: $max-mobile) {
