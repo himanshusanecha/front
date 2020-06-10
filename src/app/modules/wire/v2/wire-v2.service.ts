@@ -677,13 +677,12 @@ export class WireV2Service implements OnDestroy {
       return invalid();
     }
 
-    // TODOOJM
     if (this.isUpgrade$.value) {
       if (this.upgradeType$.value === 'pro' && this.proService.isActive()) {
         return invalid('You are already a Pro member', true);
       }
       if (this.upgradeType$.value === 'plus' && this.plusService.isActive()) {
-        return invalid('You are already a Plus member', true);
+        return invalid('You are already a Minds+ member', true);
       }
     }
 
@@ -795,7 +794,10 @@ export class WireV2Service implements OnDestroy {
         break;
     }
 
-    console.log('wire', wire);
+    if (data.isUpgrade && data.upgradeInterval) {
+      wire.recurringInterval = data.upgradeInterval;
+    }
+
     return wire as WireStruc;
   }
 
@@ -805,12 +807,6 @@ export class WireV2Service implements OnDestroy {
   async submit(): Promise<any> {
     if (!this.wirePayload) {
       throw new Error(`There's nothing to send`);
-    }
-
-    // TODOOJM
-    if (this.isUpgrade$.value) {
-      console.log('upgrade', this.wirePayload);
-      return;
     }
 
     this.inProgress$.next(true);

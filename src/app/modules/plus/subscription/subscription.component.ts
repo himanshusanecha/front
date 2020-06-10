@@ -123,43 +123,24 @@ export class PlusSubscriptionComponent implements OnInit {
     this.detectChanges();
 
     try {
-      const isV2 = this.features.has('pay');
-      if (isV2) {
-        const plusGuid = await this.wirePaymentHandlers.get('plus');
-
-        const wireEvent = await this.wireModal
-          .present(plusGuid, {
-            default: {
-              type: 'money',
-              upgradeType: 'plus',
+      this.overlayModal
+        .create(
+          WirePaymentsCreatorComponent,
+          await this.wirePaymentHandlers.get('plus'),
+          {
+            interval: this.interval,
+            currency: this.currency,
+            amount: this.upgrades.plus[this.interval][this.currency],
+            onComplete: () => {
+              this.paymentComplete();
             },
-          })
-          .toPromise();
-
-        if (wireEvent.type === WireEventType.Completed) {
-          const wire = wireEvent.payload;
-          this.paymentComplete();
-        }
-      } else {
-        this.overlayModal
-          .create(
-            WirePaymentsCreatorComponent,
-            await this.wirePaymentHandlers.get('plus'),
-            {
-              interval: this.interval,
-              currency: this.currency,
-              amount: this.upgrades.plus[this.interval][this.currency],
-              onComplete: () => {
-                this.paymentComplete();
-              },
-            }
-          )
-          .onDidDismiss(() => {
-            this.inProgress = false;
-            this.detectChanges();
-          })
-          .present();
-      }
+          }
+        )
+        .onDidDismiss(() => {
+          this.inProgress = false;
+          this.detectChanges();
+        })
+        .present();
     } catch (e) {
       this.active = false;
       this.session.getLoggedInUser().plus = false;
