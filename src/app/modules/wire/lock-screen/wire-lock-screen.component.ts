@@ -81,8 +81,8 @@ export class WireLockScreenComponent implements OnInit {
     this.paywallType = 'ppv';
   }
 
-  unlock($event) {
-    $event.stopPropagation();
+  unlock() {
+    // $event.stopPropagation();
 
     if (this.preview) {
       return;

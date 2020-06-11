@@ -5,7 +5,7 @@
       isStatus: contentType === 'status',
       isMedia: contentType !== 'status'
     }"
-    (click)="unlock($event)"
+    (click)="$event.stopPropagation(); unlock()"
     *ngIf="entity.wire_threshold && init"
   >
     <!-- ------------------------------ -->
