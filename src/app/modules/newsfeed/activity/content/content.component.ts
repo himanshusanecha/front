@@ -51,10 +51,10 @@ export class ActivityContentComponent
   @ViewChild('mediaEl', { static: false, read: ElementRef })
   mediaEl: ElementRef;
 
-  @ViewChild('messageEl', { static: false, read: ElementRef })
+  @ViewChild('messageEl', { read: ElementRef })
   messageEl: ElementRef;
 
-  @ViewChild('mediaDescriptionEl', { static: false, read: ElementRef })
+  @ViewChild('mediaDescriptionEl', { read: ElementRef })
   mediaDescriptionEl: ElementRef;
 
   maxFixedHeightContent: number = 750 * ACTIVITY_FIXED_HEIGHT_RATIO;
