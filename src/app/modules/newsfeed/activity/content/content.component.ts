@@ -48,7 +48,7 @@ export class ActivityContentComponent
   @Input() showPaywall: boolean = false;
   @Input() showPaywallBadge: boolean = false;
 
-  @ViewChild('mediaEl', { read: ElementRef })
+  @ViewChild('mediaEl', { static: false, read: ElementRef })
   mediaEl: ElementRef;
 
   @ViewChild('messageEl', { read: ElementRef })
