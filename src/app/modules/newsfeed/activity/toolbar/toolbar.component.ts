@@ -15,6 +15,7 @@ export class ActivityToolbarComponent {
   private entitySubscription: Subscription;
 
   entity: ActivityEntity;
+  hideCommentsInputWhenCommentsCollapse: boolean = false;
 
   constructor(
     public service: ActivityService,
@@ -36,12 +37,33 @@ export class ActivityToolbarComponent {
   }
 
   toggleComments(): void {
-    if (this.service.displayOptions.fixedHeight) {
+    const opts = this.service.displayOptions;
+
+    if (opts.fixedHeight) {
       this.router.navigate([`/newsfeed/${this.entity.guid}`]);
       return;
     }
-    this.service.displayOptions.showOnlyCommentsInput = !this.service
-      .displayOptions.showOnlyCommentsInput;
+    console.log('onlycommetnsinptu', opts.showOnlyCommentsInput);
+    console.log('showcomments', opts.showComments);
+
+    // Pro tiles have comments AND comments input hidden by default
+    if (!opts.showComments) {
+      console.log('1 PRO show');
+      this.hideCommentsInputWhenCommentsCollapse = true;
+      // Pro tiles - show comments
+      opts.showComments = true;
+      opts.showOnlyCommentsInput = false;
+    } else {
+      if (this.hideCommentsInputWhenCommentsCollapse) {
+        console.log('2 PRO hide');
+        // Pro tiles - hide comments
+        opts.showComments = false;
+      } else {
+        console.log('3 NORMAL toggle');
+        // Normal newsfeed activities - toggle comments
+        opts.showOnlyCommentsInput = !opts.showOnlyCommentsInput;
+      }
+    }
   }
 
   openBoostModal(e: MouseEvent): void {
