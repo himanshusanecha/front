@@ -3,6 +3,7 @@ import { ChannelsV2Service } from '../channels-v2.service';
 import { Observable } from 'rxjs';
 import { MindsUser } from '../../../../interfaces/entities';
 import { map } from 'rxjs/operators';
+import { WireModalService } from '../../../wire/wire-modal.service';
 
 interface WireReward {
   type: 'tokens' | 'money';
@@ -61,13 +62,29 @@ export class ChannelShopBriefWireRewardsComponent {
   /**
    * Constructor
    * @param service
+   * @param wireModal
    */
-  constructor(public service: ChannelsV2Service) {}
+  constructor(
+    public service: ChannelsV2Service,
+    protected wireModal: WireModalService
+  ) {}
 
   /**
    * When user clicks on a wire reward
    * @param channel
    * @param wireReward
    */
-  onEntryClick(channel: MindsUser, wireReward: WireReward): void {}
+  async onEntryClick(
+    channel: MindsUser,
+    wireReward: WireReward
+  ): Promise<void> {
+    await this.wireModal
+      .present(channel, {
+        default: {
+          min: wireReward.amount || 0,
+          type: wireReward.type,
+        },
+      })
+      .toPromise();
+  }
 }
