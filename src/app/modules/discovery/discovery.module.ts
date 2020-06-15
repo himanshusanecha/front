@@ -43,7 +43,7 @@ import { LanguageModule } from '../language/language.module';
             component: DiscoverySearchComponent,
           },
           {
-            path: 'tags',
+            path: 'tags/:type',
             component: DiscoveryTagsComponent,
           },
           {

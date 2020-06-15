@@ -11,10 +11,29 @@
   </div>
   <div class="m-tabs__tab">
     <a
-      routerLink="./"
+      routerLink="/discovery/tags/my"
       routerLinkActive="m-tabs__tab--selected"
-      i18n="@@DISCOVERY_TAGS__DISCOVERY_BY_TAGS"
-      >Discover by tags</a
+      data-cy="discovery-tab-link-tags"
+      i18n="@@DISCOVERY_TAGS__YOUR_TAGS"
+      >Your Tags</a
+    >
+  </div>
+  <div class="m-tabs__tab">
+    <a
+      routerLink="/discovery/tags/trending"
+      routerLinkActive="m-tabs__tab--selected"
+      data-cy="discovery-tab-link-tags"
+      i18n="@@DISCOVERY_TAGS__TRENDING"
+      >Trending</a
+    >
+  </div>
+  <div class="m-tabs__tab">
+    <a
+      routerLink="/newsfeed/boost"
+      routerLinkActive="m-tabs__tab--selected"
+      data-cy="discovery-tab-link-tags"
+      i18n="@@DISCOVERY_TAGS__BOOSTED"
+      >Boosted</a
     >
   </div>
   <div class="m-layout__spacer"></div>
@@ -23,7 +42,10 @@
 
 <m-loadingSpinner [inProgress]="inProgress$ | async"> </m-loadingSpinner>
 
-<section class="m-discoveryTags__section">
+<section
+  class="m-discoveryTags__section"
+  *ngIf="(route.params | async)?.type === 'my'"
+>
   <div class="m-discoveryTags__sectionHeader">
     <h3 i18n="@@DISCOVERY_TAGS__YOUR_TAGS">Your Tags</h3>
   </div>
@@ -60,7 +82,10 @@
   </ul>
 </section>
 
-<section class="m-discoveryTags__section">
+<section
+  class="m-discoveryTags__section"
+  *ngIf="(route.params | async)?.type === 'trending'"
+>
   <div class="m-discoveryTags__sectionHeader">
     <h3 i18n="@@DISCOVERY_TAGS__TRENDING_TAGS">Trending Tags</h3>
   </div>
