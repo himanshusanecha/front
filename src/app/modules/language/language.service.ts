@@ -14,6 +14,11 @@ export interface LanguageListEntry {
   name: string;
 }
 
+const isoCodeToLanguageName = ([languages, currentLanguage]) =>
+  languages.find(language => language.code === currentLanguage).name;
+
+const POPULAR_LANGUAGE_CODES = ['en', 'es', 'de', 'fr', 'th', 'it'];
+
 /**
  * Language service
  */
@@ -70,10 +75,18 @@ export class LanguageService {
     this.languages$,
     this.currentLanguage$,
   ]).pipe(
-    map(
-      ([languages, currentLanguage]) =>
-        languages.find(language => language.code === currentLanguage).name
-    ),
+    map(isoCodeToLanguageName),
+    catchError(() => 'Unknown')
+  );
+
+  /**
+   * Browser's language native name
+   */
+  readonly browserLanguageName$: Observable<string> = combineLatest([
+    this.languages$,
+    this.browserLanguage$,
+  ]).pipe(
+    map(isoCodeToLanguageName),
     catchError(() => 'Unknown')
   );
 
@@ -140,6 +153,10 @@ export class LanguageService {
 
     const score = ({ code }: LanguageListEntry): number => {
       let score = 0;
+
+      if (POPULAR_LANGUAGE_CODES.indexOf(code) > -1) {
+        score += 1;
+      }
 
       if (code === defaultLanguageCode) {
         score += 1;

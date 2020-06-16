@@ -1,19 +1,20 @@
-@import '../../../../foundation/grid-values';
+@import '../../../foundation/grid-values';
 
 .m-marketing__main,
 .m-marketing__section {
-  &.m-marketing__section--style-4 {
+  &.m-marketing__section--style-3 {
     margin-bottom: 100px;
 
-    @media screen and (max-width: $m-grid-min-vp) {
+    @media screen and (max-width: $m-grid-max-mobile) {
       margin-bottom: 80px;
     }
 
     .m-marketing__wrapper {
       position: relative;
       z-index: 0;
+      padding: 80px 0 80px;
 
-      @media screen and (max-width: $m-grid-min-vp) {
+      @media screen and (max-width: $m-grid-max-mobile) {
         padding: 0;
       }
     }
@@ -21,31 +22,49 @@
     .m-marketing__body {
       position: relative;
       margin: auto 0;
-      padding: 0;
-      min-height: 360px;
+      padding: 0 60px;
+      min-height: 330px;
 
-      @media screen and (max-width: $m-grid-min-vp) {
+      @media screen and (max-width: $m-grid-max-mobile) {
         padding: 0 30px 0;
         min-height: 0;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -360px;
+        left: 0;
+        bottom: auto;
+        height: calc(100% + 160px);
+        transform: translate(-230px, -80px);
+        clip-path: polygon(0% 6%, 0% 95%, 100% 100%, 100% 0%);
+        z-index: -1;
+
+        @include m-theme() {
+          background: linear-gradient(
+            180deg,
+            themed($m-marketing-bg-colored-gradient-start) 0%,
+            themed($m-marketing-bg-colored-gradient-end) 99.99%
+          );
+        }
+
+        @media screen and (max-width: $m-grid-max-mobile) {
+          content: initial;
+          display: none;
+        }
       }
 
       h2 {
         @include m-on-theme(dark) {
           color: #ffffff;
         }
-        @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
-          font-size: 40px !important;
-          line-height: 39px !important;
-          text-align: left !important;
-        }
 
-        @media screen and (max-width: $m-grid-min-vp) {
+        @media screen and (max-width: $m-grid-max-mobile) {
           font-size: 28px;
           line-height: 32px;
           margin: 20px 0 17px;
-        }
-
-        @media screen and(max-width: $m-grid-max-mobile) {
           text-align: center;
         }
       }
@@ -53,37 +72,8 @@
 
     p.m-marketing__description {
       margin-bottom: 42px;
+      padding: 0;
 
-      @media screen and(min-width: $min-tablet) {
-        padding-right: 200px;
-      }
-
-      @media screen and (max-width: $m-grid-min-vp) {
-        margin-bottom: 30px;
-      }
-
-      @media screen and (max-width: $m-grid-max-mobile) {
-        text-align: center;
-      }
-    }
-
-    ol.m-marketing__description {
-      padding-left: 16px;
-
-      & > li {
-        margin-bottom: 16px;
-        font-size: 18px;
-        line-height: 27px;
-      }
-
-      //@media screen and(min-width: $m-grid-min-vp),
-      //  screen and (max-width: $m-grid-max-mobile) {
-      //  padding-right: 100px;
-      //}
-    }
-
-    ol.m-marketing__description > li,
-    p.m-marketing__description {
       @include m-theme() {
         color: themed($m-grey-300);
       }
@@ -92,11 +82,12 @@
         color: #ffffff;
       }
 
-      @media screen and (max-width: $m-grid-min-vp) {
+      @media screen and (max-width: $m-grid-max-mobile) {
         padding-right: 0;
         margin-bottom: 30px;
         font-size: 16px;
-        line-height: 27px;
+        line-height: 23px;
+        text-align: center;
       }
     }
 
@@ -126,20 +117,18 @@
     .m-marketing__image {
       position: relative;
       z-index: 0;
+      grid-column-start: 1;
+      grid-row: 1;
 
-      @media screen and (min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
-        margin-right: 60px;
-      }
-
-      @media screen and (max-width: $m-grid-max-mobile) {
-        grid-row: 1;
+      @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-max-tablet) {
+        margin-left: 60px;
       }
 
       img.m-marketing__image--1 {
         object-fit: cover;
         width: 438px;
-        height: 547px;
-        clip-path: polygon(0% 1%, 0% 96%, 100% 100%, 100% 0%);
+        height: 518px;
+        clip-path: polygon(0% 1%, 0% 100%, 100% 96%, 100% 0%);
 
         @media screen and (min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
           width: 100%;
@@ -149,7 +138,7 @@
         @media screen and (max-width: $m-grid-max-mobile) {
           width: 100vw;
           height: 100vw;
-          clip-path: polygon(0% 1%, 0% 97%, 100% 100%, 100% 0%);
+          clip-path: polygon(0% 1%, 0% 100%, 100% 97%, 100% 0%);
         }
       }
 
@@ -158,15 +147,9 @@
         width: 358px;
         height: 191px;
         position: absolute;
-        left: 0;
+        right: 0;
         bottom: 35px;
-        transform: translate(-15px, 0);
-        z-index: 2;
-
-        @media screen and(min-width: $m-grid-max-mobile) and (max-width: $m-grid-min-vp) {
-          width: 100%;
-          height: auto;
-        }
+        transform: translate(15px, 0);
 
         @media screen and (max-width: $m-grid-max-mobile) {
           right: auto;
@@ -178,11 +161,10 @@
         }
       }
 
-      span:not(.m-marketing__imageUX):not(.m-marketing__imageTick) {
+      span {
         display: inline-block;
         position: relative;
         width: 100%;
-        text-align: right;
 
         @media screen and (max-width: $m-grid-max-mobile) {
           margin-bottom: calc(
@@ -200,16 +182,16 @@
           content: '';
           display: block;
           position: absolute;
-          right: 0;
-          bottom: 0;
-          width: 169px;
-          height: 169px;
-          transform: translate(50px, 50px);
-          background: url('<%= APP_CDN %>/assets/marketing/deco_4.svg')
+          top: 0;
+          left: 0;
+          width: 191px;
+          height: 191px;
+          transform: translate(-60px, -58px);
+          background: url('<%= APP_CDN %>/assets/marketing/deco_3.svg')
             no-repeat;
           z-index: -1;
 
-          @media screen and (max-width: $m-grid-min-vp) {
+          @media screen and (max-width: $m-grid-max-mobile) {
             content: initial;
             display: none;
           }
