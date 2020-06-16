@@ -174,7 +174,6 @@ import { RemindComposerModalComponent } from '../modules/modals/remind-composer-
 import { FeedsUpdateService } from './services/feeds-update.service';
 import { ClientMetaDirective } from './directives/client-meta.directive';
 import { ClientMetaService } from './services/client-meta.service';
-import { ReferralsLinksComponent } from '../modules/wallet/tokens/referrals/links/links.component';
 
 const routes: Routes = [
   {
