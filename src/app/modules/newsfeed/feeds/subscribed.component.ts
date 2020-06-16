@@ -1,12 +1,12 @@
 import {
   Component,
   Inject,
-  Injector,
   OnDestroy,
   OnInit,
   PLATFORM_ID,
-  SkipSelf,
   ViewChild,
+  Injector,
+  SkipSelf,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -27,14 +27,14 @@ import { PosterComponent } from '../poster/poster.component';
 import { FeaturesService } from '../../../services/features.service';
 import { FeedsService } from '../../../common/services/feeds.service';
 import { NewsfeedService } from '../services/newsfeed.service';
-import { ClientMetaService } from '../../../common/services/client-meta.service';
 import { isPlatformServer } from '@angular/common';
 import { ComposerComponent } from '../../composer/composer.component';
 import { FeedsUpdateService } from '../../../common/services/feeds-update.service';
+import { ClientMetaService } from '../../../common/services/client-meta.service';
 
 @Component({
   selector: 'm-newsfeed--subscribed',
-  providers: [ClientMetaService, FeedsService],
+  providers: [FeedsService],
   templateUrl: 'subscribed.component.html',
 })
 export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
@@ -67,9 +67,9 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
    */
   private feedsUpdatedSubscription: Subscription;
 
-  @ViewChild('poster', { static: false }) private poster: PosterComponent;
+  @ViewChild('poster') private poster: PosterComponent;
 
-  @ViewChild('composer', { static: false }) private composer: ComposerComponent;
+  @ViewChild('composer') private composer: ComposerComponent;
 
   constructor(
     public client: Client,
@@ -86,12 +86,7 @@ export class NewsfeedSubscribedComponent implements OnInit, OnDestroy {
     public feedsUpdate: FeedsUpdateService,
     @SkipSelf() injector: Injector,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {
-    this.clientMetaService
-      .inherit(injector)
-      .setSource('feed/subscribed')
-      .setMedium('feed');
-  }
+  ) {}
 
   ngOnInit() {
     this.routerSubscription = this.router.events
