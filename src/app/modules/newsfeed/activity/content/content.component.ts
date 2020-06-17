@@ -28,6 +28,7 @@ import { MediaModalComponent } from '../../../media/modal/modal.component';
 import { ConfigsService } from '../../../../common/services/configs.service';
 import { RedirectService } from '../../../../common/services/redirect.service';
 import * as moment from 'moment';
+import { Session } from '../../../../services/session';
 
 @Component({
   selector: 'm-activity__content',
@@ -85,6 +86,7 @@ export class ActivityContentComponent
     private router: Router,
     private el: ElementRef,
     private redirectService: RedirectService,
+    private session: Session,
     configs: ConfigsService
   ) {
     this.siteUrl = configs.get('site_url');
@@ -98,7 +100,10 @@ export class ActivityContentComponent
         this.calculateFixedContentHeight();
         this.isPaywalledStatusPost =
           this.showPaywall && entity.content_type === 'status';
-        if (this.entity.paywall_unlocked && !this.paywallUnlocked) {
+        if (
+          this.entity.paywall_unlocked ||
+          this.entity.ownerObj.guid === this.session.getLoggedInUser().guid
+        ) {
           this.paywallUnlocked = true;
         }
       }

@@ -128,7 +128,10 @@ export class ActivityService {
    */
   shouldShowPaywall$: Observable<boolean> = this.entity$.pipe(
     map((entity: ActivityEntity) => {
-      return !!entity.paywall;
+      return (
+        !!entity.paywall &&
+        entity.ownerObj.guid !== this.session.getLoggedInUser().guid
+      );
     })
   );
 
