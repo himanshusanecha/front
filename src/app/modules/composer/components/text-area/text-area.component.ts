@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { ComposerService } from '../../services/composer.service';
 import { isPlatformBrowser } from '@angular/common';
+import { AutocompleteSuggestionsService } from '../../../suggestions/services/autocomplete-suggestions.service';
 
 /**
  * Composer message and title components.
@@ -40,13 +41,13 @@ export class TextAreaComponent {
   /**
    * Title input DOM element
    */
-  @ViewChild('titleInput', { static: false })
+  @ViewChild('titleInput')
   titleInput: ElementRef<HTMLInputElement>;
 
   /**
    * Message textarea DOM element
    */
-  @ViewChild('messageInput', { static: false })
+  @ViewChild('messageInput')
   messageInput: ElementRef<HTMLTextAreaElement>;
 
   /**
@@ -56,7 +57,8 @@ export class TextAreaComponent {
    */
   constructor(
     protected service: ComposerService,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    @Inject(PLATFORM_ID) protected platformId: Object,
+    public suggestions: AutocompleteSuggestionsService
   ) {}
 
   /**

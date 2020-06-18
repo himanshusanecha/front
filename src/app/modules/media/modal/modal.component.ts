@@ -1,14 +1,14 @@
 import {
   Component,
   HostListener,
-  Injector,
   Input,
   OnDestroy,
   OnInit,
-  SkipSelf,
   ViewChild,
   ComponentRef,
   EventEmitter,
+  Optional,
+  SkipSelf,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Event, NavigationStart, Router } from '@angular/router';
@@ -26,15 +26,20 @@ import { AnalyticsService } from '../../../services/analytics';
 import isMobileOrTablet from '../../../helpers/is-mobile-or-tablet';
 import { ActivityService } from '../../../common/services/activity.service';
 import { SiteService } from '../../../common/services/site.service';
-import { ClientMetaService } from '../../../common/services/client-meta.service';
 import { FeaturesService } from '../../../services/features.service';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { HorizontalFeedService } from '../../../common/services/horizontal-feed.service';
 import { ShareModalComponent } from '../../modals/share/share';
 import { AttachmentService } from '../../../services/attachment';
-import { DynamicModalSettings } from '../../../common/components/stackable-modal/stackable-modal.component';
 import { TranslationService } from '../../../services/translation';
 import { Client } from '../../../services/api/client';
+import { ClientMetaDirective } from '../../../common/directives/client-meta.directive';
+import { ClientMetaService } from '../../../common/services/client-meta.service';
+import {
+  StackableModalService,
+  StackableModalState,
+  StackableModalEvent,
+} from '../../../services/ux/stackable-modal.service';
 
 export type MediaModalParams = {
   entity: any;
@@ -70,7 +75,7 @@ export type MediaModalParams = {
       transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
     ]),
   ],
-  providers: [ActivityService, ClientMetaService],
+  providers: [ActivityService],
 })
 export class MediaModalComponent implements OnInit, OnDestroy {
   readonly cdnUrl: string;
@@ -117,8 +122,6 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
   pagerVisible: boolean = false;
   pagerTimeout: any = null;
-
-  stackableModalSettings: DynamicModalSettings;
 
   routerSubscription: Subscription;
 
@@ -177,28 +180,26 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  @ViewChild(ClientMetaDirective) protected clientMeta: ClientMetaDirective;
+
   constructor(
     public client: Client,
     public session: Session,
     public analyticsService: AnalyticsService,
     public translationService: TranslationService,
     private overlayModal: OverlayModalService,
+    private stackableModal: StackableModalService,
     private router: Router,
     private location: Location,
     private site: SiteService,
-    private clientMetaService: ClientMetaService,
     private featureService: FeaturesService,
-    @SkipSelf() injector: Injector,
-    configs: ConfigsService,
     private horizontalFeed: HorizontalFeedService,
     private features: FeaturesService,
-    public attachment: AttachmentService
+    @Optional() @SkipSelf() protected parentClientMeta: ClientMetaDirective,
+    protected clientMetaService: ClientMetaService,
+    public attachment: AttachmentService,
+    configs: ConfigsService
   ) {
-    this.clientMetaService
-      .inherit(injector)
-      .setSource('single')
-      .setMedium('modal');
-
     this.cdnUrl = configs.get('cdn_url');
   }
 
@@ -483,7 +484,11 @@ export class MediaModalComponent implements OnInit, OnDestroy {
       url = `/pro/${this.site.pro.user_guid}${url}`;
     }
 
-    this.clientMetaService.recordView(this.entity);
+    this.clientMetaService.recordView(this.entity, this.parentClientMeta, {
+      source: 'single',
+      medium: 'modal',
+    });
+
     this.analyticsService.send('pageview', {
       url,
     });
@@ -905,16 +910,15 @@ export class MediaModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  openShareModal(): void {
-    const componentClass = ShareModalComponent,
-      data = this.site.baseUrl + this.pageUrl.substr(1),
-      opts = { class: 'm-overlayModal__share' };
-
-    this.stackableModalSettings = {
-      componentClass: componentClass,
-      data: data,
-      opts: opts,
+  async openShareModal(): Promise<void> {
+    const data = this.site.baseUrl + this.pageUrl.substr(1);
+    const opts = {
+      class: 'm-overlayModal__share m-overlay-modal--medium',
     };
+
+    const stackableModalEvent: StackableModalEvent = await this.stackableModal
+      .present(ShareModalComponent, data, opts)
+      .toPromise();
   }
 
   toggleMatureVisibility() {

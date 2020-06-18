@@ -12,8 +12,7 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-  SkipSelf,
-  Injector,
+  ViewChild,
 } from '@angular/core';
 import { ActivityService as ActivityServiceCommentsLegacySupport } from '../../../common/services/activity.service';
 
@@ -24,11 +23,11 @@ import {
 } from './activity.service';
 import { Subscription, Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { ComposerService } from '../../composer/services/composer.service';
-import { ClientMetaService } from '../../../common/services/client-meta.service';
 import { ElementVisibilityService } from '../../../common/services/element-visibility.service';
 import { NewsfeedService } from '../services/newsfeed.service';
 import { map } from 'rxjs/operators';
 import { TranslationService } from '../../../services/translation';
+import { ClientMetaDirective } from '../../../common/directives/client-meta.directive';
 
 @Component({
   selector: 'm-activity',
@@ -38,7 +37,6 @@ import { TranslationService } from '../../../services/translation';
     ActivityService,
     ActivityServiceCommentsLegacySupport, // Comments service should never have been called this.
     ComposerService,
-    ClientMetaService,
     ElementVisibilityService, // MH: There is too much analytics logic in this entity component. Refactor at a later date.
   ],
   host: {
@@ -64,14 +62,11 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() slot: number = -1;
 
   /**
-   * Whether or not we allow autoplay on scroll
-   */
-  @Input() allowAutoplayOnScroll: boolean = false;
-
-  /**
    * Whether or not autoplay is allowed (this is used for single entity view, media modal and media view)
    */
-  @Input() autoplayVideo: boolean = false;
+  @Input() set autoplayVideo(autoplay: boolean) {
+    this.service.displayOptions.autoplayVideo = autoplay;
+  }
 
   @Input() canRecordAnalytics: boolean = true;
 
@@ -94,12 +89,12 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
 
   heightSubscription: Subscription;
 
+  @ViewChild(ClientMetaDirective) clientMeta: ClientMetaDirective;
+
   constructor(
     public service: ActivityService,
     private el: ElementRef,
     private cd: ChangeDetectorRef,
-    @SkipSelf() private injector: Injector,
-    private clientMetaService: ClientMetaService,
     private elementVisibilityService: ElementVisibilityService,
     private newsfeedService: NewsfeedService,
     private translationService: TranslationService
@@ -135,7 +130,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
             entity,
             true,
             null,
-            this.clientMetaService.inherit(this.injector).build({
+            this.clientMeta.build({
               campaign: entity.boosted_guid ? entity.urn : '',
               position: this.slot,
             })
