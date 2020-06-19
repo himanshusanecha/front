@@ -1,9 +1,8 @@
-<!-- TODOOJM -->
-<!-- <ng-container *mIfFeature="'plus-2020'; else v1" >-->
-<m-composer__monetizeV2></m-composer__monetizeV2>
-<!-- </ng-container> -->
-<!-- <ng-template #v1
-  ><div class="m-composerPopup__body m-composer__monetize">
+<ng-container *mIfFeature="'plus-2020'; else v1">
+  <m-composer__monetizeV2></m-composer__monetizeV2>
+</ng-container>
+<ng-template #v1>
+  <div class="m-composerPopup__body m-composer__monetize">
     <div class="m-composerPopup__content m-formWrapper">
       <h3 class="m-composerPopup__title" i18n="@@COMMON__MONETIZE">Monetize</h3>
 
@@ -11,6 +10,25 @@
         Monetize post by making it available to your users who support your
         channel.
       </p>
+
+      <div class="m-composerPopup__field">
+        <span class="m-composerPopup__label" i18n="@@COMPOSER__PAYWALL_SETTINGS"
+          >Paywall status</span
+        >
+
+        <label
+          class="m-composerPopup__trigger"
+          [for]="inputId + '-enablePaywall'"
+        >
+          <input
+            type="checkbox"
+            [id]="inputId + '-enablePaywall'"
+            [(ngModel)]="state.enabled"
+            data-cy="monetize-enable-paywall"
+          />
+          <span i18n="@@COMPOSER__ENABLE_PAYWALL">Enable Paywall</span>
+        </label>
+      </div>
 
       <div [style.visibility]="state.enabled ? 'visible' : 'hidden'">
         <div *mIfFeature="'channels-shop'" class="m-form__field--select">
@@ -140,4 +158,4 @@
       </m-button>
     </div>
   </div>
-</ng-template> -->
+</ng-template>

@@ -66,7 +66,7 @@ export class ComposerMonetizeV2Component implements OnInit {
    * Component initialization. Set initial state.
    */
   ngOnInit(): void {
-    // TODOOJM
+    // TODO - when paywall tiers are ready
     // const monetization = this.service.monetization$.getValue();
     // this.state = {
     //   enabled: Boolean(monetization),
