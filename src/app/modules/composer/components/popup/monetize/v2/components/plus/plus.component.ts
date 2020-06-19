@@ -4,9 +4,13 @@ import { WirePaymentHandlersService } from '../../../../../../../wire/wire-payme
 import { WireModalService } from '../../../../../../../wire/wire-modal.service';
 import { WireEventType } from '../../../../../../../wire/v2/wire-v2.service';
 import { Session } from '../../../../../../../../services/session';
-import { DynamicModalSettings } from '../../../../../../../../common/components/stackable-modal/stackable-modal.component';
 import { PopupService } from '../../../../popup.service';
 import { WireCreatorComponent } from '../../../../../../../wire/v2/creator/wire-creator.component';
+import {
+  StackableModalService,
+  StackableModalState,
+  StackableModalEvent,
+} from '../../../../../../../../services/ux/stackable-modal.service';
 
 @Component({
   selector: 'm-composer__monetizeV2__plus',
@@ -14,14 +18,14 @@ import { WireCreatorComponent } from '../../../../../../../wire/v2/creator/wire-
 })
 export class ComposerMonetizeV2PlusComponent implements OnInit {
   isPro;
-  stackableModalSettings: DynamicModalSettings;
 
   constructor(
     private proService: ProService,
     private wirePaymentHandlers: WirePaymentHandlersService,
     private wireModal: WireModalService,
     private session: Session,
-    private popup: PopupService // TODOOJM enable // private stackableModal: StackableModalService
+    private popup: PopupService,
+    private stackableModal: StackableModalService
   ) {}
 
   ngOnInit(): void {
@@ -30,19 +34,6 @@ export class ComposerMonetizeV2PlusComponent implements OnInit {
 
   async setup(): Promise<void> {
     this.isPro = await this.proService.isActive();
-  }
-
-  async openShareModal(): Promise<void> {
-    const data = this.site.baseUrl + this.pageUrl.substr(1);
-    const opts = {
-      class: 'm-overlayModal__share m-overlay-modal--medium',
-    };
-    const stackableModalEvent: StackableModalEvent = await this.stackableModal
-      .present(ShareModalComponent, data, opts)
-      .toPromise();
-    if (stackableModalEvent.state === StackableModalState.Dismissed) {
-      console.log('*** stackableV2 dismissed');
-    }
   }
 
   async openProUpgradeModal(): Promise<void> {
@@ -61,9 +52,6 @@ export class ComposerMonetizeV2PlusComponent implements OnInit {
           this.isPro = true;
         },
       })
-      // TODOOJM
-      // .onDidDismiss(() => {
-      //   if (!completed) {}})})
       .toPromise();
     if (stackableModalEvent.state === StackableModalState.Dismissed) {
       this.isPro = completed;
