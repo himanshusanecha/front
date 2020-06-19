@@ -1,9 +1,7 @@
 <!-- ----------------------------------- -->
 <!-- PAYWALL -->
 <!-- ----------------------------------- -->
-<m-paywallBadge
-  *ngIf="!!entity.paywall || entity.paywall_unlocked"
-></m-paywallBadge>
+<m-paywallBadge [entity]="entity"></m-paywallBadge>
 <ng-container *mIfFeature="'paywall-2020'">
   <m-activity__paywall
     *ngIf="service.shouldShowPaywall$ | async"
@@ -26,7 +24,10 @@
 >
   <div class="m-activityContent__messageWrapper">
     <span [innerHtml]="message | tags"></span>
-    <m-read-more--button [v2]="true"></m-read-more--button>
+    <m-read-more--button
+      *ngIf="!(service.shouldShowPaywall$ | async); else teaserFadeout"
+      [v2]="true"
+    ></m-read-more--button>
   </div>
   <!-- ----------------------------------- -->
   <!-- TRANSLATION (MESSAGE) -->
@@ -105,7 +106,10 @@
       *ngIf="mediaTitle"
     ></p>
     <p [innerHtml]="mediaDescription | tags"></p>
-    <m-read-more--button [v2]="true"></m-read-more--button>
+    <m-read-more--button
+      *ngIf="!(service.shouldShowPaywall$ | async); else teaserFadeout"
+      [v2]="true"
+    ></m-read-more--button>
   </div>
   <!-- ----------------------------------- -->
   <!-- TRANSLATION (MEDIA POSTS) -->
@@ -148,3 +152,10 @@
     #translate
   ></m-translate>
 </ng-template>
+
+<!-- ----------------------------------- -->
+<!-- TEMPLATE: TEASER FADEOUT -->
+<!-- ----------------------------------- -->
+<ng-template #teaserFadeout>
+  <div class="m-activityContent__teaserFadeout" @fader></div
+></ng-template>

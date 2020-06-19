@@ -10,10 +10,11 @@ import { NSFW_REASONS } from '../../../../common/components/nsfw-selector/nsfw-s
   templateUrl: 'nsfw-consent.component.html',
 })
 export class ActivityNsfwConsentComponent {
-  @Input() showPaywallBadge: boolean = false;
+  entity: any;
 
   reasonsLabel$: Observable<string> = this.service.entity$.pipe(
     map((entity: ActivityEntity) => {
+      this.entity = entity;
       const reasons = NSFW_REASONS.filter(
         reason => entity.nsfw.indexOf(reason.value) > -1
       );

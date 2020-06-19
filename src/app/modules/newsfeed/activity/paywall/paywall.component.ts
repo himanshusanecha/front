@@ -16,5 +16,6 @@ export class ActivityPaywallComponent {
 
   onEntityUpdated(entity: ActivityEntity): void {
     this.service.setEntity(entity);
+    this.service.paywallUnlockedEmitter.next(true);
   }
 }

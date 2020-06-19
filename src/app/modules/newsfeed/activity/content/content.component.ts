@@ -29,10 +29,31 @@ import { ConfigsService } from '../../../../common/services/configs.service';
 import { RedirectService } from '../../../../common/services/redirect.service';
 import * as moment from 'moment';
 import { Session } from '../../../../services/session';
+import {
+  animate,
+  keyframes,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'm-activity__content',
   templateUrl: 'content.component.html',
+  animations: [
+    trigger('fader', [
+      state('active', style({})),
+      state('dismissed', style({})),
+      transition(':leave', [
+        style({ opacity: '1' }),
+        animate(
+          '500ms cubic-bezier(0.23, 1, 0.32, 1)',
+          style({ opacity: '0', height: '0px' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class ActivityContentComponent
   implements OnInit, AfterViewInit, OnDestroy {
@@ -71,6 +92,7 @@ export class ActivityContentComponent
 
   private entitySubscription: Subscription;
   private activityHeightSubscription: Subscription;
+  private paywallUnlockedSubscription: Subscription;
 
   readonly siteUrl: string;
   readonly cdnAssetsUrl: string;
@@ -114,6 +136,17 @@ export class ActivityContentComponent
         this.calculateRemindHeight();
       }
     );
+    this.paywallUnlockedSubscription = this.service.paywallUnlockedEmitter.subscribe(
+      (unlocked: boolean) => {
+        if (!unlocked) {
+          return;
+        }
+        console.log('888 this paywall was unlocked. emitter');
+        // if(this.isVideo){
+        //   // forceplay
+        // }
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -127,6 +160,26 @@ export class ActivityContentComponent
     this.entitySubscription.unsubscribe();
     this.activityHeightSubscription.unsubscribe();
   }
+
+  // unlockPaywalledContent() {
+  //   this.paywallUnlocked = true;
+  //   // TODOOJM
+  //   /**
+  //    * Autoplay a recently-unlocked video
+  //    */
+  //   if (this.isVideo) {
+  //     // this.autoplayVideo = true;
+  //     // todoojm check if this is all i need to do...
+  //     // might need to check to stop any currentlyPlayingVIdeo
+  //   }
+  //   /**
+  //    * Redirect to recently-unlocked blog pages
+  //    */
+  //   if (this.isRichEmbed && this.entity.entity_guid) {
+  //     // TodOojm confirm this won't refresh if already on page
+  //     this.router.navigateByUrl(this.entity.perma_url);
+  //   }
+  // }
 
   get message(): string {
     // No message if media post
@@ -188,10 +241,18 @@ export class ActivityContentComponent
       if (this.isPaywalledGif) {
         return `${this.cdnAssetsUrl}assets/photos/andromeda-galaxy.jpg`;
       }
+
       let thumbUrl = this.entity.custom_data[0].src;
       if (this.showPaywallBadge) {
+        /**
+         * Check whether we need to add 'unlock_paywall' query as the only
+         * query param OR append to an existing one
+         */
+        const joiner = thumbUrl.split('?').length > 1 ? '&' : '/?';
+
         const thumbTimestamp = this.paywallUnlocked ? moment().unix() : '0';
-        thumbUrl += `/?unlock_paywall=${thumbTimestamp}`;
+
+        thumbUrl += `${joiner}unlock_paywall=${thumbTimestamp}`;
       }
       return thumbUrl;
     }
@@ -237,8 +298,10 @@ export class ActivityContentComponent
   }
 
   get mediaHeight(): number | null {
+    // todoojm remove
+    const imageHeight = this.imageHeight || '100';
     if (this.isImage) {
-      return parseInt(this.imageHeight.slice(0, -2), 10);
+      return parseInt(imageHeight.slice(0, -2), 10);
     }
     if (this.isVideo) {
       return parseInt(this.videoHeight.slice(0, -2), 10);

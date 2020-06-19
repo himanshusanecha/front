@@ -17,6 +17,7 @@ import getActivityContentType from '../../../helpers/activity-content-type';
 import { FeaturesService } from '../../../services/features.service';
 import { WireEventType } from '../v2/wire-v2.service';
 
+export type PaywallType = 'plus' | 'tier' | 'custom';
 @Component({
   moduleId: module.id,
   selector: 'm-wire--lock-screen',
@@ -36,7 +37,7 @@ export class WireLockScreenComponent implements OnInit {
   inProgress: boolean = false;
   contentType: string;
   hasTeaser: boolean = false;
-  paywallType: 'plus' | 'tier' | 'ppv' = 'ppv';
+  paywallType: PaywallType = 'custom';
   tierName: string | null;
   messageTopOffset: string = '50px';
 
@@ -48,7 +49,7 @@ export class WireLockScreenComponent implements OnInit {
     private client: Client,
     private cd: ChangeDetectorRef,
     private wireModal: WireModalService,
-    private modal: SignupModalService,
+    private signupModal: SignupModalService,
     private configs: ConfigsService,
     private featuresService: FeaturesService
   ) {}
@@ -74,22 +75,20 @@ export class WireLockScreenComponent implements OnInit {
     this.detectChanges();
   }
 
-  // This is temporary until we get this.entity.support_tier
+  // This is temporary until we get this.entity.support_tier. And it should be in the activity service
   getPaywallType(): void {
     // this.paywallType = 'plus';
     // this.paywallType = 'tier';
-    this.paywallType = 'ppv';
+    this.paywallType = 'custom';
   }
 
   unlock() {
-    // $event.stopPropagation();
-
     if (this.preview) {
       return;
     }
 
     if (!this.session.isLoggedIn()) {
-      this.modal.open();
+      this.signupModal.open();
 
       return;
     }
@@ -147,6 +146,9 @@ export class WireLockScreenComponent implements OnInit {
     return this.entity.ownerObj.guid === this.session.getLoggedInUser().guid;
   }
 
+  /**
+   * legacy (not paywall-2020)
+   */
   getBackground() {
     if (!this.entity) {
       return;

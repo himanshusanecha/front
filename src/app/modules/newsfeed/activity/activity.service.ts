@@ -1,7 +1,7 @@
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { MindsGroup, MindsUser } from '../../../interfaces/entities';
 import { map } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { ConfigsService } from '../../../common/services/configs.service';
 import { Session } from '../../../services/session';
 import getActivityContentType from '../../../helpers/activity-content-type';
@@ -229,6 +229,8 @@ export class ActivityService {
     fixedHeightContainer: false,
   };
 
+  paywallUnlockedEmitter: EventEmitter<any> = new EventEmitter();
+
   constructor(
     private configs: ConfigsService,
     private session: Session,
@@ -244,7 +246,9 @@ export class ActivityService {
    */
   setEntity(entity): ActivityService {
     if (entity.type !== 'activity') entity = this.patchForeignEntity(entity);
-    entity.content_type = getActivityContentType(entity);
+    if (!entity.content_type) {
+      entity.content_type = getActivityContentType(entity);
+    }
     this.entity$.next(entity);
     return this;
   }
