@@ -7,6 +7,7 @@ import { RichEmbed, RichEmbedService } from './rich-embed.service';
 import { Attachment, AttachmentService } from './attachment.service';
 import { AttachmentPreviewResource, PreviewService } from './preview.service';
 import { VideoPoster } from './video-poster.service';
+import { FeedsUpdateService } from '../../../common/services/feeds-update.service';
 import { SupportTier } from '../../wire/v2/support-tiers.service';
 import parseHashtagsFromString from '../../../helpers/parse-hashtags';
 
@@ -356,7 +357,8 @@ export class ComposerService implements OnDestroy {
     protected api: ApiService,
     protected attachment: AttachmentService,
     protected richEmbed: RichEmbedService,
-    protected preview: PreviewService
+    protected preview: PreviewService,
+    protected feedsUpdate: FeedsUpdateService
   ) {
     // Setup data stream using the latest subject values
     // This should emit whenever any subject changes.
@@ -866,8 +868,10 @@ export class ComposerService implements OnDestroy {
         .post(endpoint, this.payload)
         .toPromise();
 
-      this.reset();
+      // Provide an update to subscribing feeds.
+      this.feedsUpdate.postEmitter.emit(activity);
 
+      this.reset();
       this.isPosting$.next(false);
       this.setProgress(false);
 
