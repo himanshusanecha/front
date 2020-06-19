@@ -8,6 +8,7 @@ import getActivityContentType from '../../../helpers/activity-content-type';
 import { FeaturesService } from '../../../services/features.service';
 
 export type ActivityDisplayOptions = {
+  autoplayVideo: boolean;
   showOwnerBlock: boolean;
   showComments: boolean;
   showOnlyCommentsInput: boolean;
@@ -217,6 +218,7 @@ export class ActivityService {
   );
 
   displayOptions: ActivityDisplayOptions = {
+    autoplayVideo: true,
     showOwnerBlock: true,
     showComments: true,
     showOnlyCommentsInput: true,

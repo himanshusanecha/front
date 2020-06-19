@@ -21,8 +21,6 @@
   </m-activity__ownerBlock>
   <m-activity__content
     *ngIf="service.shouldShowContent$ | async"
-    [allowAutoplayOnScroll]="allowAutoplayOnScroll"
-    [autoplayVideo]="autoplayVideo"
     [showPaywall]="service.shouldShowPaywall$ | async"
     [showPaywallBadge]="service.shouldShowPaywallBadge$ | async"
   ></m-activity__content>
