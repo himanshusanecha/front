@@ -37,6 +37,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { ScrollAwareVideoPlayerComponent } from '../../../media/components/video-player/scrollaware-player.component';
 
 @Component({
   selector: 'm-activity__content',
@@ -78,6 +79,8 @@ export class ActivityContentComponent
 
   @ViewChild('mediaDescriptionEl', { read: ElementRef })
   mediaDescriptionEl: ElementRef;
+
+  @ViewChild(ScrollAwareVideoPlayerComponent) videoPlayer;
 
   maxFixedHeightContent: number = 750 * ACTIVITY_FIXED_HEIGHT_RATIO;
   get maxMessageHeight(): number {
@@ -159,6 +162,7 @@ export class ActivityContentComponent
   ngOnDestroy() {
     this.entitySubscription.unsubscribe();
     this.activityHeightSubscription.unsubscribe();
+    this.paywallUnlockedSubscription.unsubscribe();
   }
 
   // unlockPaywalledContent() {
