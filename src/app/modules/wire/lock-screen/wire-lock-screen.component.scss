@@ -24,7 +24,7 @@ m-wire--lock-screen.m-wire--lock-screen-2020 {
     > * {
       z-index: 1;
     }
-    &.isStatus {
+    &.isTextOnly {
       align-items: center;
 
       @include m-theme() {

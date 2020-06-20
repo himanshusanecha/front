@@ -67,6 +67,9 @@ export class WireLockScreenComponent implements OnInit {
       this.isPaywall2020 = true;
       this.getPaywallType();
       if (this.mediaHeight) {
+        if (this.mediaHeight === 0) {
+          this.mediaHeight = 410;
+        }
         this.messageTopOffset = `${this.mediaHeight / 2}px`;
       }
       this.init = true;

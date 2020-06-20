@@ -26,7 +26,7 @@ export class PaywallBadgeComponent implements OnInit {
     this.hasPaywall = !!this.entity.paywall || this.entity.paywall_unlocked;
 
     if (this.hasPaywall) {
-      // TODOOJM determine the paywall type here
+      // TODO determine the paywall type here
     }
 
     this.init = true;

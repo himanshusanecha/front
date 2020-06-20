@@ -124,7 +124,7 @@ export class ActivityContentComponent
         this.entity = entity;
         this.calculateFixedContentHeight();
         this.isPaywalledStatusPost =
-          this.showPaywall && entity.content_type === 'status';
+          this.showPaywallBadge && entity.content_type === 'status';
         if (
           this.entity.paywall_unlocked ||
           this.entity.ownerObj.guid === this.session.getLoggedInUser().guid
@@ -144,10 +144,12 @@ export class ActivityContentComponent
         if (!unlocked) {
           return;
         }
-        console.log('888 this paywall was unlocked. emitter');
-        // if(this.isVideo){
-        //   // forceplay
-        // }
+        if (this.isVideo) {
+          this.videoPlayer.forcePlay();
+        }
+        if (this.isRichEmbed && this.entity.entity_guid) {
+          this.redirectService.redirect(this.entity.perma_url);
+        }
       }
     );
   }
@@ -164,26 +166,6 @@ export class ActivityContentComponent
     this.activityHeightSubscription.unsubscribe();
     this.paywallUnlockedSubscription.unsubscribe();
   }
-
-  // unlockPaywalledContent() {
-  //   this.paywallUnlocked = true;
-  //   // TODOOJM
-  //   /**
-  //    * Autoplay a recently-unlocked video
-  //    */
-  //   if (this.isVideo) {
-  //     // this.autoplayVideo = true;
-  //     // todoojm check if this is all i need to do...
-  //     // might need to check to stop any currentlyPlayingVIdeo
-  //   }
-  //   /**
-  //    * Redirect to recently-unlocked blog pages
-  //    */
-  //   if (this.isRichEmbed && this.entity.entity_guid) {
-  //     // TodOojm confirm this won't refresh if already on page
-  //     this.router.navigateByUrl(this.entity.perma_url);
-  //   }
-  // }
 
   get message(): string {
     // No message if media post
@@ -243,7 +225,7 @@ export class ActivityContentComponent
   get imageUrl(): string {
     if (this.entity.custom_type === 'batch') {
       if (this.isPaywalledGif) {
-        return `${this.cdnAssetsUrl}assets/photos/andromeda-galaxy.jpg`;
+        return `${this.cdnAssetsUrl}assets/photos/andromeda-galaxy-blur.jpg`;
       }
 
       let thumbUrl = this.entity.custom_data[0].src;
@@ -302,9 +284,8 @@ export class ActivityContentComponent
   }
 
   get mediaHeight(): number | null {
-    // todoojm remove
-    const imageHeight = this.imageHeight || '100';
     if (this.isImage) {
+      const imageHeight = this.imageHeight || '410';
       return parseInt(imageHeight.slice(0, -2), 10);
     }
     if (this.isVideo) {

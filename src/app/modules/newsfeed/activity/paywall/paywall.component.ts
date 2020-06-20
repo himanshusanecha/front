@@ -2,8 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActivityService, ActivityEntity } from '../activity.service';
-import { map } from 'rxjs/operators';
-import { NSFW_REASONS } from '../../../../common/components/nsfw-selector/nsfw-selector.service';
 
 @Component({
   selector: 'm-activity__paywall',
@@ -16,6 +14,8 @@ export class ActivityPaywallComponent {
 
   onEntityUpdated(entity: ActivityEntity): void {
     this.service.setEntity(entity);
-    this.service.paywallUnlockedEmitter.next(true);
+    if (entity.paywall_unlocked) {
+      this.service.paywallUnlockedEmitter.next(true);
+    }
   }
 }

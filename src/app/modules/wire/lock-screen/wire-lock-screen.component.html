@@ -2,7 +2,7 @@
   <div
     class="m-wire--lock-screen"
     [ngClass]="{
-      isStatus: contentType === 'status',
+      isTextOnly: contentType === 'status',
       isMedia: contentType !== 'status'
     }"
     (click)="$event.stopPropagation(); unlock()"
