@@ -82,11 +82,7 @@
         [routerLinkActive]="'m-sidebarNavigation__item--active'"
         *mIfFeature="'plus-2020'"
       >
-        <a
-          [routerLink]="'/discovery'"
-          [queryParams]="{ plus: 'true' }"
-          (click)="toggle()"
-        >
+        <a [routerLink]="'/discovery/plus'" (click)="toggle()">
           <m-tooltip
             [enabled]="layoutMode === 'tablet'"
             [anchor]="'left'"

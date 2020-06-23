@@ -7,6 +7,7 @@ import { isPlatformServer } from '@angular/common';
 
 export type DiscoveryTag = any;
 
+// TODOPLUS handle plus
 @Injectable()
 export class DiscoveryTagsService {
   tags$: BehaviorSubject<DiscoveryTag[]> = new BehaviorSubject([]);
@@ -57,6 +58,7 @@ export class DiscoveryTagsService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
+  // TODOPLUS add optional 'plus' bool input
   async loadTags(refresh = false) {
     this.inProgress$.next(true);
 

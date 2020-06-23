@@ -21,6 +21,8 @@ import { DiscoveryNoTagsPromptComponent } from './tags/notags-prompt/notags-prom
 import { DiscoveryFeedsListComponent } from './feeds/feeds-list.component';
 import { HashtagsModule } from '../hashtags/hashtags.module';
 import { LanguageModule } from '../language/language.module';
+import { DiscoveryPlusModule } from './plus/plus.module';
+import { DiscoveryPlusComponent } from './plus/plus.component';
 
 @NgModule({
   imports: [
@@ -74,6 +76,10 @@ import { LanguageModule } from '../language/language.module';
               },
             ],
           },
+          {
+            path: 'plus',
+            component: DiscoveryPlusComponent,
+          },
         ],
       },
     ]),
@@ -86,6 +92,7 @@ import { LanguageModule } from '../language/language.module';
     DiscoverySharedModule,
     HashtagsModule,
     LanguageModule,
+    DiscoveryPlusModule,
   ],
   providers: [DiscoveryTrendsService],
   declarations: [
@@ -102,6 +109,12 @@ import { LanguageModule } from '../language/language.module';
     DiscoverySuggestionsComponent,
     DiscoveryNoTagsPromptComponent,
   ],
-  exports: [DiscoveryComponent],
+  exports: [
+    DiscoveryComponent,
+    DiscoveryTrendsComponent,
+    DiscoverySearchComponent,
+    DiscoveryTagsComponent,
+    DiscoveryFeedsComponent,
+  ],
 })
 export class DiscoveryModule {}
