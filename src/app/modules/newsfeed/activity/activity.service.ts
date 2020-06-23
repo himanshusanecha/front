@@ -129,10 +129,13 @@ export class ActivityService {
    */
   shouldShowPaywall$: Observable<boolean> = this.entity$.pipe(
     map((entity: ActivityEntity) => {
-      return (
-        !!entity.paywall &&
-        entity.ownerObj.guid !== this.session.getLoggedInUser().guid
-      );
+      if (this.featuresService.has('paywall-2020')) {
+        return (
+          !!entity.paywall &&
+          entity.ownerObj.guid !== this.session.getLoggedInUser().guid
+        );
+      }
+      return !!entity.paywall;
     })
   );
 
@@ -140,14 +143,14 @@ export class ActivityService {
    * We do not render the contents if nsfw (and no consent)
    */
   shouldShowContent$: Observable<boolean> = combineLatest(
-    this.shouldShowNsfwConsent$,
-    this.shouldShowPaywall$
+    this.entity$,
+    this.shouldShowNsfwConsent$
   ).pipe(
-    map(([shouldShowNsfwConsent, shouldShowPaywall]) => {
+    map(([entity, shouldShowNsfwConsent]: [ActivityEntity, boolean]) => {
       if (this.featuresService.has('paywall-2020')) {
         return !shouldShowNsfwConsent;
       }
-      return !shouldShowNsfwConsent && !shouldShowPaywall;
+      return !shouldShowNsfwConsent && !entity.paywall;
     })
   );
 
