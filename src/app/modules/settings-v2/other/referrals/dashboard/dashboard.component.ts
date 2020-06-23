@@ -11,6 +11,7 @@ export class SettingsV2ReferralsDashboardComponent
   referrals: Array<any> = [];
   offset: string = '';
   limit = 12;
+
   moreData = true;
   inProgress = false;
   noInitResults = false;

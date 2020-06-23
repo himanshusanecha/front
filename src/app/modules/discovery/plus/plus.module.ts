@@ -11,6 +11,8 @@ import { DiscoverySearchComponent } from '../search/search.component';
 import { DiscoveryTagsComponent } from '../tags/tags.component';
 import { DiscoveryFeedsComponent } from '../feeds/feeds.component';
 import { DiscoverySharedModule } from '../discovery-shared.module';
+import { SuggestionsModule } from '../../suggestions/suggestions.module';
+import { DiscoverySidebarTagsComponent } from '../tags/sidebar-tags.component';
 
 @NgModule({
   imports: [
@@ -60,8 +62,7 @@ import { DiscoverySharedModule } from '../discovery-shared.module';
     ]),
     NgCommonModule,
     CommonModule,
-    // DiscoveryModule,
-    // DiscoverySharedModule,
+    SuggestionsModule,
   ],
   declarations: [DiscoveryPlusComponent, DiscoveryPlusUpgradeComponent],
   exports: [DiscoveryPlusComponent],
