@@ -7,7 +7,6 @@ import { isPlatformServer } from '@angular/common';
 
 export type DiscoveryTag = any;
 
-// TODOPLUS handle plus
 @Injectable()
 export class DiscoveryTagsService {
   tags$: BehaviorSubject<DiscoveryTag[]> = new BehaviorSubject([]);

@@ -21,8 +21,11 @@ import { DiscoveryNoTagsPromptComponent } from './tags/notags-prompt/notags-prom
 import { DiscoveryFeedsListComponent } from './feeds/feeds-list.component';
 import { HashtagsModule } from '../hashtags/hashtags.module';
 import { LanguageModule } from '../language/language.module';
-import { DiscoveryPlusModule } from './plus/plus.module';
-import { DiscoveryPlusComponent } from './plus/plus.component';
+import { DiscoverySidebarTagsComponent } from './tags/sidebar-tags.component';
+import { DiscoveryPlusUpgradeComponent } from './plus-upgrade/plus-upgrade.component';
+import { WirePaymentHandlersService } from '../wire/wire-payment-handlers.service';
+import { WireModalService } from '../wire/wire-modal.service';
+import { DiscoveryService } from './discovery.service';
 
 @NgModule({
   imports: [
@@ -78,7 +81,46 @@ import { DiscoveryPlusComponent } from './plus/plus.component';
           },
           {
             path: 'plus',
-            component: DiscoveryPlusComponent,
+            data: { plus: true },
+            children: [
+              { path: '', redirectTo: 'overview' },
+              {
+                path: 'overview',
+                component: DiscoveryTrendsComponent,
+                data: { plus: true },
+              },
+              {
+                path: 'trend/:guid',
+                component: DiscoveryTrendComponent,
+                data: { plus: true },
+              },
+              {
+                path: 'search',
+                component: DiscoverySearchComponent,
+                data: { plus: true },
+              },
+              {
+                path: 'tags',
+                component: DiscoveryTagsComponent,
+                data: { plus: true },
+              },
+              {
+                path: 'feeds',
+                children: [
+                  { path: '', redirectTo: 'preferred' },
+                  {
+                    path: 'preferred',
+                    component: DiscoveryFeedsComponent,
+                    data: { plus: true },
+                  },
+                  {
+                    path: 'trending',
+                    component: DiscoveryFeedsComponent,
+                    data: { plus: true },
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
@@ -92,9 +134,14 @@ import { DiscoveryPlusComponent } from './plus/plus.component';
     DiscoverySharedModule,
     HashtagsModule,
     LanguageModule,
-    DiscoveryPlusModule,
+    RouterModule,
   ],
-  providers: [DiscoveryTrendsService],
+  providers: [
+    DiscoveryTrendsService,
+    WirePaymentHandlersService,
+    WireModalService,
+    DiscoveryService,
+  ],
   declarations: [
     DiscoveryComponent,
     DiscoveryTrendsComponent,
@@ -108,6 +155,7 @@ import { DiscoveryPlusComponent } from './plus/plus.component';
     DiscoveryDisclaimerComponent,
     DiscoverySuggestionsComponent,
     DiscoveryNoTagsPromptComponent,
+    DiscoveryPlusUpgradeComponent,
   ],
   exports: [
     DiscoveryComponent,
@@ -115,6 +163,7 @@ import { DiscoveryPlusComponent } from './plus/plus.component';
     DiscoverySearchComponent,
     DiscoveryTagsComponent,
     DiscoveryFeedsComponent,
+    DiscoverySidebarTagsComponent,
   ],
 })
 export class DiscoveryModule {}

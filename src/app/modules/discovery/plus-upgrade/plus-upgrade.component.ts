@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { PlusService } from '../../../plus/plus.service';
-import { WireModalService } from '../../../wire/wire-modal.service';
-import { WireEventType } from '../../../wire/v2/wire-v2.service';
-import { WirePaymentHandlersService } from '../../../wire/wire-payment-handlers.service';
+import { PlusService } from '../../plus/plus.service';
+import { WireModalService } from '../../wire/wire-modal.service';
+import { WireEventType } from '../../wire/v2/wire-v2.service';
+import { WirePaymentHandlersService } from '../../wire/wire-payment-handlers.service';
 
 @Component({
   selector: 'm-discovery__plusUpgrade',
-  templateUrl: './upgrade.component.html',
+  templateUrl: './plus-upgrade.component.html',
 })
 export class DiscoveryPlusUpgradeComponent implements OnInit {
   isPlus: boolean = false;
