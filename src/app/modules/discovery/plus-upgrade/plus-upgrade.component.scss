@@ -1,12 +1,14 @@
 m-discovery__plusUpgrade {
-  padding: 20px;
-  font-size: 15px;
-  line-height: 20px;
-  display: flex;
-  font-weight: 300;
-  margin-bottom: 10px;
-  @include m-theme() {
-    background-color: themed($m-bgColor--tertiary);
+  > div {
+    padding: 20px;
+    font-size: 15px;
+    line-height: 20px;
+    display: flex;
+    font-weight: 300;
+    margin-bottom: 10px;
+    @include m-theme() {
+      background-color: themed($m-bgColor--tertiary);
+    }
   }
   a {
     cursor: pointer;
