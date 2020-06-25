@@ -26,8 +26,6 @@ export class SettingsV2ReferralsDashboardComponent
   // Gets a list of the current user's referral prospects and displays the list as a table
   // Note: a referral is 'pending' until the prospect joins rewards program
   load(init: boolean = false) {
-    // TODOOJM remove all of these diagnostic console.logs
-    console.log('*** LOAD init, limit, offset:', init, this.limit, this.offset);
     if (this.inProgress) {
       return;
     }
@@ -44,7 +42,6 @@ export class SettingsV2ReferralsDashboardComponent
       .then((response: any) => {
         // Response is an array of current user's referrals (see `Referral.php`)
 
-        console.log('*** RESPONSE:', response.referrals.length, response);
         // Hide infinite scroll's 'nothing more to load' notice
         // if initial load length is less than response limit
         if (init && response.referrals.length < this.limit) {
@@ -53,7 +50,6 @@ export class SettingsV2ReferralsDashboardComponent
         }
 
         if (!response.referrals.length) {
-          console.log('*** EMPTY RESPONSE');
           this.inProgress = false;
           this.moreData = false;
 
@@ -71,7 +67,6 @@ export class SettingsV2ReferralsDashboardComponent
         }
 
         this.referrals.push(...response.referrals);
-        console.log('*** END LOAD: moreData, referralsObj', this.referrals);
         this.inProgress = false;
       })
       .catch(e => {
