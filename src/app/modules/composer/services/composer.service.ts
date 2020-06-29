@@ -7,6 +7,7 @@ import { RichEmbed, RichEmbedService } from './rich-embed.service';
 import { Attachment, AttachmentService } from './attachment.service';
 import { AttachmentPreviewResource, PreviewService } from './preview.service';
 import { VideoPoster } from './video-poster.service';
+import { FeedsUpdateService } from '../../../common/services/feeds-update.service';
 import { SupportTier } from '../../wire/v2/support-tiers.service';
 import parseHashtagsFromString from '../../../helpers/parse-hashtags';
 
@@ -79,15 +80,29 @@ export const DEFAULT_NSFW_VALUE: NsfwSubjectValue = [];
  * Monetization value type
  */
 export type MonetizationSubjectValue = {
-  type: 'tokens' | 'money';
-  min: number;
-  support_tier?: SupportTier;
+  type?: 'tokens' | 'money';
+  min?: number;
+  support_tier?: { urn: string; expires?: number };
 } | null;
 
 /**
  * Default monetization value
  */
 export const DEFAULT_MONETIZATION_VALUE: MonetizationSubjectValue = null;
+
+/**
+ * Monetization vw value type
+ */
+export type MonetizationV2SubjectValue = {
+  type: 'plus' | 'membership' | 'custom';
+  // min: number;
+  // support_tier?: SupportTier;
+} | null;
+
+/**
+ * Default monetization value
+ */
+export const DEFAULT_MONETIZATION_V2_VALUE: MonetizationV2SubjectValue = null;
 
 /**
  * Tags value type
@@ -342,7 +357,8 @@ export class ComposerService implements OnDestroy {
     protected api: ApiService,
     protected attachment: AttachmentService,
     protected richEmbed: RichEmbedService,
-    protected preview: PreviewService
+    protected preview: PreviewService,
+    protected feedsUpdate: FeedsUpdateService
   ) {
     // Setup data stream using the latest subject values
     // This should emit whenever any subject changes.
@@ -852,8 +868,10 @@ export class ComposerService implements OnDestroy {
         .post(endpoint, this.payload)
         .toPromise();
 
-      this.reset();
+      // Provide an update to subscribing feeds.
+      this.feedsUpdate.postEmitter.emit(activity);
 
+      this.reset();
       this.isPosting$.next(false);
       this.setProgress(false);
 
