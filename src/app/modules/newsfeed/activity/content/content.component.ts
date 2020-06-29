@@ -216,6 +216,8 @@ export class ActivityContentComponent
   get isPaywalledGif(): boolean {
     return (
       this.isImage &&
+      this.entity.custom_type === 'batch' &&
+      this.entity.custom_data &&
       this.entity.custom_data[0].gif &&
       this.showPaywallBadge &&
       !this.paywallUnlocked
@@ -285,7 +287,7 @@ export class ActivityContentComponent
 
   get mediaHeight(): number | null {
     if (this.isImage) {
-      const imageHeight = this.imageHeight || '410';
+      const imageHeight = this.imageHeight || '410px';
       return parseInt(imageHeight.slice(0, -2), 10);
     }
     if (this.isVideo) {
