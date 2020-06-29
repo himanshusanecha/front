@@ -6,10 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DiscoveryTagSettingsComponent } from './settings.component';
 import { DiscoveryService } from '../discovery.service';
 
-export interface TagsQueryParam {
-  q: string;
-}
-
 @Component({
   selector: 'm-discovery__tags',
   templateUrl: './tags.component.html',

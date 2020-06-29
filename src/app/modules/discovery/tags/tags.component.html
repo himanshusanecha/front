@@ -44,11 +44,8 @@
 
 <section
   class="m-discoveryTags__section"
-  *ngIf="(route.params | async)?.type === 'my'"
+  *ngIf="(route.params | async)?.type === 'your'"
 >
-  <div class="m-discoveryTags__sectionHeader">
-    <h3 i18n="@@DISCOVERY_TAGS__YOUR_TAGS">Your Tags</h3>
-  </div>
   <ul
     class="m-discoveryTags__list m-discoveryTags__list--user"
     data-cy="discovery-tags-section--user"
@@ -86,9 +83,6 @@
   class="m-discoveryTags__section"
   *ngIf="(route.params | async)?.type === 'trending'"
 >
-  <div class="m-discoveryTags__sectionHeader">
-    <h3 i18n="@@DISCOVERY_TAGS__TRENDING_TAGS">Trending Tags</h3>
-  </div>
   <ul class="m-discoveryTags__list m-discoveryTags__list--trending">
     <li class="m-discoveryTrends__trend" *ngFor="let tag of trending$ | async">
       <a
