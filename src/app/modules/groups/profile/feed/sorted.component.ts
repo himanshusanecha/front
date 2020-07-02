@@ -5,17 +5,15 @@ import {
   Input,
   OnInit,
   ViewChild,
-  OnDestroy,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { PosterComponent } from '../../../newsfeed/poster/poster.component';
 import { FeedsService } from '../../../../common/services/feeds.service';
-import { FeedsUpdateService } from '../../../../common/services/feeds-update.service';
 import { Session } from '../../../../services/session';
 import { SortedService } from './sorted.service';
 import { Client } from '../../../../services/api/client';
 import { GroupsService } from '../../groups.service';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ComposerComponent } from '../../../composer/composer.component';
 import { AsyncPipe } from '@angular/common';
 import { map } from 'rxjs/operators';
@@ -26,7 +24,7 @@ import { map } from 'rxjs/operators';
   templateUrl: 'sorted.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupProfileFeedSortedComponent implements OnInit, OnDestroy {
+export class GroupProfileFeedSortedComponent implements OnInit {
   group: any;
 
   @Input('group') set _group(group: any) {
@@ -75,12 +73,9 @@ export class GroupProfileFeedSortedComponent implements OnInit, OnDestroy {
 
   feed$: Observable<BehaviorSubject<Object>[]>;
 
-  protected feedsUpdatedSubscription: Subscription;
-
   constructor(
     protected service: GroupsService,
     public feedsService: FeedsService,
-    private feedsUpdateService: FeedsUpdateService,
     protected sortedService: SortedService,
     protected session: Session,
     protected router: Router,
@@ -91,17 +86,6 @@ export class GroupProfileFeedSortedComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initialized = true;
     this.load(true);
-    this.feedsUpdatedSubscription = this.feedsUpdateService.postEmitter.subscribe(
-      newPost => {
-        this.prepend(newPost);
-      }
-    );
-  }
-
-  ngOnDestroy() {
-    if (this.feedsUpdatedSubscription) {
-      this.feedsUpdatedSubscription.unsubscribe();
-    }
   }
 
   async load(refresh: boolean = false) {
