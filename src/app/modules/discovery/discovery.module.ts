@@ -27,6 +27,7 @@ import { WirePaymentHandlersService } from '../wire/wire-payment-handlers.servic
 import { WireModalService } from '../wire/wire-modal.service';
 import { DiscoveryService } from './discovery.service';
 import { DiscoveryBoostFeedComponent } from './boost/boost-feed.component';
+import { DiscoveryTabsComponent } from './tabs/tabs.component';
 
 @NgModule({
   imports: [
@@ -171,6 +172,7 @@ import { DiscoveryBoostFeedComponent } from './boost/boost-feed.component';
     DiscoveryNoTagsPromptComponent,
     DiscoveryPlusUpgradeComponent,
     DiscoveryBoostFeedComponent,
+    DiscoveryTabsComponent,
   ],
   exports: [
     DiscoveryComponent,
