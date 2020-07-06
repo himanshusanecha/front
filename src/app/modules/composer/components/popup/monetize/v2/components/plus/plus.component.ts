@@ -1,10 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ProService } from '../../../../../../../pro/pro.service';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  Output,
+  EventEmitter,
+  Input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { WirePaymentHandlersService } from '../../../../../../../wire/wire-payment-handlers.service';
 import { WireModalService } from '../../../../../../../wire/wire-modal.service';
-import { WireEventType } from '../../../../../../../wire/v2/wire-v2.service';
 import { Session } from '../../../../../../../../services/session';
-import { PopupService } from '../../../../popup.service';
 import { WireCreatorComponent } from '../../../../../../../wire/v2/creator/wire-creator.component';
 import {
   StackableModalService,
@@ -13,49 +18,101 @@ import {
 } from '../../../../../../../../services/ux/stackable-modal.service';
 import { ComposerService } from '../../../../../../services/composer.service';
 import { ConfigsService } from '../../../../../../../../common/services/configs.service';
+import { DialogService } from '../../../../../../../../common/services/confirm-leave-dialog.service';
+
+export type PlusPostExpiry = number | null;
 
 @Component({
   selector: 'm-composer__monetizeV2__plus',
   templateUrl: './plus.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposerMonetizeV2PlusComponent implements OnInit {
   readonly plusSupportTierUrn: string;
-  isPro;
+
+  readonly twoDays = 172800; // in seconds
+
+  /**
+   * If the user is Pro
+   */
+  isPro: boolean;
+
+  /**
+   * Terms & Conditions accepted state
+   */
+  termsAccepted: boolean = false;
+
+  /**
+   * Seconds after which paywall is disabled
+   */
+  expires: PlusPostExpiry = this.twoDays;
+
+  /**
+   * Whether an existing post with a
+   * plus paywall is being edited
+   */
+  @Input() isEditingPlus: boolean = false;
+
+  /**
+   * Signal event emitter to parent
+   */
+  @Output() dismissIntent: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private service: ComposerService,
-    private configs: ConfigsService,
-    private proService: ProService,
     private wirePaymentHandlers: WirePaymentHandlersService,
     private cd: ChangeDetectorRef,
     private stackableModal: StackableModalService,
-    private session: Session
+    private session: Session,
+    private dialogService: DialogService,
+    configs: ConfigsService
   ) {
     this.plusSupportTierUrn =
       configs.get('plus').support_tier_urn || 'urn:support-tier:plus';
   }
 
   ngOnInit(): void {
+    const monetization =
+      this.service.pendingMonetization$.getValue() ||
+      this.service.monetization$.getValue();
+
+    if (monetization && monetization.support_tier) {
+      this.termsAccepted =
+        monetization.support_tier.urn === this.plusSupportTierUrn;
+
+      this.expires = monetization.support_tier.expires;
+
+      if (this.expires && this.expires !== this.twoDays) {
+        this.expires = null;
+      }
+    }
     this.setup();
   }
 
-  async setup(): Promise<void> {
+  setup(): void {
     this.isPro = this.session.getLoggedInUser().pro;
-    this.isPro = await this.proService.isActive();
-    this.cd.markForCheck();
-    this.cd.detectChanges();
+
+    this.detectChanges();
+    setTimeout(() => this.detectChanges(), 1);
+  }
+
+  setExpires(expires: PlusPostExpiry): void {
+    if (this.isEditingPlus) {
+      return;
+    }
+    this.expires = expires;
   }
 
   async openProUpgradeModal(): Promise<void> {
-    const plusGuid = await this.wirePaymentHandlers.get('pro');
+    const proGuid = await this.wirePaymentHandlers.get('pro');
     let completed = false;
 
     const stackableModalEvent: StackableModalEvent = await this.stackableModal
-      .present(WireCreatorComponent, plusGuid, {
+      .present(WireCreatorComponent, proGuid, {
         wrapperClass: 'm-modalV2__wrapper',
         default: {
           type: 'money',
-          upgradeType: 'plus',
+          upgradeType: 'pro',
         },
         onComplete: wire => {
           completed = true;
@@ -68,22 +125,57 @@ export class ComposerMonetizeV2PlusComponent implements OnInit {
     }
   }
 
-  get termsAccepted(): boolean {
-    const monetization = this.service.monetization$.value;
-    return (
-      monetization && monetization.support_tier.urn === this.plusSupportTierUrn
-    );
-  }
-
   onTermsChange(value): void {
     if (value) {
-      this.service.monetization$.next({
-        support_tier: {
-          urn: this.plusSupportTierUrn,
-        },
-      });
+      this.termsAccepted = true;
     } else {
-      this.service.monetization$.next(null);
+      this.termsAccepted = false;
     }
+  }
+
+  /**
+   * Emits the internal state to the composer service and attempts to dismiss the modal
+   */
+  save(): void {
+    if (!this.canSave) {
+      return;
+    }
+
+    if (!this.termsAccepted) {
+      this.service.pendingMonetization$.next(null);
+      this.dismissIntent.emit();
+      return;
+    }
+
+    if (
+      !this.dialogService.confirm(
+        "Are you sure? Once a post enters the Minds+ pool, you can't edit its monetization settings."
+      )
+    ) {
+      return;
+    }
+
+    const support_tier: any = {
+      urn: this.plusSupportTierUrn,
+    };
+
+    if (this.expires) {
+      support_tier['expires'] = this.expires;
+    }
+
+    this.service.pendingMonetization$.next({
+      type: 'plus',
+      support_tier: support_tier,
+    });
+    this.dismissIntent.emit();
+  }
+
+  get canSave(): boolean {
+    return !this.isEditingPlus;
+  }
+
+  detectChanges(): void {
+    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 }

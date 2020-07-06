@@ -82,7 +82,12 @@ export const DEFAULT_NSFW_VALUE: NsfwSubjectValue = [];
 export type MonetizationSubjectValue = {
   type?: 'tokens' | 'money';
   min?: number;
-  support_tier?: { urn: string; expires?: number };
+  support_tier?: {
+    urn: string;
+    expires?: number;
+    usd?: number;
+    has_tokens?: boolean;
+  };
 } | null;
 
 /**
@@ -91,18 +96,22 @@ export type MonetizationSubjectValue = {
 export const DEFAULT_MONETIZATION_VALUE: MonetizationSubjectValue = null;
 
 /**
- * Monetization vw value type
+ * Pending monetization value type
  */
-export type MonetizationV2SubjectValue = {
+export type PendingMonetizationSubjectValue = {
   type: 'plus' | 'membership' | 'custom';
-  // min: number;
-  // support_tier?: SupportTier;
+  support_tier: {
+    urn: string;
+    expires?: number;
+    usd?: number;
+    has_tokens?: boolean;
+  };
 } | null;
 
 /**
- * Default monetization value
+ * Default pending monetization value
  */
-export const DEFAULT_MONETIZATION_V2_VALUE: MonetizationV2SubjectValue = null;
+export const DEFAULT_PENDING_MONETIZATION_VALUE: PendingMonetizationSubjectValue = null;
 
 /**
  * Tags value type
@@ -191,9 +200,18 @@ export class ComposerService implements OnDestroy {
   /**
    * Monetization subject
    */
-  readonly monetization$: BehaviorSubject<
+  monetization$: BehaviorSubject<
     MonetizationSubjectValue
   > = new BehaviorSubject<MonetizationSubjectValue>(DEFAULT_MONETIZATION_VALUE);
+
+  /**
+   * Pending monetization subject
+   */
+  readonly pendingMonetization$: BehaviorSubject<
+    PendingMonetizationSubjectValue
+  > = new BehaviorSubject<PendingMonetizationSubjectValue>(
+    DEFAULT_PENDING_MONETIZATION_VALUE
+  );
 
   /**
    * Tags subject
@@ -326,6 +344,11 @@ export class ComposerService implements OnDestroy {
   protected readonly dataSubscription: Subscription;
 
   /**
+   * Subscription to pending monetization observable
+   */
+  protected readonly pendingMonetizationSubscription: Subscription;
+
+  /**
    * Subscription to a rich embed extractor observable
    */
   protected readonly richEmbedExtractorSubscription: Subscription;
@@ -338,7 +361,7 @@ export class ComposerService implements OnDestroy {
   /**
    * If we're editing, this holds a clone of the original activity
    */
-  protected entity: any = null;
+  public entity: any = null;
 
   /**
    * Current payload to be consumed by DTO builder
@@ -495,6 +518,19 @@ export class ComposerService implements OnDestroy {
       this.buildPayload(data)
     );
 
+    // Subscribe to pending monetization and format monetization$
+    this.pendingMonetizationSubscription = this.pendingMonetization$.subscribe(
+      pendingMonetization => {
+        if (pendingMonetization) {
+          this.monetization$.next({
+            support_tier: pendingMonetization.support_tier,
+          });
+        } else {
+          this.monetization$.next(null);
+        }
+      }
+    );
+
     // Subscribe to message and extract any URL it finds
     this.messageUrl$ = this.message$.pipe(
       map(message => this.richEmbed.extract(message))
@@ -549,6 +585,9 @@ export class ComposerService implements OnDestroy {
 
     // Unsubscribe to data stream
     this.dataSubscription.unsubscribe();
+
+    // Unsubscribe from pending monetization
+    this.pendingMonetizationSubscription.unsubscribe();
 
     // Unsubscribe from rich embed extractor
     this.richEmbedExtractorSubscription.unsubscribe();
@@ -858,8 +897,8 @@ export class ComposerService implements OnDestroy {
     // New activity
     let endpoint = `api/v2/newsfeed`;
 
-    if (this.entity && this.entity.guid) {
-      // Editing an activity
+    let editing = this.entity && this.entity.guid;
+    if (editing) {
       endpoint = `api/v2/newsfeed/${this.entity.guid}`;
     }
 
@@ -869,7 +908,9 @@ export class ComposerService implements OnDestroy {
         .toPromise();
 
       // Provide an update to subscribing feeds.
-      this.feedsUpdate.postEmitter.emit(activity);
+      if (!editing) {
+        this.feedsUpdate.postEmitter.emit(activity);
+      }
 
       this.reset();
       this.isPosting$.next(false);

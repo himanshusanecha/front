@@ -20,7 +20,7 @@ export class PaywallBadgeComponent implements OnInit {
   @Input() topRightPosition: boolean = true;
 
   hasPaywall: boolean = false;
-  paywallType: PaywallType = 'custom';
+  paywallType: PaywallType = 'tier';
   tierName: string;
   init: boolean = false;
 
@@ -41,22 +41,19 @@ export class PaywallBadgeComponent implements OnInit {
 
     this.hasPaywall = !!this.entity.paywall || this.entity.paywall_unlocked;
 
-    if (this.hasPaywall) {
-      // TODO determine the paywall type here
+    if (
+      this.hasPaywall &&
+      this.entity.wire_threshold &&
+      this.entity.wire_threshold.support_tier
+    ) {
+      const tier = this.entity.wire_threshold.support_tier;
 
-      if (
-        this.entity.wire_threshold &&
-        this.entity.wire_threshold.support_tier
-      ) {
-        this.paywallType = 'tier';
-        if (
-          this.entity.wire_threshold.support_tier.urn == this.plusSupportTierUrn
-        ) {
-          this.paywallType = 'plus';
-        } else {
-          this.paywallType = 'tier';
-          this.tierName = this.entity.wire_threshold.support_tier.name;
-        }
+      if (tier.urn === this.plusSupportTierUrn) {
+        this.paywallType = 'plus';
+      } else if (!tier.public) {
+        this.paywallType = 'custom';
+      } else {
+        this.tierName = tier.name;
       }
     }
 

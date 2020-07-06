@@ -5,46 +5,33 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  ComposerService,
-  MonetizationSubjectValue,
-} from '../../../../../services/composer.service';
-import { UniqueId } from '../../../../../../../helpers/unique-id.helper';
+import { ComposerService } from '../../../../../services/composer.service';
 import {
   SupportTier,
   SupportTiersService,
 } from '../../../../../../wire/v2/support-tiers.service';
 import { Session } from '../../../../../../../services/session';
 import { FeaturesService } from '../../../../../../../services/features.service';
+import { ConfigsService } from '../../../../../../../common/services/configs.service';
 
-interface MonetizationState {
-  enabled: boolean;
-  type: 'plus' | 'membership' | 'custom';
-  // amount: number;
-  // supportTier: SupportTier;
-}
+export type MonetizationTabType = 'plus' | 'membership' | 'custom';
 
 @Component({
   selector: 'm-composer__monetizeV2',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'monetize.component.html',
   providers: [SupportTiersService],
 })
 export class ComposerMonetizeV2Component implements OnInit {
+  type: MonetizationTabType = 'plus';
+
+  isEditingPlus: boolean = false;
+
+  plusTierUrn: string = '';
+
+  /**
+   * Signal event emitter to parent's popup service
+   */
   @Output() dismissIntent: EventEmitter<any> = new EventEmitter<any>();
-
-  /**
-   * ID for input/label relationships
-   */
-  // readonly inputId: string = UniqueId.generate('m-composer__tags');
-
-  /**
-   * Monetization popup state object
-   */
-  state: MonetizationState = {
-    enabled: false,
-    type: 'plus',
-  };
 
   /**
    * Constructor
@@ -55,71 +42,50 @@ export class ComposerMonetizeV2Component implements OnInit {
    */
   constructor(
     public service: ComposerService,
-    public supportTiers: SupportTiersService,
     public features: FeaturesService,
-    protected session: Session
+    protected session: Session,
+    configs: ConfigsService
   ) {
-    this.supportTiers.setEntityGuid(this.session.getLoggedInUser().guid);
+    this.plusTierUrn = configs.get('plus').support_tier_urn;
   }
 
   /**
    * Component initialization. Set initial state.
    */
   ngOnInit(): void {
-    // TODO - when paywall tiers are ready
-    // const monetization = this.service.monetization$.getValue();
-    // this.state = {
-    //   enabled: Boolean(monetization),
-    //   type: (monetization && monetization.type) || 'tokens',
-    //   amount: (monetization && monetization.min) || 0,
-    //   supportTier: (monetization && monetization.support_tier) || null,
-    // };
+    const monetization = this.service.monetization$.getValue();
+    const pendingMonetization = this.service.pendingMonetization$.getValue();
+
+    /**
+     * Go to the tab of most recent monetization
+     */
+
+    if (monetization && monetization.support_tier) {
+      this.setType(monetization.support_tier);
+    }
+    if (pendingMonetization) {
+      this.type = pendingMonetization.type || 'plus';
+      return;
+    }
   }
 
-  /**
-   * Selects a support tier and fills state values
-   * @param supportTier
-   */
-  // selectSupportTier(supportTier: SupportTier): void {
-  //   this.state.supportTier = supportTier;
-
-  //   if (supportTier) {
-  //     this.state.type = this.supportTiers.toMonetizationType(
-  //       supportTier.currency
-  //     );
-  //     this.state.amount = supportTier.amount;
-  //   }
-  // }
-
-  /**
-   * Compares two variables that can be a Support Tier or null.
-   * Used by <select>.
-   * @param a
-   * @param b
-   */
-  // byUrn(a: SupportTier, b: SupportTier) {
-  //   return (!a && !b) || (a && b && a.urn === b.urn);
-  // }
-
-  /**
-   * Emit to subject
-   */
-  // save() {
-  //   let payload: MonetizationSubjectValue = null;
-
-  //   if (this.state.enabled) {
-  //     payload = {
-  //       type: this.state.type,
-  //       min: this.state.amount,
-  //     };
-
-  //     if (this.features.has('channels-shop')) {
-  //       payload.support_tier = this.state.supportTier || null;
-  //     }
-  //   }
-
-  //   this.service.monetization$.next(payload);
-
-  //   this.dismissIntent.emit();
-  // }
+  setType(tier) {
+    if (!tier.public) {
+      this.type = 'custom';
+    } else if (tier.urn === this.plusTierUrn) {
+      this.type = 'plus';
+      const savedState = this.service.entity;
+      if (
+        savedState &&
+        savedState.wire_threshold &&
+        savedState.wire_threshold.support_tier
+      ) {
+        if (savedState.wire_threshold.support_tier.urn === this.plusTierUrn) {
+          this.isEditingPlus = true;
+        }
+      }
+    } else {
+      this.type = 'membership';
+    }
+  }
 }
