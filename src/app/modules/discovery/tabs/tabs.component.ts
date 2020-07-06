@@ -1,17 +1,30 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { FeedsService } from '../../../common/services/feeds.service';
+/**
+ * Header tabs for discovery feed.
+ */
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'm-discovery__tabs',
   templateUrl: './tabs.component.html',
 })
 export class DiscoveryTabsComponent {
+  /**
+   * Set to true to show settings button.
+   */
   @Input() showSettingsButton = true;
 
-  constructor(
-    public route: ActivatedRoute,
-    private feedsService: FeedsService
-  ) {}
+  constructor(public route: ActivatedRoute, private router: Router) {}
+
+  /**
+   * Checks whether passed URL is the active URL
+   * Disregards querystring.
+   *
+   * @param { string } url - url to be checked against
+   * @returns { boolean } - true if link matches.
+   */
+  public isLinkActive(url: string): boolean {
+    const currentUrl = this.router.url;
+    return url === currentUrl.split('?')[0];
+  }
 }
