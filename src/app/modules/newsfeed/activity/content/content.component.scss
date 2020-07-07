@@ -117,7 +117,7 @@ m-activity__content {
     widows: 100%;
   }
   img {
-    object-fit: contain;
+    object-fit: cover;
     width: 100%;
     max-height: 800px;
   }
@@ -129,10 +129,7 @@ m-activity__content {
     display: block;
     height: auto;
     max-height: 400px;
-    object-fit: contain;
-    @include m-themed() {
-      border: 1px solid themed($m-borderColor--tertiary);
-    }
+    object-fit: cover;
   }
   .meta {
     padding: 20px $activity-padding-lr;
