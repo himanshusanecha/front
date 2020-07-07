@@ -13,8 +13,6 @@ import {
   StackableModalEvent,
   StackableModalState,
 } from '../../../services/ux/stackable-modal.service';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
 
 /**
  * When you need to stack a modal
@@ -36,8 +34,7 @@ export class StackableModalComponent implements AfterViewInit {
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     public overlayModalService: OverlayModalService,
-    private stackableModalService: StackableModalService,
-    private router: Router
+    private stackableModalService: StackableModalService
   ) {}
 
   ngAfterViewInit() {
@@ -45,15 +42,6 @@ export class StackableModalComponent implements AfterViewInit {
      * Dynamically create another overlay modal for stacking
      */
     this.stackableModalService.setContainer(this);
-
-    /**
-     * Close the modal on reroute
-     */
-    this.router.events
-      .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(data => {
-        this.dismiss();
-      });
   }
 
   createDynamicOverlayModal(): OverlayModalComponent {
