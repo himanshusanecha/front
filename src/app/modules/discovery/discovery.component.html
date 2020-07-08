@@ -15,10 +15,6 @@
   <div class="m-discovery__sidebar" m-pageLayout__pane="right">
     <div class="m-pageLayoutPane__inner">
       <div class="m-pageLayoutPane__sticky" m-stickySidebar>
-        <!-- ----------------------------------------- -->
-        <!-- TODO: put this back in <m-discovery__sidebarTags> when there are more results -->
-        <!-- isPlusPage="true" -->
-        <!-- ----------------------------------------- -->
         <m-discovery__sidebarTags *ngIf="isPlusPage"></m-discovery__sidebarTags>
         <m-language__sidebarPrompt
           *ngIf="!isPlusPage"
