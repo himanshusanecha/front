@@ -14,7 +14,8 @@ export class DiscoverySidebarTagsComponent implements OnInit, OnDestroy {
 
   parentPathSubscription: Subscription;
   parentPath: string = '';
-  isPlusPage: boolean = false;
+
+  @Input() isPlusPage: boolean = false;
 
   constructor(
     private service: DiscoveryTagsService,
@@ -22,7 +23,6 @@ export class DiscoverySidebarTagsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // TODOPLUS load 'plus' tags when plus
     if (!this.service.trending$.value.length) this.service.loadTags();
 
     this.parentPathSubscription = this.discoveryService.parentPath$.subscribe(
