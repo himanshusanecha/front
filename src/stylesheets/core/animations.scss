@@ -70,3 +70,87 @@
     }
   }
 }
+
+span.m-animation__shimmer,
+.m-animation__shimmer > span {
+  @include m-theme() {
+    color: rbga(themed($m-black), 0.1);
+
+    background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      from(themed($m-textColor--secondary)),
+      to(themed($m-textColor--secondary)),
+      color-stop(0.3, themed($m-aqua)),
+      color-stop(0.6, #90edf3),
+      color-stop(0.8, themed($m-aqua))
+    );
+    background: -moz-gradient(
+      linear,
+      left top,
+      right top,
+      from(themed($m-textColor--secondary)),
+      to(themed($m-textColor--secondary)),
+      color-stop(0.3, themed($m-aqua)),
+      color-stop(0.6, #90edf3),
+      color-stop(0.8, themed($m-aqua))
+    );
+    background: gradient(
+      linear,
+      left top,
+      right top,
+      from(themed($m-textColor--secondary)),
+      to(themed($m-textColor--secondary)),
+      color-stop(0.3, themed($m-aqua)),
+      color-stop(0.6, #90edf3),
+      color-stop(0.8, themed($m-aqua))
+    );
+    background-color: themed($m-textColor--secondary);
+  }
+
+  -webkit-background-size: 25% 150%;
+  -moz-background-size: 25% 150%;
+  background-size: 25% 150%;
+
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+
+  -webkit-animation-name: shimmer;
+  -moz-animation-name: shimmer;
+  animation-name: shimmer;
+
+  -webkit-animation-duration: 2s;
+  -moz-animation-duration: 2s;
+  animation-duration: 2s;
+
+  -webkit-animation-iteration-count: infinite; //todoojm
+  -moz-animation-iteration-count: 1;
+  animation-iteration-count: infinite; //todoojm
+  background-repeat: no-repeat;
+  background-position: -25% 0;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: top left;
+  }
+
+  100% {
+    background-position: top right;
+  }
+}
+
+.m-animation__duration--300ms {
+  > span {
+    -webkit-animation-duration: 300ms !important;
+    -moz-animation-duration: 300ms !important;
+    animation-duration: 300ms !important;
+  }
+}
+
+.m-animation__delay--300ms {
+  -webkit-animation-delay: 300ms !important;
+  -moz-animation-delay: 300ms !important;
+  animation-delay: 300ms !important;
+}
