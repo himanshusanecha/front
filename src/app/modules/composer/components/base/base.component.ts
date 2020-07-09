@@ -165,17 +165,29 @@ export class BaseComponent implements AfterViewInit {
   }
 
   /**
-   * Minds+ posts must have at least one hashtag
+   * Ensure Minds+ posts follow the rules
    */
-  meetsPlusHashtagRequirement(): boolean {
+  meetsPlusPostRequirements(): boolean {
     const mon = this.service.monetization$.getValue();
-
     const isPlusPost =
       mon && mon.support_tier && mon.support_tier.urn === this.plusTierUrn;
-    if (isPlusPost && this.service.tagCount$.getValue() < 1) {
+
+    if (!isPlusPost) {
+      return true;
+    }
+
+    // Cannot be an external link
+    const richEmbed = this.service.richEmbed$.getValue();
+    if (richEmbed && !this.richEmbedPreview$.getValue().entityGuid) {
+      this.toasterService.error('Minds+ posts cannot be external links');
       return false;
     }
 
+    // Must have 1+ hashtags
+    if (this.service.tagCount$.getValue() < 1) {
+      this.toasterService.error('Minds+ posts must have at least one hashtag');
+      return false;
+    }
     return true;
   }
 
@@ -184,8 +196,7 @@ export class BaseComponent implements AfterViewInit {
    * @param event
    */
   async onPost(event: ButtonComponentAction) {
-    if (!this.meetsPlusHashtagRequirement()) {
-      this.toasterService.error('Minds+ posts must have at least one hashtag');
+    if (!this.meetsPlusPostRequirements()) {
       return;
     }
 
