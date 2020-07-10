@@ -29,7 +29,6 @@ export class ActivityToolbarComponent {
     this.entitySubscription = this.service.entity$.subscribe(
       (entity: ActivityEntity) => {
         this.entity = entity;
-        console.log('888 this entity', entity);
       }
     );
 
@@ -42,13 +41,6 @@ export class ActivityToolbarComponent {
         const hasPaywallFlag = tempEntity.flags && tempEntity.flags.paywall;
 
         this.allowReminds = !showBadge && !hasPaywallFlag;
-        console.log(
-          '888 show badge?',
-          showBadge,
-          hasPaywallFlag,
-          this.allowReminds,
-          tempEntity
-        );
       }
     );
   }
