@@ -13,8 +13,10 @@ import { OverlayModalService } from '../../../../services/ux/overlay-modal';
 })
 export class ActivityToolbarComponent {
   private entitySubscription: Subscription;
+  private paywallBadgeSubscription: Subscription;
 
   entity: ActivityEntity;
+  allowReminds: boolean = true;
 
   constructor(
     public service: ActivityService,
@@ -27,12 +29,33 @@ export class ActivityToolbarComponent {
     this.entitySubscription = this.service.entity$.subscribe(
       (entity: ActivityEntity) => {
         this.entity = entity;
+        console.log('888 this entity', entity);
+      }
+    );
+
+    this.paywallBadgeSubscription = this.service.shouldShowPaywallBadge$.subscribe(
+      (showBadge: boolean) => {
+        if (showBadge === undefined) {
+          showBadge = false;
+        }
+        const tempEntity = JSON.parse(JSON.stringify(this.entity));
+        const hasPaywallFlag = tempEntity.flags && tempEntity.flags.paywall;
+
+        this.allowReminds = !showBadge && !hasPaywallFlag;
+        console.log(
+          '888 show badge?',
+          showBadge,
+          hasPaywallFlag,
+          this.allowReminds,
+          tempEntity
+        );
       }
     );
   }
 
   ngOnDestroy() {
     this.entitySubscription.unsubscribe();
+    this.paywallBadgeSubscription.unsubscribe();
   }
 
   toggleComments(): void {
