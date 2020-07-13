@@ -11,7 +11,7 @@ import { ConfigsService } from '../../../../../common/services/configs.service';
   providers: [ChannelShopMembershipsEditService],
 })
 export class ChannelShopMembershipsEditComponent {
-  public readonly tokenExchangeRate: number = 1.25;
+  public readonly tokenExchangeRate: number;
 
   /**
    * Save intent
@@ -49,7 +49,7 @@ export class ChannelShopMembershipsEditComponent {
     public service: ChannelShopMembershipsEditService,
     private configs: ConfigsService
   ) {
-    this.tokenExchangeRate = configs.get('token_exchange_rate');
+    this.tokenExchangeRate = configs.get('token_exchange_rate') || 1.25;
   }
 
   /**

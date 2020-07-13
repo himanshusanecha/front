@@ -24,7 +24,7 @@ export class ComposerMonetizeV2CustomComponent implements OnInit {
   init: boolean = false;
   inProgress: boolean = false;
 
-  public readonly tokenExchangeRate: number = 1.25;
+  public readonly tokenExchangeRate: number;
 
   /**
    * Signal event emitter to parent
@@ -39,7 +39,7 @@ export class ComposerMonetizeV2CustomComponent implements OnInit {
     private toasterService: FormToastService,
     private configs: ConfigsService
   ) {
-    this.tokenExchangeRate = configs.get('token_exchange_rate');
+    this.tokenExchangeRate = configs.get('token_exchange_rate') || 1.25;
   }
 
   ngOnInit(): void {
