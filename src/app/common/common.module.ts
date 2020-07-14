@@ -177,6 +177,7 @@ import { FeedsUpdateService } from './services/feeds-update.service';
 import { ClientMetaDirective } from './directives/client-meta.directive';
 import { ClientMetaService } from './services/client-meta.service';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { UserMenuService } from './layout/v3-topbar/user-menu/user-menu.service';
 
 const routes: Routes = [
   {
@@ -524,6 +525,7 @@ const routes: Routes = [
     AttachmentApiService,
     FeedsUpdateService,
     ClientMetaService,
+    UserMenuService,
   ],
 })
 export class CommonModule {}
