@@ -37,7 +37,6 @@ export class WireLockScreenComponent implements OnInit {
   inProgress: boolean = false;
   contentType: string;
   hasTeaser: boolean = false;
-  // paywallType: PaywallType = 'custom';
   tierName: string | null;
   messageTopOffset: string = '50px';
   isCustom: boolean = false;
@@ -90,13 +89,6 @@ export class WireLockScreenComponent implements OnInit {
 
     this.detectChanges();
   }
-
-  // This is temporary until we get this.entity.support_tier. And it should be in the activity service
-  // getPaywallType(): void {
-  //   // this.paywallType = 'plus';
-  //   // this.paywallType = 'tier';
-  //   this.paywallType = 'custom';
-  // }
 
   unlock() {
     if (this.preview) {
@@ -156,8 +148,6 @@ export class WireLockScreenComponent implements OnInit {
           this.wireSubmitted();
         }
       });
-    // .toPromise();
-    // this.wireSubmitted();
   }
 
   wireSubmitted() {
