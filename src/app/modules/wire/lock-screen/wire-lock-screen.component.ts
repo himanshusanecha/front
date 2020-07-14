@@ -37,9 +37,10 @@ export class WireLockScreenComponent implements OnInit {
   inProgress: boolean = false;
   contentType: string;
   hasTeaser: boolean = false;
-  paywallType: PaywallType = 'custom';
+  // paywallType: PaywallType = 'custom';
   tierName: string | null;
   messageTopOffset: string = '50px';
+  isCustom: boolean = false;
 
   @HostBinding('class.m-wire--lock-screen-2020')
   isPaywall2020: boolean = false;
@@ -68,13 +69,22 @@ export class WireLockScreenComponent implements OnInit {
 
     if (this.featuresService.has('paywall-2020') && !this.showLegacyPaywall) {
       this.isPaywall2020 = true;
-      this.getPaywallType();
+
       if (this.mediaHeight) {
         if (this.mediaHeight === 0) {
           this.mediaHeight = 410;
         }
         this.messageTopOffset = `${this.mediaHeight / 2}px`;
       }
+
+      if (
+        this.entity.wire_threshold &&
+        this.entity.wire_threshold.support_tier &&
+        !this.entity.wire_threshold.support_tier.public
+      ) {
+        this.isCustom = true;
+      }
+
       this.init = true;
     }
 
@@ -82,11 +92,11 @@ export class WireLockScreenComponent implements OnInit {
   }
 
   // This is temporary until we get this.entity.support_tier. And it should be in the activity service
-  getPaywallType(): void {
-    // this.paywallType = 'plus';
-    // this.paywallType = 'tier';
-    this.paywallType = 'custom';
-  }
+  // getPaywallType(): void {
+  //   // this.paywallType = 'plus';
+  //   // this.paywallType = 'tier';
+  //   this.paywallType = 'custom';
+  // }
 
   unlock() {
     if (this.preview) {
