@@ -33,15 +33,15 @@ context('Composer Monetize Popup', () => {
 
   const composerToolbar = `${composer} .m-composer__toolbar`;
 
-  const monetizeButton = `${composerToolbar} a[data-cy="monetize-button"]`;
+  const monetizeButton = `${composerToolbar} a[data-cy=monetize-button]`;
 
-  const monetizePopup = `${composer} m-composer__popup .m-composer__monetize`;
+  const monetizePopup = `m-composer__popup .m-composer__monetize`;
 
-  const monetizeEnablePaywall = `${monetizePopup} [data-cy="monetize-enable-paywall"]`;
+  const monetizeEnablePaywall = `[data-cy=monetize-enable-paywall]`;
 
-  const monetizePaywallAmount = `${monetizePopup} [data-cy="monetize-paywall-amount"]`;
+  const monetizePaywallAmount = `[data-cy=monetize-paywall-amount]`;
 
-  const monetizeSaveButton = `${monetizePopup} [data-cy="monetize-save-button"]`;
+  const monetizeSaveButton = `[data-cy=monetize-save-button]`;
 
   //
 

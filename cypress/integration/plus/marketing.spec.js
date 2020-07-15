@@ -13,8 +13,8 @@ context('Plus Product Page', () => {
 
   const upgradeButton = 'm-plus--subscription .mf-button';
   const wirePaymentsComponent = 'm-wire__paymentscreator .m-wire--creator';
-
-  it('should open the Wire Payment modal', () => {
+  // TODO: Disable plus for e2e test user and test
+  it.skip('should open the Wire Payment modal', () => {
     cy.visit('/plus');
 
     cy.get(upgradeButton)
