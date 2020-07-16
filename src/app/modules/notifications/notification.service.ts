@@ -4,6 +4,7 @@ import {
   Inject,
   OnDestroy,
   PLATFORM_ID,
+  Injectable,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Client } from '../../services/api';
@@ -13,6 +14,7 @@ import { MetaService } from '../../common/services/meta.service';
 import { Subscription, timer } from 'rxjs';
 import { SiteService } from '../../common/services/site.service';
 
+@Injectable()
 export class NotificationService implements OnDestroy {
   socketSubscriptions: any = {
     notification: null,
