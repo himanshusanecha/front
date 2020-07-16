@@ -37,13 +37,11 @@ context('Composer Monetize Popup', () => {
 
   const monetizePopup = `m-composer__popup .m-composer__monetize`;
 
-  const monetizeEnablePaywall = `[data-cy=monetize-enable-paywall]`;
-
-  const monetizePaywallAmount = `[data-cy=monetize-paywall-amount]`;
+  const monetizeEnablePaywall = `[data-cy=monetize-membership-enable-paywall-checkbox]`;
 
   const monetizeSaveButton = `[data-cy=monetize-save-button]`;
-
-  //
+  const monetizeCustomTab = `[data-cy=monetize-membership-custom-tab]`;
+  const monetizePaywallAmount = `[data-cy=monetize-membership-paywall-amount-input]`
 
   it('should show and be able to interact with the NSFW popup', () => {
     cy.get(monetizeButton).click();
@@ -57,6 +55,8 @@ context('Composer Monetize Popup', () => {
     cy.get(monetizeButton).click();
 
     cy.get(monetizeSaveButton).should('not.have.class', 'm-button--disabled');
+
+    cy.get(monetizeCustomTab).click();
 
     cy.get(monetizeEnablePaywall).click();
 
