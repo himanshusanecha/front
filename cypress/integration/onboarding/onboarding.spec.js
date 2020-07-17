@@ -12,6 +12,7 @@ context('Onboarding', () => {
   const password2Field = 'minds-form-register #password2';
   const checkbox = '[data-cy=minds-accept-tos-input] [type=checkbox]';
   const submitButton = 'minds-form-register .mdl-card__actions button';
+  const letsGetSetupButton = '[data-cy=onboarding-lets-get-setup-button]';
 
   beforeEach(() => {
     cy.server();
@@ -67,9 +68,8 @@ context('Onboarding', () => {
     cy.get('h2.m-onboarding__noticeTitle').contains(username);
 
     // should redirect to /hashtags
-    cy.get('.m-onboarding__form button.mf-button')
-      .contains("Let's Get Setup")
-      .click()
+    cy.get(letsGetSetupButton)
+      .click({force: true})
       .wait('@postOnboarding')
 
     // should be in the hashtags step
