@@ -31,10 +31,9 @@
     background: none !important;
 
     @media screen and (max-width: $max-mobile) {
-      position: absolute;
+      position: fixed;
       top: 0;
     }
-
     .m-overlay-modal--close {
       @include m-theme() {
         background-color: transparent;
