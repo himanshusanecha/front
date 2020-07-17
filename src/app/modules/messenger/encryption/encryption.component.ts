@@ -43,7 +43,6 @@ export class MessengerEncryption implements OnInit {
       })
       .catch(() => {
         this.toasterService.error('Wrong password. Please try again.');
-        this.toasterService.error(this.error);
         this.inProgress = false;
       });
   }
@@ -65,7 +64,6 @@ export class MessengerEncryption implements OnInit {
       })
       .catch(() => {
         this.toasterService.error('Sorry, there was a problem.');
-        this.toasterService.error(this.error);
         this.inProgress = false;
       });
   }
