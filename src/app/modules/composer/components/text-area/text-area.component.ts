@@ -9,6 +9,7 @@ import {
   PLATFORM_ID,
   ViewChild,
   HostListener,
+  AfterViewInit,
 } from '@angular/core';
 import { ComposerService } from '../../services/composer.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -22,7 +23,7 @@ import { AutocompleteSuggestionsService } from '../../../suggestions/services/au
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'text-area.component.html',
 })
-export class TextAreaComponent {
+export class TextAreaComponent implements AfterViewInit {
   /**
    * Textarea input ID. Used for external label.
    */
@@ -88,6 +89,12 @@ export class TextAreaComponent {
    */
   get isPosting$() {
     return this.service.isPosting$;
+  }
+
+  ngAfterViewInit(): void {
+    if (this.message$ && isPlatformBrowser(this.platformId)) {
+      setTimeout(() => this.resizeMessageHeight(), 100);
+    }
   }
 
   /**

@@ -58,6 +58,12 @@ m-composer__base {
   .m-composerBase__scrollableArea {
     flex-grow: 1;
     overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
