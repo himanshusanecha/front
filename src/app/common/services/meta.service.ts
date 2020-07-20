@@ -120,7 +120,7 @@ export class MetaService {
   resetDynamicFavicon(): MetaService {
     const link = this.dom.head.querySelector('#dynamicFavicon');
     if (link) {
-      link.setAttribute('href', '/en/assets/logos/bulb-32x32.png');
+      link.setAttribute('href', '/en/assets/logos/bulb-16x16.png');
     }
 
     return this;
