@@ -19,6 +19,8 @@ context('Onboarding', () => {
     cy.route("POST", "**/api/v1/register").as("register");
     cy.route('POST', '**/api/v2/onboarding/onboarding_shown').as('postOnboarding');
 
+    cy.clearCookies();
+
     cy.visit('/register')
       .location('pathname')
       .should('eq', '/register');
@@ -67,10 +69,11 @@ context('Onboarding', () => {
     cy.get('h1.m-onboarding__noticeTitle').contains('Welcome to the Minds Community');
     cy.get('h2.m-onboarding__noticeTitle').contains(username);
 
+    cy.wait(5000);
+
     // should redirect to /hashtags
     cy.get(letsGetSetupButton)
-      .click({force: true})
-      .wait('@postOnboarding')
+      .click({force: true});
 
     // should be in the hashtags step
 
