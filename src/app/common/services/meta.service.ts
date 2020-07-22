@@ -100,6 +100,9 @@ export class MetaService {
     return this;
   }
 
+  /**
+   * Used for pro domains
+   */
   setDynamicFavicon(href: string): MetaService {
     const existingLink = this.dom.head.querySelector('#dynamicFavicon');
 
@@ -119,10 +122,10 @@ export class MetaService {
 
   resetDynamicFavicon(): MetaService {
     const link = this.dom.head.querySelector('#dynamicFavicon');
-    if (link) {
-      link.setAttribute('href', '/en/assets/logos/bulb-16x16.png');
-    }
 
+    if (link) {
+      this.dom.head.removeChild(link);
+    }
     return this;
   }
 

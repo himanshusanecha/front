@@ -279,7 +279,7 @@ export class ProChannelService implements OnDestroy {
       return;
     }
 
-    let href = this.currentChannel.pro_settings.logo_image;
+    const href = this.currentChannel.pro_settings.logo_image;
     this.metaService.setDynamicFavicon(href);
   }
 }
