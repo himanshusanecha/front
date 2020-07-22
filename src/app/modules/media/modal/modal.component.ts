@@ -340,10 +340,8 @@ export class MediaModalComponent implements OnInit, OnDestroy {
 
     this.isTranslatable = this.translationService.isTranslatable(this.entity);
 
-    const hasPaywallFlag = this.entity.flags && this.entity.flags.paywall;
-    const hasAnotherTypeOfPaywall =
-      !!this.entity.paywall || this.entity.paywall_unlocked;
-    this.allowReminds = !hasPaywallFlag && !hasAnotherTypeOfPaywall;
+    const hasPaywall = !!this.entity.paywall || this.entity.paywall_unlocked;
+    this.allowReminds = !hasPaywall;
   }
 
   clearAsyncEntity() {

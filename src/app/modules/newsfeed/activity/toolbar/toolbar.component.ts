@@ -34,13 +34,7 @@ export class ActivityToolbarComponent {
 
     this.paywallBadgeSubscription = this.service.shouldShowPaywallBadge$.subscribe(
       (showBadge: boolean) => {
-        if (showBadge === undefined) {
-          showBadge = false;
-        }
-        const tempEntity = JSON.parse(JSON.stringify(this.entity));
-        const hasPaywallFlag = tempEntity.flags && tempEntity.flags.paywall;
-
-        this.allowReminds = !showBadge && !hasPaywallFlag;
+        this.allowReminds = !showBadge;
       }
     );
   }
