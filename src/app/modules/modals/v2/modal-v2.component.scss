@@ -31,7 +31,7 @@
     background: none !important;
 
     @media screen and (max-width: $max-mobile) {
-      position: fixed;
+      position: absolute;
       top: 0;
     }
     .m-overlay-modal--close {
