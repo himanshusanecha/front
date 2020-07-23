@@ -11,6 +11,19 @@
         >
           <span>Pinned</span>
         </span>
+        <span
+          *ngIf="entity.permaweb_id"
+          class="m-activity__flag m-activity__flag--permaweb"
+          data-cy="m-activity__permawebFlag"
+        >
+          <a
+            [href]="'https://viewblock.io/arweave/tx/' + entity.permaweb_id"
+            target="_blank"
+          >
+            <i class="material-icons">vpn_lock</i>
+            <span>Permaweb</span>
+          </a>
+        </span>
       </ng-container>
 
       <m-activity__menu

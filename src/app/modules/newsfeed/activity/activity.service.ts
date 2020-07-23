@@ -47,6 +47,7 @@ export type ActivityEntity = {
   boosted_guid?: string;
   content_type?: string;
   paywall_unlocked?: boolean;
+  permaweb_id?: string;
 };
 
 // Constants of blocks

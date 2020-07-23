@@ -47,18 +47,31 @@ m-activity {
   align-items: center;
   flex-direction: row;
   cursor: default;
+  text-decoration: none;
 
   > i,
-  > span {
+  > span > a > span,
+  > a > i {
     line-height: 16px;
+  }
+
+  a {
+    text-decoration: none;
+    font-weight: 400;
+    display: flex;
+
+    @include m-theme() {
+      color: themed($m-textColor--secondary);
+    }
   }
 
   &:has(& > span) i {
     margin-right: 5px;
   }
 
-  > span {
-    @media screen and (max-width: $max-mobile) {
+  > span,
+  > a > span {
+    @media screen and (max-width: $min-tablet) {
       display: none;
     }
   }
@@ -67,5 +80,17 @@ m-activity {
     border: 1px solid themed($m-borderColor--primary);
     background-color: themed($m-bgColor--tertiary);
     color: themed($m-textColor--secondary);
+  }
+
+  &.m-activity__flag--permaweb {
+    i {
+      font-size: 18px;
+    }
+  }
+}
+@media screen and (max-width: $max-mobile) {
+  m-channel--badges {
+    /* prevent badges from shown behind right container */
+    overflow: visible !important;
   }
 }

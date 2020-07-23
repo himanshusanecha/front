@@ -323,6 +323,17 @@ export class ToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
+   * Passes post_to_permaweb to api when saved
+   * to save the post also on the Arweave network.
+   * @param $event
+   * @returns { void }
+   */
+  postToPermaweb($event): void {
+    this.service.postToPermaweb$.next(true);
+    this.onPost($event);
+  }
+
+  /**
    * Triggers change detection
    */
   detectChanges() {
