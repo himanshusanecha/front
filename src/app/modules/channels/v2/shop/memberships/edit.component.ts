@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
 import noOp from '../../../../../helpers/no-op';
 import { SupportTier } from '../../../../wire/v2/support-tiers.service';
@@ -16,7 +17,7 @@ import { Subscription } from 'rxjs';
   templateUrl: 'edit.component.html',
   providers: [ChannelShopMembershipsEditService],
 })
-export class ChannelShopMembershipsEditComponent implements OnInit {
+export class ChannelShopMembershipsEditComponent implements OnInit, OnDestroy {
   public readonly tokenExchangeRate: number;
 
   /**
@@ -66,6 +67,11 @@ export class ChannelShopMembershipsEditComponent implements OnInit {
       canSave => (this.canSave = canSave)
     );
   }
+
+  ngOnDestroy(): void {
+    this.canSaveSubscription.unsubscribe();
+  }
+
   /**
    * Loads a Support Tier into the editor
    * @param supportTier
