@@ -40,6 +40,7 @@ import { ChannelShopBriefWireRewardsComponent } from './shop/brief-wire-rewards.
 import { ChannelShopMembershipsComponent } from './shop/memberships/memberships.component';
 import { ChannelShopMembershipsEditComponent } from './shop/memberships/edit.component';
 import { ChannelShopMembershipsSupportTierComponent } from './shop/memberships/support-tier.component';
+import { WalletV2Service } from '../../wallet/v2/wallet-v2.service';
 
 /**
  * Generally available components
@@ -84,7 +85,7 @@ const INTERNAL_COMPONENTS = [
 /**
  * Service providers
  */
-const PROVIDERS = [ChannelEditModalService];
+const PROVIDERS = [ChannelEditModalService, WalletV2Service];
 
 /**
  * Module definition
